@@ -1,0 +1,13 @@
+<configuration packagingData="true">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy.MM.dd HH:mm:ss.SSS};%-5level;%X{app_user};%X{app_host};%thread;%X{app_query};%n%logger{80} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="ru.datateh.sd" level="ALL"/>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

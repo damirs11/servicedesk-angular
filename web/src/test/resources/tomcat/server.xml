@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Server>
+    <Listener className="org.apache.catalina.startup.VersionLoggerListener"/>
+
+    <Listener SSLEngine="on" className="org.apache.catalina.core.AprLifecycleListener"/>
+    <!-- Prevent memory leaks due to use of particular java/javax APIs-->
+    <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener"/>
+    <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
+    <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener"/>
+
+    <Service name="Catalina">
+        <Connector
+                port="8080"
+                protocol="HTTP/1.1"
+                connectionTimeout="20000"
+                enableLookups="true"
+                maxPostSize="62914560"
+                maxSavePostSize="2097152"
+                parseBodyMethods="POST,PUT"
+
+		maxThreads="1000"
+                maxConnections="10000"
+
+
+                compression="on"
+                compressionMinSize="4096"
+		compressableMimeType= "text/html,text/xml,text/plain,text/css,text/javascript,text/json,application/x-javascript,application/javascript,application/json"
+
+        />
+
+        <Engine defaultHost="localhost" name="Catalina" >
+            <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
+            </Host>
+        </Engine>
+    </Service>
+</Server>

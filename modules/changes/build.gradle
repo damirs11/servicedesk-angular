@@ -1,0 +1,135 @@
+/**
+ * Модуль веб-приложения. Реализует RESTfull сервисы, доступные только авторизованным пользователям.
+ * Прочая статика (html, css, js и т.д.) находится в открытом доступе.
+ */
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.bmuschko:gradle-cargo-plugin:$gradleCargoPluginVersion" // Для развертывания приложения на Tomcat (локально\удаленно)
+        classpath "org.ajoberstar:gradle-git:$gradleGitVersion" // extract info from git
+    }
+}
+
+apply plugin: 'war'
+apply plugin: 'java'
+apply plugin: 'com.bmuschko.cargo'
+apply plugin: "org.ajoberstar.grgit"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile project(':model')
+    compile project(':service')
+    providedCompile "javax.servlet:javax.servlet-api:$servletVersion"
+    compile "org.springframework:spring-webmvc:$springVersion"
+    // Безопасность
+    compile "org.springframework.security:spring-security-core:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-config:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-web:$springSecurityVersion"
+    // Логирование
+    compile "ch.qos.logback:logback-classic:$logbackVersion"
+    // https://github.com/papertrail/logback-syslog4j syslog via TCP protocol
+    compile "com.papertrailapp:logback-syslog4j:$logbackSyslogVersion"
+    compile "org.slf4j:jcl-over-slf4j:$slf4jVersion" //Commons logging API over slf4j
+    compile "org.slf4j:log4j-over-slf4j:$slf4jVersion" //log4j API over slf4j
+    compile "org.slf4j:jul-to-slf4j:$slf4jVersion" //java.util.logging over slf4j
+
+    compile "com.fasterxml.jackson.core:jackson-core:$jacksonFasterXmlVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonFasterXmlVersion"
+    compile "org.codehaus.jackson:jackson-core-asl:$jacksonCodehausVersion"
+    compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonCodehausVersion"
+    // Для развертывания приложения на Tomcat (локально\удаленно)
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+          "org.codehaus.cargo:cargo-ant:$cargoVersion"
+
+    compile "commons-fileupload:commons-fileupload:$apacheCommonsFileUploadVersion"
+    compile "org.apache.commons:commons-io:$apacheCommonsIOVersion"
+
+    // тестирование
+    testCompile "org.springframework:spring-test:$springVersion"
+    testCompile "org.testng:testng:$testngVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile "org.hsqldb:hsqldb:$hsqldbVersion"
+    testCompile "com.jolbox:bonecp:$boneCPVersion"
+    testCompile "com.jayway.jsonpath:json-path:$jsonpathVersion"
+    testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
+    testCompile "org.hamcrest:hamcrest-integration:$hamcrestVersion"
+}
+
+war.baseName = 'usim'
+
+war {
+    // Добавляем статический контент в корень war-файла
+    from "../client/build/$staticContentDir"
+    manifest {
+        attributes(
+                'Created-By': "${System.getProperty('java.version')} (${System.getProperty('java.specification.vendor')})",
+                'Build-Date': (new Date()).format('dd.MM.yyyy HH:mm:ss'),
+                'Implementation-Title': "$applicationName",
+                'Implementation-Version': project.version,
+                'Implementation-Vendor': "$developerName",
+                'Git-Revision': "${grgit.head().abbreviatedId}",
+                'Git-Date': "${grgit.head().date.format('dd.MM.yyyy HH:mm:ss')}"
+        )
+    }
+}
+
+// Деплой на Tomcat. Документация: https://github.com/bmuschko/gradle-cargo-plugin
+cargo {
+    containerId = 'tomcat8x'
+    port = 8080
+
+    deployable {
+        context = "usim"
+    }
+
+    local {
+        jvmArgs = "-Dfile.encoding=UTF-8 -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+        timeout = 60000
+        file {
+            file = file('src/test/resources/tomcat/ojdbc7-12.1.0.2.jar')
+            toDir = 'lib'
+        }
+        configFile {
+            file = file('src/test/resources/tomcat/usim.xml')
+            toDir = 'conf/Catalina/localhost'
+        }
+        configFile {
+            file = file('src/test/resources/tomcat/server.xml')
+            toDir = 'conf'
+        }
+        file {
+            file = file('src/test/resources/certs/server.p12')
+            toDir = 'conf'
+        }
+        file {
+            file = file('src/test/resources/certs/truststore.jks')
+            toDir = 'conf'
+        }
+        file {
+            file = file('src/test/resources/tomcat/logback-test.xml')
+            toDir = 'lib' // copy to classpath
+        }
+        file {
+            file = file('src/test/resources/tomcat/index.jsp')
+            toDir = 'webapps/ROOT'
+        }
+        installer {
+            installUrl = tomcatDownloadUrl
+            def tmpDir = System.getProperty("java.io.tmpdir")
+            downloadDir = file("$tmpDir/cargo/download")
+            extractDir = file("$tmpDir/cargo/extract")
+        }
+    }
+}
+
+test {
+    useTestNG()
+    systemProperty "file.encoding", "utf-8"
+}

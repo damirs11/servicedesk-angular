@@ -1,0 +1,18 @@
+/**
+ * Проект "Разработка веб-приложения для службы технической поддержки"
+ * SD
+ *
+ */
+allprojects {
+    plugins.withType(JavaPlugin).whenPluginAdded {
+        ext {
+            // Указываем версию Java для всех модулей проекта
+            sourceCompatibility = JavaVersion.VERSION_1_7
+            targetCompatibility = JavaVersion.VERSION_1_7
+        }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+}
