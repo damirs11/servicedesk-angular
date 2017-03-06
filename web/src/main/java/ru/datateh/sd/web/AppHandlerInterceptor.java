@@ -1,6 +1,5 @@
 package ru.datateh.sd.web;
 
-import com.mts.usim.service.SecurityService;
 import org.apache.log4j.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import ru.datateh.sd.service.SecurityService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +19,8 @@ import java.text.MessageFormat;
  * Перехватываются только обращения к контроллерам, при запросе статического контента методы
  * данного класса не вызываются.
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 24.10.2016 18:58
+ * @author quadrix
+ * 24.10.2016 18:58
  */
 @Service
 public class AppHandlerInterceptor extends HandlerInterceptorAdapter {

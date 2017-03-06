@@ -3,12 +3,13 @@ package ru.datateh.sd.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import ru.datateh.sd.exception.ServiceException;
+import ru.datateh.sd.util.ResourceMessages;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Инициализация веб-приложения, аналог файла "web.xml"
@@ -43,17 +44,23 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		return new Filter[]{new SessionCheckFilter()};
 	}
 
+	private String getAppTempDirectory() {
+		File tmpFile = null;
+		try {
+			tmpFile = File.createTempFile("temp-file", "tmp");
+			return tmpFile.getParent() + "/sd";
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+			throw new ServiceException(ResourceMessages.getMessage("error.tempDirectory"));
+		} finally {
+			if (tmpFile != null) tmpFile.delete();
+		}
+	}
+
 	@Override
 	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
 		// Директория для загрузки файлов
-		String uploadDirectory = null;
-		try {
-			File tmpFile = File.createTempFile("temp-file", "tmp");
-			uploadDirectory = tmpFile.getParent() + "/sd";
-			tmpFile.delete();
-		} catch (IOException e) {
-			LOG.error(e.getMessage(), e);
-		}
+		String uploadDirectory = getAppTempDirectory();
 		// Настройка загрузки файлов
 		// Ограничение 1GB для файлов, до 60MB файлы хранятся в ОЗУ
 		MultipartConfigElement multipartConfigElement =
