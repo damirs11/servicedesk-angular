@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.mts.usim.web")
+@ComponentScan("ru.datateh.sd.web")
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired

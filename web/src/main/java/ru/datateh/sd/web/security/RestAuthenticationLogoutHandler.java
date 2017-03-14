@@ -13,7 +13,7 @@ import java.io.IOException;
  *
  * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a> created on 16.03.2016.
  */
-public class RestAuthenticationLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
+public class RestAuthenticationLogoutHandler extends SimpleUrlLogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

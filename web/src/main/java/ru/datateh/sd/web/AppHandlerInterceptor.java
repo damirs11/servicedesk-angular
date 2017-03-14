@@ -30,9 +30,9 @@ public class AppHandlerInterceptor extends HandlerInterceptorAdapter {
 	private static final String PRE_HANDLE_MSG	= "Запрос к серверу";
 	private static final String POST_HANDLE_MSG = "Результат обработки запроса - {0} {1}";
 
-	private static final String MDC_USER 	= "usim_user";
-	private static final String MDC_QUERY 	= "usim_query";
-	private static final String MDC_HOST 	= "usim_host";
+	private static final String MDC_USER 	= "app_user";
+	private static final String MDC_QUERY 	= "app_query";
+	private static final String MDC_HOST 	= "app_host";
 
 	@Autowired
 	private SecurityService securityService;
@@ -49,7 +49,7 @@ public class AppHandlerInterceptor extends HandlerInterceptorAdapter {
 	 */
 	private void setLogParams(HttpServletRequest request) {
 		MDC.put(MDC_USER, securityService.currentUser());
-		// Адресная строка. Пример: GET:/usim/rest/entity/Tariff&fulltext=&paging=1;100&sort=name-asc
+		// Адресная строка. Пример: GET:/ds/rest/entity/Tariff&fulltext=&paging=1;100&sort=name-asc
 		MDC.put(MDC_QUERY, request.getMethod() + ':' + request.getRequestURI() + (request.getQueryString() == null ? "" : '?' + request.getQueryString()));
 		// "X-FORWARDED-FOR" - актуально для переадресации от балансировщика или прокси-сервера
 		MDC.put(MDC_HOST,

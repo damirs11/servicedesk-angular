@@ -63,9 +63,9 @@ dependencies {
 
 war.baseName = 'sd'
 
-/*war {
+war {
     // Добавляем статический контент в корень war-файла
-    from "../client/build/$staticContentDir"
+    //from "../client/build/$staticContentDir"
     manifest {
         attributes(
                 'Created-By': "${System.getProperty('java.version')} (${System.getProperty('java.specification.vendor')})",
@@ -77,7 +77,7 @@ war.baseName = 'sd'
                 'Git-Date': "${grgit.head().date.format('dd.MM.yyyy HH:mm:ss')}"
         )
     }
-}*/
+}
 
 // Деплой на Tomcat. Документация: https://github.com/bmuschko/gradle-cargo-plugin
 cargo {

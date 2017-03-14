@@ -25,7 +25,7 @@ import javax.servlet.Filter;
  * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a> created on 27.12.2015.
  */
 @Configuration
-@ComponentScan({"ru.datateh.sd.sevice"})
+@ComponentScan({"ru.datateh.sd.security", "ru.datateh.sd.service"})
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -84,7 +84,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
-        return new RestAuthenticationLogoutSuccessHandler();
+        return new RestAuthenticationLogoutHandler();
     }
 
     /**

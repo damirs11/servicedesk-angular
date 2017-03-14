@@ -20,7 +20,7 @@ import java.util.Set;
 public class DynamicAuthentication implements Authentication {
     /** Аутентифицированный пользователь */
     private final AppUser user;
-    /** Указывает на то что аутентификация пройдена. */
+    /** Указывает на то, что аутентификация пройдена. */
     private boolean authenticated;
 
     public DynamicAuthentication(AppUser user, boolean authenticated) {
@@ -69,12 +69,12 @@ public class DynamicAuthentication implements Authentication {
     }
 
     @Override
-    public synchronized boolean isAuthenticated() {
+    public boolean isAuthenticated() {
         return authenticated;
     }
 
     @Override
-    public synchronized void setAuthenticated(boolean authenticated) {
+    public void setAuthenticated(boolean authenticated) {
         this.authenticated = authenticated;
     }
 
