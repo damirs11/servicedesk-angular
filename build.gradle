@@ -1,7 +1,6 @@
 /**
  * Проект "Разработка веб-приложения для службы технической поддержки"
  * SD
- *
  */
 allprojects {
     plugins.withType(JavaPlugin).whenPluginAdded {
@@ -15,4 +14,10 @@ allprojects {
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
     }
+}
+
+// build.gradle
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 10, 'hours'
+    resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
 }

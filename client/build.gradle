@@ -1,0 +1,8 @@
+dependencies {
+
+}
+task build {
+    doLast {
+        println "### client build"
+    }
+}

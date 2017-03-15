@@ -24,7 +24,8 @@ repositories {
 }
 
 dependencies {
-    compile project(':common')
+    compile project(':shared')
+    compile project(':client')
     providedCompile "javax.servlet:javax.servlet-api:$servletVersion"
     compile "org.springframework:spring-webmvc:$springVersion"
     // Безопасность

@@ -19,7 +19,7 @@ public class ServiceException extends AppException {
         super(message);
     }
 
-    public ServiceException(String message, String... args) {
+    public ServiceException(String message, String[] args) {
         super(MessageFormat.format(message, args));
     }
 

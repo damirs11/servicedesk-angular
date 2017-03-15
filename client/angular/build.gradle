@@ -1,0 +1,5 @@
+task build {
+    doLast {
+        println "### angular build"
+    }
+}
