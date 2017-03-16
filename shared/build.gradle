@@ -11,8 +11,6 @@ repositories {
 dependencies {
     // Логирование
     compile "ch.qos.logback:logback-classic:$logbackVersion"
-    // https://github.com/papertrail/logback-syslog4j syslog via TCP protocol
-    compile "com.papertrailapp:logback-syslog4j:$logbackSyslogVersion"
     compile "org.slf4j:jcl-over-slf4j:$slf4jVersion" //Commons logging API over slf4j
     compile "org.slf4j:log4j-over-slf4j:$slf4jVersion" //log4j API over slf4j
     compile "org.slf4j:jul-to-slf4j:$slf4jVersion" //java.util.logging over slf4j

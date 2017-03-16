@@ -16,7 +16,9 @@ allprojects {
     }
 }
 
-// build.gradle
+/**
+ * Настройка gradle. Период очистки от старых библиотек
+ */
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 10, 'hours'
     resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'

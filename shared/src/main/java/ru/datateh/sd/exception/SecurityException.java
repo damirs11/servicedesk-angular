@@ -18,7 +18,7 @@ public class SecurityException extends AppException {
 		super(message);
 	}
 
-	public SecurityException(String message, String... args) {
+	public SecurityException(String message, String[] args) {
 		super(MessageFormat.format(message, args));
 	}
 

@@ -19,7 +19,7 @@ public abstract class AppException extends RuntimeException {
         super(message);
     }
 
-    public AppException(String message, String... args) {
+    public AppException(String message, String[] args) {
         super(MessageFormat.format(message, args));
     }
 
