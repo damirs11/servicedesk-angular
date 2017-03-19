@@ -5,18 +5,21 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
 
     dependencies {
-        classpath "com.bmuschko:gradle-cargo-plugin:$gradleCargoPluginVersion" // Для развертывания приложения на Tomcat (локально\удаленно)
         classpath "org.ajoberstar:gradle-git:$gradleGitVersion" // extract info from git
+        classpath "gradle.plugin.org.akhikhl.gretty:gretty:1.4.2" // tomcat\jetty http://akhikhl.github.io/gretty-doc
     }
 }
 
 apply plugin: 'war'
 apply plugin: 'java'
-apply plugin: 'com.bmuschko.cargo'
 apply plugin: "org.ajoberstar.grgit"
+apply plugin: "org.akhikhl.gretty"
 
 repositories {
     mavenCentral()
@@ -33,8 +36,6 @@ dependencies {
     compile "org.springframework.security:spring-security-web:$springSecurityVersion"
     // Логирование
     compile "ch.qos.logback:logback-classic:$logbackVersion"
-    // https://github.com/papertrail/logback-syslog4j syslog via TCP protocol
-    compile "com.papertrailapp:logback-syslog4j:$logbackSyslogVersion"
     compile "org.slf4j:jcl-over-slf4j:$slf4jVersion" //Commons logging API over slf4j
     compile "org.slf4j:log4j-over-slf4j:$slf4jVersion" //log4j API over slf4j
     compile "org.slf4j:jul-to-slf4j:$slf4jVersion" //java.util.logging over slf4j
@@ -43,9 +44,6 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:$jacksonFasterXmlVersion"
     compile "org.codehaus.jackson:jackson-core-asl:$jacksonCodehausVersion"
     compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonCodehausVersion"
-    // Для развертывания приложения на Tomcat (локально\удаленно)
-    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
-          "org.codehaus.cargo:cargo-ant:$cargoVersion"
 
     compile "commons-fileupload:commons-fileupload:$apacheCommonsFileUploadVersion"
     compile "org.apache.commons:commons-io:$apacheCommonsIOVersion"
@@ -80,37 +78,16 @@ war {
     }
 }
 
-// Деплой на Tomcat. Документация: https://github.com/bmuschko/gradle-cargo-plugin
-cargo {
-    containerId = 'tomcat8x'
-    port = 8080
+gretty {
+    jvmArgs = ["-Dfile.encoding=UTF-8"]
+    servletContainer = 'tomcat8'
+    contextPath = '/sd'
+    httpEnabled = false
+    httpsEnabled = true
+    //logbackConfigFile="$projectDir/src/test/resources/tomcat/logback.xml"
+    //extraResourceBase="$projectDir/src/test/resources/tomcat"
+    //extraResourceBase(file('src/test/resources/tomcat'))
 
-    deployable {
-        context = "sd"
-    }
-
-    local {
-        jvmArgs = "-Dfile.encoding=UTF-8 -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
-        timeout = 60000
-        configFile {
-            file = file('src/test/resources/tomcat/sd.xml')
-            toDir = 'conf/Catalina/localhost'
-        }
-        configFile {
-            file = file('src/test/resources/tomcat/server.xml')
-            toDir = 'conf'
-        }
-        file {
-            file = file('src/test/resources/tomcat/logback.xml')
-            toDir = 'lib' // copy to classpath
-        }
-        installer {
-            installUrl = tomcatDownloadUrl
-            def tmpDir = System.getProperty("java.io.tmpdir")
-            downloadDir = file("$tmpDir/cargo/download")
-            extractDir = file("$tmpDir/cargo/extract")
-        }
-    }
 }
 
 test {

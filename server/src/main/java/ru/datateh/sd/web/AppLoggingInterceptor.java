@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import ru.datateh.sd.model.AppUser;
 import ru.datateh.sd.service.SecurityService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +24,9 @@ import java.text.MessageFormat;
  * 24.10.2016 18:58
  */
 @Service
-public class AppHandlerInterceptor extends HandlerInterceptorAdapter {
+public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 
-	private final Logger LOG = LoggerFactory.getLogger(AppHandlerInterceptor.class);
+	private final Logger LOG = LoggerFactory.getLogger(AppLoggingInterceptor.class);
 
 	private static final String PRE_HANDLE_MSG	= "Запрос к серверу";
 	private static final String POST_HANDLE_MSG = "Результат обработки запроса - {0} {1}";
@@ -48,7 +49,8 @@ public class AppHandlerInterceptor extends HandlerInterceptorAdapter {
 	 * Устанавливает значения переменных для вывода в лог
 	 */
 	private void setLogParams(HttpServletRequest request) {
-		MDC.put(MDC_USER, securityService.currentUser());
+		AppUser user = securityService.currentUser();
+		MDC.put(MDC_USER, user == null ? "" : user);
 		// Адресная строка. Пример: GET:/ds/rest/entity/Tariff&fulltext=&paging=1;100&sort=name-asc
 		MDC.put(MDC_QUERY, request.getMethod() + ':' + request.getRequestURI() + (request.getQueryString() == null ? "" : '?' + request.getQueryString()));
 		// "X-FORWARDED-FOR" - актуально для переадресации от балансировщика или прокси-сервера

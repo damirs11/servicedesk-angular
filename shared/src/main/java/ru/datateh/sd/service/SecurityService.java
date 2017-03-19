@@ -32,7 +32,6 @@ public class SecurityService {
 		AppUser user = findUser(login);
 		if (user != null) return user;
 		throw new SecurityException();
-
 	}
 
 	/**
@@ -40,7 +39,11 @@ public class SecurityService {
 	 * @return пользователь
 	 */
 	public AppUser currentUser() {
-		return getUser(getDynamicAuthentication().getPrincipal());
+		DynamicAuthentication auth = getDynamicAuthentication();
+		if (auth != null) {
+			return getUser(auth.getPrincipal());
+		}
+		return null;
 	}
 
 	/**
@@ -51,8 +54,7 @@ public class SecurityService {
 		Authentication authentication = context.getAuthentication();
 		if (authentication != null && authentication instanceof DynamicAuthentication) {
 			return (DynamicAuthentication) authentication;
-		} else {
-			throw new SecurityException("Текущий пользователь не задан");
 		}
+		return null;
 	}
 }

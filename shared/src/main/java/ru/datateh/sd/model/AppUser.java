@@ -49,4 +49,11 @@ public class AppUser {
     public void setRoles(List<AppRole> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public String toString() {
+        return "AppUser{" +
+                "login='" + login + '\'' +
+                '}';
+    }
 }

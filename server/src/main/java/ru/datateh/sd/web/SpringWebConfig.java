@@ -18,11 +18,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan("ru.datateh.sd.web")
+@ComponentScan({"ru.datateh.sd.web", "ru.datateh.sd.service"})
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
-	private AppHandlerInterceptor appHandlerInterceptor;
+	private AppLoggingInterceptor appLoggingInterceptor;
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
@@ -56,6 +56,6 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(appHandlerInterceptor);
+		registry.addInterceptor(appLoggingInterceptor);
 	}
 }

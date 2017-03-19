@@ -25,7 +25,7 @@ import javax.servlet.Filter;
  * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a> created on 27.12.2015.
  */
 @Configuration
-@ComponentScan({"ru.datateh.sd.security", "ru.datateh.sd.service"})
+@ComponentScan({"ru.datateh.sd.web.security", "ru.datateh.sd.service"})
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -42,18 +42,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
 				.csrf()
 					.disable()
+		        // для HTTPS
 				.requiresChannel()
 					.anyRequest()
 					.requiresSecure()
 					.and()
                 .exceptionHandling()
-                	.authenticationEntryPoint(authenticationEntryPoint) //отключает переадресацию, если нет авторизации
+                	//.authenticationEntryPoint(authenticationEntryPoint) //отключает переадресацию, если нет авторизации
                 	.and()
                 .authorizeRequests()
 					.antMatchers("/index.html").authenticated()
 					.antMatchers("/rest/**").authenticated()
 					.and()
-				.httpBasic();
+		        .formLogin();
     }
 
     /**
@@ -85,16 +86,5 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
         return new RestAuthenticationLogoutHandler();
-    }
-
-    /**
-     * Доп. фильтр необходим чтобы убить сессию вновь воссозданную по сертификату после самого логаута.
-     * Тогда при повторном открытии можно будет выбрать нового пользователя, а не останется предыдущий (вне зависимости от выбранного сертификата)
-     */
-    @Bean
-    public Filter getLogoutFilter() {
-        LogoutFilter filter = new LogoutFilter(logoutSuccessHandler(), new SecurityContextLogoutHandler(), new CookieClearingLogoutHandler("JSESSIONID"));
-        filter.setLogoutRequestMatcher(new AntPathRequestMatcher("/rest/service/securityService/logout"));
-        return filter;
     }
 }
