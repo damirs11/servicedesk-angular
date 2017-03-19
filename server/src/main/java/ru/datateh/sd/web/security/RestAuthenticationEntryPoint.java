@@ -12,7 +12,7 @@ import java.io.IOException;
  * Класс отключает автоматическое перенаправление на страницу для ввода логина\пароля.
  * Вместо этого возращается ответ 401.
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a> created on 16.03.2016.
+ * quadrix created on 16.03.2016.
  */
 @Service
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {

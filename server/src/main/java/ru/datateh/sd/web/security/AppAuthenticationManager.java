@@ -11,6 +11,10 @@ import ru.datateh.sd.service.DynamicAuthentication;
 import ru.datateh.sd.service.SecurityService;
 import ru.datateh.sd.model.AppUser;
 
+import java.text.MessageFormat;
+
+import static ru.datateh.sd.util.ResourceMessages.*;
+
 /**
  * Сервис аутентификации пользователя
  *
@@ -26,15 +30,14 @@ public class AppAuthenticationManager implements AuthenticationManager {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		String login = (String) authentication.getPrincipal();
 		try {
-			String login = (String) authentication.getPrincipal();
-			LOG.debug("Try authenticate \"{}\"", login);
 			AppUser user = securityService.findUser(login);
-			LOG.info("User \"{}\" was authenticated", user.getName()); // сообщаем об успешном входе в систему
+			LOG.info(getMessage("authentication.success"), user.getName(), user.getLogin()); // сообщаем об успешном входе в систему
 			return new DynamicAuthentication(user, true);
 		} catch (Exception e) {
 			// сообщаем об ошибке входа в систему
-			LOG.info("User cannot be authenticated. " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
+			LOG.info(MessageFormat.format(getMessage("authentication.fail"), login, e.getClass().getSimpleName(), e.getMessage()), e);
 			throw e;
 		}
 	}

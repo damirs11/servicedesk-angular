@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Простой логаут без перенаправления на страницу логина
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a> created on 16.03.2016.
+ * quadrix created on 16.03.2016.
  */
 public class RestAuthenticationLogoutHandler extends SimpleUrlLogoutSuccessHandler {
 

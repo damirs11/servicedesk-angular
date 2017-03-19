@@ -22,7 +22,7 @@ import javax.servlet.Filter;
 /**
  * Конфигурация контекста Spring
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a> created on 27.12.2015.
+ * quadrix created on 27.12.2015.
  */
 @Configuration
 @ComponentScan({"ru.datateh.sd.web.security", "ru.datateh.sd.service"})

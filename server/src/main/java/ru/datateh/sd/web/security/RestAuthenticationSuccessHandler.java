@@ -17,7 +17,7 @@ import java.io.IOException;
 /**
  * При успешном входе система отправляет код 200 вместо 301.
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a> created on 16.03.2016.
+ * quadrix created on 16.03.2016.
  */
 public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -28,9 +28,6 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("onAuthenticationSuccess");
-		}
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest == null) {
             clearAuthenticationAttributes(request);

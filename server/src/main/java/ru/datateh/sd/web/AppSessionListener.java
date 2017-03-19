@@ -10,11 +10,12 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static ru.datateh.sd.util.ResourceMessages.*;
+
 /**
  * Выводит информацию в лог о сессии пользователя
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 03.11.2016 18:30
+ * quadrix 03.11.2016 18:30
  */
 @WebListener
 public class AppSessionListener implements HttpSessionListener {
@@ -30,16 +31,19 @@ public class AppSessionListener implements HttpSessionListener {
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-		LOG.debug("Session (" + se.getSession().getId() + ") is created. Inactive timeout = " + se.getSession().getMaxInactiveInterval() + " seconds" +
-				getAuthInfo(se.getSession().getAttribute(SPRING_ATTRIBUTE_NAME)));
+		LOG.debug(getMessage("http.session.create",
+				se.getSession().getId(),
+				se.getSession().getMaxInactiveInterval(),
+				getAuthInfo(se.getSession().getAttribute(SPRING_ATTRIBUTE_NAME))));
 		se.getSession().setAttribute(NEW_SESSION_FLAG_NAME, NEW_SESSION_FLAG_NAME);
 	}
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent se) {
-		LOG.debug("Session (" + se.getSession().getId() + ") is destroyed. Session age is " +
-				getIntervalString(new Date().getTime() - se.getSession().getCreationTime()) +
-				getAuthInfo(se.getSession().getAttribute(SPRING_ATTRIBUTE_NAME)));
+		LOG.debug(getMessage("http.session.destroy",
+				se.getSession().getId(),
+				getIntervalString(new Date().getTime() - se.getSession().getCreationTime()),
+				getAuthInfo(se.getSession().getAttribute(SPRING_ATTRIBUTE_NAME))));
 	}
 
 	/**
@@ -73,20 +77,16 @@ public class AppSessionListener implements HttpSessionListener {
 		long ms = interval;
 
 		if (hours > 0) {
-			sb.append(hours);
-			sb.append(" hours ");
+			sb.append(hours).append(' ').append(getMessage("time.hours")).append(' ');
 		}
 		if (minutes > 0) {
-			sb.append(minutes);
-			sb.append(" minutes ");
+			sb.append(minutes).append(' ').append(getMessage("time.minutes")).append(' ');
 		}
 		if (seconds > 0) {
-			sb.append(seconds);
-			sb.append(" seconds ");
+			sb.append(seconds).append(' ').append(getMessage("time.seconds")).append(' ');
 		}
 		if (ms > 0) {
-			sb.append(ms);
-			sb.append(" ms ");
+			sb.append(ms).append(' ').append(getMessage("time.milliseconds")).append(' ');
 		}
 		return sb.toString();
 	}

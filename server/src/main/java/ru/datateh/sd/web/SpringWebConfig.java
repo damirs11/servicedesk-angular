@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * Конфигурация контекста Spring
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a> created on 27.12.2015.
+ * quadrix created on 27.12.2015.
  */
 @Configuration
 @EnableWebMvc

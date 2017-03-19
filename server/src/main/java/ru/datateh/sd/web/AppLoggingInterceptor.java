@@ -1,8 +1,8 @@
 package ru.datateh.sd.web;
 
-import org.apache.log4j.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,8 @@ import ru.datateh.sd.service.SecurityService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.MessageFormat;
+
+import static ru.datateh.sd.util.ResourceMessages.*;
 
 /**
  * Устанавливает значения переменных для логов. Логирует параметры вызова и статус результата.
@@ -28,9 +30,6 @@ public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 
 	private final Logger LOG = LoggerFactory.getLogger(AppLoggingInterceptor.class);
 
-	private static final String PRE_HANDLE_MSG	= "Запрос к серверу";
-	private static final String POST_HANDLE_MSG = "Результат обработки запроса - {0} {1}";
-
 	private static final String MDC_USER 	= "app_user";
 	private static final String MDC_QUERY 	= "app_query";
 	private static final String MDC_HOST 	= "app_host";
@@ -41,7 +40,7 @@ public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		setLogParams(request);
-		LOG.debug(PRE_HANDLE_MSG);
+		LOG.debug(getMessage("http.request.start"));
 		return true;
 	}
 
@@ -50,7 +49,7 @@ public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 	 */
 	private void setLogParams(HttpServletRequest request) {
 		AppUser user = securityService.currentUser();
-		MDC.put(MDC_USER, user == null ? "" : user);
+		MDC.put(MDC_USER, user == null ? "anonymous" : user.toString());
 		// Адресная строка. Пример: GET:/ds/rest/entity/Tariff&fulltext=&paging=1;100&sort=name-asc
 		MDC.put(MDC_QUERY, request.getMethod() + ':' + request.getRequestURI() + (request.getQueryString() == null ? "" : '?' + request.getQueryString()));
 		// "X-FORWARDED-FOR" - актуально для переадресации от балансировщика или прокси-сервера
@@ -74,6 +73,6 @@ public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 	 * @param response выводит в лог информацию о статусе ответа на запрос клиента
 	 */
 	private void LogComplete(HttpServletResponse response) {
-		LOG.debug(MessageFormat.format(POST_HANDLE_MSG, response.getStatus(), HttpStatus.valueOf(response.getStatus()).name()));
+		LOG.debug(getMessage("http.request.result"), response.getStatus(), HttpStatus.valueOf(response.getStatus()).name());
 	}
 }

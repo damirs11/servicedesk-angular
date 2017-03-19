@@ -14,7 +14,7 @@ public class ResourceMessages {
 
 	private static final ResourceBundle resource = ResourceBundle.getBundle("messages", new Locale(""));
 
-	public static String getMessage(String key, Object args)  {
+	public static String getMessage(String key, Object... args)  {
 		String message = resource.getString(key);
 		return args == null ? message : MessageFormat.format(message, args);
 	}

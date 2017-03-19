@@ -5,7 +5,7 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 /**
  * Подключает springSecurityFilterChain
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a> created on 06.01.2016.
+ * quadrix created on 06.01.2016.
  */
 public class SpringSecurityInitializer extends AbstractSecurityWebApplicationInitializer {
 }

@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static ru.datateh.sd.util.ResourceMessages.*;
+
 /**
  * <p>Фильтр для проверки состояния сессии. Если клиентский запрос пришел с неактуальным
  * id сессии, то возвращаем ответ "401 - не авторизован" несмотря на то, что была
@@ -15,8 +17,7 @@ import java.io.IOException;
  *
  * <p>Это было сделано для того, чтобы клиент актуализировал данные на своей стороне</p>
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 07.11.2016 17:27
+ * quadrix 07.11.2016 17:27
  */
 public class SessionCheckFilter implements Filter {
 
@@ -37,7 +38,7 @@ public class SessionCheckFilter implements Filter {
 				String contextPath = req.getServletContext().getContextPath();
 				if (req.isRequestedSessionIdFromCookie() && !req.isRequestedSessionIdValid() &&
 						req.getRequestURI().startsWith(contextPath + "/rest")) { // перехватываем только ajaх-запросы
-					LOG.debug("Need to refresh client data. Request url is: " + req.getRequestURI());
+					LOG.debug(getMessage("http.session.refresh.client", req.getRequestURI()));
 					res.reset();
 					res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 					return;
@@ -50,5 +51,4 @@ public class SessionCheckFilter implements Filter {
 	@Override
 	public void destroy() {
 	}
-
 }

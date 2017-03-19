@@ -1,5 +1,7 @@
 package ru.datateh.sd.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 /**
@@ -52,8 +54,6 @@ public class AppUser {
 
     @Override
     public String toString() {
-        return "AppUser{" +
-                "login='" + login + '\'' +
-                '}';
+        return StringUtils.defaultString(login);
     }
 }
