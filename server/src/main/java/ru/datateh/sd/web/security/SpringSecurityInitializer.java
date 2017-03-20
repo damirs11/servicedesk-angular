@@ -3,7 +3,7 @@ package ru.datateh.sd.web.security;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
 /**
- * Подключает springSecurityFilterChain
+ * Подключает springSecurityFilterChain. Необходимо, чтобы заработал Spring Security
  *
  * quadrix created on 06.01.2016.
  */

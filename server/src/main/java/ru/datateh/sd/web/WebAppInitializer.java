@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import ru.datateh.sd.exception.ServiceException;
-import ru.datateh.sd.util.ResourceMessages;
+import static ru.datateh.sd.util.ResourceMessages.*;
 import ru.datateh.sd.web.security.SpringSecurityConfig;
 
 import javax.servlet.Filter;
@@ -53,7 +53,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 			return tmpFile.getParent() + "/sd";
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
-			throw new ServiceException(ResourceMessages.getMessage("error.tempDirectory"));
+			throw new ServiceException(getMessage("error.tempDirectory"));
 		} finally {
 			if (tmpFile != null) tmpFile.delete();
 		}

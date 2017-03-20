@@ -21,8 +21,6 @@ import java.io.IOException;
  */
 public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RestAuthenticationSuccessHandler.class);
-
     private RequestCache requestCache = new HttpSessionRequestCache();
 
     @Override
