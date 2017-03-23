@@ -1,52 +1,41 @@
 plugins {
+    //less compile https://github.com/ksoichiro/gradle-web-resource-plugin
     id "com.github.ksoichiro.web.resource" version "1.7.3"
 }
 
-buildDir = "build"
+def srcDir = 'src/main/'
+def dstDir = 'build/dist/'
 
 /** Компиляция less-файлов */
 webResource {
-    less {
-        // Set false if you don't use LESS related features
-        enabled = true
-        // Change LESS src/dest directories and filter setting
-        src = "src/css/bootstrap"
-        dest = "${buildDir}/css"
-        println '###' + dest
-        // Default: ['**/*.less']
-        include = ['bootstrap.less']
-        // Default: ['**/_*.less']
-        exclude = ['**/_*.less']
-        // Default: true
-        minify = false
-        // Default: true
-        parallelize = true
-
-        // Advanced filters (available from 1.1.0-SNAPSHOT)
-        // If you need complex filtering, try 'filters' configuration.
-        //filters {
-            // You can use include/exclude methods here.
-            // 'exclude' excludes files from the current file tree.
-            // 'include' includes files to the current file tree.
-            // For example, with the next 2 filters, we can add
-            // 'bootstrap.less' to the target file set
-            // while ignoring all the other .less files
-            // in bootstrap directory.
-            // (This cannot be achieved with less.include/less.exclude configs.)
-            //exclude '**//*bootstrap/less*//***/*//*.less'
-            //include '**//*bootstrap/less/bootstrap.less'
-
-            // You can add more exclude/include if you want.
-            //exclude '**//*foo*//***/*//*.less'
-            //include '**//*foo*//**//*bar*.less'
-        //}
+    base {
+        src = srcDir
+        dest = dstDir
     }
+    less {
+        enabled = true
+        src = "css"
+        dest = "css"
+        include = ['style.less', 'bootstrap.less']
+        minify = false
+        parallelize = true
+    }
+}
+/** Копирование статичного контента без обработки */
+task copyStatic(type: Copy) {
+    from (srcDir) {
+        include 'css/fonts/**'
+        include 'img/**'
+        include 'js/**'
+        include 'index.html'
+    }
+    into dstDir
 }
 
 task build {
-    dependsOn 'webResourceCompile'
-    doLast {
-        println "### angular build"
-    }
+    dependsOn 'webResourceCompileLess', "copyStatic"
 }
 
+task clean(type: Delete) {
+    delete 'build'
+}

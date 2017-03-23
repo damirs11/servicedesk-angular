@@ -20,7 +20,7 @@ public class ResourceMessages {
 	}
 
 	public static String getMessage(String key)  {
-		return getMessage(key, null);
+		return getMessage(key);
 	}
 
 	public static ResourceBundle getResourceBundle() {

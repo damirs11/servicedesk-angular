@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- For bootstrap: the above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <link rel="icon" href="img/favicon.ico">
+    <title>ServiceDesk</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- шапка -->
+    <div mts-usim-header></div>
+    <!-- основное содержимое -->
+    <div id="main-content" class="container-fluid" ui-view></div>
+    <!-- js-скрипты в конце для оптимизации отрисовки страницы -->
+    <script src="js/app/util/hacks.js"></script> <!-- hacks -->
+</body>
+</html>
