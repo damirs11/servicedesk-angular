@@ -33,11 +33,11 @@ public class AppAuthenticationManager implements AuthenticationManager {
 		String login = (String) authentication.getPrincipal();
 		try {
 			AppUser user = securityService.findUser(login);
-			LOG.info(getMessage("authentication.success"), user.getName(), user.getLogin()); // сообщаем об успешном входе в систему
+			LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
 			return new DynamicAuthentication(user, true);
 		} catch (Exception e) {
 			// сообщаем об ошибке входа в систему
-			LOG.info(MessageFormat.format(getMessage("authentication.fail"), login, e.getClass().getSimpleName(), e.getMessage()), e);
+			LOG.info(getMessage("authentication.fail", login, e.getClass().getSimpleName(), e.getMessage()), e);
 			throw e;
 		}
 	}

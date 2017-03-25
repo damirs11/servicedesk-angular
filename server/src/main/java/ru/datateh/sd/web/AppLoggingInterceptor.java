@@ -73,6 +73,6 @@ public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 	 * @param response выводит в лог информацию о статусе ответа на запрос клиента
 	 */
 	private void LogComplete(HttpServletResponse response) {
-		LOG.debug(getMessage("http.request.result"), response.getStatus(), HttpStatus.valueOf(response.getStatus()).name());
+		LOG.debug(getMessage("http.request.result", response.getStatus(), HttpStatus.valueOf(response.getStatus()).name()));
 	}
 }

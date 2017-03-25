@@ -2,6 +2,7 @@ package ru.datateh.sd.model;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @author quadrix
  *         07.03.2017 2:24
  */
-public class AppUser {
+public class AppUser implements Serializable{
     /** Идентификатор пользователя*/
     private long id;
     /** Имя для входа в систему. Например, "iivanov" */
