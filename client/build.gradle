@@ -1,0 +1,50 @@
+/**
+ * Модуль, реализующий front-end, включает стили, логику и графические ресурсы.
+ * Модуль полностью отделен от серверного java-кода. Взаимодействие с
+ * сервером осуществляется только по согласованному RESTAPI. Никаких jsp, библиотек тэгов и т.д.
+ */
+plugins {
+    //less compile https://github.com/ksoichiro/gradle-web-resource-plugin
+    id "com.github.ksoichiro.web.resource" version "1.7.3"
+}
+
+apply plugin: 'base'
+
+def srcDir = '/src/main/'
+def dstDir = '/build/dist/'
+
+/** Компиляция less-файлов */
+webResource {
+    base {
+        src = srcDir
+        dest = dstDir
+    }
+    less {
+        enabled = true
+        src = "css"
+        dest = "css"
+        include = ['style.less', 'bootstrap.less']
+        minify = false
+        parallelize = true
+    }
+    // Подгрузка ресурсов для веб-приложения
+    bower {
+        dependencies {
+            install name: 'jquery', version: '3.2.0'
+            install name: 'bootstrap', version: '3.3.7'
+            install name: 'angularjs', version: '1.6.3'
+        }
+    }
+}
+/** Копирование статичного контента без обработки */
+task copyStatic(type: Copy) {
+    from (srcDir) {
+        include 'css/fonts/**'
+        include 'img/**'
+        include 'js/**'
+        include 'index.html'
+    }
+    into dstDir
+}
+
+build.dependsOn('webResourceCompileLess', 'copyStatic')

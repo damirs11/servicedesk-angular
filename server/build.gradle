@@ -27,9 +27,10 @@ repositories {
 }
 
 dependencies {
-    compile project(':shared')
+    compile project(':common')
+    compile project(':client')
     providedCompile "javax.servlet:javax.servlet-api:$servletVersion"
-    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework:spring-webmvc"
     // Безопасность
     compile "org.springframework.security:spring-security-core:$springSecurityVersion"
     compile "org.springframework.security:spring-security-config:$springSecurityVersion"
@@ -63,8 +64,7 @@ war.baseName = 'sd'
 
 war {
     // Добавляем статический контент в корень war-файла
-    //from "../client/angular/$staticContentDir"
-    from "../client/angular/src"
+    from "../client/build/dist"
     manifest {
         attributes(
                 'Created-By': "${System.getProperty('java.version')} (${System.getProperty('java.specification.vendor')})",

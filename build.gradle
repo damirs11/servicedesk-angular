@@ -1,7 +1,8 @@
 /**
  * Проект "Разработка веб-приложения для службы технической поддержки"
- * SD
  */
+apply plugin: 'base'
+
 allprojects {
     plugins.withType(JavaPlugin).whenPluginAdded {
         ext {
@@ -20,6 +21,18 @@ allprojects {
  * Настройка gradle. Период очистки от старых библиотек
  */
 configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 10, 'hours'
-    resolutionStrategy.cacheDynamicVersionsFor 10, 'minutes'
+    resolutionStrategy.cacheChangingModulesFor(10, 'hours')
+    resolutionStrategy.cacheDynamicVersionsFor(10, 'minutes')
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        //if (details.requested.version == 'default') {
+            println("!!!##")
+            if (details.requested.group == 'org.springframework' && details.requested.name == 'spring-webmvc') {
+                println("!!!!")
+                details.useVersion '4.2.5.RELEASE'
+            }
+            //def version = findDefaultVersionInCatalog(details.requested.group, details.requested.name)
+            //details.useVersion version
+        //}
+    }
 }
+
