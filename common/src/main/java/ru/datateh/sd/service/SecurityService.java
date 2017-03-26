@@ -5,11 +5,17 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.datateh.sd.exception.SecurityException;
+import ru.datateh.sd.model.AppRole;
 import ru.datateh.sd.model.AppUser;
+import ru.datateh.sd.model.Operation;
+
+import java.util.*;
 
 /**
+ * Сервис для работы с информацией о текущих параметрах безопасности
+ *
  * @author quadrix
- *         07.03.2017 2:30
+ * 07.03.2017 2:30
  */
 @Service
 public class SecurityService {
@@ -25,6 +31,12 @@ public class SecurityService {
 		appUser.setId(Math.round(10 * Math.random()));
 		appUser.setLogin(login);
 		appUser.setName("Иван Иванович " + appUser.getId());
+
+		AppRole appRole = new AppRole();
+		appRole.setName("ADMIN");
+		List<Operation> grants = new ArrayList<>();
+		grants.add(Operation.ALL);
+		appRole.setOperations(grants);
 		return appUser;
 	}
 

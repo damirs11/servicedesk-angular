@@ -53,7 +53,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 			return tmpFile.getParent() + "/sd";
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
-			throw new ServiceException(getMessage("error.tempDirectory"));
+			throw new ServiceException(getMessage("error.get.temp.directory"));
 		} finally {
 			if (tmpFile != null) tmpFile.delete();
 		}

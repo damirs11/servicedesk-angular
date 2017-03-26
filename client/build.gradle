@@ -4,20 +4,24 @@
  * сервером осуществляется только по согласованному RESTAPI. Никаких jsp, библиотек тэгов и т.д.
  */
 plugins {
-    //less compile https://github.com/ksoichiro/gradle-web-resource-plugin
+    //less: https://github.com/ksoichiro/gradle-web-resource-plugin
     id "com.github.ksoichiro.web.resource" version "1.7.3"
+    //js min: https://github.com/eriwen/gradle-js-plugin
+    id "com.eriwen.gradle.js" version "2.14.1"
 }
 
 apply plugin: 'base'
 
-def srcDir = '/src/main/'
-def dstDir = '/build/dist/'
+def baseSrcDir = "src/main/"
+def baseDstDir = "build/dist/"
+def srcDirJs = "$baseSrcDir/js/"
+def dstDirJs = "$baseDstDir/js/"
 
-/** Компиляция less-файлов */
+// Компиляция less-файлов
 webResource {
     base {
-        src = srcDir
-        dest = dstDir
+        src = baseSrcDir
+        dest = baseDstDir
     }
     less {
         enabled = true
@@ -27,24 +31,44 @@ webResource {
         minify = false
         parallelize = true
     }
-    // Подгрузка ресурсов для веб-приложения
-    bower {
-        dependencies {
-            install name: 'jquery', version: '3.2.0'
-            install name: 'bootstrap', version: '3.3.7'
-            install name: 'angularjs', version: '1.6.3'
+}
+
+// Объявляем и группируем пути к js-файлам
+javascript.source {
+    lib {
+        js {
+            srcDir "$srcDirJs/lib"
+            include "*.js"
+            exclude "*.min.js"
         }
     }
 }
-/** Копирование статичного контента без обработки */
-task copyStatic(type: Copy) {
-    from (srcDir) {
-        include 'css/fonts/**'
-        include 'img/**'
-        include 'js/**'
-        include 'index.html'
+
+// Объединение нескольких js-файлов в один
+combineJs {
+    encoding = "UTF-8"
+    source = javascript.source.lib.js.files
+    dest = file("$dstDirJs/lib/all.js")
+}
+// Минификация js-файлов
+minifyJs {
+    source = combineJs
+    dest = file("$dstDirJs/lib/all-min.js")
+    sourceMap = file("$dstDirJs/lib/all.sourcemap.json")
+    closure {
+        warningLevel = 'QUIET'
     }
-    into dstDir
 }
 
-build.dependsOn('webResourceCompileLess', 'copyStatic')
+// Копирование статичного контента без обработки
+task copyStatic(type: Copy) {
+    from (baseSrcDir) {
+        include 'css/fonts/**'
+        include 'img/**'
+        include 'js/app/**'
+        include 'index.html'
+    }
+    into baseDstDir
+}
+
+build.dependsOn('webResourceCompileLess', 'copyStatic', 'combineJs', 'minifyJs')
