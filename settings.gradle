@@ -1,2 +1,2 @@
 rootProject.name = 'servicedesk'
-include 'client', 'server', 'common'
+include 'servicedesk', 'client', 'server', 'common'
