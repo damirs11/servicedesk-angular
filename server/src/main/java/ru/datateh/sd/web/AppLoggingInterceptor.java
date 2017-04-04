@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import ru.datateh.sd.model.AppUser;
 import ru.datateh.sd.service.SecurityService;
+import ru.datateh.sd.util.ResourceMessages;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,7 +50,7 @@ public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 	 */
 	private void setLogParams(HttpServletRequest request) {
 		AppUser user = securityService.currentUser();
-		MDC.put(MDC_USER, user == null ? "anonymous" : user.toString());
+		MDC.put(MDC_USER, user == null ? ResourceMessages.getMessage("default.login") : user.toString());
 		// Адресная строка. Пример: GET:/ds/rest/entity/Tariff&fulltext=&paging=1;100&sort=name-asc
 		MDC.put(MDC_QUERY, request.getMethod() + ':' + request.getRequestURI() + (request.getQueryString() == null ? "" : '?' + request.getQueryString()));
 		// "X-FORWARDED-FOR" - актуально для переадресации от балансировщика или прокси-сервера

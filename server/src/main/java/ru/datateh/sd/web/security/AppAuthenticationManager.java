@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,9 @@ public class AppAuthenticationManager implements AuthenticationManager {
 		String login = (String) authentication.getPrincipal();
 		try {
 			AppUser user = securityService.findUser(login);
+			if (!login.equals(authentication.getCredentials())) {
+				throw new BadCredentialsException(getMessage("authentication.incorrect.password"));
+			}
 			LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
 			return new DynamicAuthentication(user, true);
 		} catch (Exception e) {

@@ -28,7 +28,6 @@ import java.util.jar.Manifest;
  * <li>строковые константы</li>
  * </ul>
  *
- *
  * @author quadrix
  * 07.10.2016 14:37
  */
@@ -89,10 +88,19 @@ public class RestConfigurationController {
 	/**
 	 * Возвращает информацию о текущем пользователе
 	 */
-	public Map<String, Object> getUserCompleteInfo() {
+	private Map<String, Object> getUserCompleteInfo() {
 		Map<String, Object> result = new HashMap<>();
 		// Информация о пользователе
 		AppUser user = securityService.currentUser();
+		// Если пользователь не аутентифицирован
+		if (user == null) {
+			result.put("login", ResourceMessages.getMessage("default.login"));
+			result.put("name", ResourceMessages.getMessage("default.login"));
+			result.put("roles", new HashSet<>());
+			result.put("grants", new HashSet<>());
+			return result;
+		}
+		// Если пользователь аутентифицирован
 		result.put("login", user.getLogin());
 		result.put("name", user.getName());
 		// Информация о ролях пользователя и правах доступа

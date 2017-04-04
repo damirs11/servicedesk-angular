@@ -11,8 +11,10 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.ajoberstar:gradle-git:$gradleGitVersion" // extract info from git
-        classpath "gradle.plugin.org.akhikhl.gretty:gretty:1.4.2" // tomcat\jetty http://akhikhl.github.io/gretty-doc
+        // extract info from git
+        classpath "org.ajoberstar:gradle-git:$gradleGitVersion"
+        // tomcat\jetty http://akhikhl.github.io/gretty-doc
+        classpath "gradle.plugin.org.akhikhl.gretty:gretty:1.4.2"
     }
 }
 
@@ -84,10 +86,7 @@ gretty {
     contextPath = '/sd'
     httpEnabled = false
     httpsEnabled = true
-    //logbackConfigFile="$projectDir/src/test/resources/tomcat/logback.xml"
-    //extraResourceBase="$projectDir/src/test/resources/tomcat"
-    //extraResourceBase(file('src/test/resources/tomcat'))
-
+    scanInterval = 0
 }
 
 test {

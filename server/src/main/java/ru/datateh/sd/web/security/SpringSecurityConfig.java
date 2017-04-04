@@ -48,13 +48,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 					.requiresSecure()
 					.and()
                 .exceptionHandling()
-                	//.authenticationEntryPoint(authenticationEntryPoint) //отключает переадресацию, если нет авторизации
+                	.authenticationEntryPoint(authenticationEntryPoint) //отключает переадресацию, если нет авторизации
                 	.and()
                 .authorizeRequests()
-					.antMatchers("/index.html").authenticated()
-					.antMatchers("/rest/**").authenticated()
-					.and()
-		        .formLogin();
+		            .antMatchers("/test").authenticated()
+		            .antMatchers("/rest/**").authenticated()
+					.antMatchers("/rest/service/config").permitAll();
+		        //antMatchers("/rest/**").authenticated()
+				//	.and();
+		        //.formLogin();
     }
 
     /**
@@ -65,7 +67,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/css/**")
                 .antMatchers("/img/**")
-                .antMatchers("/js/**");
+                .antMatchers("/js/**")
+		        .antMatchers("index.html");
     }
 
     @Bean
