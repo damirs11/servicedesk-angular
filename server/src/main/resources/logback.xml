@@ -6,6 +6,7 @@
     </appender>
 
     <logger name="ru.datateh.sd" level="ALL"/>
+    <!--logger name="org.springframework.security" level="DEBUG"/-->
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

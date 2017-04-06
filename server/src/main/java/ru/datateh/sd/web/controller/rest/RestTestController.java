@@ -19,7 +19,7 @@ public class RestTestController {
 	private static final Logger LOG = LoggerFactory.getLogger(RestTestController.class);
 
 	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-	@RequestMapping(value = "/test", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
+	@RequestMapping(value = "/rest/test", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
 	public String test() {
 		LOG.info("TEST CONTROLLER LOG");
 		return "qwerty";
