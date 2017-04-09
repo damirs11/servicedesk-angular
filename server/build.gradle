@@ -86,7 +86,7 @@ gretty {
     contextPath = '/sd'
     httpEnabled = false
     httpsEnabled = true
-    scanInterval = 0
+    //scanInterval = 0 //defines scan interval, in seconds. When set to zero, hot deployment is fully disabled.
 }
 
 test {

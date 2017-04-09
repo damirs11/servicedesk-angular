@@ -59,7 +59,6 @@ minifyJs {
         warningLevel = 'QUIET'
     }
 }
-
 // Копирование статичного контента без обработки
 task copyStatic(type: Copy) {
     from (baseSrcDir) {
@@ -70,5 +69,5 @@ task copyStatic(type: Copy) {
     }
     into baseDstDir
 }
-
-build.dependsOn('webResourceCompileLess', 'copyStatic', 'combineJs', 'minifyJs')
+//build.dependsOn('webResourceCompileLess', 'copyStatic', 'combineJs', 'minifyJs')
+build.dependsOn('webResourceCompileLess', 'copyStatic', 'combineJs')

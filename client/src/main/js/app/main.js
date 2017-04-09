@@ -5,7 +5,8 @@
 
     angular
         .module('sdApp', [
-              'pascalprecht.translate'
+            'pascalprecht.translate',
+            'ui.router'
         ])
         .config(['$stateProvider', '$urlRouterProvider', '$translateProvider',
             function($stateProvider, $urlRouterProvider, $translateProvider) {
