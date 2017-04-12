@@ -13,7 +13,7 @@ buildscript {
     dependencies {
         // extract info from git
         classpath "org.ajoberstar:gradle-git:$gradleGitVersion"
-        // tomcat\jetty http://akhikhl.github.io/gretty-doc
+        // tomcat(jetty) http://akhikhl.github.io/gretty-doc
         classpath "gradle.plugin.org.akhikhl.gretty:gretty:1.4.2"
     }
 }
@@ -30,7 +30,6 @@ repositories {
 
 dependencies {
     compile project(':common')
-    compile project(':client')
     providedCompile "javax.servlet:javax.servlet-api:$servletVersion"
     compile "org.springframework:spring-webmvc"
     // Безопасность
@@ -63,10 +62,11 @@ dependencies {
 }
 
 war.baseName = 'sd'
+def staticWebContentPath = '../client/build/dist'
 
 war {
     // Добавляем статический контент в корень war-файла
-    from "../client/build/dist"
+    from staticWebContentPath
     manifest {
         attributes(
                 'Created-By': "${System.getProperty('java.version')} (${System.getProperty('java.specification.vendor')})",
@@ -82,11 +82,13 @@ war {
 
 gretty {
     jvmArgs = ["-Dfile.encoding=UTF-8"]
-    servletContainer = 'tomcat8'
-    contextPath = '/sd'
+    servletContainer = "tomcat8"
+    contextPath = war.baseName
     httpEnabled = false
     httpsEnabled = true
-    //scanInterval = 0 //defines scan interval, in seconds. When set to zero, hot deployment is fully disabled.
+    scanInterval = 1 //defines scan interval, in seconds. When set to zero, hot deployment is fully disabled.
+    logDir = "$buildDir/logs"
+    extraResourceBase(staticWebContentPath)
 }
 
 test {

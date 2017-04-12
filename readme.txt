@@ -5,8 +5,11 @@
 2. Для сборки использовать Gradle 3.3
 		Скачать с http://gradle.org/
 3. Команда для сборки проекта:
-		"gradle build" или "gradle build -Porg.gradle.java.home=%JAVA_HOME_1_7%"
+		"gradle client:build server:war"
 4. Команда для запуска локального приложения:
-		"gradle appRunWar
+		"gradle client:build server:appStart"
 			- Приложение будет доступно по адресу "https://localhost:8443/sd"
-5. Отладка приложения после локального запуска осуществляется на порту 5005
+5. Обновление статического контента у запущенного приложения:
+ 		"gradle client:build"
+5. Отладка на порту 5005 приложения выполняется командой:
+        "gradle client:build server:appStartDebug"

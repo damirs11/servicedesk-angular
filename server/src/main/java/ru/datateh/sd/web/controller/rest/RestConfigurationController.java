@@ -73,16 +73,21 @@ public class RestConfigurationController {
 
 	/**
 	 * Возвращает информацию из манифеста о версии приложения, даты сборки и т.д.
-	 * @return
+	 * @return пары "ключ"-"значение" из манифеста
 	 */
 	private Map<Object, Object> getManifestInfo(ServletContext servletContext) {
 		Manifest mf = new Manifest();
 		try (InputStream mfStream = servletContext.getResourceAsStream("/META-INF/MANIFEST.MF")) {
-			mf.read(mfStream);
+			if (mfStream == null) {
+				LOG.error(ResourceMessages.getMessage("error.read.manifest.file"));
+			} else {
+				mf.read(mfStream);
+				return mf.getMainAttributes();
+			}
 		} catch (IOException e) {
 			LOG.error(ResourceMessages.getMessage("error.read.manifest.file"), e);
 		}
-		return mf.getMainAttributes();
+		return new HashMap<>();
 	}
 
 	/**
