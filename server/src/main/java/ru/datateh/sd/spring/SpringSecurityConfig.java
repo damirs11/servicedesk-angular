@@ -1,4 +1,4 @@
-package ru.datateh.sd.web.security;
+package ru.datateh.sd.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +16,10 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ru.datateh.sd.web.security.AppAuthenticationManager;
+import ru.datateh.sd.web.security.RestAuthenticationEntryPoint;
+import ru.datateh.sd.web.security.RestAuthenticationLogoutHandler;
+import ru.datateh.sd.web.security.RestAuthenticationSuccessHandler;
 
 import javax.servlet.Filter;
 

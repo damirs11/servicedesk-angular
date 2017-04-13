@@ -3,12 +3,43 @@
  */
 apply plugin: 'base'
 
-allprojects {
+configurations {
+    ajc
+    aspects
+}
+
+allprojects  {
     plugins.withType(JavaPlugin).whenPluginAdded {
         ext {
             // Указываем версию Java для всех модулей проекта
             sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.VERSION_1_8
+            // компилируем в aspectj
+            aspectj = { destDir, aspectPath, inpath, classpath ->
+                ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
+                        classpath: configurations.ajc.asPath)
+
+                ant.iajc(
+                        maxmem: "1024m", fork: "true", Xlint: "ignore",
+                        destDir: destDir,
+                        aspectPath: aspectPath,
+                        inpath: inpath,
+                        classpath: classpath,
+                        source: project.sourceCompatibility,
+                        target: project.targetCompatibility
+                )
+            }
+        }
+        /**
+         * Запускаем AspectJ после компиляции Java
+         */
+        compileJava {
+            doLast {
+                aspectj project.sourceSets.main.output.classesDir.absolutePath,
+                        configurations.aspects.asPath,
+                        files(project.sourceSets.main.output.classesDir).asPath,
+                        project.sourceSets.main.runtimeClasspath.asPath
+            }
         }
     }
 
@@ -16,23 +47,3 @@ allprojects {
         options.encoding = 'UTF-8'
     }
 }
-
-/**
- * Настройка gradle. Период очистки от старых библиотек
- */
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor(10, 'hours')
-    resolutionStrategy.cacheDynamicVersionsFor(10, 'minutes')
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        //if (details.requested.version == 'default') {
-            println("!!!##")
-            if (details.requested.group == 'org.springframework' && details.requested.name == 'spring-webmvc') {
-                println("!!!!")
-                details.useVersion '4.2.5.RELEASE'
-            }
-            //def version = findDefaultVersionInCatalog(details.requested.group, details.requested.name)
-            //details.useVersion version
-        //}
-    }
-}
-

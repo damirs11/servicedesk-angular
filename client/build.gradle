@@ -28,7 +28,7 @@ webResource {
         src = "css"
         dest = "css"
         include = ['style.less', 'bootstrap.less']
-        minify = false
+        minify = true
         parallelize = true
     }
 }
@@ -39,7 +39,6 @@ javascript.source {
         js {
             srcDir "$srcDirJs/lib"
             include "*.js"
-            exclude "*.min.js"
         }
     }
 }

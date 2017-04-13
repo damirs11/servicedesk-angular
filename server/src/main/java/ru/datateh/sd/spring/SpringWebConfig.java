@@ -1,4 +1,4 @@
-package ru.datateh.sd.web;
+package ru.datateh.sd.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import ru.datateh.sd.web.AppLoggingInterceptor;
 
 /**
  * Конфигурация контекста Spring

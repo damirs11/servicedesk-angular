@@ -5,7 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import ru.datateh.sd.exception.ServiceException;
 import static ru.datateh.sd.util.ResourceMessages.*;
-import ru.datateh.sd.web.security.SpringSecurityConfig;
+import ru.datateh.sd.spring.SpringDaoConfig;
+import ru.datateh.sd.spring.SpringSecurityConfig;
+import ru.datateh.sd.spring.SpringServiceConfig;
+import ru.datateh.sd.spring.SpringWebConfig;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
@@ -31,9 +34,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		//return new Class<?>[]{SpringServiceConfig.class, SpringDaoConfig.class, SpringSecurityConfig.class, };
-		return new Class<?>[]{SpringSecurityConfig.class};
-		//return new Class<?>[]{};
+		return new Class<?>[]{SpringServiceConfig.class, SpringDaoConfig.class, SpringSecurityConfig.class, };
+		//return new Class<?>[]{SpringSecurityConfig.class};
 	}
 
 	@Override
