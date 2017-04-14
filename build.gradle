@@ -3,43 +3,12 @@
  */
 apply plugin: 'base'
 
-configurations {
-    ajc
-    aspects
-}
-
 allprojects  {
     plugins.withType(JavaPlugin).whenPluginAdded {
         ext {
             // Указываем версию Java для всех модулей проекта
             sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.VERSION_1_8
-            // компилируем в aspectj
-            aspectj = { destDir, aspectPath, inpath, classpath ->
-                ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
-                        classpath: configurations.ajc.asPath)
-
-                ant.iajc(
-                        maxmem: "1024m", fork: "true", Xlint: "ignore",
-                        destDir: destDir,
-                        aspectPath: aspectPath,
-                        inpath: inpath,
-                        classpath: classpath,
-                        source: project.sourceCompatibility,
-                        target: project.targetCompatibility
-                )
-            }
-        }
-        /**
-         * Запускаем AspectJ после компиляции Java
-         */
-        compileJava {
-            doLast {
-                aspectj project.sourceSets.main.output.classesDir.absolutePath,
-                        configurations.aspects.asPath,
-                        files(project.sourceSets.main.output.classesDir).asPath,
-                        project.sourceSets.main.runtimeClasspath.asPath
-            }
         }
     }
 

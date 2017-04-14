@@ -8,6 +8,7 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+
     }
 
     dependencies {
@@ -15,18 +16,16 @@ buildscript {
         classpath "org.ajoberstar:gradle-git:$gradleGitVersion"
         // tomcat(jetty) http://akhikhl.github.io/gretty-doc
         classpath "gradle.plugin.org.akhikhl.gretty:gretty:1.4.2"
+        // aspectJ
+        classpath "gradle.plugin.aspectj:gradle-aspectj:0.1.6"
     }
-}
-
-configurations {
-    ajc
-    aspects
 }
 
 apply plugin: 'war'
 apply plugin: 'java'
 apply plugin: "org.ajoberstar.grgit"
 apply plugin: "org.akhikhl.gretty"
+apply plugin: "aspectj.gradle"
 
 repositories {
     mavenCentral()
@@ -58,8 +57,6 @@ dependencies {
 
     // кэширование
     compile "net.sf.ehcache:ehcache:$ehcacheVersion"
-
-
 
     // тестирование
     testCompile "org.springframework:spring-test:$springVersion"
