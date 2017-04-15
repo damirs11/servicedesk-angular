@@ -1,19 +1,7 @@
 /**
  * Модуль общих классов и утилит
  */
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "gradle.plugin.aspectj:gradle-aspectj:0.1.6"
-    }
-}
-
 apply plugin: 'java'
-apply plugin: "aspectj.gradle"
 
 repositories {
     mavenCentral()

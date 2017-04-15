@@ -8,7 +8,6 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
-
     }
 
     dependencies {
@@ -37,6 +36,10 @@ dependencies {
     compile project(':units:changes')
     providedCompile "javax.servlet:javax.servlet-api:$servletVersion"
     compile "org.springframework:spring-webmvc"
+    compile "org.springframework:spring-context:$springVersion"
+    // Кэширование
+    compile "org.springframework:spring-context-support:$springSecurityVersion" //Support for Ehcache and others
+    compile "net.sf.ehcache:ehcache:$ehcacheVersion"
     // Безопасность
     compile "org.springframework.security:spring-security-core:$springSecurityVersion"
     compile "org.springframework.security:spring-security-config:$springSecurityVersion"
@@ -54,9 +57,6 @@ dependencies {
 
     compile "commons-fileupload:commons-fileupload:$apacheCommonsFileUploadVersion"
     compile "org.apache.commons:commons-io:$apacheCommonsIOVersion"
-
-    // кэширование
-    compile "net.sf.ehcache:ehcache:$ehcacheVersion"
 
     // тестирование
     testCompile "org.springframework:spring-test:$springVersion"
