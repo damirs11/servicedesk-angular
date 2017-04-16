@@ -1,2 +1,2 @@
 rootProject.name = 'servicedesk'
-include 'server', 'client', 'common', ':units:changes', ':units:changes-api'
+include 'server', 'client', 'common', 'model', 'dao', 'service'

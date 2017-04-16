@@ -5,7 +5,7 @@
         </encoder>
     </appender>
 
-    <logger name="ru.datateh.sd" level="ALL"/>
+    <logger name="com.aplana" level="ALL"/>
     <!--logger name="org.springframework.security" level="DEBUG"/-->
 
     <root level="INFO">
