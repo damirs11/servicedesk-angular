@@ -16,7 +16,7 @@ repositories {
 dependencies {
     compile project(':model')
     compile "org.springframework:spring-context:$springVersion"
-    compile "org.springframework:spring-context-support:$springSecurityVersion"
+    compile "org.springframework:spring-context-support:$springVersion"
     compile "org.springframework:spring-jdbc:$springVersion"
     compile "org.springframework.security:spring-security-core:$springSecurityVersion"
     compile "org.springframework:spring-aspects:$springSecurityVersion"
@@ -40,47 +40,38 @@ dependencies {
     // кэширование
     compile "net.sf.ehcache:ehcache:$ehcacheVersion"
 
-    // AspectJ proxying
-    compile "org.aspectj:aspectjweaver:$aspectjVersion"
+    // Dependencies required for aspect compilation
     compile "org.aspectj:aspectjrt:$aspectjVersion"
-    compile "cglib:cglib:$cglibVersion"
+    ajc "org.aspectj:aspectjtools:$aspectjVersion"
+    aspects "org.springframework:spring-aspects:$springVersion"
 
     // Reflection
     compile "org.reflections:reflections:$reflectionsVersion"
-
-
-    ajc "org.aspectj:aspectjtools:$aspectjVersion"
-    aspects "org.springframework:spring-aspects:$springVersion"
-}
-
-/**
- * Компилируем в aspectj
- */
-ext.aspectj = { destDir, aspectPath, inpath, classpath ->
-    ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
-            classpath: configurations.ajc.asPath)
-
-    ant.iajc(
-            maxmem: "1024m", fork: "true", Xlint: "ignore",
-            destDir: destDir,
-            aspectPath: aspectPath,
-            inpath: inpath,
-            classpath: classpath,
-            source: project.sourceCompatibility,
-            target: project.targetCompatibility
-    )
 }
 
 /**
  * Запускаем AspectJ после компиляции Java
  */
 compileJava {
-    doLast {
+    doLast{
         println 'aspectj compile'
-        aspectj project.sourceSets.main.output.classesDir.absolutePath,
-                configurations.aspects.asPath,
-                files(project.sourceSets.main.output.classesDir).asPath,
-                project.sourceSets.main.runtimeClasspath.asPath
+        ant.taskdef(
+                resource:"org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
+                classpath: configurations.ajc.asPath)
+        ant.iajc(
+                source: project.sourceCompatibility,
+                target: project.targetCompatibility,
+                destDir: sourceSets.main.output.classesDir.absolutePath,
+                maxmem: "1024m",
+                fork: "true",
+                aspectPath: configurations.aspects.asPath,
+                classpath: configurations.compile.asPath){
+            sourceroots{
+                sourceSets.main.java.srcDirs.each{
+                    pathelement(location:it.absolutePath)
+                }
+            }
+        }
     }
 }
 

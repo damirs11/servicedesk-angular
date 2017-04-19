@@ -42,15 +42,12 @@ dependencies {
 
     // Для упрощения работы со свойствами бинов
     compile "commons-beanutils:commons-beanutils:$commonsBeanUtils"
-
     // AspectJ proxying for transactions
-    compile "org.aspectj:aspectjweaver:$aspectjVersion"
     compile "org.aspectj:aspectjrt:$aspectjVersion"
-    compile "cglib:cglib:$cglibVersion"
     ajc "org.aspectj:aspectjtools:$aspectjVersion"
     aspects "org.springframework:spring-aspects:$springVersion"
     aspects "org.springframework.security:spring-security-aspects:$springSecurityVersion"
-
+    aspects "org.springframework:spring-tx:$springVersion"
     //работа с excel
     compile "org.apache.poi:poi:$poiVersion"
     compile "org.apache.poi:poi-ooxml:$poiVersion"
@@ -68,36 +65,30 @@ dependencies {
 }
 
 /**
- * компилируем в aspectj
- */
-ext.aspectj = { destDir, aspectPath, inpath, classpath ->
-    ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
-            classpath: configurations.ajc.asPath)
-
-    ant.iajc(
-            maxmem: "1024m", fork: "true", Xlint: "ignore",
-            destDir: destDir,
-            aspectPath: aspectPath,
-            inpath: inpath,
-            classpath: classpath,
-            source: project.sourceCompatibility,
-            target: project.targetCompatibility
-    )
-}
-
-/**
  * Запускаем AspectJ после компиляции Java
  */
 compileJava {
-    doLast {
+    doLast{
         println 'aspectj compile'
-        aspectj project.sourceSets.main.output.classesDir.absolutePath,
-                configurations.aspects.asPath,
-                files(project.sourceSets.main.output.classesDir).asPath,
-                project.sourceSets.main.runtimeClasspath.asPath
+        ant.taskdef(
+                resource:"org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
+                classpath: configurations.ajc.asPath)
+        ant.iajc(
+                source: project.sourceCompatibility,
+                target: project.targetCompatibility,
+                destDir: sourceSets.main.output.classesDir.absolutePath,
+                maxmem: "1024m",
+                fork: "true",
+                aspectPath: configurations.aspects.asPath,
+                classpath: configurations.compile.asPath){
+            sourceroots{
+                sourceSets.main.java.srcDirs.each{
+                    pathelement(location:it.absolutePath)
+                }
+            }
+        }
     }
 }
-
 
 test {
     useTestNG()

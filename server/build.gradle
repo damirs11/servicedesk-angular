@@ -2,11 +2,6 @@
  * Модуль веб-приложения. Реализует RESTfull сервисы, доступные только авторизованным пользователям.
  * Прочая статика (html, css, js и т.д.) находится в открытом доступе.
  */
-configurations {
-    ajc
-    aspects
-}
-
 buildscript {
     repositories {
         jcenter()
@@ -20,8 +15,6 @@ buildscript {
         classpath "org.ajoberstar:gradle-git:$gradleGitVersion"
         // tomcat(jetty) http://akhikhl.github.io/gretty-doc
         classpath "gradle.plugin.org.akhikhl.gretty:gretty:1.4.2"
-        // aspectJ
-        classpath "gradle.plugin.aspectj:gradle-aspectj:0.1.6"
     }
 }
 
@@ -29,7 +22,6 @@ apply plugin: 'war'
 apply plugin: 'java'
 apply plugin: "org.ajoberstar.grgit"
 apply plugin: "org.akhikhl.gretty"
-apply plugin: "aspectj.gradle"
 
 repositories {
     mavenCentral()
@@ -51,16 +43,6 @@ dependencies {
     compile "org.springframework.security:spring-security-core:$springSecurityVersion"
     compile "org.springframework.security:spring-security-config:$springSecurityVersion"
     compile "org.springframework.security:spring-security-web:$springSecurityVersion"
-    compile "org.springframework.security:spring-security-aspects:$springSecurityVersion"
-
-    // AspectJ proxying for transactions
-    //compile "org.aspectj:aspectjweaver:$aspectjVersion"
-    //compile "org.aspectj:aspectjrt:$aspectjVersion"
-    //compile "cglib:cglib:$cglibVersion"
-    //ajc "org.aspectj:aspectjtools:$aspectjVersion"
-    aspects "org.springframework:spring-aspects:$springVersion"
-    aspects "org.springframework.security:spring-security-aspects:$springSecurityVersion"
-
     // Логирование
     compile "ch.qos.logback:logback-classic:$logbackVersion"
     compile "org.slf4j:jcl-over-slf4j:$slf4jVersion" //Commons logging API over slf4j
@@ -86,8 +68,6 @@ dependencies {
     testCompile "com.jayway.jsonpath:json-path:$jsonpathVersion"
     testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
     testCompile "org.hamcrest:hamcrest-integration:$hamcrestVersion"
-
-    gretty "org.hsqldb:hsqldb:$hsqldbVersion", "com.jolbox:bonecp:$boneCPVersion"
 }
 
 war.baseName = 'sd'

@@ -5,9 +5,9 @@
 2. Для сборки использовать Gradle 3.3
 		Скачать с http://gradle.org/
 3. Команда для сборки проекта:
-		"gradle client:build server:war"
+		"gradle client:build server:war -i -g gradle"
 4. Команда для запуска локального приложения:
-		"gradle client:build server:appStart"
+		"gradle client:build server:appStart -i -g gradle"
 			- Приложение будет доступно по адресу "https://localhost:8443/sd"
 5. Обновление статического контента у запущенного приложения:
  		"gradle client:build"
