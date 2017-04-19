@@ -1,0 +1,105 @@
+/**
+ * Модуль сервисного слоя приложения.
+ */
+
+configurations {
+    ajc
+    aspects
+}
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile project(':common')
+    compile project(':model')
+    compile project(':dao')
+
+    // Безопасность
+    compile "org.springframework.security:spring-security-core:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-config:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-aspects:$springSecurityVersion"
+
+    // тестирование
+    testCompile "org.springframework:spring-test:$springVersion"
+    testCompile "org.springframework.security:spring-security-test:$springSecurityVersion"
+    testCompile "org.testng:testng:$testngVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
+    compile "org.hsqldb:hsqldb:$hsqldbVersion"
+    compile "com.jolbox:bonecp:$boneCPVersion"
+    // логирование
+    compile "ch.qos.logback:logback-classic:$logbackVersion"
+    compile "org.slf4j:jcl-over-slf4j:$slf4jVersion" //Commons logging API over slf4j
+    compile "org.slf4j:log4j-over-slf4j:$slf4jVersion" //log4j API over slf4j
+    compile "org.slf4j:jul-to-slf4j:$slf4jVersion" //java.util.logging over slf4j
+
+    compile "org.springframework:spring-aspects:$springVersion"
+    compile "org.apache.commons:commons-io:$apacheCommonsIOVersion"
+
+    // Для упрощения работы со свойствами бинов
+    compile "commons-beanutils:commons-beanutils:$commonsBeanUtils"
+
+    // AspectJ proxying for transactions
+    compile "org.aspectj:aspectjweaver:$aspectjVersion"
+    compile "org.aspectj:aspectjrt:$aspectjVersion"
+    compile "cglib:cglib:$cglibVersion"
+    ajc "org.aspectj:aspectjtools:$aspectjVersion"
+    aspects "org.springframework:spring-aspects:$springVersion"
+    aspects "org.springframework.security:spring-security-aspects:$springSecurityVersion"
+
+    //работа с excel
+    compile "org.apache.poi:poi:$poiVersion"
+    compile "org.apache.poi:poi-ooxml:$poiVersion"
+
+    //работа с csv
+    compile 'com.opencsv:opencsv:3.8'
+
+    // Для перевода чисел в прописной формат
+    //compile group: 'com.ibm.icu', name: 'icu4j', version: '57.1' //10MB
+
+    //Работа с почтой
+    compile 'javax.mail:mail:1.4.7'
+    //работа с zip-архивами
+    compile 'org.apache.commons:commons-compress:1.13'
+}
+
+/**
+ * компилируем в aspectj
+ */
+ext.aspectj = { destDir, aspectPath, inpath, classpath ->
+    ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
+            classpath: configurations.ajc.asPath)
+
+    ant.iajc(
+            maxmem: "1024m", fork: "true", Xlint: "ignore",
+            destDir: destDir,
+            aspectPath: aspectPath,
+            inpath: inpath,
+            classpath: classpath,
+            source: project.sourceCompatibility,
+            target: project.targetCompatibility
+    )
+}
+
+/**
+ * Запускаем AspectJ после компиляции Java
+ */
+compileJava {
+    doLast {
+        println 'aspectj compile'
+        aspectj project.sourceSets.main.output.classesDir.absolutePath,
+                configurations.aspects.asPath,
+                files(project.sourceSets.main.output.classesDir).asPath,
+                project.sourceSets.main.runtimeClasspath.asPath
+    }
+}
+
+
+test {
+    useTestNG()
+    systemProperty "file.encoding", "utf-8"
+}
