@@ -1,18 +1,15 @@
 package com.aplana.sd.security;
 
+import com.aplana.sd.service.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
-import com.aplana.sd.service.DynamicAuthentication;
-import com.aplana.sd.service.SecurityService;
-import com.aplana.sd.model.AppUser;
 
-import static com.aplana.sd.util.ResourceMessages.*;
+import java.util.Objects;
 
 /**
  * Сервис аутентификации пользователя
@@ -29,18 +26,8 @@ public class AppAuthenticationManager implements AuthenticationManager {
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		String login = (String) authentication.getPrincipal();
-		try {
-			AppUser user = securityService.findUser(login);
-			if (!login.equals(authentication.getCredentials())) {
-				throw new BadCredentialsException(getMessage("authentication.incorrect.password"));
-			}
-			LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
-			return new DynamicAuthentication(user, true);
-		} catch (Exception e) {
-			// сообщаем об ошибке входа в систему
-			LOG.info(getMessage("authentication.fail", login, e.getClass().getSimpleName(), e.getMessage()), e);
-			throw e;
-		}
+		String login = Objects.toString(authentication.getPrincipal());
+		String password = Objects.toString(authentication.getCredentials());
+		return securityService.authenticate(login, password);
 	}
 }

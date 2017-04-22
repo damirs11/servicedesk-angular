@@ -45,7 +45,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
 	@Override
 	protected Filter[] getServletFilters() {
-		return new Filter[]{new SessionCheckFilter()};
+		return new Filter[]{};
 	}
 
 	private String getAppTempDirectory() {

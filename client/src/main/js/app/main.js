@@ -4,9 +4,10 @@
     var translateDictionary = {}
 
     angular
-        .module('sdApp', [
+        .module('app', [
             'pascalprecht.translate',
-            'ui.router'
+            'ui.router',
+            'appHeader'
         ])
         .config(['$stateProvider', '$urlRouterProvider', '$translateProvider',
             function($stateProvider, $urlRouterProvider, $translateProvider) {
@@ -32,9 +33,9 @@
     $http.get('rest/service/config/getInfo').then(
         function (response) {
             translateDictionary = response.data.translate
-            angular.module('userData', []).constant('USER_DATA', response.data.user)
+            angular.module('appUserData', []).constant('USER_DATA', response.data.user)
             angular.element(document).ready(function() {
-                angular.bootstrap(document, ['sdApp'])
+                angular.bootstrap(document, ['app'])
             })
         }
     )

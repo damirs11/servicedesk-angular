@@ -13,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  *         19.03.2017 1:58
  */
 @RestController
-@EnableWebMvc
 public class RestTestController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RestTestController.class);

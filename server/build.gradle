@@ -95,10 +95,9 @@ gretty {
     contextPath = war.baseName
     httpEnabled = false
     httpsEnabled = true
-    scanInterval = 1 //defines scan interval, in seconds. When set to zero, hot deployment is fully disabled.
+    scanInterval = 0 //defines scan interval, in seconds. When set to zero, hot deployment is fully disabled.
     logDir = "$buildDir/logs"
     extraResourceBase(staticWebContentPath)
-    enableNaming = true
 }
 
 test {

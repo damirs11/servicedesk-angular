@@ -1,5 +1,8 @@
 package com.aplana.sd.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +14,8 @@ import com.aplana.sd.model.Operation;
 
 import java.util.*;
 
+import static com.aplana.sd.util.ResourceMessages.getMessage;
+
 /**
  * Сервис для работы с информацией о текущих параметрах безопасности
  *
@@ -20,6 +25,7 @@ import java.util.*;
 @Service
 public class SecurityService {
 
+	private static final Logger LOG = LoggerFactory.getLogger(SecurityService.class);
 	/**
 	 * Ищет пользователя приложения по его логину.
 	 * @param login имя, под которым пользователь зашел в систему
@@ -68,5 +74,42 @@ public class SecurityService {
 			return (DynamicAuthentication) authentication;
 		}
 		return null;
+	}
+
+	/**
+	 * Авторизация пользователя в системе
+	 *
+	 * @param login имя пользователя
+	 * @param password пароль
+	 */
+	public void loginUser(String login, String password) {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = authenticate(login, password);
+
+		context.setAuthentication(authentication);
+	}
+
+	/**
+	 * Проверяет корректность пары логин-пароль, и если все ок, то возвращает объект-аутентикация
+	 * @param login
+	 * @param password
+	 * @return
+	 */
+	public Authentication authenticate(String login, String password) {
+		try {
+			if (Objects.isNull(login)) {
+				throw new BadCredentialsException(getMessage("authentication.incorrect"));
+			}
+			AppUser user = findUser(login);
+			if (!login.equals(password)) {//todo временная проверка
+				throw new BadCredentialsException(getMessage("authentication.incorrect"));
+			}
+			LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
+			return new DynamicAuthentication(user, true);
+		} catch (Exception e) {
+			// сообщаем об ошибке входа в систему
+			LOG.info(getMessage("authentication.fail", login, e.getClass().getSimpleName(), e.getMessage()));
+			throw e;
+		}
 	}
 }

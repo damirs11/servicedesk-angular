@@ -1,18 +1,16 @@
 package com.aplana.sd.web.controller.rest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import com.aplana.sd.model.AppRole;
 import com.aplana.sd.model.AppUser;
 import com.aplana.sd.model.Operation;
 import com.aplana.sd.service.SecurityService;
 import com.aplana.sd.util.ResourceMessages;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +31,6 @@ import java.util.jar.Manifest;
  */
 @RestController
 @RequestMapping(value = "/rest/service/config", method = RequestMethod.GET, produces = "application/json")
-@EnableWebMvc
 public class RestConfigurationController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RestConfigurationController.class);
@@ -42,7 +39,6 @@ public class RestConfigurationController {
 	private SecurityService securityService;
 
 	@RequestMapping("/getInfo")
-	@ResponseBody
 	public Map<String, Object> getInfo(HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<>();
 		result.put("user", getUserCompleteInfo());
