@@ -7,7 +7,8 @@
         .module('app', [
             'pascalprecht.translate',
             'ui.router',
-            'appHeader'
+            'appHeader',
+            'appLogin'
         ])
         .config(['$stateProvider', '$urlRouterProvider', '$translateProvider',
             function($stateProvider, $urlRouterProvider, $translateProvider) {
