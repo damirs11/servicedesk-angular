@@ -58,6 +58,7 @@ dependencies {
     compile "org.apache.commons:commons-io:$apacheCommonsIOVersion"
     compile "org.hsqldb:hsqldb:$hsqldbVersion"
     compile "com.jolbox:bonecp:$boneCPVersion"
+    compile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
 
     // тестирование
     testCompile "org.springframework:spring-test:$springVersion"

@@ -36,8 +36,7 @@ public class SecurityService {
 		AppUser appUser = new AppUser();
 		appUser.setId(Math.round(10 * Math.random()));
 		appUser.setLogin(login);
-		appUser.setName("Иван Иванович " + appUser.getId());
-
+		appUser.setName("John Smith " + appUser.getId());
 		AppRole appRole = new AppRole();
 		appRole.setName("ADMIN");
 		List<Operation> grants = new ArrayList<>();

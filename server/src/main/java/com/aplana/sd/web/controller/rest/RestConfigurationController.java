@@ -27,10 +27,10 @@ import java.util.jar.Manifest;
  * </ul>
  *
  * @author quadrix
- * 07.10.2016 14:37
+ *         07.10.2016 14:37
  */
 @RestController
-@RequestMapping(value = "/rest/service/config", method = RequestMethod.GET, produces = "application/json")
+@RequestMapping(value = "/rest/service/config", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 public class RestConfigurationController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RestConfigurationController.class);
@@ -42,7 +42,6 @@ public class RestConfigurationController {
 	public Map<String, Object> getInfo(HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<>();
 		result.put("user", getUserCompleteInfo());
-
 		Map<Object, Object> translate = new HashMap<>();
 		translate.putAll(getTranslates());
 		translate.putAll(getManifestInfo(request.getServletContext()));
@@ -69,6 +68,7 @@ public class RestConfigurationController {
 
 	/**
 	 * Возвращает информацию из манифеста о версии приложения, даты сборки и т.д.
+	 *
 	 * @return пары "ключ"-"значение" из манифеста
 	 */
 	private Map<Object, Object> getManifestInfo(ServletContext servletContext) {

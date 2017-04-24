@@ -31,7 +31,7 @@
                     if ($scope.showError) {
                         return; // отображаем сообщения об ошибках и не отправляем запрос на сервер
                     }
-                    var params = {login: $scope.login, password: $scope.password}
+                    var params = {login: $scope.login, password: $scope.password};
                     $http.post('rest/service/security/login', params)
                         .then(
                             function() {
@@ -47,7 +47,7 @@
                                 $scope.loginFailed = true;
                             }
                         );
-                }
+                };
                 $scope.hitEnter = function (evt) {
                     if (angular.equals(evt.keyCode, 13))
                         $scope.loginClick();
