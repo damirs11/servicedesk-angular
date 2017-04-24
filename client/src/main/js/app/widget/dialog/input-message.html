@@ -1,0 +1,30 @@
+<div id="input-message">
+    <div class="modal-header">
+        <button type="button" class="close" data-ng-click="cancel()">×</button>
+        <h4 class="modal-title">
+            <span class="glyphicon glyphicon-pencil"></span>&nbsp;{{header}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <form name="inputMessageForm" novalidate role="form">
+            <div class="form-group input-group-lg required">
+                <label class="control-label" for="inputMessage">{{msg}}</label>
+                <input id="inputMessage" type="text" class="form-control" required
+                       data-ng-model="inputMessage"
+                       data-ng-keyup="hitEnter($event)"
+                       data-ng-maxlength="255" name="text">
+                <div class="text-danger" data-ng-messages="inputMessageForm.text.$error">
+                    <p data-ng-message="maxlength">{{'error.form.string.maxLength'| translate}}</p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-ng-click="save()"
+                data-ng-disabled="(inputMessageForm.$dirty && inputMessageForm.$invalid) || inputMessageForm.$pristine">
+            {{labelYes}}
+        </button>
+        <button type="button" class="btn btn-default" id="cancelButton" data-ng-click="cancel()">{{labelCancel}}
+        </button>
+    </div>
+</div>

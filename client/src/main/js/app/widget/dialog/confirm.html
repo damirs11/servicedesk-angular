@@ -1,0 +1,16 @@
+<div id="confirm">
+    <div class="modal-header">
+        <button type="button" class="close" data-ng-click="cancel()">×</button>
+        <h4 class="modal-title">
+            <span class="glyphicon glyphicon-check"></span>&nbsp;{{header}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <span data-ng-bind-html="msg"></span>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-ng-click="yes()">{{labelYes}}</button>
+        <button type="button" class="btn btn-default" ng-click="no()">{{labelNo}}</button>
+        <button type="button" class="btn btn-default" ng-click="cancel()">{{labelCancel}}</button>
+    </div>
+</div>

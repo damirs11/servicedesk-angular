@@ -18,7 +18,8 @@
                 $stateProvider
                     .state('/', {
                         url: '/',
-                        templateUrl: 'js/app/main.html'
+                        templateUrl: 'js/app/main.html',
+                        controller: 'mainController'
                     })
 
                 // Настройка источника локализованных сообщений
@@ -27,6 +28,13 @@
                 $translateProvider.useSanitizeValueStrategy('sanitizeParameters')
             }
         ])
+        .controller('mainController', [
+            '$scope', '$translate', '$log', 'USER_DATA', '$state',
+            function ($scope, $translate, $log, USER_DATA, $state) {
+                if (USER_DATA.login === $translate.instant('default.login')) {
+                    $state.go("login")
+                }
+            }]);
 
     // Получение информации о текущем пользователе и запуск приложения
     var initInjector = angular.injector(['ng']);
@@ -36,7 +44,7 @@
             translateDictionary = response.data.translate
             angular.module('appUserData', []).constant('USER_DATA', response.data.user)
             angular.element(document).ready(function() {
-                angular.bootstrap(document, ['app'])
+                angular.bootstrap(document, ['app']);
             })
         }
     )

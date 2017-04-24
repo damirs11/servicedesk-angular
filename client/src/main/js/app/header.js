@@ -16,9 +16,9 @@
         .controller('appHeaderController', [
             '$rootScope', '$scope', '$translate', '$log', 'USER_DATA',
             function ($rootScope, $scope, $translate, $log, USER_DATA) {
-
-                $scope.hasRole = function (role) {
+                $scope.user = USER_DATA;
+                /*$scope.hasRole = function (role) {
                     return $.inArray(role, USER_DATA.authorities) !== -1;
-                }
+                }*/
             }]);
 }());

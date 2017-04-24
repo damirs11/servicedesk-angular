@@ -2,11 +2,12 @@
  * Модуль реализует окно для входа пользователя в систему, если он неавторизован
  */
 (function () {
-    'use strict',
-    'ui.router';
+    'use strict';
 
     angular.module('appLogin', [
-            'appUserData'
+            'appUserData',
+            'ngMessages',
+            'ui.router'
         ])
         .config(function ($stateProvider) {
             $stateProvider
@@ -17,22 +18,39 @@
                 })
         })
         .controller('appLoginController', [
-            '$rootScope', '$scope', '$translate', '$log', 'USER_DATA', '$http',
-            function ($rootScope, $scope, $translate, $log, USER_DATA, $http) {
+            '$rootScope', '$scope', '$translate', '$log', 'USER_DATA', '$http', '$state',
+            function ($rootScope, $scope, $translate, $log, USER_DATA, $http, $state) {
+                $scope.loginFailed = false; // флаг неудачной аутентификации
+                $scope.showError = false; // отображать или нет ошибки ввода значений
                 /**
-                 * Авторизация в системе
+                 * Аутентификация пользователя
                  */
                 $scope.loginClick = function() {
+                    $scope.loginFailed = false;
+                    $scope.showError = (this.loginForm.$dirty && this.loginForm.$invalid) || this.loginForm.$pristine;
+                    if ($scope.showError) {
+                        return; // отображаем сообщения об ошибках и не отправляем запрос на сервер
+                    }
                     var params = {login: $scope.login, password: $scope.password}
                     $http.post('rest/service/security/login', params)
                         .then(
-                            function (response) {
-                                $log.info('login success')
+                            function() {
+                                $scope.loginFailed = false;
+                                $http.get('rest/service/config/getInfo').then(
+                                    function (response) {
+                                        angular.copy(response.data.user, USER_DATA);
+                                        $state.go("/")
+                                    }
+                                )
                             },
-                            function (response) {
-                                $log.error('login error')
+                            function() {
+                                $scope.loginFailed = true;
                             }
                         );
+                }
+                $scope.hitEnter = function (evt) {
+                    if (angular.equals(evt.keyCode, 13))
+                        $scope.loginClick();
                 }
             }]);
 }());
