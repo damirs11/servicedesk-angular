@@ -5,6 +5,7 @@
 configurations {
     ajc
     aspects
+    provided // для добавления возможностей использования provided-зависимостей
 }
 
 apply plugin: 'java'
@@ -14,10 +15,21 @@ repositories {
     mavenLocal()
 }
 
+sourceSets {
+    // для добавления возможностей использования provided-зависимостей
+    main.compileClasspath += configurations.provided
+    test.compileClasspath += configurations.provided
+    test.runtimeClasspath += configurations.provided
+}
+
 dependencies {
     compile project(':common')
     compile project(':model')
     compile project(':dao')
+    provided "javax.servlet:javax.servlet-api:$servletVersion"
+
+    // подключаем внешние библиотеки
+    compile fileTree(include: ['*.jar'], dir: '../lib')
 
     // Безопасность
     compile "org.springframework.security:spring-security-core:$springSecurityVersion"

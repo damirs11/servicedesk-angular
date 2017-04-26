@@ -1,18 +1,23 @@
 package com.aplana.sd.service;
 
+import com.aplana.sd.exception.SecurityException;
+import com.aplana.sd.model.AppRole;
+import com.aplana.sd.model.AppUser;
+import com.aplana.sd.model.Operation;
+import com.hp.itsm.ssp.beans.SdClientBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import com.aplana.sd.exception.SecurityException;
-import com.aplana.sd.model.AppRole;
-import com.aplana.sd.model.AppUser;
-import com.aplana.sd.model.Operation;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import static com.aplana.sd.util.ResourceMessages.getMessage;
 
@@ -26,6 +31,9 @@ import static com.aplana.sd.util.ResourceMessages.getMessage;
 public class SecurityService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SecurityService.class);
+
+	@Autowired
+	private Environment env;
 	/**
 	 * Ищет пользователя приложения по его логину.
 	 * @param login имя, под которым пользователь зашел в систему
@@ -99,16 +107,22 @@ public class SecurityService {
 			if (Objects.isNull(login)) {
 				throw new BadCredentialsException(getMessage("authentication.incorrect"));
 			}
-			AppUser user = findUser(login);
-			if (!login.equals(password)) {//todo временная проверка
-				throw new BadCredentialsException(getMessage("authentication.incorrect"));
+			// Подключение через API к серверу SD под указанной учетной записью
+			SdClientBean sdClient = new SdClientBean(env.getProperty("sd_application_server"), login, password);
+			try {
+				String[] chCategories = sdClient.all_change_categories();
+				LOG.debug(chCategories.toString());
+			} catch (Exception e) {
+				LOG.error("sdClient error", e);
 			}
+			AppUser user = findUser(login);
+			user.setName(sdClient.username());
 			LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
 			return new DynamicAuthentication(user, true);
 		} catch (Exception e) {
 			// сообщаем об ошибке входа в систему
 			LOG.info(getMessage("authentication.fail", login, e.getClass().getSimpleName(), e.getMessage()));
-			throw e;
+			throw new BadCredentialsException(e.getMessage());
 		}
 	}
 }
