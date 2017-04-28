@@ -1,9 +1,14 @@
 package com.aplana.sd.service;
 
+import com.aplana.sd.dao.OrganizationDao;
 import com.aplana.sd.exception.SecurityException;
+import com.aplana.sd.model.AppOrganization;
 import com.aplana.sd.model.AppRole;
 import com.aplana.sd.model.AppUser;
 import com.aplana.sd.model.Operation;
+import com.hp.itsm.api.interfaces.IAccount;
+import com.hp.itsm.api.interfaces.IPerson;
+import com.hp.itsm.api.interfaces.IRole;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +39,8 @@ public class SecurityService {
 
 	@Autowired
 	private Environment env;
+	@Autowired
+	private OrganizationDao orgDao;
 	/**
 	 * Ищет пользователя приложения по его логину.
 	 * @param login имя, под которым пользователь зашел в систему
@@ -92,7 +99,6 @@ public class SecurityService {
 	public void loginUser(String login, String password) {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication authentication = authenticate(login, password);
-
 		context.setAuthentication(authentication);
 	}
 
@@ -109,14 +115,19 @@ public class SecurityService {
 			}
 			// Подключение через API к серверу SD под указанной учетной записью
 			SdClientBean sdClient = new SdClientBean(env.getProperty("sd_application_server"), login, password);
-			try {
-				String[] chCategories = sdClient.all_change_categories();
-				LOG.debug(chCategories.toString());
-			} catch (Exception e) {
-				LOG.error("sdClient error", e);
-			}
 			AppUser user = findUser(login);
-			user.setName(sdClient.username());
+
+			AppOrganization findById("281486668796143");
+
+			/*user.setName(sdClient.username());
+			IPerson p = sdClient.current_user_person();
+			IAccount a = p.getAccount();
+			IRole[] roles = a.getRoles();
+			if (roles.length > 0) {
+				for (IRole role : roles) {
+					LOG.debug("### role = " + role.getName());
+				}
+			}*/
 			LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
 			return new DynamicAuthentication(user, true);
 		} catch (Exception e) {

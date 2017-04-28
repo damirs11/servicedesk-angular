@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * Конфигурация спринга в ДАО-слое
@@ -19,6 +20,7 @@ import org.springframework.core.io.ClassPathResource;
 @Configuration
 @EnableCaching(mode = AdviceMode.ASPECTJ)
 @ComponentScan("com.aplana.sd.dao")
+@EnableJpaRepositories
 public class SpringDaoConfig extends CachingConfigurerSupport {
 
 	@Bean

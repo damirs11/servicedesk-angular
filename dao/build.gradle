@@ -22,6 +22,7 @@ dependencies {
     compile "org.springframework:spring-aspects:$springSecurityVersion"
     compile "commons-beanutils:commons-beanutils:$commonsBeanUtils"
     compile "joda-time:joda-time:2.9.2"
+    compile "org.springframework.data:spring-data-jpa:$springDataJpaVersion"
 
     // тестирование
     testCompile "org.springframework:spring-test:$springVersion"

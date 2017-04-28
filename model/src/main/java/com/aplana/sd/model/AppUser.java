@@ -18,8 +18,22 @@ public class AppUser implements Serializable{
     private String login;
     /** Имя для отображения. Например, "Иван Иванович"*/
     private String name;
-    /** Назначенные пользователю роли */
+    /** Назначенные роли */
     private List<AppRole> roles;
+    /** Пол */
+    private boolean gender;
+    /** Email */
+    private String email;
+    /** Должность */
+    private String jobTitle;
+    /** Имя */
+    private String firstName;
+    /** Фамилия */
+    private String lastName;
+    /** Отчество */
+    private String middleName;
+    /** Организация */
+    private AppOrganization organization;
 
     public long getId() {
         return id;
@@ -51,6 +65,62 @@ public class AppUser implements Serializable{
 
     public void setRoles(List<AppRole> roles) {
         this.roles = roles;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public AppOrganization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(AppOrganization organization) {
+        this.organization = organization;
     }
 
     @Override
