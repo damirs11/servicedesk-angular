@@ -17,7 +17,15 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public enum Operation implements GrantedAuthority {
 
-	ALL("Все права доступа");
+	CHANGE_CREATE("Созданий изменений"),
+	CHANGE_READ("Просмотр изменений"),
+	CHANGE_UPDATE("Редактирование изменений"),
+	CHANGE_UPDATE_PREPARING("Редактирование изменений в статусе \"Подготовка\""),
+	CHANGE_UPDATE_ON_APPROVE("Редактирование изменений в статусе \"На согласовании\""),
+	CHANGE_UPDATE_APPROVE_COMPLETE("Редактирование изменений в статусе \"Согласование завершено\""),
+	CHANGE_UPDATE_EXECUTING("Редактирование изменений в статусе \"Реализация\""),
+	CHANGE_UPDATE_RESOLVED("Редактирование изменений в статусе \"Решено\""),
+	CHANGE_UPDATE_CLOSED("Редактирование изменений в статусе \"Закрыто\"");
 
 	/** Код бизнес-операции*/
 	private String title;

@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import com.aplana.sd.model.AppUser;
+import com.aplana.sd.model.User;
 import com.aplana.sd.util.ResourceMessages;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +48,7 @@ public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 	 * Устанавливает значения переменных для вывода в лог
 	 */
 	private void setLogParams(HttpServletRequest request) {
-		AppUser user = securityService.currentUser();
+		User user = securityService.currentUser();
 		MDC.put(MDC_USER, user == null ? ResourceMessages.getMessage("default.login") : user.toString());
 		// Адресная строка. Пример: GET:/ds/rest/entity/Tariff&fulltext=&paging=1;100&sort=name-asc
 		MDC.put(MDC_QUERY, request.getMethod() + ':' + request.getRequestURI() + (request.getQueryString() == null ? "" : '?' + request.getQueryString()));

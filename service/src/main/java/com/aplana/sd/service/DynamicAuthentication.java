@@ -2,8 +2,8 @@ package com.aplana.sd.service;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import com.aplana.sd.model.AppRole;
-import com.aplana.sd.model.AppUser;
+import com.aplana.sd.model.Role;
+import com.aplana.sd.model.User;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -19,11 +19,11 @@ import java.util.Set;
  */
 public class DynamicAuthentication implements Authentication {
     /** Аутентифицированный пользователь */
-    private final AppUser user;
+    private final User user;
     /** Указывает на то, что аутентификация пройдена. */
     private boolean authenticated;
 
-    public DynamicAuthentication(AppUser user, boolean authenticated) {
+    public DynamicAuthentication(User user, boolean authenticated) {
         this.user = user;
 		this.authenticated = authenticated;
     }
@@ -35,7 +35,7 @@ public class DynamicAuthentication implements Authentication {
     public synchronized Collection<? extends GrantedAuthority> getAuthorities() {
         if (user.getRoles() != null && !user.getRoles().isEmpty()) {
             Set<GrantedAuthority> authorities = new HashSet<>();
-			for (AppRole role : user.getRoles()) {
+			for (Role role : user.getRoles()) {
 				authorities.add(role);
 				authorities.addAll(role.getOperations());
 			}

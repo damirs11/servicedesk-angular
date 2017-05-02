@@ -2,13 +2,10 @@ package com.aplana.sd.service;
 
 import com.aplana.sd.dao.OrganizationDao;
 import com.aplana.sd.exception.SecurityException;
-import com.aplana.sd.model.AppOrganization;
-import com.aplana.sd.model.AppRole;
-import com.aplana.sd.model.AppUser;
+import com.aplana.sd.model.Organization;
+import com.aplana.sd.model.Role;
+import com.aplana.sd.model.User;
 import com.aplana.sd.model.Operation;
-import com.hp.itsm.api.interfaces.IAccount;
-import com.hp.itsm.api.interfaces.IPerson;
-import com.hp.itsm.api.interfaces.IRole;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,22 +43,22 @@ public class SecurityService {
 	 * @param login имя, под которым пользователь зашел в систему
 	 * @return информация о пользователе, может вернуть null, если пользователь не найден
 	 */
-	public AppUser findUser(String login) {
+	public User findUser(String login) {
 		//todo
-		AppUser appUser = new AppUser();
-		appUser.setId(Math.round(10 * Math.random()));
-		appUser.setLogin(login);
-		appUser.setName("John Smith " + appUser.getId());
-		AppRole appRole = new AppRole();
-		appRole.setName("ADMIN");
+		User user = new User();
+		user.setId(Math.round(10 * Math.random()));
+		user.setLogin(login);
+		user.setName("John Smith " + user.getId());
+		Role role = new Role();
+		role.setName("ADMIN");
 		List<Operation> grants = new ArrayList<>();
 		grants.add(Operation.ALL);
-		appRole.setOperations(grants);
-		return appUser;
+		role.setOperations(grants);
+		return user;
 	}
 
-	public AppUser getUser(String login) {
-		AppUser user = findUser(login);
+	public User getUser(String login) {
+		User user = findUser(login);
 		if (user != null) return user;
 		throw new SecurityException();
 	}
@@ -70,7 +67,7 @@ public class SecurityService {
 	 * Возвращает информацию о текущем пользователе
 	 * @return пользователь
 	 */
-	public AppUser currentUser() {
+	public User currentUser() {
 		DynamicAuthentication auth = getDynamicAuthentication();
 		if (auth != null) {
 			return getUser(auth.getPrincipal());
@@ -115,9 +112,9 @@ public class SecurityService {
 			}
 			// Подключение через API к серверу SD под указанной учетной записью
 			SdClientBean sdClient = new SdClientBean(env.getProperty("sd_application_server"), login, password);
-			AppUser user = findUser(login);
+			User user = findUser(login);
 
-			AppOrganization findById("281486668796143");
+			Organization findById("281486668796143");
 
 			/*user.setName(sdClient.username());
 			IPerson p = sdClient.current_user_person();

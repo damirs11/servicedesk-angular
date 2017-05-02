@@ -11,7 +11,7 @@ import java.util.List;
  * @author quadrix
  *         07.03.2017 2:24
  */
-public class AppUser implements Serializable{
+public class User implements Serializable{
     /** Идентификатор пользователя*/
     private long id;
     /** Имя для входа в систему. Например, "iivanov" */
@@ -19,7 +19,7 @@ public class AppUser implements Serializable{
     /** Имя для отображения. Например, "Иван Иванович"*/
     private String name;
     /** Назначенные роли */
-    private List<AppRole> roles;
+    private List<Role> roles;
     /** Пол */
     private boolean gender;
     /** Email */
@@ -33,7 +33,7 @@ public class AppUser implements Serializable{
     /** Отчество */
     private String middleName;
     /** Организация */
-    private AppOrganization organization;
+    private Organization organization;
 
     public long getId() {
         return id;
@@ -59,11 +59,11 @@ public class AppUser implements Serializable{
         this.name = name;
     }
 
-    public List<AppRole> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<AppRole> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -115,11 +115,11 @@ public class AppUser implements Serializable{
         this.middleName = middleName;
     }
 
-    public AppOrganization getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
-    public void setOrganization(AppOrganization organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 

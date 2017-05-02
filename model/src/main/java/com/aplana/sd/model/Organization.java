@@ -6,7 +6,7 @@ package com.aplana.sd.model;
  * @author quadrix
  *         28.04.2017 2:48
  */
-public class AppOrganization {
+public class Organization {
 	/** Идентификатор */
 	private long id;
 	/** Название */

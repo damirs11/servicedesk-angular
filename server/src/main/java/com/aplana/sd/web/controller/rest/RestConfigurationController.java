@@ -1,7 +1,7 @@
 package com.aplana.sd.web.controller.rest;
 
-import com.aplana.sd.model.AppRole;
-import com.aplana.sd.model.AppUser;
+import com.aplana.sd.model.Role;
+import com.aplana.sd.model.User;
 import com.aplana.sd.model.Operation;
 import com.aplana.sd.service.SecurityService;
 import com.aplana.sd.util.ResourceMessages;
@@ -92,7 +92,7 @@ public class RestConfigurationController {
 	private Map<String, Object> getUserCompleteInfo() {
 		Map<String, Object> result = new HashMap<>();
 		// Информация о пользователе
-		AppUser user = securityService.currentUser();
+		User user = securityService.currentUser();
 		// Если пользователь не аутентифицирован
 		if (user == null) {
 			result.put("login", ResourceMessages.getMessage("default.login"));
@@ -108,7 +108,7 @@ public class RestConfigurationController {
 		Set<String> grants = new HashSet<>();
 		Set<String> roles = new HashSet<>();
 		if (user.getRoles() != null) {
-			for (AppRole role : user.getRoles()) {
+			for (Role role : user.getRoles()) {
 				roles.add(role.getName());
 				grants.add(role.getAuthority());
 				for (Operation operation : role.getOperations()) {
