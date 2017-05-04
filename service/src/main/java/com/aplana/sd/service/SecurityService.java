@@ -18,16 +18,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.aplana.sd.model.Role.CHANGE_INITIATOR;
 import static com.aplana.sd.util.ResourceMessages.getMessage;
 
 /**
  * Сервис для работы с информацией о текущих параметрах безопасности
  *
  * @author quadrix
- * 07.03.2017 2:30
+ * @since 07.03.2017
  */
 @Service
 public class SecurityService {
@@ -49,11 +51,7 @@ public class SecurityService {
 		user.setId(Math.round(10 * Math.random()));
 		user.setLogin(login);
 		user.setName("John Smith " + user.getId());
-		Role role = new Role();
-		role.setName("ADMIN");
-		List<Operation> grants = new ArrayList<>();
-		grants.add(Operation.ALL);
-		role.setOperations(grants);
+		user.setRoles(Arrays.asList(new Role[]{CHANGE_INITIATOR}));
 		return user;
 	}
 
@@ -114,7 +112,7 @@ public class SecurityService {
 			SdClientBean sdClient = new SdClientBean(env.getProperty("sd_application_server"), login, password);
 			User user = findUser(login);
 
-			Organization findById("281486668796143");
+			//Organization findById("281486668796143");
 
 			/*user.setName(sdClient.username());
 			IPerson p = sdClient.current_user_person();

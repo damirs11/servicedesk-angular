@@ -5,8 +5,8 @@ import org.springframework.security.access.PermissionEvaluator;
 /**
  * Интерфейс предназначен для реализации специальной логики проверки прав доступа
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 04.08.2016 11:52
+ * @author quadrix
+ * @since 04.08.2016
  */
 public interface CustomPermissionEvaluator extends PermissionEvaluator {
 

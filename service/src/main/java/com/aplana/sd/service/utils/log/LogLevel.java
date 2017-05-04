@@ -3,8 +3,8 @@ package com.aplana.sd.service.utils.log;
 /**
  * Уровни критичности сообщений в журнале
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 20.10.2016 21:09
+ * @author quadrix
+ * @since 20.10.2016
  */
 public enum LogLevel {
 

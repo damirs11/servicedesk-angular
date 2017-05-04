@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
  * Если мы храним операции в БД как строки, то нельзя их переименовывать.</p>
  *
  * @author quadrix
- *         07.03.2017 2:51
+ * @since 07.03.2017
  */
 public enum Operation implements GrantedAuthority {
 

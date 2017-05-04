@@ -9,31 +9,19 @@ import java.util.List;
  * Пользователь системы
  *
  * @author quadrix
- *         07.03.2017 2:24
+ * @since 07.03.2017
  */
 public class User implements Serializable{
     /** Идентификатор пользователя*/
     private long id;
     /** Имя для входа в систему. Например, "iivanov" */
     private String login;
-    /** Имя для отображения. Например, "Иван Иванович"*/
+    /** Имя для отображения. Например, "Иван Иванович Иванов"*/
     private String name;
     /** Назначенные роли */
     private List<Role> roles;
-    /** Пол */
-    private boolean gender;
-    /** Email */
-    private String email;
-    /** Должность */
-    private String jobTitle;
-    /** Имя */
-    private String firstName;
-    /** Фамилия */
-    private String lastName;
-    /** Отчество */
-    private String middleName;
-    /** Организация */
-    private Organization organization;
+    /** Дополнительная информация о пользователе */
+    private Person person;
 
     public long getId() {
         return id;
@@ -67,60 +55,12 @@ public class User implements Serializable{
         this.roles = roles;
     }
 
-    public boolean isGender() {
-        return gender;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setGender(boolean gender) {
-        this.gender = gender;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override

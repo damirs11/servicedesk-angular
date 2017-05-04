@@ -23,7 +23,7 @@ import static com.aplana.sd.util.ResourceMessages.*;
  * данного класса не вызываются.
  *
  * @author quadrix
- * 24.10.2016 18:58
+ * @since 24.10.2016
  */
 @Service
 public class AppLoggingInterceptor extends HandlerInterceptorAdapter {

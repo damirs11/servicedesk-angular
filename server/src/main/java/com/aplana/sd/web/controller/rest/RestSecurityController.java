@@ -19,7 +19,7 @@ import java.util.Objects;
  * Сервисы для работы с безопасностью
  *
  * @author quadrix
- * 22.04.2017 01:25
+ * @since 22.04.2017
  */
 @RestController
 @RequestMapping(value = "/rest/service/security", produces = "application/json")

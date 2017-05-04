@@ -6,8 +6,8 @@ import java.util.Date;
 /**
  * Модельный класс для одной записи журнала
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 20.10.2016 21:11
+ * @author quadrix
+ * @since 20.10.2016
  */
 public class LogRecord {
 	/** Формат сообщений в журнале*/

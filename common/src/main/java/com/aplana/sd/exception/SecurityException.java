@@ -6,7 +6,7 @@ import java.text.MessageFormat;
  * Исключительная ситуация для ошибок прав доступа
  *
  * @author quadrix
- *         07.03.2017 3:14
+ * @since 07.03.2017
  */
 public class SecurityException extends AppException {
 

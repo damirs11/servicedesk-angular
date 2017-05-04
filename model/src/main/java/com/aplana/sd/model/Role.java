@@ -10,7 +10,7 @@ import static com.aplana.sd.model.Operation.*;
  * Роль приложения. Используется при определении прав доступа на выполнение бизнес-операций.
  *
  * @author quadrix
- *         07.03.2017 2:43
+ * @since 07.03.2017
  */
 public enum Role implements GrantedAuthority {
 

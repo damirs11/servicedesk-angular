@@ -1,24 +1,33 @@
 package com.aplana.sd.model;
 
+import com.aplana.sd.meta.ClassMeta;
+import com.aplana.sd.meta.FieldMeta;
+
 /**
  * Организации, к которым соотносим пользователей системы
  *
  * @author quadrix
- *         28.04.2017 2:48
+ * @since 28.04.2017
  */
-public class Organization {
+@ClassMeta(tableName = "itsm_organizations")
+public class Organization implements Code {
 	/** Идентификатор */
-	private long id;
+	@FieldMeta(columnName = "org_oid")
+	private Long id;
 	/** Название */
+	@FieldMeta(columnName = "org_name1")
 	private String name;
 	/** Email */
+	@FieldMeta(columnName = "org_email")
 	private String email;
 
-	public long getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	@Override
+	public void setId(Long id) {
 		this.id = id;
 	}
 

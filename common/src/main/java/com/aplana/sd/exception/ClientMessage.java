@@ -3,8 +3,8 @@ package com.aplana.sd.exception;
 /**
  * Класс-обертка для сообщений со стеком строк. Может использоваться для обертки исключений при передачи клиенту.
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 24.06.2016 19:08
+ * @author quadrix
+ * @since 24.06.2016
  */
 
 public class ClientMessage {

@@ -27,7 +27,7 @@ import java.util.jar.Manifest;
  * </ul>
  *
  * @author quadrix
- *         07.10.2016 14:37
+ * @since 07.10.2016
  */
 @RestController
 @RequestMapping(value = "/rest/service/config", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")

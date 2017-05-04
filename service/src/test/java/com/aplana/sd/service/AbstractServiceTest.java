@@ -14,8 +14,8 @@ import javax.sql.DataSource;
 /**
  * Базовый класс для юнит-тестов
  * 
- * @author <a href="mailto:mfayzullin@aplana.com">mfayzullin</a>
- * @since 04.09.2012 18:41:12
+ * @author quadrix
+ * @since 04.09.2012
  */
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ContextConfiguration(classes = {SpringServiceTestConfig.class})

@@ -24,7 +24,8 @@ import java.sql.SQLException;
 /**
  * Конфигурация спринга в сервисах
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a> created on 11.01.2016.
+ * @author quadrix
+ * @since 11.01.2016
  */
 @Configuration
 @ComponentScan({"com.aplana.sd.service"})

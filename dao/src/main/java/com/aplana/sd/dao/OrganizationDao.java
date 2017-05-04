@@ -1,15 +1,15 @@
 package com.aplana.sd.dao;
 
-import com.aplana.sd.model.Organization;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author quadrix
- *         28.04.2017 2:54
+ * @since 28.04.2017
  */
-public interface OrganizationDao extends CrudRepository<Organization, Long> {
+@Repository
+public class OrganizationDao extends AbstractDao {
 
-	Organization findById(Long id);
+	//Organization findById(Long id);
 	//private static final String GET_ORG = "SELECT org_oid, org_name1, org_email FROM itsm_organizations o WHERE org_oid = :id";
 	//public Organization get(long id) {
 }

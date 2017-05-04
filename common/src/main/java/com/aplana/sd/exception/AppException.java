@@ -7,9 +7,9 @@ import java.text.MessageFormat;
  * Объявлен абстрактным, чтобы не создавать его экземпляры напрямую.
  *
  * @author quadrix
- * 07.03.2016 1:57
+ * @since 07.03.2016
  */
-public abstract class AppException extends RuntimeException {
+public class AppException extends RuntimeException {
 
     public AppException() {
         super();

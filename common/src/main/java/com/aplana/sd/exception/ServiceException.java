@@ -7,7 +7,7 @@ import java.text.MessageFormat;
  * понятные пользователю сообщения на русском языке.
  *
  * @author quadrix
- * 07.03.2016 1:57
+ * @since 07.03.2016
  */
 public class ServiceException extends AppException {
 

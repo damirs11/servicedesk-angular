@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * Журнал сообщений в рамках одного запроса пользователя
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 20.10.2016 20:42
+ * @author quadrix
+ * @since 20.10.2016
  */
 @Service
 @Scope("request")

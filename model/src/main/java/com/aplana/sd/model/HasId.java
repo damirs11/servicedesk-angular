@@ -1,15 +1,15 @@
 package com.aplana.sd.model;
 
 /**
- * Интерфейс для объектов с идентификатором
+ * Интерфейс для объектов с идентификаторами
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 02.08.2016 14:09
+ * @author quadrix
+ * @since 02.08.2016
  */
 
 public interface HasId {
-
+	/** Получить значение уникального идентификатора */
 	Long getId();
-
+	/** Установить значение уникального идентификатора */
 	void setId(Long id);
 }

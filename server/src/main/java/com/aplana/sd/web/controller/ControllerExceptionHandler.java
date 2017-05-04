@@ -26,8 +26,8 @@ import javax.naming.AuthenticationException;
 /**
  * Этот бин будет ловить все ошибки, выброшенные контроллерами и формировать правильный ответ клиенту
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 24.06.2016 15:29
+ * @author quadrix
+ * @since 24.06.2016
  */
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {

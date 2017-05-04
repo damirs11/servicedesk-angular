@@ -15,7 +15,7 @@ import java.util.Set;
  * этим меняться его права.
  *
  * @author quadrix
- * 07.03.2017 3:07
+ * @since 07.03.2017
  */
 public class DynamicAuthentication implements Authentication {
     /** Аутентифицированный пользователь */

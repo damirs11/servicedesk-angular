@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 /**
  * Сервис для записи сообщений в журнал запроса
  *
- * @author <a href="mailto:Marat.Fayzullin@aplana.com">Файзуллин Марат</a>
- * @since 20.10.2016 20:41
+ * @author quadrix
+ * @since 20.10.2016
  */
 @Service
 public class LogService {

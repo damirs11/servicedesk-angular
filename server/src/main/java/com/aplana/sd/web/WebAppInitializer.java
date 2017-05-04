@@ -19,7 +19,8 @@ import java.io.File;
 /**
  * Инициализация веб-приложения, аналог файла "web.xml"
  *
- * @author quadrix created on 27.12.2015.
+ * @author quadrix
+ * @since 27.12.2015
  */
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 

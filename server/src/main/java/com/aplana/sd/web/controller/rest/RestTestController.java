@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * @author quadrix
- *         19.03.2017 1:58
+ * @since 19.03.2017
  */
 @RestController
 public class RestTestController {

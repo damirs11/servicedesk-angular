@@ -4,7 +4,7 @@ package com.aplana.sd.model;
  * Типы сущностей, с которыми работает система
  *
  * @author quadrix
- *         01.05.2017 22:17
+ * @since 01.05.2017
  */
 public enum EntityType {
 
