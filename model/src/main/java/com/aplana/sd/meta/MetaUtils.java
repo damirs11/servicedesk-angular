@@ -51,13 +51,11 @@ public class MetaUtils {
 			List<FieldMetaData> list = new ArrayList<>(pds.length);
 			for (PropertyDescriptor pd : pds) {
 				if (!STOP_PROPERTIES.contains(pd.getName())) {
-					FieldMetaData propertyMetaData = createPropertyMetaData(beanClass, pd);
-					list.add(propertyMetaData);
+					list.add(createPropertyMetaData(beanClass, pd));
 				}
 			}
-			metaCache.put(beanClass, sortAndFix(list));
+			metaCache.put(beanClass, list);
 		}
-
 		return cloneMetaDataList(beanClass);
 	}
 
@@ -73,7 +71,7 @@ public class MetaUtils {
 				metaData.add((FieldMetaData) propertyMetaData.clone());
 			}
 		}else {
-			throw new AppException("Metadata for class " + beanClass.getName() + " not found");
+			throw new AppException("Metadata for class {0} not found", beanClass.getName());
 		}
 		return metaData;
 	}
@@ -93,50 +91,31 @@ public class MetaUtils {
 	}
 
 	/**
-	 * Сортирует список и делает его немодифицируемым.
-	 *
-	 * @param list исходный список
-	 * @return сортированный немодифицируемый список
-	 */
-	private static List<FieldMetaData> sortAndFix(List<FieldMetaData> list) {
-		Collections.sort(list);
-		return Collections.unmodifiableList(list);
-	}
-
-	/**
 	 * Получает метаданные свойства по его дескриптору
 	 *
 	 * @param beanClass          класс бина, у которого мы берем свойство и получаем метаданные
 	 * @param propertyDescriptor дескриптор свойства
 	 * @return метаданные свойства
 	 */
-	private static FieldMetaData createPropertyMetaData(
-			Class<?> beanClass, PropertyDescriptor propertyDescriptor
-	) {
-		FieldMetaData pmd = new FieldMetaData();
-
-		pmd.setName(propertyDescriptor.getName());
-		pmd.setType(propertyDescriptor.getPropertyType());
-
+	private static FieldMetaData createPropertyMetaData(Class<?> beanClass, PropertyDescriptor propertyDescriptor) {
+		FieldMetaData md = new FieldMetaData();
+		md.setAnnotation(false);
+		md.setName(propertyDescriptor.getName());
+		md.setType(propertyDescriptor.getPropertyType());
 		FieldMeta meta = AnnotationUtil.find(beanClass, propertyDescriptor, FieldMeta.class);
 		if (meta != null) {
-			pmd.setTitle(meta.title());
-			pmd.setWidth(meta.width());
-			pmd.setOrder(meta.order());
-			pmd.setVisible(meta.visible());
-			pmd.setFormat(meta.format());
-			pmd.setPattern(meta.pattern());
-			pmd.setPrecision(meta.precision());
-			pmd.setMaxLength(meta.maxLength());
-			pmd.setMinLength(meta.minLength());
-			pmd.setMax(meta.max());
-			pmd.setMin(meta.min());
-			pmd.setRequired(meta.required());
-			pmd.setReadOnly(meta.readOnly());
-			pmd.setUnique(meta.unique());
+			md.setAnnotation(true);
+			md.setColumnName(meta.columnName());
+			md.setMaxLength(meta.maxLength());
+			md.setMinLength(meta.minLength());
+			md.setMax(meta.max());
+			md.setMin(meta.min());
+			md.setRequired(meta.required());
+			md.setReadOnly(meta.readOnly());
+			md.setUnique(meta.unique());
+			md.setPattern(meta.pattern());
 		}
-
-		return pmd;
+		return md;
 	}
 
 }

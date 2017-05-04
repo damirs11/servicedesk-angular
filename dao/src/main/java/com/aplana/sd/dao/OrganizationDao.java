@@ -1,6 +1,11 @@
 package com.aplana.sd.dao;
 
+import com.aplana.sd.dao.mapper.OrgnizationMapper;
+import com.aplana.sd.model.Organization;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author quadrix
@@ -9,9 +14,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OrganizationDao extends AbstractDao {
 
-	//Organization findById(Long id);
-	//private static final String GET_ORG = "SELECT org_oid, org_name1, org_email FROM itsm_organizations o WHERE org_oid = :id";
-	//public Organization get(long id) {
+	public List<Organization> findAll() {
+		return namedJdbc.query("SELECT org_oid, org_name1, org_email FROM itsm_organizations", (RowMapper) new OrgnizationMapper());
+	}
+
 }
 
 

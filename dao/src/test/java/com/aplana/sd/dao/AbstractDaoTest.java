@@ -4,7 +4,6 @@ import com.aplana.sd.spring.SpringDaoTestConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
@@ -30,22 +29,12 @@ public abstract class AbstractDaoTest extends AbstractTransactionalTestNGSpringC
     private DataSource dataSource;
     /** Для запросов с именованными параметрами */
     protected NamedParameterJdbcTemplate namedJdbc;
-    /** Для запросов с анонимными параметрами */
+    /** Для запросов с безымянными параметрами */
     protected JdbcTemplate jdbc;
-	@Autowired
-	private CacheManager cacheManager;
 
     @PostConstruct
     private void init() {
         namedJdbc = new NamedParameterJdbcTemplate(dataSource);
         jdbc = (JdbcTemplate) namedJdbc.getJdbcOperations();
     }
-
-	/**
-	 * Отображение всех ключей кэша
-	 */
-//	protected void showCacheKeys() {
-//		Ehcache cache = ((EhCacheCache) cacheManager.getCache("entity")).getNativeCache();
-//		LOG.info("Cache content:\n" + cache.getKeys());
-//	}
 }

@@ -54,11 +54,9 @@ public class SpringDaoTestConfig {
 		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 		return builder
 				.setType(EmbeddedDatabaseType.HSQL) //.H2 or .DERBY
-				/*.addScript("file:../database/test/hsql_init.sql")
-				.addScript("file:../database/db_create.sql")
-				.addScript("file:../database/test/usim_forecast_cons_vendor.sql")
-				.addScript("file:../database/test/usim_calendar_ext.sql")
-				.addScript("file:../database/db_create_constraints.sql")*/
+				.addScript("file:src/test/resources/sql/hsql_init.sql")
+				.addScript("file:src/test/resources/sql/ddl.sql")
+				.addScript("file:src/test/resources/sql/ddl_constraints.sql")
 				.build();
 	}
 

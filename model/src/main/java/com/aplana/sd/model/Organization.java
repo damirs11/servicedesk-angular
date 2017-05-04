@@ -2,6 +2,7 @@ package com.aplana.sd.model;
 
 import com.aplana.sd.meta.ClassMeta;
 import com.aplana.sd.meta.FieldMeta;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Организации, к которым соотносим пользователей системы
@@ -45,5 +46,14 @@ public class Organization implements Code {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("id", this.id)
+				.append("name", this.name)
+				.append("email", this.email)
+				.toString();
 	}
 }

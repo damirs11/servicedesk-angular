@@ -2,6 +2,7 @@ package com.aplana.sd.model;
 
 import com.aplana.sd.meta.ClassMeta;
 import com.aplana.sd.meta.FieldMeta;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 
@@ -102,5 +103,19 @@ public class Person implements HasId, Serializable {
 
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("id", this.id)
+				.append("sex", this.sex)
+				.append("email", this.email)
+				.append("job", this.job)
+				.append("firstName", this.firstName)
+				.append("lastName", this.lastName)
+				.append("middleName", this.middleName)
+				.append("organization", this.organization)
+				.toString();
 	}
 }
