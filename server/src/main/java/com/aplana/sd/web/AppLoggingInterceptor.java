@@ -48,7 +48,7 @@ public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 	 * Устанавливает значения переменных для вывода в лог
 	 */
 	private void setLogParams(HttpServletRequest request) {
-		User user = securityService.currentUser();
+		User user = securityService.getCurrentUser();
 		MDC.put(MDC_USER, user == null ? ResourceMessages.getMessage("default.login") : user.toString());
 		// Адресная строка. Пример: GET:/ds/rest/entity/Tariff&fulltext=&paging=1;100&sort=name-asc
 		MDC.put(MDC_QUERY, request.getMethod() + ':' + request.getRequestURI() + (request.getQueryString() == null ? "" : '?' + request.getQueryString()));

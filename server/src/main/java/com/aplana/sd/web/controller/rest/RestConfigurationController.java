@@ -73,11 +73,14 @@ public class RestConfigurationController {
 	 */
 	private Map<Object, Object> getManifestInfo(ServletContext servletContext) {
 		Manifest mf = new Manifest();
-		try (InputStream mfStream = servletContext.getResourceAsStream("/META-INF/MANIFEST.MF")) {
-			if (mfStream == null) {
-				LOG.error(ResourceMessages.getMessage("error.read.manifest.file"));
-			} else {
-				mf.read(mfStream);
+		//mfStreamDev - для локального запуска приложения командой "appStart"
+		try (InputStream mfStream = servletContext.getResourceAsStream("/META-INF/MANIFEST.MF");
+		     InputStream mfStreamDev = servletContext.getResourceAsStream("/tmp/war/MANIFEST.MF")) {
+			if (mfStream == null ) {
+				LOG.warn(ResourceMessages.getMessage("error.read.manifest.file"));
+			}
+			if (mfStream != null || mfStreamDev != null){
+				mf.read(mfStream != null ? mfStream : mfStreamDev);
 				return mf.getMainAttributes();
 			}
 		} catch (IOException e) {
@@ -92,7 +95,7 @@ public class RestConfigurationController {
 	private Map<String, Object> getUserCompleteInfo() {
 		Map<String, Object> result = new HashMap<>();
 		// Информация о пользователе
-		User user = securityService.currentUser();
+		User user = securityService.getCurrentUser();
 		// Если пользователь не аутентифицирован
 		if (user == null) {
 			result.put("login", ResourceMessages.getMessage("default.login"));

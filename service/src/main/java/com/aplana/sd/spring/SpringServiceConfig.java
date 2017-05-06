@@ -51,18 +51,19 @@ public class SpringServiceConfig extends GlobalMethodSecurityConfiguration {
 	 */
 	@Bean(destroyMethod = "close")
 	public DataSource dataSource() throws SQLException {
-		LOG.debug("Connecting to database: " + env.getProperty("sd_db_url"));
+		LOG.info("Connecting to database: " + env.getProperty("sd_db_url"));
 		BoneCPDataSource ds = new BoneCPDataSource();
  		ds.setDriverClass("com.microsoft.sqlserver.jdbc.SQLServerDriver");
  		ds.setJdbcUrl(env.getProperty("sd_db_url"));
  		ds.setUser(env.getProperty("sd_db_user"));
  		ds.setPassword(env.getProperty("sd_db_password"));
+ 		ds.setDisableConnectionTracking(true); // отлючает сообщения "BoneCP detected an unclosed connection..."
 		return ds;
 	}
 
 	@Bean
 	public PlatformTransactionManager transactionManager() throws Exception {
-		LOG.debug("Transaction manager initialization");
+		LOG.info("Transaction manager initialization");
 		return new DataSourceTransactionManager(dataSource);
 	}
 

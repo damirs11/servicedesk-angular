@@ -2,6 +2,7 @@ package com.aplana.sd.model;
 
 import com.aplana.sd.meta.ClassMeta;
 import com.aplana.sd.meta.FieldMeta;
+import com.aplana.sd.util.AppToStringStyle;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -50,7 +51,7 @@ public class Organization implements Code {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this)
+		return new ToStringBuilder(this, AppToStringStyle.getInstance())
 				.append("id", this.id)
 				.append("name", this.name)
 				.append("email", this.email)

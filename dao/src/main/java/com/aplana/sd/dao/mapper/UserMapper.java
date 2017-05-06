@@ -1,6 +1,7 @@
 package com.aplana.sd.dao.mapper;
 
 import com.aplana.sd.model.Organization;
+import com.aplana.sd.model.User;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,5 +11,5 @@ import org.springframework.stereotype.Component;
  * @since 03.05.2017
  */
 @Component
-public class OrgnizationMapper extends EntityRowMapper<Organization> {
+public class UserMapper extends EntityRowMapper<User> {
 }

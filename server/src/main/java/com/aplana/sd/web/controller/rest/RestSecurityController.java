@@ -41,13 +41,13 @@ public class RestSecurityController {
 	public void login(@RequestBody String json, HttpServletRequest request) throws IOException {
 		Map<String, String> params = objectMapper.readValue(json, Map.class);
 		securityService.loginUser(params.get(LOGIN_PARAM), params.get(PASSWORD_PARAM));
-		recreateSession(request);
 	}
 
 	/**
 	 * Уничтожение текущей сессии пользователя, если она существовала
 	 * @param request
 	 */
+	@Deprecated
 	private void recreateSession(HttpServletRequest request) {
 		// уничтожаем старую сессию
 		HttpSession session = request.getSession();

@@ -99,6 +99,7 @@ gretty {
     scanInterval = 0 //defines scan interval, in seconds. When set to zero, hot deployment is fully disabled.
     logDir = "$buildDir/logs"
     extraResourceBase(staticWebContentPath)
+
 }
 
 test {

@@ -1,8 +1,11 @@
 package com.aplana.sd.model;
 
+import com.aplana.sd.meta.ClassMeta;
+import com.aplana.sd.meta.FieldMeta;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,15 +14,19 @@ import java.util.List;
  * @author quadrix
  * @since 07.03.2017
  */
+@ClassMeta(tableName = "rep_accounts")
 public class User implements Serializable{
     /** Идентификатор пользователя*/
+    @FieldMeta(columnName = "acc_oid")
     private long id;
     /** Имя для входа в систему. Например, "iivanov" */
+    @FieldMeta(columnName = "acc_loginname")
     private String login;
     /** Имя для отображения. Например, "Иван Иванович Иванов"*/
+    @FieldMeta(columnName = "acc_showname")
     private String name;
     /** Назначенные роли */
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
     /** Дополнительная информация о пользователе */
     private Person person;
 

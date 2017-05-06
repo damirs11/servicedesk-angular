@@ -82,4 +82,8 @@ public class DynamicAuthentication implements Authentication {
     public String getName() {
         return user.getName();
     }
+
+    public User getUser() {
+        return user;
+    }
 }

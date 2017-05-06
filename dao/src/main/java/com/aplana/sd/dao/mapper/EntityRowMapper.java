@@ -28,9 +28,9 @@ import java.util.List;
  * @author quadrix
  * @since 03.05.2017
  */
-public class EntityMapper<T> implements ResultSetExtractor<List<T>>, RowMapper<T> {
+public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMapper<T> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(EntityMapper.class);
+	private static final Logger LOG = LoggerFactory.getLogger(EntityRowMapper.class);
 	@Override
 	public List<T> extractData(ResultSet rs) throws SQLException, DataAccessException {
 		// Здесь можно создать кэши для оптимизации производительности. Например, когда
@@ -42,24 +42,6 @@ public class EntityMapper<T> implements ResultSetExtractor<List<T>>, RowMapper<T
 			list.add(mapRow(rs, i++));
 		}
 		return list;
-	}
-
-	/**
-	 * Дополнительный метод для работы с целыми числами, включая проверку на NULL.
-	 * Отличие от обычного метода {@code java.sql.ResultSet#getLong(java.lang.String)}
-	 * заключается в том, что при отсутствии значения возращается не 0, а NULL.
-	 *
-	 * @param rs
-	 * @param columnName
-	 * @return
-	 * @throws SQLException
-	 */
-	protected Long getLong(ResultSet rs, String columnName) throws SQLException {
-		Long value = rs.getLong(columnName);
-		if (rs.wasNull()) {
-			return null;
-		}
-		return value;
 	}
 
 	@Override
