@@ -1,6 +1,6 @@
 package com.aplana.sd.web.controller.rest;
 
-import com.aplana.sd.service.SecurityService;
+import com.aplana.sd.service.UserService;
 import com.aplana.sd.util.ResourceMessages;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,12 +35,13 @@ public class RestSecurityController {
 			.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
 	@Autowired
-	private SecurityService securityService;
+	private UserService userService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public void login(@RequestBody String json, HttpServletRequest request) throws IOException {
 		Map<String, String> params = objectMapper.readValue(json, Map.class);
-		securityService.loginUser(params.get(LOGIN_PARAM), params.get(PASSWORD_PARAM));
+		userService.loginUser(params.get(LOGIN_PARAM), params.get(PASSWORD_PARAM));
+		/*recreateSession(request);*/
 	}
 
 	/**

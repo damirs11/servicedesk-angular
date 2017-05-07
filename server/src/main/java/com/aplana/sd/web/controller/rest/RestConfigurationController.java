@@ -3,7 +3,7 @@ package com.aplana.sd.web.controller.rest;
 import com.aplana.sd.model.Role;
 import com.aplana.sd.model.User;
 import com.aplana.sd.model.Operation;
-import com.aplana.sd.service.SecurityService;
+import com.aplana.sd.service.UserService;
 import com.aplana.sd.util.ResourceMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class RestConfigurationController {
 	private static final Logger LOG = LoggerFactory.getLogger(RestConfigurationController.class);
 
 	@Autowired
-	private SecurityService securityService;
+	private UserService userService;
 
 	@RequestMapping("/getInfo")
 	public Map<String, Object> getInfo(HttpServletRequest request) {
@@ -81,6 +81,7 @@ public class RestConfigurationController {
 			}
 			if (mfStream != null || mfStreamDev != null){
 				mf.read(mfStream != null ? mfStream : mfStreamDev);
+				LOG.debug("### " + mf.getMainAttributes());
 				return mf.getMainAttributes();
 			}
 		} catch (IOException e) {
@@ -95,7 +96,7 @@ public class RestConfigurationController {
 	private Map<String, Object> getUserCompleteInfo() {
 		Map<String, Object> result = new HashMap<>();
 		// Информация о пользователе
-		User user = securityService.getCurrentUser();
+		User user = userService.getCurrentUser();
 		// Если пользователь не аутентифицирован
 		if (user == null) {
 			result.put("login", ResourceMessages.getMessage("default.login"));
@@ -106,7 +107,11 @@ public class RestConfigurationController {
 		}
 		// Если пользователь аутентифицирован
 		result.put("login", user.getLogin());
-		result.put("name", user.getName());
+		LOG.debug(user.getPerson() == null ? "person null" :
+				user.getPerson().getFirstName() + '-' +
+				user.getPerson().getLastName() + '-' +
+				user.getPerson().getMiddleName());
+		result.put("name", user.getPerson() == null ? user.getName() : user.getPerson().getFIO());
 		// Информация о ролях пользователя и правах доступа
 		Set<String> grants = new HashSet<>();
 		Set<String> roles = new HashSet<>();

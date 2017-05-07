@@ -1,6 +1,6 @@
 package com.aplana.sd.security;
 
-import com.aplana.sd.service.SecurityService;
+import com.aplana.sd.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,12 @@ public class AppAuthenticationManager implements AuthenticationManager {
 	private static final Logger LOG = LoggerFactory.getLogger(AppAuthenticationManager.class);
 
 	@Autowired
-	private SecurityService securityService;
+	private UserService userService;
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String login = Objects.toString(authentication.getPrincipal());
 		String password = Objects.toString(authentication.getCredentials());
-		return securityService.authenticate(login, password);
+		return userService.authenticate(login, password);
 	}
 }

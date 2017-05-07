@@ -24,9 +24,9 @@ import static com.aplana.sd.util.ResourceMessages.getMessage;
  * @since 07.03.2017
  */
 @Service
-public class SecurityService {
+public class UserService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SecurityService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired
 	private Environment env;

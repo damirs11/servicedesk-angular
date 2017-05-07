@@ -106,6 +106,12 @@ public class Person implements HasId, Serializable {
 		this.organization = organization;
 	}
 
+	public String getFIO() {
+		return lastName +
+				(firstName != null && firstName.length() > 1 ? firstName.charAt(0) + '.' : "") +
+				(middleName != null && middleName.length() > 1 ? middleName.charAt(0) + '.' : "");
+	}
+
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this, AppToStringStyle.getInstance())

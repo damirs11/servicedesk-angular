@@ -17,8 +17,17 @@
             '$rootScope', '$scope', '$translate', '$log', 'USER_DATA',
             function ($rootScope, $scope, $translate, $log, USER_DATA) {
                 $scope.user = USER_DATA;
+                $scope.isAutorized = false;
+                $scope.$watch('user.name',
+                    function() {
+                        $scope.isAutorized = !(USER_DATA.name === $translate.instant('default.login'));
+                    }
+                );
+                $scope.logout = function() {
+                    $log.log('logout');
+                }
                 /*$scope.hasRole = function (role) {
-                    return $.inArray(role, USER_DATA.authorities) !== -1;
-                }*/
+                 return $.inArray(role, USER_DATA.authorities) !== -1;
+                 }*/
             }]);
 }());
