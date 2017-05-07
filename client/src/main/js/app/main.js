@@ -10,6 +10,7 @@
             'appHeader',
             'appLogin'
         ])
+        // todo добавить сервис для обновления getInfo
         .config(['$stateProvider', '$urlRouterProvider', '$translateProvider',
             function($stateProvider, $urlRouterProvider, $translateProvider) {
                 // Указание страницы по умолчанию

@@ -38,10 +38,20 @@ public class RestSecurityController {
 	private UserService userService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public void login(@RequestBody String json, HttpServletRequest request) throws IOException {
+	public void login(@RequestBody String json) throws IOException {
 		Map<String, String> params = objectMapper.readValue(json, Map.class);
 		userService.loginUser(params.get(LOGIN_PARAM), params.get(PASSWORD_PARAM));
-		/*recreateSession(request);*/
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public void logout(HttpServletRequest request) throws IOException {
+		userService.logoutUser();
+		// уничтожаем старую сессию
+		HttpSession session = request.getSession();
+		if (Objects.nonNull(session)) {
+			LOG.debug(ResourceMessages.getMessage("http.session.invalidate", session.getId()));
+			session.invalidate();
+		}
 	}
 
 	/**

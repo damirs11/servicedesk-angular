@@ -107,10 +107,6 @@ public class RestConfigurationController {
 		}
 		// Если пользователь аутентифицирован
 		result.put("login", user.getLogin());
-		LOG.debug(user.getPerson() == null ? "person null" :
-				user.getPerson().getFirstName() + '-' +
-				user.getPerson().getLastName() + '-' +
-				user.getPerson().getMiddleName());
 		result.put("name", user.getPerson() == null ? user.getName() : user.getPerson().getFIO());
 		// Информация о ролях пользователя и правах доступа
 		Set<String> grants = new HashSet<>();

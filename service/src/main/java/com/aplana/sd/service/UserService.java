@@ -79,6 +79,14 @@ public class UserService {
 	}
 
 	/**
+	 * Выход пользователя из системы
+	 */
+	public void logoutUser() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		context.setAuthentication(null);
+	}
+
+	/**
 	 * Проверяет корректность пары логин-пароль, и если все ок, то возвращает объект-аутентификацию
 	 *
 	 * @param login
