@@ -4,6 +4,8 @@ import com.aplana.sd.meta.ClassMeta;
 import com.aplana.sd.meta.FieldMeta;
 import com.aplana.sd.util.AppToStringStyle;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 
@@ -15,6 +17,8 @@ import java.io.Serializable;
  */
 @ClassMeta(tableName = "itsm_persons")
 public class Person implements HasId, Serializable {
+	private static final Logger LOG = LoggerFactory.getLogger(Person.class);
+
 	/** Уникальный идентификатор */
 	@FieldMeta(columnName = "per_oid")
 	private Long id;
@@ -107,9 +111,9 @@ public class Person implements HasId, Serializable {
 	}
 
 	public String getFIO() {
-		return lastName +
-				(firstName != null && firstName.length() > 1 ? firstName.charAt(0) + '.' : "") +
-				(middleName != null && middleName.length() > 1 ? middleName.charAt(0) + '.' : "");
+		return (lastName != null ? lastName : "-") +
+				(firstName != null && firstName.length() > 1 ? " " + firstName.charAt(0) + '.' : "") +
+				(middleName != null && middleName.length() > 1 ? " " + middleName.charAt(0) + '.' : "");
 	}
 
 	@Override

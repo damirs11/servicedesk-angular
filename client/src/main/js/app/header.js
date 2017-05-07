@@ -14,26 +14,11 @@
             }
         })
         .controller('appHeaderController', [
-            '$rootScope', '$scope', '$translate', '$log', 'USER_DATA', '$http', '$state',
-            function ($rootScope, $scope, $translate, $log, USER_DATA, $http, $state) {
+            '$scope', 'USER_DATA', 'appSessionService',
+            function ($scope, USER_DATA, appSessionService) {
                 $scope.user = USER_DATA;
-                $scope.isAutorized = false;
-                $scope.$watch('user.name',
-                    function() {
-                        $scope.isAutorized = !(USER_DATA.name === $translate.instant('default.login'));
-                    }
-                );
                 $scope.logout = function() {
-                    $http.get('rest/service/security/logout').then(
-                        function (response) {
-                            $http.get('rest/service/config/getInfo').then(
-                                function (response) {
-                                    angular.copy(response.data.user, USER_DATA);
-                                    $state.go("login")
-                                }
-                            )
-                        }
-                    );
+                    appSessionService.logout();
                 }
                 /*$scope.hasRole = function (role) {
                  return $.inArray(role, USER_DATA.authorities) !== -1;

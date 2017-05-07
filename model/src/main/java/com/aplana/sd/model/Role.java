@@ -2,6 +2,7 @@ package com.aplana.sd.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +29,7 @@ public enum Role implements GrantedAuthority {
 	/** Идентифиикатор роли */
 	private Long id;
 	/** Список назначенных роли бизнес-операций */
-	private List<Operation> operations;
+	private List<Operation> operations = new ArrayList<>();
 
 	Role(String name, Long id) {
 		this.name = name;
