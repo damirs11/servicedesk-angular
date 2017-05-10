@@ -8,7 +8,6 @@
         .module('ui.dialogs', [
             'pascalprecht.translate',
             'ui.bootstrap.modal'
-            //'ngMessages'
         ])
         /**
          * Варианты ответов диалоговых окон. Например, для окна с вопросом "Да\Нет"
@@ -90,7 +89,7 @@
                      * @param opts объект, параметры диалогового окна
                      */
                     confirm: function (header, msg, opts) {
-                        var opts = angular.extend({}, opts);
+                        var params = angular.extend({}, opts);
                         return $uibModal.open({
                             templateUrl: relativePath + 'confirm.html',
                             controller: 'confirmDialogCtrl',
@@ -100,9 +99,9 @@
                                     return {
                                         header:     _getParamValue(header, 'DIALOGS_CONFIRMATION'),
                                         msg:        _getParamValue(msg, 'DIALOGS_CONFIRMATION_MSG'),
-                                        labelYes:   _getParamValue(opts.labelYes, 'DIALOGS_YES'),
-                                        labelNo:    _getParamValue(opts.labelNo, 'DIALOGS_NO'),
-                                        labelClose: _getParamValue(opts.labelClose, 'DIALOGS_CLOSE')
+                                        labelYes:   _getParamValue(params.labelYes, 'DIALOGS_YES'),
+                                        labelNo:    _getParamValue(params.labelNo, 'DIALOGS_NO'),
+                                        labelClose: _getParamValue(params.labelClose, 'DIALOGS_CLOSE')
                                     };
                                 }
                             }
@@ -118,7 +117,7 @@
                      * @param opts объект, параметры диалогового окна
                      */
                     inputMessage: function (header, msg, opts) {
-                        var opts = angular.extend({}, opts);
+                        var params = angular.extend({}, opts);
                         return $uibModal.open({
                             templateUrl: relativePath + 'input-message.html',
                             controller: 'inputMessageDialogCtrl',
@@ -128,14 +127,39 @@
                                     return {
                                         header:     _getParamValue(header, 'DIALOGS_INPUT_TEXT'),
                                         msg:        _getParamValue(msg, 'DIALOGS_INPUT_TEXT_MSG'),
-                                        labelOk:    _getParamValue(opts.labelOk, 'DIALOGS_OK'),
-                                        labelClose: _getParamValue(opts.labelClose, 'DIALOGS_CLOSE')
+                                        labelOk:    _getParamValue(params.labelOk, 'DIALOGS_OK'),
+                                        labelClose: _getParamValue(params.labelClose, 'DIALOGS_CLOSE')
                                     };
                                 }
                             }
                         })
-                    }
+                    },
+                    /* Произвольное диалоговое окно
+                     *
+                     * @param url адрес шаблона
+                     * @param ctrlr название контроллера
+                     * @param data дополнительные данные
+                     * @param opts параметры модального окна
+                     * @param ctrlAs псевдоним контроллера
+                     */
+                    create : function(url, ctrlr, data, opts, ctrlAs){
+                        opts = _setOpts(opts);
 
+                        return $uibModal.open({
+                            templateUrl : url,
+                            controller : ctrlr,
+                            controllerAs : ctrlAs,
+                            keyboard : opts.kb,
+                            backdrop : opts.bd,
+                            backdropClass: opts.bdc,
+                            windowClass: opts.wc,
+                            size: opts.ws,
+                            animation: opts.anim,
+                            resolve : {
+                                data : angular.copy(data)
+                            }
+                        });
+                    }
                 }
             }])
         /**
