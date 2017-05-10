@@ -6,18 +6,22 @@
         <div class="panel-body">
             <form novalidate name="loginForm">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="{{'login.enter.username' | translate}}"
-                           data-ng-model="login" required name="login" data-ng-keyup="hitEnter($event)">
-                    <data-ng-messages data-ng-show="showError" class="text-danger" for="loginForm.login.$error"
-                                      role="alert">
+                    <label for="login">{{'login.user' | translate}}</label>
+                    <input type="text" class="form-control" name="login"
+                           placeholder="{{'login.enter.username' | translate}}"
+                           data-ng-model="login" required data-ng-keyup="hitEnter($event)" autofocus="autofocus">
+                    <data-ng-messages class="text-danger" for="loginForm.login.$error" role="alert"
+                                      data-ng-show="loginForm.$submitted || loginForm.login.$touched">
                         <data-ng-messages-include src="js/app/utils/messages.html"/>
                     </data-ng-messages>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="{{'login.enter.password' | translate}}"
-                           data-ng-model="password" required name="password" data-ng-keyup="hitEnter($event)">
-                    <data-ng-messages data-ng-show="showError" class="text-danger" for="loginForm.password.$error"
-                                      role="alert">
+                    <label for="password">{{'login.password' | translate}}</label>
+                    <input type="password" class="form-control" name="password"
+                           placeholder="{{'login.enter.password' | translate}}"
+                           data-ng-model="password" required data-ng-keyup="hitEnter($event)">
+                    <data-ng-messages class="text-danger" for="loginForm.password.$error" role="alert"
+                                      data-ng-show="loginForm.$submitted || loginForm.password.$touched">
                         <data-ng-messages-include src="js/app/utils/messages.html"/>
                     </data-ng-messages>
                 </div>
@@ -30,6 +34,7 @@
         <div class="panel-footer">
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-default pull-right"
+                        data-ng-disabled="loginForm.$invalid"
                         data-ng-click="loginClick()">
                     <span class="glyphicon glyphicon-log-in"></span>
                     {{'login.button.login' | translate}}

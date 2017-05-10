@@ -10,26 +10,24 @@
             'ui.router'
         ])
         .config(function ($stateProvider) {
-            $stateProvider
-                .state('login', {
-                    url: '/login',
-                    templateUrl: 'js/app/login/login.html',
-                    controller: 'appLoginController'
-                })
-        })
+        $stateProvider
+            .state('login', {
+                url: '/login',
+                templateUrl: 'js/app/login/login.html',
+                controller: 'appLoginController'
+            })
+    })
         .controller('appLoginController', [
             '$rootScope', '$scope', '$translate', '$log', 'USER_DATA', '$http', '$state',
             function ($rootScope, $scope, $translate, $log, USER_DATA, $http, $state) {
                 $scope.loginFailed = false; // флаг неудачной аутентификации
-                $scope.showError = false; // отображать или нет ошибки ввода значений
                 /**
                  * Аутентификация пользователя
                  */
                 $scope.loginClick = function() {
                     $scope.loginFailed = false;
-                    $scope.showError = (this.loginForm.$dirty && this.loginForm.$invalid) || this.loginForm.$pristine;
-                    if ($scope.showError) {
-                        return; // отображаем сообщения об ошибках и не отправляем запрос на сервер
+                    if ((this.loginForm.$dirty && this.loginForm.$invalid) || this.loginForm.$pristine) {
+                        return;
                     }
                     var params = {login: $scope.login, password: $scope.password};
                     $http.post('rest/service/security/login', params)

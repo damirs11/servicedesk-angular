@@ -54,6 +54,13 @@ public class RestSecurityController {
 		}
 	}
 
+	@RequestMapping(value = "/passwordChange", method = RequestMethod.POST)
+	public void passwordChange(@RequestBody String json) throws IOException {
+		Map<String, String> params = objectMapper.readValue(json, Map.class);
+		LOG.debug("passwordChange");
+		//userService.loginUser(params.get(LOGIN_PARAM), params.get(PASSWORD_PARAM));
+	}
+
 	/**
 	 * Уничтожение текущей сессии пользователя, если она существовала
 	 * @param request

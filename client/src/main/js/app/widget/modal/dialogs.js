@@ -30,7 +30,8 @@
                  * @returns {string} значение парамеетра
                  */
                 function _getParamValue(param, defaultValue) {
-                    return angular.isDefined(param) ? angular.copy(param) : $translate.instant(defaultValue)
+                    return angular.isDefined(param) ? angular.copy(param) :
+                        angular.isString(defaultValue) ? $translate.instant(defaultValue) : defaultValue;
                 }
 
                 return {
@@ -143,18 +144,19 @@
                      * @param ctrlAs псевдоним контроллера
                      */
                     create : function(url, ctrlr, data, opts, ctrlAs){
-                        opts = _setOpts(opts);
+                        //opts = _setOpts(opts);
+                        var params = angular.isDefined(opts) ? opts : {};
 
                         return $uibModal.open({
                             templateUrl : url,
                             controller : ctrlr,
                             controllerAs : ctrlAs,
-                            keyboard : opts.kb,
-                            backdrop : opts.bd,
-                            backdropClass: opts.bdc,
-                            windowClass: opts.wc,
-                            size: opts.ws,
-                            animation: opts.anim,
+                            keyboard : params.kb,
+                            backdrop : _getParamValue(params.bd, 'static'),
+                            backdropClass: params.bdc,
+                            windowClass: params.wc,
+                            size: params.ws,
+                            animation: params.anim,
                             resolve : {
                                 data : angular.copy(data)
                             }
