@@ -14,6 +14,7 @@
         .controller('appPasswordChangeController', [
             '$scope', '$http', 'modalResult', 'uiDialogs', '$uibModalInstance',
             function ($scope, $http, modalResult, uiDialogs, $uibModalInstance) {
+                $scope.loginFailed = false;
                 $scope.minLength = 6; // минимальная длина пароля
                 $scope.maxLength = 50; // максимальная длина пароля
                 $scope.oldPassword = null; // прежний пароль
@@ -26,10 +27,10 @@
                     if (this.passwordChangeForm.$invalid) {
                         return;
                     }
+                    $scope.loginFailed = false;
                     var params = {
                         oldPassword: $scope.oldPassword,
-                        newPassword: $scope.newPassword,
-                        confirmPassword: $scope.confirmPassword};
+                        newPassword: $scope.newPassword};
                     $http.post('rest/service/security/passwordChange', params)
                         .then(
                             function() {
@@ -37,7 +38,7 @@
                                 $scope.$destroy();
                             },
                             function(response) {
-                                uiDialogs.error(null, response.data);
+                                $scope.loginFailed = true;
                             }
                         );
                 };

@@ -29,6 +29,8 @@ public class RestSecurityController {
 
 	private static final String LOGIN_PARAM = "login";
 	private static final String PASSWORD_PARAM = "password";
+	private static final String OLD_PASSWORD_PARAM = "oldPassword";
+	private static final String NEW_PASSWORD_PARAM = "newPassword";
 
 	// Настройка маппинг json в объектные типы
 	private static final ObjectMapper objectMapper = new ObjectMapper()
@@ -57,8 +59,7 @@ public class RestSecurityController {
 	@RequestMapping(value = "/passwordChange", method = RequestMethod.POST)
 	public void passwordChange(@RequestBody String json) throws IOException {
 		Map<String, String> params = objectMapper.readValue(json, Map.class);
-		LOG.debug("passwordChange");
-		//userService.loginUser(params.get(LOGIN_PARAM), params.get(PASSWORD_PARAM));
+		userService.changePassword(params.get(OLD_PASSWORD_PARAM), params.get(NEW_PASSWORD_PARAM));
 	}
 
 	/**

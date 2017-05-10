@@ -1,7 +1,9 @@
 package com.aplana.sd.service;
 
 import com.aplana.sd.dao.UserDao;
+import com.aplana.sd.exception.ServiceException;
 import com.aplana.sd.model.User;
+import com.aplana.sd.util.ResourceMessages;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +89,26 @@ public class UserService {
 	}
 
 	/**
+	 * Меняет старый пароль на новый
+	 *
+	 * @param oldPassword текущий пароль
+	 * @param newPassword новый пароль
+	 */
+	public void changePassword(String oldPassword, String newPassword) {
+		DynamicAuthentication auth = getDynamicAuthentication();
+		String login = auth.getUser().getLogin();
+		SdClientBean sdClient;
+		try {
+			// Проверяем текущий пароль
+			sdClient = new SdClientBean(env.getProperty("sd_application_server"), login, oldPassword);
+		} catch (Exception e) {
+			throw new ServiceException(ResourceMessages.getMessage("password.change.invalid.old.password"), e);
+		}
+		// Если все ок, то меняем пароль на новый. Результат выводим в логи.
+		LOG.debug(sdClient.change_passwd(null, newPassword, newPassword));
+	}
+
+	/**
 	 * Проверяет корректность пары логин-пароль, и если все ок, то возвращает объект-аутентификацию
 	 *
 	 * @param login
@@ -99,10 +121,10 @@ public class UserService {
 				throw new BadCredentialsException(getMessage("authentication.incorrect"));
 			}
 			// Подключение через API к серверу SD под указанной учетной записью - проверка пароля
-			new SdClientBean(env.getProperty("sd_application_server"), login, password);
+			SdClientBean sdClient = new SdClientBean(env.getProperty("sd_application_server"), login, password);
 			User user = findUserByLogin(login);
 			LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
-			return new DynamicAuthentication(user, true);
+			return new DynamicAuthentication(user, true, sdClient);
 		} catch (Exception e) {
 			// сообщаем об ошибке входа в систему
 			throw new BadCredentialsException(getMessage("authentication.fail",

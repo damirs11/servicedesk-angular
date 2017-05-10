@@ -1,5 +1,6 @@
 package com.aplana.sd.service;
 
+import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import com.aplana.sd.model.Role;
@@ -22,10 +23,13 @@ public class DynamicAuthentication implements Authentication {
     private final User user;
     /** Указывает на то, что аутентификация пройдена. */
     private boolean authenticated;
+    /** Объект для взаимодействия с API HP SD*/
+    private SdClientBean sdClient;
 
-    public DynamicAuthentication(User user, boolean authenticated) {
+    public DynamicAuthentication(User user, boolean authenticated, SdClientBean sdClient) {
         this.user = user;
 		this.authenticated = authenticated;
+		this.sdClient = sdClient;
     }
 
     /**
@@ -74,8 +78,8 @@ public class DynamicAuthentication implements Authentication {
     }
 
     @Override
-    public void setAuthenticated(boolean authenticated) {
-        this.authenticated = authenticated;
+    public void setAuthenticated(boolean isAuthenticated) {
+        this.authenticated = isAuthenticated;
     }
 
     @Override
@@ -85,5 +89,9 @@ public class DynamicAuthentication implements Authentication {
 
     public User getUser() {
         return user;
+    }
+
+    public SdClientBean getSdClient() {
+        return sdClient;
     }
 }

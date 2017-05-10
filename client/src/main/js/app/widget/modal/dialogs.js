@@ -30,7 +30,8 @@
                  * @returns {string} значение парамеетра
                  */
                 function _getParamValue(param, defaultValue) {
-                    return angular.isDefined(param) ? angular.copy(param) :
+                    return angular.isDefined(param) && param != null ?
+                        angular.copy(param) :
                         angular.isString(defaultValue) ? $translate.instant(defaultValue) : defaultValue;
                 }
 
