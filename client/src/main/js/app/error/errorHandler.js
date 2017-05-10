@@ -21,6 +21,9 @@
                 },
                 'responseError': function(rejection) {
                     // todo добавить проверку ошибки права доступа
+                    if (rejection.status === -1) {
+                        alert('Сервер недоступен');
+                    }
                     return $q.reject(rejection);
                 }
             };

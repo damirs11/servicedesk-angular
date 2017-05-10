@@ -5,10 +5,19 @@
 
     angular
         .module('app', [
+            // angular
             'pascalprecht.translate',
+            'ngSanitize',
+            // angular ui
             'ui.router',
+            'ui.bootstrap',
+            // app widgets
+            'ui.dialogs',
+            'ui.test',
+            // app
             'appHeader',
-            'appLogin'
+            'appLogin',
+            'appErrorHandler'
         ])
         // todo добавить сервис для обновления getInfo
         .config(['$stateProvider', '$urlRouterProvider', '$translateProvider',

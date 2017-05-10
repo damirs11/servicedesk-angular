@@ -1,9 +1,8 @@
 (function() {
-    'use strict'
+    'use strict';
 
     angular
         .module('ui.test', [
-            'ui.bootstrap',
             'ui.dialogs'
         ])
         .config(function ($stateProvider) {
@@ -15,34 +14,34 @@
                 })
         })
         //https://github.com/m-e-conroy/angular-dialog-service
-        .controller('testController', ['$scope', '$log', 'uiDialogs', 'dialogResult',
-            function($scope, $log, uiDialogs, dialogResult) {
+        .controller('testController', ['$scope', 'uiDialogs',
+            function($scope, uiDialogs) {
                 $scope.output = 'Область для отображения результатов';
                 $scope.errorClick = function() {
-                    aplanaDialogs.error('Ошибка', 'Невозможно выполнить операцию', {})
-                }
+                    uiDialogs.error('Ошибка', 'Невозможно выполнить операцию');
+                };
                 $scope.notifyClick = function() {
-                    aplanaDialogs.notify('Уведомление', 'Документ отправлен')
-                }
+                    uiDialogs.notify('Уведомление', 'Документ отправлен');
+                };
                 $scope.confirmClick = function() {
                     var opts = {
                         labelYes:"Подтверить",
                         labelNo:"Отменить"
                     };
-                    var dlg = aplanaDialogs.confirm('Вопрос', 'Вы уверены, что хотите отправить документ на корректировку?', opts)
+                    var dlg = uiDialogs.confirm('Вопрос', 'Вы уверены, что хотите отправить документ на корректировку?', opts);
                     dlg.result.then(function(result){
-                        $scope.output = result
+                        $scope.output = result + ' - result'
                     },function(reason){
-                        $scope.output = reason
+                        $scope.output = reason + ' - dismiss'
                     });
-                }
+                };
                 $scope.inputMessageClick = function() {
-                    var dlg = aplanaDialogs.inputMessage()
+                    var dlg = uiDialogs.inputMessage();
                     dlg.result.then(function(result){
-                        $scope.output = result
+                        $scope.output = result + ' - result'
                     },function(reason){
-                        $scope.output = reason
+                        $scope.output = reason + ' - dismiss'
                     })
                 }
             }])
-} ())
+} ());
