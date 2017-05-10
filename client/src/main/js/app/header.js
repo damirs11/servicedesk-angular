@@ -21,7 +21,7 @@
                 $scope.user = USER_DATA;
                 $scope.logout = function() {
                     appSessionService.logout();
-                }
+                };
                 $scope.passwordChange = function() {
                     uiDialogs.create('js/app/passwordChange/passwordChange.html', 'appPasswordChangeController');
                 }

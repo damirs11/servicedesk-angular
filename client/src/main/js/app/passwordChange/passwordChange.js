@@ -1,5 +1,5 @@
 /**
- * Окно смены пароля пользователя
+ * Окно для смены пароля у пользователя
  */
 (function () {
     'use strict';
@@ -12,18 +12,17 @@
             'appValidators'
         ])
         .controller('appPasswordChangeController', [
-            '$scope', '$http', 'modalResult', 'uiDialogs', '$uibModalInstance', '$translate',
-            function ($scope, $http, modalResult, uiDialogs, $uibModalInstance, $translate) {
+            '$scope', '$http', 'modalResult', 'uiDialogs', '$uibModalInstance',
+            function ($scope, $http, modalResult, uiDialogs, $uibModalInstance) {
                 $scope.minLength = 6; // минимальная длина пароля
                 $scope.maxLength = 50; // максимальная длина пароля
-                $scope.oldPassword; // прежний пароль
-                $scope.newPassword; // новый пароль
-                $scope.confirmPassword; // повторно введенный новый пароль
+                $scope.oldPassword = null; // прежний пароль
+                $scope.newPassword = null; // новый пароль
+                $scope.confirmPassword = null; // повторно введенный новый пароль
                 /**
                  * Запрос к серверу на смену пароля
                  */
                 $scope.save = function() {
-                    //if ((this.passwordChangeForm.$dirty && this.passwordChangeForm.$invalid) || this.passwordChangeForm.$pristine) {
                     if (this.passwordChangeForm.$invalid) {
                         return;
                     }

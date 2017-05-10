@@ -5,7 +5,7 @@
     'use strict';
     angular.module('appErrorHandler', [])
         // register the interceptor as a service
-        .factory('_appHttpInterceptor', ['$q', '$log', function($q, $log) {
+        .factory('_appHttpInterceptor', ['$q', function($q) {
             return {
                 'request': function(config) {
                     // do something on success

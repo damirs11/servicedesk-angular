@@ -49,7 +49,7 @@
                     if (USER_DATA.login === $translate.instant('default.login')) {
                         $state.go("login")
                     }
-                };
+                }
                 /** Запрашивает на сервере актуальную информацию о текущем пользователе */
                 function checkSession() {
                     $http.get('rest/service/config/getInfo').then(
@@ -58,13 +58,13 @@
                             checkUser();
                         }
                     )
-                };
+                }
                 /** Осуществляет выход пользователя из системы */
                 function logout() {
                     $http.get('rest/service/security/logout').then(
                         checkSession
                     );
-                };
+                }
                 return {
                     checkUser: checkUser,
                     checkSession: checkSession,
