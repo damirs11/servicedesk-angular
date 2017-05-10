@@ -218,7 +218,7 @@
         extend = angular.extend;
         forEach = angular.forEach;
         isDefined = angular.isDefined;
-        lowercase = angular.$$lowercase;
+        lowercase = angular.lowercase;
         noop = angular.noop;
 
         htmlParser = htmlParserImpl;
