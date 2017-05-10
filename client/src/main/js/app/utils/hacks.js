@@ -1,5 +1,5 @@
 (function() {
-    'use strict'
+    'use strict';
 
     // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
     // ECMAScript 6 (IE 11-, Chrome 41+, FF 17+)
@@ -27,4 +27,4 @@
             }
         });
     }
-}())
+}());

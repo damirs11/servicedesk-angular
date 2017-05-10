@@ -7,14 +7,14 @@
         <div class="form-group">
             <input type="text" class="form-control" placeholder="{{msg}}"
                    data-ng-model="inputMessage" required name="inputMessage" data-ng-keyup="hitEnter($event)" data-ng-maxlength="255">
-            <ng-messages data-ng-show="showError" class="text-danger" for="inputMessageForm.inputMessage.$error" role="alert">
-                <ng-message when="required">{{'error.form.required' | translate}}</ng-message>
-                <ng-message when="maxlength">{{'error.form.string.maxLength' | translate}} 255</ng-message>
-            </ng-messages>
+            <data-ng-messages data-ng-show="showError" class="text-danger" for="inputMessageForm.inputMessage.$error"
+                              role="alert">
+                <data-ng-messages-include src="js/app/utils/messages.html"/>
+            </data-ng-messages>
         </div>
     </form>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-success" data-ng-click="ok()">{{labelOk}}</button>
-    <button type="button" class="btn btn-default" ng-click="close()">{{labelClose}}</button>
+    <button type="button" class="btn btn-default" data-ng-click="close()">{{labelClose}}</button>
 </div>

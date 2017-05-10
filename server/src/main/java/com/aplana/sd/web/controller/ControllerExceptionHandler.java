@@ -61,7 +61,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	/**
 	 * Перехват ошибок доступа
 	 */
-	@ExceptionHandler({AccessDeniedException.class, AuthenticationException.class})
+	@ExceptionHandler({AccessDeniedException.class, AuthenticationException.class, BadCredentialsException.class})
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	@ResponseBody
 	private ClientMessage handleServiceException(AccessDeniedException ex) {
