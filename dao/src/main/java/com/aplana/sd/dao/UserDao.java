@@ -1,13 +1,10 @@
 package com.aplana.sd.dao;
 
-import com.aplana.sd.dao.mapper.PersonMapper;
 import com.aplana.sd.dao.mapper.UserExtractor;
 import com.aplana.sd.exception.AppException;
-import com.aplana.sd.model.Person;
 import com.aplana.sd.model.User;
 import com.aplana.sd.util.ResourceMessages;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 

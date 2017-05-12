@@ -22,8 +22,8 @@ import java.util.Objects;
  * @since 22.04.2017
  */
 @RestController
-@RequestMapping(value = "/rest/service/security", produces = "application/json")
-public class RestSecurityController {
+@RequestMapping(value = "/rest/service/security", produces = "application/json;charset=UTF-8")
+public class RestSecurityController extends AbstractController{
 
 	private static final Logger LOG = LoggerFactory.getLogger(RestSecurityController.class);
 
@@ -31,10 +31,6 @@ public class RestSecurityController {
 	private static final String PASSWORD_PARAM = "password";
 	private static final String OLD_PASSWORD_PARAM = "oldPassword";
 	private static final String NEW_PASSWORD_PARAM = "newPassword";
-
-	// Настройка маппинг json в объектные типы
-	private static final ObjectMapper objectMapper = new ObjectMapper()
-			.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
 	@Autowired
 	private UserService userService;

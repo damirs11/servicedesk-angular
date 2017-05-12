@@ -1,5 +1,8 @@
 package com.aplana.sd.model;
 
+import com.aplana.sd.meta.ClassMeta;
+import com.aplana.sd.meta.FieldMeta;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,11 +12,14 @@ import java.util.Date;
  * @author quadrix
  * @since 03.05.2017
  */
+@ClassMeta(tableName = "itsm_changes")
 public class Change implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
+	@FieldMeta(columnName = "cha_oid")
 	private Long id;
 	/** Номер */
+	@FieldMeta(columnName = "cha_id")
 	private Long no;
 	/** Тема */
 	private String subject;

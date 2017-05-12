@@ -27,3 +27,8 @@ CREATE TABLE rep_roles_per_account (
   rpa_acc_oid DECIMAL(18),
   rpa_rol_oid DECIMAL(18)
 );
+
+CREATE TABLE itsm_changes (
+  cha_oid DECIMAL(18),
+  cha_id DECIMAL(18)
+);

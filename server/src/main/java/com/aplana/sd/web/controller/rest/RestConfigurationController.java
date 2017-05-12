@@ -31,7 +31,7 @@ import java.util.jar.Manifest;
  */
 @RestController
 @RequestMapping(value = "/rest/service/config", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-public class RestConfigurationController {
+public class RestConfigurationController extends AbstractController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RestConfigurationController.class);
 
