@@ -5,7 +5,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.aplana" level="ALL"/>
+    <logger name="ru.it" level="ALL"/>
     <!--logger name="org.springframework.security" level="DEBUG"/-->
 
     <root level="INFO">
