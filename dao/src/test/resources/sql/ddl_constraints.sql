@@ -11,4 +11,9 @@ ALTER TABLE rep_roles_per_account ADD CONSTRAINT pk_accounts_roles PRIMARY KEY (
 ALTER TABLE rep_roles_per_account ADD CONSTRAINT fk_accounts_roles_acc FOREIGN KEY (rpa_acc_oid) REFERENCES rep_accounts (acc_oid);
 -----------------------------------------------------------------------------------
 ALTER TABLE itsm_changes ADD CONSTRAINT pk_changes PRIMARY KEY (cha_oid);
+ALTER TABLE itsm_changes ADD CONSTRAINT fk_changes_req_per FOREIGN KEY (cha_requestor_per_oid) REFERENCES itsm_persons (per_oid);
+ALTER TABLE itsm_changes ADD CONSTRAINT fk_changes_man_per FOREIGN KEY (cha_per_man_oid) REFERENCES itsm_persons (per_oid);
+-----------------------------------------------------------------------------------
+ALTER TABLE itsm_cha_information ADD CONSTRAINT pk_information PRIMARY KEY (chi_cha_oid);
+ALTER TABLE itsm_cha_information ADD CONSTRAINT fk_information_changes FOREIGN KEY (chi_cha_oid) REFERENCES itsm_changes (cha_oid);
 -----------------------------------------------------------------------------------

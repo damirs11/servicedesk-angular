@@ -10,5 +10,5 @@ import org.springframework.stereotype.Component;
  * @since 03.05.2017
  */
 @Component
-public class UserMapper extends EntityRowMapper<User> {
+class UserMapper extends EntityRowMapper<User> {
 }

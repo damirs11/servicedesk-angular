@@ -32,7 +32,6 @@ public class UserExtractor implements ResultSetExtractor<List<User>> {
 		Map<Long, User> userCache = new HashMap<>();
 
 		List<User> list = new ArrayList<>();
-		int i = 0;
 		while(rs.next()){
 			Long userId = DBUtils.getLong(rs, "acc_oid");
 			User user = userCache.get(userId);

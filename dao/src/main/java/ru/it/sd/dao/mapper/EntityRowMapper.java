@@ -95,6 +95,7 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 					case "java.util.Date":{
 						ReflectionUtils.setField(field, result, rs.getTimestamp(columnName));
 					}
+					break;
 					case "java.lang.Double":{
 						double value = rs.getDouble(columnName);
 						ReflectionUtils.setField(field, result, rs.wasNull() ? null : value);
@@ -102,6 +103,7 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 					case "double":{
 						ReflectionUtils.setField(field, result, rs.getDouble(columnName));
 					}
+					break;
 				}
 
 			}

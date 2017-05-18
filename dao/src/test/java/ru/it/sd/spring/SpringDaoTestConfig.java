@@ -28,22 +28,6 @@ public class SpringDaoTestConfig {
 	private DataSource dataSource;
 
 	/**
-	 * Создание бина для доступа к бд
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	@Bean(destroyMethod = "close")
-	public DataSource dataSource() throws SQLException {
-		BoneCPDataSource ds = new BoneCPDataSource();
-        ds.setDriverClass("org.hsqldb.jdbcDriver");
-        ds.setJdbcUrl("jdbc:hsqldb:mem:testdb");
-        ds.setUser("sa");
-        ds.setPassword("");
-		return ds;
-	}
-
-	/**
 	 * Поднимаем инстанс встроенной БД с url = jdbc:hsqldb:mem:testdb
 	 *
 	 * @return

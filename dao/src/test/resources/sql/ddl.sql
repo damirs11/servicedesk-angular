@@ -30,5 +30,18 @@ CREATE TABLE rep_roles_per_account (
 
 CREATE TABLE itsm_changes (
   cha_oid DECIMAL(18),
-  cha_id DECIMAL(18)
+  cha_id DECIMAL(18),
+  cha_description VARCHAR(80),
+  cha_requestor_per_oid DECIMAL(18),
+  cha_per_man_oid DECIMAL(18),
+  cha_sta_oid DECIMAL(18),
+  cha_imp_oid DECIMAL(18),
+  reg_created DATETIME,
+  cha_deadline DATETIME,
+  cha_actualfinish DATETIME
+);
+
+CREATE TABLE itsm_cha_information (
+  chi_cha_oid DECIMAL(18),
+  chi_information VARCHAR(4000)
 );

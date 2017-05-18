@@ -1,5 +1,10 @@
 package ru.it.sd.model;
 
+import ru.it.sd.exception.ServiceException;
+import ru.it.sd.util.ResourceMessages;
+
+import java.util.Objects;
+
 import static ru.it.sd.model.EntityType.*;
 
 /**
@@ -41,23 +46,41 @@ public enum EntityStatus implements Code {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public EntityType getEntityType() {
 		return entityType;
 	}
 
-	public void setEntityType(EntityType entityType) {
-		this.entityType = entityType;
+	@Override
+	public void setId(Long id) {
+		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public void setName(String name) {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Поиск статуса по идентификатору
+	 *
+	 * @param id идентификатор
+	 * @return статус
+	 * @throws ServiceException если указан неправильный код
+	 */
+	public static EntityStatus get(Long id) {
+		if (Objects.isNull(id)) {
+			return null;
+		}
+		for (EntityStatus value : values()) {
+			if (id.equals(value.getId())) {
+				return value;
+			}
+		}
+		throw new ServiceException(ResourceMessages.getMessage("error.not.found"));
+	}
+
 }

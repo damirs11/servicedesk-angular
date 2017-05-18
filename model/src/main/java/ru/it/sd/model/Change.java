@@ -22,24 +22,33 @@ public class Change implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "cha_id")
 	private Long no;
 	/** Тема */
+	@FieldMeta(columnName = "cha_description")
 	private String subject;
 	/** Описание */
+	@FieldMeta(columnName = "chi_information")
 	private String description;
 	/** Статус */
+	@FieldMeta(columnName = "cha_sta_oid")
 	private EntityStatus status;
 	/** Приоритет */
+	@FieldMeta(columnName = "cha_imp_oid")
 	private EntityPriority priority;
 
 	/** Дата создания */
+	@FieldMeta(columnName = "reg_created")
 	private Date createdDate;
 	/** Крайний срок */
+	@FieldMeta(columnName = "cha_deadline")
 	private Date deadline;
 	/** Фактически выполнено */
+	@FieldMeta(columnName = "cha_actualfinish")
 	private Date resolvedDate;
 
 	/** Инициатор изменения */
+	@FieldMeta(columnName = "cha_requestor_per_oid")
 	private Person initiator;
 	/** Менеджер изменения */
+	@FieldMeta(columnName = "cha_per_man_oid")
 	private Person manager;
 
 	@Override

@@ -1,5 +1,10 @@
 package ru.it.sd.model;
 
+import ru.it.sd.exception.ServiceException;
+import ru.it.sd.util.ResourceMessages;
+
+import java.util.Objects;
+
 /**
  * Приоритеты сущностей
  *
@@ -29,7 +34,7 @@ public enum EntityPriority implements Code {
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		throw new UnsupportedOperationException();
 	}
 
 	public String getName() {
@@ -37,6 +42,26 @@ public enum EntityPriority implements Code {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Поиск приоритета по идентификатору
+	 *
+	 * @param id идентификатор
+	 * @return приоритет
+	 * @throws ServiceException если указан неправильный код
+	 * @throws NullPointerException если идентификатор не определен
+	 */
+	public static EntityPriority get(Long id) {
+		if (Objects.isNull(id)) {
+			return null;
+		}
+		for (EntityPriority value : values()) {
+			if (id.equals(value.getId())) {
+				return value;
+			}
+		}
+		throw new ServiceException(ResourceMessages.getMessage("error.not.found"));
 	}
 }
