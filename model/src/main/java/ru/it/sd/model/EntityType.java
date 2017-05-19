@@ -10,7 +10,8 @@ public enum EntityType {
 
 	CHANGE("Изменение"),
 	PROBLEM("Проблема"),
-	CALL("Обращение");
+	CALL("Обращение"),
+	WORKORDER("Наряд");
 
 	/** Название */
 	private String name;

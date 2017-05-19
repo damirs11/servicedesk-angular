@@ -27,7 +27,11 @@ public enum EntityStatus implements Code {
 	CALL_TO_ENGINEER("Направлено инженеру", CALL, 281478327763609L),
 	CALL_EXECUTING("В работе инженер", CALL, 281478336938148L),
 	CALL_RESOLVED("Решено", CALL, 3094610094L),
-	CALL_CLOSED("Закрыто", CALL, 3094610096L);
+	CALL_CLOSED("Закрыто", CALL, 3094610096L),
+
+	WORKORDER_OPEN("Открыт", WORKORDER, 281478237061820L),
+	WORKORDER_COMPLETE("Выполнен", WORKORDER, 3095134439L),
+	WORKORDER_CLOSED("Закрыт", WORKORDER, 281478237061818L);
 
 	/** Идентификатор статуса */
 	private Long id;
