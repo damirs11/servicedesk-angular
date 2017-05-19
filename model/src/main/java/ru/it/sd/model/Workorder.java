@@ -22,14 +22,16 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "wor_id")
 	private Long no;
 	/** Тема */
-	@FieldMeta(columnName = "wor_description")
+	@FieldMeta(columnName = "wor_description", maxLength = 80)
 	private String subject;
 	/** Описание */
+	@FieldMeta(columnName = "woi_information", maxLength = 4000)
 	private String description;
+
 	/** Статус */
 	private EntityStatus status;
-	/** Приоритет */
-	private EntityPriority priority;
+	/** Категория */
+	private EntityCategory category;
 
 	/** Дата создания */
 	@FieldMeta(columnName = "reg_created")
@@ -41,28 +43,124 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "wor_actualfinish")
 	private Date resolvedDate;
 
-	/** Инициатор изменения */
+	/** Инициатор */
 	private Person initiator;
-	/** Менеджер изменения */
-	private Person manager;
+	/** Исполнитель */
+	private Person doer;
+
+	/** Просрочен */
+	@FieldMeta(columnName = "wcf_boolean2")
+	private Boolean expired;
+
+	/** Изменение */
+	private Change change;
+
 
 	@Override
 	public Long getId() {
-		return null;
+		return id;
 	}
 
 	@Override
 	public void setId(Long id) {
+		this.id = id;
+	}
 
+	public Long getNo() {
+		return no;
+	}
+
+	public void setNo(Long no) {
+		this.no = no;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
 	public EntityStatus getStatus() {
-		return null;
+		return status;
 	}
 
 	@Override
-	public void setStatus(EntityStatus id) {
+	public void setStatus(EntityStatus status) {
+		this.status = status;
+	}
 
+	public EntityCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(EntityCategory category) {
+		this.category = category;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
+
+	public Date getResolvedDate() {
+		return resolvedDate;
+	}
+
+	public void setResolvedDate(Date resolvedDate) {
+		this.resolvedDate = resolvedDate;
+	}
+
+	public Person getInitiator() {
+		return initiator;
+	}
+
+	public void setInitiator(Person initiator) {
+		this.initiator = initiator;
+	}
+
+	public Person getDoer() {
+		return doer;
+	}
+
+	public void setDoer(Person doer) {
+		this.doer = doer;
+	}
+
+	public Boolean getExpired() {
+		return expired;
+	}
+
+	public void setExpired(Boolean expired) {
+		this.expired = expired;
+	}
+
+	public Change getChange() {
+		return change;
+	}
+
+	public void setChange(Change change) {
+		this.change = change;
 	}
 }
