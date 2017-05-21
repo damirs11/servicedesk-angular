@@ -39,7 +39,7 @@ public class ChangeDao extends AbstractDao {
 	 * @param id идентификатор изменения
 	 * @return изменение
 	 */
-	public Change findOne(Long id) {
+	public Change read(Long id) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", id);
 		List<Change> changes = namedJdbc.query(

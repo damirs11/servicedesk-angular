@@ -23,11 +23,11 @@ public class UserDaoTest extends AbstractDaoTest {
 
 	@Test
 	private void testFindByLogin() {
-		User user = dao.findByLogin("manager");
+		User user = dao.readByLogin("manager");
 		assertEquals(3, user.getId());
 		LOG.debug(user.toString());
 
-		user = dao.findByLogin("admin");
+		user = dao.readByLogin("admin");
 		assertEquals(2, user.getId());
 		LOG.debug(user.toString());
 	}

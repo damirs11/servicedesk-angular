@@ -63,7 +63,7 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 	private Person getPerson(Map<Long, Person> cache, Long id) {
 		Person person = cache.get(id);
 		if (Objects.isNull(person)) {
-			person = personDao.findOne(id);
+			person = personDao.read(id);
 			cache.put(id, person);
 		}
 		return person;

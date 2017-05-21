@@ -41,7 +41,7 @@ public class UserService {
 	 * @return информация о пользователе, может вернуть null, если пользователь не найден
 	 */
 	public User findUserByLogin(String login) {
-		return userDao.findByLogin(login);
+		return userDao.readByLogin(login);
 	}
 
 	/**

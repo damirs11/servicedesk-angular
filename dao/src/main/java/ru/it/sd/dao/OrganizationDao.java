@@ -21,7 +21,7 @@ public class OrganizationDao extends AbstractDao {
 	private static final String SELECT_ALL_SQL =
 			"SELECT org_oid, org_name1, org_email FROM itsm_organizations";
 
-	public List<Organization> findAll() {
+	public List<Organization> list() {
 		return namedJdbc.query(SELECT_ALL_SQL, (RowMapper) orgnizationMapper);
 	}
 

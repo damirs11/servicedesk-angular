@@ -1,12 +1,12 @@
 package ru.it.sd.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.UserExtractor;
 import ru.it.sd.exception.AppException;
 import ru.it.sd.model.User;
 import ru.it.sd.util.ResourceMessages;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.stereotype.Repository;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -36,7 +36,7 @@ public class UserDao extends AbstractDao {
 	 * @param login
 	 * @return пользователь или null, если пользователь не найден
 	 */
-	public User findByLogin(String login) {
+	public User readByLogin(String login) {
 		Objects.requireNonNull(login);
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("login", login.toLowerCase());

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/rest/service/person", produces = "application/json;charset=UTF-8")
-public class RestPersonController extends AbstractController{
+public class PersonRestController extends AbstractController{
 
 	@Autowired
 	private PersonService personService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Person logout(@PathVariable Long id) {
-		return personService.get(id);
+		return personService.read(id);
 	}
 }

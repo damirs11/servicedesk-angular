@@ -37,7 +37,7 @@ public class UserExtractor implements ResultSetExtractor<List<User>> {
 			User user = userCache.get(userId);
 			if(Objects.isNull(user)) {
 				user = userMapper.mapRow(rs, 0);
-				user.setPerson(personDao.findByUserId(userId));
+				user.setPerson(personDao.readByUserId(userId));
 				userCache.put(userId, user);
 			}
 			// Добавляем пользователю роль

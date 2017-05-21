@@ -25,7 +25,7 @@ public class PersonDaoTest extends AbstractDaoTest {
 
 	@Test
 	private void testFindAll() {
-		List<Person> list = dao.findAll();
+		List<Person> list = dao.list(null);
 		assertEquals(4, list.size());
 		LOG.debug(list.toString());
 	}

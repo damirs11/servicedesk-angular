@@ -21,9 +21,9 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(value = "/rest/service/security", produces = "application/json;charset=UTF-8")
-public class RestSecurityController extends AbstractController{
+public class SecurityRestController extends AbstractController{
 
-	private static final Logger LOG = LoggerFactory.getLogger(RestSecurityController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SecurityRestController.class);
 
 	private static final String LOGIN_PARAM = "login";
 	private static final String PASSWORD_PARAM = "password";

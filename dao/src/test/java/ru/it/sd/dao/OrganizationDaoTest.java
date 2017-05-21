@@ -30,7 +30,7 @@ public class OrganizationDaoTest extends AbstractDaoTest {
 
 	@Test
 	private void testFindAll() {
-		List<Organization> list = dao.findAll();
+		List<Organization> list = dao.list();
 		assertEquals(2, list.size());
 		LOG.debug(list.toString());
 	}
