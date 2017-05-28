@@ -17,6 +17,7 @@
             // app
             'appHeader',
             'appLogin',
+            'appChanges',
             'appErrorHandler'
         ])
         // todo добавить сервис для обновления getInfo

@@ -27,7 +27,7 @@ webResource {
         enabled = true
         src = "css"
         dest = "css"
-        include = ['style.less', 'bootstrap.less']
+        include = ['style.less', 'bootstrap.less', 'ui-grid.less']
         minify = true
         parallelize = true
     }

@@ -1,5 +1,7 @@
 package ru.it.sd.dao;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.jdbc.core.RowMapper;
 import ru.it.sd.dao.mapper.ChangeExtractor;
 import ru.it.sd.model.Change;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Дао для работы с данными людей
@@ -33,6 +37,13 @@ public class ChangeDao extends AbstractDao {
 			"itsm_changes ch\n" +
 			"LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n" +
 			"{0}";
+
+	public List<Change> list(Map<String, String> filter) {
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		return namedJdbc.query(
+				MessageFormat.format(SELECT_ALL_SQL, ""),
+				params, extractor);
+	}
 
 	/**
 	 * Возвращает изменение по его идентификатору
