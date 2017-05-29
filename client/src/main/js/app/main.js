@@ -11,6 +11,7 @@
             // angular ui
             'ui.router',
             'ui.bootstrap',
+            'ui.grid',
             // app widgets
             'ui.dialogs',
             'ui.test',

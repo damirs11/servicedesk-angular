@@ -14534,7 +14534,7 @@ module.filter('px', function() {
 
     LOCALE_DIRECTIVE_ALIAS: 'uiI18n',
     // default to english
-    DEFAULT_LANG: 'en'
+    DEFAULT_LANG: 'ru'
   });
 
 //    module.config(['$provide', function($provide) {

@@ -7,7 +7,8 @@
     angular.module('appChanges', [
             'appUserData',
             'ngMessages',
-            'ui.router'
+            'ui.router',
+            'ui.grid'
         ])
         .config(function ($stateProvider) {
         $stateProvider
@@ -56,7 +57,7 @@
                     rowTemplate: "<div ng-dblclick=\"grid.appScope.onDblClick(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell ></div>",
                     onRegisterApi: function (gridApi) {
                         $scope.gridApi = gridApi;
-                        $scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
+                        /*$scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
                             $scope.dataOptions.sort = sortColumns;
                             fetchData()
                         });
@@ -79,7 +80,7 @@
                             // Вызывается когда выделяются(снимается выделение) все строки щелчком по заголовку таблицы
                             $scope.numberOfSelectedItems = $scope.gridApi.grid.selection.selectedCount;
                             setCurrentRow($scope.gridApi.grid.selection.lastSelectedRow)
-                        });
+                        });*/
                     }
                 };
                 // Формирование параметров запроса
