@@ -38,6 +38,8 @@
                     multiSelect: true,
                     modifierKeysToMultiSelect: true,
                     columnDefs: [
+                        { field: 'status', name: "Статус" },
+                        { field: 'description', name: "Тема" },
                         { field: 'name', name: "NAME" },
                         { field: 'date', name: "DATE", enableColumnResizing: false, cellFilter: "dd.MM.yyyy"},
                         { field: 'prefix', name: "PREFIX", cellTooltip: true },
@@ -98,7 +100,6 @@
                         });
                         params.sort = sort
                     }
-                    $log.debug($scope.dataOptions.filter);
                     angular.extend(params, $scope.dataOptions.filter);
                     return params
                 };
@@ -111,21 +112,17 @@
                     // Получение данных
                     $http.get('rest/entity/Change', {params: params})
                         .then(function (response) {
-                            var rows = response.data;
-                            // Создаем столбцы, если их не было
+                            var rows = response.data.list;
                             if (rows) {
                                 // Проверка, что получено данных не более чем запросили. Такое может случиться,
                                 // если ДАО содержит ошибки
                                 if (rows.length > $scope.dataOptions.paging.pageSize) {
-                                    console.warn("!! todo text");
                                     // Обрезаем до требуемого количества
                                     rows = rows.slice(0, $scope.dataOptions.paging.pageSize)
                                 }
                                 $scope.dataOptions.data = rows;
-                                //$scope.gridOptions.totalItems = data.total; //todo ?
-                                $scope.gridOptions.totalItems = 1000; //todo ?
+                                $scope.gridOptions.totalItems = response.data.total;
                                 updateViewData();
-                                $log.debug($scope)
                             }
                         })
                         // .then(function () {
@@ -149,7 +146,7 @@
                 };
 
                 var clearGridSelection = function () {
-                    $scope.gridApi.selection.clearSelectedRows()
+                    //$scope.gridApi.selection.clearSelectedRows()
                 };
 
                 /**
@@ -171,14 +168,14 @@
                  */
                 var setCurrentRow = function (lastSelectedRow) {
                     if (!lastSelectedRow.isSelected || $scope.gridApi.grid.selection.selectedCount != 1) {
-                        $scope.currentEntityView = {};
-                        $scope.tempEntityData = {};
-                        $scope.tempEntityView = {}
+                        $scope.currentRowView = {};
+                        $scope.tempRowData = {};
+                        $scope.tempRowView = {}
                     } else {
-                        $scope.currentEntityView = lastSelectedRow.entity;
-                        var currentEntityData = getDataByView($scope.dataOptions.data, $scope.currentEntityView);
-                        $scope.tempEntityData = $scope.sendEntityData = angular.extend({}, currentEntityData);
-                        $scope.tempEntityView = angular.extend({}, $scope.currentEntityView);
+                        $scope.currentRowView = lastSelectedRow.entity;
+                        var currenRowData = getDataByView($scope.dataOptions.data, $scope.currentRowView);
+                        $scope.tempRowData = $scope.sendEntityData = angular.extend({}, currenRowData);
+                        $scope.tempRowView = angular.extend({}, $scope.currentRowView);
                     }
                     $scope.numberOfSelectedItems = $scope.gridApi.grid.selection.selectedCount;
                 };
@@ -197,5 +194,6 @@
                         return res; //есди совпало, возвращаем то, что совпало, иначе - то, что пришло.
                     }, {});
                 }
+                fetchData();
             }]);
 }());

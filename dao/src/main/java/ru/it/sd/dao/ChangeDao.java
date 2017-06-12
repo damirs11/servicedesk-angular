@@ -7,8 +7,10 @@ import ru.it.sd.model.Change;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
+import ru.it.sd.model.PagingRange;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -43,6 +45,15 @@ public class ChangeDao extends AbstractDao {
 		return namedJdbc.query(
 				MessageFormat.format(SELECT_ALL_SQL, ""),
 				params, extractor);
+	}
+
+	public int getTotal(Map<String, String> filter) {
+		// Чтобы получить общее количество строк с учетом фильтрации, то
+		// выполняем обычный запрос на получение списка, но без условия отбора страницы
+		Map<String, String> filterWithoutPaging = new HashMap<>(filter);
+		filterWithoutPaging.remove(PagingRange.PAGING_PARAM_NAME);
+		List<Change> list = list(filterWithoutPaging);
+		return list.size();
 	}
 
 	/**
