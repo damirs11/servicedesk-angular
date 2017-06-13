@@ -16,43 +16,51 @@ import java.util.Date;
 public class Workorder implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
-	@FieldMeta(columnName = "OID")
+	@FieldMeta(columnName = "oid")
 	private Long id;
 	/** Номер */
 	@FieldMeta(columnName = "id")
 	private Long no;
 	/** Тема */
-	@FieldMeta(columnName = "description", maxLength = 80)
+	@FieldMeta(columnName = "subject", maxLength = 80)
 	private String subject;
 	/** Описание */
-	@FieldMeta(columnName = "woi_information", maxLength = 4000)
+	@FieldMeta(columnName = "description", maxLength = 4000)
 	private String description;
+	/** Трудозатраты */
+	@FieldMeta(columnName = "labor")
+	private Double labor;
+	/** Решение */
+	@FieldMeta(columnName = "solution")
+	private String solution;
 
 	/** Статус */
 	private EntityStatus status;
 	/** Категория */
 	private EntityCategory category;
+	/** Код завершения */
+	private EntityClosureCode closureCode;
 
 	/** Дата создания */
-	@FieldMeta(columnName = "reg_created")
+	@FieldMeta(columnName = "createdDate")
 	private Date createdDate;
 	/** Крайний срок */
-	@FieldMeta(columnName = "wor_deadline")
+	@FieldMeta(columnName = "deadline")
 	private Date deadline;
 	/** Фактически выполнено */
-	@FieldMeta(columnName = "wor_actualfinish")
+	@FieldMeta(columnName = "actualFinish")
 	private Date resolvedDate;
-
-	@FieldMeta(columnName = "scf_duration1")
+	/** Дата изменения */
+	@FieldMeta(columnName = "modifyDate")
+	private Date modifyDate;
+	/** Наряд просрочен */
+	@FieldMeta(columnName = "expired")
+	private Boolean expired;
 
 	/** Инициатор */
 	private Person initiator;
 	/** Исполнитель */
-	private Person doer;
-
-	/** Просрочен */
-	@FieldMeta(columnName = "wcf_boolean2")
-	private Boolean expired;
+	private Person assigneePerson;
 
 	/** Изменение */
 	private Change change;
@@ -66,6 +74,30 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	@Override
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Double getLabor() {
+		return labor;
+	}
+
+	public void setLabor(Double labor) {
+		this.labor = labor;
+	}
+
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+
+	public String getSolution() {
+		return solution;
+	}
+
+	public void setSolution(String solution) {
+		this.solution = solution;
 	}
 
 	public Long getNo() {
@@ -110,6 +142,15 @@ public class Workorder implements HasId, HasStatus, Serializable {
 		this.category = category;
 	}
 
+
+	public EntityClosureCode getClosureCode() {
+		return closureCode;
+	}
+
+	public void setClosureCode(EntityClosureCode closureCode) {
+		this.closureCode = closureCode;
+	}
+
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -142,12 +183,12 @@ public class Workorder implements HasId, HasStatus, Serializable {
 		this.initiator = initiator;
 	}
 
-	public Person getDoer() {
-		return doer;
+	public Person getAssigneePerson() {
+		return assigneePerson;
 	}
 
-	public void setDoer(Person doer) {
-		this.doer = doer;
+	public void setAssigneePerson(Person assigneePerson) {
+		this.assigneePerson = assigneePerson;
 	}
 
 	public Boolean getExpired() {

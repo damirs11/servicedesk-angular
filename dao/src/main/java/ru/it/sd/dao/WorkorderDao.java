@@ -28,21 +28,55 @@ public class WorkorderDao extends AbstractDao {
 
 	private static final String SELECT_ALL_SQL =
 			"SELECT" +
-					"wor.wor_oid as OID, wor.wor_id as ID, " +
-					"wor.reg_created as creationDate, wor.wor_deadline as deadline, wor.reg_modified as modified" +
-					"wor.wor_actualfinish as actualFinish, wor.wor_description as subject, " +
-					"info.woi_information as description, wor.wor_sta_oid, status_name.rct_name, " +
-					"worcustom.wcf_boolean2, " +
-					"wor.wor_cat_oid, category_name.rct_name, " +
-					"change.cha_oid" +
+					"WORKORDER.WOR_OID as id," +
+					"WORKORDER.WOR_ID as no," +
+					"WORKORDER.REG_CREATED as createdDate," +
+					"WORKORDER.WOR_DEADLINE as deadline," +
+					"WORKORDER.REG_MODIFIED as modifyDate" +
+					"WORKORDER.WOR_ACTUALFINISH as actualFinish," +
+					"WORKORDER.WOR_DESCRIPTION as subject," +
+					"INFO.WOI_INFORMATION as description," +
+					"WORKORDER.WOR_STA_OID as status.id," +
+					"WORKORDER.WOR_CAT_OID as category.id," +
+					"WORKORDER.WOR_CLO_OID as closureCode.id," +
+					"WORCUSTOM.WCF_BOOLEAN2 as expired," +
+					"WORKORDER.WOR_REQUESTOR_PER_OID as initiator.id," +
+					"REQUESTOR.PER_NAME as initiator.name," +
+					"REQUESTOR.PER_EMAIL as initiator.email," +
+					"REQUESTOR.PER_PRIMARYTELNR as initiator.telephone," +
+					"REQUESTOR_CUSTOM.PEC_PERSHORTTEXT3 as initiator.avatarId," +
+					"WORKORDER.ASS_WORKGROUP as workgroup.id," +
+					"WORKGROUP.WOG_NAME as workgroup.name," +
+					"WORKORDER.ASS_PER_TO_OID as assigneePerson.id," +
+					"ASSPERSON.PER_NAME as assigneePerson.name," +
+					"ASSPERSON_CUSTOM.PEC_PERSHORTTEXT3 as assigneePerson.avatarId," +
+					"WORCUSTOM.WCF_DURATION1 as labor," +
+					"WOR4K1.WO1_4K1 as solution," +
+					"SERVICECALL.SER_OID as servicecall.id," +
+					"SERVICECALL.SER_ID as servicecall.no," +
+					"SERVICECALL.SER_DESCRIPTION as servicecall.subject," +
+					"CHANGE.CHA_OID as change.id," +
+					"CHANGE.CHA_ID as change.no" +
+					"ORGANIZATION.ORG_OID as organization.id," +
+					"ORGANIZATION.ORG_NAME1 as organization.name," +
+					"PARENTORG.ORG_OID as organization.parent.id," +
+					"PARENTORG.ORG_NAME1 as organization.parent.name" +
 				"FROM" +
-					"itsm_workorders as wor" +
-					"LEFT OUTER JOIN rep_codes AS status ON status.rcd_oid = wor.wor_sta_oid" +
-					"LEFT OUTER JOIN rep_codes_text AS status_name ON status_name.rct_rcd_oid = wor.wor_sta_oid AND status_name.rct_lng_oid = 1049" +
-					"LEFT OUTER JOIN itsm_wor_information as info ON info.woi_wor_oid = wor.wor_oid" +
-					"LEFT OUTER JOIN itsm_wor_custom_fields as worcustom ON worcustom.wcf_wor_oid = wor.wor_oid" +
-					"LEFT OUTER JOIN itsm_changes as change on change.cha_oid = workorder.wor_cha_oid" +
-					"LEFT OUTER JOIN rep_codes_text AS category_name ON category_name.rct_rcd_oid = workorder.wor_cat_oid AND category_name.rct_lng_oid = 1049" +
+					"ITSM_WORKORDERS as WORKORDER" +
+					"LEFT OUTER JOIN REP_CODES as STATUS ON STATUS.RCD_OID = WORKORDER.WOR_STA_OID" +
+					"LEFT OUTER JOIN REP_CODES as CATEGORY ON CATEGORY.RCD_OID = WORKORDER.WOR_CAT_OID" +
+					"LEFT OUTER JOIN ITSM_WOR_INFORMATION AS INFO ON INFO.WOI_WOR_OID = WORKORDER.WOR_OID" +
+					"LEFT OUTER JOIN ITSM_WOR_CUSTOM_FIELDS as WORCUSTOM ON WORCUSTOM.WCF_WOR_OID = WORKORDER.WOR_OID" +
+					"LEFT OUTER JOIN ITSM_CHANGES as CHANGE ON CHANGE.CHA_OID = WORKORDER.WOR_CHA_OID" +
+					"LEFT OUTER JOIN ITSM_PERSONS as REQUESTOR ON REQUESTOR.PER_OID = WORKORDER.WOR_REQUESTOR_PER_OID" +
+					"LEFT OUTER JOIN ITSM_PER_CUSTOM_FIELDS as REQUESTOR_CUSTOM ON REQUESTOR_CUSTOM.PEC_PER_OID = WORKORDER.WOR_REQUESTOR_PER_OID" +
+					"LEFT OUTER JOIN ITSM_WORKGROUPS as WORKGROUP ON WORKGROUP.WOG_OID = WORKORDER.ASS_WORKGROUP" +
+					"LEFT OUTER JOIN ITSM_PERSONS AS ASSPERSON ON ASSPERSON.PER_OID = WORKORDER.ASS_PER_TO_OID" +
+					"LEFT OUTER JOIN ITSM_PER_CUSTOM_FIELDS AS ASSPERSON_CUSTOM ON ASSPERSON_CUSTOM.PEC_PER_OID = WORKORDER.ASS_PER_TO_OID" +
+					"LEFT OUTER JOIN ITSM_WOR_4K1 AS WOR4K1 ON WOR4K1.WO1_WOR_OID = WORKORDER.WOR_OID" +
+					"LEFT OUTER JOIN ITSM_SERVICECALLS as SERVICECALL on SERVICECALL.SER_OID = WORKORDER.WOR_SER_OID" +
+					"LEFT OUTER JOIN ITSM_ORGANIZATIONS as ORGANIZATION ON ORGANIZATION.ORG_OID = WORCUSTOM.WCF_ORG1_OID" +
+					"LEFT OUTER JOIN ITSM_ORGANIZATIONS as PARENTORG ON PARENTORG.ORG_OID = ORGANIZATION.ORG_PARENT" +
 				"{0}";
 
 	/**

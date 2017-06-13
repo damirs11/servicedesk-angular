@@ -1,5 +1,7 @@
 package ru.it.sd.model;
 
+import java.util.Objects;
+
 import static ru.it.sd.model.EntityType.*;
 
 /**
@@ -49,5 +51,19 @@ public enum EntityCategory implements Code {
 
 	public void setEntityType(EntityType entityType) {
 		this.entityType = entityType;
+	}
+
+	/**
+	 * Поиск категорию по её идентификатору
+	 * @return категория, либо null, если указанного идентификатора нет
+	 */
+	public static EntityCategory getById(Long id) {
+		Objects.requireNonNull(id);
+		for(EntityCategory category : EntityCategory.values()) {
+			if (id.equals(category.id)) {
+				return category;
+			}
+		}
+		return null;
 	}
 }
