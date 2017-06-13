@@ -25,12 +25,13 @@ public class WorkorderDao extends AbstractDao {
 	/**
 	 * Общий запрос получения данных о наряде
 	 */
+
 	private static final String SELECT_ALL_SQL =
 			"SELECT" +
-					"wor.wor_oid, wor.wor_id, " +
-					"wor.reg_created, wor.wor_deadline, wor.wor_actualfinish, " +
-					"wor.wor_description, info.woi_information, " +
-					"wor.wor_sta_oid, status_name.rct_name, " +
+					"wor.wor_oid as OID, wor.wor_id as ID, " +
+					"wor.reg_created as creationDate, wor.wor_deadline as deadline, wor.reg_modified as modified" +
+					"wor.wor_actualfinish as actualFinish, wor.wor_description as subject, " +
+					"info.woi_information as description, wor.wor_sta_oid, status_name.rct_name, " +
 					"worcustom.wcf_boolean2, " +
 					"wor.wor_cat_oid, category_name.rct_name, " +
 					"change.cha_oid" +

@@ -16,13 +16,13 @@ import java.util.Date;
 public class Workorder implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
-	@FieldMeta(columnName = "wor_oid")
+	@FieldMeta(columnName = "OID")
 	private Long id;
 	/** Номер */
-	@FieldMeta(columnName = "wor_id")
+	@FieldMeta(columnName = "id")
 	private Long no;
 	/** Тема */
-	@FieldMeta(columnName = "wor_description", maxLength = 80)
+	@FieldMeta(columnName = "description", maxLength = 80)
 	private String subject;
 	/** Описание */
 	@FieldMeta(columnName = "woi_information", maxLength = 4000)
@@ -42,6 +42,8 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	/** Фактически выполнено */
 	@FieldMeta(columnName = "wor_actualfinish")
 	private Date resolvedDate;
+
+	@FieldMeta(columnName = "scf_duration1")
 
 	/** Инициатор */
 	private Person initiator;
