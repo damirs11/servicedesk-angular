@@ -2,7 +2,9 @@ package ru.it.sd.dao.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.dao.DBUtils;
+import ru.it.sd.dao.PersonDao;
 import ru.it.sd.model.*;
 
 import java.sql.ResultSet;
@@ -16,45 +18,42 @@ import java.util.Objects;
 public class WorkorderMapper extends EntityRowMapper<Workorder> {
 
 	@Autowired
-	private PersonMapper personMapper;
+	private PersonDao personDao;
 	@Autowired
-	private ChangeMapper changeMapper;
+	private ChangeDao changeDao;
 
 	@Override
-	public Workorder mapCurrentRow(ResultSet rs, String prefix) throws SQLException {
-		Workorder workorder = super.mapCurrentRow(rs, prefix);
+	public Workorder mapRow(ResultSet rs, int rowNumber) throws SQLException {
+		Workorder workorder = super.mapRow(rs, rowNumber);
 
-		Long statusId = DBUtils.getLong(rs,getColumnName(prefix,"status.id"));
+		Long statusId = DBUtils.getLong(rs,"WOR_STA_OID");
 		if (statusId != null){
 			EntityStatus status = EntityStatus.getById(statusId);
 			workorder.setStatus(status);
 		}
-		Long categoryId = DBUtils.getLong(rs,getColumnName(prefix,"category.id"));
+		Long categoryId = DBUtils.getLong(rs,"WOR_CAT_OID");
 		if (categoryId != null){
 			EntityCategory category = EntityCategory.getById(categoryId);
 			workorder.setCategory(category);
 		}
-		Long closureCodeId = DBUtils.getLong(rs,getColumnName(prefix,"closureCode.id"));
+		Long closureCodeId = DBUtils.getLong(rs,"WOR_CLO_OID");
 		if (closureCodeId != null){
 			EntityClosureCode closureCode = EntityClosureCode.getById(closureCodeId);
 			workorder.setClosureCode(closureCode);
 		}
-		Long initiatorId = DBUtils.getLong(rs,getColumnName(prefix,"initiator.id"));
+		Long initiatorId = DBUtils.getLong(rs,"WOR_REQUESTOR_PER_OID");
 		if (initiatorId != null){
-			String colName = getColumnName(prefix,getColumnName(prefix,"initiator"));
-			Person initiator = personMapper.mapCurrentRow(rs,colName);
+			Person initiator = personDao.findOne(initiatorId);
 			workorder.setInitiator(initiator);
 		}
-		Long assigneePersonId = DBUtils.getLong(rs,getColumnName(prefix,"assigneePerson.id"));
+		Long assigneePersonId = DBUtils.getLong(rs,"ASS_PER_TO_OID");
 		if (assigneePersonId != null){
-			String colName = getColumnName(prefix,"assigneePerson");
-			Person assigneePerson = personMapper.mapCurrentRow(rs,colName);
+			Person assigneePerson = personDao.findOne(assigneePersonId);
 			workorder.setAssigneePerson(assigneePerson);
 		}
-		Long changeId = DBUtils.getLong(rs,getColumnName(prefix,"change.id"));
+		Long changeId = DBUtils.getLong(rs,"CHA_OID");
 		if (changeId != null){
-			String colName = getColumnName(prefix,"change");
-			Change change = changeMapper.mapCurrentRow(rs,colName);
+			Change change = changeDao.findOne(changeId);
 			workorder.setChange(change);
 		}
 

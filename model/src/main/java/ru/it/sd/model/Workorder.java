@@ -16,22 +16,22 @@ import java.util.Date;
 public class Workorder implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
-	@FieldMeta(columnName = "oid")
+	@FieldMeta(columnName = "WOR_OID")
 	private Long id;
 	/** Номер */
-	@FieldMeta(columnName = "id")
+	@FieldMeta(columnName = "WOR_ID")
 	private Long no;
 	/** Тема */
-	@FieldMeta(columnName = "subject", maxLength = 80)
+	@FieldMeta(columnName = "WOR_DESCRIPTION", maxLength = 80)
 	private String subject;
 	/** Описание */
-	@FieldMeta(columnName = "description", maxLength = 4000)
+	@FieldMeta(columnName = "WOI_INFORMATION", maxLength = 4000)
 	private String description;
 	/** Трудозатраты */
-	@FieldMeta(columnName = "labor")
+	@FieldMeta(columnName = "WCF_DURATION1")
 	private Double labor;
 	/** Решение */
-	@FieldMeta(columnName = "solution")
+	@FieldMeta(columnName = "WO1_4K1")
 	private String solution;
 
 	/** Статус */
@@ -42,19 +42,19 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	private EntityClosureCode closureCode;
 
 	/** Дата создания */
-	@FieldMeta(columnName = "createdDate")
+	@FieldMeta(columnName = "REG_CREATED")
 	private Date createdDate;
 	/** Крайний срок */
-	@FieldMeta(columnName = "deadline")
+	@FieldMeta(columnName = "WOR_DEADLINE")
 	private Date deadline;
 	/** Фактически выполнено */
-	@FieldMeta(columnName = "actualFinish")
+	@FieldMeta(columnName = "WOR_ACTUALFINISH")
 	private Date resolvedDate;
 	/** Дата изменения */
-	@FieldMeta(columnName = "modifyDate")
+	@FieldMeta(columnName = "REG_MODIFIED")
 	private Date modifyDate;
 	/** Наряд просрочен */
-	@FieldMeta(columnName = "expired")
+	@FieldMeta(columnName = "WCF_BOOLEAN2")
 	private Boolean expired;
 
 	/** Инициатор */
