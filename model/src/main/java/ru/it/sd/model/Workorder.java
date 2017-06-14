@@ -31,7 +31,7 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "WCF_DURATION1")
 	private Double labor;
 	/** Решение */
-	@FieldMeta(columnName = "WO1_4K1")
+	@FieldMeta(columnName = "WO1_4K1", maxLength = 4000)
 	private String solution;
 
 	/** Статус */

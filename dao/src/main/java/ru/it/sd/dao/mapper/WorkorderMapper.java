@@ -51,7 +51,7 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 			Person assigneePerson = personDao.findOne(assigneePersonId);
 			workorder.setAssigneePerson(assigneePerson);
 		}
-		Long changeId = DBUtils.getLong(rs,"CHA_OID");
+		Long changeId = DBUtils.getLong(rs,"WOR_CHA_OID");
 		if (changeId != null){
 			Change change = changeDao.findOne(changeId);
 			workorder.setChange(change);
