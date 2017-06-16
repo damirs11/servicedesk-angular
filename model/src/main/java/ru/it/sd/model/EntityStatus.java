@@ -31,7 +31,13 @@ public enum EntityStatus implements Code {
 
 	WORKORDER_OPEN("Открыт", WORKORDER, 281478237061820L),
 	WORKORDER_COMPLETE("Выполнен", WORKORDER, 3095134439L),
-	WORKORDER_CLOSED("Закрыт", WORKORDER, 281478237061818L);
+	WORKORDER_CLOSED("Закрыт", WORKORDER, 281478237061818L),
+
+	ITEM_ONSTOCK("На складе", ITEM, 3094610398L),
+	ITEM_INWORK("В эксплуатации", ITEM, 3094610404L),
+	ITEM_REPAIRING("Ремонтируется", ITEM, 3094610405L),
+	ITEM_WRITENOFF("Списано", ITEM, 3094610406L),
+	ITEM_LOST("Потеряно", ITEM, 3094610408L);
 
 	/** Идентификатор статуса */
 	private Long id;

@@ -11,7 +11,8 @@ public enum EntityType {
 	CHANGE("Изменение"),
 	PROBLEM("Проблема"),
 	CALL("Обращение"),
-	WORKORDER("Наряд");
+	WORKORDER("Наряд"),
+	ITEM("Объект");
 
 	/** Название */
 	private String name;
