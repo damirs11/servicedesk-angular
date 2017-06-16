@@ -1,17 +1,19 @@
 package ru.it.sd.dao;
 
+import com.jcabi.aspects.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.ChangeMapper;
 import ru.it.sd.dao.mapper.WorkorderMapper;
 import ru.it.sd.model.Change;
 import ru.it.sd.model.Workorder;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Дао для работы с данными нарядов
@@ -60,7 +62,8 @@ public class WorkorderDao extends AbstractDao {
 	 * @param id идентификатор наряда
 	 * @return наряд
 	 */
-	public Workorder findOne(Long id) {
+	@Cacheable(lifetime = 5, unit = TimeUnit.SECONDS)
+	public Workorder read(Long id) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", id);
 		try {
@@ -85,6 +88,43 @@ public class WorkorderDao extends AbstractDao {
 		try {
 			List<Workorder> workorders = namedJdbc.query(
 					MessageFormat.format(SELECT_ALL_SQL, " WHERE change.cha_oid = :changeId"),
+					params, ((ResultSetExtractor<List<Workorder>>) mapper));
+			return workorders;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+
+	@Cacheable(lifetime = 5, unit = TimeUnit.SECONDS)
+	public List<Workorder> list(Map<String, String> filter) {
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		StringBuilder queryPart = new StringBuilder();
+		queryPart.append(" WHERE TRUE ");
+		if (filter != null) {
+			if (filter.containsKey("no")) {
+				params.addValue("no",filter.get("no"));
+				queryPart.append(" AND WORKORDER.WOR_ID = :no");
+			}
+			if (filter.containsKey("assigneePerson")) {
+				params.addValue("assigneePerson",filter.get("assigneePerson"));
+				queryPart.append(" AND WORKORDER.ASS_PER_TO_OID = :assigneePerson ");
+			}
+			if (filter.containsKey("initiator")) {
+				params.addValue("initiator",filter.get("initiator"));
+				queryPart.append(" AND WORKORDER.WOR_REQUESTOR_PER_OID = :initiator ");
+			}
+			if (filter.containsKey("changeId")) {
+				params.addValue("changeId",filter.get("changeId"));
+				queryPart.append(" AND WORKORDER.WOR_REQUESTOR_PER_OID = :changeId");
+			}
+			if (filter.containsKey("status")) {
+				params.addValue("status",filter.get("status"));
+				queryPart.append(" AND WORKORDER.WOR_STA_OID = :status");
+			}
+		}
+		try {
+			List<Workorder> workorders = namedJdbc.query(
+					MessageFormat.format(SELECT_ALL_SQL, queryPart),
 					params, ((ResultSetExtractor<List<Workorder>>) mapper));
 			return workorders;
 		} catch (EmptyResultDataAccessException e) {

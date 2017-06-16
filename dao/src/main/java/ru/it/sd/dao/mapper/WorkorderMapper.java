@@ -28,7 +28,7 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 
 		Long statusId = DBUtils.getLong(rs,"WOR_STA_OID");
 		if (statusId != null){
-			EntityStatus status = EntityStatus.getById(statusId);
+			EntityStatus status = EntityStatus.get(statusId);
 			workorder.setStatus(status);
 		}
 		Long categoryId = DBUtils.getLong(rs,"WOR_CAT_OID");
@@ -43,17 +43,17 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 		}
 		Long initiatorId = DBUtils.getLong(rs,"WOR_REQUESTOR_PER_OID");
 		if (initiatorId != null){
-			Person initiator = personDao.findOne(initiatorId);
+			Person initiator = personDao.read(initiatorId);
 			workorder.setInitiator(initiator);
 		}
 		Long assigneePersonId = DBUtils.getLong(rs,"ASS_PER_TO_OID");
 		if (assigneePersonId != null){
-			Person assigneePerson = personDao.findOne(assigneePersonId);
+			Person assigneePerson = personDao.read(assigneePersonId);
 			workorder.setAssigneePerson(assigneePerson);
 		}
 		Long changeId = DBUtils.getLong(rs,"WOR_CHA_OID");
 		if (changeId != null){
-			Change change = changeDao.findOne(changeId);
+			Change change = changeDao.read(changeId);
 			workorder.setChange(change);
 		}
 

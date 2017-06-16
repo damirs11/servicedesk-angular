@@ -17,3 +17,5 @@ ALTER TABLE itsm_changes ADD CONSTRAINT fk_changes_man_per FOREIGN KEY (cha_per_
 ALTER TABLE itsm_cha_information ADD CONSTRAINT pk_information PRIMARY KEY (chi_cha_oid);
 ALTER TABLE itsm_cha_information ADD CONSTRAINT fk_information_changes FOREIGN KEY (chi_cha_oid) REFERENCES itsm_changes (cha_oid);
 -----------------------------------------------------------------------------------
+ALTER TABLE itsm_workorders ADD CONSTRAINT pk_workorders PRIMARY KEY (wor_oid);
+-----------------------------------------------------------------------------------

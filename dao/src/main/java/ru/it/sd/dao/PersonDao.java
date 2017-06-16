@@ -1,5 +1,6 @@
 package ru.it.sd.dao;
 
+import com.jcabi.aspects.Cacheable;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Дао для работы с данными людей
@@ -61,6 +63,7 @@ public class PersonDao extends AbstractDao {
 	 * @param id идентификатор человека
 	 * @return информация о человеке
 	 */
+	@Cacheable(lifetime = 5, unit = TimeUnit.SECONDS)
 	public Person read(Long id) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("personId", id);

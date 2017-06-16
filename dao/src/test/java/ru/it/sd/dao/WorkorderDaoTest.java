@@ -1,6 +1,5 @@
 package ru.it.sd.dao;
 
-import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +7,14 @@ import org.springframework.test.context.jdbc.Sql;
 import org.testng.annotations.Test;
 import ru.it.sd.model.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.testng.Assert.*;
 
-/**
- * @author quadrix
- * @since 05.05.2017
- */
 @Sql("WorkorderDaoTest.sql")
+@Sql("PersonDaoTest.sql")
 public class WorkorderDaoTest extends AbstractDaoTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkorderDaoTest.class);
@@ -24,15 +24,33 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 
 	@Test
 	private void testFindOne() {
-		Workorder workorder = dao.findOne(12L);
+		Workorder workorder = dao.read(12L);
 		assertNull(workorder);
-		workorder = dao.findOne(245242424L);
+		workorder = dao.read(245242424L);
 		assertNotNull(workorder);
-		assertEquals(281493838237866L, workorder.getId().longValue());
-		assertEquals(53081L, workorder.getNo().longValue());
-		assertEquals(EntityStatus.WORKORDER_CLOSED, workorder.getStatus());
-		assertEquals(EntityCategory.WORKORDER_TASK, workorder.getCategory());
-		assertEquals(EntityClosureCode.WORKORDER_COMPLETED, workorder.getClosureCode());
-		assertEquals(111222, workorder.getChange().getId().longValue());
+		assertEquals(workorder.getId().longValue(), 245242424L);
+		assertEquals(workorder.getNo().longValue(), 53081L);
+		assertEquals(workorder.getStatus(), EntityStatus.WORKORDER_CLOSED);
+		assertEquals(workorder.getCategory(), EntityCategory.WORKORDER_TASK);
+		assertEquals(workorder.getClosureCode(), EntityClosureCode.WORKORDER_COMPLETED);
+	}
+
+	@Test
+	private void testFindByFilter(){
+		HashMap<String, String> firstFilter = new HashMap<>();
+		firstFilter.put("initiator","1");
+		HashMap<String, String> secondFilter = new HashMap<>();
+		secondFilter.put("initiator","2");
+		HashMap<String, String> thirdFilter = new HashMap<>();
+		thirdFilter.put("initiator","1");
+		thirdFilter.put("assigneePerson","2");
+
+		List<Workorder> workorders = dao.list(firstFilter);
+		assertEquals(workorders.size(),2);
+		workorders = dao.list(secondFilter);
+		assertEquals(workorders.size(),1);
+		workorders = dao.list(thirdFilter);
+		assertEquals(workorders.size(),1);
+		assertNotNull(workorders.get(0).getAssigneePerson());
 	}
 }
