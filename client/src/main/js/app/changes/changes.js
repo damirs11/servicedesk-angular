@@ -17,7 +17,7 @@
                 templateUrl: 'js/app/changes/changes.html',
                 controller: 'appChangesController'
             })
-    })
+        })
         .controller('appChangesController', [
             '$scope', '$translate', 'USER_DATA', '$http', '$state',
             function ($scope, $translate, USER_DATA, $http, $state) {

@@ -3,7 +3,8 @@
 
     angular
         .module('ui.test', [
-            'ui.dialogs'
+            'ui.dialogs',
+            'ui.rest.grid'
         ])
         .config(function ($stateProvider) {
             $stateProvider
