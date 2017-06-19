@@ -6,6 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
+import ru.it.sd.dao.mapper.ConfigurationItemMapper;
 import ru.it.sd.dao.mapper.WorkorderMapper;
 import ru.it.sd.model.ConfigurationItem;
 import ru.it.sd.model.Workorder;
@@ -25,7 +26,7 @@ public class ConfigurationItemDao extends AbstractDao {
 	private ConfigurationItemMapper mapper;
 
 	/**
-	 * Общий запрос получения данных о наряде
+	 * Общий запрос получения данных о объекте
 	 */
 
 	private static final String SELECT_ALL_SQL =
@@ -61,18 +62,18 @@ public class ConfigurationItemDao extends AbstractDao {
 				"{0}";
 
 	/**
-	 * Возвращает наряд по его идентификатору
-	 * @param id идентификатор наряда
-	 * @return наряд
+	 * Возвращает объект по его идентификатору
+	 * @param id идентификатор объекта
+	 * @return объект
 	 */
 	@Cacheable(lifetime = 5, unit = TimeUnit.SECONDS)
-	public Workorder read(Long id) {
+	public ConfigurationItem read(Long id) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", id);
 		try {
 			ConfigurationItem item = namedJdbc.queryForObject(
 					MessageFormat.format(SELECT_ALL_SQL, " WHERE ITEM.CIT_OID = :id"),
-					params, null);
+					params, mapper);
 			return item;
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -80,7 +81,7 @@ public class ConfigurationItemDao extends AbstractDao {
 	}
 
 	@Cacheable(lifetime = 5, unit = TimeUnit.SECONDS)
-	public List<Workorder> list(Map<String, String> filter) {
+	public List<ConfigurationItem> list(Map<String, String> filter) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		StringBuilder queryPart = new StringBuilder();
 		queryPart.append(" WHERE TRUE ");
@@ -107,10 +108,10 @@ public class ConfigurationItemDao extends AbstractDao {
 			}
 		}
 		try {
-			List<Workorder> workorders = namedJdbc.query(
+			List<ConfigurationItem> items = namedJdbc.query(
 					MessageFormat.format(SELECT_ALL_SQL, queryPart),
-					params, ((ResultSetExtractor<List<Workorder>>) mapper));
-			return workorders;
+					params, ((ResultSetExtractor<List<ConfigurationItem>>) mapper));
+			return items;
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
@@ -118,14 +119,14 @@ public class ConfigurationItemDao extends AbstractDao {
 
 
 	/**
-	 * Возвращает все наряды
-	 * @return лист нарядов
+	 * Возвращает все объекты
+	 * @return лист объектов
 	 */
-	public List<Workorder> findAll() {
+	public List<ConfigurationItem> findAll() {
 		try {
-			List<Workorder> workorders = namedJdbc.query(SELECT_ALL_SQL,
-					((ResultSetExtractor<List<Workorder>>) null));
-			return workorders;
+			List<ConfigurationItem> items = namedJdbc.query(SELECT_ALL_SQL,
+					((ResultSetExtractor<List<ConfigurationItem>>) null));
+			return items;
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}

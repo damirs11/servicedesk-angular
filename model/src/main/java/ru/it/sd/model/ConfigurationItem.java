@@ -39,7 +39,7 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "CIT_SERIALNUMBER")
 	private String serial;
 	/** Адрес */
-	@FieldMeta(columnName = "CCF_CITEXT1") // ToDo заполни columnName
+	@FieldMeta(columnName = "CCF_CITEXT1")
 	private String address;
 	/** Замечание */
 	@FieldMeta(columnName = "CIT_REMARK")
