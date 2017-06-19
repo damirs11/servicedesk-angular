@@ -26,7 +26,7 @@ public class ConfigurationItemDao extends AbstractDao {
 	private ConfigurationItemMapper mapper;
 
 	/**
-	 * Общий запрос получения данных о объекте
+	 * Общий запрос получения данных об объекте
 	 */
 
 	private static final String SELECT_ALL_SQL =
@@ -89,23 +89,71 @@ public class ConfigurationItemDao extends AbstractDao {
 		if (filter != null) {
 			if (filter.containsKey("no")) {
 				params.addValue("no",filter.get("no"));
-				queryPart.append(" AND WORKORDER.WOR_ID = :no");
+				queryPart.append(" AND ITEM.CIT_OID = :no");
 			}
-			if (filter.containsKey("assigneePerson")) {
-				params.addValue("assigneePerson",filter.get("assigneePerson"));
-				queryPart.append(" AND WORKORDER.ASS_PER_TO_OID = :assigneePerson ");
+			if (filter.containsKey("searchCode")) {
+				params.addValue("searchCode",filter.get("searchCode"));
+				queryPart.append(" AND ITEM.CIT_SEARCHCODE = :searchCode ");
 			}
-			if (filter.containsKey("initiator")) {
-				params.addValue("initiator",filter.get("initiator"));
-				queryPart.append(" AND WORKORDER.WOR_REQUESTOR_PER_OID = :initiator ");
+			if (filter.containsKey("name")) {
+				params.addValue("name",filter.get("name"));
+				queryPart.append(" AND ITEM.CIT_NAME1 = :name ");
 			}
-			if (filter.containsKey("changeId")) {
-				params.addValue("changeId",filter.get("changeId"));
-				queryPart.append(" AND WORKORDER.WOR_REQUESTOR_PER_OID = :changeId");
+			if (filter.containsKey("description")) {
+				params.addValue("description",filter.get("description"));
+				queryPart.append(" AND ITEM.CIT_NAME2 = :description");
+			}
+			if (filter.containsKey("orderNr")) {
+				params.addValue("orderNr",filter.get("orderNr"));
+				queryPart.append(" AND ITEM.CIT_ORDERNR = :orderNr");
+			}
+			if (filter.containsKey("serial")) {
+				params.addValue("serial",filter.get("serial"));
+				queryPart.append(" AND ITEM.CIT_SERIALNUMBER = :serial");
+			}
+			if (filter.containsKey("address")) {
+				params.addValue("address",filter.get("address"));
+				queryPart.append(" AND CUSTOM.CCF_CITEXT1 = :address");
+			}
+			if (filter.containsKey("remark")) {
+				params.addValue("remark",filter.get("remark"));
+				queryPart.append(" AND ITEM.CIT_REMARK = :remark");
+			}
+			if (filter.containsKey("ip")) {
+				params.addValue("ip",filter.get("ip"));
+				queryPart.append(" AND ITEM.CIT_IPADDRESS = :ip");
 			}
 			if (filter.containsKey("status")) {
 				params.addValue("status",filter.get("status"));
-				queryPart.append(" AND WORKORDER.WOR_STA_OID = :status");
+				queryPart.append(" AND ITEM.CIT_STA_OID = :status");
+			}
+			if (filter.containsKey("category")) {
+				params.addValue("category",filter.get("category"));
+				queryPart.append(" AND ITEM.CIT_CAT_OID = :category");
+			}
+			if (filter.containsKey("location")) {
+				params.addValue("location",filter.get("location"));
+				queryPart.append(" AND ITEM.CIT_LOC_OID = :location");
+			}
+			if (filter.containsKey("admin")) {
+				params.addValue("admin",filter.get("admin"));
+				queryPart.append(" AND ITEM.CIT_ADMIN_PER_OID = :admin");
+			}
+			if (filter.containsKey("owner")) {
+				params.addValue("owner",filter.get("owner"));
+				queryPart.append(" AND ITEM.CIT_OWNER_PER_OID = :owner");
+			}
+			if (filter.containsKey("ownerOrganization")) {
+				params.addValue("ownerOrganization",filter.get("ownerOrganization"));
+				queryPart.append(" AND ITEM.CIT_OWNER_ORG_OID = :ownerOrganization");
+			}
+			if (filter.containsKey("payer")) {
+				params.addValue("payer",filter.get("payer"));
+				queryPart.append(" AND ITEM.CCF_ORG1_OID = :payer");
+			}
+			if (filter.containsKey("supplier")) {
+				params.addValue("supplier",filter.get("supplier"));
+				queryPart.append(" AND ITEM.CIT_ORG_OID = :supplier");
 			}
 		}
 		try {

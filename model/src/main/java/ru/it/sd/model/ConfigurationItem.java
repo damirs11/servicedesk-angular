@@ -44,11 +44,11 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 	/** Замечание */
 	@FieldMeta(columnName = "CIT_REMARK")
 	private String remark;
-	/** серийный номер */
+	/** IP-адрес */
 	@FieldMeta(columnName = "CIT_IPADDRESS")
 	private String ip;
-	/** серийный номер */
-	@FieldMeta(columnName = "CIT_IPADDRESS")
+	/** цена */
+	@FieldMeta(columnName = "CIT_PRICE")
 	private Double price;
 	/** Наличие вложений */
 	@FieldMeta(columnName = "CIT_ATTACHMENT_EXISTS")

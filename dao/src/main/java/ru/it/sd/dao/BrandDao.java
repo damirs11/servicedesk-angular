@@ -31,7 +31,7 @@ public class BrandDao extends AbstractCodesDao {
 		params.addValue("id", id);
 		try {
 			Brand brand = namedJdbc.queryForObject(
-					MessageFormat.format(SELECT_ALL_CDL_SQL, " WHERE CDL_COD_OID = :id"),
+					MessageFormat.format(SELECT_ALL_CDL_SQL, " AND CDL_COD_OID = :id"),
 					params, mapper);
 			return brand;
 		} catch (EmptyResultDataAccessException e) {

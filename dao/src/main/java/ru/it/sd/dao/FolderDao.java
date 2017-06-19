@@ -33,7 +33,7 @@ public class FolderDao extends AbstractCodesDao {
 		params.addValue("id", id);
 		try {
 			Folder folder = namedJdbc.queryForObject(
-					MessageFormat.format(SELECT_ALL_RCT_SQL, " WHERE RCT_RCD_OID = :id"),
+					MessageFormat.format(SELECT_ALL_RCT_SQL, " AND RCT_RCD_OID = :id"),
 					params, mapper);
 			return folder;
 		} catch (EmptyResultDataAccessException e) {
