@@ -67,6 +67,9 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 	/** Местоположение */
 	@FieldMeta(columnName = "CIT_LOC_OID")
 	private Location location;
+	/** папка доступа */
+	@FieldMeta(columnName = "CIT_POO_OID")
+	private Folder folder;
 
 	/** Дата покупки */
 	@FieldMeta(columnName = "CIT_PURCHASEDATE")
@@ -273,6 +276,14 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 
 	public void setSupplier(Organization supplier) {
 		this.supplier = supplier;
+	}
+
+	public Folder getFolder() {
+		return folder;
+	}
+
+	public void setFolder(Folder folder) {
+		this.folder = folder;
 	}
 
 	public String getAvatarId() {

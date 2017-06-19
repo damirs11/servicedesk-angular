@@ -47,7 +47,8 @@ public class ConfigurationItemDao extends AbstractDao {
 					"ITEM.CIT_NAME1, " +
 					"ITEM.CIT_NAME2, " +
 					"ITEM.CIT_ORDERNR, " +
-					"CUSTOM.CCF_CITEXT1, " +
+					"CUSTOM.CCF_CITEXT1," +
+					"ITEM.CIT_POO_OID, " +
 					"ITEM.CIT_STA_OID, " +
 					"ITEM.CIT_POO_OID, " +
 					"ITEM.CIT_REMARK, " +

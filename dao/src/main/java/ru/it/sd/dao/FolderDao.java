@@ -20,7 +20,7 @@ public class FolderDao extends AbstractCodesDao {
 	private FolderMapper mapper;
 
 	public List<Brand> getAll() {
-		return namedJdbc.query(MessageFormat.format(SELECT_ALL_CDL_SQL, ""), (RowMapper) mapper);
+		return namedJdbc.query(MessageFormat.format(SELECT_ALL_RCT_SQL, ""), (RowMapper) mapper);
 	}
 
 	/**
@@ -33,7 +33,7 @@ public class FolderDao extends AbstractCodesDao {
 		params.addValue("id", id);
 		try {
 			Folder folder = namedJdbc.queryForObject(
-					MessageFormat.format(SELECT_ALL_CDL_SQL, " WHERE RCT_RCD_OID = :id"),
+					MessageFormat.format(SELECT_ALL_RCT_SQL, " WHERE RCT_RCD_OID = :id"),
 					params, mapper);
 			return folder;
 		} catch (EmptyResultDataAccessException e) {
