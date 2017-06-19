@@ -1,5 +1,6 @@
 package ru.it.sd.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.util.ResourceMessages;
 
@@ -13,6 +14,7 @@ import static ru.it.sd.model.EntityType.*;
  * @author quadrix
  * @since 01.05.2017
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum EntityStatus implements Code {
 
 	CHANGE_REGISTERED("Зарегистрировано", CHANGE, 3095134325L),

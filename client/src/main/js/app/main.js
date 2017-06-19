@@ -15,6 +15,7 @@
             // app widgets
             'ui.dialogs',
             'ui.test',
+            'utils.entity',
             // app
             'appHeader',
             'appLogin',

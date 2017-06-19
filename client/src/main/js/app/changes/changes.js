@@ -26,7 +26,15 @@
                     paging: {pageNumber: 1, pageSize: 20},
                     sort: null,
                     filter: {}, // Параметры фильтрации данных
-                    metaData: null // Информация о классе отображаемых данных
+                    metaData:  // Информация о классе отображаемых данных
+                        [
+                            { field: 'status', name: "Статус" },
+                            { field: 'description', name: "Тема" },
+                            { field: 'name', name: "NAME" },
+                            { field: 'date', name: "DATE", enableColumnResizing: false, cellFilter: "dd.MM.yyyy"},
+                            { field: 'prefix', name: "PREFIX", cellTooltip: true },
+                            { field: 'company', name: "COMPANY", enableColumnMenu: false }
+                        ]
                 };
                 $scope.gridOptions = {
                     paginationPageSizes: [10, 20, 50, 100, 200, 500],
@@ -37,14 +45,7 @@
                     enableFullRowSelection: true,
                     multiSelect: true,
                     modifierKeysToMultiSelect: true,
-                    columnDefs: [
-                        { field: 'status', name: "Статус" },
-                        { field: 'description', name: "Тема" },
-                        { field: 'name', name: "NAME" },
-                        { field: 'date', name: "DATE", enableColumnResizing: false, cellFilter: "dd.MM.yyyy"},
-                        { field: 'prefix', name: "PREFIX", cellTooltip: true },
-                        { field: 'company', name: "COMPANY", enableColumnMenu: false }
-                    ],
+                    columnDefs: $scope.dataOptions.metaData,
                     appScopeProvider: {
                         onDblClick: function (row) {
                             if (row.entity) {
@@ -59,7 +60,7 @@
                     rowTemplate: "<div ng-dblclick=\"grid.appScope.onDblClick(row)\" ng-repeat=\"(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name\" class=\"ui-grid-cell\" ng-class=\"{ 'ui-grid-row-header-cell': col.isRowHeader }\" ui-grid-cell ></div>",
                     onRegisterApi: function (gridApi) {
                         $scope.gridApi = gridApi;
-                        /*$scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
+                        $scope.gridApi.core.on.sortChanged($scope, function (grid, sortColumns) {
                             $scope.dataOptions.sort = sortColumns;
                             fetchData()
                         });
@@ -82,7 +83,7 @@
                             // Вызывается когда выделяются(снимается выделение) все строки щелчком по заголовку таблицы
                             $scope.numberOfSelectedItems = $scope.gridApi.grid.selection.selectedCount;
                             setCurrentRow($scope.gridApi.grid.selection.lastSelectedRow)
-                        });*/
+                        });
                     }
                 };
                 // Формирование параметров запроса
@@ -157,7 +158,12 @@
                 var getRowView = function (row) {
                     var displayRow = [];
                     for (var field in row) {
-                        displayRow[field] = row[field]
+                        var value = row[field]
+                        switch (field) {
+                            case "status": displayRow[field] = value == null ? null : value.name;
+                                break
+                            default: displayRow[field] = value
+                        }
                     }
                     return displayRow
                 };
