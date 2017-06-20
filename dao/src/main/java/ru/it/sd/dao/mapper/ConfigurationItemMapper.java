@@ -22,6 +22,8 @@ public class ConfigurationItemMapper extends EntityRowMapper<ConfigurationItem> 
 	private LocationDao locationDao;
 	@Autowired
 	private FolderDao folderDao;
+	@Autowired
+	private BrandDao brandDao;
 
 	@Override
 	public ConfigurationItem mapRow(ResultSet rs, int rowNumber) throws SQLException {
@@ -47,6 +49,11 @@ public class ConfigurationItemMapper extends EntityRowMapper<ConfigurationItem> 
 			Folder folder = folderDao.read(folderId);
 			item.setFolder(folder);
 		}
+		Long brandId = DBUtils.getLong(rs,"CIT_BRA_OID");
+		if (brandId != null) {
+			Brand brand = brandDao.read(brandId);
+			item.setBrand(brand);
+		}
 		Long adminId = DBUtils.getLong(rs,"CIT_ADMIN_PER_OID");
 		if (adminId != null) {
 			Person admin = personDao.read(adminId);
@@ -55,7 +62,7 @@ public class ConfigurationItemMapper extends EntityRowMapper<ConfigurationItem> 
 		Long ownerId = DBUtils.getLong(rs,"CIT_OWNER_PER_OID");
 		if (ownerId != null) {
 			Person owner = personDao.read(ownerId);
-			item.setAdmin(owner);
+			item.setOwner(owner);
 		}
 		Long ownerOrgId = DBUtils.getLong(rs,"CIT_OWNER_ORG_OID");
 		if (ownerOrgId != null) {

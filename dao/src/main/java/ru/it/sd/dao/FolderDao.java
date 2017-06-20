@@ -24,9 +24,9 @@ public class FolderDao extends AbstractCodesDao {
 	}
 
 	/**
-	 * Возвращает брэнд по идентификатору
-	 * @param id идентификатор брэнда
-	 * @return брэнд
+	 * Возвращает папку по идентификатору
+	 * @param id идентификатор папки
+	 * @return папка
 	 */
 	public Folder read(Long id) {
 		MapSqlParameterSource params = new MapSqlParameterSource();

@@ -47,6 +47,7 @@ public class ConfigurationItemDao extends AbstractDao {
 					"ITEM.CIT_NAME1, " +
 					"ITEM.CIT_NAME2, " +
 					"ITEM.CIT_ORDERNR, " +
+					"ITEM.CIT_LOC_OID, " +
 					"CUSTOM.CCF_CITEXT1," +
 					"ITEM.CIT_POO_OID, " +
 					"ITEM.CIT_STA_OID, " +
@@ -89,7 +90,7 @@ public class ConfigurationItemDao extends AbstractDao {
 		if (filter != null) {
 			if (filter.containsKey("no")) {
 				params.addValue("no",filter.get("no"));
-				queryPart.append(" AND ITEM.CIT_OID = :no");
+				queryPart.append(" AND ITEM.CIT_ID = :no");
 			}
 			if (filter.containsKey("searchCode")) {
 				params.addValue("searchCode",filter.get("searchCode"));

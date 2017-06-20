@@ -22,9 +22,9 @@ public class BrandDao extends AbstractCodesDao {
 	}
 
 	/**
-	 * Возвращает брэнд по идентификатору
-	 * @param id идентификатор брэнда
-	 * @return брэнд
+	 * Возвращает бренд по идентификатору
+	 * @param id идентификатор бренда
+	 * @return бренд
 	 */
 	public Brand read(Long id) {
 		MapSqlParameterSource params = new MapSqlParameterSource();

@@ -70,6 +70,9 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 	/** папка доступа */
 	@FieldMeta(columnName = "CIT_POO_OID")
 	private Folder folder;
+	/** бренд */
+	@FieldMeta(columnName = "CIT_BRA_OID")
+	private Brand brand;
 
 	/** Дата покупки */
 	@FieldMeta(columnName = "CIT_PURCHASEDATE")
@@ -194,6 +197,14 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 
 	public void setAttachmentExists(Boolean attachmentExists) {
 		this.attachmentExists = attachmentExists;
+	}
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
 	@Override

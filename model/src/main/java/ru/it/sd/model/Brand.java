@@ -10,7 +10,7 @@ import ru.it.sd.util.AppToStringStyle;
  */
 
 /**
- * брэнд
+ * бренд
  */
 @ClassMeta(tableName = "ITSM_CODES_LOCALE")
 public class Brand implements Code {
