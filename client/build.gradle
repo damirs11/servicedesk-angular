@@ -8,7 +8,15 @@ plugins {
     id "com.github.ksoichiro.web.resource" version "1.7.3"
     //js min: https://github.com/eriwen/gradle-js-plugin
     id "com.eriwen.gradle.js" version "2.14.1"
+    id "com.moowork.node" version "1.2.0"
+    id "com.moowork.gulp" version "1.2.0"
 }
+
+// run npm install
+gulp_default.dependsOn 'npmInstall'
+
+// run gulp install
+gulp_default.dependsOn 'installGulp'
 
 apply plugin: 'base'
 
@@ -63,7 +71,6 @@ task copyStatic(type: Copy) {
     from (baseSrcDir) {
         include 'css/fonts/**'
         include 'img/**'
-        include 'js/app/**'
         include 'index.html'
     }
     into baseDstDir
