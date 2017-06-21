@@ -1,0 +1,8 @@
+<div class="modal-header" data-ng-class="dialogStyle">
+    <button type="button" class="close" data-ng-click="close()" title="{{'DIALOGS_CLOSE' | translate}}">&times;</button>
+    <span class="modal-title" data-ng-bind-html="header"/>
+</div>
+<div class="modal-body" data-ng-bind-html="msg"/>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-ng-click="close()">{{'DIALOGS_CLOSE' | translate}}</button>
+</div>

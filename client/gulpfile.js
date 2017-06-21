@@ -29,7 +29,7 @@ const config = {
         mainLess: "./src/main/css/style.less",
         img: "./src/main/img/",
         vendorJs: "./src/main/lib/",
-        mainJS: "./src/main/js/app/app.js"
+        mainJS: "./src/main/js/app/modules/servicedesk/servicedesk.js"
     },
     dist : {
         js: "./build/dist/js/",
@@ -77,14 +77,12 @@ gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js �
         'node_modules/angular-ui-router/release/angular-ui-router.min.js',
         'node_modules/angular-bootstrap-npm/dist/angular-bootstrap.min.js',
         'node_modules/angular-bootstrap-npm/dist/angular-bootstrap-tpls.min.js',
-        'node_modules/angular-ui-grid/ui-grid.min.js',
+        'node_modules/angular-ui-grid/ui-grid.min.js'
     ];
     return gulp.src(files)
         .pipe(plumber())
-        .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(concat("vendor.min.js"))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(config.dist.js))
+        .pipe(concat("vendor.min.js")) // "Склеиваем" минифицированные js в один файл
+        .pipe(gulp.dest(config.dist.js)); // Кладем в dest/js
 });
 
 /**
@@ -120,8 +118,8 @@ gulp.task("copy:index", function copyIndex() {
 /**
  * Обработка ошибок build:js
  */
-function handleBuildError(){
-    console.log("Build error.")
+function handleBuildError(e){
+    console.log("Build error.",e)
 }
 
 gulp.task('copy', gulp.parallel('copy:img','copy:index'));
