@@ -116,6 +116,10 @@ gulp.task("copy:index", function copyIndex() {
         .pipe(gulp.dest(config.dist.base))
 });
 
+
+/**
+ * Обработка ошибок build:js
+ */
 function handleBuildError(){
     console.log("Build error.")
 }
