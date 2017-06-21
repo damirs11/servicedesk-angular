@@ -67,6 +67,7 @@ gulp.task('build:js', function buildJS() {
  */
 gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js библиотеки в отдельный файл
     var files = [
+        'node_modules/babel-polyfill/browser.js',
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
         'node_modules/angular/angular.min.js',
