@@ -8,7 +8,7 @@ const rimraf = require('gulp-rimraf');
 const concat = require('gulp-concat-util');
 const plumber = require('gulp-plumber');
 const less = require('gulp-less');
-const minifyCss = require('gulp-minify-css');
+const cleanCSS = require('gulp-clean-css');
 const stringify = require('stringify');
 const uglifyify = require('uglifyify');
 const source = require('vinyl-source-stream');
@@ -74,7 +74,8 @@ gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js �
         'node_modules/angular-sanitize/angular-sanitize.min.js',
         'node_modules/angular-messages/angular-messages.min.js',
         'node_modules/angular-translate/dist/angular-translate.min.js',
-        'node_modules/angular-ui-router/release/angular-ui-router.min.js',
+        'node_modules/@uirouter/core/_bundles/ui-router-core.min.js', // Новый ui-router не запускается без core
+        'node_modules/@uirouter/angularjs/release/ui-router-angularjs.min.js',
         'node_modules/angular-bootstrap-npm/dist/angular-bootstrap.min.js',
         'node_modules/angular-bootstrap-npm/dist/angular-bootstrap-tpls.min.js',
         'node_modules/angular-ui-grid/ui-grid.min.js'
@@ -93,7 +94,7 @@ gulp.task('build:less', function buildLess(){
         .pipe(less())
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(rename('style.min.css'))
-        .pipe(minifyCss())
+        .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.dist.css))
 });

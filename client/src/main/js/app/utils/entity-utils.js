@@ -20,6 +20,7 @@
                         result.push(entity.id);
                     });
                     return result.join(", ");
+                    // return entities.map(e => e.id).join(", ")
                 }
 
                 /**

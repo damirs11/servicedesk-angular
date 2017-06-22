@@ -16,7 +16,6 @@
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-concat-util": "^0.5.5",
     "gulp-less": "^3.3.2",
-    "gulp-minify-css": "^1.2.4",
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-rimraf": "^0.2.1",
@@ -25,20 +24,20 @@
     "stringify": "^5.1.0",
     "uglifyify": "^4.0.1",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "gulp-clean-css": "^3.4.2"
   },
   "dependencies": {
+    "@uirouter/angularjs": "^1.0.4",
     "angular": "^1.6.4",
     "angular-bootstrap-npm": "^0.14.3",
     "angular-messages": "^1.6.4",
     "angular-sanitize": "^1.6.4",
     "angular-translate": "^2.15.1",
     "angular-ui-grid": "^4.0.6",
-    "angular-ui-router": "^1.0.3",
     "babel-polyfill": "^6.23.0",
     "bootstrap": "^3.3.7",
     "i": "^0.3.5",
-    "jquery": "^3.2.1",
-    "npm": "^5.0.3"
+    "jquery": "^3.2.1"
   }
 }

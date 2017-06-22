@@ -1,12 +1,13 @@
 class LoginController {
-    static $inject = ['$translate', '$log', 'SD', '$http', '$state'];
+    static $inject = ['$translate', '$log', 'SD', '$http', '$state', '$scope'];
 
-    constructor($translate, $log, SD, $http, $state){
+    constructor($translate, $log, SD, $http, $state, $scope){
         this.$translate = $translate;
         this.SD = SD;
         this.$log = $log;
         this.$http = $http;
         this.$state = $state;
+        this.$scope = $scope;
 
         this.loginFailed = false; // флаг неудачной аутентификации
     }
@@ -16,7 +17,7 @@ class LoginController {
      */
     async loginClick(){
         this.loginFailed = false;
-        if ((this.loginForm.$dirty && this.loginForm.$invalid) || this.loginForm.$pristine) {
+        if ((this.$scope.loginForm.$dirty && this.$scope.loginForm.$invalid) || this.$scope.loginForm.$pristine) {
             return;
         }
         try {

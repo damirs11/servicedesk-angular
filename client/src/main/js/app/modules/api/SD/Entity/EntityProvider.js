@@ -5,8 +5,15 @@ export function EntityProvider(){
      */
     return class Entity{
 
+        /**
+         * Кэш объектов. Необходим, чтобы при обновлении какого-либо объекта не осталось его копий
+         * со старыми данными.
+         */
         static cache = {}; // Закэшированные сущности
 
+        /**
+         * Превращает json данные в SD сущность.
+         */
         static parse(data){
             if (!data) return null;
             if (typeof data !== "object") return new this(data);
@@ -37,7 +44,10 @@ export function EntityProvider(){
 
         /**
          * Обновить объект в кэше.
-         * @param data
+         * Для каждого ключа из прешедших данных ищет у кэшированного объекта
+         * поле parse:%key% и вызывает его, передвая туда значение data[%key%], сам объект data, ключ и
+         * закэшированный объект. Если метод вернул что-либо не undefined - заносит это в поле cachedObject[%key%]
+         * @param {object} data - json данные
          */
         $update(data){
             const cached = this.$data;
@@ -51,6 +61,13 @@ export function EntityProvider(){
             return this;
         }
 
+        /**
+         * Необходимо для сравнения объектов через == и ===
+         * @returns {*|undefined}
+         */
+        valueOf(){
+            return this.id || undefined
+        }
 
     }
 }

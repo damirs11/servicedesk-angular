@@ -5,9 +5,6 @@ class AppController {
         //this.appSessionService = appSessionService;
         this.uiDialogs = uiDialogs;
         this.SD = SD;
-        if (!this.authorized) {
-            $state.go("app.login")
-        }
     }
 
     get user(){
