@@ -1,11 +1,12 @@
 import {name as TranslateLoaderName} from "./translateLoader.factory"
+import dictionary from "./dictionary.json";
 
 TranslateConfig.$inject = ['$translateProvider'];
 /**
  * Настройка angular translate
  */
 export async function TranslateConfig($translateProvider){
-    $translateProvider.useLoader(TranslateLoaderName);
+    $translateProvider.translations('ru', dictionary);
     $translateProvider.preferredLanguage('ru');
     $translateProvider.useSanitizeValueStrategy('sanitizeParameters')
 }
