@@ -26,7 +26,11 @@
   "password.change.new":"Новый пароль",
   "password.change.old":"Старый пароль",
   "password.change.confirm":"Повторите новый пароль",
-
+  "password.change.new.p":"Введите новый пароль",
+  "password.change.title":"Смена пароля",
+  "password.change.confirm.p":"Для проверки введите повторно новый пароль",
+  "password.change.old.p":"Введите старый пароль",
+  "password.change.invalid.old.password":"Неправильно указан старый пароль. Повторите попытку и введите правильные данные.",
 
   "DIALOGS_SAVE":"Сохранить",
   "DIALOGS_NOTIFICATION":"Уведомление",
@@ -40,14 +44,12 @@
   "DIALOGS_CONFIRMATION_MSG":"Вы подтверждаете?",
   "DIALOGS_OK":"Применить",
 
-
   "login.password":"Пароль",
   "login.user":"Имя пользователя",
   "login.enter.username":"Введите имя пользователя",
   "login.enter.password":"Введите пароль",
   "login.title":"Вход в систему",
   "login.button.login":"Войти",
-
 
   "error.form.different":"Значения должны различаться",
   "error.form.email":"Неправильный адрес почты",
@@ -56,18 +58,10 @@
   "error.form.equals":"Значения не совпадают",
   "error.form.required":"Обязательное поле",
 
-
-  "password.change.new.p":"Введите новый пароль",
-  "password.change.title":"Смена пароля",
-  "password.change.confirm.p":"Для проверки введите повторно новый пароль",
-  "password.change.old.p":"Введите старый пароль",
-  "password.change.invalid.old.password":"Неправильно указан старый пароль. Повторите попытку и введите правильные данные.",
-
   "header.build.version":"Версия",
   "header.build.build.date":"Дата сборки",
   "header.build.build.revision":"Номер сборки",
   "header.logout":"Выход",
-
 
   "http.request.start":"Запрос к серверу"
 }
