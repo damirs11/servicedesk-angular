@@ -19,3 +19,5 @@ ALTER TABLE itsm_cha_information ADD CONSTRAINT fk_information_changes FOREIGN K
 -----------------------------------------------------------------------------------
 ALTER TABLE itsm_workorders ADD CONSTRAINT pk_workorders PRIMARY KEY (wor_oid);
 -----------------------------------------------------------------------------------
+ALTER TABLE itsm_configuration_items ADD CONSTRAINT pk_configuration_items PRIMARY KEY (cit_oid);
+-----------------------------------------------------------------------------------
