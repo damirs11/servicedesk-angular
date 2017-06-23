@@ -28,6 +28,7 @@ const config = {
         index: "./src/main/index.html",
         mainLess: "./src/main/css/style.less",
         img: "./src/main/img/",
+        fonts: "./src/main/fonts/",
         vendorJs: "./src/main/lib/",
         mainJS: "./src/main/js/app/modules/servicedesk/servicedesk.js"
     },
@@ -35,7 +36,8 @@ const config = {
         js: "./build/dist/js/",
         css: "./build/dist/css/",
         img: "./build/dist/img/",
-        base: "./build/dist/"
+        base: "./build/dist/",
+        fonts: "./build/dist/css/fonts/"
     }
 };
 
@@ -108,6 +110,14 @@ gulp.task("copy:img", function copyStatic() {
 });
 
 /**
+ * Копирует все шрифты
+ */
+gulp.task("copy:fonts", function copyStatic() {
+    return gulp.src(config.source.fonts+"*")
+        .pipe(gulp.dest(config.dist.fonts))
+});
+
+/**
  * Копирует index.html
  */
 gulp.task("copy:index", function copyIndex() {
@@ -123,7 +133,7 @@ function handleBuildError(e){
     console.log("Build error.",e)
 }
 
-gulp.task('copy', gulp.parallel('copy:img','copy:index'));
+gulp.task('copy', gulp.parallel('copy:img','copy:index','copy:fonts'));
 
 gulp.task('build',gulp.parallel('build:js','build:less','build:js-vendor','copy'));
 

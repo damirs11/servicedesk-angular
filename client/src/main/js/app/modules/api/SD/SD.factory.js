@@ -12,6 +12,11 @@ export function SDFactory($injector, $http) {
      * @type {User}
      */
     let user = null;
+    /**
+     * Папка с переводами
+     * @type {object}
+     */
+    const translations = {};
 
     /**
      * Объект, содердащий основные методы для работы с бэкэндом и классы для сущностей.
@@ -54,7 +59,7 @@ export function SDFactory($injector, $http) {
         },
         get authorized(){
             return Boolean(user)
-        }
+        },
     };
 
     /**

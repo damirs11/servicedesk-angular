@@ -27,7 +27,7 @@ class LoginController {
             return;
         }
         this.loginFailed = false;
-        this.$state.go("/");
+        this.$state.go("app.main");
     }
 
     hitEnter (evt) {
