@@ -5,6 +5,9 @@ import {servicedeskUI} from "../ui/servicedesk-ui"
 
 console.log("Init servicedesk module");
 
+/**
+ * Основной модуль.
+ */
 let servicedesk = angular.module("servicedesk",[servicedeskAPI,servicedeskUI])
     .decorator("$q",QDecorator)
     .name

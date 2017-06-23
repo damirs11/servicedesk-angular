@@ -5,6 +5,9 @@ import {uiRouter, translate, uiBootstrap, uiGrid, ngSanitize, utilsEntity} from 
 import {name as TranslateLoaderName, TranslateLoaderFactory} from "./translate/translateLoader.factory"
 import {TranslateConfig} from "./translate/translate.config"
 
+/**
+ * Модуль, отвечающий за визуальную часть
+ */
 let servicedeskUI = angular.module("servicedesk-ui",[servicedeskAPI, uiRouter, translate, uiDialogs, uiBootstrap, ngSanitize])
     .factory(TranslateLoaderName,TranslateLoaderFactory)
     .config(TranslateConfig)
