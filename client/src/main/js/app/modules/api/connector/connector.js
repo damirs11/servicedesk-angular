@@ -39,13 +39,12 @@ export class Connector{
      * @param data - json данные, для отправки
      * @param timeout - время ожидания ответа
      */
-    async post(path, timeout, data){
+    async post(path, data, timeout){
         const destination = this._getDestination(path);
         const config = {};
         if (timeout != null) config.timeout = timeout;
-        if (data != null) config.data = data;
         try {
-            const response = await this.$http.get(destination, config);
+            const response = await this.$http.post(destination, data || undefined, config);
             return response.data;
         } catch (errorResponse) {
             // ToDo придумать структуру для ошибок, и throw-ать свои ошибки тут

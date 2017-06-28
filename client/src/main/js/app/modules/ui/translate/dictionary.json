@@ -63,5 +63,7 @@
   "header.build.build.revision":"Номер сборки",
   "header.logout":"Выход",
 
-  "http.request.start":"Запрос к серверу"
+  "http.request.start":"Запрос к серверу",
+
+  "authentication.incorrect": "Имя пользователя или пароль указаны неверно. <br><br> Если Вы забыли пароль, обратитесь в службу технической поддержки <a href=\"mailto:servicecall@it.ru\">servicecall@it.ru</a> или по телефонам: <br> 8-800-100-4270, (347)-293-44-32"
 }
