@@ -6,4 +6,4 @@ export const uiGrid = "ui.grid";
 export const uiTest = 'ui.test';
 export const utilsEntity = 'utils.entity';
 export const ngAnimate = "ngAnimate";
-export const jquery = window.$;
+export const jQuery = window.jQuery;

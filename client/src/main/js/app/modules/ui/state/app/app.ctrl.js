@@ -1,10 +1,10 @@
 class AppController {
-    static $inject = ['SD', 'uiDialogs', '$state'];
+    static $inject = ['SD', '$scope', 'ModalAction'];
 
-    constructor(SD, uiDialogs, $state){
+    constructor(SD, $scope, ModalAction){
         //this.appSessionService = appSessionService;
-        this.uiDialogs = uiDialogs;
         this.SD = SD;
+        ModalAction.changePassword($scope)
     }
 
     get user(){

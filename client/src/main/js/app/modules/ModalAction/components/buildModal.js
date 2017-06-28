@@ -1,4 +1,4 @@
-import {jquery as $} from "../../../utils/web-libraries";
+import {jQuery as $} from "../../../utils/web-libraries";
 
 const MODAL_OPEN_CLASS = 'modal-open';
 
