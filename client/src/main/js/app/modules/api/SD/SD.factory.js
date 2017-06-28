@@ -22,7 +22,7 @@ export function SDFactory($injector, $connector) {
          */
         async login(login,password){
             const data = {login,password};
-            const data = await $connector.post('rest/service/security/login', data);
+            const response = await $connector.post('rest/service/security/login', data);
             return this.authorize();
         },
         /**

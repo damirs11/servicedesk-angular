@@ -30,6 +30,7 @@
   "dependencies": {
     "@uirouter/angularjs": "^1.0.4",
     "angular": "^1.6.4",
+    "angular-animate": "^1.6.4",
     "angular-bootstrap-npm": "^0.14.3",
     "angular-messages": "^1.6.4",
     "angular-sanitize": "^1.6.4",

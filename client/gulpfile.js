@@ -80,7 +80,8 @@ gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js �
         'node_modules/@uirouter/angularjs/release/ui-router-angularjs.min.js',
         'node_modules/angular-bootstrap-npm/dist/angular-bootstrap.min.js',
         'node_modules/angular-bootstrap-npm/dist/angular-bootstrap-tpls.min.js',
-        'node_modules/angular-ui-grid/ui-grid.min.js'
+        'node_modules/angular-ui-grid/ui-grid.min.js',
+        'node_modules/angular-animate/angular-animate.min.js',
     ];
     return gulp.src(files)
         .pipe(plumber())

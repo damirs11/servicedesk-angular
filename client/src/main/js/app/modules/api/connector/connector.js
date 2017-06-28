@@ -1,8 +1,8 @@
-
-Connector.$inject = ["$http","config"];
 export class Connector{
 
-    constructor($http, config){
+    static $inject = ["config","$http"];
+
+    constructor(config,$http){
         this.address = config.address || "";
         this.$http = $http;
     }
@@ -25,7 +25,7 @@ export class Connector{
         if (params != null) config.params = params;
         try {
             const response = await this.$http.get(destination, config);
-            return response;
+            return response.data;
         } catch (errorResponse) {
             // ToDo придумать структуру для ошибок, и throw-ать свои ошибки тут
             throw errorResponse
@@ -46,7 +46,7 @@ export class Connector{
         if (data != null) config.data = data;
         try {
             const response = await this.$http.get(destination, config);
-            return response;
+            return response.data;
         } catch (errorResponse) {
             // ToDo придумать структуру для ошибок, и throw-ать свои ошибки тут
             throw errorResponse

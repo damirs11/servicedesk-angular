@@ -1,18 +1,20 @@
-import {Connector} from "connector";
+import {Connector} from "./connector";
 
-ConnectorProvider.$inject = ["$injector"];
-export function ConnectorProvider($injector){
+// $http нужен внутри Connector'а
+export function ConnectorProvider(){
 
-    let address = null; // Если null - используется тот же, где находится front
+    let address = "/sd";
 
-    return {
+    const provider =  {
         setAddress(addr){
             address = addr
         },
-        $get(){
+        $get($injector){
             return $injector.instantiate(Connector, {config: {
                 address: address
             }})
         }
-    }
+    };
+    provider.$get.$inject = ["$injector"];
+    return provider;
 }
