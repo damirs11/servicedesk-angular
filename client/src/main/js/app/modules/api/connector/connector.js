@@ -15,10 +15,10 @@ export class Connector{
      * Отправляет GET запрос к серверу. Вернет промис
      * в котором можно работать сразу с json данными
      * @param path - относительный путь
-     * @param timeout - время ожидания ответа
      * @param params - параметры для get запроса
+     * @param timeout - время ожидания ответа
      */
-    async get(path, timeout, params){
+    async get(path, params, timeout){
         const destination = this._getDestination(path);
         const config = {};
         if (timeout != null) config.timeout = timeout;
@@ -36,8 +36,8 @@ export class Connector{
      * Отправляет POST запрос к серверу. Вернет промис
      * в котором можно работать сразу с json данными
      * @param path - относительный путь
-     * @param timeout - время ожидания ответа
      * @param data - json данные, для отправки
+     * @param timeout - время ожидания ответа
      */
     async post(path, timeout, data){
         const destination = this._getDestination(path);
