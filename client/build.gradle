@@ -12,66 +12,16 @@ plugins {
     id "com.moowork.gulp" version "1.2.0"
 }
 
-// run npm install
-gulp_default.dependsOn 'npmInstall'
-
 apply plugin: 'base'
 
-def baseSrcDir = "src/main/"
-def baseDstDir = "build/dist/"
-def srcDirJs = "$baseSrcDir/js/"
-def dstDirJs = "$baseDstDir/js/"
-//
-//// Компиляция less-файлов
-//webResource {
-//    base {
-//        src = baseSrcDir
-//        dest = baseDstDir
-//    }
-//    less {
-//        enabled = true
-//        src = "css"
-//        dest = "css"
-//        include = ['style.less', 'bootstrap.less', 'ui-grid.less']
-//        minify = true
-//        parallelize = true
-//    }
-//}
-//
-//// Объявляем и группируем пути к js-файлам
-//javascript.source {
-//    lib {
-//        js {
-//            srcDir "$srcDirJs/lib"
-//            include "*.js"
-//        }
-//    }
-//}
-//
-//// Объединение нескольких js-файлов в один
-//combineJs {
-//    encoding = "UTF-8"
-//    source = javascript.source.lib.js.files
-//    dest = file("$dstDirJs/lib/all.js")
-//}
-//// Минификация js-файлов
-//minifyJs {
-//    source = combineJs
-//    dest = file("$dstDirJs/lib/all-min.js")
-//    sourceMap = file("$dstDirJs/lib/all.sourcemap.json")
-//    closure {
-//        warningLevel = 'QUIET'
-//    }
-//}
-//// Копирование статичного контента без обработки
-//task copyStatic(type: Copy) {
-//    from (baseSrcDir) {
-//        include 'css/fonts/**'
-//        include 'img/**'
-//        include 'index.html'
-//    }
-//    into baseDstDir
-//}
-//build.dependsOn('webResourceCompileLess', 'copyStatic', 'combineJs', 'minifyJs')
+//def baseSrcDir = "src/main/"
+//def baseDstDir = "build/dist/"
+//def srcDirJs = "$baseSrcDir/js/"
+//def dstDirJs = "$baseDstDir/js/"
 
-build.dependsOn('gulp_default')
+node {
+    download = true
+    npmVersion = '5.0.3'
+}
+
+build.dependsOn('npmInstall','gulp_default')
