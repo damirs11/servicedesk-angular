@@ -23,5 +23,5 @@ node {
     download = true
     npmVersion = '5.0.3'
 }
-
-build.dependsOn('npmInstall','gulp_default')
+gulp_default.dependsOn(npm_install)
+build.dependsOn('gulp_default')
