@@ -4,7 +4,8 @@ class AppController {
     constructor(SD, $scope, ModalAction){
         //this.appSessionService = appSessionService;
         this.SD = SD;
-        ModalAction.changePassword($scope)
+        this.ModalAction = ModalAction;
+        this.$scope = $scope;
     }
 
     get user(){
@@ -22,7 +23,7 @@ class AppController {
     }
 
     passwordChange() {
-        this.uiDialogs.create('js/app/passwordChange/passwordChange.html', 'appPasswordChangeController');
+        this.ModalAction.changePassword(this.$scope)
     }
 }
 
