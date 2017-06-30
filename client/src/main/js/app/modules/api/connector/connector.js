@@ -1,10 +1,11 @@
 export class Connector{
 
-    static $inject = ["config","$http"];
+    static $inject = ["config","$http","$state"];
 
-    constructor(config,$http){
+    constructor(config,$http,$state){
         this.address = config.address || "";
         this.$http = $http;
+        this.$state = $state;
     }
 
     _getDestination(path){
@@ -27,7 +28,6 @@ export class Connector{
             const response = await this.$http.get(destination, config);
             return response.data;
         } catch (errorResponse) {
-            // ToDo придумать структуру для ошибок, и throw-ать свои ошибки тут
             throw errorResponse
         }
     }

@@ -16,7 +16,7 @@ export class ChangePasswordController{
     }
 
     close(){
-        this.$modalState.reject()
+        this.$modalState.reject(123)
     }
 
     async save() {

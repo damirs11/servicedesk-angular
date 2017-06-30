@@ -8,7 +8,6 @@ class LoginController {
         this.$http = $http;
         this.$state = $state;
         this.$scope = $scope;
-
         if (SD.authorized) $state.go("app.main");
         this.loginFailed = false; // флаг неудачной аутентификации
     }

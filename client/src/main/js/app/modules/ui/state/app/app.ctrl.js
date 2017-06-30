@@ -1,7 +1,7 @@
 class AppController {
-    static $inject = ['SD', '$scope', 'ModalAction'];
+    static $inject = ['SD', '$scope', 'ModalAction', '$state'];
 
-    constructor(SD, $scope, ModalAction){
+    constructor(SD, $scope, ModalAction, $state){
         //this.appSessionService = appSessionService;
         this.SD = SD;
         this.ModalAction = ModalAction;
@@ -22,8 +22,10 @@ class AppController {
         });
     }
 
-    passwordChange() {
-        this.ModalAction.changePassword(this.$scope)
+    async passwordChange() {
+        try {
+            await this.ModalAction.changePassword(this.$scope)
+        } catch (ignored) {}
     }
 }
 
