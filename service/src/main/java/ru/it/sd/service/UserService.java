@@ -34,6 +34,8 @@ public class UserService {
 	private Environment env;
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private WebAccountBean webAccount;
 
 	/**
 	 * Ищет пользователя приложения по его логину.
@@ -124,7 +126,7 @@ public class UserService {
 			SdClientBean sdClient = new SdClientBean(env.getProperty("sd_application_server"), login, password);
 			User user = findUserByLogin(login);
 			LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
-			return new DynamicAuthentication(user, true, sdClient);
+			return new DynamicAuthentication(user, true, sdClient, webAccount);
 		} catch (Exception e) {
 			// сообщаем об ошибке входа в систему
 			throw new BadCredentialsException(getMessage("authentication.fail",
