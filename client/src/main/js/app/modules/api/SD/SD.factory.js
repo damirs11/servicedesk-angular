@@ -38,6 +38,14 @@ export function SDFactory($injector, $connector) {
             return SD.user;
         },
         /**
+         * Смена пароля
+         */
+        async changePassword(oldPassword, newPassword){
+            if (!SD.authorized) return;
+            var params = {oldPassword, newPassword};
+            return $connector.post("rest/service/security/passwordChange",params);
+        },
+        /**
          * Выйти из системы
          */
         async logout(){

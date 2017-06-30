@@ -1,11 +1,12 @@
 export class ChangePasswordController{
 
-    static $inject = ["$scope","ModalAction","$modalState"];
+    static $inject = ["$scope","SD","$modalState"];
 
-    constructor($scope,ModalAction,$modalState){
-        console.log("Modal 1");
-        //ModalAction.test($scope);
+    constructor($scope,SD,$modalState){
         this.$modalState = $modalState;
+        this.SD = SD;
+        this.$scope = $scope;
+
         this.loginFailed = false;
         this.minLength = 6; // минимальная длина пароля
         this.maxLength = 50; // максимальная длина пароля
@@ -15,7 +16,20 @@ export class ChangePasswordController{
     }
 
     close(){
-        console.log("closing");
-        this.$modalState.resolve()
+        this.$modalState.reject()
     }
+
+    async save() {
+        if (this.$scope.passwordChangeForm.$invalid) {
+            return;
+        }
+        try {
+            await this.SD.changePassword(this.oldPassword, this.newPassword)
+        } catch (errorResponse) {
+            this.loginFailed = true;
+            return
+        }
+        this.$modalState.resolve();
+    }
+
 }
