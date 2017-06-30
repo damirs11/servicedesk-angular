@@ -20,7 +20,7 @@ import java.util.Objects;
 public class PersonMapper extends EntityRowMapper<Person> {
 
 	@Autowired
-	private OrgnizationMapper orgnizationMapper;
+	private OrganizationMapper orgnizationMapper;
 
 	@Override
 	public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
