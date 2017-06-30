@@ -1,10 +1,11 @@
 class AppController {
-    static $inject = ['SD', 'uiDialogs', '$state'];
+    static $inject = ['SD', '$scope', 'ModalAction', '$state'];
 
-    constructor(SD, uiDialogs, $state){
+    constructor(SD, $scope, ModalAction, $state){
         //this.appSessionService = appSessionService;
-        this.uiDialogs = uiDialogs;
         this.SD = SD;
+        this.ModalAction = ModalAction;
+        this.$scope = $scope;
     }
 
     get user(){
@@ -21,8 +22,10 @@ class AppController {
         });
     }
 
-    passwordChange() {
-        this.uiDialogs.create('js/app/passwordChange/passwordChange.html', 'appPasswordChangeController');
+    async passwordChange() {
+        try {
+            await this.ModalAction.changePassword(this.$scope)
+        } catch (ignored) {}
     }
 }
 

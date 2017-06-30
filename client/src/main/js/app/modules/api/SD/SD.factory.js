@@ -2,21 +2,16 @@ import {EntityProvider} from "./Entity/EntityProvider"
 import {UserProvider} from "./User/UserProvider"
 
 
-SDFactory.$inject = ["$injector","$http"];
+SDFactory.$inject = ["$injector","$connector"];
 /**
  * Фабрика, предоставляющая SD
  */
-export function SDFactory($injector, $http) {
+export function SDFactory($injector, $connector) {
     /**
      * Текущий юзер.
      * @type {User}
      */
     let user = null;
-    /**
-     * Папка с переводами
-     * @type {object}
-     */
-    const translations = {};
 
     /**
      * Объект, содердащий основные методы для работы с бэкэндом и классы для сущностей.
@@ -26,29 +21,35 @@ export function SDFactory($injector, $http) {
          * Войти в систему
          */
         async login(login,password){
-            const params = {login,password};
-            console.log(params);
-            const loginResponse = await $http.post('rest/service/security/login', params);
-            console.log(loginResponse);
+            const data = {login,password};
+            await $connector.post('rest/service/security/login', data);
             return this.authorize();
         },
         /**
          * Авторизоваться, получить текущего user'а
          */
         async authorize(){
-            const response = await $http.get('rest/service/config/getInfo');
-            if (!response.data.user.isAuthorized) {
+            const data = await $connector.get('rest/service/config/getInfo');
+            if (!data.user.isAuthorized) {
                 user = null;
                 return;
             }
-            SD.user = SD.User.parse(response.data.user);
+            SD.user = SD.User.parse(data.user);
             return SD.user;
+        },
+        /**
+         * Смена пароля
+         */
+        async changePassword(oldPassword, newPassword){
+            if (!SD.authorized) return;
+            var params = {oldPassword, newPassword};
+            return $connector.post("rest/service/security/passwordChange",params);
         },
         /**
          * Выйти из системы
          */
         async logout(){
-            await $http.get('rest/service/security/logout');
+            await $connector.get('rest/service/security/logout');
             SD.user = null;
         },
         get user(){
@@ -59,7 +60,7 @@ export function SDFactory($injector, $http) {
         },
         get authorized(){
             return Boolean(user)
-        },
+        }
     };
 
     /**
