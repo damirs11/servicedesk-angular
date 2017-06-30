@@ -1,7 +1,11 @@
 {
   "name": "servicedesk",
   "version": "1.0.0",
-  "description": "",
+  "description": "servicedesk",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@duster-band.ru:42222/opt/git/servicedesk"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +17,9 @@
     "babel-preset-stage-0": "^6.24.1",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
+    "graceful-fs": "^4.0.2",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-clean-css": "^3.4.2",
     "gulp-concat-util": "^0.5.5",
     "gulp-less": "^3.3.2",
     "gulp-plumber": "^1.1.0",
@@ -21,11 +27,11 @@
     "gulp-rimraf": "^0.2.1",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-util": "^3.0.8",
+    "minimatch": "^3.0.2",
     "stringify": "^5.1.0",
     "uglifyify": "^4.0.1",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "gulp-clean-css": "^3.4.2"
+    "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
     "@uirouter/angularjs": "^1.0.4",

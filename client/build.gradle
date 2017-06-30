@@ -4,24 +4,31 @@
  * сервером осуществляется только по согласованному RESTAPI. Никаких jsp, библиотек тэгов и т.д.
  */
 plugins {
-    //less: https://github.com/ksoichiro/gradle-web-resource-plugin
-    id "com.github.ksoichiro.web.resource" version "1.7.3"
-    //js min: https://github.com/eriwen/gradle-js-plugin
-    id "com.eriwen.gradle.js" version "2.14.1"
     id "com.moowork.node" version "1.2.0"
     id "com.moowork.gulp" version "1.2.0"
 }
 
 apply plugin: 'base'
 
-//def baseSrcDir = "src/main/"
-//def baseDstDir = "build/dist/"
-//def srcDirJs = "$baseSrcDir/js/"
-//def dstDirJs = "$baseDstDir/js/"
-
 node {
     download = true
-    npmVersion = '5.0.3'
+    version = '8.1.3'
+    npmVersion = '5.0.4'
+
+    workDir = file("${project.buildDir}/nodejs")
+    npmWorkDir = file("${project.buildDir}/npm")
+    nodeModulesDir = file("${project.projectDir}")
 }
-gulp_default.dependsOn(npm_install)
+
+gulp {
+    // Set the directory where gulpfile.js should be found
+    workDir = file("${project.projectDir}")
+    // Whether colors should output on the terminal
+    colors = true
+    // Whether output from Gulp should be buffered - useful when running tasks in parallel
+    bufferOutput = false
+}
+
+gulp_default.dependsOn('npmInstall')
+gulp_default.dependsOn('installGulp')
 build.dependsOn('gulp_default')
