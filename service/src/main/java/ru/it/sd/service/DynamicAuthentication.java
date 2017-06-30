@@ -25,11 +25,14 @@ public class DynamicAuthentication implements Authentication {
     private boolean authenticated;
     /** Объект для взаимодействия с API HP SD*/
     private SdClientBean sdClient;
+    /** WebAccount, клиент для пользователей, которые используют регистрационные имена */
+    private WebAccountBean webAccount;
 
-    public DynamicAuthentication(User user, boolean authenticated, SdClientBean sdClient) {
+    public DynamicAuthentication(User user, boolean authenticated, SdClientBean sdClient, WebAccountBean webAccount) {
         this.user = user;
 		this.authenticated = authenticated;
 		this.sdClient = sdClient;
+        this.webAccount = webAccount;
     }
 
     /**
@@ -93,5 +96,10 @@ public class DynamicAuthentication implements Authentication {
 
     public SdClientBean getSdClient() {
         return sdClient;
+    }
+
+    public SdClientBean getActualSdClient() {
+        if (sdClient.is_specialist()) return sdClient;
+        return webAccount.getSdClient();
     }
 }
