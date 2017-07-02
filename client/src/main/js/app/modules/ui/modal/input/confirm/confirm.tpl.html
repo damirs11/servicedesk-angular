@@ -1,0 +1,12 @@
+<div class="modal-content">
+    <div class="modal-header dialog-header-confirm">
+        <button type="button" class="close" data-ng-click="close()" title="{{'DIALOGS_CLOSE' | translate}}">&times;</button>
+        <span class="modal-title" data-ng-bind-html="ctrl.header"/>
+    </div>
+    <div class="modal-body" data-ng-bind-html="ctrl.msg"/>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-ng-click="ctrl.yes()">{{ctrl.labelYes}}</button>
+        <button type="button" class="btn btn-danger" data-ng-click="ctrl.no()">{{ctrl.labelNo}}</button>
+        <button type="button" class="btn btn-default" data-ng-click="ctrl.close()">{{ctrl.labelClose}}</button>
+    </div>
+</div>
