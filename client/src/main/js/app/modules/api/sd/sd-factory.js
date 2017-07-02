@@ -1,27 +1,26 @@
-import {EntityProvider} from "./Entity/EntityProvider"
-import {UserProvider} from "./User/UserProvider"
+import {EntityProvider} from "./entity-provider";
+import {UserProvider} from "./user-provider";
 
-
-SDFactory.$inject = ["$injector","$connector"];
 /**
  * Фабрика, предоставляющая SD
  */
-export function SDFactory($injector, $connector) {
+SDFactory.$inject = ["$injector", "$connector"];
+function SDFactory($injector, $connector) {
     /**
-     * Текущий юзер.
+     * Текущий пользователь.
      * @type {User}
      */
     let user = null;
 
     /**
-     * Объект, содердащий основные методы для работы с бэкэндом и классы для сущностей.
+     * Объект, содержащий основные методы для работы с бэкэндом и классы для сущностей.
      */
     const SD = {
         /**
          * Войти в систему
          */
-        async login(login,password){
-            const data = {login,password};
+        async login(login, password){
+            const data = {login, password};
             await $connector.post('rest/service/security/login', data);
             return this.authorize();
         },
@@ -42,8 +41,8 @@ export function SDFactory($injector, $connector) {
          */
         async changePassword(oldPassword, newPassword){
             if (!SD.authorized) return;
-            var params = {oldPassword, newPassword};
-            return $connector.post("rest/service/security/passwordChange",params);
+            let params = {oldPassword, newPassword};
+            return $connector.post("rest/service/security/passwordChange", params);
         },
         /**
          * Выйти из системы
@@ -52,13 +51,13 @@ export function SDFactory($injector, $connector) {
             await $connector.get('rest/service/security/logout');
             SD.user = null;
         },
-        get user(){
+        get user() {
             return user;
         },
-        set user(value){
+        set user(value) {
             user = value;
         },
-        get authorized(){
+        get authorized() {
             return Boolean(user)
         }
     };
@@ -67,7 +66,9 @@ export function SDFactory($injector, $connector) {
      * Классы для сущностей
      */
     SD.Entity = $injector.instantiate(EntityProvider);
-    SD.User = $injector.instantiate(UserProvider,{SD,Entity:SD.Entity});
+    SD.User = $injector.instantiate(UserProvider, {SD, Entity: SD.Entity});
 
-    return Object.freeze(SD)
+    return Object.freeze(SD);
 }
+
+export {SDFactory};

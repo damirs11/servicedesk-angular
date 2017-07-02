@@ -1,7 +1,7 @@
-ErrorInterceptorsFactory.$inject = ["$q","$state","$injector"];
-export function ErrorInterceptorsFactory($q, $state, $injector) {
+HttpInterceptorsFactory.$inject = ["$q", "$state", "$injector"];
+function HttpInterceptorsFactory($q, $state, $injector) {
 
-    const ErrorInterceptors = {
+    return {
         request (config) {
             // do something on success
             return config;
@@ -18,13 +18,18 @@ export function ErrorInterceptorsFactory($q, $state, $injector) {
             const SD = $injector.get("SD"); // ToDo грязный хак. При зависимости от SD - возникает circular dependency. Нужно исправить
             if (response.status === 401) {
                 SD.user = null;
-                $state.go("app.login",null,{reload:true});
+                $state.go("app.login", null, {reload: true});
             } else if (response.status === -1) {
                 alert('Сервер недоступен');
             }
             return $q.reject(response);
         }
     };
-
-    return ErrorInterceptors;
 }
+
+HttpInterceptorsConfig.$inject = ["$httpProvider"];
+function HttpInterceptorsConfig($httpProvider){
+    $httpProvider.interceptors.push('httpInterceptors');
+}
+
+export {HttpInterceptorsFactory, HttpInterceptorsConfig};

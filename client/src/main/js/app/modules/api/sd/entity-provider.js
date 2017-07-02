@@ -1,4 +1,4 @@
-export function EntityProvider(){
+function EntityProvider(){
     /**
      * Базовый класс для сущностей ServiceDesk
      * Содержит служебную логику, например кэш.
@@ -71,3 +71,5 @@ export function EntityProvider(){
 
     }
 }
+
+export {EntityProvider};

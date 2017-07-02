@@ -1,6 +1,5 @@
 class LoginController {
     static $inject = ['$translate', '$log', 'SD', '$http', '$state', '$scope'];
-
     constructor($translate, $log, SD, $http, $state, $scope){
         this.$translate = $translate;
         this.SD = SD;

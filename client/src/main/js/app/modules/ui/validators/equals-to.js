@@ -2,7 +2,7 @@
  * Данный валидатор проверяет, что значение одного поля равно значению другого поля.
  * Может использоваться, например, на форме смены пароля. Новый пароль надо ввести дважды
  */
-export function EqualsTo() {
+function EqualsTo() {
     return {
         require: "ngModel",
         scope: {
@@ -20,3 +20,5 @@ export function EqualsTo() {
         }
     }
 }
+
+export {EqualsTo};

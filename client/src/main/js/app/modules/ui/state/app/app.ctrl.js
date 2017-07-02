@@ -1,6 +1,5 @@
 class AppController {
     static $inject = ['SD', '$scope', 'ModalAction', '$state'];
-
     constructor(SD, $scope, ModalAction, $state){
         //this.appSessionService = appSessionService;
         this.SD = SD;

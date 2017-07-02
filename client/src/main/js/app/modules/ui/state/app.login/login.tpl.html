@@ -1,4 +1,4 @@
-<div id="login">
+<div id="login_form">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h1>{{'login.title' | translate}}</h1>
@@ -7,7 +7,7 @@
             <form novalidate name="loginForm">
                 <div class="form-group">
                     <label for="login">{{'login.user' | translate}}</label>
-                    <input type="text" class="form-control" name="login"
+                    <input type="text" class="form-control" name="login" id="login"
                            placeholder="{{'login.enter.username' | translate}}"
                            data-ng-model="ctrl.login" required data-ng-keyup="hitEnter($event)" autofocus="autofocus">
                     <data-ng-messages class="text-danger" for="loginForm.login.$error" role="alert"
@@ -17,7 +17,7 @@
                 </div>
                 <div class="form-group">
                     <label for="password">{{'login.password' | translate}}</label>
-                    <input type="password" class="form-control" name="password"
+                    <input type="password" class="form-control" name="password" id="password"
                            placeholder="{{'login.enter.password' | translate}}"
                            data-ng-model="ctrl.password" required data-ng-keyup="hitEnter($event)">
                     <data-ng-messages class="text-danger" for="loginForm.password.$error" role="alert"

@@ -1,4 +1,3 @@
-node_modules
 .gradle
 *.ipr
 *.iws
@@ -9,3 +8,5 @@ build
 /out
 /classes
 gradle
+node_modules
+package-lock.json
