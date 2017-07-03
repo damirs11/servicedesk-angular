@@ -1,13 +1,14 @@
-class Connector {
-    static $inject = ["config", "$http", "$state"];
+export class Connector{
 
-    constructor(config, $http, $state) {
+    static $inject = ["config","$http","$state"];
+
+    constructor(config,$http,$state){
         this.address = config.address || "";
         this.$http = $http;
         this.$state = $state;
     }
 
-    _getDestination(path) {
+    _getDestination(path){
         return `${this.address}/${path}`
     }
 
@@ -18,7 +19,7 @@ class Connector {
      * @param params - параметры для get запроса
      * @param timeout - время ожидания ответа
      */
-    async get(path, params, timeout) {
+    async get(path, params, timeout){
         const destination = this._getDestination(path);
         const config = {};
         if (timeout != null) config.timeout = timeout;
@@ -38,7 +39,7 @@ class Connector {
      * @param data - json данные, для отправки
      * @param timeout - время ожидания ответа
      */
-    async post(path, data, timeout) {
+    async post(path, data, timeout){
         const destination = this._getDestination(path);
         const config = {};
         if (timeout != null) config.timeout = timeout;
@@ -51,5 +52,3 @@ class Connector {
         }
     }
 }
-
-export {Connector};

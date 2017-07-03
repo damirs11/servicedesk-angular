@@ -200,7 +200,6 @@ function fixBodyScroll(){
             $overflowElement = $body;
         }
         $body.addClass(MODAL_OPEN_CLASS);
-        console.log($overflowElement);
         $overflowElement && $overflowElement.css({marginRight: getScrollWidth()});
     } else {
         $body.removeClass(MODAL_OPEN_CLASS).css({marginRight: ""});
