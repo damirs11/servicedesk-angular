@@ -26,20 +26,20 @@ const env = util.env;
 
 const config = {
     source : {
-        base: "./src/main/",
-        index: "./src/main/index.html",
-        mainLess: "./src/main/css/style.less",
-        img: "./src/main/img/",
-        fonts: "./src/main/fonts/",
-        vendorJs: "./src/main/lib/",
-        mainJS: "./src/main/js/app/modules/servicedesk.js"
+        base: "src/main/",
+        index: "src/main/index.html",
+        mainLess: "src/main/css/style.less",
+        img: "src/main/img/",
+        fonts: "src/main/fonts/",
+        vendorJs: "src/main/lib/",
+        mainJS: "src/main/js/app/modules/servicedesk.js"
     },
     dist : {
-        js: "./build/dist/js/",
-        css: "./build/dist/css/",
-        img: "./build/dist/img/",
-        base: "./build/dist/",
-        fonts: "./build/dist/css/fonts/"
+        js: "build/dist/js/",
+        css: "build/dist/css/",
+        img: "build/dist/img/",
+        base: "build/dist/",
+        fonts: "build/dist/css/fonts/"
     }
 };
 
