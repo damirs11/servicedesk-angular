@@ -6,8 +6,12 @@ import {GetMessageController as controller} from "./getMessage.ctrl"
  * Параметры:
  * header {DOM} - заголовок диалогового окна
  * placeholder {String} - placeholder, что будет размещен в input-элементе
- * required {boolean} - обязательный ввод текста
- * maxLength (Number) - максимальная длина строки
+ * value {String} - значение, которое будет сразу помещено в input (default "")
+ * required {boolean} - обязательный ввод текста (default: false)
+ * maxLength (Number) - максимальная длина строки (default: undefined)
+ *
+ * Возвращает:
+ * {String | null} - результат ввода. Если ввод отменен - null;
  */
 export const GetMessageModal = {
     name: "getMessage",

@@ -6,9 +6,10 @@ import {ConfirmController as controller} from "./confirm.ctrl"
  * Параметры:
  * header {DOM} - заголовок диалогового окна
  * msg {DOM} - текст сообщения
- * labelYes {String} - текст кнопки согласия (По умолчанию $translate(DIALOGS_YES))
- * labelNo {String} - текст кнопки несогласия (По умолчанию $translate(DIALOGS_NO))
- * labelClose {String} - текст кнопки закрытия (По умолчанию $translate(DIALOGS_CLOSE))
+ * required (boolean) - Обязательный выбор между "да" и "нет". (default false)
+ *
+ * Возвращает:
+ * {boolean | null} - результат ввода. Если ввод отменен - null;
  */
 export const ConfirmModal = {
     name: "confirm",

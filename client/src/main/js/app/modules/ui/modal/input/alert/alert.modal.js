@@ -7,6 +7,9 @@ import {AlertController as controller} from "./alert.ctrl"
  * header {DOM} - заголовок диалогового окна
  * msg {DOM} - текст сообщения
  * style {String} - стиль диалогового окна.
+ *
+ * Возвращает:
+ * undefined
  */
 export const AlertModal = {
     name: "alert",
