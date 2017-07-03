@@ -1,19 +1,18 @@
 export class ConfirmController{
 
-    static $inject = ["$modalState","$modalData", "$translate"];
+    static $inject = ["$modalState", "header", "msg", "required"];
 
-    constructor($modalState,$modalData, $translate){
+    constructor($modalState, header, msg, required){
         this.$modalState = $modalState;
 
-        this.header = $modalData.header;
-        this.msg = $modalData.msg;
-        this.labelYes = $modalData.labelYes || $translate.instant("DIALOGS_YES");
-        this.labelNo = $modalData.labelNo || $translate.instant("DIALOGS_NO");
-        this.labelClose = $modalData.labelClose || $translate.instant("DIALOGS_CLOSE");
+        this.header = header;
+        this.msg = msg;
+        this.required = required;
+        if (required) $modalState.onCancel = null;
     }
 
     close() {
-        this.$modalState.reject()
+        this.$modalState.resolve(null)
     }
 
     yes() {

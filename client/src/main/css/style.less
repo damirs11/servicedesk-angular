@@ -3,17 +3,25 @@
 @import "bootstrap";
 @import "ui-grid";
 @import "ModalAction";
-body {
+
+html,body {
+  height: 100%;
+}
+
+.state-app {
   /* из-за фиксированного заголовка */
   padding-top: 50px;
+  width: 100%;
+  min-height: 100%;
+  position: relative;
 }
 // > main
 /* Оформление главной страницы. Текст по центру */
 #main-page{
   position: absolute;
+  transform: translate(0,-50%);
   top: 50%;
   width: 100%;
-  height: 1px;
 }
 #main-page>div{
   color: #cccccc;
@@ -22,7 +30,7 @@ body {
   margin-top: -50px;
   text-shadow: 5px 5px 5px rgba(180, 180, 180, 0.2);
 }
-#main-page p  + p {
+#main-page p + p {
   font-size: 20px;
 }
 // < main

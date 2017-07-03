@@ -1,13 +1,13 @@
 export class AlertController{
 
-    static $inject = ["$modalState","$modalData"];
+    static $inject = ["$modalState","header","msg","style"];
 
-    constructor($modalState,$modalData){
+    constructor($modalState,header,msg,style){
         this.$modalState = $modalState;
 
-        this.header = $modalData.header;
-        this.msg = $modalData.msg;
-        this.dialogStyle = $modalData.style;
+        this.header = header;
+        this.msg = msg;
+        this.dialogStyle = style;
     }
 
     close() {

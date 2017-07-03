@@ -1,29 +1,38 @@
-<div class="modal-content">
-    <div class="modal-header dialog-header-input-message ">
-        <button type="button" class="close" data-ng-click="ctrl.close()" title="{{'DIALOGS_CLOSE' | translate}}">&times;</button>
-        <span class="modal-title" data-ng-bind-html="ctrl.header"/>
-    </div>
-    <div class="modal-body">
-        <form name="inputMessageForm" novalidate role="form">
+<div class="modal-content modal-600">
+    <form name="inputMessageForm" novalidate role="form" ng-submit="ctrl.submit()">
+        <div class="modal-header dialog-header-input-message ">
+            <button type="button" class="close" data-ng-show="!ctrl.required" data-ng-click="ctrl.close()"
+                    title="{{'DIALOGS_CLOSE' | translate}}">
+                &times;
+            </button>
+            <span class="modal-title" data-ng-bind-html="ctrl.header"/>
+        </div>
+        <div class="modal-body">
             <div class="form-group">
                 <input type="text"
                        class="form-control"
                        placeholder="{{ctrl.placeholder}}"
-                       data-ng-model="ctrl.inputMessage"
+                       data-ng-model="ctrl.value"
                        name="inputMessage"
-                       data-ng-keyup="ctrl.hitEnter($event)"
-                       required
+                       ng-required="ctrl.required"
                        data-ng-maxlength="ctrl.maxLength"
-                       data-ng-minlength="ctrl.minLength">
-                <data-ng-messages data-ng-show="ctrl.inputError && (inputMessageForm.$submitted || inputMessageForm.inputMessage.$touched)" class="text-danger" for="inputMessageForm.inputMessage.$error"
-                                  role="alert">
+                />
+                <data-ng-messages data-ng-show="ctrl.inputError" class="text-danger"
+                                  for="inputMessageForm.inputMessage.$error"
+                                  role="alert"
+                >
                     <data-ng-messages-include src="template.ngMessage.errorMessages"/>
                 </data-ng-messages>
             </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-ng-click="ctrl.complete()" data-ng-disabled="ctrl.inputError">{{ctrl.labelOk}}</button>
-        <button type="button" class="btn btn-default" data-ng-click="ctrl.close()">{{ctrl.labelClose}}</button>
-    </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success" data-ng-disabled="!ctrl.canSubmit"
+                    data-translate="DIALOGS_OK">
+            </button>
+            <button type="button" class="btn btn-default" data-ng-click="ctrl.close()" data-ng-show="!ctrl.required"
+                    data-translate="DIALOGS_CLOSE">
+            </button>
+        </div>
+    </form>
 </div>

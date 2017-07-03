@@ -1,14 +1,13 @@
 import {jQuery as $} from "../../../utils/web-libraries";
 
 const MODAL_OPEN_CLASS = 'modal-open';
-const BOOTSTRAP_MODAL_CLASS = "modal in";
 
 const linkPromiseCache = Object.create(null);
 export const modalAndStateStack = [];
 
 export const modalArea = $(`<div id="ModalActionProviderArea" role="dialog" style="display: block;">`);
 const maskTemplate = $("<div id='ModalActionProviderMask' class='modalActionProviderMask'>");
-const containerTemplate = $(`<div class="modalContainer modal-dialog">`)
+const containerTemplate = $(`<div class="modalContainer">`)
     .click(function (e) {
         if (this !== e.target) return;
         const modalAndState = modalAndStateStack[modalAndStateStack.length - 1];
@@ -140,10 +139,8 @@ function pushModalState(element, state, $animate, $q, $timeout) {
         animation = $animate.enter(element, container);
     } else {
         const currentMask = mask = maskTemplate.clone(true);
-        $('body').css('padding-right', getScrollWidth() + 'px').addClass(MODAL_OPEN_CLASS);
-        $('#ModalActionProviderArea').addClass(BOOTSTRAP_MODAL_CLASS);
-        $('.pin-header').css('padding-right', getScrollWidth() + 'px');
-        // document.ontouchmove = function (e) { e.preventDefault(); }
+        fixBodyScroll();
+
         modalArea.append(container);
         const prev = container.prev();
         animation = $q.all([
@@ -169,10 +166,7 @@ function removeModalState(modalAndState, $animate, $q) {
             $animate.leave(modalAndState.element)
         ]).then(() => {
             modalAndState.container.remove();
-            $('body').css('padding-right', '').removeClass(MODAL_OPEN_CLASS);
-            $('#ModalActionProviderArea').removeClass(BOOTSTRAP_MODAL_CLASS);
-            $('.pin-header').css('padding-right', '');
-            // document.ontouchmove = function (e) { return true; }
+            fixBodyScroll();
         });
     } else {
         mask.detach().insertBefore(modalAndState.container.prev());
@@ -181,11 +175,7 @@ function removeModalState(modalAndState, $animate, $q) {
             if (modalAndStateStack.length) {
                 mask.detach().insertBefore(modalAndStateStack[modalAndStateStack.length - 1].container)
             } else {
-                $('body').css('padding-right', '').removeClass(MODAL_OPEN_CLASS);
-                $('#ModalActionProviderArea').removeClass(BOOTSTRAP_MODAL_CLASS);
-                $('.pin-header').css('padding-right', '');
-                // document.ontouchmove = function (e) { return true; }
-
+                fixBodyScroll();
                 return $animate.leave(mask);
             }
         });
@@ -197,5 +187,24 @@ function fixMaskPosition(modalAndState) {
     mask.detach().insertBefore(modalAndState.container.prev())
 }
 
+function fixBodyScroll(){
+    const $body = $('body');
+    if (modalAndStateStack.length) {
+        let $overflowElement;
+        if (document.documentElement.clientWidth < document.documentElement.scrollWidth
+            || document.documentElement.clientHeight < document.documentElement.scrollHeight) {
+            $overflowElement = $("html");
+        }
+        if (document.body.clientWidth < document.body.scrollWidth
+            || document.body.clientHeight < document.body.scrollHeight) {
+            $overflowElement = $body;
+        }
+        $body.addClass(MODAL_OPEN_CLASS);
+        console.log($overflowElement);
+        $overflowElement && $overflowElement.css({marginRight: getScrollWidth()});
+    } else {
+        $body.removeClass(MODAL_OPEN_CLASS).css({marginRight: ""});
+    }
+}
 
 export default buildModal;

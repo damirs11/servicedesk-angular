@@ -1,29 +1,33 @@
 export class GetMessageController{
 
-    static $inject = ["$scope","$modalState","$modalData","$translate"];
+    static $inject = ["$scope","$modalState","header","placeholder","value","maxLength","required"];
 
-    constructor($scope,$modalState,$modalData,$translate){
-        this.$modalState = $modalState;
+
+
+    constructor($scope,$modalState,header,placeholder,value,maxLength,required){
         this.$scope = $scope;
-
-        this.header = $modalData.header;
-        this.placeholder = $modalData.placeholder;
-        this.maxLength = $modalData.maxLength || 256;
-        this.minLength = $modalData.minLength || 0;
-        this.labelOk = $modalData.labelOk || $translate.instant("DIALOGS_OK");
-        this.labelClose = $modalData.labelClose || $translate.instant("DIALOGS_CLOSE");
-        this.inputMessage = '';
+        this.$modalState = $modalState;
+        this.header = header;
+        this.placeholder = placeholder;
+        this.value = value || "";
+        this.maxLength = maxLength;
+        this.required = required;
+        if (required) $modalState.onCancel = null; // Отменить клик в маску
     }
 
-    complete() {
-        if (this.inputError) {
-            return; // отображаем сообщения об ошибках и не отправляем запрос на сервер
-        }
-        this.$modalState.resolve(this.inputMessage);
+    submit() {
+        if (!this.canSubmit) return;
+        this.$modalState.resolve(this.value);
     }
 
     close() {
-        this.$modalState.reject()
+        this.$modalState.resolve(null)
+    }
+
+    get canSubmit(){
+        if (this.value) return true;
+        if (!this.required) return true;
+        return false;
     }
 
     /**
@@ -31,12 +35,9 @@ export class GetMessageController{
      * @returns {boolean|*}
      */
     get inputError(){
-        const $scope = this.$scope;
-        return ($scope.inputMessageForm.$dirty && $scope.inputMessageForm.$invalid) || $scope.inputMessageForm.$pristine;
-    }
-
-    hitEnter(event) {
-        if (angular.equals(event.keyCode, 13)) this.complete();
+        const form = this.$scope.inputMessageForm;
+        return ((form.$dirty && form.$invalid) || form.$pristine)
+            && (form.$submitted || form.inputMessage.$touched);
     }
 
 }

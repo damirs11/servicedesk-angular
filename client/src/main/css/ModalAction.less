@@ -1,42 +1,83 @@
-@modalAnimate: 0.1s linear all;
+@modalAnimate: .2s ease-in-out all;
+@zindex-modal: 2000;
 
-.modalActionProviderMask {
-  background-color: rgba(0,0,0,0.4);
-  display: block;
-  min-height: 100%;
-  min-width: 100%;
-  position: absolute;
-  padding-left: 0;
-}
+#ModalActionProviderArea {
 
-.modalActionProviderMask.ng-leave {
-  transition: @modalAnimate;
-  opacity:1;
-}
-.modalActionProviderMask.ng-leave.ng-leave-active {
-  opacity:0;
-}
+  .modalActionProviderMask {
+    background-color: rgba(0, 0, 0, 0.4);
+    display: block;
+    min-height: 100%;
+    min-width: 100%;
+    position: fixed;
+    z-index: @zindex-modal;
+    padding-left: 0;
+    transition: @modalAnimate;
 
-.modalActionProviderMask.ng-enter {
-  transition: @modalAnimate;
-  opacity:0;
-}
-.modalActionProviderMask.ng-enter.ng-enter-active {
-  opacity:1;
-}
+    &.ng-enter {
+      opacity: 0;
+    }
+    &.ng-enter.ng-enter-active {
+      opacity: 1;
+    }
+    &.ng-leave {
+      opacity: 1;
+    }
+    &.ng-leave.ng-leave-active {
+      opacity: 0;
+    }
+  }
 
-.modalContainer{
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-}
+  .modalContainer {
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: @zindex-modal;
+    overflow-y: auto;
+    overflow-x: hidden;
+    perspective: 100vh;
+  }
 
-.modalContainer.ng-leave {
-  transition:@modalAnimate;
-  opacity:1;
-}
-.modalContainer.ng-leave.ng-leave-active {
-  opacity:0;
+  .modal-content(@width){
+    background-color: white;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    background-clip: padding-box;
+    width: @width;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    max-width: 100%;
+    @media (max-width: @width)  {
+      margin-top: 0;
+      min-height: 100%;
+    }
+    transition: @modalAnimate;
+    transform: scale(1);
+    &.ng-enter {
+      transform: scale(0.5);
+    }
+    &.ng-enter.ng-enter-active {
+      transform: scale(1);
+    }
+    &.ng-leave {
+      opacity: 1;
+      transform: scale(1);
+    }
+    &.ng-leave.ng-leave-active {
+      opacity: 0;
+      transform: rotateX(30deg);
+    }
+  }
+
+  .modal-400 {
+    .modal-content(400px);
+  }
+  .modal-600 {
+    .modal-content(600px);
+  }
+
 }

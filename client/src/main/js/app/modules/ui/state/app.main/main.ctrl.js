@@ -8,18 +8,15 @@ class MainController {
     }
 
     async testGetMessage(){
-        try {
-            const message = await this.ModalAction.getMessage(this.$scope,{
-                header: "Проверка сообщений",
-                placeholder: "Введите тестовое сообщение (5-10 символов)",
-                labelOk: "ОК",
-                minLength: 5,
-                maxLength: 10
-            });
-            console.log(`Ввели ${message}`)
-        } catch (result) {
-            console.log("Ввод текста отменен.", result)
-        }
+        const message = await this.ModalAction.getMessage(this.$scope,{
+            header: "Проверка сообщений",
+            placeholder: "Введите тестовое сообщение (5-10 символов)",
+            value: "Тест",
+            maxLength: 10,
+            required:true
+        });
+        if (message != null) console.log(`Ввели ${message}`);
+        else console.log(`Ввод отменен`);
     }
 
     async testAlert(){
@@ -34,7 +31,8 @@ class MainController {
         try {
             const result = await this.ModalAction.confirm(this.$scope, {
                 header: "Произошло нажатие на кнопку",
-                msg: "Подтвердите нажатие на кнопку."
+                msg: "Подтвердите нажатие на кнопку.",
+                required: true,
             });
             if (result) console.log(`Пользователь нажал на кнопку`);
             else console.log(`Пользователь не нажимал на кнопку`)
