@@ -14,6 +14,8 @@ const uglifyify = require('uglifyify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const rename = require('gulp-rename');
+const autoprefixer = require('gulp-autoprefixer');
+
 
 const util = require('gulp-util');
 const env = util.env;
@@ -95,6 +97,7 @@ gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js �
 gulp.task('build:less', function buildLess(){
     return gulp.src(config.source.mainLess)
         .pipe(less())
+        .pipe(autoprefixer())
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(rename('style.min.css'))
         .pipe(cleanCSS({compatibility: 'ie8'}))

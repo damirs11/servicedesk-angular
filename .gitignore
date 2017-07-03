@@ -9,4 +9,3 @@ build
 /out
 /classes
 gradle
-package-lock.json
