@@ -1,3 +1,6 @@
+/**
+ * Директива, проверяющая, отличается ли значение текущего элемента от заданного в differentFrom=
+ */
 export function DifferentFrom() {
     return {
         require: "ngModel",

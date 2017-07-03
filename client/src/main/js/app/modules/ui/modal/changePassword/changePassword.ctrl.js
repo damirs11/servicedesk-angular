@@ -16,7 +16,7 @@ export class ChangePasswordController{
     }
 
     close(){
-        this.$modalState.reject(123)
+        this.$modalState.resolve(false)
     }
 
     async save() {
@@ -29,7 +29,7 @@ export class ChangePasswordController{
             this.loginFailed = true;
             return
         }
-        this.$modalState.resolve();
+        this.$modalState.resolve(true);
     }
 
 }

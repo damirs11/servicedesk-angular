@@ -3,6 +3,9 @@ import {AlertController as controller} from "./alert.ctrl"
 
 
 /**
+ * Описание:
+ * простое окно для вывода информации.
+ *
  * Параметры:
  * header {DOM} - заголовок диалогового окна
  * msg {DOM} - текст сообщения

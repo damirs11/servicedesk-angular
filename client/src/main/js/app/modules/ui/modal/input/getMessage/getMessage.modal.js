@@ -3,6 +3,9 @@ import {GetMessageController as controller} from "./getMessage.ctrl"
 
 
 /**
+ * Описание:
+ * Окно для запроса текста
+ *
  * Параметры:
  * header {DOM} - заголовок диалогового окна
  * placeholder {String} - placeholder, что будет размещен в input-элементе

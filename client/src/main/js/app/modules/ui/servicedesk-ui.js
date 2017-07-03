@@ -11,6 +11,7 @@ import {AddMessages} from "./messages/AddMessages"
 
 /**
  * Модуль, отвечающий за визуальную часть
+ * Подключение всего, что используется в UI
  */
 export const servicedeskUI = angular.module("servicedesk-ui",[servicedeskAPI, ModalAction, uiRouter, ngMessages, translate, uiBootstrap, ngSanitize])
     .config(TranslateConfig)

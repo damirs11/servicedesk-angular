@@ -7,6 +7,7 @@ console.log("Init servicedesk module");
 
 /**
  * Основной модуль.
+ * Необходим для соединения приложения в одно целое.
  */
 export const servicedesk = angular.module("servicedesk",[servicedeskAPI,servicedeskUI])
     .decorator("$q",QDecorator)

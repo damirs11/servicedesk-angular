@@ -3,6 +3,9 @@ import {ConfirmController as controller} from "./confirm.ctrl"
 
 
 /**
+ * Описание:
+ * Окно для подтверждения в стиле window.confirm();
+ *
  * Параметры:
  * header {DOM} - заголовок диалогового окна
  * msg {DOM} - текст сообщения
