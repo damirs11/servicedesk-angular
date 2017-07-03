@@ -30,8 +30,8 @@ public class DynamicAuthentication implements Authentication {
 
     public DynamicAuthentication(User user, boolean authenticated, SdClientBean sdClient, SdClientBean webAccount) {
         this.user = user;
-		this.authenticated = authenticated;
-		this.sdClient = sdClient;
+        this.authenticated = authenticated;
+        this.sdClient = sdClient;
         this.webAccount = webAccount;
     }
 
@@ -42,10 +42,10 @@ public class DynamicAuthentication implements Authentication {
     public synchronized Collection<? extends GrantedAuthority> getAuthorities() {
         if (user.getRoles() != null && !user.getRoles().isEmpty()) {
             Set<GrantedAuthority> authorities = new HashSet<>();
-			for (Role role : user.getRoles()) {
-				authorities.add(role);
-				authorities.addAll(role.getOperations());
-			}
+            for (Role role : user.getRoles()) {
+                authorities.add(role);
+                authorities.addAll(role.getOperations());
+            }
             return authorities;
         } else {
             return Collections.emptySet();
@@ -59,9 +59,9 @@ public class DynamicAuthentication implements Authentication {
     public Object getCredentials() {
         throw new UnsupportedOperationException("DynamicAuthentication.getCredentials()");
     }
-	/**
-	 * Не используется.
-	 */
+    /**
+     * Не используется.
+     */
     @Override
     public Object getDetails() {
         return null;
