@@ -1,15 +1,16 @@
-import {SDFactory} from "./SD/SD.factory"
-import {ConnectorProvider} from "./connector/connector.provider";
-import {ErrorInterceptorsFactory} from "./connector/interceptors/errorInterceptors.factory"
-import {HttpInterceptorsConfig} from "./connector/interceptors/httpInterceptorsConfig"
+import {SDFactory} from "./sd/sd-factory";
+import {ConnectorProvider} from "./connector/connector-provider";
+import {HttpInterceptorsFactory, HttpInterceptorsConfig} from "./connector/http-interceptors";
 
 /**
  * Модуль, предоставляющий API бэкэнда
  */
-export const servicedeskAPI = angular.module("servicedesk-api",[])
-    .provider("$connector",ConnectorProvider)
-    .factory('SD',SDFactory)
-    .factory('errorInterceptors',ErrorInterceptorsFactory)
+const servicedeskAPI = angular.module("servicedesk-api", [])
+    .provider("$connector", ConnectorProvider)
+    .factory('SD', SDFactory)
+    .factory('httpInterceptors', HttpInterceptorsFactory)
     .config(HttpInterceptorsConfig)
     .name
 ;
+
+export {servicedeskAPI};

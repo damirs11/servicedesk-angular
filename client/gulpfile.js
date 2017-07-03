@@ -32,7 +32,7 @@ const config = {
         img: "./src/main/img/",
         fonts: "./src/main/fonts/",
         vendorJs: "./src/main/lib/",
-        mainJS: "./src/main/js/app/modules/servicedesk/servicedesk.js"
+        mainJS: "./src/main/js/app/modules/servicedesk.js"
     },
     dist : {
         js: "./build/dist/js/",

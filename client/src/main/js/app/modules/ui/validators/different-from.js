@@ -1,7 +1,8 @@
 /**
- * Директива, проверяющая, отличается ли значение текущего элемента от заданного в differentFrom=
+ * Данный валидатор проверяет, что значение одного поля отличается значению другого поля.
+ * Например, при проверке того, что новый пароль отличается от старого на форме его смены.
  */
-export function DifferentFrom() {
+function DifferentFrom() {
     return {
         require: "ngModel",
         scope: {
@@ -19,3 +20,5 @@ export function DifferentFrom() {
         }
     }
 }
+
+export {DifferentFrom};

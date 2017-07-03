@@ -5,7 +5,7 @@ TranslateConfig.$inject = ['$translateProvider'];
 /**
  * Настройка angular translate
  */
-export async function TranslateConfig($translateProvider){
+export function TranslateConfig($translateProvider){
     $translateProvider.translations('ru', dictionary);
     $translateProvider.preferredLanguage('ru');
     $translateProvider.useSanitizeValueStrategy('sanitizeParameters')

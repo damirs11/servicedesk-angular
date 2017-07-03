@@ -1,13 +1,12 @@
-import {servicedeskAPI} from "../api/servicedesk-api"
-import {StateConfig} from "./state/StateConfig"
-import {ModalConfig} from "./modal/ModalConfig"
-import {uiRouter, translate, uiBootstrap, uiGrid, ngSanitize, utilsEntity, ngMessages} from "../../utils/web-libraries"
-import {TranslateConfig} from "./translate/translate.config"
-import {default as ModalAction} from "../ModalAction/ModalAction"
-import {EqualsTo} from "./validators/equalsTo"
-import {DifferentFrom} from "./validators/differentFrom"
-import {AddMessages} from "./messages/AddMessages"
-
+import {servicedeskAPI} from "../api/servicedesk-api";
+import {StateConfig} from "./state/StateConfig";
+import {ModalConfig} from "./modal/ModalConfig";
+import {uiRouter, translate, uiBootstrap, uiGrid, ngSanitize, utilsEntity, ngMessages} from "../../utils/web-libraries";
+import {TranslateConfig} from "./translate/translate.config";
+import {default as ModalAction} from "../modal-action/ModalAction";
+import {EqualsTo} from "./validators/equals-to";
+import {DifferentFrom} from "./validators/different-from";
+import {AddMessages} from "./messages/AddMessages";
 
 /**
  * Модуль, отвечающий за визуальную часть

@@ -1,7 +1,7 @@
 import {Connector} from "./connector";
 
 // $http нужен внутри Connector'а
-export function ConnectorProvider(){
+function ConnectorProvider(){
 
     let address = "/sd";
 
@@ -18,3 +18,5 @@ export function ConnectorProvider(){
     provider.$get.$inject = ["$injector"];
     return provider;
 }
+
+export {ConnectorProvider};

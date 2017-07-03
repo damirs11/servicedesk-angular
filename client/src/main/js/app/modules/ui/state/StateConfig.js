@@ -4,7 +4,7 @@ import {LoginState} from "./app.login/login.state";
 import {UserState} from "./app.user/user.state";
 
 StateConfig.$inject = ["$stateProvider","$urlRouterProvider"];
-function StateConfig($stateProvider,$urlRouterProvider){
+function StateConfig($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
     $stateProvider
         .state(AppState)
@@ -12,4 +12,5 @@ function StateConfig($stateProvider,$urlRouterProvider){
         .state(LoginState)
         .state(UserState)
 }
+
 export {StateConfig};

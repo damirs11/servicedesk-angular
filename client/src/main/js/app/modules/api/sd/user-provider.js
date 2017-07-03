@@ -1,9 +1,9 @@
-UserProvider.$inject = ["SD","Entity"];
-export function UserProvider(SD,Entity){
+UserProvider.$inject = ["Entity"];
+function UserProvider(Entity) {
     /**
      * Пользователь
      */
-    return class User extends Entity{
+    return class User extends Entity {
 
         /**
          * Имя пользователя
@@ -31,10 +31,23 @@ export function UserProvider(SD,Entity){
          */
 
 
-        ["parse:name"](value){ return value; }
-        ["parse:login"](value){ return value; }
-        ["parse:roles"](value){ return value; }
-        ["parse:person"](value){ return value; }
+        ["parse:name"](value) {
+            return value;
+        }
+
+        ["parse:login"](value) {
+            return value;
+        }
+
+        ["parse:roles"](value) {
+            return value;
+        }
+
+        ["parse:person"](value) {
+            return value;
+        }
 
     };
 }
+
+export {UserProvider};
