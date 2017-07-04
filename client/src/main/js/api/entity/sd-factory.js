@@ -1,5 +1,5 @@
-import {EntityProvider} from "entity-provider";
-import {UserProvider} from "user-provider";
+import {EntityProvider} from "./entity-provider";
+import {UserProvider} from "./user-provider";
 
 /**
  * Фабрика, предоставляющая SD

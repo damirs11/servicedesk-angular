@@ -1,4 +1,4 @@
-import {Connector} from "connector";
+import {Connector} from "./connector";
 
 // $http нужен внутри Connector'а
 function ConnectorProvider() {

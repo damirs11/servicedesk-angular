@@ -1,8 +1,8 @@
-export class ChangePasswordController{
+export class ChangePasswordController {
 
-    static $inject = ["$scope","SD","$modalState"];
+    static $inject = ["$scope", "SD", "$modalState"];
 
-    constructor($scope,SD,$modalState){
+    constructor($scope, SD, $modalState) {
         this.$modalState = $modalState;
         this.SD = SD;
         this.$scope = $scope;
@@ -15,7 +15,7 @@ export class ChangePasswordController{
         this.confirmPassword = null; // повторно введенный новый пароль
     }
 
-    close(){
+    close() {
         this.$modalState.resolve(false)
     }
 

@@ -1,5 +1,5 @@
-UserProvider.$inject = ["Entity","SD"];
-function UserProvider(Entity,SD) {
+UserProvider.$inject = ["Entity", "SD"];
+function UserProvider(Entity, SD) {
     /**
      * Пользователь
      */
@@ -39,7 +39,7 @@ function UserProvider(Entity,SD) {
         }
 
         ["parse:roles"](value) {
-            return value; // ToDo парси роли
+            return value; // ToDo парсинг роли
         }
 
         ["parse:person"](value) {

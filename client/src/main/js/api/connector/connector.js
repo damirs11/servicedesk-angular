@@ -1,7 +1,6 @@
-export class Connector {
+class Connector {
 
     static $inject = ["config", "$http", "$state"];
-
     constructor(config, $http, $state) {
         this.address = config.address || "";
         this.$http = $http;
@@ -13,7 +12,7 @@ export class Connector {
     }
 
     /**
-     * Отправляет GET запрос к серверу. Вернет промис
+     * Отправляет GET запрос к серверу. Вернет промис,
      * в котором можно работать сразу с json данными
      * @param path - относительный путь
      * @param params - параметры для get запроса
@@ -48,3 +47,5 @@ export class Connector {
         }
     }
 }
+
+export {Connector};

@@ -1,6 +1,6 @@
-import {QDecorator} from "qdecorator"
-import {servicedeskAPI} from "api/servicedesk-api"
-import {servicedeskUI} from "ui/servicedesk-ui"
+import {QDecorator} from "./qdecorator"
+import {servicedeskAPI} from "./api/servicedesk-api"
+import {servicedeskUI} from "./ui/servicedesk-ui"
 
 console.log("Init servicedesk module");
 

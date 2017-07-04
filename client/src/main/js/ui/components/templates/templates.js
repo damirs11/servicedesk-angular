@@ -1,5 +1,5 @@
 // Шаблон стандартных сообщений для валидаторов полей ввода
-import errorMessages from "messages.html";
+import errorMessages from "./messages.html";
 
 Templates.$inject = ["$templateCache"];
 function Templates($templateCache){

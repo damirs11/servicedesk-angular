@@ -1,9 +1,12 @@
-function EntityProvider(){
+function EntityProvider() {
     /**
      * Базовый класс для сущностей ServiceDesk
      * Содержит служебную логику, например кэш.
+     *
+     * //todo Саша: описать для чего класс используется (служебная логика), для чего в нем кэш? Неплохое документирование методов, но в целом картина не складывается
+     *
      */
-    return class Entity{
+    return class Entity {
 
         /**
          * Кэш объектов. Необходим, чтобы при обновлении какого-либо объекта не осталось его копий
@@ -14,7 +17,7 @@ function EntityProvider(){
         /**
          * Превращает json данные в SD сущность.
          */
-        static parse(data){
+        static parse(data) {
             if (!data) return null;
             if (typeof data !== "object") return new this(data);
             return new this(data.id).$update(data)
@@ -27,35 +30,35 @@ function EntityProvider(){
          * @param {number} [id] - ID сущности
          * @returns {Entity|*}
          */
-        constructor(id){
+        constructor(id) {
             if (id) {
                 let entity = cache[id];
                 if (!user) {
                     cache[id] = entity = Object.create(this.constructor.prototype);
                     entity.id = id;
                 }
-                Object.defineProperty(entity,"$data",{value: entity});
+                Object.defineProperty(entity, "$data", {value: entity});
                 return Object.create(entity)
             }
             const data = Object.create(this.constructor.prototype);
-            Object.defineProperty(data,"$data",{value: data});
+            Object.defineProperty(data, "$data", {value: data});
             return Object.create(data);
         }
 
         /**
          * Обновить объект в кэше.
-         * Для каждого ключа из прешедших данных ищет у кэшированного объекта
+         * Для каждого ключа из пришедших данных ищет у кэшированного объекта
          * поле parse:%key% и вызывает его, передвая туда значение data[%key%], сам объект data, ключ и
          * закэшированный объект. Если метод вернул что-либо не undefined - заносит это в поле cachedObject[%key%]
          * @param {object} data - json данные
          */
-        $update(data){
+        $update(data) {
             const cached = this.$data;
             for (let key in data) {
                 const value = data[key];
                 let parse = cached[`parse:${key}`];
                 if (!parse) continue;
-                const result = parse.call(cached,value,data,key,cached);
+                const result = parse.call(cached, value, data, key, cached);
                 if (result !== undefined) cached[key] = result;
             }
             return this;
@@ -65,7 +68,7 @@ function EntityProvider(){
          * Необходимо для сравнения объектов через == и ===
          * @returns {*|undefined}
          */
-        valueOf(){
+        valueOf() {
             return this.id || undefined
         }
 

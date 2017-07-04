@@ -1,6 +1,6 @@
-import {AppController as controller} from "app.ctrl.js";
-import template from "app.tpl.html";
-import {UserResolver} from "user.resolver";
+import {AppController as controller} from "./app.ctrl.js";
+import template from "./app.tpl.html";
+import {UserResolver} from "./user.resolver";
 
 let AppState = {
     name:"app",

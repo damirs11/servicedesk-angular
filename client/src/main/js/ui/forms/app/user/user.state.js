@@ -1,4 +1,4 @@
-import {UserController as controller} from "user.ctrl.js";
+import {UserController as controller} from "./user.ctrl.js";
 
 /**
  * Все стейты, которые будут наследоваться от него - будут автоматически проверять залогинен ли юзер;

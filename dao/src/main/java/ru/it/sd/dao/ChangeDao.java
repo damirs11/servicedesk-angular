@@ -1,19 +1,16 @@
 package ru.it.sd.dao;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.jdbc.core.RowMapper;
-import ru.it.sd.dao.mapper.ChangeExtractor;
-import ru.it.sd.model.Change;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
+import ru.it.sd.dao.mapper.ChangeExtractor;
+import ru.it.sd.model.Change;
 import ru.it.sd.model.PagingRange;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Дао для работы с данными людей

@@ -1,5 +1,5 @@
-import template from "text.tpl.html";
-import {GetMessageController as controller} from "text.ctrl";
+import template from "./text.tpl.html";
+import {GetMessageController as controller} from "./text.ctrl";
 
 /**
  * Описание:

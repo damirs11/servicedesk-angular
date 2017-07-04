@@ -1,8 +1,8 @@
-export class GetMessageController{
+export class GetMessageController {
 
-    static $inject = ["$scope","$modalState","header","placeholder","value","maxLength","required"];
+    static $inject = ["$scope", "$modalState", "header", "placeholder", "value", "maxLength", "required"];
 
-    constructor($scope,$modalState,header,placeholder,value,maxLength,required){
+    constructor($scope, $modalState, header, placeholder, value, maxLength, required) {
         this.$scope = $scope;
         this.$modalState = $modalState;
         this.header = header;
@@ -22,7 +22,7 @@ export class GetMessageController{
         this.$modalState.resolve(null)
     }
 
-    get canSubmit(){
+    get canSubmit() {
         if (this.value) return true;
         if (!this.required) return true;
         return false;
@@ -32,7 +32,7 @@ export class GetMessageController{
      * Есть ли ошибки валидации текстового поля
      * @returns {boolean|*}
      */
-    get inputError(){
+    get inputError() {
         const form = this.$scope.inputMessageForm;
         return ((form.$dirty && form.$invalid) || form.$pristine)
             && (form.$submitted || form.inputMessage.$touched);

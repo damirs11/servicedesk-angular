@@ -1,4 +1,4 @@
-import rowTemplate from "row.tpl.html";
+import rowTemplate from "./row.tpl.html";
 
 class ChangeListController {
     static $inject = ['SD',"$scope","ModalAction"];

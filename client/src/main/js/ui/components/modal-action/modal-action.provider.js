@@ -1,4 +1,4 @@
-import {modalArea, default as buildModal} from "build.modal";
+import {modalArea, default as buildModal} from "./build.modal";
 
 /**
  * Модуль ModalAction

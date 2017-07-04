@@ -1,5 +1,5 @@
-import template from "alert.tpl.html";
-import {AlertController as controller} from "alert.ctrl";
+import template from "./alert.tpl.html";
+import {AlertController as controller} from "./alert.ctrl";
 
 
 /**

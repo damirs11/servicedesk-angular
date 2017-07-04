@@ -1,6 +1,6 @@
-import {SDFactory} from "entity/sd-factory";
-import {ConnectorProvider} from "connector/connector-provider";
-import {HttpInterceptorsFactory, HttpInterceptorsConfig} from "connector/http-interceptors";
+import {SDFactory} from "./entity/sd-factory";
+import {ConnectorProvider} from "./connector/connector-provider";
+import {HttpInterceptorsFactory, HttpInterceptorsConfig} from "./connector/http-interceptors";
 
 /**
  * Модуль, предоставляющий API бэкэнда

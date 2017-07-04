@@ -1,4 +1,4 @@
-import dictionary from "dictionary.json";
+import dictionary from "./dictionary.json";
 
 TranslateConfig.$inject = ['$translateProvider'];
 /**

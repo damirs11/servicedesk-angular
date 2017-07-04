@@ -1,5 +1,5 @@
-import {ChangeListController as controller} from "change-list.ctrl.js";
-import template from "src/main/js/ui/forms/app/user/change-list/change-list.tpl.html";
+import {ChangeListController as controller} from "./change-list.ctrl.js";
+import template from "./change-list.tpl.html";
 
 let ChangeListState = {
     name:"app.user.change-list",
