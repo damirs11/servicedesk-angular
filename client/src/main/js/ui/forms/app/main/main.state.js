@@ -3,7 +3,7 @@ import template from "./main.tpl.html";
 
 let MainState = {
     name:"app.main",
-    url:"",
+    url:"/main",
     controller:controller,
     template:template,
     controllerAs:"ctrl",
