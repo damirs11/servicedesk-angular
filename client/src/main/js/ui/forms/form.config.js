@@ -2,7 +2,8 @@ import {AppState} from "./app/app.state";
 import {MainState} from "./app/main/main.state";
 import {LoginState} from "./app/login/login.state";
 import {UserState} from "./app/user/user.state";
-import {ChangePasswordModal} from "./change-password/change-password.modal";
+import {TestState} from "./app/test/test.state";
+import {ChangePasswordModal} from "./app/change-password/change-password.modal";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -12,6 +13,7 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
     $stateProvider
         .state(AppState)
         .state(MainState)
+        .state(TestState)
         .state(LoginState)
         .state(UserState);
 }
