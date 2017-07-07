@@ -7,9 +7,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.ConfigurationItemMapper;
-import ru.it.sd.dao.mapper.WorkorderMapper;
 import ru.it.sd.model.ConfigurationItem;
-import ru.it.sd.model.Workorder;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -174,9 +172,7 @@ public class ConfigurationItemDao extends AbstractDao {
 	 */
 	public List<ConfigurationItem> findAll() {
 		try {
-			List<ConfigurationItem> items = namedJdbc.query(SELECT_ALL_SQL,
-					((ResultSetExtractor<List<ConfigurationItem>>) null));
-			return items;
+			return namedJdbc.query(SELECT_ALL_SQL, ((ResultSetExtractor<List<ConfigurationItem>>) null));
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}

@@ -1,5 +1,5 @@
-PersonProvider.$inject = ["Entity","SD"];
-function PersonProvider(Entity,SD) {
+PersonProvider.$inject = ["Entity", "SD"];
+function PersonProvider(Entity, SD) {
     /**
      * Персона
      */
