@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Дао для работы с данными людей
+ * Дао для работы с изменениями
  *
  * @author quadrix
  * @since 28.04.2017
