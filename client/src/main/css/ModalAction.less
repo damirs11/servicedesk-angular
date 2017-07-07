@@ -1,4 +1,4 @@
-@modalAnimate: .2s ease-in-out all;
+@modalAnimate: .15s ease-in-out all;
 @zindex-modal: 2000;
 
 #ModalActionProviderArea {
@@ -58,10 +58,10 @@
     transition: @modalAnimate;
     transform: scale(1);
     &.ng-enter {
-      transform: scale(0.5);
+      opacity: 0;
     }
     &.ng-enter.ng-enter-active {
-      transform: scale(1);
+      opacity: 1;
     }
     &.ng-leave {
       opacity: 1;
