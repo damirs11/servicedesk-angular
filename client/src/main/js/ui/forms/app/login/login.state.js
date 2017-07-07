@@ -3,7 +3,7 @@ import template from "./login.tpl.html";
 
 let LoginState = {
     name: "app.login",
-    url: "",
+    url: "/login",
     controller: controller,
     template: template,
     controllerAs: "ctrl",

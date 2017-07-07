@@ -11,6 +11,8 @@ class LoginController {
         this.loginFailed = false; // флаг неудачной аутентификации
     }
 
+    // ToDo реализовать returnUrl для app.login. Должно будет после авторизации перебросить на returnUrl
+
     /**
      * Аутентификация пользователя
      */

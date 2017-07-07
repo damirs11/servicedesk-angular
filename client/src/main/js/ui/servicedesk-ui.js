@@ -5,8 +5,8 @@ import {TranslateConfig} from "./components/translate/translate.config";
 import {default as ModalAction} from "./components/modal-action/modal-action";
 import {EqualsTo} from "./components/validators/equals-to";
 import {DifferentFrom} from "./components/validators/different-from";
-import {Templates} from "./components/templates/Templates";
 import {FormConfig} from "./forms/form.config";
+import {IndexController} from "./index.controller";
 /**
  * Модуль, отвечающий за визуальную часть
  * Подключение всего, что используется в UI
@@ -17,5 +17,5 @@ export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, M
     .config(DialogsConfig)
     .directive("equalsTo", EqualsTo)
     .directive("differentFrom", DifferentFrom)
-    .run(Templates)
+    .controller("IndexController",IndexController)
     .name;

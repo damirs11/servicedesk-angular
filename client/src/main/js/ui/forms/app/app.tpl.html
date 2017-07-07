@@ -38,8 +38,8 @@
                     </ul>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" data-ng-show="ctrl.authorized">
+            <ul class="nav navbar-nav navbar-right" data-ng-show="ctrl.authorized">
+                <li class="dropdown">
                     <!-- todo добавить аватар пользователя -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-haspopup="true" aria-expanded="false">{{ctrl.user.name}}<span class="caret"></span></a>
@@ -55,6 +55,11 @@
                             <span class="glyphicon glyphicon-log-out"></span> {{'header.logout' | translate}}</a>
                         </li>
                     </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" data-ng-hide="ctrl.authorized">
+                <li>
+                    <a href="javascript:void(0)" data-ng-click="ctrl.loginClick()">Войти</a>
                 </li>
             </ul>
         </div>

@@ -4,7 +4,7 @@ import {UserResolver} from "./user.resolver";
 
 let AppState = {
     name:"app",
-    url:"/",
+    url:"",
     controller:controller,
     template:template,
     controllerAs:"ctrl",
