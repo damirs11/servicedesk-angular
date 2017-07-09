@@ -1,4 +1,8 @@
 {
+  "app.name": "ServiceDesk",
+  "app.description": "Служба поддержки пользователей",
+  "contacts.phone": " 8-800-100-4270, (347) 293-44-32, 1563, 4270 (круглосуточно, 24x7)",
+  "contacts.email": " servicecall@it.ru",
   "common.button.continue": "Продолжить",
   "common.button.comment": "Комментировать",
   "common.button.prev": "◀",
