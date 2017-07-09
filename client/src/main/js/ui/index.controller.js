@@ -8,11 +8,11 @@ import {AuthTransition} from "./components/auth.transition";
  */
 class IndexController {
 
-    static $inject = ["$injector"];
+    static $inject = ['$injector'];
 
     constructor($injector){
         $injector.instantiate(Templates);
-        $injector.instantiate(AuthTransition)
+        $injector.instantiate(AuthTransition);
     }
 }
 

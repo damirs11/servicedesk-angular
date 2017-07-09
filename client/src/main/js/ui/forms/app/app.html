@@ -21,19 +21,19 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="main-menu">
             <ul class="nav navbar-nav">
-                <li class="dropdown">
+                <li class="dropdown" data-ng-show="ctrl.authorized">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                         Разделы <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li>
+                        <!--<li>
                             <a href="#"><span class="glyphicon glyphicon-apple"></span> Объекты</a>
                         </li>
                         <li>
                             <a href="#"><span class="glyphicon glyphicon-cloud"></span> Проблемы</a>
-                        </li>
+                        </li>-->
                         <li>
-                            <a data-ui-sref="changes"><span class="glyphicon glyphicon-flash"></span> Изменения</a>
+                            <a data-ui-sref="app.changes"><span class="glyphicon glyphicon-cloud"></span> Изменения</a>
                         </li>
                     </ul>
                 </li>

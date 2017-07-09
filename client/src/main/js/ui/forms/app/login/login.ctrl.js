@@ -1,13 +1,14 @@
 class LoginController {
     static $inject = ['$translate', '$log', 'SD', '$http', '$state', '$scope'];
     constructor($translate, $log, SD, $http, $state, $scope){
+        if (SD.authorized) $state.go("app.main");
+
         this.$translate = $translate;
         this.SD = SD;
         this.$log = $log;
         this.$http = $http;
         this.$state = $state;
         this.$scope = $scope;
-        if (SD.authorized) $state.go("app.main");
         this.loginFailed = false; // флаг неудачной аутентификации
     }
 
@@ -23,7 +24,7 @@ class LoginController {
         }
         try {
             await this.SD.login(this.login,this.password); // Ждем $http.post
-        } catch (ignored) { // Если промис post реджектнулся
+        } catch (ignored) { // Неправильные логин или пароль, либо другая ошибка аутентификации
             this.loginFailed = true;
             return;
         }
