@@ -1,11 +1,12 @@
-import rowTemplate from "./row.html";
+import {ChangesGridOptions} from "./grid.config";
 
 class ChangesController {
-    static $inject = ['SD',"$scope","ModalAction"];
+    static $inject = ['SD', "$scope"];
 
-    constructor(SD,$scope,ModalAction){
-
+    constructor(SD, $scope) {
+        this.gridOptions = new ChangesGridOptions($scope);
     }
+
 }
 
 export {ChangesController};

@@ -1,24 +1,21 @@
-const columns = [
-    {
-        field: "status",
-        displayName: "Статус",
-        width: 90
-    },
-    {
-        field: "subject",
-        displayName: "Тема",
-        width: 90
+import {AbstractGrid} from "../../../components/widget/grid/abstract-grid";
+
+class ChangesGridOptions extends AbstractGrid {
+
+    constructor($scope) {
+        super($scope);
+        this.columnDefs = [
+            { field: 'status', name: "Статус" },
+            { field: 'description', name: "Тема" },
+            { field: 'name', name: "Тема" },
+            { field: 'date', name: "Дата", enableColumnResizing: false, cellFilter: "dd.MM.yyyy"},
+            { field: 'prefix', name: "Обращение", cellTooltip: true },
+            { field: 'company', name: "Компания", enableColumnMenu: false }
+        ];
+        this.data = [
+        ];
+        //this.totalItems = 2;
     }
-];
+}
 
-const GridConfig = {
-    columnDefs: columns, // Хидеры столбцов.
-    enableCellEdit: false, // Запрещаем редактирование
-    enableColumnResizing: false, // Запрещаем изменение размера
-    enableRowSelection: true,
-    enableSorting: true,
-    headerRowHeight: 30,
-    rowHeight: 30,
-};
-
-export {GridConfig};
+export {ChangesGridOptions};

@@ -6,7 +6,7 @@ import {default as ModalAction} from "./components/modal-action/modal-action";
 import {EqualsTo} from "./components/validators/equals-to";
 import {DifferentFrom} from "./components/validators/different-from";
 import {FormConfig} from "./forms/form.config";
-import {IndexController} from "./index.controller";
+import {IndexController} from "./index.ctrl";
 /**
  * Модуль, отвечающий за визуальную часть
  * Подключение всего, что используется в UI
