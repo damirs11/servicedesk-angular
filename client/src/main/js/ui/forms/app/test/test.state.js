@@ -1,9 +1,9 @@
-import {TestController as controller} from "./controller.js";
-import template from "./template.html";
+import {TestController as controller} from "./test.ctrl.js";
+import template from "./test.html";
 
 let TestState = {
     name: "app.test",
-    url: "test",
+    url: "/test",
     controller: controller,
     template: template,
     controllerAs: "ctrl",

@@ -1,14 +1,12 @@
 import {TestGridOptions} from "./grid.config";
 
 class TestController {
-    static $inject = ['$scope', 'ModalAction', '$injector'];
+    static $inject = ['$scope', 'ModalAction'];
 
-    constructor($scope, ModalAction, $injector) {
+    constructor($scope, ModalAction) {
         this.$scope = $scope;
         this.ModalAction = ModalAction;
-        this.gridOptions = $injector.instantiate(TestGridOptions, {
-            $scope: $scope
-        });
+        this.gridOptions = new TestGridOptions($scope);
     }
 
     errorClick() {

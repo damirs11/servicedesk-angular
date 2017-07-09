@@ -1,6 +1,7 @@
 import {AppState} from "./app/app.state";
 import {MainState} from "./app/main/main.state";
 import {LoginState} from "./app/login/login.state";
+import {ChangesState} from "./app/changes/changes.state";
 import {TestState} from "./app/test/test.state";
 import {ChangePasswordModal} from "./app/change-password/change-password.modal";
 
@@ -12,8 +13,9 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
     $stateProvider
         .state(AppState)
         .state(MainState)
-        .state(TestState)
         .state(LoginState)
+        .state(ChangesState)
+        .state(TestState)
 }
 
 export {FormConfig};
