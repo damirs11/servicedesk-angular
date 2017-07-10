@@ -3,9 +3,6 @@ package ru.it.sd.service.holder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.text.MessageFormat;
@@ -38,7 +35,7 @@ public abstract class AbstractHolder<StoreClass> implements DisposableBean {
             return searchResult;
         } else {
             throw new IllegalStateException(
-					MessageFormat.format("Repository doesn't contain value for a key \"{0}\".", key)
+					MessageFormat.format("Repository doesn''t contain value for a key \"{0}\".", key)
             );
         }
     }

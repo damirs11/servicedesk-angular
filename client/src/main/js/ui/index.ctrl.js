@@ -8,11 +8,14 @@ import {AuthTransition} from "./components/auth.transition";
  */
 class IndexController {
 
-    static $inject = ['$injector'];
+    static $inject = ['$injector', 'i18nService'];
 
-    constructor($injector){
+    constructor($injector, i18nService){
         $injector.instantiate(Templates);
         $injector.instantiate(AuthTransition);
+
+        // Настройка локали. В частности, используется в виджете "ui-grid"
+        i18nService.setCurrentLang('ru');
     }
 }
 
