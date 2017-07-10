@@ -22,7 +22,7 @@ public interface CrudService<T extends HasId> extends ReadService<T> {
     T create(T entity);
 
     /**
-     * Обновляет все поля объхекта сущности в БД. Поиск объекта производится по полю id.
+     * Обновляет все поля объекта сущности в БД. Поиск объекта производится по полю id.
      *
      * @param entity сущность
      */
@@ -36,9 +36,9 @@ public interface CrudService<T extends HasId> extends ReadService<T> {
     void delete(long id);
 
     /**
-     * Обновляет не NULL поля в БД.
+     * Обновляет в бд только указанные поля сущности.
      *
-     * @param entity объект сущности
+     * @param entity сущность
      */
     T patch(T entity, Set<String> fields);
 }
