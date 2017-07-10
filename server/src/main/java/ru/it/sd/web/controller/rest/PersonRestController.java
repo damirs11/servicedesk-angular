@@ -19,7 +19,7 @@ public class PersonRestController extends AbstractController{
 	private PersonService personService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Person logout(@PathVariable Long id) {
+	public Person getById(@PathVariable Long id) {
 		return personService.read(id);
 	}
 }

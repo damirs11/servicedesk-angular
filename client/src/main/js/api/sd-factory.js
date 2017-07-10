@@ -1,5 +1,9 @@
 import {EntityProvider} from "./entity/entity-provider";
 import {UserProvider} from "./entity/user-provider";
+import {PersonProvider} from "./entity/person-provider";
+import {OrganizationProvider} from "./entity/organization-provider";
+import {StatusProvider} from "./entity/entity-status-provider";
+import {PriorityProvider} from "./entity/entity-priority-provider";
 
 /**
  * Фабрика, предоставляющая SD
@@ -41,7 +45,7 @@ function SDFactory($injector, $connector) {
          */
         async changePassword(oldPassword, newPassword){
             if (!SD.authorized) return;
-            let params = {oldPassword, newPassword};
+            const params = {oldPassword, newPassword};
             return $connector.post("rest/service/security/passwordChange", params);
         },
         /**
@@ -58,15 +62,21 @@ function SDFactory($injector, $connector) {
             user = value;
         },
         get authorized() {
-            return Boolean(uzzser)
+            return Boolean(user)
         }
     };
+
+    const locals = {SD, Entity: SD.Entity};
 
     /**
      * Классы для сущностей
      */
     SD.Entity = $injector.instantiate(EntityProvider);
-    SD.User = $injector.instantiate(UserProvider, {SD, Entity: SD.Entity});
+    SD.User = $injector.instantiate(UserProvider,locals);
+    SD.Person = $injector.instantiate(PersonProvider,locals);
+    SD.Organization = $injector.instantiate(OrganizationProvider,locals);
+    SD.Status = $injector.instantiate(StatusProvider,locals);
+    SD.Priority = $injector.instantiate(PriorityProvider,locals);
 
     return Object.freeze(SD);
 }

@@ -1,5 +1,5 @@
-PersonProvider.$inject = ["Entity", "SD"];
-function PersonProvider(Entity, SD) {
+PersonProvider.$inject = ["Entity", "SD","$connector"];
+function PersonProvider(Entity, SD, $connector) {
     /**
      * Персона
      */
@@ -34,7 +34,13 @@ function PersonProvider(Entity, SD) {
             return value && SD.Organization.parse(value);
         }
 
-        static
+        static find(filter){
+
+        }
+
+        static getById(id){
+            $connector.get()
+        }
     };
 }
 
