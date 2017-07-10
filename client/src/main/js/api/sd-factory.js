@@ -58,7 +58,7 @@ function SDFactory($injector, $connector) {
             user = value;
         },
         get authorized() {
-            return Boolean(user)
+            return Boolean(uzzser)
         }
     };
 

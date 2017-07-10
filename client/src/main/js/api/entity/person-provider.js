@@ -34,7 +34,7 @@ function PersonProvider(Entity, SD) {
             return value && SD.Organization.parse(value);
         }
 
-
+        static
     };
 }
 
