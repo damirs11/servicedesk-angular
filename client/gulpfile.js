@@ -32,7 +32,9 @@ const config = {
         img: "src/main/img/",
         fonts: "src/main/fonts/",
         vendorJs: "src/main/lib/",
-        mainJS: "src/main/js/servicedesk.js"
+        mainJS: "src/main/js/servicedesk.js",
+        js: "src/main/js/",
+        less: "src/main/css"
     },
     dist : {
         js: "build/dist/js/",
@@ -47,7 +49,7 @@ const config = {
  * Собирает js приложение в app.min.js
  */
 gulp.task('build:js', function buildJS() {
-    var stream = browserify({entries: config.source.mainJS, debug: true }) // Используем браузерификацию на основном js файле
+    return browserify({entries: config.source.mainJS, debug: true }) // Используем браузерификацию на основном js файле
         .transform(babelify, { // Пропускаем через компилятор babel. Он приведет все в ES5
             presets: ["es2015", "stage-0"],
             plugins: ["transform-decorators-legacy"], // Подключаем декораторы
@@ -59,12 +61,11 @@ gulp.task('build:js', function buildJS() {
         .on('error', handleBuildError)
         .pipe(source('app.min.js'))
         .pipe(buffer())
-        .pipe(plumber())
         .pipe(sourcemaps.init({loadMaps: true})) // сорц-мапы
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.dist.js)); // кладем все в dest
-    return stream;
 });
+
 
 /**
  * Собирает js библиотеки в vendor.js
@@ -133,9 +134,31 @@ gulp.task("copy:index", function copyIndex() {
 /**
  * Обработка ошибок build:js
  */
-function handleBuildError(e){
-    console.log("Build error.",e)
+function handleBuildError(error){
+    console.log("Build JS failed");
+    console.log(error.toString());
+
+    this.emit("end");
 }
+
+/** Таски, которые следят за изменением файлов проекта
+ *  и компилируют, если есть изменения */
+
+gulp.task('watch:less',gulp.series('build:less',function doWatchLess(){
+    return gulp.watch(config.source.less+"**/*",gulp.series('build:less'));
+}));
+
+gulp.task('watch:static',gulp.series('copy:index','copy:img','copy:fonts',function doWatchImages(){
+    gulp.watch(config.source.index,gulp.series('copy:index'));
+    gulp.watch(config.source.img+"**/*",gulp.series('copy:img'));
+    return gulp.watch(config.source.fonts+"**/*",gulp.series('copy:fonts'))
+}));
+
+gulp.task('watch:js',gulp.series('build:js',function doWatchJs(){
+    return gulp.watch(config.source.js+"**/*",gulp.series('build:js'));
+}));
+
+gulp.task('watch',gulp.parallel('watch:js','watch:less','watch:static'));
 
 gulp.task('copy', gulp.parallel('copy:img','copy:index','copy:fonts'));
 

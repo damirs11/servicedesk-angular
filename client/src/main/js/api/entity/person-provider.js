@@ -34,12 +34,13 @@ function PersonProvider(Entity, SD, $connector) {
             return value && SD.Organization.parse(value);
         }
 
-        static find(filter){
-
+        static async find(filter){
+            return null
         }
 
-        static getById(id){
-            $connector.get()
+        static async getById(id){
+            const personData = await $connector.get(`rest/entity/Person/${id}`);
+            return personData ? null : Person.parse(personData)
         }
     };
 }

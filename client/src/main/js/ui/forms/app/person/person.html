@@ -1,3 +1,36 @@
-<div>
-    <h1>Test {{ctrl.id}}</h1>
+<div class="container well entity-container">
+    <div class="entity-header">
+        {{ctrl.person.name}}
+    </div>
+    <hr class="entity-separator">
+    <div class="entity-tools">
+        <button class="btn btn-danger">Уволить</button>
+    </div>
+    <hr class="entity-separator">
+    <div class="entity-content">
+        <!-- Аватарка -->
+        <div class="col-md-2">
+            <div>
+                <img src="" width="128" height="128"/>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="property">
+                <div class="property__name">Фамилия:</div>
+                <div class="property__value" data-ng-bind="ctrl.person.lastName"></div>
+            </div>
+            <div class="property">
+                <div class="property__name">Имя:</div>
+                <div class="property__value" data-ng-bind="ctrl.person.firstName"></div>
+            </div>
+            <div class="property">
+                <div class="property__name">Отчество:</div>
+                <div class="property__value" data-ng-bind="ctrl.person.middleName"></div>
+            </div>
+            <div class="property">
+                <div class="property__name">Должность: </div>
+                <div class="property__value" data-ng-bind="ctrl.person.jobTitle"></div>
+            </div>
+        </div>
+    </div>
 </div>

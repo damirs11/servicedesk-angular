@@ -66,12 +66,14 @@ function SDFactory($injector, $connector) {
         }
     };
 
+    /** Классы для сущностей */
+    /** Базовый класс */
+    SD.Entity = $injector.instantiate(EntityProvider);
+
+    /** Пробосится в зависимости для классов сущностей */
     const locals = {SD, Entity: SD.Entity};
 
-    /**
-     * Классы для сущностей
-     */
-    SD.Entity = $injector.instantiate(EntityProvider);
+    /** Все остальные сущности */
     SD.User = $injector.instantiate(UserProvider,locals);
     SD.Person = $injector.instantiate(PersonProvider,locals);
     SD.Organization = $injector.instantiate(OrganizationProvider,locals);
