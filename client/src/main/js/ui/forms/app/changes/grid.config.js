@@ -2,8 +2,8 @@ import {AbstractGrid} from "../../../components/widget/grid/abstract-grid";
 
 class ChangesGridOptions extends AbstractGrid {
 
-    constructor($scope) {
-        super($scope);
+    constructor($scope, $connector, entityClass) {
+        super($scope, $connector, entityClass);
         this.columnDefs = [
             { field: 'no', name: "Номер" },
             { field: 'status', name: "Статус" },

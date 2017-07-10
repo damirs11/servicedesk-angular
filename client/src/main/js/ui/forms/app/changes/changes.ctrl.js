@@ -1,10 +1,10 @@
-import {ChangesGridOptions} from "./grid.config";
+import {ChangesGridOptions} from './grid.config';
 
 class ChangesController {
-    static $inject = ['SD', "$scope"];
+    static $inject = ['SD', '$scope', '$connector'];
 
-    constructor(SD, $scope) {
-        this.gridOptions = new ChangesGridOptions($scope);
+    constructor(SD, $scope, $connector) {
+        this.gridOptions = new ChangesGridOptions($scope, $connector, SD.Change);
     }
 
 }

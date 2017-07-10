@@ -1,5 +1,8 @@
 import {EntityProvider} from "./entity/entity-provider";
 import {UserProvider} from "./entity/user-provider";
+import {PersonProvider} from "./entity/person-provider";
+import {OrganizationProvider} from "./entity/organization-provider";
+import {ChangeProvider} from "./entity/change-provider";
 
 /**
  * Фабрика, предоставляющая SD
@@ -67,6 +70,9 @@ function SDFactory($injector, $connector) {
      */
     SD.Entity = $injector.instantiate(EntityProvider);
     SD.User = $injector.instantiate(UserProvider, {SD, Entity: SD.Entity});
+    SD.Person = $injector.instantiate(PersonProvider, {SD, Entity: SD.Entity});
+    SD.Organization = $injector.instantiate(OrganizationProvider, {SD, Entity: SD.Entity});
+    SD.Change = $injector.instantiate(ChangeProvider, {SD, Entity: SD.Entity});
 
     return Object.freeze(SD);
 }
