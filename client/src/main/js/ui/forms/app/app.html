@@ -22,7 +22,7 @@
         <div class="collapse navbar-collapse" id="main-menu">
             <ul class="nav navbar-nav">
                 <li class="dropdown" data-ng-show="ctrl.authorized">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">
                         Разделы <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -41,17 +41,17 @@
             <ul class="nav navbar-nav navbar-right" data-ng-show="ctrl.authorized">
                 <li class="dropdown">
                     <!-- todo добавить аватар пользователя -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-haspopup="true" aria-expanded="false">{{ctrl.user.name}}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="#"><span class="glyphicon glyphicon-user"></span> Параметры персоны</a>
+                            <a href="javascript:void(0)"><span class="glyphicon glyphicon-user"></span> Параметры персоны</a>
                         </li>
                         <li>
-                            <a href="#" data-ng-click="ctrl.passwordChange()"><span class="glyphicon glyphicon-cog"></span> Сменить пароль</a>
+                            <a href="javascript:void(0)" data-ng-click="ctrl.passwordChange()"><span class="glyphicon glyphicon-cog"></span> Сменить пароль</a>
                         </li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#" data-ng-click="ctrl.logout()" style="cursor:pointer">
+                        <li><a href="javascript:void(0)" data-ng-click="ctrl.logout()" style="cursor:pointer">
                             <span class="glyphicon glyphicon-log-out"></span> {{'header.logout' | translate}}</a>
                         </li>
                     </ul>

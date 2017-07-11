@@ -4,6 +4,12 @@ function UserProvider(Entity, SD) {
      * Пользователь
      */
     return class User extends Entity {
+
+        constructor(id){
+            super(id);
+            if (id !== undefined) this.id = id
+        }
+
         /**
          * Имя пользователя
          * @property
@@ -46,6 +52,9 @@ function UserProvider(Entity, SD) {
             return value && SD.Person.parse(value);
         }
 
+        toString(){
+            return this.name
+        }
 
     };
 }

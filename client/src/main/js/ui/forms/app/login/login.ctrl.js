@@ -1,8 +1,6 @@
 class LoginController {
     static $inject = ['$translate', '$log', 'SD', '$http', '$state', '$scope'];
     constructor($translate, $log, SD, $http, $state, $scope){
-        if (SD.authorized) $state.go("app.main");
-
         this.$translate = $translate;
         this.SD = SD;
         this.$log = $log;

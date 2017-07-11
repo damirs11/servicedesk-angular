@@ -1,27 +1,33 @@
 class PersonController{
 
-    $inject = ["SD","$stateParams"];
+    /**
+     * Занят ли контроллер. Будет отображат анимацию загрузки
+     * @type {boolean}
+     */
+    busy = false;
 
-    constructor(SD,$stateParams){
-        this.SD = SD;
-
-        this.personId = $stateParams.personId;
-        this.loadPerson()
+    static $inject = ["SD","personId"];
+    constructor(SD,personId){
+        this.SD =  SD;
+        this.personId = personId;
+        this.$onInit()
     }
 
-    async loadPerson(){
-        this.person = {
-            "oid":281491084750137,
-            "name":"TEST USER SD",
-            "firstName":"TEST",
-            "lastName":"SD",
-            "middleName":"USER",
-            "job": "Специалист",
-            "organization": {
-                name: "КАРО Фильм Москва 1",
-                oid: 281494575710572
-            }
-        } // MocPerson
+    $onInit(){
+        this.person = null;
+        this.error = null;
+        this._loadPerson()
+    }
+
+    async _loadPerson(){
+        try {
+            this.busy = true; // Контроллер
+            this.person = await new this.SD.Person(this.personId).load();
+        } catch (e) {
+            this.error = e || true;
+        } finally {
+            this.busy = false;
+        }
     }
 
 }

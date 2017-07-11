@@ -1,5 +1,6 @@
 import template from "./person.html"
 import {controller} from "./person.ctrl"
+import {PersonIdResolver} from "./person-id.resolver"
 
 const PersonState = {
     name:"app.person",
@@ -9,6 +10,9 @@ const PersonState = {
     controllerAs:"ctrl",
     data: {
         needAuthorize: true
+    },
+    resolve: {
+        personId: PersonIdResolver
     }
 };
 

@@ -5,10 +5,18 @@ function StatusProvider(Entity) {
      */
     return class Status extends Entity {
 
+        constructor(id){
+            super(id);
+            if (id !== undefined) this.id = id
+        }
+
         ["parse:name"](value) {
             return value;
         }
 
+        toString(){
+            return this.name
+        }
     };
 }
 

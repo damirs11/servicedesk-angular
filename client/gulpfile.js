@@ -97,6 +97,7 @@ gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js �
  */
 gulp.task('build:less', function buildLess(){
     return gulp.src(config.source.mainLess)
+        .on('error', handleBuildError)
         .pipe(less())
         .pipe(autoprefixer())
         .pipe(sourcemaps.init({loadMaps: true}))
@@ -132,10 +133,10 @@ gulp.task("copy:index", function copyIndex() {
 
 
 /**
- * Обработка ошибок build:js
+ * Обработка ошибок
  */
 function handleBuildError(error){
-    console.log("Build JS failed");
+    console.log("Build failed");
     console.log(error.toString());
 
     this.emit("end");

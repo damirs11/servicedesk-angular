@@ -7,11 +7,19 @@ function AuthTransition($transitions, SD, $state, $trace) {
     /**
      * Проверка, что можем выполнить переход по указанному стейту.
      */
-    $transitions.onBefore({
-        to: state => state.data && state.data.needAuthorize && !SD.authorized
+    $transitions.onEnter({
+        entering: state => state.data && state.data.needAuthorize
     }, (transition) => {
-        return $state.target('app.login');
+        if (!SD.authorized) {
+            return $state.target('app.login');
+        }
     });
+
+    // $transitions.onBefore({
+    //     to: state => state.name = "app.login" && SD.authorized
+    // }, (transition) => {
+    //     return $state.target('app.login');
+    // });
 }
 
 export {AuthTransition}

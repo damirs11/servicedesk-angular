@@ -1,4 +1,4 @@
-import {SDFactory} from "./sd-factory";
+import {SDFactory} from "./sd.factory";
 import {ConnectorProvider} from "./connector/connector-provider";
 import {HttpInterceptorsFactory, HttpInterceptorsConfig} from "./connector/http-interceptors";
 

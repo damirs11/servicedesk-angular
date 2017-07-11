@@ -5,6 +5,11 @@ function OrganizationProvider(Entity) {
      */
     return class Organization extends Entity {
 
+        constructor(id){
+            super(id);
+            if (id !== undefined) this.id = id
+        }
+
         ["parse:name"](value) {
             return value;
         }
@@ -13,6 +18,10 @@ function OrganizationProvider(Entity) {
             return value;
         }
 
+
+        toString(){
+            return this.name
+        }
     };
 }
 

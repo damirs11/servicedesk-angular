@@ -1,9 +1,9 @@
-import {EntityProvider} from "./entity/entity-provider";
-import {UserProvider} from "./entity/user-provider";
-import {PersonProvider} from "./entity/person-provider";
-import {OrganizationProvider} from "./entity/organization-provider";
-import {StatusProvider} from "./entity/entity-status-provider";
-import {PriorityProvider} from "./entity/entity-priority-provider";
+import {EntityProvider} from "./entity/entity.provider";
+import {UserProvider} from "./entity/user.provider";
+import {PersonProvider} from "./entity/person.provider";
+import {OrganizationProvider} from "./entity/organization.provider";
+import {StatusProvider} from "./entity/entity-status.provider";
+import {PriorityProvider} from "./entity/entity-priority.provider";
 
 /**
  * Фабрика, предоставляющая SD

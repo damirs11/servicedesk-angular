@@ -1,10 +1,12 @@
+import {PARSE_MAP} from "./decorator/parse.decorator";
+
 function EntityProvider() {
     /**
      * Базовый класс для сущностей ServiceDesk
      * Содержит служебную логику, например кэш.
      *
      * //todo Саша: описать для чего класс используется (служебная логика), для чего в нем кэш? Неплохое документирование методов, но в целом картина не складывается
-     *
+     * // Ок, как закончу с entity до конца - опишу все в документации.
      */
     return class Entity {
 
@@ -14,8 +16,12 @@ function EntityProvider() {
          */
         static cache = {}; // Закэшированные сущности
 
+
         /**
          * Превращает json данные в SD сущность.
+         * Если был передан трекер - вернет сущность связанную с кешем.
+         * Если необходимо трекерить объект не по ID, следует переопределить данный метод.
+         * @param {object|number} data - json данные или трекер.
          */
         static parse(data) {
             if (!data) return null;
@@ -24,18 +30,17 @@ function EntityProvider() {
         }
 
         /**
-         * Создает сущность. Если не передать ID - считается, что создается новая сущность (которой нет в БД)
+         * Создает сущность. Если не передать tracker - считается, что создается новая сущность (которой нет в БД)
          * Она не попадет в кэш.
-         * Если же ID передан - вернет новый объект, который наследуется от кэшированного.
-         * @param {number} [id] - ID сущности
+         * Если же tracker передан - вернет новый объект, который наследуется от кэшированного.
+         * @param {number|string} [tracker] - трекер сущности
          * @returns {Entity|*}
          */
-        constructor(id) {
-            if (id) {
-                let entity = cache[id];
-                if (!user) {
-                    cache[id] = entity = Object.create(this.constructor.prototype);
-                    entity.id = id;
+        constructor(tracker) {
+            if (tracker) {
+                let entity = Entity.cache[tracker];
+                if (!entity) {
+                    Entity.cache[tracker] = entity = Object.create(this.constructor.prototype);
                 }
                 Object.defineProperty(entity, "$data", {value: entity});
                 return Object.create(entity)
@@ -54,22 +59,24 @@ function EntityProvider() {
          */
         $update(data) {
             const cached = this.$data;
-            for (let key in data) {
+            const parseData = Object.create(null);
+            let obj = cached;
+            while (obj = Object.getPrototypeOf(obj)) {
+                const map = obj[PARSE_MAP];
+                if (!map) continue;
+                for (const val in map) {
+                    parseData[val] = parseData[val] || map[val];
+                }
+            }
+            for (const key in data) {
                 const value = data[key];
-                let parse = cached[`parse:${key}`];
-                if (!parse) continue;
-                const result = parse.call(cached, value, data, key, cached);
-                if (result !== undefined) cached[key] = result;
+                const mapDescriptor = parseData[key];
+                if (!mapDescriptor) continue;
+                const parse = mapDescriptor.parse;
+                const result = parse.call(cached,value,data,key,cached);
+                if (result !== undefined) cached[mapDescriptor.propertyName] = result;
             }
             return this;
-        }
-
-        /**
-         * Необходимо для сравнения объектов через == и ===
-         * @returns {*|undefined}
-         */
-        valueOf() {
-            return this.id || undefined
         }
 
     }

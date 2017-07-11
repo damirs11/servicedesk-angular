@@ -3,15 +3,20 @@
         {{ctrl.person.name}}
     </div>
     <hr class="entity-separator">
-    <div class="entity-tools">
-        <button class="btn btn-danger">Уволить</button>
+    <div class="entity-tools container-fluid row">
+        <div class="col-md-6">
+            <button class="btn btn-default" data-ng-click="window.alert('Наряд создан')">Создать наряд</button>
+        </div>
+        <div class="col-md-6" style="text-align: right">
+            Статус персоны Активен/Уволен
+        </div>
     </div>
     <hr class="entity-separator">
     <div class="entity-content">
         <!-- Аватарка -->
         <div class="col-md-2">
-            <div>
-                <img src="" width="128" height="128"/>
+            <div class="entity-avatar">
+                <img width="128" height="128" src="img/logo.png">
             </div>
         </div>
         <div class="col-md-5">
@@ -28,8 +33,12 @@
                 <div class="property__value" data-ng-bind="ctrl.person.middleName"></div>
             </div>
             <div class="property">
-                <div class="property__name">Должность: </div>
-                <div class="property__value" data-ng-bind="ctrl.person.jobTitle"></div>
+                <div class="property__name">Должность:</div>
+                <div class="property__value" data-ng-bind="ctrl.person.job"></div>
+            </div>
+            <div class="property">
+                <div class="property__name">Организация:</div>
+                <div class="property__value" data-ng-bind="ctrl.person.organization"></div>
             </div>
         </div>
     </div>
