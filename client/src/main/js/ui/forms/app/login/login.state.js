@@ -1,5 +1,5 @@
 import {LoginController as controller} from "./login.ctrl.js";
-import template from "./login.tpl.html";
+import template from "./login.html";
 
 let LoginState = {
     name: "app.login",

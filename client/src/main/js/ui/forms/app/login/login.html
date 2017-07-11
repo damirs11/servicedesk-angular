@@ -9,7 +9,7 @@
                     <label for="login">{{'login.user' | translate}}</label>
                     <input type="text" class="form-control" name="login" id="login"
                            placeholder="{{'login.enter.username' | translate}}"
-                           data-ng-model="ctrl.login" required data-ng-keyup="hitEnter($event)" autofocus="autofocus">
+                           data-ng-model="ctrl.login" required data-ng-keyup="ctrl.hitEnter($event)" autofocus>
                     <data-ng-messages class="text-danger" for="loginForm.login.$error" role="alert"
                                       data-ng-show="loginForm.$submitted || loginForm.login.$touched">
                         <data-ng-messages-include src="template.ngMessage.errorMessages"/>
@@ -19,7 +19,7 @@
                     <label for="password">{{'login.password' | translate}}</label>
                     <input type="password" class="form-control" name="password" id="password"
                            placeholder="{{'login.enter.password' | translate}}"
-                           data-ng-model="ctrl.password" required data-ng-keyup="hitEnter($event)">
+                           data-ng-model="ctrl.password" required data-ng-keyup="ctrl.hitEnter($event)">
                     <data-ng-messages class="text-danger" for="loginForm.password.$error" role="alert"
                                       data-ng-show="loginForm.$submitted || loginForm.password.$touched">
                         <data-ng-messages-include src="template.ngMessage.errorMessages"/>
