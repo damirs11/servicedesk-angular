@@ -2,31 +2,57 @@ class PersonController{
 
     /**
      * Занят ли контроллер. Будет отображат анимацию загрузки
-     * @type {boolean}
+     * @type {string|null}
      */
-    busy = false;
+    busy = null;
+    /**
+     * Ошибка при загрузке
+     * @type {Error|null}
+     */
+    loadingError = null;
+    /**
+     * Отображаемая персона
+     * @type {SD.Person|null}
+     */
+    person = null;
 
     static $inject = ["SD","personId"];
     constructor(SD,personId){
-        this.SD =  SD;
+        this.SD = SD;
         this.personId = personId;
-        this.$onInit()
     }
 
     $onInit(){
-        this.person = null;
-        this.error = null;
-        this._loadPerson()
+        this._loadPerson();
+    }
+
+    get loading(){
+        return this.busy === "loading";
+    }
+
+    get loadingErrorIsNotFound(){
+        return this.loadingError.status === 404;
+    }
+
+    get loadingErrorIsServerOffline(){
+        return this.loadingError.status === -1;
+    }
+
+    get loadingErrorIsCustom(){
+        return !this.loadingErrorIsNotFound &&
+            !this.loadingErrorIsServerOffline
+        ;
     }
 
     async _loadPerson(){
+        if (this.busy) throw new Error("Controller is busy " + this.busy);
         try {
-            this.busy = true; // Контроллер
+            this.busy = "loading";
             this.person = await new this.SD.Person(this.personId).load();
-        } catch (e) {
-            this.error = e || true;
+        } catch (error) {
+            this.loadingError = error || true;
         } finally {
-            this.busy = false;
+            this.busy = null;
         }
     }
 

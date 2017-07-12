@@ -1,3 +1,7 @@
+/**
+ * Модуль, отвечающий за визуальную часть
+ * Подключение всего, что используется в UI
+ */
 import {servicedeskAPI} from "../api/servicedesk-api";
 import {DialogsConfig} from "./components/dialogs/dialogs.config";
 import {uiRouter, translate, uiBootstrap, uiGrid, uiGridSelection, uiGridPagination, ngSanitize, utilsEntity, ngMessages} from "../common/web-libraries.const";
@@ -7,10 +11,7 @@ import {EqualsTo} from "./components/validators/equals-to";
 import {DifferentFrom} from "./components/validators/different-from";
 import {FormConfig} from "./forms/form.config";
 import {IndexController} from "./index.ctrl";
-/**
- * Модуль, отвечающий за визуальную часть
- * Подключение всего, что используется в UI
- */
+
 export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, ModalAction, uiRouter, ngMessages, translate,
         uiBootstrap, ngSanitize, uiGrid, uiGridSelection, uiGridPagination])
     .config(TranslateConfig)

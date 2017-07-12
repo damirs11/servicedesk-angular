@@ -18,9 +18,8 @@ function EntityProvider() {
 
 
         /**
-         * Превращает json данные в SD сущность.
-         * Если был передан трекер - вернет сущность связанную с кешем.
-         * Если необходимо трекерить объект не по ID, следует переопределить данный метод.
+         * Возвращает сущность из данных json. Может изменить кэшированную версию.
+         * Если был передан id - вернет сущность связанную с кешем.
          * @param {object|number} data - json данные или трекер.
          */
         static parse(data) {
@@ -32,15 +31,16 @@ function EntityProvider() {
         /**
          * Создает сущность. Если не передать tracker - считается, что создается новая сущность (которой нет в БД)
          * Она не попадет в кэш.
-         * Если же tracker передан - вернет новый объект, который наследуется от кэшированного.
-         * @param {number|string} [tracker] - трекер сущности
+         * Если же id передан - вернет новый объект, который наследуется от кэшированного.
+         * @param {number} [id] - ID сущности
          * @returns {Entity|*}
          */
-        constructor(tracker) {
-            if (tracker) {
-                let entity = Entity.cache[tracker];
+        constructor(id) {
+            if (id) {
+                let entity = Entity.cache[id];
                 if (!entity) {
-                    Entity.cache[tracker] = entity = Object.create(this.constructor.prototype);
+                    Entity.cache[id] = entity = Object.create(this.constructor.prototype);
+                    entity.id = id;
                 }
                 Object.defineProperty(entity, "$data", {value: entity});
                 return Object.create(entity)
@@ -52,9 +52,8 @@ function EntityProvider() {
 
         /**
          * Обновить объект в кэше.
-         * Для каждого ключа из пришедших данных ищет у кэшированного объекта
-         * поле parse:%key% и вызывает его, передвая туда значение data[%key%], сам объект data, ключ и
-         * закэшированный объект. Если метод вернул что-либо не undefined - заносит это в поле cachedObject[%key%]
+         * Кэш обновляется с помощью методов, которые добавляет @Parse
+         * @see @Parse
          * @param {object} data - json данные
          */
         $update(data) {

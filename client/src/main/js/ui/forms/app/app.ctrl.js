@@ -17,10 +17,9 @@ class AppController {
         return this.SD.authorized;
     }
 
-    logout() {
-        this.SD.logout().catch(e => {
-            alert("Не удалось выйти");
-        });
+    async logout() {
+        await this.SD.logout();
+        this.$state.go("app.main")
     }
 
     loginClick(){
@@ -28,9 +27,7 @@ class AppController {
     }
 
     async passwordChange() {
-        try {
-            await this.ModalAction.changePassword(this.$scope)
-        } catch (ignored) {}
+        await this.ModalAction.changePassword(this.$scope)
     }
 }
 

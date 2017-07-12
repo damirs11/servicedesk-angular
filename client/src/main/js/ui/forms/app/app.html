@@ -45,7 +45,9 @@
                        aria-haspopup="true" aria-expanded="false">{{ctrl.user.name}}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="javascript:void(0)"><span class="glyphicon glyphicon-user"></span> Параметры персоны</a>
+                            <a data-ui-sref="app.person({personId:ctrl.user.person.id})">
+                                <span class="glyphicon glyphicon-user"></span> Параметры персоны
+                            </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" data-ng-click="ctrl.passwordChange()"><span class="glyphicon glyphicon-cog"></span> Сменить пароль</a>
