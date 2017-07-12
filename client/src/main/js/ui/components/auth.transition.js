@@ -15,11 +15,11 @@ function AuthTransition($transitions, SD, $state, $trace) {
         }
     });
 
-    // $transitions.onBefore({
-    //     to: state => state.name = "app.login" && SD.authorized
-    // }, (transition) => {
-    //     return $state.target('app.login');
-    // });
+    $transitions.onEnter({
+        to: "app.login"
+    }, (transition) => {
+        if (SD.authorized) return $state.target('app.main');
+    });
 }
 
 export {AuthTransition}
