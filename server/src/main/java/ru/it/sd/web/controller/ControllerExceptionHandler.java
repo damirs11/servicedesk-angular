@@ -1,6 +1,7 @@
 package ru.it.sd.web.controller;
 
 import ru.it.sd.exception.ClientMessage;
+import ru.it.sd.exception.NotFoundException;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.util.ResourceMessages;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -52,7 +53,18 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(ServiceException.class)
 	@ResponseStatus
 	@ResponseBody
-	private ClientMessage handleServiceException(ServiceException ex) {
+	private ClientMessage handleServiceException(Exception ex) {
+		LOG.error(ex.getMessage(), ex);
+		return new ClientMessage(ex.getMessage(), null);
+	}
+
+	/**
+	 * Перехват общих сервисных ошибок. Текст сообщения оставляем неизменным.
+	 */
+	@ExceptionHandler(NotFoundException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	@ResponseBody
+	private ClientMessage handleNotFoundException(Exception ex) {
 		LOG.error(ex.getMessage(), ex);
 		return new ClientMessage(ex.getMessage(), null);
 	}
@@ -63,7 +75,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({AccessDeniedException.class, AuthenticationException.class, BadCredentialsException.class})
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	@ResponseBody
-	private ClientMessage handleServiceException(AccessDeniedException ex) {
+	private ClientMessage handleAccessDeniedException(Exception ex) {
 		LOG.error(ex.getMessage(), ex);
 		return new ClientMessage(
 				ResourceMessages.getMessage(Integer.valueOf(HttpStatus.FORBIDDEN.value()).toString()),
@@ -76,7 +88,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({IllegalArgumentException.class, JsonParseException.class})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
-	private ClientMessage handleServiceException(IllegalArgumentException ex) {
+	private ClientMessage handleIllegalArgumentException(Exception ex) {
 		LOG.error(ex.getMessage(), ex);
 		return new ClientMessage(
 				ResourceMessages.getMessage(Integer.valueOf(HttpStatus.BAD_REQUEST.value()).toString()),
