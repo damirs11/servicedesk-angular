@@ -78,6 +78,16 @@ function EntityProvider() {
             return this;
         }
 
+        /**
+         * Возвращает объект к состоянию, в котором находится кэш
+         */
+        reset(){
+            for ( const key in Object.keys(this) ) {
+                delete this[key]
+            }
+            return this
+        }
+
     }
 }
 

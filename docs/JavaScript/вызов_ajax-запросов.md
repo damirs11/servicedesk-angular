@@ -1,12 +1,5 @@
-Здесь необходимо описать общие сведения по отправке
-ajax-запросов и обработки их ответов (ошибок).
-Как выполнять их последовательный запуск, имитация
-синхронной работы и т.д.
-
-### Не закончено ###
-
 ## Введение
-Все ajax запросы необходимо обвернуть в свои методы классов в модуле API.
+Все ajax запросы необходимо обвернуть методы классов в модуле API.
 В коде других модулей не должны постоянно в разных местах встречаться адреса сервера.
 Все вызовы ajax необходимо прописать соответсвующий класс. Например `SD.Servicecall` для заявок.
 Поиск заявок: `SD.Servicecall.find({id:15})`
@@ -25,10 +18,11 @@ ajax-запросов и обработки их ответов (ошибок).
 * $connector.get(relativePath,params,timeout) - GET запрос
 * $connector.post(relativePath,data,timeout) - POST запрос
 
+
 ## Использование async / await
 Принцип async:
 Если функция помечена с помощью async, то она всегда возвращает промис.
-``` JavaScript
+```JavaScript
 async function getTen(){
   return 10;
 }
@@ -44,30 +38,30 @@ getTen().then((x) => console.log(x)) // логнет 10;
 Если же ожидаемый промис сделал reject - у нас выскочит ошибка. Поэтому некоторые await нужно оборачивать в
 try-catch. 
 
-P.S. На самом деле функция не "преостанавливается". Там все работает гораздо интереснее, с помощью
-фукнкций-генераторов ES6, но можно воспринимать и так. Если интересно как первращается в ES5 - можно почитать на http://babeljs.io
+###Примеры ajax запросов
+```JavaScript
 
-``` JavaScript
-const $connector = ...
-
-async function findPersons(){
-  return 10;
-}
-
-console.log(getTen()); // логнет Promise {}
-getTen().then((x) => console.log(x)) // логнет 10;
-```
-
-
-
-*Пример класса*
-``` JavaScript
-...
 class Person extends Entity {
     
-    static $inject = ["$connector"]
+    static $inject = ["$connector"];
     
-    async find(filter){}
+    async find(filter){
+        const data = await $connector.get("/rest/ajax/entity/Person",null,filter)
+        return Person.parse(data);
+    }
 }
 
+```
+
+```JavaScript
+const $connector = null;
+
+async function findPersons(){
+    try { 
+        const data = $connector.get("/rest/service/entity/Person",null,{firstName: "Иван"});
+        return data.map(SD.Person.parse) // Превращаем их всех в персон
+    } catch (error) {
+        alert("Ошибка при загрузке персон")
+    }
+}
 ```
