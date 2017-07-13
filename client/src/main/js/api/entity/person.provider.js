@@ -1,4 +1,5 @@
 import {Parse} from "./decorator/parse.decorator";
+import {Serialize} from "./decorator/serialize.decorator";
 
 
 PersonProvider.$inject = ["Entity", "SD","$connector"];
@@ -10,54 +11,54 @@ function PersonProvider(Entity, SD, $connector) {
      */
     return class Person extends Entity {
         /**
-         * Пол персоны: 0 - женский, 1 - мужской
+         * Пол персоны: false - женский, true - мужской
          * @property
          * @name SD.Person#sex
-         * @type {number}
+         * @type {boolean}
          */
-        @Parse(Number) sex;
+        @Serialize(Boolean) @Parse(Boolean) sex;
         /**
          * Почта
          * @property
          * @name SD.Person#email
          * @type {string}
          */
-        @Parse(String) email;
+        @Serialize(String) @Parse(String) email;
         /**
          * Должность
          * @property
          * @name SD.Person#job
          * @type {string}
          */
-        @Parse(String) job;
+        @Serialize(String) @Parse(String) job;
         /**
          * Имя
          * @property
          * @name SD.Person#firstName
          * @type {string}
          */
-        @Parse(String) firstName;
+        @Serialize(String) @Parse(String) firstName;
         /**
          * Фамилия
          * @property
          * @name SD.Person#lastName
          * @type {string}
          */
-        @Parse(String) lastName;
+        @Serialize(String) @Parse(String) lastName;
         /**
          * Отчество
          * @property
          * @name SD.Person#middleName
          * @type {string}
          */
-        @Parse(String) middleName;
+        @Serialize(String) @Parse(String) middleName;
         /**
          * Организация персоны
          * @property
          * @name SD.Person#organization
          * @type {SD.Organization}
          */
-        @Parse(data => SD.Organization.parse(data)) organization;
+        @Serialize(org => org.id) @Parse(data => SD.Organization.parse(data)) organization;
 
         /**
          * Сокращенное имя персоны

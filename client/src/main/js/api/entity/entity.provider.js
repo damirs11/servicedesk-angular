@@ -1,4 +1,5 @@
 import {PARSE_MAP} from "./decorator/parse.decorator";
+import {SERIALIZE_MAP} from "./decorator/serialize.decorator";
 
 function EntityProvider() {
     /**
@@ -76,6 +77,30 @@ function EntityProvider() {
                 if (result !== undefined) cached[mapDescriptor.propertyName] = result;
             }
             return this;
+        }
+
+        $serialize() {
+            const serializeData = Object.create(null);
+            const cached = this.$data;
+            let obj = cached;
+            while (obj = Object.getPrototypeOf(obj)) {
+                const map = obj[SERIALIZE_MAP];
+                if (!map) continue;
+                for (const val in map) {
+                    serializeData[val] = serializeData[val] || map[val];
+                }
+            }
+            const json = Object.create(null);
+            for (const key in this) {
+                const value = this[key];
+                const serializeDescriptor = serializeData[key];
+                if (!serializeDescriptor) continue;
+                const serialize = serializeDescriptor.serialize;
+                const serializedName = serializeDescriptor.serializedName;
+                const result = serialize(value,serializedName);
+                if (result !== undefined) json[serializedName] = result;
+            }
+            return json;
         }
 
         /**
