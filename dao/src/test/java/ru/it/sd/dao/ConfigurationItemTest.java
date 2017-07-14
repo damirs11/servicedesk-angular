@@ -35,8 +35,8 @@ public class ConfigurationItemTest extends AbstractDaoTest {
 	@Test
 	private void testFindByFilter(){
 		HashMap<String, String> stringsFilter = new HashMap<>();
-		stringsFilter.put("searchCode","CIT №1");
-		stringsFilter.put("name","Some item");
+		stringsFilter.put("searchCode","CIT");
+		stringsFilter.put("name","item");
 
 		HashMap<String, String> ownerFilter = new HashMap<>();
 		ownerFilter.put("owner","1");
@@ -45,8 +45,9 @@ public class ConfigurationItemTest extends AbstractDaoTest {
 		numberFilter.put("no","2002");
 
 		List<ConfigurationItem> items = dao.list(stringsFilter);
-		assertEquals(items.size(), 1);
+		assertEquals(items.size(), 2);
 		assertEquals(items.get(0).getId().longValue(), 20001L);
+		System.out.println(items);
 		items = dao.list(ownerFilter);
 		assertEquals(items.size(),2);
 		assertEquals(items.get(0).getOwner().getId().longValue(), 1);
