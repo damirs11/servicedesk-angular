@@ -3,7 +3,7 @@ package ru.it.sd.web.controller.rest;
 import ru.it.sd.model.Role;
 import ru.it.sd.model.User;
 import ru.it.sd.model.Operation;
-import ru.it.sd.service.UserService;
+import ru.it.sd.service.SecurityService;
 import ru.it.sd.util.ResourceMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class ConfigurationRestController extends AbstractController {
 	private static final Logger LOG = LoggerFactory.getLogger(ConfigurationRestController.class);
 
 	@Autowired
-	private UserService userService;
+	private SecurityService securityService;
 
 	@RequestMapping("/getInfo")
 	public Map<String, Object> getInfo(HttpServletRequest request) {
@@ -96,7 +96,7 @@ public class ConfigurationRestController extends AbstractController {
 	private Map<String, Object> getUserCompleteInfo() {
 		Map<String, Object> result = new HashMap<>();
 		// Информация о пользователе
-		User user = userService.getCurrentUser();
+		User user = securityService.getCurrentUser();
 		// Если пользователь не аутентифицирован
 		if (user == null) {
 			result.put("login", ResourceMessages.getMessage("default.login"));

@@ -26,9 +26,9 @@ import static ru.it.sd.util.ResourceMessages.getMessage;
  * @since 07.03.2017
  */
 @Service
-public class UserService {
+public class SecurityService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SecurityService.class);
 
 	@Autowired
 	private Environment env;
