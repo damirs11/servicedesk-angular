@@ -1,13 +1,15 @@
 class LoginController {
-    static $inject = ['$translate', '$log', 'Session', '$http', '$state', '$scope'];
-    constructor($translate, $log, Session, $http, $state, $scope){
+    static $inject = ["$translate", "$log", "Session", "$http", "$state", "$scope", "$window", "returnUrl"];
+    constructor($translate, $log, Session, $http, $state, $scope, $window, returnUrl){
         this.$translate = $translate;
         this.Session = Session;
         this.$log = $log;
         this.$http = $http;
         this.$state = $state;
         this.$scope = $scope;
+        this.$window = $window;
         this.loginFailed = false; // флаг неудачной аутентификации
+        this.returnUrl = returnUrl;
     }
 
     // ToDo реализовать returnUrl для app.login. Должно будет после авторизации перебросить на returnUrl
@@ -27,7 +29,11 @@ class LoginController {
             return;
         }
         this.loginFailed = false;
-        this.$state.go("app.main");
+        if (this.returnUrl) {
+            this.$window.location.href = this.returnUrl
+        } else {
+            this.$state.go("app.main");
+        }
     }
 
     hitEnter (evt) {

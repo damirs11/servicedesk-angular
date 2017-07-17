@@ -42,10 +42,6 @@ public class ConfigurationRestController extends AbstractController {
 	public Map<String, Object> getInfo(HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<>();
 		result.put("user", getUserCompleteInfo());
-		Map<Object, Object> translate = new HashMap<>();
-		translate.putAll(getTranslates());
-		translate.putAll(getManifestInfo(request.getServletContext()));
-		result.put("translate", translate);
 		return result;
 	}
 
