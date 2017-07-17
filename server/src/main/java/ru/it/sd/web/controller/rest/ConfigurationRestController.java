@@ -95,18 +95,12 @@ public class ConfigurationRestController extends AbstractController {
 		User user = securityService.getCurrentUser();
 		// Если пользователь не аутентифицирован
 		if (user == null) {
-			result.put("login", ResourceMessages.getMessage("default.login"));
-			result.put("name", ResourceMessages.getMessage("default.login"));
-			result.put("roles", new HashSet<>());
-			result.put("grants", new HashSet<>());
-			result.put("isAuthorized", false);
-			return result;
+			return null;
 		}
 		// Если пользователь аутентифицирован
 		result.put("login", user.getLogin());
 		result.put("name", user.getPerson() == null ? user.getName() : user.getPerson().getFIO());
 		result.put("person",user.getPerson());
-		result.put("isAuthorized", true);
 		// Информация о ролях пользователя и правах доступа
 		Set<String> grants = new HashSet<>();
 		Set<String> roles = new HashSet<>();

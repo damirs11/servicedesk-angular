@@ -74,10 +74,11 @@ public class SecurityService {
 	 * @param login имя пользователя
 	 * @param password пароль
 	 */
-	public void loginUser(String login, String password) {
+	public User loginUser(String login, String password) {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication authentication = authenticate(login, password);
 		context.setAuthentication(authentication);
+		return getCurrentUser();
 	}
 
 	/**

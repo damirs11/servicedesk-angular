@@ -1,5 +1,6 @@
 package ru.it.sd.web.controller.rest;
 
+import ru.it.sd.model.User;
 import ru.it.sd.service.SecurityService;
 import ru.it.sd.util.ResourceMessages;
 import org.slf4j.Logger;
@@ -34,9 +35,9 @@ public class SecurityRestController extends AbstractController{
 	private SecurityService securityService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public void login(@RequestBody String json) throws IOException {
+	public User login(@RequestBody String json) throws IOException {
 		Map<String, String> params = objectMapper.readValue(json, Map.class);
-		securityService.loginUser(params.get(LOGIN_PARAM), params.get(PASSWORD_PARAM));
+		return securityService.loginUser(params.get(LOGIN_PARAM), params.get(PASSWORD_PARAM));
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)

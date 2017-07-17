@@ -39,12 +39,10 @@ class Session {
      */
     async authorize() {
         const data = await this.$connector.get('rest/service/config/getInfo');
-        if (!data.user["isAuthorized"]) {
-            user = null;
-            return;
+        if (data.user) {
+            return this.user = this.SD.User.parse(data.user);
         }
-        this.user = this.SD.User.parse(data.user);
-        return this.user;
+        return;
     }
 
     /**
