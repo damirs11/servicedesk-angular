@@ -51,6 +51,7 @@ function EntityProvider($connector,cache) {
          * Кэш обновляется с помощью методов, которые добавляет @Parse
          * @see @Parse
          * @param {object} data - json данные
+         * @chain
          */
         $update(data) {
             const cached = this.$data;
@@ -130,11 +131,12 @@ function EntityProvider($connector,cache) {
 
         /**
          * Возвращает объект к состоянию, в котором находится кэш
+         * @chain
          */
         reset(){
-            for (const key in this) {
-                delete this[key]
-            }
+            Object.keys(this)
+                .forEach(key => delete this[key])
+            ;
             return this
         }
 
@@ -142,7 +144,7 @@ function EntityProvider($connector,cache) {
         /**
          * Возвращает строкой тип сущности. Используется для запросов
          * Должен соотвествовать типу на сервере
-         * @returns {*}
+         * @returns {string}
          */
         get $entityType() {
             return this.constructor.name;

@@ -21,6 +21,7 @@ function EditableEntityProvider(Entity, SD, $connector) {
 
         /**
          * Создает новую сущность
+         * @return {SD.EditableEntity}
          */
         async create(){
             const jsonData = this.$serialize();

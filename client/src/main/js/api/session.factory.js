@@ -43,7 +43,7 @@ class Session {
             user = null;
             return;
         }
-        this.user = SD.User.parse(data.user);
+        this.user = this.SD.User.parse(data.user);
         return this.user;
     }
 
