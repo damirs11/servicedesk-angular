@@ -4,9 +4,9 @@ import {Connector} from "./connector";
 function ConnectorProvider() {
     /**
      * Адрес сервера с API
-     * @type
+     * @type {String}
      */
-    let address = "/sd";
+    let address = "GULP_REPLACE:SD_ADDRESS";
     /**
      * Обработчик ошибок ajax запросов.
      * @type {ngFunction}

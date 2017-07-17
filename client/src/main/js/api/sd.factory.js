@@ -17,11 +17,7 @@ function SDFactory($injector) {
      */
     const SD = $injector.instantiate(SDConstructor,{ cache: Object.create(null) });
 
-    /**
-     * @debug
-     * Для дебага кладем SD в глобальную переменную
-     */
-    window._SD = SD;
+    if ('GULP_REPLACE:DEBUG') window._SD = SD;
 
     return Object.freeze(SD);
 }

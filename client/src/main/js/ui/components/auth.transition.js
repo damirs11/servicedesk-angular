@@ -2,7 +2,7 @@ AuthTransition.$inject = ['$transitions', 'Session', '$state', '$trace',"$locati
 function AuthTransition($transitions, Session, $state, $trace, $location) {
 
     // Для отладки: Включаем логирование переходов между страницами
-    $trace.enable('TRANSITION');
+    if ('GULP_REPLACE:DEBUG') $trace.enable('TRANSITION');
 
     /**
      * Проверка, что можем выполнить переход по указанному стейту.

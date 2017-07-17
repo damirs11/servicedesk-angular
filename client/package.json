@@ -29,6 +29,7 @@
     "gulp-replace": "^0.6.1",
     "gulp-rimraf": "^0.2.1",
     "gulp-sourcemaps": "^2.6.0",
+    "gulp-token-replace": "^1.0.4",
     "gulp-util": "^3.0.8",
     "minimatch": "^3.0.2",
     "path-dirname": "^1.0.2",

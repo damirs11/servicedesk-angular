@@ -30,5 +30,8 @@ gulp {
     bufferOutput = false
 }
 
-gulp_default.dependsOn('npmInstall')
-//build.dependsOn('gulp_default')
+task gulpBuildWithOpts(type: GulpTask, dependsOn: "npmInstall") {
+    args = ["default", "--SOURCE_MAPS true", "--DEBUG true"]
+}
+
+build.dependsOn('gulpBuildWithOpts')

@@ -22,6 +22,8 @@ const stringify = require('stringify');
 const uglifyify = require('uglifyify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
+const replace = require('gulp-replace');
+const gulpif = require('gulp-if');
 const rename = require('gulp-rename');
 const autoprefixer = require('gulp-autoprefixer');
 
@@ -53,17 +55,25 @@ const config = {
         fonts: "build/dist/css/fonts/"
     },
     replace: {
-        "#DEBUG#": env.DEBUG,
-        "#SD_ADDRESS#": env.SD_ADDRESS || "/sd",
-        "#HTTP_TIMEOUT" : env.HTTP_TIMEOUT
+        "DEBUG": env.DEBUG,
+        "SD_ADDRESS": env.SD_ADDRESS || "/sd",
+        "HTTP_TIMEOUT" : env.HTTP_TIMEOUT,
     }
 };
+
+/**
+ * Все значение undefined в replace превращает в строку "undefined"
+ * Без этого gulp-replace при попытке подменить что-либо на undefined ставит запятую, и код ломается
+ */
+for (const key in config.replace) {
+    if (config.replace[key] === undefined) config.replace[key] = "undefined"
+}
 
 /**
  * Собирает js приложение в app.min.js
  */
 gulp.task('build:js', function buildJS() {
-    return browserify({entries: config.source.mainJS, debug: true }) // Используем браузерификацию на основном js файле
+    let stream = browserify({entries: config.source.mainJS, debug: true }) // Используем браузерификацию на основном js файле
         .transform(babelify, { // Пропускаем через компилятор babel. Он приведет все в ES5
             presets: ["es2015", "stage-0"],
             plugins: ["transform-decorators-legacy"], // Подключаем декораторы
@@ -74,9 +84,20 @@ gulp.task('build:js', function buildJS() {
         .bundle()
         .on('error', handleBuildError)
         .pipe(source('app.min.js'))
-        .pipe(buffer())
-        .pipe(sourcemaps.init({loadMaps: true})) // сорц-мапы
-        .pipe(sourcemaps.write('./'))
+        .pipe(buffer());
+
+    // Заеняем в коде все слова из списка config.replace
+    for (let name in config.replace) {
+        let replaceName = "'GULP_REPLACE:"+name+"'";
+        const value = config.replace[name];
+        stream = stream.pipe( replace(replaceName, value) );
+        replaceName = 'GULP_REPLACE:'+name;
+        stream = stream.pipe( replace(replaceName, value) );
+    }
+
+    return stream
+        .pipe( gulpif( env.SOURCE_MAPS, sourcemaps.init({loadMaps: true}) ) ) // сорц-мапы
+        .pipe( gulpif (env.SOURCE_MAPS, sourcemaps.write('./') ) )
         .pipe(gulp.dest(config.dist.js)); // кладем все в dest
 });
 
