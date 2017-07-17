@@ -65,4 +65,31 @@ public class FilterUtilsTest extends AbstractDaoTest {
 
 
 	}
+
+    @Test
+    private void testList() {
+        StringBuilder sql = new StringBuilder();
+
+        MultiMap filterFields = new MultiValueMap();
+        filterFields.put("ITEM","CIT_PURCHASEDATE");
+        filterFields.put("ITEM","CIT_OID");
+        filterFields.put("ITEM","CIT_ID");
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+
+        HashMap<String, String> filter = new HashMap<>();
+        filter.put("id","1234;12345;1");
+        filter.put("no","1123");
+        filter.put("purchaseDate", "1045645465000");
+        filter.put("purchaseDate_before", "1045645465000");
+        filter.put("purchaseDate_after", "1045645465000");
+        filter.put("purchaseDate_between", "1045645465000:1245645465000");
+
+        FilterUtils.createFilter(sql,mapSqlParameterSource,filter, filterFields, ConfigurationItem.class);
+        LOG.info(sql.toString());
+        //System.out.println(sql);
+        System.out.println(mapSqlParameterSource.getValues());
+
+
+
+    }
 }

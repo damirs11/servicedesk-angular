@@ -7,6 +7,9 @@ import org.springframework.test.context.jdbc.Sql;
 import org.testng.annotations.Test;
 import ru.it.sd.model.*;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,6 +33,7 @@ public class ConfigurationItemTest extends AbstractDaoTest {
 		assertEquals(item.getSearchCode(), "CIT №1");
 		assertEquals(item.getName(), "Some item");
 		assertEquals(item.getPrice(),8.50);
+		LOG.info(item.toString());
 	}
 
 	@Test
@@ -42,7 +46,13 @@ public class ConfigurationItemTest extends AbstractDaoTest {
 		ownerFilter.put("owner","1");
 
 		HashMap<String, String> numberFilter = new HashMap<>();
-		numberFilter.put("no","2002");
+		numberFilter.put("no_between","2001:2002");
+
+		HashMap<String, String> dateFilter = new HashMap<>();
+		Long date = 1375963200000L;
+		Long date1 = Timestamp.valueOf("2013-08-08 00:00:00").getTime();
+		Long date2 = Timestamp.valueOf("2013-08-08 14:00:00").getTime();
+		dateFilter.put("purchaseDate_between", date1.toString()+":"+date2.toString());
 
 		List<ConfigurationItem> items = dao.list(stringsFilter);
 		assertEquals(items.size(), 2);
@@ -53,6 +63,10 @@ public class ConfigurationItemTest extends AbstractDaoTest {
 		assertEquals(items.get(0).getOwner().getId().longValue(), 1);
 		assertEquals(items.get(1).getOwner().getId().longValue(), 1);
 		items = dao.list(numberFilter);
-		assertEquals(items.size(),1);
+		assertEquals(items.size(),2);
+
+
+		items = dao.list(dateFilter);
+		LOG.info(items.toString());
 	}
 }
