@@ -20,7 +20,6 @@ class AbstractGrid {
         this.entityClass = entityClass; // Класс, данные которого будут отображаться в таблице
         this.grid = null; // Выставляем при инициализации таблицы
         this.sort = []; // Параметры сортировки данных
-        this.filter = {}; // Параметры фильтрации табличных данных
 
         // Свойства таблицы ui-grid
         this.enableCellEdit = false; // Запрещаем редактирование
@@ -32,7 +31,7 @@ class AbstractGrid {
         this.rowHeight = 30;
         //this.enableFiltering = true; //Включает поле для быстрой фильтрации данных на странице
         this.multiSelect = true;
-        this.paginationPageSizes = [10, 20, 50, 100, 200, 500, 1000];
+        this.paginationPageSizes = [20, 50, 100, 200, 500, 1000];
         this.paginationPageSize = 20;
         this.paginationCurrentPage = 1;
         this.useExternalPagination = true;
@@ -41,6 +40,10 @@ class AbstractGrid {
         this.columnDefs = []; // Описание колонок таблицы
         this.data = []; // Содержимое таблицы
         this.totalItems = 0; // Общее количество данных без учета постраничного просмотра
+    }
+
+    init() {
+        this.fetchData();
     }
 
     /**
@@ -83,6 +86,7 @@ class AbstractGrid {
         console.log('rowSelectionChanged');
         //row.isSelected;
         //setCurrentRow($scope.gridApi.grid.selection.lastSelectedRow);
+        //todo
     };
 
     /**
@@ -93,6 +97,7 @@ class AbstractGrid {
         //rows.length
         //$scope.numberOfSelectedItems = rows.length;
         //setCurrentRow($scope.gridApi.grid.selection.lastSelectedRow)
+        //todo
     };
 
     /**
@@ -112,41 +117,40 @@ class AbstractGrid {
         // Формирование параметров запроса
         let params = this._getRequestParams();
         // Получение данных
-        let data = await this.$connector.get('rest/entity/' + this.entityClass.name, {params: params});
+        let data = this.entityClass.list(params);
         console.log('data: ' + data);
         if (data) {
             this.totalItems = data.total;
             let rows = [];
-            var clazz = this.entityClass;
+            let clazz = this.entityClass;
             $.each(data.list, function(i, obj) {
                 rows.push(clazz.parse(obj));
             });
+            // Проверка, что получено данных не более чем запросили. Такое может случиться,
+            // если ДАО содержит ошибки
+            if (rows.length > this.$scope.dataOptions.paging.pageSize) {
+                // Обрезаем до требуемого количества
+                rows = rows.slice(0, this.$scope.dataOptions.paging.pageSize)
+            }
+
+            //todo
+            //updateViewData();
+
             console.log('rows: ' + rows);
         }
-
-            /*.then(function (response) {
-                var rows = response.data.list;
-                if (rows) {
-                    // Проверка, что получено данных не более чем запросили. Такое может случиться,
-                    // если ДАО содержит ошибки
-                    if (rows.length > $scope.dataOptions.paging.pageSize) {
-                        // Обрезаем до требуемого количества
-                        rows = rows.slice(0, $scope.dataOptions.paging.pageSize)
-                    }
-                    $scope.dataOptions.data = rows;
-                    $scope.gridOptions.totalItems = response.data.total;
-                    updateViewData();
-                }
-            })*/
-        // .then(function () {
-        //     //Привязываем параметры запроса к контексту функций, возвращающих отчёты
-        //     aplanaEntityUtils.setContext(params);
-        // })
-
     }
 
-    // Формирование параметров запроса
-    _getRequestParams = function () {
+    /**
+     * Дополнительные параметры фильтрации данных. Переопределяется в классах-наследниках
+     */
+    _getFilter() {
+        return null;
+    }
+
+    /**
+     * Формирование параметров запроса: пейджинг, сортировка + пользовательские фильтры
+     */
+    _getRequestParams() {
         let params = {};
         // Параметры пейджинга
         let from = this.grid.options.paginationPageSize * (this.grid.options.paginationCurrentPage - 1) + 1;
@@ -161,7 +165,10 @@ class AbstractGrid {
             });
             params.sort = sort
         }
-        angular.extend(params, this.filter);
+        let filter = this._getFilter();
+        if (filter) {
+            angular.extend(params, filter);
+        }
         return params
     };
 
