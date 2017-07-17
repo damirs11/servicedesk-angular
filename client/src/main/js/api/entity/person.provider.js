@@ -2,14 +2,14 @@ import {Parse} from "./decorator/parse.decorator";
 import {Serialize} from "./decorator/serialize.decorator";
 
 
-PersonProvider.$inject = ["Entity", "SD","$connector"];
-function PersonProvider(Entity, SD, $connector) {
+PersonProvider.$inject = ["EditableEntity", "SD","$connector"];
+function PersonProvider(EditableEntity, SD, $connector) {
     /**
      * Персона
      * @class
      * @name SD.Person
      */
-    return class Person extends Entity {
+    return class Person extends EditableEntity {
         /**
          * Пол персоны: false - женский, true - мужской
          * @property
@@ -85,11 +85,6 @@ function PersonProvider(Entity, SD, $connector) {
                 .filter(_=>_)
                 .join(' ')
             ;
-        }
-
-        async load(){
-            const data = await $connector.get(`rest/entity/Person/${this.id}`);
-            return this.$update(data);
         }
     };
 }

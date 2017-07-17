@@ -4,12 +4,13 @@ import {PersonProvider} from "./entity/person.provider";
 import {OrganizationProvider} from "./entity/organization.provider";
 import {StatusProvider} from "./entity/entity-status.provider";
 import {PriorityProvider} from "./entity/entity-priority.provider";
+import {EditableEntityProvider} from "./entity/editable-entity.provider";
 
 /**
  * Фабрика, предоставляющая SD
  */
-SDFactory.$inject = ["$injector", "$connector"];
-function SDFactory($injector, $connector) {
+SDFactory.$inject = ["$injector"];
+function SDFactory($injector) {
     /**
      * Текущий пользователь.
      * @type {User}
@@ -17,70 +18,76 @@ function SDFactory($injector, $connector) {
     let user = null;
 
     /**
-     * Объект, содержащий основные методы для работы с бэкэндом и классы для сущностей.
+     * Глобальный кэш для объектов.
      */
-    const SD = {
-        /**
-         * Войти в систему
-         */
-        async login(login, password){
-            const data = {login, password};
-            await $connector.post('rest/service/security/login', null, data);
-            return this.authorize();
-        },
-        /**
-         * Авторизоваться, получить текущего user'а
-         */
-        async authorize(){
-            const data = await $connector.get('rest/service/config/getInfo');
-            if (!data.user.isAuthorized) {
-                user = null;
-                return;
-            }
-            SD.user = SD.User.parse(data.user);
-            return SD.user;
-        },
-        /**
-         * Смена пароля
-         */
-        async changePassword(oldPassword, newPassword){
-            if (!SD.authorized) return;
-            const params = {oldPassword, newPassword};
-            return $connector.post("rest/service/security/passwordChange", params);
-        },
-        /**
-         * Выйти из системы
-         */
-        async logout(){
-            await $connector.get('rest/service/security/logout');
-            SD.user = null;
-        },
-        get user() {
-            return user;
-        },
-        set user(value) {
-            user = value;
-        },
-        get authorized() {
-            return Boolean(user)
+    const globalCache = Object.create(null);
+
+    /**
+     * Объект, предоставляющий классы SD
+     * @type {SD}
+     */
+    const sd = new SD($injector,globalCache);
+
+    /**
+     * @debug
+     * Для дебага кладем SD в глобальную переменную
+     */
+    window.SD = sd;
+
+    return Object.freeze(sd);
+}
+
+/**
+ * Класс, предоставляющий доступ к классам сущностей ServiceDesk
+ * @class
+ * @name SD
+ */
+class SD {
+
+    constructor($injector, cache){
+        this.$injector = $injector;
+        this.cache = cache;
+        /** Классы для сущностей */
+        /** Базовый класс */
+        this.Entity = $injector.instantiate(EntityProvider,{cache});
+        this.EditableEntity = $injector.instantiate(EditableEntityProvider,{Entity:this.Entity,SD:this});
+        /** Пробосится в зависимости для классов сущностей */
+        const locals = {SD:this, Entity: this.Entity, EditableEntity:this.EditableEntity};
+
+        /** Все остальные сущности */
+        this.User = $injector.instantiate(UserProvider,locals);
+        this.Person = $injector.instantiate(PersonProvider,locals);
+        this.Organization = $injector.instantiate(OrganizationProvider,locals);
+        this.Status = $injector.instantiate(StatusProvider,locals);
+        this.Priority = $injector.instantiate(PriorityProvider,locals);
+    }
+
+    /**
+     * Возвращает SD с новым cache
+     * Если передать newCache - кэш будет изолирован от прошлых.
+     * Иначе создатся объект, который наследуется от прошлого кэша.
+     */
+    withCache(cache){
+        let newCache;
+        if (cache != null && typeof cache === "object") {
+            newCache = cache
+        } else {
+            newCache = Object.create(this.cache);
         }
-    };
+        return Object.freeze(new SD(this.$injector,newCache))
+    }
 
-    /** Классы для сущностей */
-    /** Базовый класс */
-    SD.Entity = $injector.instantiate(EntityProvider);
-
-    /** Пробосится в зависимости для классов сущностей */
-    const locals = {SD, Entity: SD.Entity};
-
-    /** Все остальные сущности */
-    SD.User = $injector.instantiate(UserProvider,locals);
-    SD.Person = $injector.instantiate(PersonProvider,locals);
-    SD.Organization = $injector.instantiate(OrganizationProvider,locals);
-    SD.Status = $injector.instantiate(StatusProvider,locals);
-    SD.Priority = $injector.instantiate(PriorityProvider,locals);
-
-    return Object.freeze(SD);
+    /**
+     * Очищает текущий кэш.
+     * Не затрагивает дочерний и родительский кэши.
+     */
+    clearCache(){
+        const keys = Object.keys(this.cache);
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            delete this.cache[key]
+        }
+    }
 }
 
 export {SDFactory};

@@ -1,5 +1,5 @@
-AuthTransition.$inject = ['$transitions', 'SD', '$state', '$trace'];
-function AuthTransition($transitions, SD, $state, $trace) {
+AuthTransition.$inject = ['$transitions', 'Session', '$state', '$trace'];
+function AuthTransition($transitions, Session, $state, $trace) {
 
     // Для отладки: Включаем логирование переходов между страницами
     $trace.enable('TRANSITION');
@@ -10,7 +10,7 @@ function AuthTransition($transitions, SD, $state, $trace) {
     $transitions.onEnter({
         entering: state => state.data && state.data.needAuthorize
     }, (transition) => {
-        if (!SD.authorized) {
+        if (!Session.authorized) {
             return $state.target('app.login');
         }
     });
@@ -18,7 +18,7 @@ function AuthTransition($transitions, SD, $state, $trace) {
     $transitions.onEnter({
         to: "app.login"
     }, (transition) => {
-        if (SD.authorized) return $state.target('app.main');
+        if (Session.authorized) return $state.target('app.main');
     });
 }
 
