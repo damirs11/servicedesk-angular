@@ -42,10 +42,6 @@ public class ConfigurationRestController extends AbstractController {
 	public Map<String, Object> getInfo(HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<>();
 		result.put("user", getUserCompleteInfo());
-		Map<Object, Object> translate = new HashMap<>();
-		translate.putAll(getTranslates());
-		translate.putAll(getManifestInfo(request.getServletContext()));
-		result.put("translate", translate);
 		return result;
 	}
 
@@ -109,6 +105,7 @@ public class ConfigurationRestController extends AbstractController {
 		// Если пользователь аутентифицирован
 		result.put("login", user.getLogin());
 		result.put("name", user.getPerson() == null ? user.getName() : user.getPerson().getFIO());
+		result.put("person",user.getPerson());
 		result.put("isAuthorized", true);
 		// Информация о ролях пользователя и правах доступа
 		Set<String> grants = new HashSet<>();

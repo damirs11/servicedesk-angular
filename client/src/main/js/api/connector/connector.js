@@ -1,10 +1,12 @@
 class Connector {
 
-    static $inject = ["config", "$http", "$state"];
-    constructor(config, $http, $state) {
-        this.address = config.address || "";
+    static $inject = ["$http", "$state", "$injector", "address", "errorHandler"];
+    constructor($http, $state, $injector, address, errorHandler) {
+        this.errorHandler = errorHandler;
+        this.address = address || "";
         this.$http = $http;
         this.$state = $state;
+        this.$injector = $injector;
     }
 
     _getDestination(path) {
@@ -23,8 +25,12 @@ class Connector {
         try {
             const response = await this.$http.get(destination, {params, timeout});
             return response.data;
-        } catch (errorResponse) {
-            throw errorResponse
+        } catch (error) {
+            if (this.errorHandler) {
+                this.$injector.invoke(this.errorHandler,this,{error});
+            } else {
+                throw error
+            }
         }
     }
 
@@ -41,9 +47,57 @@ class Connector {
         try {
             const response = await this.$http.post(destination, data, {params, timeout});
             return response.data;
-        } catch (errorResponse) {
-            // ToDo придумать структуру для ошибок, и throw-ать свои ошибки тут
-            throw errorResponse
+        } catch (error) {
+            if (this.errorHandler) {
+                this.$injector.invoke(this.errorHandler,this,{error});
+            } else {
+                throw error
+            }
+        }
+    }
+
+    /**
+     * Отправляет PUT запрос к серверу. Вернет промис
+     * в котором можно работать сразу с json данными
+     * @param path - относительный путь
+     * @param params - параметры для запроса
+     * @param data - json данные, для отправки
+     * @param timeout - время ожидания ответа
+     */
+    async put(path, params, data, timeout) {
+        const destination = this._getDestination(path);
+        try {
+            const response = await this.$http.put(destination, data, {params, timeout});
+            return response.data;
+        } catch (error) {
+            if (this.errorHandler) {
+                this.$injector.invoke(this.errorHandler,this,{error});
+            } else {
+                throw error
+            }
+        }
+    }
+
+
+    /**
+     * Отправляет PATCH запрос к серверу. Вернет промис
+     * в котором можно работать сразу с json данными
+     * @param path - относительный путь
+     * @param params - параметры для запроса
+     * @param data - json данные, для отправки
+     * @param timeout - время ожидания ответа
+     */
+    async patch(path, params, data, timeout) {
+        const destination = this._getDestination(path);
+        try {
+            const response = await this.$http.patch(destination, data, {params, timeout});
+            return response.data;
+        } catch (error) {
+            if (this.errorHandler) {
+                this.$injector.invoke(this.errorHandler,this,{error});
+            } else {
+                throw error
+            }
         }
     }
 }

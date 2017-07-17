@@ -1,10 +1,10 @@
-import {ChangesController as controller} from "./changes.ctrl.js";
-import template from "./changes.html";
+import {PersonsController as controller} from "./persons.ctrl.js";
+import template from "./persons.html";
 import {SDResolver} from "../sd.resolver";
 
-let ChangesState = {
-    name: "app.changes",
-    url: "/changes",
+let PersonsState = {
+    name: "app.persons",
+    url: "/persons",
     controller: controller,
     template: template,
     controllerAs: "ctrl",
@@ -14,4 +14,4 @@ let ChangesState = {
     }
 };
 
-export {ChangesState};
+export {PersonsState};

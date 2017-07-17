@@ -5,6 +5,7 @@ function UserProvider(Entity, SD) {
     /**
      * Пользователь
      * @class
+     * @extends SD.Entity
      * @name SD.User
      */
     return class User extends Entity {

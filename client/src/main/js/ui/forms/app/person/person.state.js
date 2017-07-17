@@ -1,6 +1,7 @@
 import template from "./person.html"
 import {controller} from "./person.ctrl"
 import {PersonIdResolver} from "./person-id.resolver"
+import {SDResolver} from "../sd.resolver";
 
 const PersonState = {
     name: "app.person",
@@ -9,7 +10,8 @@ const PersonState = {
     template: template,
     controllerAs: "ctrl",
     resolve: {
-        personId: PersonIdResolver
+        personId: PersonIdResolver,
+        SD: SDResolver
     },
     data: {
         needAuthorize: true

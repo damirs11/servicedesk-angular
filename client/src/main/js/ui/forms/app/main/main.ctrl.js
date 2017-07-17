@@ -1,11 +1,7 @@
 class MainController {
-    static $inject = ['SD',"$scope","ModalAction"];
+    static $inject = [];
 
-    constructor(SD,$scope,ModalAction){
-        this.SD = SD;
-        this.$scope = $scope;
-        this.ModalAction = ModalAction;
-    }
+    constructor(){}
 }
 
 export {MainController};
