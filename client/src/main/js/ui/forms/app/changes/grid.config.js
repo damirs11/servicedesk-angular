@@ -7,17 +7,14 @@ class ChangesGridOptions extends AbstractGrid {
         this.columnDefs = [
             { field: 'no', name: "Номер" },
             { field: 'status', name: "Статус" },
-            { field: 'createdDate', name: "Дата создания", enableColumnResizing: false, cellFilter: "dd.MM.yyyy hh:mm"},
-            { field: 'deadline', name: "Крайний срок", enableColumnResizing: false, cellFilter: "dd.MM.yyyy hh:mm"},
-            { field: 'resolveDate', name: "Фактически выполнено", enableColumnResizing: false, cellFilter: "dd.MM.yyyy hh:mm"},
-            { field: 'priority', name: "Приоритет" },
-            { field: 'subject', name: "Тема" },
-            { field: 'initiator', name: "Инициатор" },
-            { field: 'manager', name: "Менеджер" }
+            { field: 'subject', name: "Тема"},
+            { field: 'createdDate', name: "Дата создания", type: 'date', cellFilter: 'date : "dd.MM.yyyy hh:mm"', enableFiltering: true},
+            { field: 'deadline', name: "Крайний срок", type: 'numberStr', cellFilter: 'date:"dd.MM.yyyy hh:mm"'},
+            { field: 'resolveDate', name: "Фактически выполнено", type: 'date', cellFilter: 'date:"dd.MM.yyyy hh:mm"'},
+            { field: 'priority', name: "Приоритет", type: 'object'},
+            { field: 'initiator', name: "Инициатор", type: 'object' },
+            { field: 'manager', name: "Менеджер", type: 'object', cellTemplate: "{{row.entity.firstName}}" }
         ];
-        this.data = [
-        ];
-        //this.totalItems = 2;
     }
 }
 

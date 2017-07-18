@@ -15,7 +15,7 @@ class AbstractGrid {
         if (!entityClass) {
             throw new TypeError('Аргумент "entityClass" должен быть задан!');
         }
-        this.$scope = $scope;
+        this.$scope = $scope.$new(true); // Создаем дочерний скоуп
         this.$connector = $connector;
         this.entityClass = entityClass; // Класс, данные которого будут отображаться в таблице
         this.grid = null; // Выставляем при инициализации таблицы
@@ -42,20 +42,11 @@ class AbstractGrid {
         this.totalItems = 0; // Общее количество данных без учета постраничного просмотра
     }
 
-    init() {
-        this.fetchData();
-    }
-
-    /**
-     * Расширение событийной модели строки таблицы. Реализация реакции на двойной клик.
-     */
-    appScopeProvider() {
-        //todo не работает !!!
-        onDblClick = function (row) {
-            console.log('dbl click');
-            if (row.entity) {
-                console.log('id = ' + row.entity.id);
-            }
+    //todo не работает !!!
+    _onDblClick(row) {
+        console.log('dbl click');
+        if (row.entity) {
+            console.log('id = ' + row.entity.id);
         }
     }
 
@@ -117,33 +108,31 @@ class AbstractGrid {
         // Формирование параметров запроса
         let params = this._getRequestParams();
         // Получение данных
-        let data = this.entityClass.list(params);
-        console.log('data: ' + data);
-        if (data) {
-            this.totalItems = data.total;
-            let rows = [];
-            let clazz = this.entityClass;
-            $.each(data.list, function(i, obj) {
-                rows.push(clazz.parse(obj));
-            });
-            // Проверка, что получено данных не более чем запросили. Такое может случиться,
-            // если ДАО содержит ошибки
-            if (rows.length > this.$scope.dataOptions.paging.pageSize) {
-                // Обрезаем до требуемого количества
-                rows = rows.slice(0, this.$scope.dataOptions.paging.pageSize)
-            }
-
-            //todo
-            //updateViewData();
-
-            console.log('rows: ' + rows);
-        }
+        let data = await this.entityClass.list(params);
+        let rows = [];
+        let limit = this.paginationPageSize;
+        data.list.every(obj => {
+            rows.push(this.entityClass.parse(obj));
+            return rows.length < limit;
+        });
+        this.data = rows;
+        this.totalItems = data.total;
+        //todo
+        //updateViewData();
     }
 
     /**
      * Дополнительные параметры фильтрации данных. Переопределяется в классах-наследниках
+     * @return
+     * {
+     *      name1: value1,
+     *      name2: value2,
+     *      ...
+     *      nameN: valueN
+     * }
      */
     _getFilter() {
+        console.log('get filter');
         return null;
     }
 
@@ -153,11 +142,11 @@ class AbstractGrid {
     _getRequestParams() {
         let params = {};
         // Параметры пейджинга
-        let from = this.grid.options.paginationPageSize * (this.grid.options.paginationCurrentPage - 1) + 1;
-        let to = from + this.grid.options.paginationPageSize - 1;
+        let from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
+        let to = from + this.paginationPageSize - 1;
         params.paging = from + ';' + to;
         // Параметры сортировки
-        let sortColumns = this.grid.options.sort;
+        let sortColumns = this.sort;
         if (sortColumns && sortColumns.length > 0) {
             let sort = '';
             sortColumns.forEach(function (column) {
@@ -165,11 +154,12 @@ class AbstractGrid {
             });
             params.sort = sort
         }
+        // Дополнительные условия фильтрации
         let filter = this._getFilter();
         if (filter) {
             angular.extend(params, filter);
         }
-        return params
+        return params;
     };
 
 }

@@ -11,6 +11,7 @@ class ChangesController {
 
     $onInit () {
         this.gridOptions = new ChangesGridOptions(this.$scope, this.$connector, this.SD.Change);
+        this.gridOptions.fetchData();
     }
 }
 

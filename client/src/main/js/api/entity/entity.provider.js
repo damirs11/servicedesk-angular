@@ -1,5 +1,6 @@
 import {PARSE_MAP} from "./decorator/parse.decorator";
 import {SERIALIZE_MAP} from "./decorator/serialize.decorator";
+import {PagingList} from '../../common/paging-list';
 
 EntityProvider.$inject = ["$connector","cache"];
 function EntityProvider($connector,cache) {
@@ -163,9 +164,14 @@ function EntityProvider($connector,cache) {
          * Осуществляет поиск сущностей по фильтру
          */
         static async list(params){
-            // ToDo реализовать передачу фильтра
-            const list = await $connector.get(`rest/entity/${this.name}`, params);
-            if (list) return list.map(this.constructor.parse)
+            const data = await $connector.get(`rest/entity/${this.name}`, params);
+            if (!data || !data.total || !data.list) {
+                console.error('Список данных не получен или имеет неправильную структуру');
+                return null;
+            }
+            //let list = data.list.map(this.constructor.parse); //todo преобразование в объекты выполнить здесь
+            let list = data.list;
+            return new PagingList(list, data.total);
         }
 
     }
