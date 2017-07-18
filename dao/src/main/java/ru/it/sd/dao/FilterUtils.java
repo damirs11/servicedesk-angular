@@ -1,11 +1,13 @@
 package ru.it.sd.dao;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.collections.MultiMap;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import ru.it.sd.meta.FieldMetaData;
 import ru.it.sd.meta.MetaUtils;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
@@ -14,33 +16,29 @@ import java.util.*;
 /**
  * Статический класс добвления фильтров в запрос
  *
- * @author Nsychev
+ * @author NSychev
  * @since 14.07.2017
  */
 public class FilterUtils {
     //
 
-    //Типы формирования условия
-    private enum Type {LIKE, LIST, BETWEEN, BEFORE, AFTER};
-
+    /**
+     * Типы формирования условия
+     * EQUAL - равенство
+     * LIKE - схожесть
+     * LIST - список значений
+     * BETWEEN - между значениями
+     * BEFORE - до определенного значения
+     * AFTER - после определенного значения
+     */
+    private enum Type {EQUAL, LIKE, LIST, BETWEEN, BEFORE, AFTER};
     /**
      * Добовляет к запросу условия для данного класса по фильтру
      * @param queryPart запрос в который добавляются фильтры поиска (WHERE .... AND (.....) AND (....) OR (....))
      * @param params список параметров, которые вставляются в запрос при его отправке в бд
      * @param clazz модель по которой будет происходить поиск аннотированных полей
      * @param filter фильтр(Map<String, String>)
-     * Пример:
-     * ("id","1234;12345;1")
-     * ("no","1123")
-     * ("purchaseDate", "1045645465000")
-     * ("purchaseDate_before", "1045645465000")
-     * ("purchaseDate_after", "1045645465000")
-     * ("purchaseDate_between", "1045645465000:1245645465000")
      * @param filterFields мапа в которой передается сет таблиц в качестве ключа и список полей этой таблицы для определения префкса таблицы при формировании запроса
-     * Пример:
-     * ("ITEM","CIT_PURCHASEDATE")
-     * ("ITEM","CIT_OID")
-     * ("ITEM","CIT_ID")
      */
     public static void createFilter(StringBuilder queryPart, MapSqlParameterSource params, Map<String, String> filter, MultiMap filterFields, Class clazz){
 
@@ -51,62 +49,77 @@ public class FilterUtils {
             //Поиск по всем полям класса
             List<FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
             for (FieldMetaData fmd : fieldMetaDataList) {
-
+                Type type = Type.EQUAL;
                 //Если фильтр для данного поля существует key == field name и поиск по списку и одиночному значению
                 if (filter.containsKey(fmd.getName())) {
-                    Type type = Type.LIKE;
                     //Разбиваем значение filter на массив данных
                     String[] valueArr = filter.get(fmd.getName()).split(";");
-                    if(valueArr.length == 1) type = Type.LIKE;
                     if(valueArr.length > 1) type = Type.LIST;
-
+                    String prefix = getPrefix(filterFields,fmd);
                     //Отсеивание сложных объектов и приведение типов
-                    if(setParams(fmd, params, valueArr, type)) {
+                    if(prefix != null) {
+                        if(checkParams(fmd, params, valueArr, type)) {
                         //Получение префикса таблицы по columnName в мапе filterFields
-                        String prefix = getPrefix(filterFields,fmd);
-                        if(prefix != null) {
+                            queryPart.append(getExpression(fmd,prefix,valueArr, type));
+                        }
+                    }
+                }
+                //Поиск похожих элементов
+                if(filter.containsKey(fmd.getName()+"_like")){
+                    type = Type.LIKE;
+                    String[] valueArr = new String[1];
+                    valueArr[0] = filter.get(fmd.getName()+"_like");
+
+                    String prefix = getPrefix(filterFields,fmd);
+                    //Отсеивание сложных объектов и приведение типов
+                    if(prefix != null) {
+                        if(checkParams(fmd, params, valueArr, type)) {
+                            //Получение префикса таблицы по columnName в мапе filterFields
                             queryPart.append(getExpression(fmd,prefix,valueArr, type));
                         }
                     }
                 }
                 //Поиск до
                 if(filter.containsKey(fmd.getName()+"_before")){
-                    Type type = Type.BEFORE;
+                    type = Type.BEFORE;
                     String[] valueArr = new String[1];
                     valueArr[0] = filter.get(fmd.getName()+"_before");
 
-                    if(setParams(fmd, params, valueArr, type)) {
-                        //Получение префикса таблицы по columnName в мапе filterFields
-                        String prefix = getPrefix(filterFields,fmd);
-                        if(prefix != null) {
-                            queryPart.append(getExpression(fmd, prefix, valueArr, type));
+                    String prefix = getPrefix(filterFields,fmd);
+                    //Отсеивание сложных объектов и приведение типов
+                    if(prefix != null) {
+                        if(checkParams(fmd, params, valueArr, type)) {
+                            //Получение префикса таблицы по columnName в мапе filterFields
+                            queryPart.append(getExpression(fmd,prefix,valueArr, type));
                         }
                     }
                 }
                 //Поиск после
                 if(filter.containsKey(fmd.getName()+"_after")){
-                    Type type = Type.AFTER;
+                    type = Type.AFTER;
                     String[] valueArr = new String[1];
                     valueArr[0] = filter.get(fmd.getName()+"_after");
 
-                    if(setParams(fmd, params, valueArr, type)) {
-                        //Получение префикса таблицы по columnName в мапе filterFields
-                        String prefix = getPrefix(filterFields,fmd);
-                        if(prefix != null) {
-                            queryPart.append(getExpression(fmd, prefix, valueArr, type));
+                    String prefix = getPrefix(filterFields,fmd);
+                    //Отсеивание сложных объектов и приведение типов
+                    if(prefix != null) {
+                        if(checkParams(fmd, params, valueArr, type)) {
+                            //Получение префикса таблицы по columnName в мапе filterFields
+                            queryPart.append(getExpression(fmd,prefix,valueArr, type));
                         }
                     }
                 }
                 //Поиск между
                 if(filter.containsKey(fmd.getName()+"_between")){
-                    Type type = Type.BETWEEN;
+                    type = Type.BETWEEN;
                     String[] valueArr = filter.get(fmd.getName()+"_between").split(":");
 
-                    if(setParams(fmd, params, valueArr, type)) {
-                        //Получение префикса таблицы по columnName в мапе filterFields
-                        String prefix = getPrefix(filterFields,fmd);
-                        if(prefix != null) {
-                            queryPart.append(getExpression(fmd, prefix, valueArr, type));
+                    String prefix = getPrefix(filterFields,fmd);
+                    //Отсеивание сложных объектов и приведение типов
+                    if(prefix != null) {
+                        if(checkParams(fmd, params, valueArr, type)) {
+                            //Получение префикса таблицы по columnName в мапе filterFields
+                            queryPart.append(getExpression(fmd,prefix,valueArr, type));
                         }
                     }
 
@@ -115,9 +128,30 @@ public class FilterUtils {
         }
     }
 
+    /**
+     * Формирует строку условия (AND 'table_prefix'.'column_name' = 'value')
+     * @param fmd мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
+     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix(MultiMap, FieldMetaData)}
+     * @param values значение(я) фильтра для конкретного поля
+     * @param type тип поиска, все варианты поиска перечислены в {@link Type}
+     * @return строку с условием
+     */
     private static String getExpression(FieldMetaData fmd, String prefix, String[]values,  Type type){
         StringBuilder expression = new StringBuilder();
-        //Формирование условия для 1 значения
+        //Формирование условия для равенства значения
+        if(type == Type.EQUAL){
+            expression.
+                    append("\n\tAND ").
+                    append(prefix).
+                    append(".").
+                    append(fmd.getColumnName()).
+                    append(" = :").
+                    append(fmd.getName()).
+                    append("");
+            return expression.toString();
+        }
+
+        //Формирование условия для схожести значения
         if(type == Type.LIKE){
             expression.
                     append("\n\tAND ").
@@ -125,7 +159,7 @@ public class FilterUtils {
                     append(".").
                     append(fmd.getColumnName()).
                     append(" LIKE '%'||:").
-                    append(fmd.getName()).
+                    append(fmd.getName()).append("_like").
                     append("||'%'");
             return expression.toString();
         }
@@ -139,7 +173,7 @@ public class FilterUtils {
                         append(".").
                         append(fmd.getColumnName()).
                         append(" = :").
-                        append(fmd.getName()+i);
+                        append(fmd.getName()).append(i);
                 if(i != values.length -1) expression.append(" OR ");
             }
             expression.append(")");
@@ -153,7 +187,7 @@ public class FilterUtils {
                     append(".").
                     append(fmd.getColumnName()).
                     append(" BETWEEN :").
-                    append(fmd.getName()+"_from").
+                    append(fmd.getName()).append("_from").
                     append(" AND :").
                     append(fmd.getName()+"_to");
             return expression.toString();
@@ -165,7 +199,7 @@ public class FilterUtils {
                     append(".").
                     append(fmd.getColumnName()).
                     append(" <= :").
-                    append(fmd.getName()+"_before");
+                    append(fmd.getName()).append("_before");
             return expression.toString();
         }
         if(type == Type.AFTER){
@@ -175,12 +209,18 @@ public class FilterUtils {
                     append(".").
                     append(fmd.getColumnName()).
                     append(" >= :").
-                    append(fmd.getName()+"_after");
+                    append(fmd.getName()).append("_after");
             return expression.toString();
         }
         return "";
     }
 
+    /**
+     * Функция проверяет входит ли поле fmd в filterFields, если нет то данное поле будет исключено из фильтра
+     * @param filterFields мапа в которой передается сет таблиц в качестве ключа и список полей этой таблицы для определения префкса таблицы при формировании запроса
+     * @param fmd мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
+     * @return
+     */
     private static String getPrefix(MultiMap filterFields, FieldMetaData fmd){
         String prefix = null;
         for(Object str : filterFields.keySet()){
@@ -200,45 +240,26 @@ public class FilterUtils {
 
     /**
      * Определяет тип входных данных их фильтра @filter
-     * @param fmd мета данные одного поля
+     * @param fmd мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
      * @param params список параметров, которые вставляются в запрос при его отправке в бд
      * @param values массив значений фильтра
-     * @param type тип пришедших данных для корректной вставки в фильтр
+     * @param type тип поиска, все варианты поиска перечислены в {@link Type}
+     * @return истина если нашлось поле для ключа из filtr и не было ошибок при его преобразовании ; ложль если не нашлось подходящего поля в классе и
      */
-    // Обдумай как красиво разделить данные по типу чтобы небыло тавталогии
-    private static boolean setParams(FieldMetaData fmd, MapSqlParameterSource params, String[] values, Type type){
+    private static boolean checkParams(FieldMetaData fmd, MapSqlParameterSource params, String[] values, Type type){
         switch(fmd.getType().getName()){
             case "java.lang.Long": {
                 try {
-                    //Если в массиве только одно значение и тип фильтра схожесть с конкретным значением
-                    if(type == Type.LIKE){
-                        Long val = Long.parseLong(values[0]);
-                        params.addValue(fmd.getName(),val);
-                    }
-                    //Если в массиве множество значенийы и тип фильтра схожесть с конкретным значением
-                    if(type == Type.LIST)
-                    {
-                        for (int i=0; i<values.length;i++){
-                            Long val = Long.parseLong(values[i]);
-                            params.addValue(fmd.getName()+i,val);
-                        }
-                    }
-                    if(type == Type.BETWEEN){
-                        Long val_from = Long.parseLong(values[0]);
-                        Long val_to = Long.parseLong(values[1]);
-                        params.addValue(fmd.getName()+"_from",val_from);
-                        params.addValue(fmd.getName() + "_to", val_to);
-                    }
-                } catch (NumberFormatException e){
+                   setNumberParams(fmd,params,values,type,Long.class);
+                } catch (Exception e){
                     return false;
                 }
                 return true;
             }
             case "long": {
                 try {
-                    long val = Long.parseLong(values[0]);
-                    params.addValue(fmd.getName(),val);
-                } catch (NumberFormatException e){
+                    setNumberParams(fmd,params,values,type,Long.class);
+                } catch (Exception e){
                     return false;
                 }
                 return true;
@@ -246,9 +267,8 @@ public class FilterUtils {
 
             case "java.lang.Integer":{
                 try {
-                    Integer val = Integer.valueOf(values[0]);
-                    params.addValue(fmd.getName(),val);
-                } catch (NumberFormatException e){
+                    setNumberParams(fmd,params,values,type,Integer.class);
+                } catch (Exception e){
                     return false;
                 }
                 return true;
@@ -256,25 +276,39 @@ public class FilterUtils {
             }
             case "int": {
                 try {
-                    int val = Integer.valueOf(values[0]);
-                    params.addValue(fmd.getName(),val);
-                } catch (NumberFormatException e){
+                    setNumberParams(fmd,params,values,type,Integer.class);
+                } catch (Exception e){
                     return false;
                 }
                 return true;
             }
 
             case "java.lang.String": {
-                String val = "%"+values[0]+"%";
-                params.addValue(fmd.getName(),val);
+                //по конкретному значению
+                if(type == Type.EQUAL){
+                    String val = values[0];
+                    params.addValue(fmd.getName(),val);
+                }
+                //Если в массиве только одно значение и тип фильтра схожесть с конкретным значением
+                if(type == Type.LIKE){
+                    String val = values[0];
+                    params.addValue(fmd.getName()+"_like",val);
+                }
+                //Если в массиве множество значенийы и тип фильтра схожесть с конкретным значением
+                if(type == Type.LIST)
+                {
+                    for (int i=0; i<values.length;i++){
+                        String val = values[i];
+                        params.addValue(fmd.getName()+i,val);
+                    }
+                }
                 return true;
             }
 
             case "java.lang.Boolean":{
                 try {
-                    Boolean val = Boolean.valueOf(values[0]);
-                    params.addValue(fmd.getName(),val);
-                } catch (NumberFormatException e){
+                    setNumberParams(fmd,params,values,type,Boolean.class);
+                } catch (Exception e){
                     return false;
                 }
                 return true;
@@ -283,9 +317,8 @@ public class FilterUtils {
             case "boolean": {
 
                 try {
-                    boolean val = Boolean.parseBoolean(values[0]);
-                    params.addValue(fmd.getName(),val);
-                } catch (NumberFormatException e){
+                    setNumberParams(fmd,params,values,type,Boolean.class);
+                } catch (Exception e){
                     return false;
                 }
                 return true;
@@ -293,7 +326,7 @@ public class FilterUtils {
 
             case "java.util.Date":{
                 try {
-                    if(type == Type.LIKE){
+                    if(type == Type.EQUAL){
                         Long val = Long.parseLong(values[0]);
                         Timestamp date = new Timestamp(val);
                         params.addValue(fmd.getName(),date);
@@ -332,22 +365,17 @@ public class FilterUtils {
             }
 
             case "java.lang.Double":{
-                if(values[0].indexOf(",")>-1){
-                    values[0] = values[0].replace(",", ".");
-                }
                 try {
-                    Double val = Double.valueOf(values[0]);
-                    params.addValue(fmd.getName(),val);
-                } catch (NumberFormatException e){
+                    setNumberParams(fmd,params,values,type,Double.class);
+                } catch (Exception e){
                     return false;
                 }
                 return true;
             }
             case "double":{
                 try {
-                    double val = Double.valueOf(values[0]);
-                    params.addValue(fmd.getName(),val);
-                } catch (NumberFormatException e){
+                    setNumberParams(fmd,params,values,type,Double.class);
+                } catch (Exception e){
                     return false;
                 }
                 return true;
@@ -355,9 +383,56 @@ public class FilterUtils {
 
             case "ru.it.sd.model.Person":{
                 try {
-                    Long val = Long.parseLong(values[0]);
-                    params.addValue(fmd.getName(),val);
-                } catch (NumberFormatException e){
+                    setNumberParams(fmd,params,values,type,Long.class);
+                } catch (Exception e){
+                    return false;
+                }
+                return true;
+            }
+            case "ru.it.sd.model.EntityStatus":{
+                try {
+                    setNumberParams(fmd,params,values,type,Long.class);
+                } catch (Exception e){
+                    return false;
+                }
+                return true;
+            }
+            case "ru.it.sd.model.EntityCategory":{
+                try {
+                    setNumberParams(fmd,params,values,type,Long.class);
+                } catch (Exception e){
+                    return false;
+                }
+                return true;
+            }
+            case "ru.it.sd.model.Organization":{
+                try {
+                    setNumberParams(fmd,params,values,type,Long.class);
+                } catch (Exception e){
+                    return false;
+                }
+                return true;
+            }
+            case "ru.it.sd.model.Brand":{
+                try {
+                    setNumberParams(fmd,params,values,type,Long.class);
+                } catch (Exception e){
+                    return false;
+                }
+                return true;
+            }
+            case "ru.it.sd.model.Folder":{
+                try {
+                    setNumberParams(fmd,params,values,type,Long.class);
+                } catch (Exception e){
+                    return false;
+                }
+                return true;
+            }
+            case "ru.it.sd.model.Location":{
+                try {
+                    setNumberParams(fmd,params,values,type,Long.class);
+                } catch (Exception e){
                     return false;
                 }
                 return true;
@@ -367,4 +442,57 @@ public class FilterUtils {
         return false;
     }
 
+    /**
+     * Метод для минимизации функции {@link #checkParams(FieldMetaData, MapSqlParameterSource, String[], Type)}
+     * Все типы данных наследуемые от Number имеют функцию valueOf которое возвращает значение в clazz формате
+     * Содержит разбиение по типам фильтра {@link Type}
+     * А также добавляет полченные параметры в params
+     * @param fmd мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
+     * @param params список параметров, которые вставляются в запрос при его отправке в бд
+     * @param values массив значений фильтра
+     * @param type тип поиска, все варианты поиска перечислены в {@link Type}
+     * @param clazz класс из которого вызывается функция valueOf
+     */
+    private static void setNumberParams (FieldMetaData fmd, MapSqlParameterSource params, String[] values, Type type,Class clazz) throws InvocationTargetException, IllegalAccessException {
+
+        Method valueOf;
+        try {
+            valueOf = clazz.getMethod("valueOf", String.class);
+        } catch (NoSuchMethodException e) {
+            return;
+        }
+
+        //по конкретному значению
+        if(type == Type.EQUAL){
+            Object val = valueOf.invoke(clazz, values[0]);
+            params.addValue(fmd.getName(),val);
+        }
+        //Если в массиве только одно значение и тип фильтра схожесть с конкретным значением
+        if(type == Type.LIKE){
+            Object val = valueOf.invoke(clazz,values[0]);
+            params.addValue(fmd.getName()+"_like",val);
+        }
+        //Если в массиве множество значенийы и тип фильтра схожесть с конкретным значением
+        if(type == Type.LIST)
+        {
+            for (int i=0; i<values.length;i++){
+                Object val = valueOf.invoke(clazz,values[i]);
+                params.addValue(fmd.getName()+i,val);
+            }
+        }
+        if(type == Type.BETWEEN){
+            Object val_from = valueOf.invoke(clazz,values[0]);
+            Object val_to = valueOf.invoke(clazz,values[1]);
+            params.addValue(fmd.getName()+"_from",val_from);
+            params.addValue(fmd.getName() + "_to", val_to);
+        }
+        if(type == Type.BEFORE){
+            Object val = valueOf.invoke(clazz,values[0]);
+            params.addValue(fmd.getName()+"_before",val);
+        }
+        if(type == Type.AFTER){
+            Object val = valueOf.invoke(clazz,values[0]);
+            params.addValue(fmd.getName()+"_after",val);
+        }
+    }
 }
