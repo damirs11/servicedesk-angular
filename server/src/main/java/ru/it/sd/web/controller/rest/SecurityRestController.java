@@ -1,6 +1,7 @@
 package ru.it.sd.web.controller.rest;
 
-import ru.it.sd.service.UserService;
+import ru.it.sd.model.User;
+import ru.it.sd.service.SecurityService;
 import ru.it.sd.util.ResourceMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,17 +32,17 @@ public class SecurityRestController extends AbstractController{
 	private static final String NEW_PASSWORD_PARAM = "newPassword";
 
 	@Autowired
-	private UserService userService;
+	private SecurityService securityService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public void login(@RequestBody String json) throws IOException {
+	public User login(@RequestBody String json) throws IOException {
 		Map<String, String> params = objectMapper.readValue(json, Map.class);
-		userService.loginUser(params.get(LOGIN_PARAM), params.get(PASSWORD_PARAM));
+		return securityService.loginUser(params.get(LOGIN_PARAM), params.get(PASSWORD_PARAM));
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public void logout(HttpServletRequest request) throws IOException {
-		userService.logoutUser();
+		securityService.logoutUser();
 		// уничтожаем старую сессию
 		HttpSession session = request.getSession();
 		if (Objects.nonNull(session)) {
@@ -53,7 +54,7 @@ public class SecurityRestController extends AbstractController{
 	@RequestMapping(value = "/passwordChange", method = RequestMethod.POST)
 	public void passwordChange(@RequestBody String json) throws IOException {
 		Map<String, String> params = objectMapper.readValue(json, Map.class);
-		userService.changePassword(params.get(OLD_PASSWORD_PARAM), params.get(NEW_PASSWORD_PARAM));
+		securityService.changePassword(params.get(OLD_PASSWORD_PARAM), params.get(NEW_PASSWORD_PARAM));
 	}
 
 	/**

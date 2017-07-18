@@ -1,3 +1,12 @@
+/**
+ * Сборщик клиентской части ServiceDesk.
+ * Параметры сборки:
+ * @param DEBUG {Boolean} (default false) собрать в дебаг-моде. Добавит логи и глобальные переменные.
+ * @param SD_ADDRESS {String} (default sd) адрес бэкэнд части.
+ * @param SOURCE_MAPS {Boolean} (default false) добавить сорцмапы.
+ * @param HTTP_TIMEOUT {Number} максимальный таймаут для http запросов к бэкэнду.
+ * ### Пока не работает ###
+ */
 "use strict";
 
 const gulp = require('gulp');
@@ -42,6 +51,11 @@ const config = {
         img: "build/dist/img/",
         base: "build/dist/",
         fonts: "build/dist/css/fonts/"
+    },
+    replace: {
+        "#DEBUG#": env.DEBUG,
+        "#SD_ADDRESS#": env.SD_ADDRESS || "/sd",
+        "#HTTP_TIMEOUT" : env.HTTP_TIMEOUT
     }
 };
 

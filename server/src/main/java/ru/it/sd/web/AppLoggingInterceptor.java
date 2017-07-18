@@ -1,6 +1,6 @@
 package ru.it.sd.web;
 
-import ru.it.sd.service.UserService;
+import ru.it.sd.service.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -33,7 +33,7 @@ public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 	private static final String MDC_HOST 	= "app_host";
 
 	@Autowired
-	private UserService userService;
+	private SecurityService securityService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -46,7 +46,7 @@ public class AppLoggingInterceptor extends HandlerInterceptorAdapter {
 	 * Устанавливает значения переменных для вывода в лог
 	 */
 	private void setLogParams(HttpServletRequest request) {
-		User user = userService.getCurrentUser();
+		User user = securityService.getCurrentUser();
 		MDC.put(MDC_USER, user == null ? ResourceMessages.getMessage("default.login") : user.toString());
 		// Адресная строка. Пример: GET:/ds/rest/entity/Tariff&fulltext=&paging=1;100&sort=name-asc
 		MDC.put(MDC_QUERY, request.getMethod() + ':' + request.getRequestURI() + (request.getQueryString() == null ? "" : '?' + request.getQueryString()));
