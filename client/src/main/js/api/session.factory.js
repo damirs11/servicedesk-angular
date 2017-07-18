@@ -29,9 +29,10 @@ class Session {
      * @returns {Promise}
      */
     async login(login, password) {
-        const data = {login, password};
-        await this.$connector.post('rest/service/security/login', null, data);
-        return this.authorize();
+        const loginData = {login, password};
+        const data = await this.$connector.post('rest/service/security/login', null, loginData);
+        this.user = this.SD.User.parse(data);
+        return this.user;
     }
 
     /**
@@ -42,7 +43,7 @@ class Session {
         if (data.user) {
             return this.user = this.SD.User.parse(data.user);
         }
-        return;
+        return user;
     }
 
     /**
