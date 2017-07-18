@@ -4,8 +4,8 @@
  * @param DEBUG {Boolean} (default false) собрать в дебаг-моде. Добавит логи и глобальные переменные.
  * @param SOURCE_MAPS {Boolean} (default false) добавить сорцмапы в сборку.
  * @param HTTP_TIMEOUT {Number} максимальный таймаут для http запросов к бэкэнду. // пока не работает
- * @param API_ADDRESS {String} (default https://localhost:8443) (нужен только для локального сервера gulp-connect)
- * @param WEB_CONTEXT {String} (default "") контекст веб-приложения (нужен только для локального сервера gulp-connect)
+ * @param API_ADDRESS {String} (default) (нужен только для локального сервера gulp-connect)
+ * @param WEB_CONTEXT {String} контекст веб-приложения (нужен только для локального сервера gulp-connect)
  */
 "use strict";
 
@@ -35,7 +35,18 @@ const util = require('gulp-util');
 const env = util.env;
 
 /**
- * Сборка app.min.js
+ * Обработка env переменных
+ */
+
+if (env.DEBUG === undefined) env.DEBUG = false;
+if (env.SOURCE_MAPS === undefined) env.SOURCE_MAPS = false;
+if (env.API_ADDRESS === undefined) env.API_ADDRESS = "https://localhost:8443";
+
+if (env.WEB_CONTEXT === undefined) env.WEB_CONTEXT = null;
+
+
+/**
+ * Конфиг для сборки.
  */
 
 const config = {
@@ -63,23 +74,23 @@ const config = {
     }
 };
 
+/**
+ * Конфиг сервера
+ */
 
-config.server = {
-    context: env.WEB_CONTEXT || "sd",
-    apiAddress: env.API_ADDRESS || "https://localhost:8443",
+const webContext = env.WEB_CONTEXT ? "/"+env.WEB_CONTEXT : "";
+const serverConfig = {
     https: true,
     root: "build/dist",
     port: 9999,
     livereload: true,
     middleware: () => [modrewrite([
-        `^/$ /${config.server.context}/ [R]`,
+        `^${webContext}/$ ./index.html`,
+        `^${webContext}/js/(.*)$ ./js/$1`,
+        `^${webContext}/css/(.*)$ ./css/$1`,
+        `^${webContext}/img/(.*)$ ./img/$1`,
 
-        `^/${config.server.context}/$ ./index.html`,
-        `^/${config.server.context}/js/(.*)$ ./js/$1`,
-        `^/${config.server.context}/css/(.*)$ ./css/$1`,
-        `^/${config.server.context}/img/(.*)$ ./img/$1`,
-
-        `^/${config.server.context}/rest/(.*)$ ${config.server.apiAddress}/${config.server.context}/rest/$1 [P]`,
+        `^${webContext}/rest/(.*)$ ${env.API_ADDRESS}${webContext}/rest/$1 [P]`,
     ])]
 };
 
@@ -223,7 +234,7 @@ gulp.task('copy', gulp.parallel('copy:img','copy:index','copy:fonts'));
 gulp.task('build',gulp.parallel('build:js','build:less','build:js-vendor','copy'));
 
 gulp.task('webserver:start', function () {
-    return connect.server(config.server)
+    return connect.server(serverConfig)
 });
 
 gulp.task('webserver:reload', function () {
