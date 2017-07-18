@@ -3,11 +3,6 @@ import {Connector} from "./connector";
 // $http нужен внутри Connector'а
 function ConnectorProvider() {
     /**
-     * Адрес сервера с API
-     * @type {String}
-     */
-    let address = "GULP_REPLACE:SD_ADDRESS";
-    /**
      * Обработчик ошибок ajax запросов.
      * @type {ngFunction}
      */
@@ -17,11 +12,8 @@ function ConnectorProvider() {
         setErrorHandler(handler){
             errorHandler = handler;
         },
-        setAddress(addr){
-            address = addr
-        },
         $get($injector){
-            return $injector.instantiate(Connector, {address, errorHandler})
+            return $injector.instantiate(Connector, {errorHandler})
         }
     };
     provider.$get.$inject = ["$injector"];

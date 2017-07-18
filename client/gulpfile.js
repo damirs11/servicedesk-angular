@@ -1,11 +1,11 @@
 /**
  * Сборщик клиентской части ServiceDesk.
- * Параметры сборки:
+ * Параметры:
  * @param DEBUG {Boolean} (default false) собрать в дебаг-моде. Добавит логи и глобальные переменные.
- * @param SD_ADDRESS {String} (default sd) адрес бэкэнд части.
- * @param SOURCE_MAPS {Boolean} (default false) добавить сорцмапы.
- * @param HTTP_TIMEOUT {Number} максимальный таймаут для http запросов к бэкэнду.
- * ### Пока не работает ###
+ * @param SOURCE_MAPS {Boolean} (default false) добавить сорцмапы в сборку.
+ * @param HTTP_TIMEOUT {Number} максимальный таймаут для http запросов к бэкэнду. // пока не работает
+ * @param API_ADDRESS {String} (default https://localhost:8443) (нужен только для локального сервера gulp-connect)
+ * @param WEB_CONTEXT {String} (default "") контекст веб-приложения (нужен только для локального сервера gulp-connect)
  */
 "use strict";
 
@@ -26,6 +26,9 @@ const replace = require('gulp-replace');
 const gulpif = require('gulp-if');
 const rename = require('gulp-rename');
 const autoprefixer = require('gulp-autoprefixer');
+
+const connect = require('gulp-connect');
+const modrewrite = require('connect-modrewrite');
 
 
 const util = require('gulp-util');
@@ -55,10 +58,29 @@ const config = {
         fonts: "build/dist/css/fonts/"
     },
     replace: {
-        "DEBUG": env.DEBUG,
-        "SD_ADDRESS": env.SD_ADDRESS || "/sd",
-        "HTTP_TIMEOUT" : env.HTTP_TIMEOUT,
+        "DEBUG": env.DEBUG || false,
+        "HTTP_TIMEOUT" : env.HTTP_TIMEOUT || null,
     }
+};
+
+
+config.server = {
+    context: env.WEB_CONTEXT || "sd",
+    apiAddress: env.API_ADDRESS || "https://localhost:8443",
+    https: true,
+    root: "build/dist",
+    port: 9999,
+    livereload: true,
+    middleware: () => [modrewrite([
+        `^/$ /${config.server.context}/ [R]`,
+
+        `^/${config.server.context}/$ ./index.html`,
+        `^/${config.server.context}/js/(.*)$ ./js/$1`,
+        `^/${config.server.context}/css/(.*)$ ./css/$1`,
+        `^/${config.server.context}/img/(.*)$ ./img/$1`,
+
+        `^/${config.server.context}/rest/(.*)$ ${config.server.apiAddress}/${config.server.context}/rest/$1 [P]`,
+    ])]
 };
 
 /**
@@ -125,6 +147,7 @@ gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js �
         .pipe(plumber())
         .pipe(concat("vendor.min.js")) // "Склеиваем" минифицированные js в один файл
         .pipe(gulp.dest(config.dist.js)); // Кладем в dest/js
+
 });
 
 /**
@@ -139,7 +162,7 @@ gulp.task('build:less', function buildLess(){
         .pipe(rename('style.min.css'))
         .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(config.dist.css))
+        .pipe(gulp.dest(config.dist.css));
 });
 
 /**
@@ -147,7 +170,7 @@ gulp.task('build:less', function buildLess(){
  */
 gulp.task("copy:img", function copyStatic() {
     return gulp.src(config.source.img+"*")
-        .pipe(gulp.dest(config.dist.img))
+        .pipe(gulp.dest(config.dist.img));
 });
 
 /**
@@ -155,7 +178,7 @@ gulp.task("copy:img", function copyStatic() {
  */
 gulp.task("copy:fonts", function copyStatic() {
     return gulp.src(config.source.fonts+"*")
-        .pipe(gulp.dest(config.dist.fonts))
+        .pipe(gulp.dest(config.dist.fonts));
 });
 
 /**
@@ -165,7 +188,6 @@ gulp.task("copy:index", function copyIndex() {
     return gulp.src(config.source.index)
         .pipe(gulp.dest(config.dist.base))
 });
-
 
 /**
  * Обработка ошибок
@@ -178,20 +200,20 @@ function handleBuildError(error){
 }
 
 /** Таски, которые следят за изменением файлов проекта
- *  и компилируют, если есть изменения */
+ *  и компилируют, если есть изменения  */
 
 gulp.task('watch:less',gulp.series('build:less',function doWatchLess(){
-    return gulp.watch(config.source.less+"**/*",gulp.series('build:less'));
+    return gulp.watch(config.source.less+"**/*",gulp.series('build:less','webserver:reload'));
 }));
 
 gulp.task('watch:static',gulp.series('copy:index','copy:img','copy:fonts',function doWatchImages(){
-    gulp.watch(config.source.index,gulp.series('copy:index'));
-    gulp.watch(config.source.img+"**/*",gulp.series('copy:img'));
-    return gulp.watch(config.source.fonts+"**/*",gulp.series('copy:fonts'))
+    gulp.watch(config.source.index,gulp.series('copy:index', 'webserver:reload'));
+    gulp.watch(config.source.img+"**/*",gulp.series('copy:img', 'webserver:reload'));
+    return gulp.watch(config.source.fonts+"**/*",gulp.series('copy:fonts',"webserver:reload"))
 }));
 
 gulp.task('watch:js',gulp.series('build:js',function doWatchJs(){
-    return gulp.watch(config.source.js+"**/*",gulp.series('build:js'));
+    return gulp.watch(config.source.js+"**/*",gulp.series('build:js','webserver:reload'));
 }));
 
 gulp.task('watch',gulp.parallel('watch:js','watch:less','watch:static'));
@@ -199,5 +221,14 @@ gulp.task('watch',gulp.parallel('watch:js','watch:less','watch:static'));
 gulp.task('copy', gulp.parallel('copy:img','copy:index','copy:fonts'));
 
 gulp.task('build',gulp.parallel('build:js','build:less','build:js-vendor','copy'));
+
+gulp.task('webserver:start', function () {
+    return connect.server(config.server)
+});
+
+gulp.task('webserver:reload', function () {
+    return gulp.src("./")
+        .pipe(connect.reload());
+});
 
 gulp.task('default',gulp.series('build'));
