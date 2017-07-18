@@ -19,7 +19,6 @@ const plumber = require('gulp-plumber');
 const less = require('gulp-less');
 const cleanCSS = require('gulp-clean-css');
 const stringify = require('stringify');
-const uglifyify = require('uglifyify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
 const replace = require('gulp-replace');
@@ -106,7 +105,7 @@ for (const key in config.replace) {
  * Собирает js приложение в app.min.js
  */
 gulp.task('build:js', function buildJS() {
-    let stream = browserify({entries: config.source.mainJS, debug: true }) // Используем браузерификацию на основном js файле
+    let stream = browserify({entries: config.source.mainJS, debug: env.DEBUG||false }) // Используем браузерификацию на основном js файле
         .transform(babelify, { // Пропускаем через компилятор babel. Он приведет все в ES5
             presets: ["es2015", "stage-0"],
             plugins: ["transform-decorators-legacy"], // Подключаем декораторы
@@ -130,7 +129,7 @@ gulp.task('build:js', function buildJS() {
 
     return stream
         .pipe( gulpif( env.SOURCE_MAPS, sourcemaps.init({loadMaps: true}) ) ) // сорц-мапы
-        .pipe( gulpif (env.SOURCE_MAPS, sourcemaps.write('./') ) )
+        .pipe( gulpif( env.SOURCE_MAPS, sourcemaps.write('./') ) )
         .pipe(gulp.dest(config.dist.js)); // кладем все в dest
 });
 
@@ -213,26 +212,23 @@ function handleBuildError(error){
 /** Таски, которые следят за изменением файлов проекта
  *  и компилируют, если есть изменения  */
 
-gulp.task('watch:less',gulp.series('build:less',function doWatchLess(){
+gulp.task('watch:less',function doWatchLess(){
     return gulp.watch(config.source.less+"**/*",gulp.series('build:less','webserver:reload'));
-}));
+});
 
-gulp.task('watch:static',gulp.series('copy:index','copy:img','copy:fonts',function doWatchImages(){
+gulp.task('watch:static',function doWatchImages(){
     gulp.watch(config.source.index,gulp.series('copy:index', 'webserver:reload'));
     gulp.watch(config.source.img+"**/*",gulp.series('copy:img', 'webserver:reload'));
     return gulp.watch(config.source.fonts+"**/*",gulp.series('copy:fonts',"webserver:reload"))
-}));
+});
 
-gulp.task('watch:js',gulp.series('build:js',function doWatchJs(){
+gulp.task('watch:js',function doWatchJs(){
     return gulp.watch(config.source.js+"**/*",gulp.series('build:js','webserver:reload'));
-}));
+});
 
-gulp.task('watch',gulp.parallel('watch:js','watch:less','watch:static'));
-
-gulp.task('copy', gulp.parallel('copy:img','copy:index','copy:fonts'));
-
-gulp.task('build',gulp.parallel('build:js','build:less','build:js-vendor','copy'));
-
+/**
+ * Такси вебсервера
+ */
 gulp.task('webserver:start', function () {
     return connect.server(serverConfig)
 });
@@ -241,5 +237,14 @@ gulp.task('webserver:reload', function () {
     return gulp.src("./")
         .pipe(connect.reload());
 });
+
+/**
+ * Таски, комбинирующие другие
+ */
+gulp.task('copy', gulp.parallel('copy:img','copy:index','copy:fonts'));
+
+gulp.task('build',gulp.parallel('build:js','build:less','build:js-vendor','copy'));
+
+gulp.task( 'watch',gulp.series( 'build',gulp.parallel('watch:js','watch:less','watch:static') ) );
 
 gulp.task('default',gulp.series('build'));

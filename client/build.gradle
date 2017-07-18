@@ -31,7 +31,7 @@ gulp {
 }
 
 task gulpBuildWithOpts(type: GulpTask, dependsOn: "npmInstall") {
-    args = ["default", "--SOURCE_MAPS true", "--DEBUG true"]
+    args = ["default", "--SOURCE_MAPS", "--DEBUG"]
 }
 
 build.dependsOn('gulpBuildWithOpts')
