@@ -1,7 +1,12 @@
+import {Parse} from "./decorator/parse.decorator";
+
 UserProvider.$inject = ["Entity", "SD"];
 function UserProvider(Entity, SD) {
     /**
      * Пользователь
+     * @class
+     * @extends SD.Entity
+     * @name SD.User
      */
     return class User extends Entity {
         /**
@@ -10,42 +15,35 @@ function UserProvider(Entity, SD) {
          * @name SD.User#name
          * @type {string}
          */
+        @Parse(String) name;
+
         /**
          * Логин
          * @property
          * @name SD.User#login
          * @type {string}
          */
+        @Parse(String) login;
+
         /**
          * Роли
          * @property
          * @name SD.User#roles
          * @type {[Object]}
          */
+        @Parse(Object) roles;
+
         /**
          * Персона
          * @property
          * @name person
          * @type {object}
          */
+        @Parse(data => SD.Person.parse(data)) person;
 
-
-        ["parse:name"](value) {
-            return value;
+        toString(){
+            return this.name
         }
-
-        ["parse:login"](value) {
-            return value;
-        }
-
-        ["parse:roles"](value) {
-            return value; // ToDo парсинг роли
-        }
-
-        ["parse:person"](value) {
-            return value && SD.Person.parse(value);
-        }
-
 
     };
 }

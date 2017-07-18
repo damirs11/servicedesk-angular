@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import ru.it.sd.exception.NotFoundException;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.HasId;
 import ru.it.sd.service.holder.CrudServiceHolder;
 import ru.it.sd.service.holder.ReadServiceHolder;
 import ru.it.sd.util.EntityUtils;
+import ru.it.sd.util.ResourceMessages;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -57,7 +59,11 @@ public class CommonRestController {
      */
     @RequestMapping(value = "/{entity}/{id}", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
     public Object read(@PathVariable String entity, @PathVariable long id) {
-        return readServiceHolder.findFor(entity).read(id);
+        Object result = readServiceHolder.findFor(entity).read(id);
+        if (result == null) {
+            throw new NotFoundException(ResourceMessages.getMessage("error.not.found"));
+        }
+        return result;
     }
 
     /**

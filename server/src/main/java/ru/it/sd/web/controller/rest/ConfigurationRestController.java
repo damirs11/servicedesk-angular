@@ -3,7 +3,7 @@ package ru.it.sd.web.controller.rest;
 import ru.it.sd.model.Role;
 import ru.it.sd.model.User;
 import ru.it.sd.model.Operation;
-import ru.it.sd.service.UserService;
+import ru.it.sd.service.SecurityService;
 import ru.it.sd.util.ResourceMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,16 +36,12 @@ public class ConfigurationRestController extends AbstractController {
 	private static final Logger LOG = LoggerFactory.getLogger(ConfigurationRestController.class);
 
 	@Autowired
-	private UserService userService;
+	private SecurityService securityService;
 
 	@RequestMapping("/getInfo")
 	public Map<String, Object> getInfo(HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<>();
 		result.put("user", getUserCompleteInfo());
-		Map<Object, Object> translate = new HashMap<>();
-		translate.putAll(getTranslates());
-		translate.putAll(getManifestInfo(request.getServletContext()));
-		result.put("translate", translate);
 		return result;
 	}
 
@@ -96,20 +92,15 @@ public class ConfigurationRestController extends AbstractController {
 	private Map<String, Object> getUserCompleteInfo() {
 		Map<String, Object> result = new HashMap<>();
 		// Информация о пользователе
-		User user = userService.getCurrentUser();
+		User user = securityService.getCurrentUser();
 		// Если пользователь не аутентифицирован
 		if (user == null) {
-			result.put("login", ResourceMessages.getMessage("default.login"));
-			result.put("name", ResourceMessages.getMessage("default.login"));
-			result.put("roles", new HashSet<>());
-			result.put("grants", new HashSet<>());
-			result.put("isAuthorized", false);
-			return result;
+			return null;
 		}
 		// Если пользователь аутентифицирован
 		result.put("login", user.getLogin());
 		result.put("name", user.getPerson() == null ? user.getName() : user.getPerson().getFIO());
-		result.put("isAuthorized", true);
+		result.put("person",user.getPerson());
 		// Информация о ролях пользователя и правах доступа
 		Set<String> grants = new HashSet<>();
 		Set<String> roles = new HashSet<>();

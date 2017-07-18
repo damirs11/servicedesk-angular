@@ -1,5 +1,6 @@
 import {ChangesController as controller} from "./changes.ctrl.js";
 import template from "./changes.html";
+import {SDResolver} from "../sd.resolver";
 
 let ChangesState = {
     name: "app.changes",
@@ -8,7 +9,8 @@ let ChangesState = {
     template: template,
     controllerAs: "ctrl",
     data: {
-        needAuthorize: true
+        needAuthorize: true,
+        SD: SDResolver
     }
 };
 

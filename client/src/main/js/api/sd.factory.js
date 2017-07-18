@@ -4,7 +4,6 @@ import {PersonProvider} from "./entity/person.provider";
 import {OrganizationProvider} from "./entity/organization.provider";
 import {StatusProvider} from "./entity/entity-status.provider";
 import {PriorityProvider} from "./entity/entity-priority.provider";
-import {ChangeProvider} from "./entity/change.provider";
 import {EditableEntityProvider} from "./entity/editable-entity.provider";
 
 /**
@@ -46,7 +45,6 @@ const SDConstructor = function SD($injector,cache) {
     this.Organization = $injector.instantiate(OrganizationProvider,locals);
     this.Status = $injector.instantiate(StatusProvider,locals);
     this.Priority = $injector.instantiate(PriorityProvider,locals);
-    this.Change = $injector.instantiate(ChangeProvider,locals);
 
     this.withCache = (newCache = Object.create(cache)) => {
         return $injector.instantiate(SD,{cache:newCache});

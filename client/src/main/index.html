@@ -8,10 +8,11 @@
 		<link rel="icon" href="img/favicon.ico">
 		<title>ServiceDesk</title>
 		<link rel="stylesheet" href="css/style.min.css">
+		<base href="/sd/" /> <!-- ToDO изменить, если изменим название приложения -->
 		<script src="js/vendor.min.js"></script>
 		<script src="js/app.min.js"></script>
 	</head>
-	<body data-ng-app="servicedesk" data-ng-controller="IndexController">
+	<body  data-ng-strict-di data-ng-app="servicedesk" data-ng-controller="IndexController">
 		<!-- основное содержимое -->
 		<data-ui-view></data-ui-view>
 	</body>
