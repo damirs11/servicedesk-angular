@@ -5,13 +5,21 @@ import rowTemplate from "./row.html";
  */
 class AbstractGrid {
 
-    constructor($scope) {
+    constructor($scope, $connector, entityClass) {
         if (this.constructor === AbstractGrid) {
             throw new TypeError('Нельзя создавать экземпляры абстрактного класса "AbstractGrid"!');
         }
-        this.$scope = $scope;
+        if (!$scope) {
+            throw new TypeError('Аргумент "$scope" должен быть задан!');
+        }
+        if (!entityClass) {
+            throw new TypeError('Аргумент "entityClass" должен быть задан!');
+        }
+        this.$scope = $scope.$new(true); // Создаем дочерний скоуп
+        this.$connector = $connector;
+        this.entityClass = entityClass; // Класс, данные которого будут отображаться в таблице
         this.grid = null; // Выставляем при инициализации таблицы
-        this.sort = null; // Параметры сортировки данных
+        this.sort = []; // Параметры сортировки данных
 
         // Свойства таблицы ui-grid
         this.enableCellEdit = false; // Запрещаем редактирование
@@ -23,7 +31,7 @@ class AbstractGrid {
         this.rowHeight = 30;
         //this.enableFiltering = true; //Включает поле для быстрой фильтрации данных на странице
         this.multiSelect = true;
-        this.paginationPageSizes = [10, 20, 50, 100, 200, 500, 1000];
+        this.paginationPageSizes = [20, 50, 100, 200, 500, 1000];
         this.paginationPageSize = 20;
         this.paginationCurrentPage = 1;
         this.useExternalPagination = true;
@@ -34,16 +42,11 @@ class AbstractGrid {
         this.totalItems = 0; // Общее количество данных без учета постраничного просмотра
     }
 
-    /**
-     * Расширение событийной модели строки таблицы. Реализация реакции на двойной клик.
-     */
-    gridScopeProvider() {
-        //todo не работает !!!
-        onDblClick = function (row) {
-            console.log('dbl click');
-            if (row.entity) {
-                console.log('id = ' + row.entity.id);
-            }
+    //todo не работает !!!
+    _onDblClick(row) {
+        console.log('dbl click');
+        if (row.entity) {
+            console.log('id = ' + row.entity.id);
         }
     }
 
@@ -52,16 +55,16 @@ class AbstractGrid {
      */
     onRegisterApi(gridApi) {
         this.grid = gridApi.grid;
-        gridApi.core.on.sortChanged(this.$scope, this.onSortChanged);
-        gridApi.selection.on.rowSelectionChanged(this.$scope, this.onRowSelectionChanged);
-        gridApi.selection.on.rowSelectionChangedBatch(this.$scope, this.onRowSelectionChangedBatch);
-        gridApi.pagination.on.paginationChanged(this.$scope, this.onPaginationChanged);
+        gridApi.core.on.sortChanged(this.$scope, this._onSortChanged);
+        gridApi.selection.on.rowSelectionChanged(this.$scope, this._onRowSelectionChanged);
+        gridApi.selection.on.rowSelectionChangedBatch(this.$scope, this._onRowSelectionChangedBatch);
+        gridApi.pagination.on.paginationChanged(this.$scope, this._onPaginationChanged);
     }
 
     /**
      * Обработчик смены условий сортировки данных
      */
-    onSortChanged(grid, sortColumns) {
+    _onSortChanged(grid, sortColumns) {
         console.log('sortChanged');
         this.grid.options.sort = sortColumns;
         this.grid.options.fetchData();
@@ -70,26 +73,28 @@ class AbstractGrid {
     /**
      * Вызывается при выделении(снятии выделения) строки
      */
-    onRowSelectionChanged(row) {
+    _onRowSelectionChanged(row) {
         console.log('rowSelectionChanged');
         //row.isSelected;
         //setCurrentRow($scope.gridApi.grid.selection.lastSelectedRow);
+        //todo
     };
 
     /**
      * Вызывается когда выделяются(снимается выделение) все строки щелчком по заголовку таблицы
      */
-    onRowSelectionChangedBatch(rows) {
+    _onRowSelectionChangedBatch(rows) {
         console.log('rowSelectionChangedBatch');
         //rows.length
         //$scope.numberOfSelectedItems = rows.length;
         //setCurrentRow($scope.gridApi.grid.selection.lastSelectedRow)
+        //todo
     };
 
     /**
      * Вызывается при смене номера текущей страницы, либо изменения количества отображаемых записей страницы
      */
-    onPaginationChanged(pageNumber, pageSize) {
+    _onPaginationChanged(pageNumber, pageSize) {
         console.log('paginationChanged');
         this.grid.options.fetchData();
     };
@@ -98,9 +103,64 @@ class AbstractGrid {
      * Получение данных для выбранной страницы таблицы. Вызывается каждый раз, когда меняются условия
      * отображения данных: смена сортировки, переход на другую страницу, смена условий фильтрации данных.
      */
-    fetchData() {
+    async fetchData() {
         console.log('fetchData');
+        // Формирование параметров запроса
+        let params = this._getRequestParams();
+        // Получение данных
+        let data = await this.entityClass.list(params);
+        let rows = [];
+        let limit = this.paginationPageSize;
+        data.list.every(obj => {
+            rows.push(this.entityClass.parse(obj));
+            return rows.length < limit;
+        });
+        this.data = rows;
+        this.totalItems = data.total;
+        //todo
+        //updateViewData();
     }
+
+    /**
+     * Дополнительные параметры фильтрации данных. Переопределяется в классах-наследниках
+     * @return
+     * {
+     *      name1: value1,
+     *      name2: value2,
+     *      ...
+     *      nameN: valueN
+     * }
+     */
+    _getFilter() {
+        console.log('get filter');
+        return null;
+    }
+
+    /**
+     * Формирование параметров запроса: пейджинг, сортировка + пользовательские фильтры
+     */
+    _getRequestParams() {
+        let params = {};
+        // Параметры пейджинга
+        let from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
+        let to = from + this.paginationPageSize - 1;
+        params.paging = from + ';' + to;
+        // Параметры сортировки
+        let sortColumns = this.sort;
+        if (sortColumns && sortColumns.length > 0) {
+            let sort = '';
+            sortColumns.forEach(function (column) {
+                sort += column.field + '-' + column.sort.direction + ';'
+            });
+            params.sort = sort
+        }
+        // Дополнительные условия фильтрации
+        let filter = this._getFilter();
+        if (filter) {
+            angular.extend(params, filter);
+        }
+        return params;
+    };
 
 }
 
