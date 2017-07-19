@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="javascript:void(0)">
+            <a class="navbar-brand" data-ui-sref="app.main">
                 <img alt="logo" src="img/logo.png">
             </a>
         </div>
@@ -21,22 +21,55 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="main-menu">
             <ul class="nav navbar-nav">
-                <li class="dropdown" data-ng-show="ctrl.authorized">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">
-                        Разделы <span class="caret"></span>
+                <li>
+                    <a data-ui-sref="app.changes">
+                        <span class="glyphicon glyphicon-cloud"></span> Изменения
                     </a>
-                    <ul class="dropdown-menu">
-                        <!--<li>
-                            <a href="javascript:void(0)"><span class="glyphicon glyphicon-apple"></span> Объекты</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)"><span class="glyphicon glyphicon-cloud"></span> Проблемы</a>
-                        </li>-->
-                        <li>
-                            <a data-ui-sref="app.changes"><span class="glyphicon glyphicon-cloud"></span> Изменения</a>
-                        </li>
-                    </ul>
                 </li>
+                <li>
+                    <a data-ui-sref="app.servicecalls">
+                        <span class="glyphicon glyphicon-list"></span> Заявки
+                    </a>
+                </li>
+                <li>
+                    <a data-ui-sref="app.workorders">
+                        <span class="glyphicon glyphicon-th"></span> Наряды
+                    </a>
+                </li>
+                <li>
+                    <a data-ui-sref="app.persons">
+                        <span class="glyphicon glyphicon-user"></span> Персоны
+                    </a>
+                </li>
+                <li>
+                    <a data-ui-sref="app.configurationItems">
+                        <span class="glyphicon glyphicon-wrench"></span> Объекты
+                    </a>
+                </li>
+                <li>
+                    <a data-ui-sref="app.questions">
+                        <span class="glyphicon glyphicon-question-sign"></span> База знаний
+                    </a>
+                </li>
+                <!--<li>-->
+                    <!--<a data-ui-sref="app.changes"><span class="glyphicon glyphicon-cloud"></span> Изменения</a>-->
+                <!--</li>-->
+                <!--<li class="dropdown" data-ng-show="ctrl.authorized">-->
+                    <!--<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">-->
+                        <!--Разделы <span class="caret"></span>-->
+                    <!--</a>-->
+                    <!--<ul class="dropdown-menu">-->
+                        <!--&lt;!&ndash;<li>-->
+                            <!--<a href="javascript:void(0)"><span class="glyphicon glyphicon-apple"></span> Объекты</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="javascript:void(0)"><span class="glyphicon glyphicon-cloud"></span> Проблемы</a>-->
+                        <!--</li>&ndash;&gt;-->
+                        <!--<li>-->
+                            <!--<a data-ui-sref="app.changes"><span class="glyphicon glyphicon-cloud"></span> Изменения</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right" data-ng-show="ctrl.authorized">
                 <li class="dropdown">

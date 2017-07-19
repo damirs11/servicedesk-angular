@@ -1,8 +1,7 @@
 class AppController {
-    static $inject = ['SD', '$scope', 'ModalAction', '$state', '$transitions'];
-    constructor(SD, $scope, ModalAction, $state, $transitions){
-        //this.appSessionService = appSessionService;
-        this.SD = SD;
+    static $inject = ['Session', '$scope', 'ModalAction', '$state'];
+    constructor(Session, $scope, ModalAction, $state){
+        this.Session = Session;
         this.ModalAction = ModalAction;
         this.$scope = $scope;
         this.$state = $state;
@@ -10,15 +9,15 @@ class AppController {
     }
 
     get user(){
-        return this.SD.user;
+        return this.Session.user;
     }
 
     get authorized(){
-        return this.SD.authorized;
+        return this.Session.authorized;
     }
 
     async logout() {
-        await this.SD.logout();
+        await this.Session.logout();
         this.$state.go("app.main")
     }
 

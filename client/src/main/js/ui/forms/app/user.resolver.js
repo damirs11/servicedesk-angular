@@ -1,4 +1,8 @@
-UserResolver.$inject = ["SD"];
-export function UserResolver(SD){
-    return SD.authorize();
+UserResolver.$inject = ["Session"];
+/**
+ * Авторизуется на сервере с помощью кукисов.
+ * @param Session {Session}
+ */
+export function UserResolver(Session){
+    return Session.authorize();
 }

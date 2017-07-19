@@ -1,20 +1,17 @@
 import {PARSE_MAP} from "./decorator/parse.decorator";
+import {SERIALIZE_MAP} from "./decorator/serialize.decorator";
+import {PagingList} from '../../common/paging-list';
 
-function EntityProvider() {
+EntityProvider.$inject = ["$connector","cache"];
+function EntityProvider($connector,cache) {
     /**
      * Базовый класс для сущностей ServiceDesk
-     * Содержит служебную логику, например кэш.
-     *
-     * //todo Саша: описать для чего класс используется (служебная логика), для чего в нем кэш? Неплохое документирование методов, но в целом картина не складывается
-     * // Ок, как закончу с entity до конца - опишу все в документации.
+     * Содержит служебную логику и методы load и list
+     * @class
+     * @classdesc Реализует методы для работы с REST: save, create
+     * @name SD.EditableEntity
      */
     return class Entity {
-
-        /**
-         * Кэш объектов. Необходим, чтобы при обновлении какого-либо объекта не осталось его копий
-         * со старыми данными.
-         */
-        static cache = {}; // Закэшированные сущности
 
 
         /**
@@ -37,9 +34,9 @@ function EntityProvider() {
          */
         constructor(id) {
             if (id) {
-                let entity = Entity.cache[id];
+                let entity = cache[id];
                 if (!entity) {
-                    Entity.cache[id] = entity = Object.create(this.constructor.prototype);
+                    cache[id] = entity = Object.create(this.constructor.prototype);
                     entity.id = id;
                 }
                 Object.defineProperty(entity, "$data", {value: entity});
@@ -55,6 +52,7 @@ function EntityProvider() {
          * Кэш обновляется с помощью методов, которые добавляет @Parse
          * @see @Parse
          * @param {object} data - json данные
+         * @chain
          */
         $update(data) {
             const cached = this.$data;
@@ -79,13 +77,101 @@ function EntityProvider() {
         }
 
         /**
+         * Сериализует объект. Будут включены все поля.
+         */
+        $serialize() {
+            const serializeData = Object.create(null);
+            let obj = this.$data;
+            while (obj = Object.getPrototypeOf(obj)) {
+                const map = obj[SERIALIZE_MAP];
+                if (!map) continue;
+                for (const val in map) {
+                    serializeData[val] = serializeData[val] || map[val];
+                }
+            }
+            const json = Object.create(null);
+            for (const key in this) {
+                const value = this[key];
+                const serializeDescriptor = serializeData[key];
+                if (!serializeDescriptor) continue;
+                const serialize = serializeDescriptor.serialize;
+                const serializedName = serializeDescriptor.serializedName;
+                const result = serialize(value,serializedName);
+                if (result !== undefined) json[serializedName] = result;
+            }
+            return json;
+        }
+
+        /**
+         * Возвращает объект с измененными полями сущности
+         */
+        get $changedData() {
+            const serializeData = Object.create(null);
+            let obj = this.$data;
+            while (obj = Object.getPrototypeOf(obj)) {
+                const map = obj[SERIALIZE_MAP];
+                if (!map) continue;
+                for (const val in map) {
+                    serializeData[val] = serializeData[val] || map[val];
+                }
+            }
+            const json = Object.create(null);
+            const fields = Object.keys(this);
+            for (let i = 0; i < fields.length; i++) {
+                const key = fields[i];
+                const value = this[key];
+                const serializeDescriptor = serializeData[key];
+                if (!serializeDescriptor) continue;
+                const serialize = serializeDescriptor.serialize;
+                const serializedName = serializeDescriptor.serializedName;
+                const result = serialize(value,serializedName);
+                if (result !== undefined) json[serializedName] = result;
+            }
+            return json;
+        }
+
+        /**
          * Возвращает объект к состоянию, в котором находится кэш
+         * @chain
          */
         reset(){
-            for ( const key in Object.keys(this) ) {
-                delete this[key]
-            }
+            Object.keys(this)
+                .forEach(key => delete this[key])
+            ;
             return this
+        }
+
+
+        /**
+         * Возвращает строкой тип сущности. Используется для запросов
+         * Должен соотвествовать типу на сервере
+         * @returns {string}
+         */
+        get $entityType() {
+            return this.constructor.name;
+        }
+
+        /**
+         * Подгружает изменения в текущую сущность
+         */
+        async load(){
+            const data = await $connector.get(`rest/entity/${this.$entityType}/${this.id}`);
+            return this.$update(data);
+        }
+
+
+        /**
+         * Осуществляет поиск сущностей по фильтру
+         */
+        static async list(params){
+            const data = await $connector.get(`rest/entity/${this.name}`, params);
+            if (!data || !data.total || !data.list) {
+                console.error('Список данных не получен или имеет неправильную структуру');
+                return null;
+            }
+            //let list = data.list.map(this.constructor.parse); //todo преобразование в объекты выполнить здесь
+            let list = data.list;
+            return new PagingList(list, data.total);
         }
 
     }

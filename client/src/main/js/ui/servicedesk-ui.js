@@ -10,6 +10,7 @@ import {default as ModalAction} from "./components/modal-action/modal-action";
 import {EqualsTo} from "./components/validators/equals-to";
 import {DifferentFrom} from "./components/validators/different-from";
 import {FormConfig} from "./forms/form.config";
+import {ConnectorConfig} from "./components/connector.config";
 import {IndexController} from "./index.ctrl";
 
 export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, ModalAction, uiRouter, ngMessages, translate,
@@ -17,6 +18,7 @@ export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, M
     .config(TranslateConfig)
     .config(FormConfig)
     .config(DialogsConfig)
+    .config(ConnectorConfig)
     .directive("equalsTo", EqualsTo)
     .directive("differentFrom", DifferentFrom)
     .controller("IndexController",IndexController)

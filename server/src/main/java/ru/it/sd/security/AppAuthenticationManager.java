@@ -1,6 +1,6 @@
 package ru.it.sd.security;
 
-import ru.it.sd.service.UserService;
+import ru.it.sd.service.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,12 @@ public class AppAuthenticationManager implements AuthenticationManager {
 	private static final Logger LOG = LoggerFactory.getLogger(AppAuthenticationManager.class);
 
 	@Autowired
-	private UserService userService;
+	private SecurityService securityService;
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String login = Objects.toString(authentication.getPrincipal());
 		String password = Objects.toString(authentication.getCredentials());
-		return userService.authenticate(login, password);
+		return securityService.authenticate(login, password);
 	}
 }

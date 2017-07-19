@@ -1,5 +1,4 @@
 class PersonController{
-
     /**
      * Занят ли контроллер. Будет отображат анимацию загрузки
      * @type {string|null}
@@ -15,6 +14,7 @@ class PersonController{
      * @type {SD.Person|null}
      */
     person = null;
+
 
     static $inject = ["SD","personId"];
     constructor(SD,personId){
