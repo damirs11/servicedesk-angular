@@ -12,6 +12,9 @@ import {DifferentFrom} from "./components/validators/different-from";
 import {FormConfig} from "./forms/form.config";
 import {ConnectorConfig} from "./components/connector.config";
 import {IndexController} from "./index.ctrl";
+import {FieldTextComponent} from "./components/fields/field-text.component";
+import {SDFocusDirective} from "./components/directives/sd-focus.directive";
+import {SDOnInteractOutDirective} from "./components/directives/sd-on-interact-out";
 
 export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, ModalAction, uiRouter, ngMessages, translate,
         uiBootstrap, ngSanitize, uiGrid, uiGridSelection, uiGridPagination])
@@ -21,5 +24,8 @@ export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, M
     .config(ConnectorConfig)
     .directive("equalsTo", EqualsTo)
     .directive("differentFrom", DifferentFrom)
+    .directive("sdFocus",SDFocusDirective)
+    .directive("sdOnInteractOut",SDOnInteractOutDirective)
+    .component("fieldText", FieldTextComponent)
     .controller("IndexController",IndexController)
     .name;

@@ -6,7 +6,13 @@ class TestController {
     constructor($scope, ModalAction) {
         this.$scope = $scope;
         this.ModalAction = ModalAction;
-        this.gridOptions = new TestGridOptions($scope);
+        // this.gridOptions = new TestGridOptions($scope);
+    }
+
+    $onInit(){
+        this.servicecall = {
+            subject: "Тема заявки!",
+        }
     }
 
     errorClick() {
@@ -16,6 +22,10 @@ class TestController {
             style: 'dialog-header-error'
         });
         //aplanaDialogs.error('Ошибка', 'Превышен лимит стоимости заказа на производство', {});
+    }
+
+    logSC(){
+        console.log(this.servicecall)
     }
 }
 
