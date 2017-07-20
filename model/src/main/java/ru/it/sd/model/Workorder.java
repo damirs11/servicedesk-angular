@@ -12,7 +12,7 @@ import java.util.Date;
  * @author quadrix
  * @since 03.05.2017
  */
-@ClassMeta(tableName = "itsm_workorders")
+@ClassMeta(tableName = "itsm_workorders", TableAlias = "WORKORDER")
 public class Workorder implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
@@ -25,20 +25,23 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "WOR_DESCRIPTION", maxLength = 80)
 	private String subject;
 	/** Описание */
-	@FieldMeta(columnName = "WOI_INFORMATION", maxLength = 4000)
+	@FieldMeta(columnName = "WOI_INFORMATION", maxLength = 4000, TableAlias = "WOR_INFO")
 	private String description;
 	/** Трудозатраты */
-	@FieldMeta(columnName = "WCF_DURATION1")
+	@FieldMeta(columnName = "WCF_DURATION1", TableAlias = "WORCUSTOM")
 	private Double labor;
 	/** Решение */
-	@FieldMeta(columnName = "WO1_4K1", maxLength = 4000)
+	@FieldMeta(columnName = "WO1_4K1", maxLength = 4000, TableAlias = "WOR4K1")
 	private String solution;
 
 	/** Статус */
+	@FieldMeta(columnName = "WOR_STA_OID")
 	private EntityStatus status;
 	/** Категория */
+	@FieldMeta(columnName = "WOR_CAT_OID")
 	private EntityCategory category;
 	/** Код завершения */
+	@FieldMeta(columnName = "WOR_CLO_OID")
 	private EntityClosureCode closureCode;
 
 	/** Дата создания */
@@ -54,15 +57,18 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "REG_MODIFIED")
 	private Date modifyDate;
 	/** Наряд просрочен */
-	@FieldMeta(columnName = "WCF_BOOLEAN2")
+	@FieldMeta(columnName = "WCF_BOOLEAN2", TableAlias = "WORCUSTOM")
 	private Boolean expired;
 
 	/** Инициатор */
+	@FieldMeta(columnName = "WOR_REQUESTOR_PER_OID")
 	private Person initiator;
 	/** Исполнитель */
+	@FieldMeta(columnName = "ASS_PER_TO_OID")
 	private Person assigneePerson;
 
 	/** Изменение */
+	@FieldMeta(columnName = "WOR_CHA_OID")
 	private Change change;
 
 

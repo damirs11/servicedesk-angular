@@ -2,13 +2,14 @@ package ru.it.sd.dao;
 
 import org.apache.commons.collections.MultiMap;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import ru.it.sd.meta.ClassMeta;
+import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.meta.FieldMetaData;
 import ru.it.sd.meta.MetaUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,24 +38,22 @@ public class FilterUtils {
     /**
      * Добовляет к запросу условия для данного класса по фильтру
      *
-     * @param queryPart    запрос в который добавляются фильтры поиска (WHERE .... AND (.....) AND (....) OR (....))
+     * @param queryPart    строка в которую добавляются фильтры поиска (WHERE .... AND (.....) AND (....) OR (....))
      * @param params       список параметров, которые вставляются в запрос при его отправке в бд
      * @param clazz        модель по которой будет происходить поиск аннотированных полей
      * @param filter       фильтр(Map<String, String>)
-     * @param filterFields мапа в которой передается сет таблиц в качестве ключа и список полей этой таблицы для определения префкса таблицы при формировании запроса
      */
-    public static void createFilter(StringBuilder queryPart, MapSqlParameterSource params, Map<String, String> filter, MultiMap filterFields, Class clazz) {
+    public static void createFilter(StringBuilder queryPart, MapSqlParameterSource params, Map<String, String> filter,  Class clazz) {
 
         if ((filter != null) && !filter.entrySet().isEmpty()) {
             // Временно !!!!
             queryPart.append("\n WHERE TRUE");
-
             //Поиск по всем полям класса
             List<FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
             for (FieldMetaData fmd : fieldMetaDataList) {
                 if(fmd.isAnnotation()) {
-                    String prefix = getPrefix(filterFields, fmd);
-                    if (prefix != null) {
+                    String prefix = getPrefix(clazz, fmd);
+                    if (!prefix.isEmpty()) {
                         Comparison type;
                         //Сравнение одиночных значений и списка на равенство(Comprasion.EQUAl)
                         if (filter.containsKey(fmd.getName())) {
@@ -242,23 +241,18 @@ public class FilterUtils {
     /**
      * Функция проверяет входит ли поле fmd в filterFields, если нет то данное поле будет исключено из фильтра
      *
-     * @param filterFields мапа в которой передается сет таблиц в качестве ключа и список полей этой таблицы для определения префкса таблицы при формировании запроса
-     * @param fmd          мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
-     * @return префикс для filterFields
+     * @param clazz класс объекта для получения данных из аннотации класа {@link ClassMeta#TableAlias()}
+     * @param fmd          мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}, для получения данных из {@link FieldMeta#TableAlias()}
+     * @return алиас таблицы
      */
-    private static String getPrefix(MultiMap filterFields, FieldMetaData fmd) {
-        String prefix = null;
-        for (Object str : filterFields.keySet()) {
-            ArrayList<String> values = (ArrayList<String>) filterFields.get(str);
-            for (String val : values) {
-                if (fmd.getColumnName().equals(val)) {
-                    prefix = (String) str;
-                    break;
-                }
-            }
-            if (prefix != null) break;
+    private static String getPrefix(Class clazz, FieldMetaData fmd) {
+
+        if(fmd.getTableAlias().isEmpty()){
+            ClassMeta classMeta = (ClassMeta)clazz.getAnnotation(ClassMeta.class);
+            return classMeta.TableAlias();
+        }else {
+            return fmd.getTableAlias();
         }
-        return prefix;
     }
 
 

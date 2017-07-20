@@ -14,7 +14,7 @@ import java.util.Date;
  * @author quadrix
  * @since 03.05.2017
  */
-@ClassMeta(tableName = "itsm_configuration_items")
+@ClassMeta(tableName = "itsm_configuration_items", TableAlias = "ITEM")
 public class ConfigurationItem implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
@@ -39,7 +39,7 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "CIT_SERIALNUMBER")
 	private String serial;
 	/** Адрес */
-	@FieldMeta(columnName = "CCF_CITEXT1")
+	@FieldMeta(columnName = "CCF_CITEXT1", TableAlias = "CUSTOM")
 	private String address;
 	/** Замечание */
 	@FieldMeta(columnName = "CIT_REMARK")
@@ -54,7 +54,7 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "CIT_ATTACHMENT_EXISTS")
 	private Boolean attachmentExists;
 	/** Идендификатор аватарки */
-	@FieldMeta(columnName = "CCF_CISHORTTEXT1")
+	@FieldMeta(columnName = "CCF_CISHORTTEXT1", TableAlias = "CUSTOM")
 	private String avatarId;
 
 
@@ -81,7 +81,7 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "CIT_WARRANTYDATE")
 	private Date warrantyDate;
 	/** Дата инвентаризации */
-	@FieldMeta(columnName = "CCF_CIDATE1")
+	@FieldMeta(columnName = "CCF_CIDATE1", TableAlias = "CUSTOM")
 	private Date inventoryDate;
 
 	/** Администратор объекта */
@@ -94,7 +94,7 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "CIT_OWNER_ORG_OID")
 	private Organization ownerOrganization;
 	/** Плательщик */
-	@FieldMeta(columnName = "CCF_ORG1_OID")
+	@FieldMeta(columnName = "CCF_ORG1_OID", TableAlias = "CUSTOM")
 	private Organization payer;
 	/** Поставщик */
 	@FieldMeta(columnName = "CIT_ORG_OID")

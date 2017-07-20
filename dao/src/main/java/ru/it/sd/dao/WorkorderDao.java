@@ -1,6 +1,8 @@
 package ru.it.sd.dao;
 
 import com.jcabi.aspects.Cacheable;
+import org.apache.commons.collections.MultiMap;
+import org.apache.commons.collections.map.MultiValueMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -75,8 +77,6 @@ public class WorkorderDao extends AbstractDao {
 			return null;
 		}
 	}
-
-
 	/**
 	 * Возвращает изменение по идентификатору изменения
 	 * @param changeId идентификатор изменения
@@ -99,29 +99,8 @@ public class WorkorderDao extends AbstractDao {
 	public List<Workorder> list(Map<String, String> filter) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		StringBuilder queryPart = new StringBuilder();
-		queryPart.append(" WHERE TRUE ");
-		if (filter != null) {
-			if (filter.containsKey("no")) {
-				params.addValue("no",filter.get("no"));
-				queryPart.append(" AND WORKORDER.WOR_ID = :no");
-			}
-			if (filter.containsKey("assigneePerson")) {
-				params.addValue("assigneePerson",filter.get("assigneePerson"));
-				queryPart.append(" AND WORKORDER.ASS_PER_TO_OID = :assigneePerson ");
-			}
-			if (filter.containsKey("initiator")) {
-				params.addValue("initiator",filter.get("initiator"));
-				queryPart.append(" AND WORKORDER.WOR_REQUESTOR_PER_OID = :initiator ");
-			}
-			if (filter.containsKey("changeId")) {
-				params.addValue("changeId",filter.get("changeId"));
-				queryPart.append(" AND WORKORDER.WOR_REQUESTOR_PER_OID = :changeId");
-			}
-			if (filter.containsKey("status")) {
-				params.addValue("status",filter.get("status"));
-				queryPart.append(" AND WORKORDER.WOR_STA_OID = :status");
-			}
-		}
+
+		FilterUtils.createFilter(queryPart, params, filter, Workorder.class);
 		try {
 			List<Workorder> workorders = namedJdbc.query(
 					MessageFormat.format(SELECT_ALL_SQL, queryPart),

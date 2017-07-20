@@ -11,7 +11,7 @@ import java.util.Date;
  * @author NSychev
  * @since 18.07.2017.
  */
-@ClassMeta(tableName = "test_table_name")
+@ClassMeta(tableName = "test_table_name", TableAlias = "test_table")
 public class TestModel implements Serializable, HasStatus, HasId{
     @FieldMeta(columnName = "test_Integer")
     private Integer testInteger;
@@ -19,10 +19,10 @@ public class TestModel implements Serializable, HasStatus, HasId{
     @FieldMeta(columnName = "test_int")
     private int testint;
 
-    @FieldMeta(columnName = "test_Long")
+    @FieldMeta(columnName = "test_Long",TableAlias = "test_table1")
     private Long testLong;
 
-    @FieldMeta(columnName = "test_long")
+    @FieldMeta(columnName = "test_long", TableAlias = "test_table1")
     private long testlong;
 
     @FieldMeta(columnName = "test_Double")
@@ -52,10 +52,10 @@ public class TestModel implements Serializable, HasStatus, HasId{
     @FieldMeta(columnName = "test_Location")
     private Location testLocation;
 
-    @FieldMeta(columnName = "test_Folder")
+    @FieldMeta(columnName = "test_Folder", TableAlias = "test_table3")
     private Folder testFolder;
 
-    @FieldMeta(columnName = "test_Brand")
+    @FieldMeta(columnName = "test_Brand", TableAlias = "test_table2")
     private Brand testBrand;
 
     @FieldMeta(columnName = "test_Person")

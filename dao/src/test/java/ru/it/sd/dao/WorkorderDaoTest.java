@@ -15,6 +15,7 @@ import static org.testng.Assert.*;
 
 @Sql("WorkorderDaoTest.sql")
 @Sql("PersonDaoTest.sql")
+@Sql("ChangeDaoTest.sql")
 public class WorkorderDaoTest extends AbstractDaoTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkorderDaoTest.class);
@@ -37,6 +38,7 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 
 	@Test
 	private void testFindByFilter(){
+
 		HashMap<String, String> firstFilter = new HashMap<>();
 		firstFilter.put("initiator","1");
 		HashMap<String, String> secondFilter = new HashMap<>();
@@ -52,5 +54,10 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 		workorders = dao.list(thirdFilter);
 		assertEquals(workorders.size(),1);
 		assertNotNull(workorders.get(0).getAssigneePerson());
+
+		HashMap<String, String> byChangeFilter = new HashMap<>();
+		byChangeFilter.put("change_like","111222");
+		workorders = dao.list(byChangeFilter);
+		assertEquals(workorders.size(), 1);
 	}
 }

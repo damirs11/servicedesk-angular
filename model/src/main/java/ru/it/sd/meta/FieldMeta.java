@@ -59,4 +59,9 @@ public @interface FieldMeta {
 	 * Regex выражение для проверки значения поля на клиенте
 	 */
 	String pattern() default "";
+
+	/**
+	 * Название алиаса поля
+	 */
+    String TableAlias() default "";
 }

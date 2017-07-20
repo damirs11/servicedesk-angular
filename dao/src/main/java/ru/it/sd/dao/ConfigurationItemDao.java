@@ -92,7 +92,7 @@ public class ConfigurationItemDao extends AbstractDao {
         filterFields.put("ITEM","CIT_ID");
         filterFields.put("ITEM","CIT_OWNER_PER_OID");
 		filterFields.put("ITEM","CIT_PURCHASEDATE");
-        FilterUtils.createFilter(queryPart, params,filter, filterFields, ConfigurationItem.class);
+        FilterUtils.createFilter(queryPart, params, filter, ConfigurationItem.class);
 
 		try {
 			List<ConfigurationItem> items = namedJdbc.query(
