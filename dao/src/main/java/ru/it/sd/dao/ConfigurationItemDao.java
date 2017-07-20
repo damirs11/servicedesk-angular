@@ -31,36 +31,36 @@ public class ConfigurationItemDao extends AbstractDao {
 
 	private static final String SELECT_ALL_SQL =
 			"SELECT " +
-					"ITEM.CIT_OID, " +
-					"ITEM.CIT_ID, " +
-					"ITEM.CIT_SEARCHCODE, " +
-					"ITEM.CIT_SERIALNUMBER," +
-					"CUSTOM.CCF_CISHORTTEXT1," +
-					"ITEM.CIT_CAT_OID," +
-					"ITEM.CIT_IPADDRESS, " +
-					"ITEM.CIT_PURCHASEDATE, " +
-					"ITEM.CIT_PRICE, " +
-					"ITEM.CIT_WARRANTYDATE, " +
-					"ITEM.CIT_ADMIN_PER_OID, " +
-					"ITEM.CIT_OWNER_PER_OID, " +
-					"ITEM.CIT_ATTACHMENT_EXISTS, " +
-					"ITEM.CIT_NAME1, " +
-					"ITEM.CIT_NAME2, " +
-					"ITEM.CIT_ORDERNR, " +
-					"ITEM.CIT_LOC_OID, " +
-					"CUSTOM.CCF_CITEXT1," +
-					"ITEM.CIT_POO_OID, " +
-					"ITEM.CIT_STA_OID, " +
-					"ITEM.CIT_POO_OID, " +
-					"ITEM.CIT_REMARK, " +
-					"ITEM.CIT_BRA_OID, " +
-					"CUSTOM.CCF_CIDATE1, " +
-					"ITEM.CIT_OWNER_ORG_OID, " +
-					"CUSTOM.CCF_ORG1_OID, " +
-					"ITEM.CIT_ORG_OID " +
+					"item.cit_oid, " +
+					"item.cit_id, " +
+					"item.cit_searchcode, " +
+					"item.cit_serialnumber," +
+					"custom.ccf_cishorttext1," +
+					"item.cit_cat_oid," +
+					"item.cit_ipaddress, " +
+					"item.cit_purchasedate, " +
+					"item.cit_price, " +
+					"item.cit_warrantydate, " +
+					"item.cit_admin_per_oid, " +
+					"item.cit_owner_per_oid, " +
+					"item.cit_attachment_exists, " +
+					"item.cit_name1, " +
+					"item.cit_name2, " +
+					"item.cit_ordernr, " +
+					"item.cit_loc_oid, " +
+					"custom.ccf_citext1," +
+					"item.cit_poo_oid, " +
+					"item.cit_sta_oid, " +
+					"item.cit_poo_oid, " +
+					"item.cit_remark, " +
+					"item.cit_bra_oid, " +
+					"custom.ccf_cidate1, " +
+					"item.cit_owner_org_oid, " +
+					"custom.ccf_org1_oid, " +
+					"item.cit_org_oid " +
 				" FROM " +
-					"ITSM_CONFIGURATION_ITEMS as ITEM " +
-					"LEFT OUTER JOIN ITSM_CIT_CUSTOM_FIELDS as CUSTOM ON CUSTOM.CCF_CIT_OID = ITEM.CIT_OID " +
+					"itsm_configuration_items AS item " +
+					"LEFT JOIN itsm_cit_custom_fields AS custom ON custom.ccf_cit_oid = item.cit_oid " +
 				"{0}";
 
 	/**
@@ -74,7 +74,7 @@ public class ConfigurationItemDao extends AbstractDao {
 		params.addValue("id", id);
 		try {
 			ConfigurationItem item = namedJdbc.queryForObject(
-					MessageFormat.format(SELECT_ALL_SQL, " WHERE ITEM.CIT_OID = :id"),
+					MessageFormat.format(SELECT_ALL_SQL, " WHERE item.cit_oid = :id"),
 					params, mapper);
 			return item;
 		} catch (EmptyResultDataAccessException e) {
@@ -86,12 +86,7 @@ public class ConfigurationItemDao extends AbstractDao {
 	public List<ConfigurationItem> list(Map<String, String> filter) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		StringBuilder queryPart = new StringBuilder();
-		MultiMap filterFields = new MultiValueMap();
-		filterFields.put("ITEM","CIT_SEARCHCODE");
-		filterFields.put("ITEM","CIT_NAME1");
-        filterFields.put("ITEM","CIT_ID");
-        filterFields.put("ITEM","CIT_OWNER_PER_OID");
-        FilterUtils.createFilter(queryPart, params,filter, filterFields, ConfigurationItem.class);
+        FilterUtils.createFilter(queryPart, params, filter, ConfigurationItem.class);
 
 		try {
 			List<ConfigurationItem> items = namedJdbc.query(

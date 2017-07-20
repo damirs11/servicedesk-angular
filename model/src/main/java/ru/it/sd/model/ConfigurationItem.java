@@ -14,92 +14,90 @@ import java.util.Date;
  * @author quadrix
  * @since 03.05.2017
  */
-@ClassMeta(tableName = "itsm_configuration_items")
+@ClassMeta(tableName = "itsm_configuration_items", tableAlias = "item")
 public class ConfigurationItem implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
-	@FieldMeta(columnName = "CIT_OID")
+	@FieldMeta(columnName = "cit_oid")
 	private Long id;
 	/** Номер */
-	@FieldMeta(columnName = "CIT_ID")
+	@FieldMeta(columnName = "cit_id")
 	private Long no;
 	/** Код поиска */
-	@FieldMeta(columnName = "CIT_SEARCHCODE")
+	@FieldMeta(columnName = "cit_searchcode")
 	private String searchCode;
 	/** Название */
-	@FieldMeta(columnName = "CIT_NAME1")
+	@FieldMeta(columnName = "cit_name1")
 	private String name;
 	/** Дополнитеьные сведения */
-	@FieldMeta(columnName = "CIT_NAME2")
+	@FieldMeta(columnName = "cit_name2")
 	private String description;
 	/** Счет-фактура */
-	@FieldMeta(columnName = "CIT_ORDERNR")
+	@FieldMeta(columnName = "cit_ordernr")
 	private String orderNr;
 	/** серийный номер */
-	@FieldMeta(columnName = "CIT_SERIALNUMBER")
+	@FieldMeta(columnName = "cit_serialnumber")
 	private String serial;
 	/** Адрес */
-	@FieldMeta(columnName = "CCF_CITEXT1")
+	@FieldMeta(columnName = "ccf_citext1", tableAlias = "custom")
 	private String address;
 	/** Замечание */
-	@FieldMeta(columnName = "CIT_REMARK")
+	@FieldMeta(columnName = "cit_remark")
 	private String remark;
 	/** IP-адрес */
-	@FieldMeta(columnName = "CIT_IPADDRESS")
+	@FieldMeta(columnName = "cit_ipaddress")
 	private String ip;
 	/** цена */
-	@FieldMeta(columnName = "CIT_PRICE")
+	@FieldMeta(columnName = "cit_price")
 	private Double price;
 	/** Наличие вложений */
-	@FieldMeta(columnName = "CIT_ATTACHMENT_EXISTS")
+	@FieldMeta(columnName = "cit_attachment_exists")
 	private Boolean attachmentExists;
 	/** Идендификатор аватарки */
-	@FieldMeta(columnName = "CCF_CISHORTTEXT1")
+	@FieldMeta(columnName = "ccf_cishorttext1", tableAlias = "custom")
 	private String avatarId;
 
-
 	/** Статус */
-	@FieldMeta(columnName = "CIT_STA_OID")
+	@FieldMeta(columnName = "cit_sta_oid")
 	private EntityStatus status;
 	/** Категория */
-	@FieldMeta(columnName = "CIT_CAT_OID")
+	@FieldMeta(columnName = "cit_cat_oid")
 	private EntityCategory category;
 	/** Местоположение */
-	@FieldMeta(columnName = "CIT_LOC_OID")
+	@FieldMeta(columnName = "cit_loc_oid")
 	private Location location;
 	/** папка доступа */
-	@FieldMeta(columnName = "CIT_POO_OID")
+	@FieldMeta(columnName = "cit_poo_oid")
 	private Folder folder;
 	/** бренд */
-	@FieldMeta(columnName = "CIT_BRA_OID")
+	@FieldMeta(columnName = "cit_bra_oid")
 	private Brand brand;
 
 	/** Дата покупки */
-	@FieldMeta(columnName = "CIT_PURCHASEDATE")
+	@FieldMeta(columnName = "cit_purchasedate")
 	private Date purchaseDate;
 	/** Дата гарантии */
-	@FieldMeta(columnName = "CIT_WARRANTYDATE")
+	@FieldMeta(columnName = "cit_warrantydate")
 	private Date warrantyDate;
 	/** Дата инвентаризации */
-	@FieldMeta(columnName = "CCF_CIDATE1")
+	@FieldMeta(columnName = "ccf_cidate1", tableAlias = "custom")
 	private Date inventoryDate;
 
 	/** Администратор объекта */
-	@FieldMeta(columnName = "CIT_ADMIN_PER_OID")
+	@FieldMeta(columnName = "cit_admin_per_oid")
 	private Person admin;
 	/** Владелец */
-	@FieldMeta(columnName = "CIT_OWNER_PER_OID")
+	@FieldMeta(columnName = "cit_owner_per_oid")
 	private Person owner;
 	/** Организация-владелец */
-	@FieldMeta(columnName = "CIT_OWNER_ORG_OID")
+	@FieldMeta(columnName = "cit_owner_org_oid")
 	private Organization ownerOrganization;
 	/** Плательщик */
-	@FieldMeta(columnName = "CCF_ORG1_OID")
+	@FieldMeta(columnName = "ccf_org1_oid", tableAlias = "custom")
 	private Organization payer;
 	/** Поставщик */
-	@FieldMeta(columnName = "CIT_ORG_OID")
+	@FieldMeta(columnName = "cit_org_oid")
 	private Organization supplier;
-
 
 	@Override
 	public Long getId() {

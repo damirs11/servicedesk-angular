@@ -22,4 +22,8 @@ public @interface ClassMeta {
 	 */
 	String title() default "";
 
+	/**
+	 * Название стандартного алиаса
+	 */
+    String tableAlias() default "";
 }

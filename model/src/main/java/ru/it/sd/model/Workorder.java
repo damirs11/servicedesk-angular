@@ -12,57 +12,63 @@ import java.util.Date;
  * @author quadrix
  * @since 03.05.2017
  */
-@ClassMeta(tableName = "itsm_workorders")
+@ClassMeta(tableName = "itsm_workorders", tableAlias = "w")
 public class Workorder implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
-	@FieldMeta(columnName = "WOR_OID")
+	@FieldMeta(columnName = "wor_oid")
 	private Long id;
 	/** Номер */
-	@FieldMeta(columnName = "WOR_ID")
+	@FieldMeta(columnName = "wor_id")
 	private Long no;
 	/** Тема */
-	@FieldMeta(columnName = "WOR_DESCRIPTION", maxLength = 80)
+	@FieldMeta(columnName = "wor_description", maxLength = 80)
 	private String subject;
 	/** Описание */
-	@FieldMeta(columnName = "WOI_INFORMATION", maxLength = 4000)
+	@FieldMeta(columnName = "woi_information", maxLength = 4000, tableAlias = "winfo")
 	private String description;
 	/** Трудозатраты */
-	@FieldMeta(columnName = "WCF_DURATION1")
+	@FieldMeta(columnName = "wcf_duration1", tableAlias = "wcustom")
 	private Double labor;
 	/** Решение */
-	@FieldMeta(columnName = "WO1_4K1", maxLength = 4000)
+	@FieldMeta(columnName = "wo1_4k1", maxLength = 4000, tableAlias = "wor4k1")
 	private String solution;
 
 	/** Статус */
+	@FieldMeta(columnName = "wor_sta_oid")
 	private EntityStatus status;
 	/** Категория */
+	@FieldMeta(columnName = "wor_cat_oid")
 	private EntityCategory category;
 	/** Код завершения */
+	@FieldMeta(columnName = "wor_clo_oid")
 	private EntityClosureCode closureCode;
 
 	/** Дата создания */
-	@FieldMeta(columnName = "REG_CREATED")
+	@FieldMeta(columnName = "reg_created")
 	private Date createdDate;
 	/** Крайний срок */
-	@FieldMeta(columnName = "WOR_DEADLINE")
+	@FieldMeta(columnName = "wor_deadline")
 	private Date deadline;
 	/** Фактически выполнено */
-	@FieldMeta(columnName = "WOR_ACTUALFINISH")
+	@FieldMeta(columnName = "wor_actualfinish")
 	private Date resolvedDate;
 	/** Дата изменения */
-	@FieldMeta(columnName = "REG_MODIFIED")
+	@FieldMeta(columnName = "reg_modified")
 	private Date modifyDate;
 	/** Наряд просрочен */
-	@FieldMeta(columnName = "WCF_BOOLEAN2")
+	@FieldMeta(columnName = "wcf_boolean2", tableAlias = "wcustom")
 	private Boolean expired;
 
 	/** Инициатор */
+	@FieldMeta(columnName = "wor_requestor_per_oid")
 	private Person initiator;
 	/** Исполнитель */
+	@FieldMeta(columnName = "ass_per_to_oid")
 	private Person assigneePerson;
 
 	/** Изменение */
+	@FieldMeta(columnName = "wor_cha_oid")
 	private Change change;
 
 
