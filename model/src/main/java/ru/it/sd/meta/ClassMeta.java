@@ -25,5 +25,5 @@ public @interface ClassMeta {
 	/**
 	 * Название стандартного алиаса
 	 */
-    String TableAlias() default "";
+    String tableAlias() default "";
 }

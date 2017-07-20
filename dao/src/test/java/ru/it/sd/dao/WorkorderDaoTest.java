@@ -39,11 +39,11 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 	@Test
 	private void testFindByFilter(){
 
-		HashMap<String, String> firstFilter = new HashMap<>();
+		Map<String, String> firstFilter = new HashMap<>();
 		firstFilter.put("initiator","1");
-		HashMap<String, String> secondFilter = new HashMap<>();
+		Map<String, String> secondFilter = new HashMap<>();
 		secondFilter.put("initiator","2");
-		HashMap<String, String> thirdFilter = new HashMap<>();
+		Map<String, String> thirdFilter = new HashMap<>();
 		thirdFilter.put("initiator","1");
 		thirdFilter.put("assigneePerson","2");
 
@@ -55,7 +55,7 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 		assertEquals(workorders.size(),1);
 		assertNotNull(workorders.get(0).getAssigneePerson());
 
-		HashMap<String, String> byChangeFilter = new HashMap<>();
+		Map<String, String> byChangeFilter = new HashMap<>();
 		byChangeFilter.put("change_like","111222");
 		workorders = dao.list(byChangeFilter);
 		assertEquals(workorders.size(), 1);

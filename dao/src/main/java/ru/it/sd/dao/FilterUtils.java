@@ -1,12 +1,15 @@
 package ru.it.sd.dao;
 
-import org.apache.commons.collections.MultiMap;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.meta.FieldMetaData;
 import ru.it.sd.meta.MetaUtils;
+import ru.it.sd.util.CheckUtils;
+import ru.it.sd.util.ResourceMessages;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
@@ -36,7 +39,7 @@ public class FilterUtils {
     }
 
     /**
-     * Добовляет к запросу условия для данного класса по фильтру
+     * Добавляет к запросу условия для данного класса по фильтру
      *
      * @param queryPart    строка в которую добавляются фильтры поиска (WHERE .... AND (.....) AND (....) OR (....))
      * @param params       список параметров, которые вставляются в запрос при его отправке в бд
@@ -97,10 +100,9 @@ public class FilterUtils {
      * Функция добовляющая условие на равенство одиночных значений и списка значений
      *
      * @param fmd    мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
-     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix(MultiMap, FieldMetaData)}
+     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix}
      * @param value значение(я) фильтра для конкретного поля
      * @param params  список параметров, которые вставляются в запрос при его отправке в бд
-     * @return строку с условием
      */
     private static void equalComparison(StringBuilder queryPart, FieldMetaData fmd,MapSqlParameterSource params, String value, String prefix){
         Comparison type = Comparison.EQUAL;
@@ -140,7 +142,7 @@ public class FilterUtils {
      * Функция добовляющая условие на схожесть значений
      *
      * @param fmd    мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
-     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix(MultiMap, FieldMetaData)}
+     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix}
      * @param value значение(я) фильтра для конкретного поля
      * @param params  список параметров, которые вставляются в запрос при его отправке в бд
      * @return строку с условием
@@ -166,7 +168,7 @@ public class FilterUtils {
      * Функция добовляющая условие меньше конкретного значения (<=10)
      *
      * @param fmd    мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
-     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix(MultiMap, FieldMetaData)}
+     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix}
      * @param value значение(я) фильтра для конкретного поля
      * @param params  список параметров, которые вставляются в запрос при его отправке в бд
      * @return строку с условием
@@ -191,7 +193,7 @@ public class FilterUtils {
      * Функция добовляющая условие больше конкретного значения (<=10)
      *
      * @param fmd    мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
-     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix(MultiMap, FieldMetaData)}
+     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix}
      * @param value значение(я) фильтра для конкретного поля
      * @param params  список параметров, которые вставляются в запрос при его отправке в бд
      * @return строку с условием
@@ -216,7 +218,7 @@ public class FilterUtils {
      * Функция добовляющая условие для промежутка значений (1:10)
      *
      * @param fmd    мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
-     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix(MultiMap, FieldMetaData)}
+     * @param prefix префикс таблицы, определяется в функции {@link #getPrefix}
      * @param value значение(я) фильтра для конкретного поля
      * @param params  список параметров, которые вставляются в запрос при его отправке в бд
      * @return строку с условием
@@ -239,20 +241,19 @@ public class FilterUtils {
     }
 
     /**
-     * Функция проверяет входит ли поле fmd в filterFields, если нет то данное поле будет исключено из фильтра
+     * Получить алиас таблицы для поля
      *
-     * @param clazz класс объекта для получения данных из аннотации класа {@link ClassMeta#TableAlias()}
-     * @param fmd          мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}, для получения данных из {@link FieldMeta#TableAlias()}
+     * @param clazz класс объекта для получения данных из аннотации класа {@link ClassMeta#tableAlias()}
+     * @param fmd мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}, для получения данных из {@link FieldMeta#tableAlias()}
      * @return алиас таблицы
      */
-    private static String getPrefix(Class clazz, FieldMetaData fmd) {
-
-        if(fmd.getTableAlias().isEmpty()){
-            ClassMeta classMeta = (ClassMeta)clazz.getAnnotation(ClassMeta.class);
-            return classMeta.TableAlias();
-        }else {
+    private static String getPrefix(@NotNull Class clazz, @NotNull FieldMetaData fmd) {
+        if(StringUtils.isNotBlank(fmd.getTableAlias())) {
             return fmd.getTableAlias();
         }
+        ClassMeta classMeta = (ClassMeta)clazz.getAnnotation(ClassMeta.class);
+        CheckUtils.requireNotNull(classMeta, ResourceMessages.getMessage("error.table.alias.not.found"));
+        return classMeta.tableAlias();
     }
 
 

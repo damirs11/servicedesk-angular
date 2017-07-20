@@ -63,5 +63,5 @@ public @interface FieldMeta {
 	/**
 	 * Название алиаса поля
 	 */
-    String TableAlias() default "";
+    String tableAlias() default "";
 }

@@ -1,19 +1,16 @@
 package ru.it.sd.dao;
 
-import ru.it.sd.model.Change;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.testng.annotations.Test;
+import ru.it.sd.model.Change;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
+import static org.testng.Assert.*;
 
 /**
  * @author quadrix
@@ -36,6 +33,7 @@ public class ChangeDaoTest extends AbstractDaoTest {
 		assertEquals(111222L, change.getId().longValue());
 		assertEquals(112L, change.getNo().longValue());
 	}
+
 	@Test
 	private void testByFilter() {
 		HashMap<String, String> filter = new HashMap<>();
@@ -52,6 +50,5 @@ public class ChangeDaoTest extends AbstractDaoTest {
 		filter.put("no_between","10:16");
 		change = dao.list(filter);
 		assertEquals(change.size(), 3);
-
 	}
 }

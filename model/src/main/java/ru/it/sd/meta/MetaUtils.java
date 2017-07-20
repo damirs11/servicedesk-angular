@@ -106,7 +106,7 @@ public class MetaUtils {
 		if (meta != null) {
 			md.setAnnotation(true);
 			md.setColumnName(meta.columnName());
-			md.setTableAlias(meta.TableAlias());
+			md.setTableAlias(meta.tableAlias());
 			md.setMaxLength(meta.maxLength());
 			md.setMinLength(meta.minLength());
 			md.setMax(meta.max());
