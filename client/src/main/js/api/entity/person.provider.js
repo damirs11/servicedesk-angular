@@ -68,9 +68,9 @@ function PersonProvider(EditableEntity, SD, $connector) {
          * @type {String}
          */
         get shortName(){
-            return this.lastName
-                + this.firstName ? " " + this.firstName[0] + "." : ""
-                + this.middleName ? " " + this.middleName[0] + "." : ""
+            return this.lastName +
+                (this.firstName ? " " + this.firstName[0] + "." : "") +
+                (this.middleName ? " " + this.middleName[0] + "." : "")
         }
 
         /**
