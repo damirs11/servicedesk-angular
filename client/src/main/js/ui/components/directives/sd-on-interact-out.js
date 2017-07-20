@@ -33,7 +33,7 @@ function SDOnInteractOutDirective($parse) {
         if ($attrs['sdOnInteractOutIf']) {
             $scope.$watch(condition, (newValue, oldValue) => {
                 if ( Boolean(newValue) == Boolean(oldValue) ) return;
-                if ( Boolean(newValue) ) {
+                if (newValue) {
                     body.addEventListener("mousedown",listener)
                 } else {
                     body.removeEventListener("mousedown", listener)

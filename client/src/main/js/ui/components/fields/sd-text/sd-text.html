@@ -1,0 +1,30 @@
+<div data-ng-hide="ctrl.isEditMode">
+    <span data-ng-hide="ctrl.isEditable">{{ctrl.displayValue}}</span>
+    <a data-ng-show="ctrl.isEditable" href="javascript:void(0)" data-ng-click="ctrl.edit()">{{ctrl.displayValue}}</a>
+</div>
+
+<form novalidate name="$parent.ctrl.formEdit" data-ng-show="ctrl.isEditMode"
+     data-sd-on-interact-out="ctrl.log()" ng-submit="commit()">
+
+    <div class="form-group input-group" ng-class="{ 'has-error': ctrl.formEdit.input.$invalid }">
+        <input class="form-control error"
+               name="input"
+               type="text"
+               name="field"
+               ng-model="ctrl.editedValue"
+               data-sd-focus="ctrl.isEditMode"
+               data-ng-maxlength="ctrl.maxLength"
+               data-ng-minlength="ctrl.minLength"
+               data-ng-required="isAllowEmpty"
+        >
+
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" data-ng-click="ctrl.commit()">
+                <span class="glyphicon glyphicon-ok"></span>
+            </button>
+            <button type="button" class="btn btn-default" data-ng-click="ctrl.commit()">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </span>
+    </div>
+</form>

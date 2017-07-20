@@ -4,7 +4,14 @@
         <button data-ng-click="ctrl.logSC()" class="btn btn-default">Логнуть заявку</button>
     </div>
 
-    <field-text target="ctrl.servicecall.subject"
-                name="Тема"
-    />
+    <div class="entity-content">
+        <div class="col-md-6">
+            <div class="property">
+                <div class="property__name">Тема:</div>
+                <div class="property__value">
+                    <sd-text target="ctrl.servicecall.subject" max-length="13"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

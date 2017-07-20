@@ -11,7 +11,7 @@ class TestController {
 
     $onInit(){
         this.servicecall = {
-            subject: "Тема заявки!",
+            subject: "Длинная тема заявки",
         }
     }
 
