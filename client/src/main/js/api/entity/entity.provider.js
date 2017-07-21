@@ -164,14 +164,17 @@ function EntityProvider($connector,cache) {
          * Осуществляет поиск сущностей по фильтру
          */
         static async list(params){
-            const data = await $connector.get(`rest/entity/${this.name}`, params);
-            if (!data || !data.total || !data.list) {
-                console.error('Список данных не получен или имеет неправильную структуру');
-                return null;
-            }
-            //let list = data.list.map(this.constructor.parse); //todo преобразование в объекты выполнить здесь
-            let list = data.list;
-            return new PagingList(list, data.total);
+            let data = await $connector.get(`rest/entity/${this.name}`, params);
+            // debugger;
+            // if (!data || !data.total || !data.list) {
+            //     console.error('Список данных не получен или имеет неправильную структуру');
+            //     return null;
+            // }
+            if (data.list) data = data.list;
+            return data.map(::this.parse); //todo преобразование в объекты выполнить здесь
+            // let list = data.list;
+            // return new PagingList(list, data.total);
+
         }
 
     }

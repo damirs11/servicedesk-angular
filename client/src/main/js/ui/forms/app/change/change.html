@@ -1,0 +1,70 @@
+<div class="container well entity-container" data-ng-show="ctrl.change && !ctrl.loading">
+    <div class="entity-header">
+        <a data-ui-sref="app.changes">[<<]</a>
+        <span>{{ctrl.change.subject}}</span>
+    </div>
+
+    <hr class="entity-separator">
+    <div class="entity-tools container-fluid row">
+        <div class="col-md-6">
+            <button class="btn btn-default" data-ng-click="window.alert('Наряд создан')">Тут должны быть кнопки</button>
+        </div>
+        <div class="col-md-6" style="text-align: right">
+            Статус персоны Активен/Уволен
+        </div>
+    </div>
+
+    <hr class="entity-separator">
+    <div >
+        <div style="font-weight: bold;">Подробная информация: </div>
+        {{ ctrl.change.description || 'Нет дополнительной информации' }}
+    </div>
+
+    <hr class="entity-separator">
+    <div class="entity-content">
+        <div class="col-md-6">
+            <div class="property">
+                <div class="property__name">Инициатор:</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="property">
+                <div class="property__name">Менеджер:</div>
+                <div class="property__value" data-ng-bind="ctrl.change.manager || ctrl.emptyValue"></div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="entity-separator">
+</div>
+
+<div data-ng-show="ctrl.loading" style="padding-top: 200px; text-align: center">
+    <div>Загрузка</div>
+</div>
+
+<div class="container" data-ng-if="ctrl.loadingError && !ctrl.loading" style="padding-top: 200px; text-align: center">
+    <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsNotFound">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Персона не найдена
+            </h3>
+        </div>
+        <div class="panel-body">
+            Перейдите ко
+            <a data-ui-sref="app.changes">списку изменений</a>,
+            чтобы найти нужное изменение
+        </div>
+    </div>
+    <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsCustom">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Возникла непредвиденная ошибка
+            </h3>
+        </div>
+        <div class="panel-body">
+            <span data-ng-bind="ctrl.loadingError"></span>
+        </div>
+    </div>
+</div>

@@ -4,7 +4,7 @@
  */
 import {servicedeskAPI} from "../api/servicedesk-api";
 import {DialogsConfig} from "./components/dialogs/dialogs.config";
-import {uiRouter, translate, uiBootstrap, uiGrid, uiGridSelection, uiGridPagination, ngSanitize, utilsEntity, ngMessages} from "../common/web-libraries.const";
+import {uiRouter, translate, uiBootstrap, uiGrid, uiGridSelection, uiGridPagination, ngSanitize, xeditable, ngMessages} from "../common/web-libraries.const";
 import {TranslateConfig} from "./components/translate/translate.config";
 import {default as ModalAction} from "./components/modal-action/modal-action";
 import {EqualsTo} from "./components/validators/equals-to";
@@ -15,9 +15,10 @@ import {IndexController} from "./index.ctrl";
 import {SDFocusDirective} from "./components/directives/sd-focus.directive";
 import {SDOnInteractOutDirective} from "./components/directives/sd-on-interact-out";
 import {SDTextComponent} from "./components/fields/sd-text/sd-text.component";
+import {SDSelectComponent} from "./components/fields/sd-select/sd-select.component";
 
 export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, ModalAction, uiRouter, ngMessages, translate,
-        uiBootstrap, ngSanitize, uiGrid, uiGridSelection, uiGridPagination])
+        uiBootstrap, ngSanitize, uiGrid, uiGridSelection, uiGridPagination, xeditable])
     .config(TranslateConfig)
     .config(FormConfig)
     .config(DialogsConfig)
@@ -27,5 +28,6 @@ export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, M
     .directive("sdFocus",SDFocusDirective)
     .directive("sdOnInteractOut",SDOnInteractOutDirective)
     .component("sdText", SDTextComponent)
+    .component("sdSelect", SDSelectComponent)
     .controller("IndexController",IndexController)
     .name;

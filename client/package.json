@@ -49,6 +49,7 @@
     "angular-sanitize": "^1.6.4",
     "angular-translate": "^2.15.2",
     "angular-ui-grid": "^4.0.6",
+    "angular-xeditable": "^0.8.0",
     "babel-polyfill": "^6.23.0",
     "bootstrap": "^3.3.7",
     "jquery": "^3.2.1"

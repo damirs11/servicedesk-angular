@@ -10,6 +10,7 @@ import {WorkordersState} from "./app/workorders/workorders.state";
 import {PersonsState} from "./app/persons/persons.state";
 import {ConfigurationItemsState} from "./app/configurationItems/configurationItems.state";
 import {QuestionsState} from "./app/questions/questions.state";
+import {ChangeState} from "./app/change/change.state";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -27,6 +28,7 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(ConfigurationItemsState)
         .state(QuestionsState)
         .state(PersonState)
+        .state(ChangeState)
         .state(TestState)
 }
 

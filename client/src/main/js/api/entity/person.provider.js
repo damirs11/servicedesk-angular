@@ -86,6 +86,10 @@ function PersonProvider(EditableEntity, SD, $connector) {
                 .join(' ')
             ;
         }
+
+        toString(){
+            return this.fullName
+        }
     };
 }
 

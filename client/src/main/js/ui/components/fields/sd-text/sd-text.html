@@ -4,7 +4,7 @@
 </div>
 
 <form novalidate name="$parent.ctrl.formEdit" data-ng-show="ctrl.isEditMode"
-     data-sd-on-interact-out="ctrl.log()" ng-submit="commit()">
+     data-sd-on-interact-out="ctrl.log()" ng-submit="ctrl.commit()">
 
     <div class="form-group input-group" ng-class="{ 'has-error': ctrl.formEdit.input.$invalid }">
         <input class="form-control error"
@@ -19,7 +19,7 @@
         >
 
         <span class="input-group-btn">
-            <button type="button" class="btn btn-default" data-ng-click="ctrl.commit()">
+            <button type="submit" class="btn btn-default">
                 <span class="glyphicon glyphicon-ok"></span>
             </button>
             <button type="button" class="btn btn-default" data-ng-click="ctrl.commit()">

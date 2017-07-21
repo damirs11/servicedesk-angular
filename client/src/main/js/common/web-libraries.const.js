@@ -10,3 +10,4 @@ export const uiGridPagination ='ui.grid.pagination';
 export const uiTest = 'ui.test';
 export const utilsEntity = 'utils.entity';
 export const jQuery = window.jQuery;
+export const xeditable = "xeditable";

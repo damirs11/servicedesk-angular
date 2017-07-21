@@ -61,8 +61,10 @@ class SDTextController{
 
     cancel() {
         if (this.state === "show") return;
-        // ToDo проверить валидность поля. Если оно пустое
-        console.log("CANCEL");
+        if (!this.editedValue && !this.isAllowEmpty) {
+            // ToDo запретить выход
+            return;
+        }
         this.editedValue = null;
         this.state = "show"
     }
