@@ -39,8 +39,10 @@ public class ChangeDao extends AbstractDao {
 
 	public List<Change> list(Map<String, String> filter) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
+		StringBuilder queryPart = new StringBuilder();
+		FilterUtils.createFilter(queryPart, params, filter, Change.class);
 		return namedJdbc.query(
-				MessageFormat.format(SELECT_ALL_SQL, ""),
+				MessageFormat.format(SELECT_ALL_SQL, queryPart),
 				params, extractor);
 	}
 

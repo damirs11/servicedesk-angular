@@ -12,7 +12,7 @@ import java.util.Date;
  * @author quadrix
  * @since 03.05.2017
  */
-@ClassMeta(tableName = "itsm_changes")
+@ClassMeta(tableName = "itsm_changes", tableAlias ="ch")
 public class Change implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
@@ -25,7 +25,7 @@ public class Change implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "cha_description")
 	private String subject;
 	/** Описание */
-	@FieldMeta(columnName = "chi_information")
+	@FieldMeta(columnName = "chi_information", tableAlias = "ci")
 	private String description;
 	/** Статус */
 	@FieldMeta(columnName = "cha_sta_oid")
@@ -141,5 +141,22 @@ public class Change implements HasId, HasStatus, Serializable {
 
 	public void setManager(Person manager) {
 		this.manager = manager;
+	}
+
+	@Override
+	public String toString() {
+		return "Change{" +
+				"id=" + id +
+				", no=" + no +
+				", subject='" + subject + '\'' +
+				", description='" + description + '\'' +
+				", status=" + status +
+				", priority=" + priority +
+				", createdDate=" + createdDate +
+				", deadline=" + deadline +
+				", resolvedDate=" + resolvedDate +
+				", initiator=" + initiator +
+				", manager=" + manager +
+				'}';
 	}
 }

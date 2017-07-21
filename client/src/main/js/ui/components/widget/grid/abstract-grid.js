@@ -15,7 +15,7 @@ class AbstractGrid {
         if (!entityClass) {
             throw new TypeError('Аргумент "entityClass" должен быть задан!');
         }
-        this.$scope = $scope.$new(true); // Создаем дочерний скоуп
+        this.$scope = $scope;
         this.$connector = $connector;
         this.entityClass = entityClass; // Класс, данные которого будут отображаться в таблице
         this.grid = null; // Выставляем при инициализации таблицы
@@ -40,9 +40,10 @@ class AbstractGrid {
         this.columnDefs = []; // Описание колонок таблицы
         this.data = []; // Содержимое таблицы
         this.totalItems = 0; // Общее количество данных без учета постраничного просмотра
+
+        $scope._onDblClick = this._onDblClick;
     }
 
-    //todo не работает !!!
     _onDblClick(row) {
         console.log('dbl click');
         if (row.entity) {

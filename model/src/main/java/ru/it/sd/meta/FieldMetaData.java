@@ -26,6 +26,10 @@ public class FieldMetaData implements Cloneable {
 	 */
 	private String columnName;
 	/**
+	 * Название столбца в бд
+	 */
+	private String tableAlias;
+	/**
 	 * Максимальное количество символов в строке.
 	 */
 	private int maxLength = Integer.MAX_VALUE;
@@ -152,6 +156,14 @@ public class FieldMetaData implements Cloneable {
 
 	public void setPattern(String pattern) {
 		this.pattern = pattern;
+	}
+
+	public String getTableAlias() {
+		return tableAlias;
+	}
+
+	public void setTableAlias(String tableAlias) {
+		this.tableAlias = tableAlias;
 	}
 
 	private boolean isNumberClass() {
