@@ -1,36 +1,39 @@
-class SDTextController{
-    /**
-     * Положение компоненты
-     * view - просто отображать текст
-     * loading - загружает данные.
-     * edit - предоставляет редактирование
-     * error - произошла ошибка
-     * @type {string}
-     */
-    state = "view";
+class SDSelectController{
+    viewMode = true;
+    loading = false;
+    ready = false;
+    error = false;
+
     /**
      * Массив данных для выбора
      * @type {Array|null}
      */
     values = null;
 
+    $onInit(){
+
+    }
+
     /** Геттеры отвечающие за состояние компоненты */
     get isEditMode(){
-        return this.state === "edit";
+        return !this.viewMode
     }
 
     get isViewMode(){
-        return this.state === "view";
+        return this.viewMode;
     }
 
-    get isLoadingMode(){
-        return this.state === "loading";
+    get isLoading(){
+        return this.loading;
     }
 
-    get isErrorMode(){
-        return this.state === "error";
+    get isError(){
+        return this.error;
     }
-    /* Геттеры отвечающие за состояние компоненты */
+
+    get isReady(){
+        return this.ready;
+    }
 
     /** Геттеры параметров и значений */
     get isEditable(){
@@ -43,44 +46,25 @@ class SDTextController{
     }
 
     get isAllowEmpty(){
-        if (this.allowEmpty === "" || this.allowEmpty === "true") {
-            return true;
-        }
-        return false;
+        if (this.allowEmpty === undefined) return true;
+        return Boolean(this.allowEmpty);
     }
 
-    /**
-     *
-     */
-    display(value){
-        if (value == null) {
-            return this.emptyValue || "- нет -"
-        }
-        return value.toString() // ToDo пробрасывать в компоненту display функцию.
+    get currentDisplay(){
+        return this.display(this.target)
     }
 
     /**
      * Возвращает строку - текущее значение.
      * @returns {*}
      */
-    get currentDisplay(){
-        return this.display(this.target)
-    }
-    /* Геттеры параметров и значений*/
-
-    async loadValues(){
-        this.state = "loading";
-        try {
-            this.values = await this.resolveData()
-        } catch (error) {
-            this.state = "error";
-            return;
+    display(value){
+        if (value == null) {
+            return this.emptyValue || "- нет -"
         }
-        this.state = "edit"
-    }
-
-    $onInit(){
-
+        const view = this.displayValue({$value:value});
+        if (view == undefined) return value.toString();
+        return view;
     }
 
     /**
@@ -90,10 +74,25 @@ class SDTextController{
         this.selectedValue = value;
     }
 
+    async _loadValues(){
+        this.loading = true;
+        try {
+            this.values = await this.resolveData();
+        } catch (error) {
+            this.error = true;
+            return;
+        }
+        this.loading = false;
+        this.ready = true;
+    }
+
+
+
     /** Методы меняющие состояние компоненты */
-    edit() {
+    async edit() {
+        if (!this.values) await this._loadValues();
         this.selectedValue = this.target; // Делаем редактируемое значение копией переданного
-        this.state = "edit";
+        this.viewMode = false;
     }
 
     commit(value) {
@@ -106,30 +105,31 @@ class SDTextController{
         this.onCommit({$event:event}); // Кидаем эвент
 
         if (event.canceled) return; // Если его отменили - выходим
-        console.log(event);
         this.target = event.newValue; // Коммитим значение
         this.selectedValue = null; // Обнуляем наше "редактируемое"
-        this.state = "view";
+        this.viewMode = true;
+    }
+
+
+    cancel() {
+        this.selectedValue = null;
+        this.viewMode = true;
     }
 
     /**
      * Пользователь нажал вне редактируемой формы
      */
     onClickOut(){
-        if (!this.editedValue || !this.formEdit.input.$valid) {
-            console.log("HIGHLIGHT INPUT")
-        }
+        this.cancel();
     }
 
-    cancel() {
-        if (!this.editedValue && !this.isAllowEmpty) {
-            // ToDo запретить выход
-            return;
+    onButtonKeydown($event) {
+        if ($event.keyCode == 13) {
+            this.cancel();
+            return false;
         }
-        this.editedValue = null;
-        this.state = "view"
     }
     /* Методы меняющие состояние компоненты  */
 }
 
-export {SDTextController}
+export {SDSelectController}

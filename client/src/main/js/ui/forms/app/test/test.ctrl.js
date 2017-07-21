@@ -1,17 +1,22 @@
 import {TestGridOptions} from "./grid.config";
 
 class TestController {
-    static $inject = ['$scope', 'ModalAction'];
+    static $inject = ['$scope', 'ModalAction','SD'];
 
-    constructor($scope, ModalAction) {
+    constructor($scope, ModalAction,SD) {
         this.$scope = $scope;
         this.ModalAction = ModalAction;
-        // this.gridOptions = new TestGridOptions($scope);
+        this.SD = SD;
+    }
+
+    async log(){
+        console.log("TEST");
     }
 
     $onInit(){
         this.servicecall = {
             subject: "Длинная тема заявки",
+            change: this.SD.Change.parse({no:-15})
         }
     }
 
@@ -22,6 +27,10 @@ class TestController {
             style: 'dialog-header-error'
         });
         //aplanaDialogs.error('Ошибка', 'Превышен лимит стоимости заказа на производство', {});
+    }
+
+    async loadChanges(){
+        this.changes = await this.SD.Change.list();
     }
 
     logSC(){

@@ -5,6 +5,21 @@
     </div>
 
     <div class="entity-content">
-        Тема: <sd-select target="ctrl.servicecall.status"/>
+        Изменение: <sd-select target="ctrl.servicecall.change"
+                              resolve-data="ctrl.SD.Change.list()"
+                              empty-value="не выбрано"
+                              on-commit="ctrl.log()"
+                              enabled="true"
+                              allow-empty="true"
+                              display-value="'Изменение №'+$value"
+                    />
+        <br>
+        Изменение:
+        <a href="javascript:void(0)"
+           editable-select="ctrl.servicecall.change"
+           onshow="ctrl.loadChanges()"
+           e-ng-options="ch as ch.subject for ch in ctrl.changes">
+            {{ ctrl.servicecall.change || 'Не выбрано' }}
+        </a>
     </div>
 </div>

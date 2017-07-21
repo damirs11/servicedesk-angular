@@ -1,5 +1,5 @@
 import template from "./sd-select.html"
-import {SDTextController as controller} from "./sd-select.ctrl"
+import {SDSelectController as controller} from "./sd-select.ctrl"
 
 /**
  * Компонента для редактируемого текста
@@ -7,9 +7,9 @@ import {SDTextController as controller} from "./sd-select.ctrl"
  * enabled {expr-Boolean} - выражение, определяющее можно ли редактировать поле
  * allow-empty {expr-Boolean} - разрешить пустое значение
  * empty-value {String} - отображаемое значение, когда поле пустое
- * values-name {String} - Строка, отвечающая за название выбираемого объекта. (Выберите %valuesName%)
  * on-commit {expression($event)} - кэлбэк при коммите.
  * resolve-data {expression} - вызовется, чтобы получить данные
+ * display-value {expression} - функция отображения данных
  */
 const SDSelectComponent = {
     template: template,
@@ -20,9 +20,9 @@ const SDSelectComponent = {
         enabled: "<",
         allowEmpty: "<",
         emptyValue: "@",
-        valuesName: "@",
         onCommit: "&",
-        resolveData: "&"
+        resolveData: "&",
+        displayValue: "&"
     }
 };
 

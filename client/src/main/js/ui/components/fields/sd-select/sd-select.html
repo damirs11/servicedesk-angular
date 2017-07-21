@@ -1,43 +1,38 @@
-<div data-ng-show="ctrl.isViewMode">
-    <span data-ng-hide="ctrl.isEditable">{{ctrl.currentDisplay}}</span>
-    <a data-ng-show="ctrl.isEditable" href="javascript:void(0)" data-ng-click="ctrl.edit()">{{ctrl.currentDisplay}}</a>
-</div>
+<div style="display: inline-block">
 
-<form novalidate name="$parent.ctrl.formEdit" data-ng-if="ctrl.isEditMode"
-     data-sd-on-interact-out="ctrl.log()" ng-submit="ctrl.commit()">
+    <div data-ng-show="ctrl.isViewMode">
+        <span data-ng-hide="ctrl.isEditable">{{ctrl.currentDisplay}}</span>
+        <a data-ng-show="ctrl.isEditable" href="javascript:void(0)" data-ng-click="ctrl.edit()">{{ctrl.currentDisplay}}</a>
+    </div>
 
-    <div class="form-group input-group" ng-class="{ 'has-error': ctrl.formEdit.input.$invalid }">
-        <div class="btn-group">
-            <button type="submit"
-                    class="btn btn-default dropdown-toggle"
-                    data-ng-hide="ctrl.isErrorMode"
-                    data-ng-disabled="ctrl.isLoadingMode"
-                    sd-focus="ctrl.isEditable"
-                    onkeydown="
-                        console.log('KEYDOWN');
-                        if (event.keyCode==40) {
-                            $(this).parent().next().children().first().find('a').focus();
-                            return false;
-                        } else if (event.keyCode==38) {
-                            $(this).parent().next().children().last().find('a').focus();
-                            return false;
-                    }">
-                <span ng-bind="ctrl.currentDisplay"></span> <span class="caret"></span>
-            </button>
+    <div data-ng-show="ctrl.isEditMode"
+         data-sd-on-interact-out="ctrl.onClickOut()"
+         data-sd-on-interact-out-if="ctrl.isEditMode">
 
-            <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                <li ng-show="ctrl.isAllowEmpty">
-                    <a href="javascript:void(0)" ng-click="ctrl.select(null);ctrl.save(null)" ng-bind="ctrl.emptyValue" sd-focus="ctrl.isEditMode && this.selectedValue == null"></a>
-                </li>
-                <li ng-repeat="el in ctrl.values">
-                    <a href="javascript:void(0)" ng-click="ctrl.select(el);$save(el)">
-                        <span ng-bind="ctrl.display(el)"></span>
-                    </a>
-                </li>
-            </ul>
-
-
-
+        <div class="input-group">
+            <div class="btn-group" data-ng-class="{'open': (ctrl.isReady && ctrl.isEditMode) }">
+                <button type="button"
+                        class="btn btn-default dropdown-toggle"
+                        data-ng-hide="ctrl.isError"
+                        data-ng-disabled="ctrl.isLoading"
+                        sd-focus="ctrl.isEditable && ctrl.isReady"
+                        data-toggle="dropdown"
+                        data-ng-keydown="ctrl.onButtonKeydown($event)">
+                    <span ng-bind="ctrl.currentDisplay"></span> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                    <li ng-show="ctrl.isAllowEmpty">
+                        <a href="javascript:void(0)" ng-click="ctrl.select(null);ctrl.commit(null)" ng-bind="ctrl.display(null)"></a>
+                    </li>
+                    <!--ToDo поправить track by el.id, чтобы sd-select могла работать не только с entity-->
+                    <li ng-repeat="el in ctrl.values track by el.id">
+                        <a href="javascript:void(0)" ng-click="ctrl.select(el);ctrl.commit(el)">
+                            <span ng-bind="ctrl.display(el)"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-</form>
+
+</div>
