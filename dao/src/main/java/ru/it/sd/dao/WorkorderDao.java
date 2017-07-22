@@ -7,9 +7,11 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.WorkorderMapper;
+import ru.it.sd.model.PagingRange;
 import ru.it.sd.model.Workorder;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -103,5 +105,13 @@ public class WorkorderDao extends AbstractDao {
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
+	}
+	public int getTotal(Map<String, String> filter) {
+		// Чтобы получить общее количество строк с учетом фильтрации, то
+		// выполняем обычный запрос на получение списка, но без условия отбора страницы
+		Map<String, String> filterWithoutPaging = new HashMap<>(filter);
+		filterWithoutPaging.remove(PagingRange.PAGING_PARAM_NAME);
+		List<Workorder> list = list(filterWithoutPaging);
+		return list.size();
 	}
 }
