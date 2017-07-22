@@ -24,10 +24,12 @@ class ChangeController{
     constructor(SD,changeId){
         this.SD = SD;
         this.changeId = changeId;
+        this.emptyValue = "- нет -"
     }
 
     $onInit(){
         this.$loadChange();
+        this.loadPersons("initiators")
     }
 
     get loading(){
@@ -60,11 +62,14 @@ class ChangeController{
         }
     }
 
-    async findPersons(){
-        this.foundPersons = [
-            this.SD.person.parse({id:3,firstName:"Иван",lastName:"Черный"}),
-            this.SD.person.parse({id:3,firstName:"Петр",lastName:"Второй"}),
-        ]
+    /**
+     * Подгружает персон в переменную.
+     * @param varName - название переменной в контроллере
+     * @param filter - фильтр поиска персон
+     * @returns {Promise.<void>}
+     */
+    async loadPersons(varName,filter){
+        this[varName] = await this.SD.Person.list(filter);
     }
 }
 

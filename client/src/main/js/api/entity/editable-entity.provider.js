@@ -15,7 +15,7 @@ function EditableEntityProvider(Entity, SD, $connector) {
          */
         async save(){
             // ToDo сущность должна появиться в кэше.
-            const jsonData = this.$changedData;
+            const jsonData = this.$modifiedData;
             await $connector.patch(`rest/entity/${this.$entityType}/${this.id}`,null,jsonData);
         }
 

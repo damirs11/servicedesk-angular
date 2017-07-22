@@ -24,8 +24,7 @@
                     <li ng-show="ctrl.isAllowEmpty">
                         <a href="javascript:void(0)" ng-click="ctrl.select(null);ctrl.commit(null)" ng-bind="ctrl.display(null)"></a>
                     </li>
-                    <!--ToDo поправить track by el.id, чтобы sd-select могла работать не только с entity-->
-                    <li ng-repeat="el in ctrl.values track by el.id">
+                    <li ng-repeat="el in ctrl.values track by $index">
                         <a href="javascript:void(0)" ng-click="ctrl.select(el);ctrl.commit(el)">
                             <span ng-bind="ctrl.display(el)"></span>
                         </a>

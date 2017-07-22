@@ -10,14 +10,19 @@
             <button class="btn btn-default" data-ng-click="window.alert('Наряд создан')">Тут должны быть кнопки</button>
         </div>
         <div class="col-md-6" style="text-align: right">
-            Статус персоны Активен/Уволен
+            Статус изменения
         </div>
     </div>
 
     <hr class="entity-separator">
     <div >
         <div style="font-weight: bold;">Подробная информация: </div>
-        {{ ctrl.change.description || 'Нет дополнительной информации' }}
+        <a href="javascript:void(0)"
+           editable-textarea="ctrl.change.description"
+           e-rows="3"
+           e-cols="100">
+            <pre>{{ ctrl.change.description || ctrl.emptyValue }}</pre>
+        </a>
     </div>
 
     <hr class="entity-separator">
@@ -25,6 +30,30 @@
         <div class="col-md-6">
             <div class="property">
                 <div class="property__name">Инициатор:</div>
+                <div class="property__value">
+                    <div editable-ui-select="ctrl.change.initiator"
+                         data-e-form="uiSelectForm"
+                         data-e-name="initiator"
+                         name="initiator"
+                         theme="bootstrap"
+                         data-e-reset-search-input="false"
+                         data-e-ng-disabled="false"
+                         data-e-ng-model="change.initiator"
+                         data-e-style="min-width:300px;"
+                    >
+                        {{ctrl.change.initiator}}
+                        <editable-ui-select-match placeholder="State">
+                            {{$select.selected}}
+                        </editable-ui-select-match>
+                        <editable-ui-select-choices
+                                repeat="p in ctrl.initiators | filter: $select.search track by $index"
+                                refresh="ctrl.loadPersons('initiators')"
+                                refresh-delay="0"
+                        >
+                            {{p}}
+                        </editable-ui-select-choices>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-6">

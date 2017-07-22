@@ -105,7 +105,7 @@ function EntityProvider($connector,cache) {
         /**
          * Возвращает объект с измененными полями сущности
          */
-        get $changedData() {
+        get $modifiedData() {
             const serializeData = Object.create(null);
             let obj = this.$data;
             while (obj = Object.getPrototypeOf(obj)) {
@@ -139,6 +139,14 @@ function EntityProvider($connector,cache) {
                 .forEach(key => delete this[key])
             ;
             return this
+        }
+
+        /**
+         * Проверяет, изменяли ли поля данного объекта.
+         * @returns {boolean}
+         */
+        get isModified(){
+            return Object.keys(this).length > 0
         }
 
 

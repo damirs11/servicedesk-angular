@@ -52,6 +52,7 @@
     "angular-xeditable": "^0.8.0",
     "babel-polyfill": "^6.23.0",
     "bootstrap": "^3.3.7",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "ui-select": "^0.19.8"
   }
 }
