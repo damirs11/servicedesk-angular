@@ -108,16 +108,22 @@ class AbstractGrid {
         console.log('fetchData');
         // Формирование параметров запроса
         let params = this._getRequestParams();
-        // Получение данных
-        let data = await this.entityClass.list(params);
+        // Получение данных. Одновременная отправка двух запросов
+        let result = await Promise.all([
+            this.entityClass.count(params),
+            this.entityClass.list(params)
+
+        ]);
+        // Общее количество
+        this.totalItems = result[0];
+        // Данные строк таблицы
         let rows = [];
         let limit = this.paginationPageSize;
-        data.list.every(obj => {
+        result[1].every(obj => {
             rows.push(this.entityClass.parse(obj));
             return rows.length < limit;
         });
         this.data = rows;
-        this.totalItems = data.total;
         //todo
         //updateViewData();
     }
