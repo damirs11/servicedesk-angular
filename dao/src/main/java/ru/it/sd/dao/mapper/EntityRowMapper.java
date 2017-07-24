@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Базовый класс для маппинга DAO. Два интерфейса {@see ResultSetExtractor} и
@@ -55,8 +56,8 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 			throw new AppException(ResourceMessages.getMessage("error.class.instance.create", clazz.getName()));
 		}
 		// Выставляем значения полей объекта
-		List<FieldMetaData> fmds = MetaUtils.getFieldsMetaData(clazz);
-		for (FieldMetaData fmd : fmds) {
+		Map<String, FieldMetaData> fmds = MetaUtils.getFieldsMetaData(clazz);
+		for (FieldMetaData fmd : fmds.values()) {
 			String columnName = fmd.getColumnName();
 			// Обрабатываем только поля, для которых указано соответствие столбца таблицы в бд.
 			// Все остальные считаем служебными, либо отдаем на обработку классам-наследникам.

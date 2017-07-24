@@ -25,26 +25,26 @@ public class ChangeDao extends AbstractEntityDao {
 	/**
 	 * Общий запрос для выборки информации о человеке
 	 */
-	private static final String LIST_SQL =
+	private static final String BASE_SQL =
 			"SELECT\n" +
 			"ch.cha_oid, ch.cha_id, ch.cha_description, ch.cha_requestor_per_oid,\n" +
 			"ch.cha_per_man_oid, ci.chi_information, ch.cha_sta_oid, ch.cha_imp_oid,\n" +
 			"ch.reg_created, ch.cha_deadline, cha_actualfinish\n" +
 			"FROM\n" +
 			"itsm_changes ch\n" +
-			"LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n" +
-			"{0}";
+			"LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n";
 
 	private static final String COUNT_SQL =
-			"SELECT COUNT(*) FROM (" + LIST_SQL + ") t";
+			"SELECT COUNT(*) FROM (" + BASE_SQL + ") t";
 
 	public List<Change> list(Map<String, String> filter) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
-		StringBuilder where = new StringBuilder();
-		createChangeFilter(filter, where, params);
-		return namedJdbc.query(
-				MessageFormat.format(LIST_SQL, where),
-				params, extractor);
+		StringBuilder sql = new StringBuilder(BASE_SQL);
+		buildWhere(filter, sql, params);
+		buildOrderBy(filter, sql, Change.class);
+		buildPaging(filter, sql, params);
+
+		return namedJdbc.query(sql.toString(), params, extractor);
 	}
 
 	public int count(Map<String, String> filter) {
@@ -52,15 +52,20 @@ public class ChangeDao extends AbstractEntityDao {
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		StringBuilder where = new StringBuilder();
-		createChangeFilter(filterCount, where, params);
+		buildWhere(filterCount, where, params);
 		return namedJdbc.queryForObject(
 				MessageFormat.format(COUNT_SQL, where),
 				params, int.class);
 	}
 
-	private void createChangeFilter(Map<String, String> filter, StringBuilder queryPart, MapSqlParameterSource params) {
+	private void buildWhere(Map<String, String> filter, StringBuilder queryPart, MapSqlParameterSource params) {
 		FilterUtils.createFilter(queryPart, params, filter, Change.class);
 		// todo здесь будут добавлены другие условия фильтрации.
+	}
+
+	protected void buildOrderBy(Map<String, String> filter, StringBuilder sql) {
+		buildOrderBy(filter, sql, Change.class);
+		// todo здесь будут добавлены другие условия сортировки.
 	}
 
 	/**
@@ -72,7 +77,7 @@ public class ChangeDao extends AbstractEntityDao {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", id);
 		List<Change> changes = namedJdbc.query(
-				MessageFormat.format(LIST_SQL, " WHERE ch.cha_oid = :id"),
+				BASE_SQL + " WHERE ch.cha_oid = :id",
 				params, extractor);
 		return changes.isEmpty() ? null : changes.get(0);
 	}

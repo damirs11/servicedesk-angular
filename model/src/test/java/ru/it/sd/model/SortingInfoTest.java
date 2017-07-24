@@ -3,9 +3,7 @@ package ru.it.sd.model;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.AbstractMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.testng.Assert.*;
@@ -23,7 +21,7 @@ public class SortingInfoTest {
 		final Map<String, String> filterParams = new HashMap<>();
 		filterParams.put("name", "Вася");
 
-		SortingInfo sortingInfo = SortingInfo.fromFilterParams(filterParams);
+		SortingInfo sortingInfo = SortingInfo.fromFilter(filterParams);
 		assertNull(sortingInfo);
 
 		char PS = SortingInfo.SORTING_PARAM_SEPARATOR;
@@ -31,39 +29,39 @@ public class SortingInfoTest {
 
 		String sort = "name" + DS + "asc";
 		filterParams.put(SortingInfo.SORTING_PARAM_NAME, sort);
-		List<Map.Entry<String, Boolean>> columns = SortingInfo.fromFilterParams(filterParams).getColumns();
+		Map<String, Boolean> columns = SortingInfo.fromFilter(filterParams).getColumns();
 		assertEquals(columns.size(), 1);
-		assertEquals(columns.get(0).getKey(), "name");
-		assertTrue(columns.get(0).getValue());
+		assertTrue(columns.containsKey("name"));
+		assertTrue(columns.get("name"));
 
 		filterParams.put(SortingInfo.SORTING_PARAM_NAME, sort += PS);
-		columns = SortingInfo.fromFilterParams(filterParams).getColumns();
+		columns = SortingInfo.fromFilter(filterParams).getColumns();
 		assertEquals(columns.size(), 1);
-		assertEquals(columns.get(0).getKey(), "name");
-		assertTrue(columns.get(0).getValue());
+		assertTrue(columns.containsKey("name"));
+		assertTrue(columns.get("name"));
 
 		// Дубликаты
 		filterParams.put(SortingInfo.SORTING_PARAM_NAME, sort + sort);
 		assertThrows(IllegalArgumentException.class, new Assert.ThrowingRunnable(){
 			@Override
 			public void run() {
-				SortingInfo.fromFilterParams(filterParams).getColumns();
+				SortingInfo.fromFilter(filterParams).getColumns();
 			}
 		});
 
 		filterParams.put(SortingInfo.SORTING_PARAM_NAME, "count" + DS + "desc" + PS + sort);
-		columns = SortingInfo.fromFilterParams(filterParams).getColumns();
+		columns = SortingInfo.fromFilter(filterParams).getColumns();
 		assertEquals(columns.size(), 2);
-		assertEquals(columns.get(0).getKey(), "count");
-		assertFalse(columns.get(0).getValue());
-		assertEquals(columns.get(1).getKey(), "name");
-		assertTrue(columns.get(1).getValue());
+		assertTrue(columns.containsKey("count"));
+		assertFalse(columns.get("count"));
+		assertTrue(columns.containsKey("name"));
+		assertTrue(columns.get("name"));
 
 		filterParams.put(SortingInfo.SORTING_PARAM_NAME, "count" + PS);
 		assertThrows(IllegalArgumentException.class, new Assert.ThrowingRunnable(){
 			@Override
 			public void run() {
-				SortingInfo.fromFilterParams(filterParams).getColumns();
+				SortingInfo.fromFilter(filterParams).getColumns();
 			}
 		});
 
@@ -71,7 +69,7 @@ public class SortingInfoTest {
 		assertThrows(IllegalArgumentException.class, new Assert.ThrowingRunnable(){
 			@Override
 			public void run() {
-				SortingInfo.fromFilterParams(filterParams).getColumns();
+				SortingInfo.fromFilter(filterParams).getColumns();
 			}
 		});
 	}
@@ -82,9 +80,9 @@ public class SortingInfoTest {
 		char DS = SortingInfo.SORTING_DIRECTION_SEPARATOR;
 
 		SortingInfo sort = new SortingInfo();
-		List<Map.Entry<String, Boolean>> columns = sort.getColumns();
-		columns.add(new AbstractMap.SimpleEntry<>("name", true));
-		columns.add(new AbstractMap.SimpleEntry<>("count", false));
+		Map<String, Boolean> columns = sort.getColumns();
+		columns.put("name", true);
+		columns.put("count", false);
 		assertEquals(sort.toString(),
 				"name" + DS + SortingInfo.SORTING_DIRECTION_ASC + PS +
 				"count" + DS + SortingInfo.SORTING_DIRECTION_DESC);

@@ -16,7 +16,7 @@ import java.util.Date;
 public class Change implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
-	@FieldMeta(columnName = "cha_oid")
+	@FieldMeta(columnName = "cha_oid", key = true)
 	private Long id;
 	/** Номер */
 	@FieldMeta(columnName = "cha_id")
