@@ -20,16 +20,35 @@ class ChangeController{
      */
     emptyValue = "- нет -";
 
-    static $inject = ["SD","changeId"];
-    constructor(SD,changeId){
+    static $inject = ["SD","changeId","$transitions","$state","ModalAction","$scope"];
+    constructor(SD,changeId,$transitions,$state,ModalAction,$scope){
         this.SD = SD;
         this.changeId = changeId;
-        this.emptyValue = "- нет -"
+        this.emptyValue = "- нет -";
+        this.$state = $state;
+        this.$transitions = $transitions;
+        this.ModalAction = ModalAction;
+        this.$scope = $scope;
     }
 
     $onInit(){
         this.$loadChange();
-        this.loadPersons("initiators")
+        const removeExitHook = this.$transitions.onExit({
+            from: state => state.name === this.$state.current.name,
+        }, async (transition) => {
+            if (!this.change || !this.change.isModified) return;
+            const modalResult = await this.ModalAction.entityChanged();
+            if (modalResult == 0) {
+                return true;
+            } else if (modalResult == 1) {
+                return false;
+            } else {
+                // ToDo сделать сохранение модели и выйти
+                return true;
+            }
+        } )
+
+        this.$scope.$on("$destroy", removeExitHook)
     }
 
     get loading(){

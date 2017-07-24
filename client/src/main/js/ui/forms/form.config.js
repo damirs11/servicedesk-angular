@@ -11,12 +11,14 @@ import {PersonsState} from "./app/persons/persons.state";
 import {ConfigurationItemsState} from "./app/configurationItems/configurationItems.state";
 import {QuestionsState} from "./app/questions/questions.state";
 import {ChangeState} from "./app/change/change.state";
+import {EntityChangedModal} from "./app/entity-changed/entity-changed.modal";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
     $urlRouterProvider.otherwise("/");
     ModalActionProvider
-        .modal(ChangePasswordModal);
+        .modal(ChangePasswordModal)
+        .modal(EntityChangedModal);
     $stateProvider
         .state(AppState)
         .state(MainState)
