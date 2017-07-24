@@ -46,7 +46,7 @@ class ChangeController{
                 // ToDo сделать сохранение модели и выйти
                 return true;
             }
-        } )
+        } );
 
         this.$scope.$on("$destroy", removeExitHook)
     }

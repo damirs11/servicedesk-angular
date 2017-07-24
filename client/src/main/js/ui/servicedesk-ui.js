@@ -17,6 +17,8 @@ import {SDOnInteractOutDirective} from "./components/directives/sd-on-interact-o
 import {SDTextComponent} from "./components/fields/sd-text/sd-text.component";
 import {SDSelectComponent} from "./components/fields/sd-select/sd-select.component";
 import {SDSelectSearchComponent} from "./components/fields/sd-select-search/sd-select-search.component";
+import {uiSelectConfig} from "./components/uiSelect.config";
+import {SDDropdownComponent} from "./components/fields/sd-dropdown/sd-dropdown.component";
 
 export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, ModalAction, uiRouter, ngMessages, translate,
         uiBootstrap, ngSanitize, uiGrid, uiGridSelection, uiGridPagination, xeditable, uiSelect])
@@ -24,12 +26,14 @@ export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, M
     .config(FormConfig)
     .config(DialogsConfig)
     .config(ConnectorConfig)
+    .config(uiSelectConfig)
     .directive("equalsTo", EqualsTo)
     .directive("differentFrom", DifferentFrom)
     .directive("sdFocus",SDFocusDirective)
     .directive("sdOnInteractOut",SDOnInteractOutDirective)
     .component("sdText", SDTextComponent)
     .component("sdSelect", SDSelectComponent)
+    .component("sdDropdown", SDDropdownComponent)
     .component("sdSelectSearch", SDSelectSearchComponent)
     .controller("IndexController",IndexController)
     .name;

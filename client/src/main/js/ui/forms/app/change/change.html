@@ -23,26 +23,25 @@
     <hr class="entity-separator">
     <div class="entity-content">
         <div class="col-md-6">
-            <div class="property">
-                <div class="property__name">Инициатор:</div>
-                <div class="property__value"></div>
-                <sd-select-search target="ctrl.change.initiator"
-                                  search="ctrl.SD.Person.list({firstName:$text})"
-                                  empty-value="ctrl.emptyValue"
-                                  enabled="true"
-                                  allow-empty="true"
+            <span>Инициатор:</span>
+            <div style="display: inline-block; width: 250px;">
+                <sd-dropdown
+                        target="ctrl.change.initiator"
+                        fetch-data="ctrl.SD.Person.list()"
+                        placeholder="Введите имя персоны"
+                        display-value="$value.fullName"
+                        enabled="false"
                 />
             </div>
         </div>
         <div class="col-md-6">
-            <div class="property">
-                <div class="property__name">Менеджер:</div>
-                <div class="property__value"></div>
-                <sd-select-search target="ctrl.change.manager"
-                                  search="ctrl.SD.Person.list({firstName:$text})"
-                                  empty-value="ctrl.emptyValue"
-                                  enabled="true"
-                                  allow-empty="true"
+            <span>Менеджер:</span>
+            <div style="display: inline-block; width: 250px">
+                <sd-dropdown
+                        target="ctrl.change.manager"
+                        fetch-data="ctrl.SD.Person.list()"
+                        placeholder="Введите имя персоны"
+                        display-value="$value.fullName"
                 />
             </div>
         </div>

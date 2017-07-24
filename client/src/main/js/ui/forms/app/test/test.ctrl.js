@@ -29,8 +29,11 @@ class TestController {
         //aplanaDialogs.error('Ошибка', 'Превышен лимит стоимости заказа на производство', {});
     }
 
-    async loadChanges(){
+    async loadChanges(text){
+        console.log(text);
+        if (text == "0") return this.changes = null;
         this.changes = await this.SD.Change.list();
+        this.servicecall.change = this.changes[0];
     }
 
     logSC(){
