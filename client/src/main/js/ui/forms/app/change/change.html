@@ -17,12 +17,7 @@
     <hr class="entity-separator">
     <div >
         <div style="font-weight: bold;">Подробная информация: </div>
-        <a href="javascript:void(0)"
-           editable-textarea="ctrl.change.description"
-           e-rows="3"
-           e-cols="100">
-            <pre>{{ ctrl.change.description || ctrl.emptyValue }}</pre>
-        </a>
+        {{ ctrl.change.description || ctrl.emptyValue }}
     </div>
 
     <hr class="entity-separator">
@@ -30,41 +25,31 @@
         <div class="col-md-6">
             <div class="property">
                 <div class="property__name">Инициатор:</div>
-                <div class="property__value">
-                    <div editable-ui-select="ctrl.change.initiator"
-                         data-e-form="uiSelectForm"
-                         data-e-name="initiator"
-                         name="initiator"
-                         theme="bootstrap"
-                         data-e-reset-search-input="false"
-                         data-e-ng-disabled="false"
-                         data-e-ng-model="change.initiator"
-                         data-e-style="min-width:300px;"
-                    >
-                        {{ctrl.change.initiator}}
-                        <editable-ui-select-match placeholder="State">
-                            {{$select.selected}}
-                        </editable-ui-select-match>
-                        <editable-ui-select-choices
-                                repeat="p in ctrl.initiators | filter: $select.search track by $index"
-                                refresh="ctrl.loadPersons('initiators')"
-                                refresh-delay="0"
-                        >
-                            {{p}}
-                        </editable-ui-select-choices>
-                    </div>
-                </div>
+                <div class="property__value"></div>
+                <sd-select-search target="ctrl.change.initiator"
+                                  search="ctrl.SD.Person.list({firstName:$text})"
+                                  empty-value="ctrl.emptyValue"
+                                  enabled="true"
+                                  allow-empty="true"
+                />
             </div>
         </div>
         <div class="col-md-6">
             <div class="property">
                 <div class="property__name">Менеджер:</div>
-                <div class="property__value" data-ng-bind="ctrl.change.manager || ctrl.emptyValue"></div>
+                <div class="property__value"></div>
+                <sd-select-search target="ctrl.change.manager"
+                                  search="ctrl.SD.Person.list({firstName:$text})"
+                                  empty-value="ctrl.emptyValue"
+                                  enabled="true"
+                                  allow-empty="true"
+                />
             </div>
         </div>
     </div>
 
     <hr class="entity-separator">
+
 </div>
 
 <div data-ng-show="ctrl.loading" style="padding-top: 200px; text-align: center">

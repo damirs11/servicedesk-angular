@@ -5,8 +5,8 @@
     </div>
 
     <div class="entity-content">
-        Изменение: <sd-select target="ctrl.servicecall.change"
-                              resolve-data="ctrl.SD.Change.list()"
+        Изменение: <sd-select-search target="ctrl.servicecall.change"
+                              search="ctrl.SD.Change.list()"
                               empty-value="не выбрано"
                               on-commit="ctrl.log()"
                               enabled="true"
@@ -14,12 +14,12 @@
                               display-value="'Изменение №'+$value"
                     />
         <br>
-        Изменение:
-        <a href="javascript:void(0)"
-           editable-select="ctrl.servicecall.change"
-           onshow="ctrl.loadChanges()"
-           e-ng-options="ch as ch.subject for ch in ctrl.changes">
-            {{ ctrl.servicecall.change || 'Не выбрано' }}
-        </a>
+        <!--Изменение:-->
+        <!--<a href="javascript:void(0)"-->
+           <!--editable-select="ctrl.servicecall.change"-->
+           <!--onshow="ctrl.loadChanges()"-->
+           <!--e-ng-options="ch as ch.subject for ch in ctrl.changes">-->
+            <!--{{ ctrl.servicecall.change || 'Не выбрано' }}-->
+        <!--</a>-->
     </div>
 </div>

@@ -69,7 +69,7 @@ class ChangeController{
      * @returns {Promise.<void>}
      */
     async loadPersons(varName,filter){
-        this[varName] = await this.SD.Person.list(filter);
+        this[varName] = await this.SD.Change.list(filter);
     }
 }
 

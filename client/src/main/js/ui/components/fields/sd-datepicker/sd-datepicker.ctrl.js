@@ -1,6 +1,4 @@
-const MAX_ROWS = 10;
-
-class SDSelectSearchController{
+class SDDatepickerController{
     static $inject = ["$timeout","$scope"];
 
     viewMode = true;
@@ -142,4 +140,4 @@ class SDSelectSearchController{
     }
 }
 
-export {SDSelectSearchController as controller}
+export {SDDatepickerController as controller}

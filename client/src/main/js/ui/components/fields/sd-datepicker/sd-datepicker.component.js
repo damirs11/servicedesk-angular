@@ -1,5 +1,5 @@
-import template from "./sd-select-search.html"
-import {controller} from "./sd-select-search.ctrl"
+import template from "./sd-datepicker.html"
+import {controller} from "./sd-datepicker.ctrl"
 
 /**
  * Компонента для редактируемого текста
@@ -12,7 +12,7 @@ import {controller} from "./sd-select-search.ctrl"
  * search {expression} - вызовется, отфильтровать данные
  * display-value {expression} - функция отображения данных
  */
-const SDSelectSearchComponent = {
+const SDDatepickerComponent = {
     template: template,
     controller: controller,
     controllerAs: "ctrl",
@@ -28,4 +28,4 @@ const SDSelectSearchComponent = {
     }
 };
 
-export {SDSelectSearchComponent}
+export {SDDatepickerComponent}
