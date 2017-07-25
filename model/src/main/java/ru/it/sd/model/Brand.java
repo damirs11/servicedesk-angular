@@ -6,19 +6,17 @@ import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.util.AppToStringStyle;
 
 /**
+ * бренд
+ *
  * Created by MYXOMOPX on 013 13.06.17.
  */
-
-/**
- * бренд
- */
-@ClassMeta(tableName = "ITSM_CODES_LOCALE")
-public class Brand implements Code {
+@ClassMeta(tableName = "itsm_codes_locale")
+public class Brand implements Code, HasId {
     /** Идентификатор */
-    @FieldMeta(columnName = "CDL_COD_OID")
+    @FieldMeta(columnName = "cdl_cod_oid", key = true)
     private Long id;
     /** Название */
-    @FieldMeta(columnName = "CDL_NAME")
+    @FieldMeta(columnName = "cdl_name")
     private String name;
 
     @Override
@@ -43,9 +41,6 @@ public class Brand implements Code {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, AppToStringStyle.getInstance())
-                .append("id", this.id)
-                .append("name", this.name)
-                .toString();
+        return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
     }
 }

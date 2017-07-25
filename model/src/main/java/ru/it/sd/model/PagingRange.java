@@ -99,8 +99,6 @@ public final class PagingRange {
 
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append(from).append(PAGING_PARAM_SEPARATOR).append(to);
-		return sb.toString();
+		return from + PAGING_PARAM_SEPARATOR + to;
 	}
 }

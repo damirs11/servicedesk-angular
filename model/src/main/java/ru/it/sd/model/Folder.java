@@ -6,46 +6,44 @@ import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.util.AppToStringStyle;
 
 /**
+ * Папка доступа
  * Created by MYXOMOPX on 013 13.06.17.
  */
-
-/**
- * Папка доступа
- */
-@ClassMeta(tableName = "REP_CODES_TEXT")
+@ClassMeta(tableName = "rep_codes_text")
 public class Folder implements Code {
-    /** Идентификатор */
-    @FieldMeta(columnName = "RCT_RCD_OID")
-    private Long id;
-    /** Название */
-    @FieldMeta(columnName = "RCT_NAME")
-    private String name;
+	/**
+	 * Идентификатор
+	 */
+	@FieldMeta(columnName = "rct_rcd_oid", key = true)
+	private Long id;
+	/**
+	 * Название
+	 */
+	@FieldMeta(columnName = "rct_name")
+	private String name;
 
-    @Override
-    public Long getId() {
-        return this.id;
-    }
+	@Override
+	public Long getId() {
+		return this.id;
+	}
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    @Override
-    public String getName() {
-        return name;
-    }
+	@Override
+	public String getName() {
+		return name;
+	}
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, AppToStringStyle.getInstance())
-                .append("id", this.id)
-                .append("name", this.name)
-                .toString();
-    }
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
+	}
 }

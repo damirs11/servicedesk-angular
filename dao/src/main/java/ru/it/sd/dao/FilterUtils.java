@@ -49,7 +49,7 @@ public class FilterUtils {
     public static void createFilter(StringBuilder queryPart, MapSqlParameterSource params, Map<String, String> filter,  Class clazz) {
 
         if ((filter != null) && !filter.entrySet().isEmpty()) {
-            queryPart.append("\n WHERE 1 = 1"); // "WHERE TRUE" в MS SQL не работает
+            queryPart.append(" WHERE 1 = 1"); // "WHERE TRUE" в MS SQL не работает
             //Поиск по всем полям класса
             Map<String, FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
             for (FieldMetaData fmd : fieldMetaDataList.values()) {

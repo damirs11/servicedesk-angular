@@ -1,5 +1,6 @@
 package ru.it.sd.util;
 
+import java.lang.reflect.ParameterizedType;
 import java.text.MessageFormat;
 
 /**
@@ -26,5 +27,14 @@ public class EntityUtils {
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException(MessageFormat.format("There isn''t an entity \"{0}\"", entity));
 		}
+	}
+
+	/**
+	 * Получаем класс сущности из женерика
+	 * @param clazz класс с женериком
+	 * @return класс сущности
+	 */
+	public static Class getGenericClass(Class clazz) {
+		return (Class) ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 }

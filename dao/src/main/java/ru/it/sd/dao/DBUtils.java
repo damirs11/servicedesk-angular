@@ -1,5 +1,7 @@
 package ru.it.sd.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -10,16 +12,19 @@ import java.sql.SQLException;
  * Класс необходимый исключительно для совместимости sql-функции между базами данных.
  * При составлении запроса используется встроенная функция row_number() over (order ...), гарантирующая нам порядок
  * строк в отсортированной таблице. Эта фукция не поддерживается в БД hsqldb.
- * Класс работает как синглтон, единожды при инициализаци определяет тип БД и выставляет признак isOracle.
+ * Класс работает как синглтон, единожды при инициализаци определяет тип БД и выставляет признак isTest.
  */
 @Repository
 public final class DBUtils extends AbstractDao {
-    private static final String ORACLE_PRODUCT_NAME = "Oracle";
+
+    private static final Logger logger = LoggerFactory.getLogger(DBUtils.class);
+
+    private static final String HSQL_PRODUCT_NAME = "HSQL Database Engine";
 
     /**
      * Признак поддержки специфичных функций Oracle
      */
-    private boolean isOracle;
+    private boolean isTest;
 
     private DBUtils() {
     }
@@ -27,11 +32,11 @@ public final class DBUtils extends AbstractDao {
     @PostConstruct
     private void init() throws SQLException {
         String productName = jdbc.getDataSource().getConnection().getMetaData().getDatabaseProductName();
-        isOracle = ORACLE_PRODUCT_NAME.equalsIgnoreCase(productName);
+        isTest = HSQL_PRODUCT_NAME.equalsIgnoreCase(productName);
     }
 
-    public boolean isOracle() {
-        return isOracle;
+    public boolean isTest() {
+        return isTest;
     }
 
      /**
