@@ -70,12 +70,26 @@ public class CommonRestController {
      * Получить список сущностей
      *
      * @param entity название класса сущности
+     * @param filter условие отбора записей, включает в себя также информациою о сортировке и пейджинге
      * @return список сущностей выбранного класса
      * @throws IllegalArgumentException если указанный в адресной строке класс не был найден
      */
     @RequestMapping(value = "/{entity}", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
     public List list(@PathVariable String entity, @RequestParam Map<String, String> filter) {
         return readServiceHolder.findFor(entity).list(filter);
+    }
+
+    /**
+     * Получить количество сущностей по фильтру
+     *
+     * @param entity название класса сущности
+     * @param filter условие отбора записей, включает в себя также информациою о сортировке и пейджинге
+     * @return список сущностей выбранного класса
+     * @throws IllegalArgumentException если указанный в адресной строке класс не был найден
+     */
+    @RequestMapping(value = "/{entity}/count", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
+    public int count(@PathVariable String entity, @RequestParam Map<String, String> filter) {
+        return readServiceHolder.findFor(entity).count(filter);
     }
 
     /**

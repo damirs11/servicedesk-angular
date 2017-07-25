@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.model.Change;
-import ru.it.sd.model.PagingList;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,13 @@ public class ChangeService implements ReadService<Change> {
 	}
 
 	@Override
-	public PagingList<Change> list(Map<String, String> filter) {
-		return new PagingList<>(dao.list(filter), dao.getTotal(filter));
+	public List<Change> list(Map<String, String> filter) {
+		return dao.list(filter);
 	}
+
+	@Override
+	public int count(Map<String, String> filter) {
+		return dao.count(filter);
+	}
+
 }

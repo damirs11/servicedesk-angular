@@ -23,13 +23,13 @@ public final class SortingInfo {
 	 * <p>Список сортируемых полей и направлений сортировки</p>
 	 *
 	 * <pre>
-	 * List&lt;Entry&lt;String, Boolean&gt;&gt;
+	 * Map&lt;String, Boolean&gt;
 	 *
 	 * String - название поля
 	 * Boolean - направление сортировки (true - по возрастанию, false - по убыванию)
 	 * </pre>
 	 */
-	private List<Map.Entry<String, Boolean>> columns = new ArrayList<>();
+	private Map<String, Boolean> columns = new HashMap<>();
 
 	public SortingInfo(){
 		super();
@@ -48,7 +48,7 @@ public final class SortingInfo {
 	 *                     столбцов. Может быть NULL
 	 * @return если найдена информация, то возвращается объект, в противном случае NULL
 	 */
-	public static SortingInfo fromFilterParams(Map<String, String> filterParams) {
+	public static SortingInfo fromFilter(Map<String, String> filterParams) {
 		if (filterParams != null && filterParams.containsKey(SORTING_PARAM_NAME)) {
 			String sortingParam = filterParams.get(SORTING_PARAM_NAME).trim();
 			if (org.apache.commons.lang3.StringUtils.isBlank(sortingParam)) {
@@ -78,21 +78,21 @@ public final class SortingInfo {
 					throw new IllegalArgumentException("Illegal sort direction value");
 				}
 				sortDirection = SORTING_DIRECTION_ASC.equals(token);
-				result.columns.add(new AbstractMap.SimpleEntry<>(sortColumn, sortDirection));
+				result.columns.put(sortColumn, sortDirection);
 			}
 			return result.columns.isEmpty() ? null : result;
 		}
 		return null;
 	}
 
-	public List<Map.Entry<String, Boolean>> getColumns() {
+	public Map<String, Boolean> getColumns() {
 		return columns;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		Iterator<Map.Entry<String, Boolean>> iterator = columns.iterator();
+		Iterator<Map.Entry<String, Boolean>> iterator = columns.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Map.Entry<String, Boolean> column = iterator.next();
 			sb.append(column.getKey())

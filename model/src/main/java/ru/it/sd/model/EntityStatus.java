@@ -39,7 +39,10 @@ public enum EntityStatus implements Code {
 	ITEM_INWORK("В эксплуатации", ITEM, 3094610404L),
 	ITEM_REPAIRING("Ремонтируется", ITEM, 3094610405L),
 	ITEM_WRITENOFF("Списано", ITEM, 3094610406L),
-	ITEM_LOST("Потеряно", ITEM, 3094610408L);
+	ITEM_LOST("Потеряно", ITEM, 3094610408L),
+
+	WORKGROUPS_ACTIVE("Функционирует",WORKGROUP,281478224675129L),
+	WORKGROUPS_INACTIVE("Не функционирует",WORKGROUP,281478224675127L);
 
 	/** Идентификатор статуса */
 	private Long id;

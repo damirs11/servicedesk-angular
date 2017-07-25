@@ -20,7 +20,7 @@ public class Person implements HasId, Serializable {
 	private static final Logger LOG = LoggerFactory.getLogger(Person.class);
 
 	/** Уникальный идентификатор */
-	@FieldMeta(columnName = "per_oid")
+	@FieldMeta(columnName = "per_oid", key = true)
 	private Long id;
 	/** Пол: true(1) - мужской, false(0) - женский */
 	@FieldMeta(columnName = "per_gender")

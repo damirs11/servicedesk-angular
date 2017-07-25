@@ -41,7 +41,7 @@ public final class PagingRange {
 	 * @throws IllegalArgumentException если значение параметра содержит более двух строковых элементов, разделенных ';'
 	 * или они не могут быть преобразованы в числа
 	 */
-	public static PagingRange fromFilterParams(Map<String, String> filterParams) {
+	public static PagingRange fromFilter(Map<String, String> filterParams) {
 	 	if (filterParams != null && filterParams.containsKey(PAGING_PARAM_NAME)) {
 			PagingRange range = new PagingRange();
 			StringTokenizer values = new StringTokenizer(filterParams.get(PAGING_PARAM_NAME), PAGING_PARAM_SEPARATOR);

@@ -51,8 +51,8 @@ public class FilterUtils {
         if ((filter != null) && !filter.entrySet().isEmpty()) {
             queryPart.append("\n WHERE 1 = 1"); // "WHERE TRUE" в MS SQL не работает
             //Поиск по всем полям класса
-            List<FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
-            for (FieldMetaData fmd : fieldMetaDataList) {
+            Map<String, FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
+            for (FieldMetaData fmd : fieldMetaDataList.values()) {
                 if(fmd.isAnnotation()) {
                     String prefix = getPrefix(clazz, fmd);
                     if (!prefix.isEmpty()) {

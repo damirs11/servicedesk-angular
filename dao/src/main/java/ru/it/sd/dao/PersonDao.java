@@ -1,7 +1,6 @@
 package ru.it.sd.dao;
 
 import com.jcabi.aspects.Cacheable;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -26,36 +25,65 @@ import java.util.concurrent.TimeUnit;
  * @since 28.04.2017
  */
 @Repository
-public class PersonDao extends AbstractDao {
+public class PersonDao extends AbstractEntityDao {
 
 	@Autowired
 	private PersonMapper mapper;
 
 	/**
-	 * Общий запрос для выборки информации о человеке
+	 * <p>Общий запрос для выборки информации о человеке.</p>
+	 *
+	 * <p>Два параметра:</p>
+	 * <ul>
+	 *     <li>1. условия для пейджинга (сортировки) вида ROW_NUMBER() OVER ...</li>
+	 *     <li>2. условия для отбора записей по фильтру</li>
+	 * </ul>
 	 */
-	private static final String SELECT_ALL_SQL =
-			"SELECT \n" +
+	private static final String BASE_SQL =
+			"SELECT\n" +
 			"per_oid, per_gender, per_email, per_jobtitle, per_firstname, per_lastname, per_middlename, per_org_oid,\n" +
-			"org_oid, org_name1, org_email \n" +
-			"FROM \n" +
+			"org_oid, org_name1, org_email\n" +
+			"FROM\n" +
 			"itsm_persons p\n" +
-			"LEFT JOIN itsm_organizations o ON o.org_oid = p.per_org_oid {0}";
+			"LEFT JOIN itsm_organizations o ON o.org_oid = p.per_org_oid\n";
+
+	private static final String COUNT_SQL =
+			"SELECT COUNT(*) FROM (\n" + BASE_SQL + ") t";
 
 	public List<Person> list(Map<String, String> filter) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
+		StringBuilder sql = new StringBuilder(BASE_SQL);
+		buildWhere(filter, sql, params);
+		buildOrderBy(filter, sql);
+		buildPaging(filter, sql, params);
+		return namedJdbc.query(sql.toString(), params, (RowMapper) mapper);
+	}
+
+	public int count(Map<String, String> filter) {
+		Map<String, String> filterCount = prepareFilterForCount(filter);
+
+		MapSqlParameterSource params = new MapSqlParameterSource();
 		StringBuilder where = new StringBuilder();
+		buildWhere(filterCount, where, params);
+		return namedJdbc.queryForObject(
+				MessageFormat.format(COUNT_SQL, where),
+				params, int.class);
+	}
+
+	private void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
+		FilterUtils.createFilter(sql, params, filter, Person.class);
+
 		// Фильтр по пользователю
 		if (Objects.nonNull(filter) && filter.containsKey("userId")) {
 			params.addValue("userId", filter.get("userId"));
-			where.append("per_acc_oid = :userId");
+			sql.append(" AND per_acc_oid = :userId");
 		}
-		return namedJdbc.query(
-				MessageFormat.format(
-						SELECT_ALL_SQL,
-						StringUtils.isNotBlank(where) ? where.insert(0, "WHERE ").toString() : ""),
-				params,
-				(RowMapper) mapper);
+		// todo здесь будут добавлены другие условия фильтрации.
+	}
+
+	protected void buildOrderBy(Map<String, String> filter, StringBuilder sql) {
+		buildOrderBy(filter, sql, Person.class);
+		// todo здесь будут добавлены другие условия сортировки.
 	}
 
 	/**
@@ -69,7 +97,7 @@ public class PersonDao extends AbstractDao {
 		params.addValue("personId", id);
 		try {
 			Person person = namedJdbc.queryForObject(
-					MessageFormat.format(SELECT_ALL_SQL, " WHERE per_oid = :personId"),
+					BASE_SQL + " WHERE per_oid = :personId",
 					params, mapper);
 			return person;
 		} catch (EmptyResultDataAccessException e) {

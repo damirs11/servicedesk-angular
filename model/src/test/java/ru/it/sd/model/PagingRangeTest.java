@@ -33,21 +33,21 @@ public class PagingRangeTest {
 		filterParams.put("name", "Вася");
 		// Основной тест
 		filterParams.put(PagingRange.PAGING_PARAM_NAME, 9 + PagingRange.PAGING_PARAM_SEPARATOR + 10);
-		PagingRange range = PagingRange.fromFilterParams(filterParams);
+		PagingRange range = PagingRange.fromFilter(filterParams);
 		assertEquals(range.getFrom(), 9);
 		assertEquals(range.getTo(), 10);
 		// Проверка пустых значений
 		filterParams.remove(PagingRange.PAGING_PARAM_NAME);
-		range = PagingRange.fromFilterParams(filterParams);
+		range = PagingRange.fromFilter(filterParams);
 		assertNull(range);
-		range = PagingRange.fromFilterParams(null);
+		range = PagingRange.fromFilter(null);
 		assertNull(range);
 		// Более двух значений
 		filterParams.put(PagingRange.PAGING_PARAM_NAME, 9 + PagingRange.PAGING_PARAM_SEPARATOR + 10 + PagingRange.PAGING_PARAM_SEPARATOR + 11);
 		assertThrows(IllegalArgumentException.class, new Assert.ThrowingRunnable(){
 			@Override
 			public void run() {
-				PagingRange.fromFilterParams(filterParams);
+				PagingRange.fromFilter(filterParams);
 			}
 		});
 		// Вместо числа строка
@@ -55,7 +55,7 @@ public class PagingRangeTest {
 		assertThrows(IllegalArgumentException.class, new Assert.ThrowingRunnable(){
 			@Override
 			public void run() {
-				PagingRange.fromFilterParams(filterParams);
+				PagingRange.fromFilter(filterParams);
 			}
 		});
 	}

@@ -19,6 +19,17 @@ public @interface FieldMeta {
 	String columnName();
 
 	/**
+	 * Название алиаса поля
+	 */
+	String tableAlias() default "";
+
+	/**
+	 * Признак того, что поле является уникальным (первичным ключом). Используется
+	 * для сортировки по умолчанию для пейжинга.
+	 */
+	boolean key() default false;
+
+	/**
 	 * Максимальное количество символов в строке.
 	 */
 	int maxLength() default Integer.MAX_VALUE;
@@ -60,8 +71,4 @@ public @interface FieldMeta {
 	 */
 	String pattern() default "";
 
-	/**
-	 * Название алиаса поля
-	 */
-    String tableAlias() default "";
 }

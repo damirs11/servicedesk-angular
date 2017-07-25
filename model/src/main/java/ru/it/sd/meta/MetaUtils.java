@@ -30,10 +30,10 @@ public class MetaUtils {
 	/**
 	 * Кэш метаданных с синхронизируемой записью
 	 */
-	private static Map<Class<?>, List<FieldMetaData>> metaCache = new ConcurrentHashMap<>();
+	private static Map<Class, Map<String, FieldMetaData>> metaCache = new ConcurrentHashMap<>();
 
 	/**
-	 * Удаляет метаданные всех классов из кэша метаданных. Нужно, например, при обновлении настроек
+	 * Удаляет метаданные всех классов из кэша метаданных.
 	 */
 	public static void resetCache() {
 		metaCache.clear();
@@ -45,16 +45,16 @@ public class MetaUtils {
 	 * @param beanClass класс бина, метаданные которого нужно получить.
 	 * @return список метаданных свойств бина в порядке, заданном полем order
 	 */
-	public static List<FieldMetaData> getFieldsMetaData(Class<?> beanClass) {
+	public static Map<String, FieldMetaData> getFieldsMetaData(Class beanClass) {
 		if (!metaCache.containsKey(beanClass)) {
 			PropertyDescriptor[] pds = extractPropertyDescriptors(beanClass);
-			List<FieldMetaData> list = new ArrayList<>(pds.length);
+			Map<String, FieldMetaData> data = new HashMap<>(pds.length);
 			for (PropertyDescriptor pd : pds) {
 				if (!STOP_PROPERTIES.contains(pd.getName())) {
-					list.add(createPropertyMetaData(beanClass, pd));
+					data.put(pd.getName(), createPropertyMetaData(beanClass, pd));
 				}
 			}
-			metaCache.put(beanClass, list);
+			metaCache.put(beanClass, data);
 		}
 		return cloneMetaDataList(beanClass);
 	}
@@ -64,11 +64,11 @@ public class MetaUtils {
 	 * @param beanClass класс сущности, для которого получаем метаданные
 	 * @return глубокая копия списка полученных метаданных, если вдруг в кэше метаданных нет исключение
 	 */
-	private static List<FieldMetaData> cloneMetaDataList(Class<?> beanClass) {
-		List<FieldMetaData> metaData = new ArrayList<>();
+	private static Map<String, FieldMetaData> cloneMetaDataList(Class<?> beanClass) {
+		Map<String, FieldMetaData> metaData = new HashMap<>();
 		if(metaCache.containsKey(beanClass)) {
-			for (FieldMetaData propertyMetaData : metaCache.get(beanClass)) {
-				metaData.add((FieldMetaData) propertyMetaData.clone());
+			for (FieldMetaData propertyMetaData : metaCache.get(beanClass).values()) {
+				metaData.put(propertyMetaData.getName(), (FieldMetaData) propertyMetaData.clone());
 			}
 		}else {
 			throw new AppException("Metadata for class {0} not found", beanClass.getName());
@@ -97,7 +97,7 @@ public class MetaUtils {
 	 * @param propertyDescriptor дескриптор свойства
 	 * @return метаданные свойства
 	 */
-	private static FieldMetaData createPropertyMetaData(Class<?> beanClass, PropertyDescriptor propertyDescriptor) {
+	private static FieldMetaData createPropertyMetaData(Class beanClass, PropertyDescriptor propertyDescriptor) {
 		FieldMetaData md = new FieldMetaData();
 		md.setAnnotation(false);
 		md.setName(propertyDescriptor.getName());
@@ -115,8 +115,22 @@ public class MetaUtils {
 			md.setReadOnly(meta.readOnly());
 			md.setUnique(meta.unique());
 			md.setPattern(meta.pattern());
+			md.setKey(meta.key());
 		}
 		return md;
+	}
+
+	/**
+	 * Возвращает список уникальных полей (первичный ключ) класса
+	 */
+	public static Map<String, FieldMetaData> getKeyProperties(Class clazz){
+		Map<String, FieldMetaData> result = new HashMap();
+		for (FieldMetaData meta : getFieldsMetaData(clazz).values()) {
+			if (meta.isKey()) {
+				result.put(meta.getName(), meta);
+			}
+		}
+		return result;
 	}
 
 }

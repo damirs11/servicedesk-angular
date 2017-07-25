@@ -32,4 +32,9 @@ public class PersonService implements ReadService<Person> {
 	public List<Person> list(Map<String, String> filter) {
 		return dao.list(filter);
 	}
+
+	@Override
+	public int count(Map<String, String> filter) {
+		return dao.count(filter);
+	}
 }
