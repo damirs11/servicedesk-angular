@@ -46,6 +46,33 @@
             </div>
         </div>
     </div>
+    <hr class="entity-separator">
+    <hr class="entity-separator">
+    <div class="entity-content">
+        <div class="col-md-6">
+            <span>Инициатор:</span>
+            <div style="display: inline-block; width: 250px;">
+                <sd-dropdown
+                        target="ctrl.change.initiator"
+                        fetch-data="ctrl.SD.Person.list()"
+                        placeholder="Введите имя персоны"
+                        display-value="$value.fullName"
+                        enabled="false"
+                />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <span>Менеджер:</span>
+            <div style="display: inline-block; width: 250px">
+                <sd-dropdown
+                        target="ctrl.change.manager"
+                        fetch-data="ctrl.SD.Person.list()"
+                        placeholder="Введите имя персоны"
+                        display-value="$value.fullName"
+                />
+            </div>
+        </div>
+    </div>
 
     <hr class="entity-separator">
 

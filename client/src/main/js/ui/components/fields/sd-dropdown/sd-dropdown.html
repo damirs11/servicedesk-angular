@@ -1,6 +1,7 @@
 <ui-select ng-model="ctrl.target"
            ng-disabled="!ctrl.isEnabled"
            on-select="ctrl.onSelect($item,$model)"
+           search-enabled="ctrl.searchEnabled"
 >
     <ui-select-match allow-clear="{{ctrl.isAllowClear}}" placeholder="{{ctrl.placeholder}}">
         {{ctrl.display($select.selected)}}
