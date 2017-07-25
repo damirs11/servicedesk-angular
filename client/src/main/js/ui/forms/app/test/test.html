@@ -6,14 +6,36 @@
 
     <div class="entity-content">
         <br>
-        <sd-dropdown
-            target="ctrl.servicecall.change"
-            fetch-data="ctrl.SD.Change.list()"
-            debounce="500"
-            placeholder="Введите изменение"
-            display-value="'№' + $value.no + ': ' + $value.subject"
-            allow-clear
-        />
+        <!--<sd-dropdown-->
+            <!--target="ctrl.servicecall.change"-->
+            <!--fetch-data="ctrl.SD.Change.list()"-->
+            <!--debounce="500"-->
+            <!--placeholder="Введите изменение"-->
+            <!--display-value="'№' + $value.no + ': ' + $value.subject"-->
+            <!--allow-clear-->
+        <!--/>-->
+
+
+        <form style="width: 360px">
+            <span>Выбор даты</span>
+            <sd-datetime target="ctrl.servicecall.deadline"
+                         enabled="true"
+                         empty-value="- нет -"
+                         allow-empty="false">
+
+            </sd-datetime>
+        </form>
+
+        <form style="width: 360px">
+            <span>Выбор Персоны</span>
+            <sd-dropdown
+                    target="ctrl.servicecall.person"
+                    fetch-data="ctrl.SD.Person.list()"
+                    placeholder="Введите имя персоны"
+                    display-value="$value.fullName"
+                    enabled="true"
+            ></sd-dropdown>
+        </form>
 
     </div>
 </div>

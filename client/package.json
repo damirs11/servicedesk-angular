@@ -44,8 +44,11 @@
     "@uirouter/angularjs": "^1.0.5",
     "angular": "^1.6.4",
     "angular-animate": "^1.6.4",
+    "angular-bootstrap-datetimepicker": "^1.1.4",
     "angular-bootstrap-npm": "^0.14.3",
+    "angular-date-time-input": "^1.2.1",
     "angular-messages": "^1.6.4",
+    "angular-moment": "^1.0.1",
     "angular-sanitize": "^1.6.4",
     "angular-translate": "^2.15.2",
     "angular-ui-grid": "^4.0.6",
@@ -53,6 +56,7 @@
     "babel-polyfill": "^6.23.0",
     "bootstrap": "^3.3.7",
     "jquery": "^3.2.1",
+    "moment": "^2.18.1",
     "ui-select": "^0.19.8"
   }
 }

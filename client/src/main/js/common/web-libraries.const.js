@@ -4,11 +4,13 @@ export const ngAnimate = 'ngAnimate';
 export const ngMessages = 'ngMessages';
 export const uiRouter = 'ui.router';
 export const uiBootstrap = 'ui.bootstrap';
+export const uiBootstrapDatetimePicker = 'ui.bootstrap.datetimepicker';
 export const uiGrid = 'ui.grid';
 export const uiGridSelection = 'ui.grid.selection';
 export const uiGridPagination ='ui.grid.pagination';
 export const uiTest = 'ui.test';
 export const utilsEntity = 'utils.entity';
-export const jQuery = window.jQuery;
-export const xeditable = "xeditable";
 export const uiSelect = "ui.select";
+
+export const jQuery = window.jQuery;
+export const moment = window.moment;

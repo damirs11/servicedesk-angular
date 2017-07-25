@@ -1,5 +1,6 @@
 import {Templates} from "./components/templates/Templates";
 import {AuthTransition} from "./components/auth.transition";
+import {moment} from "../common/web-libraries.const"
 
 /**
  * Основной контроллер приложения.
@@ -16,6 +17,7 @@ class IndexController {
 
         // Настройка локали. В частности, используется в виджете "ui-grid"
         i18nService.setCurrentLang('ru');
+        moment.locale("ru")
     }
 }
 

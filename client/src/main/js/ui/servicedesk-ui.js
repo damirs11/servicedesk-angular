@@ -4,7 +4,7 @@
  */
 import {servicedeskAPI} from "../api/servicedesk-api";
 import {DialogsConfig} from "./components/dialogs/dialogs.config";
-import {uiRouter, translate, uiBootstrap, uiSelect, uiGrid, uiGridSelection, uiGridPagination, ngSanitize, xeditable, ngMessages} from "../common/web-libraries.const";
+import {uiRouter, translate, uiBootstrap, uiSelect, uiGrid, uiGridSelection, uiGridPagination, ngSanitize, ngMessages, uiBootstrapDatetimePicker} from "../common/web-libraries.const";
 import {TranslateConfig} from "./components/translate/translate.config";
 import {default as ModalAction} from "./components/modal-action/modal-action";
 import {EqualsTo} from "./components/validators/equals-to";
@@ -19,9 +19,10 @@ import {SDSelectComponent} from "./components/fields/sd-select/sd-select.compone
 import {SDSelectSearchComponent} from "./components/fields/sd-select-search/sd-select-search.component";
 import {uiSelectConfig} from "./components/uiSelect.config";
 import {SDDropdownComponent} from "./components/fields/sd-dropdown/sd-dropdown.component";
+import {SDDateTimeComponent} from "./components/fields/sd-datetime/sd-datetime.component";
 
 export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, ModalAction, uiRouter, ngMessages, translate,
-        uiBootstrap, ngSanitize, uiGrid, uiGridSelection, uiGridPagination, xeditable, uiSelect])
+        uiBootstrap, ngSanitize, uiGrid, uiGridSelection, uiGridPagination, uiSelect, uiBootstrapDatetimePicker])
     .config(TranslateConfig)
     .config(FormConfig)
     .config(DialogsConfig)
@@ -35,5 +36,6 @@ export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, M
     .component("sdSelect", SDSelectComponent)
     .component("sdDropdown", SDDropdownComponent)
     .component("sdSelectSearch", SDSelectSearchComponent)
+    .component("sdDatetime", SDDateTimeComponent)
     .controller("IndexController",IndexController)
     .name;
