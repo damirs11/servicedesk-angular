@@ -20,8 +20,8 @@ class ChangeController{
      */
     emptyValue = "- нет -";
 
-    static $inject = ["SD","changeId","$transitions","$state","ModalAction","$scope"];
-    constructor(SD,changeId,$transitions,$state,ModalAction,$scope){
+    static $inject = ["SD","changeId","$transitions","$state","ModalAction","$scope","$window"];
+    constructor(SD,changeId,$transitions,$state,ModalAction,$scope,$window){
         this.SD = SD;
         this.changeId = changeId;
         this.emptyValue = "- нет -";
@@ -29,13 +29,15 @@ class ChangeController{
         this.$transitions = $transitions;
         this.ModalAction = ModalAction;
         this.$scope = $scope;
+        this.$window = $window;
     }
 
     $onInit(){
         this.$loadChange();
+
         const removeExitHook = this.$transitions.onExit({
             from: state => state.name === this.$state.current.name,
-        }, async (transition) => {
+        },async () => {
             if (!this.change || !this.change.isModified) return;
             const modalResult = await this.ModalAction.entityChanged();
             if (modalResult == 0) {
@@ -46,9 +48,21 @@ class ChangeController{
                 // ToDo сделать сохранение модели и выйти
                 return true;
             }
-        } );
+        });
 
-        this.$scope.$on("$destroy", removeExitHook)
+        const onBeforeUnload = event => {
+            if (!this.change || !this.change.isModified) return;
+            console.log("onUnload");
+            event.returnValue = "Вы действительно хотите покинуть страницу? Несохраненные изменения будут утеряны."
+            return event.returnValue;
+        };
+
+        window.addEventListener("beforeunload", onBeforeUnload);
+
+        this.$scope.$on("$destroy", () => {
+            removeExitHook();
+            window.removeEventListener("beforeunload", onBeforeUnload)
+        })
     }
 
     get loading(){

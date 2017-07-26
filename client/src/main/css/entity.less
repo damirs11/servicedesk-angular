@@ -1,5 +1,25 @@
 .entity-container {
   font-size: 14px;
+
+  &__back-button {
+    margin-left: -19px; // consumes Bootstrap .well padding
+    margin-top: -19px;
+    padding: 4px;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    font-size: 20px;
+    height: 30px;
+    width: 30px;
+    position: relative;
+
+    & span{
+      margin: 0;
+      padding: 0;
+      position: relative;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+  }
 }
 
 .entity-separator {
@@ -22,13 +42,14 @@
 }
 
 .entity-property {
-
+  position: relative;
 
   &__name {
     position: relative;
     float: left;
     top: -25%;
     transform: translate(0, 25%);
+    padding-right: 5px;
   }
 
   &__value {

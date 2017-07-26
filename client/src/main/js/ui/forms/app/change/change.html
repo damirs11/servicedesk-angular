@@ -1,6 +1,10 @@
 <div class="container well entity-container" data-ng-show="ctrl.change && !ctrl.loading">
+    <div class="entity-container__back-button">
+        <a data-ui-sref="app.changes" href="javascript:void(0)">
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+    </div>
     <div class="entity-header">
-        <a data-ui-sref="app.changes">[<<]</a>
         <span>{{ctrl.change.subject}}</span>
     </div>
 
@@ -15,7 +19,7 @@
         <!--Кнопки для сброса / сохранения сущности-->
         <div class="col-md-6" data-ng-show="ctrl.change.isModified">
             <button class="btn btn-success" data-ng-click="ctrl.save()">Сохранить</button>
-            <button class="btn btn-warning" data-ng-click="ctrl.reset()">Сбросить</button>
+            <button class="btn btn-warning" data-ng-click="ctrl.reset()">Сбросить изменения</button>
         </div>
         <!--Статус бар-->
         <div class="col-md-6" style="text-align: right">
@@ -117,31 +121,35 @@
         </div>
         <div class="col-md-6">
 
-            <!--<div>-->
-                <!--<span>Статус:</span>-->
-                <!--<div style="display: inline-block; width: 250px;">-->
-                    <!--<sd-dropdown-->
-                            <!--target="ctrl.change.status"-->
-                            <!--fetch-data="ctrl.SD.Status.list()"-->
-                            <!--placeholder="Введите имя персоны"-->
-                            <!--display-value="$value.fullName"-->
-                            <!--search-enabled="false"-->
-                    <!--&gt;</sd-dropdown>-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="entity-property">
+                <div class="entity-property__name">
+                    <span>Статус:</span>
+                </div>
+                <div class="entity-property__value">
+                    <sd-dropdown
+                            target="ctrl.change.status"
+                            fetch-data="ctrl.SD.Status.list()"
+                            placeholder="Введите имя персоны"
+                            display-value="$value.fullName"
+                            search-enabled="false"
+                    ></sd-dropdown>
+                </div>
+            </div>
 
-            <!--<div>-->
-                <!--<span>Приоритет:</span>-->
-                <!--<div style="display: inline-block; width: 250px;">-->
-                    <!--<sd-dropdown-->
-                            <!--target="ctrl.change.priority"-->
-                            <!--fetch-data="ctrl.SD.Status.list()"-->
-                            <!--placeholder="Введите имя персоны"-->
-                            <!--display-value="$value.fullName"-->
-                            <!--search-enabled="false"-->
-                    <!--&gt;</sd-dropdown>-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="entity-property">
+                <div class="entity-property__name">
+                    <span>Приоритет:</span>
+                </div>
+                <div class="entity-property__value">
+                    <sd-dropdown
+                            target="ctrl.change.priority"
+                            fetch-data="ctrl.SD.Status.list()"
+                            placeholder="Введите имя персоны"
+                            display-value="$value.fullName"
+                            search-enabled="false"
+                    ></sd-dropdown>
+                </div>
+            </div>
 
         </div>
     </div>
