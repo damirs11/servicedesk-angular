@@ -9,11 +9,13 @@ import ru.it.sd.meta.MetaUtils;
 import ru.it.sd.model.HasId;
 import ru.it.sd.model.PagingRange;
 import ru.it.sd.model.SortingInfo;
-import ru.it.sd.util.CheckUtils;
 import ru.it.sd.util.EntityUtils;
 
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Абстрактный класс для работы с сущностями
@@ -61,14 +63,24 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		StringBuilder sql = getBaseSql();
 		if (filter != null) {
-			Map<String, String> filterCount = new HashMap<>(filter);
-			filterCount.remove(PagingRange.PAGING_PARAM_NAME);
-			filterCount.remove(SortingInfo.SORTING_PARAM_NAME);
-			buildWhere(filterCount, sql, params);
+			buildWhere(clearFilter(filter), sql, params);
 		}
 		sql.insert(0, "SELECT COUNT(*) FROM (\n");
 		sql.append(") t");
 		return namedJdbc.queryForObject(sql.toString(), params, int.class);
+	}
+
+	/**
+	 * Удаляет из фильтра сортировку и пейджинг
+	 */
+	public static Map<String, String> clearFilter(Map<String, String> filter) {
+		if (filter == null) {
+			return null;
+		}
+		Map<String, String> result = new HashMap<>(filter);
+		result.remove(PagingRange.PAGING_PARAM_NAME);
+		result.remove(SortingInfo.SORTING_PARAM_NAME);
+		return result;
 	}
 
 	/**
