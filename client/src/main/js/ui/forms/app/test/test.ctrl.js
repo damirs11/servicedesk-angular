@@ -16,7 +16,8 @@ class TestController {
     $onInit(){
         this.servicecall = {
             subject: "Длинная тема заявки",
-            change: this.SD.Change.parse({no:-15})
+            change: this.SD.Change.parse({no:-15}),
+            deadline: new Date()
         }
     }
 

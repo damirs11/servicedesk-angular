@@ -1,4 +1,4 @@
-const DATE_FORMAT = "LLL";
+const DATE_FORMAT = "DD MMMM YYYY, hh:mm";
 // Временная мера. Необходимо для того, чтобы на 1 странице работало несколько <sd-datetime/>
 let freeDropdownId = 0;
 
@@ -31,7 +31,6 @@ class SDDateTimeComponent {
         this.formattedDate = this.$formatDate(this.target);
 
         this.$scope.$watch("ctrl.target", (newDate) => {
-            console.log("TEST");
             this.formattedDate = this.$formatDate(newDate)
         })
     }

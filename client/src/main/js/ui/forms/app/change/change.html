@@ -38,26 +38,38 @@
     <hr class="entity-separator">
     <div class="entity-content">
         <div class="col-md-6">
-            <span>Инициатор:</span>
-            <div style="display: inline-block; width: 250px;">
-                <sd-dropdown
-                        target="ctrl.change.initiator"
-                        fetch-data="ctrl.SD.Person.list()"
-                        placeholder="Введите имя персоны"
-                        display-value="$value.fullName"
-                ></sd-dropdown>
+
+            <div class="entity-property">
+                <div class="entity-property__name">
+                    <span>Инициатор:</span>
+                </div>
+                <div class="entity-property__value">
+                    <sd-dropdown
+                            target="ctrl.change.initiator"
+                            fetch-data="ctrl.SD.Person.list()"
+                            placeholder="Введите имя персоны"
+                            display-value="$value.fullName"
+                    ></sd-dropdown>
+                </div>
             </div>
+
         </div>
         <div class="col-md-6">
-            <span>Менеджер:</span>
-            <div style="display: inline-block; width: 250px">
-                <sd-dropdown
-                        target="ctrl.change.manager"
-                        fetch-data="ctrl.SD.Person.list()"
-                        placeholder="Введите имя персоны"
-                        display-value="$value.fullName"
-                ></sd-dropdown>
+
+            <div class="entity-property">
+                <div class="entity-property__name">
+                    <span>Менеджер:</span>
+                </div>
+                <div class="entity-property__value">
+                    <sd-dropdown
+                            target="ctrl.change.manager"
+                            fetch-data="ctrl.SD.Person.list()"
+                            placeholder="Введите имя персоны"
+                            display-value="$value.fullName"
+                    ></sd-dropdown>
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -65,9 +77,11 @@
     <div class="entity-content">
         <div class="col-md-6">
 
-            <div>
-                <span>Дата создания:</span>
-                <div style="display: inline-block; width: 250px;">
+            <div class="entity-property">
+                <div class="entity-property__name">
+                    <span>Дата создания:</span>
+                </div>
+                <div class="entity-property__value">
                     <sd-datetime
                             target="ctrl.change.createdDate"
                             allow-empty="false"
@@ -75,9 +89,11 @@
                 </div>
             </div>
 
-            <div>
-                <span>Крайний срок:</span>
-                <div style="display: inline-block; width: 250px;">
+            <div class="entity-property">
+                <div class="entity-property__name">
+                    <span>Крайний срок:</span>
+                </div>
+                <div class="entity-property__value">
                     <sd-datetime
                             target="ctrl.change.deadline"
                             allow-empty="false"
@@ -85,9 +101,11 @@
                 </div>
             </div>
 
-            <div>
-                <span>Фактически выполнено:</span>
-                <div style="display: inline-block; width: 250px;">
+            <div class="entity-property">
+                <div class="entity-property__name">
+                    <span>Фактически выполнено:</span>
+                </div>
+                <div class="entity-property__value">
                     <sd-datetime
                             target="ctrl.change.resolvedDate"
                             allow-empty="false"
@@ -99,31 +117,31 @@
         </div>
         <div class="col-md-6">
 
-            <div>
-                <span>Статус:</span>
-                <div style="display: inline-block; width: 250px;">
-                    <sd-dropdown
-                            target="ctrl.change.status"
-                            fetch-data="ctrl.SD.Status.list()"
-                            placeholder="Введите имя персоны"
-                            display-value="$value.fullName"
-                            search-enabled="false"
-                    ></sd-dropdown>
-                </div>
-            </div>
+            <!--<div>-->
+                <!--<span>Статус:</span>-->
+                <!--<div style="display: inline-block; width: 250px;">-->
+                    <!--<sd-dropdown-->
+                            <!--target="ctrl.change.status"-->
+                            <!--fetch-data="ctrl.SD.Status.list()"-->
+                            <!--placeholder="Введите имя персоны"-->
+                            <!--display-value="$value.fullName"-->
+                            <!--search-enabled="false"-->
+                    <!--&gt;</sd-dropdown>-->
+                <!--</div>-->
+            <!--</div>-->
 
-            <div>
-                <span>Приоритет:</span>
-                <div style="display: inline-block; width: 250px;">
-                    <sd-dropdown
-                            target="ctrl.change.priority"
-                            fetch-data="ctrl.SD.Status.list()"
-                            placeholder="Введите имя персоны"
-                            display-value="$value.fullName"
-                            search-enabled="false"
-                    ></sd-dropdown>
-                </div>
-            </div>
+            <!--<div>-->
+                <!--<span>Приоритет:</span>-->
+                <!--<div style="display: inline-block; width: 250px;">-->
+                    <!--<sd-dropdown-->
+                            <!--target="ctrl.change.priority"-->
+                            <!--fetch-data="ctrl.SD.Status.list()"-->
+                            <!--placeholder="Введите имя персоны"-->
+                            <!--display-value="$value.fullName"-->
+                            <!--search-enabled="false"-->
+                    <!--&gt;</sd-dropdown>-->
+                <!--</div>-->
+            <!--</div>-->
 
         </div>
     </div>

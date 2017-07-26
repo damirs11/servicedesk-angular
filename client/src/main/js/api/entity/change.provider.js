@@ -57,7 +57,7 @@ function ChangeProvider(EditableEntity, SD, $connector) {
          * @name SD.Change#createdDate
          * @type {Date}
          */
-        @Serialize(Number) @Parse(Date) createdDate;
+        @Serialize(Number) @Parse(time => new Date(time)) createdDate;
 
         /**
          * Крайний срок
@@ -65,7 +65,7 @@ function ChangeProvider(EditableEntity, SD, $connector) {
          * @name SD.Change#deadline
          * @type {Date}
          */
-        @Serialize(Number) @Parse(Date) deadline;
+        @Serialize(Number) @Parse(time => new Date(time)) deadline;
 
         /**
          * Дата фактического выполнения
@@ -73,7 +73,7 @@ function ChangeProvider(EditableEntity, SD, $connector) {
          * @name SD.Change#resolvedDate
          * @type {Date}
          */
-        @Serialize(Number) @Parse(Date) resolvedDate;
+        @Serialize(Number) @Parse(time => new Date(time)) resolvedDate;
 
         /**
          * Инициатор
