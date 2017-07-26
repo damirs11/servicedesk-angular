@@ -2,6 +2,7 @@
     <div class="btn-toolbar">
         <button data-ng-click="ctrl.errorClick()" class="btn btn-default">Диалог "Ошибка"</button>
         <button data-ng-click="ctrl.logSC()" class="btn btn-default">Логнуть заявку</button>
+        <button data-ng-click="ctrl.enabled = !ctrl.enabled" class="btn btn-default">Toggle</button>
     </div>
 
     <div class="entity-content">
@@ -19,10 +20,12 @@
         <form style="width: 360px">
             <span>Выбор даты</span>
             <sd-datetime target="ctrl.servicecall.deadline"
-                         enabled="true"
+                         enabled="ctrl.enabled"
                          empty-value="- нет -"
-                         allow-empty="false">
-
+                         allow-empty="false"
+                         min-date="ctrl.minDate"
+                         max-date="ctrl.maxDate"
+            >
             </sd-datetime>
         </form>
 
@@ -32,6 +35,7 @@
                     target="ctrl.servicecall.person"
                     fetch-data="ctrl.SD.Person.list()"
                     placeholder="Введите имя персоны"
+                    enabled="ctrl.enabled"
                     display-value="$value.fullName"
                     enabled="true"
             ></sd-dropdown>

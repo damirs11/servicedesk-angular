@@ -11,7 +11,8 @@ const SDDateTimeComponent = {
         enabled: "<",
         emptyValue: "@",
         allowEmpty: "<",
-    //    ToDo Добавить minDate и maxDate
+        minDate: "<",
+        maxDate: "<"
     }
 };
 

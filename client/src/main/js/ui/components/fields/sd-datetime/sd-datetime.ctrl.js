@@ -44,6 +44,19 @@ class SDDateTimeComponent {
         }
     }
 
+    beforeCalendarRender($view, $dates){
+        const minDate = this.minDate;
+        const maxDate = this.maxDate;
+        if (this.minDate !== undefined && this.minDate !== "") {
+            $dates.filter(date => date.localDateValue() < minDate.getTime())
+                .forEach(date => date.selectable = false)
+        }
+        if (this.maxDate !== undefined && this.maxDate !== "") {
+            $dates.filter(date => date.localDateValue() > maxDate.getTime())
+                .forEach(date => date.selectable = false)
+        }
+    }
+
     $formatDate($date){
         if ($date == null) return this.emptyValue || "- нет -";
         return moment($date).format(DATE_FORMAT)
