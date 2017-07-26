@@ -1,0 +1,37 @@
+<div style="display: inline-block">
+
+    <div data-ng-show="ctrl.isViewMode">
+        <span data-ng-hide="ctrl.isEditable">{{ctrl.currentDisplay}}</span>
+        <a data-ng-show="ctrl.isEditable" href="javascript:void(0)" data-ng-click="ctrl.edit()">{{ctrl.currentDisplay}}</a>
+    </div>
+
+    <div data-ng-show="ctrl.isEditMode"
+         data-sd-on-interact-out="ctrl.onClickOut()"
+         data-sd-on-interact-out-if="ctrl.isEditMode">
+
+        <div class="input-group">
+            <div class="btn-group" data-ng-class="{'open': (ctrl.isReady && ctrl.isEditMode) }">
+                <button type="button"
+                        class="btn btn-default dropdown-toggle"
+                        data-ng-hide="ctrl.isError"
+                        data-ng-disabled="ctrl.isLoading"
+                        sd-focus="ctrl.isEditable && ctrl.isReady"
+                        data-toggle="dropdown"
+                        data-ng-keydown="ctrl.onButtonKeydown($event)">
+                    <span ng-bind="ctrl.currentDisplay"></span> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                    <li ng-show="ctrl.isAllowEmpty">
+                        <a href="javascript:void(0)" ng-click="ctrl.select(null);ctrl.commit(null)" ng-bind="ctrl.display(null)"></a>
+                    </li>
+                    <li ng-repeat="el in ctrl.values track by $index">
+                        <a href="javascript:void(0)" ng-click="ctrl.select(el);ctrl.commit(el)">
+                            <span ng-bind="ctrl.display(el)"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>

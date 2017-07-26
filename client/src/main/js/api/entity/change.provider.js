@@ -91,6 +91,10 @@ function ChangeProvider(EditableEntity, SD, $connector) {
          */
         @Serialize(p => p.id) @Parse(data => SD.Person.parse(data)) manager;
 
+        toString(){
+            return this.no;
+        }
+
     };
 }
 

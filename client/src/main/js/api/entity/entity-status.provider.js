@@ -17,6 +17,10 @@ function StatusProvider(Entity) {
          */
         @Parse(String) name;
 
+        static get name(){
+            return "EntityStatus"
+        }
+
         toString(){
             return this.name
         }

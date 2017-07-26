@@ -38,6 +38,7 @@
   "DIALOGS_NOTIFICATION": "Уведомление",
   "DIALOGS_NO": "Нет",
   "DIALOGS_YES": "Да",
+  "DIALOGS_SAVE_EXIT": "Сохранить и выйти",
   "DIALOGS_INPUT_TEXT": "Ввод текста",
   "DIALOGS_ERROR": "Ошибка",
   "DIALOGS_CONFIRMATION": "Вопрос",

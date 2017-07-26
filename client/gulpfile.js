@@ -138,7 +138,7 @@ gulp.task('build:js', function buildJS() {
  * Собирает js библиотеки в vendor.js
  */
 gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js библиотеки в отдельный файл
-    var files = [
+    const files = [
         'node_modules/babel-polyfill/browser.js',
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
@@ -152,6 +152,11 @@ gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js �
         'node_modules/angular-bootstrap-npm/dist/angular-bootstrap-tpls.min.js',
         'node_modules/angular-ui-grid/ui-grid.min.js',
         'node_modules/angular-animate/angular-animate.min.js',
+        'node_modules/ui-select/dist/select.min.js',
+        'node_modules/moment/moment.js',
+        'node_modules/moment/locale/ru.js',
+        'node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
+        'node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js',
     ];
     return gulp.src(files)
         .pipe(plumber())
@@ -173,6 +178,19 @@ gulp.task('build:less', function buildLess(){
         .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(config.dist.css));
+});
+
+/**
+ * Собирает less
+ */
+gulp.task('build:less-vendor', function buildLess(){
+    const files = [
+        'node_modules/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
+    ];
+    return gulp.src(files)
+        .pipe(plumber())
+        .pipe(concat("vendor.min.css")) // "Склеиваем" минифицированные js в один файл
+        .pipe(gulp.dest(config.dist.css)); // Кладем в dest/js
 });
 
 /**
@@ -243,8 +261,8 @@ gulp.task('webserver:reload', function () {
  */
 gulp.task('copy', gulp.parallel('copy:img','copy:index','copy:fonts'));
 
-gulp.task('build',gulp.parallel('build:js','build:less','build:js-vendor','copy'));
+gulp.task('build', gulp.parallel('build:js','build:less','build:js-vendor', 'build:less-vendor','copy'));
 
-gulp.task( 'watch',gulp.series( 'build',gulp.parallel('watch:js','watch:less','watch:static') ) );
+gulp.task('watch', gulp.series('build', gulp.parallel('watch:js','watch:less','watch:static') ) );
 
-gulp.task('default',gulp.series('build'));
+gulp.task('default', gulp.series('build') );

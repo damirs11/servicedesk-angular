@@ -1,12 +1,45 @@
 <div class="btn-toolbar" style="margin: 10px">
     <div class="btn-toolbar">
         <button data-ng-click="ctrl.errorClick()" class="btn btn-default">Диалог "Ошибка"</button>
+        <button data-ng-click="ctrl.logSC()" class="btn btn-default">Логнуть заявку</button>
+        <button data-ng-click="ctrl.enabled = !ctrl.enabled" class="btn btn-default">Toggle</button>
     </div>
 
-    <div data-ui-grid="ctrl.gridOptions" style="width:600px; height:300px;"
-         data-ui-grid-selection
-         data-ui-grid-resize-columns
-         data-ui-grid-pagination
-         data-ui-gitd-autoResize>
+    <div class="entity-content">
+        <br>
+        <!--<sd-dropdown-->
+            <!--target="ctrl.servicecall.change"-->
+            <!--fetch-data="ctrl.SD.Change.list()"-->
+            <!--debounce="500"-->
+            <!--placeholder="Введите изменение"-->
+            <!--display-value="'№' + $value.no + ': ' + $value.subject"-->
+            <!--allow-clear-->
+        <!--/>-->
+
+
+        <form style="width: 360px">
+            <span>Выбор даты</span>
+            <sd-datetime target="ctrl.servicecall.deadline"
+                         enabled="ctrl.enabled"
+                         empty-value="- нет -"
+                         allow-empty="false"
+                         min-date="ctrl.minDate"
+                         max-date="ctrl.maxDate"
+            >
+            </sd-datetime>
+        </form>
+
+        <form style="width: 360px">
+            <span>Выбор Персоны</span>
+            <sd-dropdown
+                    target="ctrl.servicecall.person"
+                    fetch-data="ctrl.SD.Person.list()"
+                    placeholder="Введите имя персоны"
+                    enabled="ctrl.enabled"
+                    display-value="$value.fullName"
+                    enabled="true"
+            ></sd-dropdown>
+        </form>
+
     </div>
 </div>
