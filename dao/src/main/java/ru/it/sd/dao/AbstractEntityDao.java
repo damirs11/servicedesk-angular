@@ -10,6 +10,7 @@ import ru.it.sd.model.HasId;
 import ru.it.sd.model.PagingRange;
 import ru.it.sd.model.SortingInfo;
 import ru.it.sd.util.EntityUtils;
+import ru.it.sd.util.ResourceMessages;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -94,11 +95,13 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 			return null;
 		}
 		// Формируем фильтр
-		List<String> keyColumns = getKeyColumnNames();
 		Map<String, String> filter = new HashMap<>();
-		filter.put(keyColumns.get(0), id.toString()); // Предполагаем, что ключевой столбец один
+		filter.put("id", id.toString()); // Предполагаем, что ключевой столбец один
 		// Выполняем запрос в базу данных
 		List<EntityClass> list = list(filter);
+		if (list.size() > 1) {
+			throw new IllegalArgumentException(ResourceMessages.getMessage("error.too.many.result"));
+		}
 		return list.isEmpty() ? null : list.get(0);
 	}
 

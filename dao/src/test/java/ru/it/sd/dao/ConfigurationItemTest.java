@@ -7,16 +7,13 @@ import org.springframework.test.context.jdbc.Sql;
 import org.testng.annotations.Test;
 import ru.it.sd.model.*;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
 import static org.testng.Assert.*;
 
-@Sql("ConfigurationItemDaoTest.sql")
-@Sql("PersonDaoTest.sql")
+@Sql(scripts = {"ConfigurationItemDaoTest.sql", "PersonDaoTest.sql"})
 public class ConfigurationItemTest extends AbstractDaoTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ConfigurationItemTest.class);
@@ -25,7 +22,7 @@ public class ConfigurationItemTest extends AbstractDaoTest {
 	private ConfigurationItemDao dao;
 
 	@Test
-	private void testFindOne() {
+	private void testRead() {
 		ConfigurationItem item = dao.read(20001L);
 		assertNotNull(item);
 		assertEquals(item.getId().longValue(), 20001L);
@@ -49,7 +46,6 @@ public class ConfigurationItemTest extends AbstractDaoTest {
 		numberFilter.put("no_between","2001:2002");
 
 		HashMap<String, String> dateFilter = new HashMap<>();
-		Long date = 1375963200000L;
 		Long date1 = Timestamp.valueOf("2013-08-08 00:00:00").getTime();
 		Long date2 = Timestamp.valueOf("2013-08-08 14:00:00").getTime();
 		dateFilter.put("purchaseDate_between", date1.toString()+":"+date2.toString());

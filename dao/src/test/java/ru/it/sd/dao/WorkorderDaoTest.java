@@ -13,9 +13,7 @@ import java.util.Map;
 
 import static org.testng.Assert.*;
 
-@Sql("WorkorderDaoTest.sql")
-@Sql("PersonDaoTest.sql")
-@Sql("ChangeDaoTest.sql")
+@Sql(scripts = {"WorkorderDaoTest.sql", "PersonDaoTest.sql", "ChangeDaoTest.sql"})
 public class WorkorderDaoTest extends AbstractDaoTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkorderDaoTest.class);
@@ -24,7 +22,7 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 	private WorkorderDao dao;
 
 	@Test
-	private void testFindOne() {
+	private void testRead() {
 		Workorder workorder = dao.read(12L);
 		assertNull(workorder);
 		workorder = dao.read(10001L);
@@ -38,14 +36,13 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 
 	@Test
 	private void testFindByFilter(){
-
 		Map<String, String> firstFilter = new HashMap<>();
-		firstFilter.put("initiator","1");
+		firstFilter.put("initiator", "1");
 		Map<String, String> secondFilter = new HashMap<>();
-		secondFilter.put("initiator","2");
+		secondFilter.put("initiator", "2");
 		Map<String, String> thirdFilter = new HashMap<>();
-		thirdFilter.put("initiator","1");
-		thirdFilter.put("assigneePerson","2");
+		thirdFilter.put("initiator", "1");
+		thirdFilter.put("assigneePerson", "2");
 
 		List<Workorder> workorders = dao.list(firstFilter);
 		assertEquals(workorders.size(),2);
@@ -56,7 +53,7 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 		assertNotNull(workorders.get(0).getAssigneePerson());
 
 		Map<String, String> byChangeFilter = new HashMap<>();
-		byChangeFilter.put("change_like","111222");
+		byChangeFilter.put("change_like", "111222");
 		workorders = dao.list(byChangeFilter);
 		assertEquals(workorders.size(), 1);
 	}

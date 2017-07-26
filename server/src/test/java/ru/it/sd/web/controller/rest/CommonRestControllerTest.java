@@ -50,7 +50,7 @@ public class CommonRestControllerTest extends AbstractWebTest{
                 .andExpect(jsonPath("$").value(4));
 	}
 
-	//@Test
+	@Test
 	public void testStatusRead() throws Exception {
 		mockMvc.perform(get("/rest/entity/EntityStatus/3095134329").accept(MEDIA_TYPE))
 				.andDo(MockMvcResultHandlers.log())
