@@ -10,8 +10,9 @@ function AuthTransition($transitions, Session, $state, $trace, $location) {
     $transitions.onEnter({
         entering: state => state.data && state.data.needAuthorize
     }, (transition) => {
-        const returnUrl = $state.href(transition.$to());
         if (!Session.authorized) {
+            const target = transition.targetState();
+            const returnUrl = $state.href(target.name(), target.params());
             return $state.target('app.login',{returnUrl});
         }
     });
