@@ -48,46 +48,44 @@ public class FilterUtils {
      */
     public static void createFilter(StringBuilder queryPart, MapSqlParameterSource params, Map<String, String> filter,  Class clazz) {
 
-        if ((filter != null) && !filter.entrySet().isEmpty()) {
-            queryPart.append("\n WHERE 1 = 1"); // "WHERE TRUE" в MS SQL не работает
+        if (filter != null && !filter.entrySet().isEmpty()) {
+            queryPart.append(" WHERE 1 = 1"); // "WHERE TRUE" в MS SQL не работает
             //Поиск по всем полям класса
             Map<String, FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
             for (FieldMetaData fmd : fieldMetaDataList.values()) {
                 if(fmd.isAnnotation()) {
                     String prefix = getPrefix(clazz, fmd);
-                    if (!prefix.isEmpty()) {
-                        Comparison type;
-                        //Сравнение одиночных значений и списка на равенство(Comprasion.EQUAl)
-                        if (filter.containsKey(fmd.getName())) {
-                            String value = filter.get(fmd.getName());
-                            equalComparison(queryPart, fmd, params, value, prefix);
-                            continue;
-                        }
-                        //Поиск похожих элементов
-                        if (filter.containsKey(fmd.getName() + "_like")) {
-                            String value = filter.get(fmd.getName()+"_like");
-                            likeComparison(queryPart, fmd, params, value, prefix);
-                            continue;
-                        }
-                        //Поиск до
-                        if (filter.containsKey(fmd.getName() + "_before")) {
-                            String value = filter.get(fmd.getName()+"_before");
-                            beforeComparison(queryPart, fmd, params, value, prefix);
-                            continue;
-                        }
-                        //Поиск после
-                        if (filter.containsKey(fmd.getName() + "_after")) {
-                            String value = filter.get(fmd.getName()+"_after");
-                            afterComparison(queryPart, fmd, params, value, prefix);
-                            continue;
-                        }
-                        //Поиск между
-                        if (filter.containsKey(fmd.getName() + "_between")) {
-                            type = Comparison.BETWEEN;
-                            String value = filter.get(fmd.getName() + "_between");
-                            betweenComparison(queryPart, fmd, params, value, prefix);
-                            continue;
-                        }
+                    Comparison type;
+                    //Сравнение одиночных значений и списка на равенство(Comprasion.EQUAl)
+                    if (filter.containsKey(fmd.getName())) {
+                        String value = filter.get(fmd.getName());
+                        equalComparison(queryPart, fmd, params, value, prefix);
+                        continue;
+                    }
+                    //Поиск похожих элементов
+                    if (filter.containsKey(fmd.getName() + "_like")) {
+                        String value = filter.get(fmd.getName()+"_like");
+                        likeComparison(queryPart, fmd, params, value, prefix);
+                        continue;
+                    }
+                    //Поиск до
+                    if (filter.containsKey(fmd.getName() + "_before")) {
+                        String value = filter.get(fmd.getName()+"_before");
+                        beforeComparison(queryPart, fmd, params, value, prefix);
+                        continue;
+                    }
+                    //Поиск после
+                    if (filter.containsKey(fmd.getName() + "_after")) {
+                        String value = filter.get(fmd.getName()+"_after");
+                        afterComparison(queryPart, fmd, params, value, prefix);
+                        continue;
+                    }
+                    //Поиск между
+                    if (filter.containsKey(fmd.getName() + "_between")) {
+                        type = Comparison.BETWEEN;
+                        String value = filter.get(fmd.getName() + "_between");
+                        betweenComparison(queryPart, fmd, params, value, prefix);
+                        continue;
                     }
                 }
 
@@ -115,7 +113,7 @@ public class FilterUtils {
             queryPart.
                     append("\n\tAND ").
                     append(prefix).
-                    append(".").
+                    append(StringUtils.isNotBlank(prefix) ? "." : "").
                     append(fmd.getColumnName()).
                     append(" = :").
                     append(fmd.getName()).
@@ -126,7 +124,7 @@ public class FilterUtils {
                 for (int i = 0; i < valueArr.length; i++) {
                     queryPart.
                             append(prefix).
-                            append(".").
+                            append(StringUtils.isNotBlank(prefix) ? "." : "").
                             append(fmd.getColumnName()).
                             append(" = :").
                             append(fmd.getName()).append(i);
@@ -155,7 +153,7 @@ public class FilterUtils {
             queryPart.
                     append("\n\tAND ").
                     append(prefix).
-                    append(".").
+                    append(StringUtils.isNotBlank(prefix) ? "." : "").
                     append(fmd.getColumnName()).
                     append(" LIKE '%'||:").
                     append(fmd.getName()).append("_like").
@@ -181,7 +179,7 @@ public class FilterUtils {
             queryPart.
                     append("\n\tAND ").
                     append(prefix).
-                    append(".").
+                    append(StringUtils.isNotBlank(prefix) ? "." : "").
                     append(fmd.getColumnName()).
                     append(" <= :").
                     append(fmd.getName()).append("_before");
@@ -206,7 +204,7 @@ public class FilterUtils {
             queryPart.
                     append("\n\tAND ").
                     append(prefix).
-                    append(".").
+                    append(StringUtils.isNotBlank(prefix) ? "." : "").
                     append(fmd.getColumnName()).
                     append(" >= :").
                     append(fmd.getName()).append("_after");
@@ -230,7 +228,7 @@ public class FilterUtils {
             queryPart.
                     append("\n\tAND ").
                     append(prefix).
-                    append(".").
+                    append(StringUtils.isNotBlank(prefix) ? "." : "").
                     append(fmd.getColumnName()).
                     append(" BETWEEN :").
                     append(fmd.getName()).append("_from").

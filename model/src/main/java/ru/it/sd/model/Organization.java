@@ -13,13 +13,19 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 @ClassMeta(tableName = "itsm_organizations")
 public class Organization implements Code {
-	/** Идентификатор */
-	@FieldMeta(columnName = "org_oid")
+	/**
+	 * Идентификатор
+	 */
+	@FieldMeta(columnName = "org_oid", key = true)
 	private Long id;
-	/** Название */
+	/**
+	 * Название
+	 */
 	@FieldMeta(columnName = "org_name1")
 	private String name;
-	/** Email */
+	/**
+	 * Email
+	 */
 	@FieldMeta(columnName = "org_email")
 	private String email;
 
@@ -51,10 +57,6 @@ public class Organization implements Code {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, AppToStringStyle.getInstance())
-				.append("id", this.id)
-				.append("name", this.name)
-				.append("email", this.email)
-				.toString();
+		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
 	}
 }

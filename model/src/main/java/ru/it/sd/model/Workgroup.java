@@ -1,7 +1,9 @@
 package ru.it.sd.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
+import ru.it.sd.util.AppToStringStyle;
 
 import java.io.Serializable;
 
@@ -11,7 +13,7 @@ import java.io.Serializable;
 @ClassMeta(tableName = "itsm_workgroups", tableAlias = "wg")
 public class Workgroup implements HasId, HasStatus, Serializable {
 
-    @FieldMeta(columnName = "wog_oid")
+    @FieldMeta(columnName = "wog_oid", key = true)
     private Long id;
 
     @FieldMeta(columnName = "wog_name")
@@ -25,9 +27,6 @@ public class Workgroup implements HasId, HasStatus, Serializable {
 
     @FieldMeta(columnName = "slc_wog_per_oid", tableAlias = "per")
     private Person creator;
-
-
-
 
     @Override
     public EntityStatus getStatus() {
@@ -67,11 +66,6 @@ public class Workgroup implements HasId, HasStatus, Serializable {
 
     @Override
     public String toString() {
-        return "Workgroup{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", searchcode='" + searchcode + '\'' +
-                ", status=" + status +
-                '}';
+        return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
     }
 }

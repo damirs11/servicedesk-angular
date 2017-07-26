@@ -18,7 +18,7 @@ import java.util.Date;
 public class ConfigurationItem implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
-	@FieldMeta(columnName = "cit_oid")
+	@FieldMeta(columnName = "cit_oid", key = true)
 	private Long id;
 	/** Номер */
 	@FieldMeta(columnName = "cit_id")
@@ -313,30 +313,6 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, AppToStringStyle.getInstance())
-				.append("id", this.id)
-				.append("no", this.no)
-				.append("searchCode", this.searchCode)
-				.append("name", this.name)
-				.append("description", this.description)
-				.append("orderNr", this.orderNr)
-				.append("serial", this.serial)
-				.append("address", this.address)
-				.append("remark", this.remark)
-				.append("ip", this.ip)
-				.append("price", this.price)
-				.append("attachmentExists", this.attachmentExists)
-				.append("avatarId", this.avatarId)
-				.append("status", this.status)
-				.append("category", this.category)
-				.append("purchaseDate", this.purchaseDate)
-				.append("warrantyDate", this.warrantyDate)
-				.append("inventoryDate", this.inventoryDate)
-				.append("admin", this.admin)
-				.append("owner", this.owner)
-				.append("ownerOrganization", this.ownerOrganization)
-				.append("payer", this.payer)
-				.append("supplier", this.supplier)
-				.toString();
+		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
 	}
 }

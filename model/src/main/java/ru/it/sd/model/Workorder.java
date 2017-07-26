@@ -16,7 +16,7 @@ import java.util.Date;
 public class Workorder implements HasId, HasStatus, Serializable {
 
 	/** Уникальный идентификатор */
-	@FieldMeta(columnName = "wor_oid")
+	@FieldMeta(columnName = "wor_oid", key = true)
 	private Long id;
 	/** Номер */
 	@FieldMeta(columnName = "wor_id")
