@@ -7,18 +7,25 @@
     <hr class="entity-separator">
     <!--Кнопки в верхнем меню-->
     <div class="entity-tools container-fluid row">
-        <!--Кнопки для управления статусом заявки-->
+        <!--Кнопки для управления статусом сущности-->
         <div class="col-md-6" data-ng-hide="ctrl.change.isModified">
             <button class="btn btn-info" data-ng-click="window.alert('Наряд создан')">Взять в работу</button>
             <button class="btn btn-info" data-ng-click="window.alert('Наряд создан')">Вернуть в ДС</button>
         </div>
+        <!--Кнопки для сброса / сохранения сущности-->
         <div class="col-md-6" data-ng-show="ctrl.change.isModified">
             <button class="btn btn-success" data-ng-click="ctrl.save()">Сохранить</button>
             <button class="btn btn-warning" data-ng-click="ctrl.reset()">Сбросить</button>
         </div>
         <!--Статус бар-->
         <div class="col-md-6" style="text-align: right">
-            Статус изменения
+            <div style="margin-bottom: 5px; margin-top: 5px;">
+                <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #404040">Зарегистрировано</div>
+                <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #404040">Направлено</div>
+                <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #2a6496">В работе инженер</div>
+                <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #c8c8c8;">Отработано</div>
+                <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #c8c8c8;">Закрыто</div>
+            </div>
         </div>
     </div>
 
@@ -64,7 +71,6 @@
                     <sd-datetime
                             target="ctrl.change.createdDate"
                             allow-empty="false"
-                            enabled="false"
                     ></sd-datetime>
                 </div>
             </div>
@@ -75,7 +81,6 @@
                     <sd-datetime
                             target="ctrl.change.deadline"
                             allow-empty="false"
-                            enabled="false"
                     ></sd-datetime>
                 </div>
             </div>

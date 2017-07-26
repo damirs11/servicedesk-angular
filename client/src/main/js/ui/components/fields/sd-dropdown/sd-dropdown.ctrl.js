@@ -33,8 +33,8 @@ class SDDropdownComponentController{
 
 
     get isAllowClear(){
-        if (this.allowClear === undefined) return false;
-        return this.allowClear;
+        if (this.allowEmpty === undefined) return false;
+        return this.allowEmpty;
     }
 }
 

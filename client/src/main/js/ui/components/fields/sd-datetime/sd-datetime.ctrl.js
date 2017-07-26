@@ -1,4 +1,5 @@
 const DATE_FORMAT = "LLL";
+// Временная мера. Необходимо для того, чтобы на 1 странице работало несколько <sd-datetime/>
 let freeDropdownId = 0;
 
 
@@ -25,16 +26,18 @@ class SDDateTimeComponent {
         this.dateTimePickerConfig = {
             startView: "day",
             minView: "minute",
-            dropdownSelector: "#"+this.dropdownId
+            dropdownSelector: "#datetimepicker-dropdown-"+this.dropdownId
         };
-        this.formattedDate = this.$formatDate(this.target)
+        this.formattedDate = this.$formatDate(this.target);
+
+        this.$scope.$watch("ctrl.target", (newDate) => {
+            console.log("TEST");
+            this.formattedDate = this.$formatDate(newDate)
+        })
     }
 
     formattedDate = null;
 
-    onTimeSet(newDate){
-        this.formattedDate = this.$formatDate(newDate)
-    }
 
     onKeydown($event) {
         if ($event.keyCode === 13) { // onEnter
