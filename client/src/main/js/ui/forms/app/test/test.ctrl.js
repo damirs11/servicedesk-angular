@@ -6,15 +6,11 @@ class TestController {
     constructor($scope, ModalAction,SD) {
         this.$scope = $scope;
         this.ModalAction = ModalAction;
-        this.enabled = true;
         this.SD = SD;
 
-        this.minDate = moment().subtract(2,"day").toDate();
+        this.enabled = true;
+        this.minDate = moment().subtract(2,"days").toDate();
         this.maxDate = moment().add(1,"day").toDate();
-    }
-
-    async log(){
-        console.log("TEST");
     }
 
     $onInit(){

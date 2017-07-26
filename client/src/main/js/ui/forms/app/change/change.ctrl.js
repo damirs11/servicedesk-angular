@@ -81,14 +81,17 @@ class ChangeController{
         }
     }
 
-    /**
-     * Подгружает персон в переменную.
-     * @param varName - название переменной в контроллере
-     * @param filter - фильтр поиска персон
-     * @returns {Promise.<void>}
-     */
-    async loadPersons(varName,filter){
-        this[varName] = await this.SD.Change.list(filter);
+    save(){
+        this.change.save();
+    }
+
+    async reset(){
+        const result = await this.ModalAction.confirm(this.$scope, {
+            header: "Сброс изменений",
+            msg: "Вы действительно хотите отменить все изменения?",
+            required: true
+        });
+        if (result) this.change.reset()
     }
 }
 

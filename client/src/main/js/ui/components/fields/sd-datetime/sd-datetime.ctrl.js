@@ -48,11 +48,11 @@ class SDDateTimeComponent {
         const minDate = this.minDate;
         const maxDate = this.maxDate;
         if (this.minDate !== undefined && this.minDate !== "") {
-            $dates.filter(date => date.localDateValue() < minDate.getTime())
+            $dates.filter(date => date.localDateValue() <= minDate.getTime())
                 .forEach(date => date.selectable = false)
         }
         if (this.maxDate !== undefined && this.maxDate !== "") {
-            $dates.filter(date => date.localDateValue() > maxDate.getTime())
+            $dates.filter(date => date.localDateValue() >= maxDate.getTime())
                 .forEach(date => date.selectable = false)
         }
     }
