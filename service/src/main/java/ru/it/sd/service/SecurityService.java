@@ -2,6 +2,7 @@ package ru.it.sd.service;
 
 import ru.it.sd.dao.UserDao;
 import ru.it.sd.exception.ServiceException;
+import ru.it.sd.model.DynamicAuthentication;
 import ru.it.sd.model.User;
 import ru.it.sd.util.ResourceMessages;
 import com.hp.itsm.ssp.beans.SdClientBean;

@@ -1,40 +1,31 @@
-package ru.it.sd.service.external;
+package ru.it.sd.hp;
 
 import com.hp.itsm.api.interfaces.*;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.it.sd.model.Workorder;
-import ru.it.sd.service.SecurityService;
-
-import java.util.Set;
 
 /**
  * Created by user on 27.07.2017.
  */
-public class IWorkorderService implements ExternalCRUD<Workorder, IWorkorder> {
-    @Autowired
-    SecurityService securityService;
-    @Autowired
-    IPersonService iPersonService;
-    @Autowired
-    IWorkorderStatusService iWorkorderStatusService;
-    @Autowired
-    IWorkorderCategoryService iWorkorderCategoryService;
-    @Autowired
-    IOrganizationService iOrganizationService;
-    @Autowired
-    IWorkgroupService iWorkgroupService;
+@Repository
+public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
 
-    @Override
-    public IWorkorder read(long id) {
-        SdClientBean sdClientBean = securityService.getDynamicAuthentication().getSdClient();
-        IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openWorkorder(id);
-        return iWorkorder;
-    }
+    @Autowired
+    private HpApi api;
+    @Autowired
+    private IPersonDao iPersonService;
+    @Autowired
+    private IWorkorderStatusDao iWorkorderStatusService;
+    @Autowired
+    private IWorkorderCategoryDao iWorkorderCategoryService;
+    @Autowired
+    private IOrganizationDao iOrganizationService;
 
     @Override
     public long create(Workorder entity) {
-        SdClientBean sdClientBean = securityService.getDynamicAuthentication().getSdClient();
+        SdClientBean sdClientBean = api.getSdClient();
         //Создание нового наряда
         IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openNewWorkorder();
         //Открытие инициатора
@@ -67,20 +58,20 @@ public class IWorkorderService implements ExternalCRUD<Workorder, IWorkorder> {
     }
 
     @Override
-    public long update(Workorder entity) {
-        return 0;
+    public IWorkorder read(long id) {
+        SdClientBean sdClientBean = api.getSdClient();
+        return sdClientBean.sd_session().getWorkorderHome().openWorkorder(id);
     }
 
-    /*@Override
-    public long patch(Workorder entity, Set<String> fields) {
-        return 0;
-    }*/
+    @Override
+    public void update(Workorder entity) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
-    public void delete(Workorder entity) {
-        SdClientBean sdClientBean = securityService.getDynamicAuthentication().getSdClient();
-        //Создание нового наряда
-        IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openWorkorder(entity.getId());
+    public void delete(long id) {
+        SdClientBean sdClientBean = api.getSdClient();
+        IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openWorkorder(id);
         iWorkorder.delete();
     }
 }

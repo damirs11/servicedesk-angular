@@ -1,14 +1,10 @@
 package ru.it.sd.service;
 
-import com.hp.itsm.api.ApiSDSession;
-import com.hp.itsm.api.interfaces.*;
-import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.exception.ServiceException;
-import ru.it.sd.model.Person;
+import ru.it.sd.hp.IWorkorderDao;
 import ru.it.sd.model.Workorder;
-import ru.it.sd.service.external.IWorkorderService;
 
 import java.util.List;
 import java.util.Map;
@@ -20,10 +16,9 @@ import java.util.Set;
 public class WorkorderService implements CrudService<Workorder>{
 
     @Autowired
-    WorkorderDao dao;
-
+    private WorkorderDao dao;
     @Autowired
-    IWorkorderService iWorkorderService;
+    private IWorkorderDao iWorkorderService;
 
     @Override
     public Workorder read(long id) {
