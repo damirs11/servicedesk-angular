@@ -28,7 +28,7 @@ import java.sql.SQLException;
  * @since 11.01.2016
  */
 @Configuration
-@ComponentScan({"ru.it.sd.service"})
+@ComponentScan({"ru.it.sd.service", "ru.it.sd.hp"})
 @EnableTransactionManagement(mode = AdviceMode.ASPECTJ)
 @EnableGlobalMethodSecurity(prePostEnabled = true, mode= AdviceMode.ASPECTJ)
 @EnableAsync

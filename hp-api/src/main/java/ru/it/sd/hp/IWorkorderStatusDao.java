@@ -26,8 +26,7 @@ public class IWorkorderStatusDao {
     //@Override
     public IWorkorderStatus read(long id) {
         SdClientBean sdClientBean = api.getSdClient();
-        IWorkorderStatus iWorkorderStatus = sdClientBean.sd_session().getWorkorderStatusHome().openWorkorderStatus(id);
-        return iWorkorderStatus;
+        return sdClientBean.sd_session().getWorkorderStatusHome().openWorkorderStatus(id);
     }
 
     //@Override

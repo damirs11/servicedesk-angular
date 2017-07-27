@@ -23,8 +23,7 @@ public class IWorkgroupDao implements HpCrudDao<Workgroup, IWorkgroup> {
     @Override
     public IWorkgroup read(long id) {
         SdClientBean sdClientBean = api.getSdClient();
-        IWorkgroup iWorkgroup = sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(id);
-        return iWorkgroup;
+        return sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(id);
     }
 
     @Override
