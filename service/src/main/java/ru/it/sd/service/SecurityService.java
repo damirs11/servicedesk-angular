@@ -59,7 +59,7 @@ public class SecurityService {
 	/**
 	 * @return информация о вошедшем в систему пользователе
 	 */
-	private DynamicAuthentication getDynamicAuthentication() {
+	public DynamicAuthentication getDynamicAuthentication() {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication authentication = context.getAuthentication();
 		if (authentication != null && authentication instanceof DynamicAuthentication) {
