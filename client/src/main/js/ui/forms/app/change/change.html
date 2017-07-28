@@ -8,21 +8,21 @@
         <span>{{ctrl.change.subject}}</span>
     </div>
 
-    <hr class="entity-separator">
+    <hr class="entity-content-separator">
     <!--Кнопки в верхнем меню-->
     <div class="entity-tools container-fluid row">
         <!--Кнопки для управления статусом сущности-->
-        <div class="col-md-6" data-ng-hide="ctrl.change.checkModified()">
+        <div class="col-md-6 entity-column" data-ng-hide="ctrl.change.checkModified()">
             <button class="btn btn-info" data-ng-click="window.alert('Наряд создан')">Взять в работу</button>
             <button class="btn btn-info" data-ng-click="window.alert('Наряд создан')">Вернуть в ДС</button>
         </div>
         <!--Кнопки для сброса / сохранения сущности-->
-        <div class="col-md-6" data-ng-show="ctrl.change.checkModified()">
+        <div class="col-md-6 entity-column" data-ng-show="ctrl.change.checkModified()">
             <button class="btn btn-success" data-ng-click="ctrl.save()">Сохранить</button>
             <button class="btn btn-warning" data-ng-click="ctrl.reset()">Сбросить изменения</button>
         </div>
         <!--Статус бар-->
-        <div class="col-md-6" style="text-align: right">
+        <div class="col-md-6 entity-column" style="text-align: right">
             <div style="margin-bottom: 5px; margin-top: 5px;">
                 <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #404040">Зарегистрировано</div>
                 <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #404040">Направлено</div>
@@ -33,15 +33,15 @@
         </div>
     </div>
 
-    <hr class="entity-separator">
+    <hr class="entity-content-separator">
     <div >
         <div style="font-weight: bold;">Подробная информация: </div>
         {{ ctrl.change.description || ctrl.emptyValue }}
     </div>
 
-    <hr class="entity-separator">
+    <hr class="entity-content-separator">
     <div class="entity-content">
-        <div class="col-md-6">
+        <div class="col-md-6 entity-column">
 
             <div class="entity-property">
                 <div class="entity-property__name">
@@ -58,7 +58,7 @@
             </div>
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 entity-column">
 
             <div class="entity-property">
                 <div class="entity-property__name">
@@ -77,9 +77,9 @@
         </div>
     </div>
 
-    <hr class="entity-separator">
+    <hr class="entity-content-separator">
     <div class="entity-content">
-        <div class="col-md-6">
+        <div class="col-md-6 entity-column">
 
             <div class="entity-property">
                 <div class="entity-property__name">
@@ -119,7 +119,7 @@
             </div>
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 entity-column">
 
             <div class="entity-property">
                 <div class="entity-property__name">
@@ -154,7 +154,7 @@
         </div>
     </div>
 
-    <hr class="entity-separator">
+    <hr class="entity-content-separator">
 
 </div>
 
