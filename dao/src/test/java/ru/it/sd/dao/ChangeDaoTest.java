@@ -25,7 +25,7 @@ public class ChangeDaoTest extends AbstractDaoTest {
 	private ChangeDao dao;
 
 	@Test
-	private void testFindOne() {
+	private void testRead() {
 		Change change = dao.read(55665L);
 		assertNull(change);
 		change = dao.read(111222L);

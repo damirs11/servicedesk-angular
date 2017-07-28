@@ -3,6 +3,7 @@ package ru.it.sd.dao.mapper;
 import ru.it.sd.exception.AppException;
 import ru.it.sd.meta.FieldMetaData;
 import ru.it.sd.meta.MetaUtils;
+import ru.it.sd.util.EntityUtils;
 import ru.it.sd.util.ResourceMessages;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -13,7 +14,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 
 	@Override
 	public T mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Class clazz = getGenericClass();
+		Class clazz = EntityUtils.getGenericClass(getClass());
 		// Создаем объект класса
 		T result;
 		try {
@@ -112,11 +112,5 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 		return result;
 	}
 
-	/**
-	 * Возвращает класс сущности, для которого был создан маппер
-	 */
-	protected Class getGenericClass() {
-		return (Class) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-	}
 
 }

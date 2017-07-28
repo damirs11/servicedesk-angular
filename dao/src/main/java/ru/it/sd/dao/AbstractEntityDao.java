@@ -161,7 +161,7 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 				sql.append(StringUtils.join(sortColumns, ','));
 			} else {
 				sb.append(" ROW_NUMBER() OVER (ORDER BY ");
-				sb.append(StringUtils.join(sortColumns, ','));
+				sb.append(StringUtils.join(sortColumns, ',') + ", ");
 				sb.append(") nnn,\n");
 			}
 			sql.insert(insertPos, sb.toString());

@@ -11,22 +11,22 @@ public abstract class AbstractCodesDao extends AbstractDao {
 
 	protected static final String SELECT_ALL_CDL_SQL =
 			"SELECT " +
-				"CDL_COD_OID, " +
-				"CDL_NAME, " +
+				"cdl_cod_oid, " +
+				"cdl_name, " +
 			"FROM " +
-				"ITSM_CODES_LOCALE " +
+				"itsm_codes_locale " +
 			"WHERE " +
-				"CDL_LNG_OID = 1049 " + // Только на русском
+				"cdl_lng_oid = 1049 " + // Только на русском
 				"{0}";
 
 	protected static final String SELECT_ALL_RCT_SQL =
 			"SELECT " +
-				"RCD_OID, " +
-				"RCT_NAME, " +
+				"rcd_oid, " +
+				"rct_name, " +
 			"FROM " +
-				"REP_CODES_TEXT " +
+				"rep_codes_text " +
 			"WHERE " +
-				"RCT_LNG_OID = 1049 " + // Только на русском
+				"rct_lng_oid = 1049 " + // Только на русском
 				"{0}";
 }
 

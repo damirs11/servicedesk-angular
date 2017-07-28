@@ -1,7 +1,9 @@
 package ru.it.sd.model;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
+import ru.it.sd.util.AppToStringStyle;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -145,18 +147,6 @@ public class Change implements HasId, HasStatus, Serializable {
 
 	@Override
 	public String toString() {
-		return "Change{" +
-				"id=" + id +
-				", no=" + no +
-				", subject='" + subject + '\'' +
-				", description='" + description + '\'' +
-				", status=" + status +
-				", priority=" + priority +
-				", createdDate=" + createdDate +
-				", deadline=" + deadline +
-				", resolvedDate=" + resolvedDate +
-				", initiator=" + initiator +
-				", manager=" + manager +
-				'}';
+		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
 	}
 }
