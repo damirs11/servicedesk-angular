@@ -1,3 +1,5 @@
+@phone-width: 991px;
+
 .entity-container {
   font-size: 14px;
 
@@ -32,6 +34,7 @@
   &__actions{
     padding-right: 0;
     text-align: right;
+    white-space: nowrap;
   }
 }
 
@@ -73,17 +76,26 @@
     width: 35%;
     //background-color: #3c763d;
     text-align: right;
-    white-space: nowrap
+    white-space: nowrap;
+    @media screen and (max-width: @phone-width){
+      &{
+        min-width: 100%;
+        text-align: left;
+      }
+    }
   }
 
   &__value {
-    //display: inline-block;
-    //width: 250px;
     padding: 0;
     margin: 0;
     display: inline-block;
-    width: 54%;
-    //background-color: #7a43b6;
+    width: 55%;
+    @media screen and (max-width: @phone-width){
+      &{
+        padding-top: 5px;
+        min-width: 100%;
+      }
+    }
   }
 }
 
