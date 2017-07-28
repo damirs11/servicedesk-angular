@@ -38,7 +38,7 @@ class ChangeController{
         const removeExitHook = this.$transitions.onExit({
             from: state => state.name === this.$state.current.name,
         },async () => {
-            if (!this.change || !this.change.isModified) return;
+            if (!this.change || !this.change.checkModified()) return;
             const modalResult = await this.ModalAction.entityChanged();
             if (modalResult == 0) {
                 return true;
@@ -51,7 +51,7 @@ class ChangeController{
         });
 
         const onBeforeUnload = event => {
-            if (!this.change || !this.change.isModified) return;
+            if (!this.change || !this.change.checkModified()) return;
             console.log("onUnload");
             event.returnValue = "Вы действительно хотите покинуть страницу? Несохраненные изменения будут утеряны."
             return event.returnValue;

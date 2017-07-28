@@ -12,12 +12,12 @@
     <!--Кнопки в верхнем меню-->
     <div class="entity-tools container-fluid row">
         <!--Кнопки для управления статусом сущности-->
-        <div class="col-md-6" data-ng-hide="ctrl.change.isModified">
+        <div class="col-md-6" data-ng-hide="ctrl.change.checkModified()">
             <button class="btn btn-info" data-ng-click="window.alert('Наряд создан')">Взять в работу</button>
             <button class="btn btn-info" data-ng-click="window.alert('Наряд создан')">Вернуть в ДС</button>
         </div>
         <!--Кнопки для сброса / сохранения сущности-->
-        <div class="col-md-6" data-ng-show="ctrl.change.isModified">
+        <div class="col-md-6" data-ng-show="ctrl.change.checkModified()">
             <button class="btn btn-success" data-ng-click="ctrl.save()">Сохранить</button>
             <button class="btn btn-warning" data-ng-click="ctrl.reset()">Сбросить изменения</button>
         </div>
@@ -128,7 +128,7 @@
                 <div class="entity-property__value">
                     <sd-dropdown
                             target="ctrl.change.status"
-                            fetch-data="ctrl.SD.Status.list()"
+                            fetch-data="ctrl.SD.EntityStatus.list()"
                             placeholder="Введите имя персоны"
                             display-value="$value.fullName"
                             search-enabled="false"
@@ -143,7 +143,7 @@
                 <div class="entity-property__value">
                     <sd-dropdown
                             target="ctrl.change.priority"
-                            fetch-data="ctrl.SD.Status.list()"
+                            fetch-data="ctrl.SD.EntityPriority.list()"
                             placeholder="Введите имя персоны"
                             display-value="$value.fullName"
                             search-enabled="false"

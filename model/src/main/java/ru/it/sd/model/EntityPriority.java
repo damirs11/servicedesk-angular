@@ -1,5 +1,6 @@
 package ru.it.sd.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.util.ResourceMessages;
 
@@ -11,6 +12,8 @@ import java.util.Objects;
  * @author quadrix
  * @since 03.05.2017
  */
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum EntityPriority implements Code {
 
 	UNKNOWN("Нет", 3094610020L),

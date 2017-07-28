@@ -5,14 +5,15 @@ function PriorityProvider(Entity) {
     /**
      * Приоритет
      * @class
-     * @name SD.Priority
+     * @name SD.EntityPriority
+     * @extends SD.Entity
      */
-    return class Priority extends Entity {
+    return class EntityPriority extends Entity {
 
         /**
          * Название
          * @property
-         * @name SD.Priority#name
+         * @name SD.EntityPriority#name
          * @type {string}
          */
         @Parse(String) name;

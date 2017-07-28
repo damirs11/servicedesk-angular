@@ -5,21 +5,18 @@ function StatusProvider(Entity) {
     /**
      * Статус
      * @class
-     * @name SD.Status
+     * @name SD.EntityStatus
+     * @extends SD.Entity
      */
-    return class Status extends Entity {
+    return class EntityStatus extends Entity {
 
         /**
          * Название
          * @property
-         * @name SD.Status#name
+         * @name SD.EntityStatus#name
          * @type {string}
          */
         @Parse(String) name;
-
-        static get name(){
-            return "EntityStatus"
-        }
 
         toString(){
             return this.name

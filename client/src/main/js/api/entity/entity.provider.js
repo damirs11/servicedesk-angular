@@ -129,6 +129,22 @@ function EntityProvider($connector,cache) {
             return json;
         }
 
+
+        /**
+         * Проверяет, изменялось ли данное поле объекта.
+         * Если вызвать без аргументов, проверит изменялся ли объект в целом.
+         * @param field {string} - название поля
+         * @returns {boolean}
+         */
+        checkModified(field){
+            if (!field) {
+                return Object.keys(this).length > 0
+            } else {
+                return Object.keys(this).indexOf(field) > 0
+            }
+        }
+
+
         /**
          * Возвращает объект к состоянию, в котором находится кэш
          * @chain
@@ -140,13 +156,6 @@ function EntityProvider($connector,cache) {
             return this
         }
 
-        /**
-         * Проверяет, изменяли ли поля данного объекта.
-         * @returns {boolean}
-         */
-        get isModified(){
-            return Object.keys(this).length > 0
-        }
 
 
         /**

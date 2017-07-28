@@ -40,8 +40,8 @@ const SDConstructor = function SD($injector,cache) {
     this.User = $injector.instantiate(UserProvider,locals);
     this.Person = $injector.instantiate(PersonProvider,locals);
     this.Organization = $injector.instantiate(OrganizationProvider,locals);
-    this.Status = $injector.instantiate(StatusProvider,locals);
-    this.Priority = $injector.instantiate(PriorityProvider,locals);
+    this.EntityStatus = $injector.instantiate(StatusProvider,locals);
+    this.EntityPriority = $injector.instantiate(PriorityProvider,locals);
     this.Change = $injector.instantiate(ChangeProvider,locals);
 
     this.withCache = (newCache = Object.create(cache)) => {

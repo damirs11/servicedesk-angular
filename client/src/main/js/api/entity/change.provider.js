@@ -39,17 +39,17 @@ function ChangeProvider(EditableEntity, SD, $connector) {
          * Статус
          * @property
          * @name SD.Change#status
-         * @type {SD.Status}
+         * @type {SD.EntityStatus}
          */
-        @Serialize(status => status.id) @Parse(data => SD.Status.parse(data)) status;
+        @Serialize(status => status.id) @Parse(data => SD.EntityStatus.parse(data)) status;
 
         /**
          * Приоритет
          * @property
          * @name SD.Change#priority
-         * @type {string}
+         * @type {SD.EntityPriority}
          */
-        @Serialize(pr => pr.id) @Parse(data => SD.Priority.parse(data)) priority;
+        @Serialize(pr => pr.id) @Parse(data => SD.EntityPriority.parse(data)) priority;
 
         /**
          * Дата создания
