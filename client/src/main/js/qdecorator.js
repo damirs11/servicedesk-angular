@@ -1,7 +1,7 @@
 QDecorator.$inject = ["$delegate"];
-function QDecorator($delegate){
-    window.Promise = $delegate;
-    return $delegate;
+function QDecorator($q){
+    window.Promise = $q;
+    return $q;
 }
 
 export {QDecorator};

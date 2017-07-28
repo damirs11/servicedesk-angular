@@ -35,9 +35,10 @@ class ChangeController{
     $onInit(){
         this.$loadChange();
 
-        const removeExitHook = this.$transitions.onExit({
+        const fromCurrentState = {
             from: state => state.name === this.$state.current.name,
-        },async () => {
+        };
+        const removeExitHook = this.$transitions.onExit(fromCurrentState,async () => {
             if (!this.change || !this.change.checkModified()) return;
             const modalResult = await this.ModalAction.entityChanged();
             if (modalResult == 0) {

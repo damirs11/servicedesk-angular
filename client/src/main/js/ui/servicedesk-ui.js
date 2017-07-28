@@ -1,7 +1,3 @@
-/**
- * Модуль, отвечающий за визуальную часть
- * Подключение всего, что используется в UI
- */
 import {servicedeskAPI} from "../api/servicedesk-api";
 import {DialogsConfig} from "./components/dialogs/dialogs.config";
 import {uiRouter, translate, uiBootstrap, uiSelect, uiGrid, uiGridSelection, uiGridPagination, ngSanitize, ngMessages, uiBootstrapDatetimePicker} from "../common/web-libraries.const";
@@ -21,6 +17,10 @@ import {uiSelectConfig} from "./components/uiSelect.config";
 import {SDDropdownComponent} from "./components/fields/sd-dropdown/sd-dropdown.component";
 import {SDDateTimeComponent} from "./components/fields/sd-datetime/sd-datetime.component";
 
+/**
+ * Модуль, отвечающий за визуальную часть
+ * Подключение всего, что используется в UI
+ */
 export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, ModalAction, uiRouter, ngMessages, translate,
         uiBootstrap, ngSanitize, uiGrid, uiGridSelection, uiGridPagination, uiSelect, uiBootstrapDatetimePicker])
     .config(TranslateConfig)
