@@ -1,14 +1,24 @@
-<div class="container well entity-container" data-ng-show="ctrl.change && !ctrl.loading">
-    <div class="entity-container__back-button">
-        <a data-ui-sref="app.changes" href="javascript:void(0)">
-            <span class="glyphicon glyphicon-remove"></span>
-        </a>
-    </div>
+<div class="container well well-sm entity-container" data-ng-show="ctrl.change && !ctrl.loading">
+    <!--<div class="entity-container__back-button">-->
+    <!--</div>-->
     <div class="entity-header">
-        <span>{{ctrl.change.subject}}</span>
+        <div class="col-md-10 entity-header__name">
+            <span>{{ctrl.change.subject}}</span>
+        </div>
+        <div class="col-md-2 entity-header__actions">
+            <a href="javascript:void(0)" title="История">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                <span>История</span>
+            </a>
+            <span>| </span>
+            <a data-ui-sref="app.changes" href="javascript:void(0)" title="Вернуться к списку">
+                <span class="glyphicon glyphicon-remove"></span>
+                <span>Закрыть</span>
+            </a>
+        </div>
     </div>
+    <hr class="entity-content-separator" >
 
-    <hr class="entity-content-separator">
     <!--Кнопки в верхнем меню-->
     <div class="entity-tools container-fluid row">
         <!--Кнопки для управления статусом сущности-->
