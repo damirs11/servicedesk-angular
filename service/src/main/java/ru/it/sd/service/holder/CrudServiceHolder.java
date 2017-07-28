@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import ru.it.sd.service.CrudService;
-import ru.it.sd.service.ReadService;
-import ru.it.sd.util.EntityUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

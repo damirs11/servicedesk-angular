@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ru.it.sd.exception.NotFoundException;
-import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.HasId;
 import ru.it.sd.service.holder.CrudServiceHolder;
 import ru.it.sd.service.holder.ReadServiceHolder;
@@ -17,13 +16,12 @@ import ru.it.sd.util.EntityUtils;
 import ru.it.sd.util.ResourceMessages;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Контроллер CRUDL операций общий для всех сущностей. Операции редактирования
+ * Контроллер CRUD операций общий для всех сущностей. Операции редактирования
  * работают только с модельными классами из пакета "ru.it.sd.model"
  *
  * @author Vitalii Samolovskikh

@@ -1,6 +1,7 @@
 package ru.it.sd.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.IWorkorderDao;
@@ -13,12 +14,13 @@ import java.util.Set;
 /**
  * Created by user on 26.07.2017.
  */
+//@Service
 public class WorkorderService implements CrudService<Workorder>{
 
     @Autowired
     private WorkorderDao dao;
     @Autowired
-    private IWorkorderDao iWorkorderService;
+    private IWorkorderDao hpDao;
 
     @Override
     public Workorder read(long id) {
@@ -43,7 +45,7 @@ public class WorkorderService implements CrudService<Workorder>{
          */
 
         try {
-            long id = iWorkorderService.create(entity);
+            long id = hpDao.create(entity);
             return dao.read(id);
         } catch (Exception e){
             throw new ServiceException("Возникли проблемы при создании наряда");

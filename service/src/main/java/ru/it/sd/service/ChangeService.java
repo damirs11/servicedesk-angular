@@ -9,6 +9,7 @@ import ru.it.sd.model.Change;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Сервис для работы с изменениями
@@ -16,7 +17,7 @@ import java.util.Map;
  * @since 13.05.2017
  */
 @Service
-public class ChangeService implements ReadService<Change> {
+public class ChangeService implements CrudService<Change>{
 
 	private static final Logger logger = LoggerFactory.getLogger(ChangeService.class);
 
@@ -36,6 +37,30 @@ public class ChangeService implements ReadService<Change> {
 	@Override
 	public int count(Map<String, String> filter) {
 		return dao.count(filter);
+	}
+
+	@Override
+	public Change create(Change entity) {
+		//todo
+		entity.setId(Math.round(Math.random() * 100000));
+		return entity;
+	}
+
+	@Override
+	public Change update(Change entity) {
+		//todo
+		return entity;
+	}
+
+	@Override
+	public void delete(long id) {
+		//todo
+	}
+
+	@Override
+	public Change patch(Change entity, Set<String> fields) {
+		//todo
+		return entity;
 	}
 
 }
