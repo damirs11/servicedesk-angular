@@ -1,16 +1,20 @@
 ConnectorConfig.$inject = ["$connectorProvider"];
 function ConnectorConfig($connectorProvider) {
 
-    const errorHandler = (error,SD,$state,$q) => {
+    const errorHandler = (error,Session,$state,$q) => {
         if (error.status === 401) {
-            SD.user = null;
-            $state.go("app.login", null, {reload: true});
+            if ('GULP_REPLACE:DEBUG') console.error("Got 401 response code.",error.toString());
+            Session.user = null;
+            const target = $state.current;
+            const returnUrl = $state.href(target.name, target.params);
+            $state.go("app.login", {returnUrl}, {reload: true});
+            return;
         } else if (error.status === -1) {
             alert('Сервер недоступен');
         }
         throw error;
     };
-    errorHandler.$inject = ["error","SD","$state","$q"];
+    errorHandler.$inject = ["error","Session","$state","$q"];
 
     $connectorProvider.setErrorHandler(errorHandler)
 }
