@@ -12,7 +12,7 @@ import {controller} from "./sd-dropdown.ctrl"
  * allow-empty {Boolean} - разрешить пустое значение (default: true)
  * placeholder {@String} - подсказка
  * display-value { ($value => {string}) } функция преобразования значения в строку. (default: $value => $value.toString())
- *
+ * cache {Boolean} - кэшировать ли значения
  */
 const SDDropdownComponent = {
     template: template,
@@ -26,7 +26,8 @@ const SDDropdownComponent = {
         searchEnabled: "<",
         allowEmpty: "<",
         placeholder: "@",
-        displayValue: "&"
+        displayValue: "&",
+        cache: "<"
     }
 };
 
