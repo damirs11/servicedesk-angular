@@ -4,15 +4,16 @@ import {controller} from "./sd-dropdown.ctrl"
 
 /**
  * Компонент для выбора из списка
- * target {*} - редактируемое поле объекта / переменная
- * fetch-data {*[] | Promise } - функция поиска данных. Внутри можно использовать $text
+ * target {*} - редактируемое поле объекта / переменная.
+ * fetch-data {expr} - функция поиска данных. Переменные: $text
  * enabled {Boolean} - выражение, определяющее можно ли редактировать компонент (default: true)
  * debounce {Number} - debounce для строки поиска в миллисекундах(default: 1000)
  * search-enabled {Boolean} - добавит строку поиска (default: true)
  * allow-empty {Boolean} - разрешить пустое значение (default: true)
  * placeholder {@String} - подсказка
- * display-value { ($value => {string}) } функция преобразования значения в строку. (default: $value => $value.toString())
- * cache {Boolean} - кэшировать ли значения
+ * display-value {expr} функция преобразования значения в строку. Переменные: $value
+ * cache {Boolean} - кэшировать ли значения. fetch-data отработает лишь 1 раз.
+ * filter {expr} - фильтрация по найденым значениям. Работает в паре с cache. Переменные: $text, $value
  */
 const SDDropdownComponent = {
     template: template,
@@ -27,7 +28,8 @@ const SDDropdownComponent = {
         allowEmpty: "<",
         placeholder: "@",
         displayValue: "&",
-        cache: "<"
+        cache: "<",
+        filter: "&"
     }
 };
 

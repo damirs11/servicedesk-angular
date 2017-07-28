@@ -2,6 +2,12 @@ const MAX_DISPLAY_VALUES = 20;
 
 class SDDropdownComponentController{
 
+    static $inject = ["$attrs"];
+
+    constructor($attrs){
+        this.$attrs = $attrs;
+    }
+
     get isEnabled() {
         if (this.enabled === undefined) return true;
         return this.enabled;
@@ -31,18 +37,22 @@ class SDDropdownComponentController{
             throw e;
         }
     }
-    //
-    // get searchCriteria(){
-    //     if (!this.searchBy) return "$select.search";
-    //     let criteria = "{ ";
-    //     this.searchBy.split(/, |,/)
-    //         .map(field => `${field}:$select.search`)
-    //         .join(",")
-    //         .forEach(field => criteria += field)
-    //     ;
-    //     criteria += "}";
-    //     return criteria
-    // }
+
+    getFilteredValues(text){
+        if (!this.cache) return this.values;
+        if (!this.values) return;
+        if (!text) return this.values;
+
+        if (this.$attrs["filter"]) {
+            return this.values.filter(val => this.search({$value:val,$text:text}));
+        }
+
+        return this.values.filter(val => {
+            return val.toString()
+                .toLowerCase()
+                .indexOf(text.toLowerCase()) >= 0
+        })
+    }
 
     get isAllowClear(){
         if (this.allowEmpty === undefined) return false;

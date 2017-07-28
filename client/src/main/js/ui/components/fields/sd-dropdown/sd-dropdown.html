@@ -6,7 +6,7 @@
     <ui-select-match allow-clear="{{ctrl.isAllowClear}}" placeholder="{{ctrl.placeholder}}">
         {{ctrl.display($select.selected)}}
     </ui-select-match>
-    <ui-select-choices repeat="$value in ctrl.values | filter: $select.search track by $index"
+    <ui-select-choices repeat="$value in ctrl.getFilteredValues($select.search) track by $index"
                        refresh="ctrl.fetchValues($select.search)"
                        refresh-delay="ctrl.debounceTime"
     >
