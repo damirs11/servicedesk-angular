@@ -32,6 +32,9 @@ dependencies {
 
     // Reflection
     compile "org.reflections:reflections:$reflectionsVersion"
+
+    // подключаем внешние библиотеки
+    compile fileTree(include: ['*.jar'], dir: '../lib')
 }
 
 test {

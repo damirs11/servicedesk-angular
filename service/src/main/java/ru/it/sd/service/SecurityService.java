@@ -2,6 +2,7 @@ package ru.it.sd.service;
 
 import ru.it.sd.dao.UserDao;
 import ru.it.sd.exception.ServiceException;
+import ru.it.sd.model.DynamicAuthentication;
 import ru.it.sd.model.User;
 import ru.it.sd.util.ResourceMessages;
 import com.hp.itsm.ssp.beans.SdClientBean;
@@ -59,7 +60,7 @@ public class SecurityService {
 	/**
 	 * @return информация о вошедшем в систему пользователе
 	 */
-	private DynamicAuthentication getDynamicAuthentication() {
+	public DynamicAuthentication getDynamicAuthentication() {
 		SecurityContext context = SecurityContextHolder.getContext();
 		Authentication authentication = context.getAuthentication();
 		if (authentication != null && authentication instanceof DynamicAuthentication) {

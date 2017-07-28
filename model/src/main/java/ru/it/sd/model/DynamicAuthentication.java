@@ -1,10 +1,8 @@
-package ru.it.sd.service;
+package ru.it.sd.model;
 
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import ru.it.sd.model.Role;
-import ru.it.sd.model.User;
 
 import java.util.Collection;
 import java.util.Collections;
