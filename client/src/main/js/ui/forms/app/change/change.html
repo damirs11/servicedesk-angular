@@ -2,19 +2,29 @@
     <!--<div class="entity-container__back-button">-->
     <!--</div>-->
     <div class="entity-header">
-        <div class="col-md-10 entity-header__name">
-            <span>{{ctrl.change.subject}}</span>
+        <div>
+            <div class="entity-header__title">
+                <span>Изменение №{{ctrl.change.no}}</span>
+            </div>
+            <div class="entity-header__actions">
+
+                <a href="javascript:void(0)" title="История">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <span>История</span>
+                </a>
+
+                <span>| </span>
+                <a data-ui-sref="app.changes" href="javascript:void(0)" title="Вернуться к списку">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    <span>Закрыть</span>
+                </a>
+
+            </div>
         </div>
-        <div class="col-md-2 entity-header__actions">
-            <a href="javascript:void(0)" title="История">
-                <span class="glyphicon glyphicon-list-alt"></span>
-                <span>История</span>
-            </a>
-            <span>| </span>
-            <a data-ui-sref="app.changes" href="javascript:void(0)" title="Вернуться к списку">
-                <span class="glyphicon glyphicon-remove"></span>
-                <span>Закрыть</span>
-            </a>
+        <div>
+            <div class="entity-header__name">
+                <span>{{ctrl.change.subject}}</span>
+            </div>
         </div>
     </div>
     <hr class="entity-content-separator" >
@@ -22,17 +32,17 @@
     <!--Кнопки в верхнем меню-->
     <div class="entity-tools container-fluid row">
         <!--Кнопки для управления статусом сущности-->
-        <div class="col-md-6 entity-column" data-ng-hide="ctrl.change.checkModified()">
+        <div class="col-md-6 entity-col" data-ng-hide="ctrl.change.checkModified()">
             <button class="btn btn-info" data-ng-click="window.alert('Наряд создан')">Взять в работу</button>
             <button class="btn btn-info" data-ng-click="window.alert('Наряд создан')">Вернуть в ДС</button>
         </div>
         <!--Кнопки для сброса / сохранения сущности-->
-        <div class="col-md-6 entity-column" data-ng-show="ctrl.change.checkModified()">
+        <div class="col-md-6 entity-col" data-ng-show="ctrl.change.checkModified()">
             <button class="btn btn-success" data-ng-click="ctrl.save()">Сохранить</button>
             <button class="btn btn-warning" data-ng-click="ctrl.reset()">Сбросить изменения</button>
         </div>
         <!--Статус бар-->
-        <div class="col-md-6 entity-column" style="text-align: right">
+        <div class="col-md-6 entity-col" style="text-align: right">
             <div style="margin-bottom: 5px; margin-top: 5px;">
                 <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #404040">Зарегистрировано</div>
                 <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #404040">Направлено</div>
@@ -51,7 +61,7 @@
 
     <hr class="entity-content-separator">
     <div class="entity-content">
-        <div class="col-md-6 entity-column">
+        <div class="col-md-6 entity-col">
 
             <div class="entity-property">
                 <div class="entity-property__name">
@@ -68,7 +78,7 @@
             </div>
 
         </div>
-        <div class="col-md-6 entity-column">
+        <div class="col-md-6 entity-col">
 
             <div class="entity-property">
                 <div class="entity-property__name">
@@ -89,7 +99,7 @@
 
     <hr class="entity-content-separator">
     <div class="entity-content">
-        <div class="col-md-6 entity-column">
+        <div class="col-md-6 entity-col">
 
             <div class="entity-property">
                 <div class="entity-property__name">
@@ -129,7 +139,7 @@
             </div>
 
         </div>
-        <div class="col-md-6 entity-column">
+        <div class="col-md-6 entity-col">
 
             <div class="entity-property">
                 <div class="entity-property__name">
