@@ -11,6 +11,7 @@ export const uiGridPagination ='ui.grid.pagination';
 export const uiTest = 'ui.test';
 export const utilsEntity = 'utils.entity';
 export const uiSelect = "ui.select";
+export const angularMoment = "angularMoment";
 
 export const jQuery = window.jQuery;
 export const moment = window.moment;

@@ -1,4 +1,4 @@
-class ChangeController{
+class ChangeViewController{
     /**
      * Занят ли контроллер. Будет отображат анимацию загрузки
      * @type {string|null}
@@ -110,4 +110,4 @@ class ChangeController{
     }
 }
 
-export {ChangeController as controller}
+export {ChangeViewController as controller}

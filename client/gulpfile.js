@@ -154,6 +154,7 @@ gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js �
         'node_modules/angular-animate/angular-animate.min.js',
         'node_modules/ui-select/dist/select.min.js',
         'node_modules/moment/moment.js',
+        'node_modules/angular-moment/angular-moment.min.js',
         'node_modules/moment/locale/ru.js',
         'node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
         'node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js',

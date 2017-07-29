@@ -1,6 +1,6 @@
 import {servicedeskAPI} from "../api/servicedesk-api";
 import {DialogsConfig} from "./components/dialogs/dialogs.config";
-import {uiRouter, translate, uiBootstrap, uiSelect, uiGrid, uiGridSelection, uiGridPagination, ngSanitize, ngMessages, uiBootstrapDatetimePicker} from "../common/web-libraries.const";
+import {uiRouter, translate, uiBootstrap, uiSelect, uiGrid, uiGridSelection, uiGridPagination, ngSanitize, ngMessages, uiBootstrapDatetimePicker, angularMoment} from "../common/web-libraries.const";
 import {TranslateConfig} from "./components/translate/translate.config";
 import {default as ModalAction} from "./components/modal-action/modal-action";
 import {EqualsTo} from "./components/validators/equals-to";
@@ -22,7 +22,7 @@ import {SDDateTimeComponent} from "./components/fields/sd-datetime/sd-datetime.c
  * Подключение всего, что используется в UI
  */
 export const servicedeskUI = angular.module("servicedesk-ui", [servicedeskAPI, ModalAction, uiRouter, ngMessages, translate,
-        uiBootstrap, ngSanitize, uiGrid, uiGridSelection, uiGridPagination, uiSelect, uiBootstrapDatetimePicker])
+        uiBootstrap, ngSanitize, uiGrid, uiGridSelection, uiGridPagination, uiSelect, uiBootstrapDatetimePicker, angularMoment])
     .config(TranslateConfig)
     .config(FormConfig)
     .config(DialogsConfig)

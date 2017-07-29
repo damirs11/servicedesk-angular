@@ -1,7 +1,6 @@
 import {AppState} from "./app/app.state";
 import {MainState} from "./app/main/main.state";
 import {LoginState} from "./app/login/login.state";
-import {ChangesState} from "./app/changes/changes.state";
 import {TestState} from "./app/test/test.state";
 import {PersonState} from "./app/person/person.state";
 import {ChangePasswordModal} from "./app/change-password/change-password.modal";
@@ -10,8 +9,10 @@ import {WorkordersState} from "./app/workorders/workorders.state";
 import {PersonsState} from "./app/persons/persons.state";
 import {ConfigurationItemsState} from "./app/configurationItems/configurationItems.state";
 import {QuestionsState} from "./app/questions/questions.state";
-import {ChangeState} from "./app/change/change.state";
 import {EntityChangedModal} from "./app/entity-changed/entity-changed.modal";
+import {ChangeState} from "./app/change/change.state";
+import {ChangeListState} from "./app/change/list/change-list.state";
+import {ChangeViewState} from "./app/change/view/change-view.state";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -23,7 +24,6 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(AppState)
         .state(MainState)
         .state(LoginState)
-        .state(ChangesState)
         .state(ServicecallsState)
         .state(WorkordersState)
         .state(PersonsState)
@@ -31,7 +31,10 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(QuestionsState)
         .state(PersonState)
         .state(ChangeState)
+        .state(ChangeListState)
+        .state(ChangeViewState)
         .state(TestState)
+
 }
 
 export {FormConfig};
