@@ -16,7 +16,7 @@ function StatusProvider(Entity) {
          * @name SD.EntityStatus#name
          * @type {string}
          */
-        @Parse(String) name;
+        @Parse( String ) name;
 
         toString(){
             return this.name

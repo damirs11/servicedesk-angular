@@ -1,4 +1,5 @@
 import {Parse} from "./decorator/parse.decorator";
+import {Nullable} from "./decorator/parse-utils";
 
 OrganizationProvider.$inject = ["Entity"];
 function OrganizationProvider(Entity) {
@@ -14,15 +15,15 @@ function OrganizationProvider(Entity) {
          * @name SD.Organization#name
          * @type {string}
          */
-        @Parse(String) name;
+        @Parse( String ) name;
 
         /**
          * Почта
          * @property
          * @name SD.Organization#email
-         * @type {string}
+         * @type {string|null}
          */
-        @Parse(String) email;
+        @Parse( Nullable(String) ) email;
 
         toString(){
             return this.name

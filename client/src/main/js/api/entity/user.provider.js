@@ -1,4 +1,5 @@
 import {Parse} from "./decorator/parse.decorator";
+import {Nullable} from "./decorator/parse-utils";
 
 UserProvider.$inject = ["Entity", "SD"];
 function UserProvider(Entity, SD) {
@@ -15,7 +16,7 @@ function UserProvider(Entity, SD) {
          * @name SD.User#name
          * @type {string}
          */
-        @Parse(String) name;
+        @Parse( Nullable(String) ) name;
 
         /**
          * Логин
@@ -23,7 +24,7 @@ function UserProvider(Entity, SD) {
          * @name SD.User#login
          * @type {string}
          */
-        @Parse(String) login;
+        @Parse( String ) login;
 
         /**
          * Роли
@@ -31,7 +32,7 @@ function UserProvider(Entity, SD) {
          * @name SD.User#roles
          * @type {[Object]}
          */
-        @Parse(Object) roles;
+        @Parse( Object ) roles;
 
         /**
          * Персона

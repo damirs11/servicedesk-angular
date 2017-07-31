@@ -1,9 +1,10 @@
 import {Parse} from "./decorator/parse.decorator";
 import {Serialize} from "./decorator/serialize.decorator";
+import {Nullable} from "./decorator/parse-utils";
 
 
-ChangeProvider.$inject = ["EditableEntity", "SD","$connector"];
-function ChangeProvider(EditableEntity, SD, $connector) {
+ChangeProvider.$inject = ["EditableEntity", "SD"];
+function ChangeProvider(EditableEntity, SD) {
     /**
      * Персона
      * @class
@@ -25,7 +26,7 @@ function ChangeProvider(EditableEntity, SD, $connector) {
          * @name SD.Change#subject
          * @type {string}
          */
-        @Serialize(String) @Parse(String) subject;
+        @Serialize(String) @Parse(Nullable(String)) subject;
 
         /**
          * Описание
@@ -33,7 +34,7 @@ function ChangeProvider(EditableEntity, SD, $connector) {
          * @name SD.Change#description
          * @type {string}
          */
-        @Serialize(String) @Parse(String) description;
+        @Serialize(String) @Parse(Nullable(String)) description;
 
         /**
          * Статус
@@ -57,7 +58,7 @@ function ChangeProvider(EditableEntity, SD, $connector) {
          * @name SD.Change#createdDate
          * @type {Date}
          */
-        @Serialize(Number) @Parse(time => new Date(time)) createdDate;
+        @Serialize(Number) @Parse( Nullable(Date,"new") ) createdDate;
 
         /**
          * Крайний срок
@@ -65,7 +66,7 @@ function ChangeProvider(EditableEntity, SD, $connector) {
          * @name SD.Change#deadline
          * @type {Date}
          */
-        @Serialize(Number) @Parse(time => new Date(time)) deadline;
+        @Serialize(Number) @Parse( Nullable(Date,"new") ) deadline;
 
         /**
          * Дата фактического выполнения
@@ -73,7 +74,7 @@ function ChangeProvider(EditableEntity, SD, $connector) {
          * @name SD.Change#resolvedDate
          * @type {Date}
          */
-        @Serialize(Number) @Parse(time => new Date(time)) resolvedDate;
+        @Serialize(Number) @Parse( Nullable(Date,"new") ) resolvedDate;
 
         /**
          * Инициатор

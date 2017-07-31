@@ -1,5 +1,6 @@
 import {Parse} from "./decorator/parse.decorator";
 import {Serialize} from "./decorator/serialize.decorator";
+import {Nullable} from "./decorator/parse-utils";
 
 
 PersonProvider.$inject = ["EditableEntity", "SD","$connector"];
@@ -16,42 +17,42 @@ function PersonProvider(EditableEntity, SD, $connector) {
          * @name SD.Person#sex
          * @type {boolean}
          */
-        @Serialize(Boolean) @Parse(Boolean) sex;
+        @Serialize(Boolean) @Parse( Nullable(Boolean) ) sex;
         /**
          * Почта
          * @property
          * @name SD.Person#email
          * @type {string}
          */
-        @Serialize(String) @Parse(String) email;
+        @Serialize(String) @Parse( Nullable(String) ) email;
         /**
          * Должность
          * @property
          * @name SD.Person#job
          * @type {string}
          */
-        @Serialize(String) @Parse(String) job;
+        @Serialize(String) @Parse( Nullable(String) ) job;
         /**
          * Имя
          * @property
          * @name SD.Person#firstName
          * @type {string}
          */
-        @Serialize(String) @Parse(String) firstName;
+        @Serialize(String) @Parse( Nullable(String) ) firstName;
         /**
          * Фамилия
          * @property
          * @name SD.Person#lastName
          * @type {string}
          */
-        @Serialize(String) @Parse(String) lastName;
+        @Serialize(String) @Parse( Nullable(String) ) lastName;
         /**
          * Отчество
          * @property
          * @name SD.Person#middleName
          * @type {string}
          */
-        @Serialize(String) @Parse(String) middleName;
+        @Serialize(String) @Parse( Nullable(String) ) middleName;
         /**
          * Организация персоны
          * @property
