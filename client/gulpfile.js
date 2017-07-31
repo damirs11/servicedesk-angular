@@ -186,6 +186,7 @@ gulp.task('build:less', function buildLess(){
  */
 gulp.task('build:less-vendor', function buildLess(){
     const files = [
+        'node_modules/ui-select/dist/select.min.css',
         'node_modules/angular-bootstrap-datetimepicker/src/css/datetimepicker.css'
     ];
     return gulp.src(files)

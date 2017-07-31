@@ -1,5 +1,6 @@
-<ui-select ng-model="ctrl.target"
-           ng-disabled="!ctrl.isEnabled"
+<!--Режим редактирования-->
+<ui-select ng-if="ctrl.isEnabled"
+           ng-model="ctrl.target"
            on-select="ctrl.onSelect($item,$model)"
            search-enabled="ctrl.searchEnabled"
 >
@@ -13,3 +14,8 @@
         <div ng-bind-html="ctrl.display($value) | highlight: $select.search"></div>
     </ui-select-choices>
 </ui-select>
+
+<!--Режим просмотра-->
+<div ng-if="!ctrl.isEnabled" class="field-disabled">
+    <span ng-bind="ctrl.display(ctrl.target)"></span>
+</div>

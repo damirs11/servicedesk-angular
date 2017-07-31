@@ -1,11 +1,11 @@
-<div class="dropdown datetimepicker-{{ctrl.dropdownId}}">
+<!--Режим редактирования-->
+<div ng-if="ctrl.isEnabled" class="dropdown datetimepicker-{{ctrl.dropdownId}}">
     <a class="dropdown-toggle" id="datetimepicker-dropdown-{{ctrl.dropdownId}}" role="button" data-toggle="dropdown" data-target=".datetimepicker-{{ctrl.dropdownId}}" href="javascript:void(0)">
         <div class="input-group">
             <input type="text"
                    name="input"
                    class="form-control"
                    data-ng-model="ctrl.formattedDate"
-                   data-ng-disabled="!ctrl.isEnabled"
                    data-ng-keydown="ctrl.onKeydown($event)"
                    data-ng-required="!ctrl.isAllowEmpty"
             >
@@ -22,4 +22,9 @@
                           data-before-render="ctrl.beforeCalendarRender($view, $dates, $leftDate, $upDate, $rightDate)">
         </datetimepicker>
     </ul>
+</div>
+
+<!--Режим просмотра-->
+<div ng-if="!ctrl.isEnabled" class="field-disabled">
+    <span ng-bind="ctrl.formattedDate"></span>
 </div>

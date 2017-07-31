@@ -17,12 +17,12 @@ const SDTextComponent = {
     controllerAs: "ctrl",
     bindings: {
         target: "=",
-        minLength: "@",
-        maxLength: "@",
-        allowEmpty: "@",
-        emptyValue: "@",
-        disabled: "&",
-        onCommit: "&"
+        minLength: "<",
+        maxLength: "<",
+        allowEmpty: "<",
+        enabled: "<",
+        placeholder: "@",
+        emptyValue: "@"
     }
 };
 

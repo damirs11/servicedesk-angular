@@ -22,8 +22,12 @@
             </div>
         </div>
         <div>
-            <div class="entity-header__name">
-                <span>{{ctrl.change.subject}}</span>
+            <div class="entity-header__name" style="width: 60%">
+                <sd-text
+                    target="ctrl.change.subject"
+                >
+
+                </sd-text>
             </div>
         </div>
     </div>
@@ -56,7 +60,9 @@
     <hr class="entity-content-separator">
     <div >
         <div style="font-weight: bold;">Подробная информация: </div>
-        {{ ctrl.change.description || ctrl.emptyValue }}
+        <textarea class="form-control" rows="5" data-ng-model="ctrl.change.description" style="width: 40%;" line>
+
+        </textarea>
     </div>
 
     <hr class="entity-content-separator">
@@ -73,6 +79,7 @@
                             fetch-data="ctrl.SD.Person.list()"
                             placeholder="Введите имя персоны"
                             display-value="$value.fullName"
+                            enabled="false"
                     ></sd-dropdown>
                 </div>
             </div>
