@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ru.it.sd.exception.NotFoundException;
+import ru.it.sd.meta.MetaUtils;
 import ru.it.sd.model.HasId;
 import ru.it.sd.service.holder.CrudServiceHolder;
 import ru.it.sd.service.holder.ReadServiceHolder;
@@ -90,6 +91,18 @@ public class CommonRestController {
         return readServiceHolder.findFor(entity).count(filter);
     }
 
+    /**
+     * Получить мета данные полей
+     *
+     * @param entity название класса сущности
+     * @return мета данные полей
+     * @throws IllegalArgumentException если указанный в адресной строке класс не был найден
+     */
+    @RequestMapping(value = "/{entity}/meta", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
+    public Map meta(@PathVariable String entity) {
+        Class clazz = EntityUtils.getEntityClass(entity);
+        return MetaUtils.getFieldsMetaData(clazz);
+    }
     /**
      * Добавляет сущность в БД
      *
