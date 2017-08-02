@@ -1,13 +1,15 @@
 <div data-ng-show="ctrl.isEnabled">
     <div class="input-group" style="width: 100%">
-        <input type="text"
+        <textarea type="text"
+               style="resize: none;"
                class="form-control"
                ng-model="ctrl.target"
                placeholder="{{ctrl.placeholder}}"
                data-ng-maxlength="ctrl.maxlength"
                data-ng-minlength="ctrl.minlength"
                ng-required="ctrl.required"
-        >
+               rows="{{ctrl.rows}}"
+        ></textarea>
     </div>
 </div>
 

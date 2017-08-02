@@ -1,4 +1,4 @@
-class SDTextController{
+class SDTextareaController{
 
     get isEnabled() {
         if (this.enabled === undefined) return true;
@@ -11,4 +11,4 @@ class SDTextController{
     }
 }
 
-export {SDTextController}
+export {SDTextareaController as controller}

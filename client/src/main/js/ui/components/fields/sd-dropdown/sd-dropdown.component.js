@@ -29,7 +29,8 @@ const SDDropdownComponent = {
         placeholder: "@",
         displayValue: "&",
         cache: "<",
-        filter: "&"
+        filter: "&",
+        emptyValue: "@"
     }
 };
 

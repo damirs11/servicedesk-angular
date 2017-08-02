@@ -1,33 +1,43 @@
 <div class="container well well-sm entity-container" data-ng-show="ctrl.change && !ctrl.loading">
-    <!--<div class="entity-container__back-button">-->
-    <!--</div>-->
-    <div class="entity-header">
+
+    <!--Хидер, содержит номер изменения и кнопки для основных действий-->
+    <div class="entity-header entity-content">
         <div>
+            <div class="entity-header__actions">
+
+                <!--Кнопка Редактировать-->
+                <a class="entity-header-action"
+                   href="javascript:void(0)"
+                   title="Редактировать"
+                   data-ng-click="ctrl.edit()"
+                >
+                    <span class="entity-header-action__icon glyphicon glyphicon-pencil"></span>
+                    <span class="entity-header-action__text">Редактировать</span>
+                </a>
+                <span>| </span>
+
+                <!--Кнопка История-->
+                <a class="entity-header-action" href="javascript:void(0)" title="История">
+                    <span class="entity-header-action__icon glyphicon glyphicon-list-alt"></span>
+                    <span class="entity-header-action__text">История</span>
+                </a>
+                <span>| </span>
+
+                <!--Кнопка В список-->
+                <a class="entity-header-action" data-ui-sref="app.changes" href="javascript:void(0)" title="Вернуться к списку">
+                    <span class="entity-header-action__icon glyphicon glyphicon-log-out"></span>
+                    <span class="entity-header-action__text">Назад</span>
+                </a>
+
+            </div>
             <div class="entity-header__title">
                 <span>Изменение №{{ctrl.change.no}}</span>
             </div>
-            <div class="entity-header__actions">
-
-                <a href="javascript:void(0)" title="История">
-                    <span class="glyphicon glyphicon-list-alt"></span>
-                    <span>История</span>
-                </a>
-
-                <span>| </span>
-                <a data-ui-sref="app.changes" href="javascript:void(0)" title="Вернуться к списку">
-                    <span class="glyphicon glyphicon-remove"></span>
-                    <span>Закрыть</span>
-                </a>
-
-            </div>
         </div>
-        <div>
-            <div class="entity-header__name" style="width: 60%">
-                <sd-text
-                    target="ctrl.change.subject"
-                >
 
-                </sd-text>
+        <div>
+            <div class="entity-header__name" style="max-width: 715px">
+                {{ctrl.change.subject || ctrl.emptyValue}}
             </div>
         </div>
     </div>
@@ -36,14 +46,9 @@
     <!--Кнопки в верхнем меню-->
     <div class="entity-tools container-fluid row">
         <!--Кнопки для управления статусом сущности-->
-        <div class="col-md-6 entity-col" data-ng-hide="ctrl.change.checkModified()">
-            <button class="btn btn-info" data-ng-click="window.alert('Наряд создан')">Взять в работу</button>
-            <button class="btn btn-info" data-ng-click="window.alert('Наряд создан')">Вернуть в ДС</button>
-        </div>
-        <!--Кнопки для сброса / сохранения сущности-->
-        <div class="col-md-6 entity-col" data-ng-show="ctrl.change.checkModified()">
-            <button class="btn btn-success" data-ng-click="ctrl.save()">Сохранить</button>
-            <button class="btn btn-warning" data-ng-click="ctrl.reset()">Сбросить изменения</button>
+        <div class="col-md-6 entity-col">
+            <button class="btn btn-info" data-ng-disabled="ctrl.editMode" data-ng-click="window.alert('Наряд создан')">Взять в работу</button>
+            <button class="btn btn-info" data-ng-disabled="ctrl.editMode" data-ng-click="window.alert('Наряд создан')">Вернуть в ДС</button>
         </div>
         <!--Статус бар-->
         <div class="col-md-6 entity-col" style="text-align: right">
@@ -58,11 +63,12 @@
     </div>
 
     <hr class="entity-content-separator">
-    <div >
+    <div style="max-width: 715px">
         <div style="font-weight: bold;">Подробная информация: </div>
-        <textarea class="form-control" rows="5" data-ng-model="ctrl.change.description" style="width: 40%;" line>
-
-        </textarea>
+        <sd-textarea target="ctrl.change.description"
+                     rows="8"
+                     enabled="ctrl.editMode"
+        ></sd-textarea>
     </div>
 
     <hr class="entity-content-separator">
@@ -79,7 +85,7 @@
                             fetch-data="ctrl.SD.Person.list()"
                             placeholder="Введите имя персоны"
                             display-value="$value.fullName"
-                            enabled="false"
+                            enabled="ctrl.editMode"
                     ></sd-dropdown>
                 </div>
             </div>
@@ -97,6 +103,8 @@
                             fetch-data="ctrl.SD.Person.list()"
                             placeholder="Введите имя персоны"
                             display-value="$value.fullName"
+                            enabled="ctrl.editMode"
+                            allow-empty="true"
                     ></sd-dropdown>
                 </div>
             </div>
@@ -116,6 +124,7 @@
                     <sd-datetime
                             target="ctrl.change.createdDate"
                             allow-empty="false"
+                            enabled="ctrl.editMode"
                     ></sd-datetime>
                 </div>
             </div>
@@ -128,6 +137,7 @@
                     <sd-datetime
                             target="ctrl.change.deadline"
                             allow-empty="false"
+                            enabled="ctrl.editMode"
                     ></sd-datetime>
                 </div>
             </div>
@@ -140,7 +150,7 @@
                     <sd-datetime
                             target="ctrl.change.resolvedDate"
                             allow-empty="false"
-                            enabled="false"
+                            enabled="ctrl.editMode"
                     ></sd-datetime>
                 </div>
             </div>
@@ -160,6 +170,7 @@
                             display-value="$value.fullName"
                             search-enabled="false"
                             cache="true"
+                            enabled="ctrl.editMode"
                     ></sd-dropdown>
                 </div>
             </div>
@@ -176,6 +187,7 @@
                             display-value="$value.fullName"
                             search-enabled="false"
                             cache="true"
+                            enabled="ctrl.editMode"
                     ></sd-dropdown>
                 </div>
             </div>

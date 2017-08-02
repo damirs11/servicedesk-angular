@@ -18,7 +18,7 @@ class SDDropdownComponentController{
     }
 
     display(value){
-        if (value == null) return this.emptyValue;
+        if (value == null) return this.emptyValue || "- нет -";
         return this.displayValue({$value:value}) || value.toString();
     }
 

@@ -1,5 +1,5 @@
 <!--Режим редактирования-->
-<div ng-if="ctrl.isEnabled" class="dropdown datetimepicker-{{ctrl.dropdownId}}">
+<div ng-show="ctrl.isEnabled" class="dropdown datetimepicker-{{ctrl.dropdownId}}">
     <a class="dropdown-toggle" id="datetimepicker-dropdown-{{ctrl.dropdownId}}" role="button" data-toggle="dropdown" data-target=".datetimepicker-{{ctrl.dropdownId}}" href="javascript:void(0)">
         <div class="input-group">
             <input type="text"
@@ -25,6 +25,6 @@
 </div>
 
 <!--Режим просмотра-->
-<div ng-if="!ctrl.isEnabled" class="field-disabled">
+<div ng-hide="ctrl.isEnabled" class="field-disabled-offset">
     <span ng-bind="ctrl.formattedDate"></span>
 </div>

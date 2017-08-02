@@ -1,5 +1,5 @@
-import template from "./sd-text.html"
-import {SDTextController as controller} from "./sd-text.ctrl"
+import template from "./sd-textarea.html"
+import {controller} from "./sd-textarea.ctrl"
 
 /**
  * Компонента для редактируемого текста
@@ -11,7 +11,7 @@ import {SDTextController as controller} from "./sd-text.ctrl"
  * disabled {expression} - выражение, определяющее можно ли редактировать поле
  * onCommit {expression($event)} - кэлбэк при коммите.
  */
-const SDTextComponent = {
+const SDTextareaComponent = {
     template: template,
     controller: controller,
     controllerAs: "ctrl",
@@ -22,8 +22,9 @@ const SDTextComponent = {
         allowEmpty: "<",
         enabled: "<",
         placeholder: "@",
-        emptyValue: "@"
+        emptyValue: "@",
+        rows: "<"
     }
 };
 
-export {SDTextComponent}
+export {SDTextareaComponent}

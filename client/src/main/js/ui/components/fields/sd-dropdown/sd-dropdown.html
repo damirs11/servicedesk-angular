@@ -1,5 +1,5 @@
 <!--Режим редактирования-->
-<ui-select ng-if="ctrl.isEnabled"
+<ui-select ng-show="ctrl.isEnabled"
            ng-model="ctrl.target"
            on-select="ctrl.onSelect($item,$model)"
            search-enabled="ctrl.searchEnabled"
@@ -16,6 +16,6 @@
 </ui-select>
 
 <!--Режим просмотра-->
-<div ng-if="!ctrl.isEnabled" class="field-disabled">
+<div ng-hide="ctrl.isEnabled" class="field-disabled-offset">
     <span ng-bind="ctrl.display(ctrl.target)"></span>
 </div>

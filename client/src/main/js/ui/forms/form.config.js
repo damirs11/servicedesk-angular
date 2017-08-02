@@ -12,7 +12,8 @@ import {QuestionsState} from "./app/questions/questions.state";
 import {EntityChangedModal} from "./app/entity-changed/entity-changed.modal";
 import {ChangeState} from "./app/change/change.state";
 import {ChangeListState} from "./app/change/list/change-list.state";
-import {ChangeViewState} from "./app/change/view/change-view.state";
+import {ChangeCardState} from "./app/change/card/change-card.state";
+import {ChangeCardViewState} from "./app/change/card/view/change-view.state";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -32,7 +33,8 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(PersonState)
         .state(ChangeState)
         .state(ChangeListState)
-        .state(ChangeViewState)
+        .state(ChangeCardState)
+        .state(ChangeCardViewState)
         .state(TestState)
 
 }
