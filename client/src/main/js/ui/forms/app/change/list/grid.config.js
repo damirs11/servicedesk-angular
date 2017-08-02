@@ -1,7 +1,6 @@
 import {AbstractGrid} from "../../../../components/widget/grid/abstract-grid";
 
-const DATE_FORMAT = "DD MMMM YYYY, hh:mm";
-const SHORT_DATE_FORMAT = "DD.MM.YYYY, hh:mm";
+const SHORT_DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
 
 class ChangesGridOptions extends AbstractGrid {
 
@@ -11,7 +10,7 @@ class ChangesGridOptions extends AbstractGrid {
         this.columnDefs = [
             { field: 'no', name: "Номер"},
             { field: 'status', name: "Статус"},
-            { field: 'subject', name: "Тема"},
+            { field: 'subject', name: "Тема", cellTooltip: true},
             { field: 'createdDate', name: "Дата создания", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`},
             { field: 'deadline', name: "Крайний срок", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`},
             { field: 'resolveDate', name: "Фактически выполнено", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`},
@@ -22,9 +21,8 @@ class ChangesGridOptions extends AbstractGrid {
         $scope._onDblClick = ::this.openChange
     }
 
-
     openChange(row){
-        this.$state.go("app.change.view",{changeId:row.entity.id})
+        this.$state.go("app.change.view", {changeId: row.entity.id});
     }
 }
 
