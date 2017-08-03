@@ -1,10 +1,10 @@
-import template from "./change-view.html"
-import {controller} from "./change-view.ctrl"
+import template from "./change-edit.html"
+import {controller} from "./change-edit.ctrl"
 import {SDResolver} from "../../../sd.resolver";
 
-const ChangeCardViewState = {
-    name: "app.change.card.view",
-    url: "",
+const ChangeCardEditState = {
+    name: "app.change.card.edit",
+    url: "/edit",
     controller: controller,
     template: template,
     controllerAs: "ctrl",
@@ -16,4 +16,4 @@ const ChangeCardViewState = {
     }
 };
 
-export {ChangeCardViewState}
+export {ChangeCardEditState}

@@ -3,12 +3,14 @@
  */
 import {SDResolver} from "../../sd.resolver";
 import {controller} from "./change-card.ctrl"
+import template from "./change-card.html"
 import {ChangeIdResolver} from "./change-id.resolver";
 
 let ChangeCardState = {
     name: "app.change.card",
     url: "/{changeId:int}",
     controller: controller,
+    template: template,
     controllerAs: "ctrl",
     abstract: true,
     resolve: {

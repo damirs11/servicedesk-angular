@@ -44,7 +44,7 @@ class SDDropdownComponentController{
         if (!text) return this.values;
 
         if (this.$attrs["filter"]) {
-            return this.values.filter(val => this.search({$value:val,$text:text}));
+            return this.values.filter(val => this.filter({$value:val,$text:text}));
         }
 
         return this.values.filter(val => {

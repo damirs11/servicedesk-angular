@@ -24,7 +24,7 @@ class ChangesGridOptions extends AbstractGrid {
 
 
     openChange(row){
-        this.$state.go("app.change.view",{changeId:row.entity.id})
+        this.$state.go("app.change.card.view",{changeId:row.entity.id})
     }
 }
 
