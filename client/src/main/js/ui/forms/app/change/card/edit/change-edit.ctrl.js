@@ -50,8 +50,8 @@ class ChangeCardEditController{
         })
     }
 
-    saveEditing(){
-        this.change.save();
+    async saveEditing(){
+        await this.change.save();
         this.$state.go("app.change.card.view");
     }
 
