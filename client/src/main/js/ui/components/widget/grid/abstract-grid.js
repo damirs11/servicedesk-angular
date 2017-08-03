@@ -25,11 +25,13 @@ class AbstractGrid {
         this.enableCellEdit = false; // Запрещаем редактирование
         this.enableSorting = true; // Включаем сортировку
         this.excludeSortColumns = true;
+
         this.enableRowSelection = true; // Дополнительный столбец для выбора строк таблицы
         this.enableSelectAll = true; // Галочка в заголовке дополнительного столбца
-        this.selectionRowHeaderWidth = 35;
-        this.rowHeight = 30;
-        //this.enableFiltering = true; //Включает поле для быстрой фильтрации данных на странице
+        this.selectionRowHeaderWidth = 30;
+        this.enableFullRowSelection = true; // Включает выделение строки по клику на ней
+        this.rowHeight = 20;
+        this.enableFiltering = false; //Включает поле для быстрой фильтрации данных на странице
         this.multiSelect = true;
         this.paginationPageSizes = [20, 50, 100, 200, 500, 1000];
         this.paginationPageSize = 20;
@@ -40,6 +42,25 @@ class AbstractGrid {
         this.columnDefs = []; // Описание колонок таблицы
         this.data = []; // Содержимое таблицы
         this.totalItems = 0; // Общее количество данных без учета постраничного просмотра
+
+        this.enableGridMenu = true;
+        this.exporterCsvFilename = 'myFile.csv';
+        this.exporterPdfDefaultStyle = {fontSize: 9};
+        this.exporterPdfTableStyle = {margin: [30, 30, 30, 30]};
+        this.exporterPdfTableHeaderStyle = {fontSize: 10, bold: true, italics: true, color: 'black'};
+        this.exporterPdfHeader = { text: "Экспорт данных в PDF", style: 'headerStyle' };
+        this.exporterPdfFooter = function ( currentPage, pageCount ) {
+            return { text: currentPage.toString() + ' из ' + pageCount.toString(), style: 'footerStyle' };
+        };
+        this.exporterPdfCustomFormatter = function ( docDefinition ) {
+            docDefinition.styles.headerStyle = { fontSize: 22, bold: true };
+            docDefinition.styles.footerStyle = { fontSize: 10, bold: true };
+            return docDefinition;
+        };
+        this.exporterPdfOrientation = 'landscape';
+        this.exporterPdfPageSize = 'LETTER';
+        this.exporterPdfMaxGridWidth = 500;
+        this.exporterCsvLinkElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
 
         $scope._onDblClick = this._onDblClick;
     }
@@ -76,9 +97,7 @@ class AbstractGrid {
      */
     _onRowSelectionChanged(row) {
         console.log('rowSelectionChanged');
-        //row.isSelected;
-        //setCurrentRow($scope.gridApi.grid.selection.lastSelectedRow);
-        //todo
+        //$scope.gridApi.grid.selection.lastSelectedRow
     };
 
     /**
@@ -87,9 +106,8 @@ class AbstractGrid {
     _onRowSelectionChangedBatch(rows) {
         console.log('rowSelectionChangedBatch');
         //rows.length
-        //$scope.numberOfSelectedItems = rows.length;
-        //setCurrentRow($scope.gridApi.grid.selection.lastSelectedRow)
-        //todo
+        //$scope.numberOfSelectedItems = rows.length
+        //$scope.gridApi.grid.selection.lastSelectedRow
     };
 
     /**
@@ -124,8 +142,6 @@ class AbstractGrid {
             return rows.length < limit;
         });
         this.data = rows;
-        //todo
-        //updateViewData();
     }
 
     /**
