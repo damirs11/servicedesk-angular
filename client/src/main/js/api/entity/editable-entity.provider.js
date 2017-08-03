@@ -14,9 +14,9 @@ function EditableEntityProvider(Entity, SD, $connector) {
          * Сохраняет изменения текущей сущнсоти
          */
         async save(){
-            // ToDo сущность должна появиться в кэше.
             const jsonData = this.$modifiedData;
-            await $connector.patch(`rest/entity/${this.$entityType}/${this.id}`,null,jsonData);
+            const data = await $connector.patch(`rest/entity/${this.$entityType}/${this.id}`,null,jsonData);
+            this.$update(data)
         }
 
         /**
@@ -24,8 +24,10 @@ function EditableEntityProvider(Entity, SD, $connector) {
          * @return {SD.EditableEntity}
          */
         async create(){
+            // ToDo сущность должна появиться в кэше.
             const jsonData = this.$serialize();
-            await $connector.put(`rest/entity/${this.$entityType}`,null,jsonData);
+            const data = await $connector.put(`rest/entity/${this.$entityType}`,null,jsonData);
+            this.$update(data)
         }
     };
 }
