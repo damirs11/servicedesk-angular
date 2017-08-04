@@ -1,0 +1,90 @@
+@middle-screen: 1199px;
+@small-screen: 991px;
+@smallest-screen: 560px;
+
+@statusBar-arrow-width: 15px;
+
+.status-bar {
+  .progress();
+  transition: none;
+  height: 30px;
+  border-radius: 15px;
+  margin-bottom: 0;
+
+  &__part{
+    .progress-bar();
+    //border-left: solid 1px whitesmoke;
+    transition: none;
+    white-space: nowrap;
+    display: inline-block;
+    position: relative;
+    &>.status-bar__part__name{
+      margin-left: @statusBar-arrow-width;
+      overflow:hidden;
+      text-overflow:clip;
+      @media (max-width: @smallest-screen) {
+        margin-left: 0;
+      }
+    }
+
+    // Префаб для стрелочек
+    &:after, &:before{
+      content:"";
+      position:absolute;
+      display: block;
+      z-index: 20;
+      width:@statusBar-arrow-width;
+      height:50%;
+      left:100%;
+    }
+    &:before{
+      top: 0;
+    }
+    &:after {
+      bottom: 0;
+    }
+
+    // Классы, отвечающие за цвет части статусбара. :after и :before формируют стрелочки
+    &.past {
+      background-color: #444444;
+      &:before{
+        background: linear-gradient(to right top, #444444 50%, transparent 50%);
+      }
+      &:after{
+        background: linear-gradient(to right bottom, #444444 50%, transparent 50%);
+      }
+      &:last-child:before, &:last-child:after {
+        content: normal;
+      }
+    }
+    &.current {
+      background-color: #2a6496;
+      &:before{
+        background: linear-gradient(to right top, #2a6496 50%, transparent 50%);
+      }
+      &:after{
+        background: linear-gradient(to right bottom, #2a6496 50%, transparent 50%);
+      }
+      &:last-child:before, &:last-child:after {
+        content: normal;
+      }
+    }
+    &.future {
+      background-color: #c8c8c8;
+      &:before{
+        background: linear-gradient(to right top, #c8c8c8 50%, transparent 50%);
+      }
+      &:after{
+        background: linear-gradient(to right bottom, #c8c8c8 50%, transparent 50%);
+      }
+      &:last-child:before, &:last-child:after {
+        content: normal;
+      }
+    }
+
+    &__name {
+      line-height: 30px;
+    }
+  }
+
+}

@@ -18,6 +18,8 @@ function StatusProvider(Entity) {
          */
         @Parse( String ) name;
 
+        @Parse( String ) entityType;
+
         toString(){
             return this.name
         }

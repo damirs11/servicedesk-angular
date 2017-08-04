@@ -1,3 +1,7 @@
+/**
+ * Модуль, отвечающий за визуальную часть
+ * Подключение всего, что используется в UI
+ */
 import {servicedeskAPI} from "../api/servicedesk-api";
 import {DialogsConfig} from "./components/dialogs/dialogs.config";
 import {uiRouter,
@@ -28,11 +32,8 @@ import {SDDropdownComponent} from "./components/fields/sd-dropdown/sd-dropdown.c
 import {SDDateTimeComponent} from "./components/fields/sd-datetime/sd-datetime.component";
 import {SDTextareaComponent} from "./components/fields/sd-textarea/sd-textarea.component";
 import {UiGridConfig} from "./components/widget/grid/ui-grid.config.js";
+import {SDStatusBarComponent} from "./components/widget/status-bar/sd-status-bar.component";
 
-/**
- * Модуль, отвечающий за визуальную часть
- * Подключение всего, что используется в UI
- */
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
         servicedeskAPI,
@@ -64,5 +65,6 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .component("sdTextarea", SDTextareaComponent)
     .component("sdDropdown", SDDropdownComponent)
     .component("sdDatetime", SDDateTimeComponent)
+    .component("sdStatusBar",SDStatusBarComponent)
     .controller("IndexController",IndexController)
     .name;

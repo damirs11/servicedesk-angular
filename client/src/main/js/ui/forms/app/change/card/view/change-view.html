@@ -40,6 +40,13 @@
             </div>
         </div>
     </div>
+
+    <div class="entity-container__content">
+        <sd-status-bar target="ctrl.change"
+                    status-list="ctrl.statusList"
+        ></sd-status-bar>
+    </div>
+
     <!--Кнопки в верхнем меню-->
     <div class="entity-container__content">
         <div class="row">
@@ -47,16 +54,6 @@
             <div class="col-md-6">
                 <button class="btn btn-info" data-ng-disabled="ctrl.editMode" data-ng-click="window.alert('Наряд создан')">Взять в работу</button>
                 <button class="btn btn-info" data-ng-disabled="ctrl.editMode" data-ng-click="window.alert('Наряд создан')">Вернуть в ДС</button>
-            </div>
-            <!--Статус бар-->
-            <div class="col-md-6" style="text-align: right">
-                <div style="margin-bottom: 5px; margin-top: 5px;">
-                    <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #404040">Зарегистрировано</div>
-                    <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #404040">Направлено</div>
-                    <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #2a6496">В работе инженер</div>
-                    <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #c8c8c8;">Отработано</div>
-                    <div class="progress-bar progress-bar-striped" style="width: 20%; background-color: #c8c8c8;">Закрыто</div>
-                </div>
             </div>
         </div>
     </div>

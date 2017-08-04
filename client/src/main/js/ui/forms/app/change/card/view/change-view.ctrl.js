@@ -13,7 +13,14 @@ class ChangeCardViewController{
     }
 
     $onInit() {
-        this.change = new this.SD.Change(this.changeId)
+        this.change = new this.SD.Change(this.changeId);
+        this.loadStatuses();
+    }
+
+    async loadStatuses() {
+        const statuses = await this.SD.EntityStatus.list();
+        this.statusList = statuses.filter(status => status['entityType'] === "CHANGE"); // Временный фильтр. Уберу, когда появится поиск по статусам
+
     }
 }
 
