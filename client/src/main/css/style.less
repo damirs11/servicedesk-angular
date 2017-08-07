@@ -5,9 +5,11 @@
 @import "ModalAction";
 @import "entity";
 @import "components";
+@import "grid";
 
-html,body {
+html,body  {
   height: 100%;
+  min-height: 100%;
 }
 
 .state-app {
@@ -15,6 +17,7 @@ html,body {
   padding-top: 50px;
   width: 100%;
   min-height: 100%;
+  height: 100%;
   position: relative;
 }
 // > main
@@ -79,7 +82,7 @@ html,body {
 }
 .ui-grid-menu-button {
   border: none;
-  height: inherit;
+  height: 27px;
 }
 
 .ui-grid-menu .ui-grid-menu-inner ul li button {

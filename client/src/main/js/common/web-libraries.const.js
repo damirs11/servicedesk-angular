@@ -6,6 +6,7 @@ export const uiRouter = 'ui.router';
 export const uiBootstrap = 'ui.bootstrap';
 export const uiBootstrapDatetimePicker = 'ui.bootstrap.datetimepicker';
 export const uiGrid = 'ui.grid';
+export const uiGridAutoResize = 'ui.grid.autoResize';
 export const uiGridSelection = 'ui.grid.selection';
 export const uiGridPagination = 'ui.grid.pagination';
 export const uiGridExporter = 'ui.grid.exporter';

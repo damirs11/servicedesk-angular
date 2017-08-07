@@ -26,6 +26,9 @@ class AbstractGrid {
         this.enableSorting = true; // Включаем сортировку
         this.excludeSortColumns = true;
 
+        this.enableHorizontalScrollbar =0; // Выключаем скороллбар в бок
+        this.enableVerticalScrollbar =2; // ставим скроллбар наверз "WHEN_NEEDED"
+
         this.enableRowSelection = true; // Дополнительный столбец для выбора строк таблицы
         this.enableSelectAll = true; // Галочка в заголовке дополнительного столбца
         this.selectionRowHeaderWidth = 30;
