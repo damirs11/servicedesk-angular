@@ -5,7 +5,7 @@ import rowTemplate from "./row.html";
  */
 class AbstractGrid {
 
-    constructor($scope, $connector, entityClass, $filter) {
+    constructor($scope, $connector, entityClass, $parse) {
         if (this.constructor === AbstractGrid) {
             throw new TypeError('Нельзя создавать экземпляры абстрактного класса "AbstractGrid"!');
         }
@@ -17,7 +17,7 @@ class AbstractGrid {
         }
         this.$scope = $scope;
         this.$connector = $connector;
-        this.$filter = $filter;
+        this.$parse = $parse;
         this.entityClass = entityClass; // Класс, данные которого будут отображаться в таблице
         this.grid = null; // Выставляем при инициализации таблицы
         this.sort = []; // Параметры сортировки данных
@@ -73,17 +73,12 @@ class AbstractGrid {
     _export(grid, row, col, input) {
         if (!input) return "- нет -";
         if (col.cellFilter) {
-            const filters = col.cellFilter.split('|');
-            for (const filter of filters) {
-                const filterName = filter.split(':')[0];
-                const filterParams = [filter.split(':').splice(1).join(":")];
-                filterParams.unshift(input);
-                const filterFn = this.$filter(filterName);
-                input = filterFn.apply(this, filterParams);
-            }
-            return input.toString();
+            const parse = this.$parse("$parseGridColValue |"+col.cellFilter);
+            const parsed = parse && parse({$parseGridColValue:input});
+            if (parsed == null) return "- нет -";
+            return String(parsed);
         } else {
-            return input.toString();
+            return String(input);
         }
     }
 

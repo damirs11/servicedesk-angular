@@ -1,18 +1,18 @@
 import {ChangesGridOptions} from './grid.config';
 
 class ChangeListController {
-    static $inject = ['SD', '$scope', '$connector', '$state', '$filter'];
+    static $inject = ['SD', '$scope', '$connector', '$state', '$parse'];
 
-    constructor(SD, $scope, $connector, $state, $filter) {
+    constructor(SD, $scope, $connector, $state, $parse) {
         this.SD = SD;
         this.$scope = $scope;
         this.$connector = $connector;
         this.$state = $state;
-        this.$filter = $filter;
+        this.$parse = $parse;
     }
 
     $onInit () {
-        this.gridOptions = new ChangesGridOptions(this.$scope, this.$connector, this.SD.Change, this.$state, this.$filter);
+        this.gridOptions = new ChangesGridOptions(this.$scope, this.$connector, this.SD.Change, this.$state, this.$parse);
         this.gridOptions.fetchData();
     }
 

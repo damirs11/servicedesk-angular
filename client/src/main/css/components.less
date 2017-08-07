@@ -2,7 +2,8 @@
 @small-screen: 991px;
 @smallest-screen: 560px;
 
-@statusBar-arrow-width: 15px;
+@statusBar-arrow-size: 26px;
+@text-padding: @statusBar-arrow-size * sqrt(2) / 2;
 
 .status-bar {
   .progress();
@@ -13,13 +14,12 @@
 
   &__part{
     .progress-bar();
-    //border-left: solid 1px whitesmoke;
     transition: none;
     white-space: nowrap;
     display: inline-block;
     position: relative;
     &>.status-bar__part__name{
-      margin-left: @statusBar-arrow-width;
+      margin-left: @text-padding;
       overflow:hidden;
       text-overflow:clip;
       @media (max-width: @smallest-screen) {
@@ -28,57 +28,57 @@
     }
 
     // Префаб для стрелочек
-    &:after, &:before{
+    &:after{
       content:"";
       position:absolute;
       display: block;
       z-index: 20;
-      width:@statusBar-arrow-width;
-      height:50%;
+      width: @statusBar-arrow-size;
+      height: @statusBar-arrow-size;
       left:100%;
-    }
-    &:before{
-      top: 0;
-    }
-    &:after {
+      transform: rotate(135deg) translate(8px,11px);
       bottom: 0;
-    }
 
+      border: 3px solid whitesmoke;
+      border-bottom: none;
+      border-right: none;
+    }
     // Классы, отвечающие за цвет части статусбара. :after и :before формируют стрелочки
     &.past {
       background-color: #444444;
-      &:before{
-        background: linear-gradient(to right top, #444444 50%, transparent 50%);
-      }
       &:after{
-        background: linear-gradient(to right bottom, #444444 50%, transparent 50%);
+        background: linear-gradient(135deg, #444444 50%, transparent 50%);
       }
       &:last-child:before, &:last-child:after {
         content: normal;
+      }
+      @media (max-width: @smallest-screen) {
+        display: none;
       }
     }
     &.current {
       background-color: #2a6496;
-      &:before{
-        background: linear-gradient(to right top, #2a6496 50%, transparent 50%);
-      }
       &:after{
-        background: linear-gradient(to right bottom, #2a6496 50%, transparent 50%);
+        background: linear-gradient(135deg, #2a6496 50%, transparent 50%);
       }
       &:last-child:before, &:last-child:after {
         content: normal;
+      }
+      @media (max-width: @smallest-screen) {
+        min-width: 100%;
+        &:after{ content: ""}
       }
     }
     &.future {
       background-color: #c8c8c8;
-      &:before{
-        background: linear-gradient(to right top, #c8c8c8 50%, transparent 50%);
-      }
       &:after{
-        background: linear-gradient(to right bottom, #c8c8c8 50%, transparent 50%);
+        background: linear-gradient(135deg, #c8c8c8 50%, transparent 50%);
       }
       &:last-child:before, &:last-child:after {
         content: normal;
+      }
+      @media (max-width: @smallest-screen) {
+        display: none;
       }
     }
 
