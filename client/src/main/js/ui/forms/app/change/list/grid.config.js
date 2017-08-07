@@ -4,8 +4,8 @@ const SHORT_DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
 
 class ChangesGridOptions extends AbstractGrid {
 
-    constructor($scope, $connector, entityClass, $state) {
-        super($scope, $connector, entityClass);
+    constructor($scope, $connector, entityClass, $state, $filter) {
+        super($scope, $connector, entityClass, $filter);
         this.$state = $state;
         this.columnDefs = [
             { field: 'no', name: "Номер"},

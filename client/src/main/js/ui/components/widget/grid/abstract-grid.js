@@ -5,7 +5,7 @@ import rowTemplate from "./row.html";
  */
 class AbstractGrid {
 
-    constructor($scope, $connector, entityClass) {
+    constructor($scope, $connector, entityClass, $filter) {
         if (this.constructor === AbstractGrid) {
             throw new TypeError('Нельзя создавать экземпляры абстрактного класса "AbstractGrid"!');
         }
@@ -17,6 +17,7 @@ class AbstractGrid {
         }
         this.$scope = $scope;
         this.$connector = $connector;
+        this.$filter = $filter;
         this.entityClass = entityClass; // Класс, данные которого будут отображаться в таблице
         this.grid = null; // Выставляем при инициализации таблицы
         this.sort = []; // Параметры сортировки данных
@@ -65,7 +66,25 @@ class AbstractGrid {
         this.exporterPdfMaxGridWidth = 500;
         this.exporterCsvLinkElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
 
+        this.exporterFieldCallback = ::this._export;
         $scope._onDblClick = this._onDblClick;
+    }
+
+    _export(grid, row, col, input) {
+        if (!input) return "- нет -";
+        if (col.cellFilter) {
+            const filters = col.cellFilter.split('|');
+            for (const filter of filters) {
+                const filterName = filter.split(':')[0];
+                const filterParams = [filter.split(':').splice(1).join(":")];
+                filterParams.unshift(input);
+                const filterFn = this.$filter(filterName);
+                input = filterFn.apply(this, filterParams);
+            }
+            return input.toString();
+        } else {
+            return input.toString();
+        }
     }
 
     _onDblClick(row) {
@@ -125,10 +144,10 @@ class AbstractGrid {
      * Получение данных для выбранной страницы таблицы. Вызывается каждый раз, когда меняются условия
      * отображения данных: смена сортировки, переход на другую страницу, смена условий фильтрации данных.
      */
-    async fetchData() {
+    async fetchData(searchParams) {
         console.log('fetchData');
         // Формирование параметров запроса
-        let params = this._getRequestParams();
+        let params = this._getRequestParams(searchParams);
         // Получение данных. Одновременная отправка двух запросов
         let result = await Promise.all([
             this.entityClass.count(params),
@@ -165,8 +184,8 @@ class AbstractGrid {
     /**
      * Формирование параметров запроса: пейджинг, сортировка + пользовательские фильтры
      */
-    _getRequestParams() {
-        let params = {};
+    _getRequestParams(searchParams) {
+        let params = searchParams || {};
         // Параметры пейджинга
         let from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
         let to = from + this.paginationPageSize - 1;
