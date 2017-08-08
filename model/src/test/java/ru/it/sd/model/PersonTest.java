@@ -17,21 +17,21 @@ public class PersonTest {
 		p.setFirstName("Вася");
 		p.setLastName("Пупкин");
 		p.setMiddleName("Абубабилович");
-		assertEquals(p.getFIO(), "Пупкин В. А.");
+		assertEquals(p.getShortName(), "Пупкин В. А.");
 
 		p.setFirstName(null);
 		p.setLastName("Пупкин");
 		p.setMiddleName("Абубабилович");
-		assertEquals(p.getFIO(), "Пупкин А.");
+		assertEquals(p.getShortName(), "Пупкин А.");
 
 		p.setFirstName("Вася");
 		p.setLastName("Пупкин");
 		p.setMiddleName(null);
-		assertEquals(p.getFIO(), "Пупкин В.");
+		assertEquals(p.getShortName(), "Пупкин В.");
 
 		p.setFirstName("Вася");
 		p.setLastName(null);
 		p.setMiddleName("Абубабилович");
-		assertEquals(p.getFIO(), "- В. А.");
+		assertEquals(p.getShortName(), "- В. А.");
 	}
 }
