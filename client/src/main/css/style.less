@@ -77,8 +77,11 @@ html,body  {
   border-top: none;
 }
 
-.ui-grid-row:hover .ui-grid-cell-contents{
-  background-color: #2FA1B9;
+/*.ui-grid-row:hover .ui-grid-cell-contents{
+  background-color: #FDEAC5;
+}*/
+.ui-grid-row.ui-grid-row-selected>[ui-grid-row]>.ui-grid-cell {
+  background-color: #FDEAC5;
 }
 .ui-grid-menu-button {
   border: none;
@@ -93,12 +96,20 @@ html,body  {
   float: right;
   display: block;
 }
-
 .left {
   float: left;
   display: block;
 }
-
 .clear{
   clear: both;
+}
+
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
 }
