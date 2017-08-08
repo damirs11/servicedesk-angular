@@ -1,6 +1,6 @@
 <!--Режим редактирования-->
 <ui-select ng-show="ctrl.isEnabled"
-           ng-model="ctrl.target"
+           ng-model="ctrl.selectedValue"
            on-select="ctrl.onSelect($item,$model)"
            search-enabled="ctrl.searchEnabled"
 >
@@ -17,5 +17,5 @@
 
 <!--Режим просмотра-->
 <div ng-hide="ctrl.isEnabled" class="field-disabled-offset">
-    <span ng-bind="ctrl.display(ctrl.target)"></span>
+    <span ng-bind="ctrl.display(ctrl.selectedValue)"></span>
 </div>

@@ -34,6 +34,7 @@ import {SDDateTimeComponent} from "./components/fields/sd-datetime/sd-datetime.c
 import {SDTextareaComponent} from "./components/fields/sd-textarea/sd-textarea.component";
 import {UiGridConfig} from "./components/widget/grid/ui-grid.config.js";
 import {SDStatusBarComponent} from "./components/widget/status-bar/sd-status-bar.component";
+import {SDValidatorFactory} from "./components/sd-validator/sd-validator.factory";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -59,6 +60,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .config(ConnectorConfig)
     .config(uiSelectConfig)
     .config(UiGridConfig)
+    .factory("SDValidator",SDValidatorFactory)
     .directive("equalsTo", EqualsTo)
     .directive("differentFrom", DifferentFrom)
     .directive("sdFocus",SDFocusDirective)

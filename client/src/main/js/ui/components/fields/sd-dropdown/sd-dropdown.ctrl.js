@@ -8,6 +8,10 @@ class SDDropdownComponentController{
         this.$attrs = $attrs;
     }
 
+    $onInit(){
+        this.selectedValue = this.target;
+    }
+
     get isEnabled() {
         if (this.enabled === undefined) return true;
         return this.enabled;
@@ -52,6 +56,20 @@ class SDDropdownComponentController{
                 .toLowerCase()
                 .indexOf(text.toLowerCase()) >= 0
         })
+    }
+
+    onSelect($item){
+        if (this.$attrs.validate) {
+            const validationError = this.validate({
+                $newValue:$item,
+                $oldValue:this.target
+            });
+            if (validationError) {
+                this.validationError = validationError;
+                return
+            }
+        }
+        this.target = $item
     }
 
     get isAllowClear(){

@@ -5,10 +5,11 @@ let freeDropdownId = 0;
 
 class SDDateTimeComponent {
 
-    static $inject = ["$scope"];
+    static $inject = ["$scope","$attrs"];
 
-    constructor($scope){
+    constructor($scope,$attrs){
         this.$scope = $scope;
+        this.$attrs = $attrs;
     }
 
     get isEnabled() {
@@ -22,6 +23,7 @@ class SDDateTimeComponent {
     }
 
     $onInit(){
+        this.selectedDate = this.target;
         this.dropdownId = freeDropdownId++;
         this.dateTimePickerConfig = {
             startView: "day",
@@ -30,7 +32,7 @@ class SDDateTimeComponent {
         };
         this.formattedDate = this.$formatDate(this.target);
 
-        this.$scope.$watch("ctrl.target", (newDate) => {
+        this.$scope.$watch("ctrl.selectedDate", (newDate) => {
             this.formattedDate = this.$formatDate(newDate)
         })
     }
@@ -42,7 +44,9 @@ class SDDateTimeComponent {
         if ($event.keyCode === 13) { // onEnter
             const parsedDate = moment(this.formattedDate,DATE_FORMAT);
             if ( !parsedDate.isValid() ) return;
-            this.target = parsedDate.toDate();
+            const oldDate = this.selectedDate;
+            this.selectedDate = parsedDate.toDate();
+            this.onTimeSet(this.selectedDate,oldDate)
         }
     }
 
@@ -57,6 +61,20 @@ class SDDateTimeComponent {
             $dates.filter(date => date.localDateValue() >= maxDate.getTime())
                 .forEach(date => date.selectable = false)
         }
+    }
+
+    onTimeSet(newDate,oldDate){
+        if (this.$attrs.validate) {
+            const validationError = this.validate({
+                $newValue:newDate,
+                $oldValue:oldDate
+            });
+            if (validationError) {
+                this.validationError = validationError;
+                return
+            }
+        }
+        this.target = newDate
     }
 
     $formatDate($date){

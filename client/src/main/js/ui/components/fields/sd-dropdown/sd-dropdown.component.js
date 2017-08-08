@@ -30,7 +30,8 @@ const SDDropdownComponent = {
         displayValue: "&",
         cache: "<",
         filter: "&",
-        emptyValue: "@"
+        emptyValue: "@",
+        validate: "&"
     }
 };
 

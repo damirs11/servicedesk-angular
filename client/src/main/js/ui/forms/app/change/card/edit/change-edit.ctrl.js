@@ -13,6 +13,10 @@ class ChangeCardEditController{
         this.ModalAction = ModalAction;
         this.$transitions = $transitions;
         this.$state = $state;
+        this.testValidator = (newDate,oldDate) => {
+            console.log(newDate,oldDate);
+            return "Не валидно"
+        }
     }
 
     $onInit(){

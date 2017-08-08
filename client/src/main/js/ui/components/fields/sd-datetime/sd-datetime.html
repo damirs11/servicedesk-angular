@@ -16,10 +16,10 @@
         </div>
     </a>
     <ul class="dropdown-menu" role="menu" data-ng-if="ctrl.isEnabled">
-        <datetimepicker   data-ng-model="ctrl.target"
-                          data-on-set-time="ctrl.onTimeSet(newDate)"
-                          data-datetimepicker-config="ctrl.dateTimePickerConfig"
-                          data-before-render="ctrl.beforeCalendarRender($view, $dates, $leftDate, $upDate, $rightDate)">
+        <datetimepicker ng-model="ctrl.selectedDate"
+                        data-on-set-time="ctrl.onTimeSet(newDate,oldDate)"
+                        data-datetimepicker-config="ctrl.dateTimePickerConfig"
+                        data-before-render="ctrl.beforeCalendarRender($view, $dates, $leftDate, $upDate, $rightDate)">
         </datetimepicker>
     </ul>
 </div>

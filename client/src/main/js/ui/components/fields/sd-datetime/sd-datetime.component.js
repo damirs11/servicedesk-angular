@@ -20,7 +20,8 @@ const SDDateTimeComponent = {
         emptyValue: "@",
         allowEmpty: "<",
         minDate: "<",
-        maxDate: "<"
+        maxDate: "<",
+        validate: "&",
     }
 };
 
