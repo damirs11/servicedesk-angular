@@ -1,4 +1,4 @@
-<span class="text-center glyphicon glyphicon-{{grid.getCellValue(row, col).getIcon()}}"
-      style="color: {{grid.getCellValue(row, col).getColor()}}; font-size: 130%; display: block"
+<div class="ui-grid-cell-contents text-center {{grid.getCellValue(row, col).getStyle().class}}"
+      style="color: {{grid.getCellValue(row, col).getStyle().color}}; display: block"
       title="Приоритет:&nbsp;{{grid.getCellValue(row, col).name}}">
-</span>
+</div>

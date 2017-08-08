@@ -11,7 +11,7 @@ class ChangesGridOptions extends AbstractGrid {
             { field: 'priority', name: "Приоритет", type: 'string', width: 100, cellTemplate: 'template.grid.cell.priority'},
             { field: 'no', name: "Номер", width: 100, cellClass: "text-right"},
             { field: 'status', name: "Статус", width: 100, cellClass: "text-center"},
-            { field: 'subject', name: "Тема", cellTooltip: true, minWidth=300},
+            { field: 'subject', name: "Тема", cellTooltip: true, minWidth: 300},
             { field: 'createdDate', name: "Дата создания", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center"},
             { field: 'deadline', name: "Крайний срок", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center"},
             { field: 'resolveDate', name: "Фактически выполнено", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 170, cellClass: "text-center"},

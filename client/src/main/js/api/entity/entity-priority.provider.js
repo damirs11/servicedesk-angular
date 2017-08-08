@@ -23,49 +23,25 @@ function PriorityProvider(Entity) {
         }
 
         /**
-         * Определяет цвет пиктограммы
+         * Возвращает стиль отображения
          * @returns {string}
          */
-        getColor() {
+        getStyle() {
             switch(this.name) {
                 case "Высший": {
-                    return "#FF3328";
+                    return {color: "#FF3328", class: "fa fa-exclamation"};
                 }
                 case "Высокий": {
-                    return "#FF8000";
+                    return {color: "#FF8000", class: "fa fa-arrow-up"};
                 }
                 case "Средний": {
-                    return "#00A000";
+                    return {color: "#00A000", class: "fa fa-chevron-up"};
                 }
                 case "Низкий": {
-                    return "#66B0E8";
+                    return {color: "#66B0E8", class: "fa fa-chevron-down"};
                 }
                 default: {
-                    return "#99A0A3";
-                }
-            }
-        }
-
-        /**
-         * Определяет стиль пиктограммы
-         * @returns {string}
-         */
-        getIcon() {
-            switch(this.name) {
-                case "Высший": {
-                    return "fire";
-                }
-                case "Высокий": {
-                    return "forward";
-                }
-                case "Средний": {
-                    return "play";
-                }
-                case "Низкий": {
-                    return "chevron-right";
-                }
-                default: {
-                    return "pause";
+                    return {color: "#99A0A3", class: "fa fa-arrow-down"};
                 }
             }
         }
