@@ -58,6 +58,7 @@
     "jquery": "^3.2.1",
     "moment": "^2.18.1",
     "pdfmake": "^0.1.32",
-    "ui-select": "^0.19.8"
+    "ui-select": "^0.19.8",
+    "font-awesome": "^4.7.0"
   }
 }
