@@ -10,6 +10,8 @@ import {controller} from "./sd-textarea.ctrl"
  * empty-value {String} - отображаемое значение, когда поле пустое
  * disabled {expression} - выражение, определяющее можно ли редактировать поле
  * onCommit {expression($event)} - кэлбэк при коммите.
+ * rows {Number} - количество строк
+ * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
  */
 const SDTextareaComponent = {
     template: template,
@@ -23,7 +25,8 @@ const SDTextareaComponent = {
         enabled: "<",
         placeholder: "@",
         emptyValue: "@",
-        rows: "<"
+        rows: "<",
+        validate: "&"
     }
 };
 

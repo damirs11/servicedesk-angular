@@ -9,6 +9,7 @@ import {controller} from "./sd-datetime.ctrl"
  * empty-value {@String} - отображаемое значение, когда поле пустое (default: "-нет-")
  * min-date {Date} - минимальная разрешенная дата.
  * max-date {Date} - максимальная разрешенная дата.
+ * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
  */
 const SDDateTimeComponent = {
     template: template,

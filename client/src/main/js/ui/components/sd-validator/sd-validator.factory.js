@@ -1,24 +1,29 @@
 SDValidatorFactory.$inject = ["$injector"];
 function SDValidatorFactory($injector) {
 
-    function SDValidator(container,validatorName,validator) {
-        if (typeof validator !== "function") {
-            validator = parseValidator(validator);
+    function SDValidator(container,validatorName,...validators) {
+        for (const i in validators) {
+            const validator = validators[i];
+            if (typeof validator === "function") continue;
+            validators[i] = parseValidator(validator)
         }
 
-        return function () {
-            const result = validator(...arguments);
-            if (!result) {
-                delete container[validatorName]
-            } else {
-                container[validatorName] = result;
+        return async function () {
+            for (const validator of validators) {
+                const result = validator(...arguments);
+                if (result) {
+                    container[validatorName] = result;
+                    return result;
+                }
             }
-            return result;
+            delete container[validatorName];
+            return undefined;
         }
     }
 }
 
 function parseValidator(data) {
+
     return () => {}
 }
 

@@ -2,7 +2,7 @@
     <div class="input-group" style="width: 100%">
         <input type="text"
                class="form-control"
-               ng-model="ctrl.target"
+               ng-model="ctrl.value"
                placeholder="{{ctrl.placeholder}}"
                data-ng-maxlength="ctrl.maxlength"
                data-ng-minlength="ctrl.minlength"
@@ -13,5 +13,5 @@
 
 <!--Режим просмотра-->
 <div ng-hide="ctrl.isEnabled">
-    <span ng-bind="ctrl.value"></span>
+    <span ng-bind="ctrl.displayValue"></span>
 </div>

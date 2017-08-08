@@ -14,6 +14,7 @@ import {controller} from "./sd-dropdown.ctrl"
  * display-value {expr} функция преобразования значения в строку. Переменные: $value
  * cache {Boolean} - кэшировать ли значения. fetch-data отработает лишь 1 раз.
  * filter {expr} - фильтрация по найденым значениям. Работает в паре с cache. Переменные: $text, $value
+ * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
  */
 const SDDropdownComponent = {
     template: template,

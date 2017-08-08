@@ -10,6 +10,7 @@ import {SDTextController as controller} from "./sd-text.ctrl"
  * empty-value {String} - отображаемое значение, когда поле пустое
  * disabled {expression} - выражение, определяющее можно ли редактировать поле
  * onCommit {expression($event)} - кэлбэк при коммите.
+ * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
  */
 const SDTextComponent = {
     template: template,
@@ -22,7 +23,8 @@ const SDTextComponent = {
         allowEmpty: "<",
         enabled: "<",
         placeholder: "@",
-        emptyValue: "@"
+        emptyValue: "@",
+        validate: "&"
     }
 };
 
