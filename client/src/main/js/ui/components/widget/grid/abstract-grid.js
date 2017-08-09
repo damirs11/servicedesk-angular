@@ -5,7 +5,7 @@ import rowTemplate from "./row.html";
  */
 class AbstractGrid {
 
-    constructor($scope, $connector, entityClass, $parse) {
+    constructor($scope, $connector, entityClass, $parse, $timeout) {
         if (this.constructor === AbstractGrid) {
             throw new TypeError('Нельзя создавать экземпляры абстрактного класса "AbstractGrid"!');
         }
@@ -18,6 +18,7 @@ class AbstractGrid {
         this.$scope = $scope;
         this.$connector = $connector;
         this.$parse = $parse;
+        this.$timeout = $timeout;
         this.entityClass = entityClass; // Класс, данные которого будут отображаться в таблице
         this.grid = null; // Выставляем при инициализации таблицы
         this.sort = []; // Параметры сортировки данных
@@ -27,8 +28,22 @@ class AbstractGrid {
         this.enableSorting = true; // Включаем сортировку
         this.excludeSortColumns = true;
 
-        this.enableHorizontalScrollbar =0; // Выключаем скороллбар в бок
-        this.enableVerticalScrollbar =2; // ставим скроллбар наверз "WHEN_NEEDED"
+        this.enableHorizontalScrollbar = 2; // скороллбар в бок
+        this.enableVerticalScrollbar = 2; // ставим скроллбар наверз "WHEN_NEEDED"
+
+        // Настройки сохранения состояния таблицы
+        this.saveWidths = true;
+        this.saveOrder = true;
+        this.saveScroll = true;
+        this.saveFocus = false;
+        this.saveVisible = true;
+        this.saveSort = true;
+        this.saveFilter = true;
+        this.savePinning = true;
+        this.saveGrouping = true;
+        this.saveGroupingExpandedStates = true;
+        this.saveTreeView = false;
+        this.saveSelection = false;
 
         this.enableRowSelection = true; // Дополнительный столбец для выбора строк таблицы
         this.enableSelectAll = true; // Галочка в заголовке дополнительного столбца
@@ -72,17 +87,38 @@ class AbstractGrid {
         $scope._onDblClick = this._onDblClick;
     }
 
+    getSelectedRows(){
+        return this.gridApi.selection.getSelectedRows();
+    }
+
+    gridName = "ui-grid";
+    enableSaving = false;
+    _saveOptions(){
+        console.log("SAVE, "+this.gridName);
+        const snapshot = this.gridApi.saveState.save();
+        localStorage[this.gridName] = JSON.stringify(snapshot)
+    }
+
+    _loadOptions(){
+        console.log("Loading");
+        const settings = JSON.parse(localStorage[this.gridName]);
+        if (!settings) return;
+        this.gridApi.saveState.restore(this.$scope,settings);
+    }
 
     /**
      * Функция для экспорта данных из таблицы
      * Применяет ангуляровские фильтры на значения
      */
     _export(grid, row, col, input) {
-        if (!input) return "- нет -";
-        if (col.cellFilter) {
+        if (!input) return "";
+        if (input.constructor && input.constructor.name == "Person") { // Парсинг персон
+            input = input.shortName;
+        }
+        if (col.cellFilter) { // Применение фильтров
             const parse = this.$parse("$parseGridColValue |"+col.cellFilter);
             const parsed = parse && parse({$parseGridColValue:input});
-            if (parsed == null) return "- нет -";
+            if (parsed == null) return "";
             return String(parsed);
         } else {
             return String(input);
@@ -101,11 +137,22 @@ class AbstractGrid {
      * Вызывается при инициализации таблицы
      */
     onRegisterApi(gridApi) {
+        this.gridApi = gridApi;
         this.grid = gridApi.grid;
         gridApi.core.on.sortChanged(this.$scope, this._onSortChanged);
         gridApi.selection.on.rowSelectionChanged(this.$scope, this._onRowSelectionChanged);
         gridApi.selection.on.rowSelectionChangedBatch(this.$scope, this._onRowSelectionChangedBatch);
         gridApi.pagination.on.paginationChanged(this.$scope, this._onPaginationChanged);
+        if (this.enableSaving) {
+            gridApi.core.on.renderingComplete(this.$scope, () => {
+                this.$timeout(() => {
+                    this._loadOptions();
+                    gridApi.core.on.sortChanged(this.$scope, ::this._saveOptions);
+                    gridApi.core.on.filterChanged(this.$scope, ::this._saveOptions);
+                    gridApi.core.on.columnVisibilityChanged(this.$scope, ::this._saveOptions);
+                },0)
+            })
+        }
     }
 
     /**
@@ -113,8 +160,8 @@ class AbstractGrid {
      */
     _onSortChanged(grid, sortColumns) {
         console.log('sortChanged');
-        this.grid.options.sort = sortColumns;
-        this.grid.options.fetchData();
+        this.sort = sortColumns;
+        this.fetchData();
     };
 
     /**
@@ -140,7 +187,7 @@ class AbstractGrid {
      */
     _onPaginationChanged(pageNumber, pageSize) {
         console.log('paginationChanged');
-        this.grid.options.fetchData();
+        this.fetchData();
     };
 
     /**

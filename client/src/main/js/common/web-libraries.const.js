@@ -10,6 +10,7 @@ export const uiGridAutoResize = 'ui.grid.autoResize';
 export const uiGridSelection = 'ui.grid.selection';
 export const uiGridPagination = 'ui.grid.pagination';
 export const uiGridExporter = 'ui.grid.exporter';
+export const uiGridSaveState = 'ui.grid.saveState';
 export const uiGridResizeColumns = 'ui.grid.resizeColumns';
 export const uiTest = 'ui.test';
 export const utilsEntity = 'utils.entity';

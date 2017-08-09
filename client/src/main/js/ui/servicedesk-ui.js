@@ -4,20 +4,23 @@
  */
 import {servicedeskAPI} from "../api/servicedesk-api";
 import {DialogsConfig} from "./components/dialogs/dialogs.config";
-import {uiRouter,
-        translate,
-        uiBootstrap,
-        uiSelect,
-        uiGrid,
-        uiGridAutoResize,
-        uiGridSelection,
-        uiGridPagination,
-        uiGridExporter,
-        uiGridResizeColumns,
-        ngSanitize,
-        ngMessages,
-        uiBootstrapDatetimePicker,
-        angularMoment} from "../common/web-libraries.const";
+import {
+    uiRouter,
+    translate,
+    uiBootstrap,
+    uiSelect,
+    uiGrid,
+    uiGridAutoResize,
+    uiGridSelection,
+    uiGridPagination,
+    uiGridExporter,
+    uiGridResizeColumns,
+    ngSanitize,
+    ngMessages,
+    uiBootstrapDatetimePicker,
+    angularMoment,
+    uiGridSaveState
+} from "../common/web-libraries.const";
 import {TranslateConfig} from "./components/translate/translate.config";
 import {default as ModalAction} from "./components/modal-action/modal-action";
 import {EqualsTo} from "./components/validators/equals-to";
@@ -53,7 +56,8 @@ export const servicedeskUI = angular.module("servicedesk-ui",
             uiGridResizeColumns,
             uiSelect,
             uiBootstrapDatetimePicker,
-            angularMoment])
+            angularMoment,
+            uiGridSaveState])
     .config(TranslateConfig)
     .config(FormConfig)
     .config(DialogsConfig)

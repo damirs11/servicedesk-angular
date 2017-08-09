@@ -4,8 +4,8 @@ const SHORT_DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
 
 class ChangesGridOptions extends AbstractGrid {
 
-    constructor($scope, $connector, entityClass, $state, $parse) {
-        super($scope, $connector, entityClass, $parse);
+    constructor($scope, $connector, entityClass, $state, $parse, $timeout) {
+        super($scope, $connector, entityClass, $parse, $timeout);
         this.$state = $state;
         this.columnDefs = [
             { field: 'priority', name: "Приоритет", type: 'string', width: 100, cellTemplate: 'template.grid.cell.priority'},
@@ -18,8 +18,11 @@ class ChangesGridOptions extends AbstractGrid {
             { field: 'initiator', name: "Инициатор", type: 'string', cellTemplate: 'template.grid.cell.person', width: 150},
             { field: 'manager', name: "Менеджер", type: 'string', cellTemplate: 'template.grid.cell.person', width: 150}
         ];
-        $scope._onDblClick = ::this.openChange
+        $scope._onDblClick = ::this.openChange;
     }
+
+    gridName = "grid.changes";
+    enableSaving = true;
 
     openChange(row){
         this.$state.go("app.change.card.view", {changeId: row.entity.id});
