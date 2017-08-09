@@ -14,7 +14,7 @@ class ChangesGridOptions extends AbstractGrid {
             { field: 'createdDate', name: "Дата создания", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`},
             { field: 'deadline', name: "Крайний срок", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`},
             { field: 'resolveDate', name: "Фактически выполнено", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`},
-            { field: 'priority', name: "Приоритет", type: 'object', cellTemplate: '<span>{{row.entity[column.field].name}}</span>'},
+            { field: 'priority', name: "Приоритет", type: 'object', cellTemplate: '<span style="background-color: red">{{row.entity[column.field].name}}</span>'},
             { field: 'initiator', name: "Инициатор", type: 'object', cellTemplate: '<span>{{row.entity[column.field].shortName}}</span>' },
             { field: 'manager', name: "Менеджер", type: 'object', cellTemplate: '<span>{{row.entity[column.field].shortName}}</span>' }
         ];

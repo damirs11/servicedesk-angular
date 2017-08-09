@@ -1,10 +1,16 @@
 <div id="main-page">
     <div>
+        <!-- ToDo вынести номера и email в отдельный сервис-->
         <p>{{'app.name' | translate}}</p>
         <p>{{'app.description' | translate}}</p>
         <div class="contacts">
-            <span class="glyphicon glyphicon-phone-alt"></span>{{'contacts.phone' | translate}}<br/>
-            <span class="glyphicon glyphicon-envelope"></span>{{'contacts.email' | translate}}
+            <div>
+                <span class="glyphicon glyphicon-phone-alt"></span>{{'contacts.phone' | translate}}
+            </div>
+            <div>
+                <span class="glyphicon glyphicon-envelope"></span>
+                <a href="mailto:servicecall@it.ru">{{'contacts.email' | translate}}</a>
+            </div>
         </div>
     </div>
 </div>

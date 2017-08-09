@@ -13,7 +13,7 @@
         </div>
 
         <div class="collapse navbar-collapse" id="main-menu">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav" data-ng-if="ctrl.authorized">
                 <li>
                     <a data-ui-sref="app.change.list">
                         <span class="glyphicon glyphicon-cloud"></span> Изменения
@@ -44,25 +44,6 @@
                         <span class="glyphicon glyphicon-question-sign"></span> База знаний
                     </a>
                 </li>
-                <!--<li>-->
-                    <!--<a data-ui-sref="app.changes"><span class="glyphicon glyphicon-cloud"></span> Изменения</a>-->
-                <!--</li>-->
-                <!--<li class="dropdown" data-ng-show="ctrl.authorized">-->
-                    <!--<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">-->
-                        <!--Разделы <span class="caret"></span>-->
-                    <!--</a>-->
-                    <!--<ul class="dropdown-menu">-->
-                        <!--&lt;!&ndash;<li>-->
-                            <!--<a href="javascript:void(0)"><span class="glyphicon glyphicon-apple"></span> Объекты</a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a href="javascript:void(0)"><span class="glyphicon glyphicon-cloud"></span> Проблемы</a>-->
-                        <!--</li>&ndash;&gt;-->
-                        <!--<li>-->
-                            <!--<a data-ui-sref="app.changes"><span class="glyphicon glyphicon-cloud"></span> Изменения</a>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right" data-ng-show="ctrl.authorized">
                 <li class="dropdown">

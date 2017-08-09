@@ -63,6 +63,8 @@ class AbstractGrid {
         };
         this.exporterPdfOrientation = 'landscape';
         this.exporterPdfPageSize = 'LETTER';
+        this.exporterOlderExcelCompatibility = true; // Правка кодировки
+        this.exporterCsvColumnSeparator = ';'; // Разделение в csv
         this.exporterPdfMaxGridWidth = 500;
         this.exporterCsvLinkElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
 
@@ -70,6 +72,11 @@ class AbstractGrid {
         $scope._onDblClick = this._onDblClick;
     }
 
+
+    /**
+     * Функция для экспорта данных из таблицы
+     * Применяет ангуляровские фильтры на значения
+     */
     _export(grid, row, col, input) {
         if (!input) return "- нет -";
         if (col.cellFilter) {
@@ -81,6 +88,7 @@ class AbstractGrid {
             return String(input);
         }
     }
+
 
     _onDblClick(row) {
         console.log('dbl click');
