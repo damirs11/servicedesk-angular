@@ -139,10 +139,10 @@ class AbstractGrid {
     onRegisterApi(gridApi) {
         this.gridApi = gridApi;
         this.grid = gridApi.grid;
-        gridApi.core.on.sortChanged(this.$scope, this._onSortChanged);
-        gridApi.selection.on.rowSelectionChanged(this.$scope, this._onRowSelectionChanged);
-        gridApi.selection.on.rowSelectionChangedBatch(this.$scope, this._onRowSelectionChangedBatch);
-        gridApi.pagination.on.paginationChanged(this.$scope, this._onPaginationChanged);
+        gridApi.core.on.sortChanged(this.$scope, ::this._onSortChanged);
+        gridApi.selection.on.rowSelectionChanged(this.$scope, ::this._onRowSelectionChanged);
+        gridApi.selection.on.rowSelectionChangedBatch(this.$scope, ::this._onRowSelectionChangedBatch);
+        gridApi.pagination.on.paginationChanged(this.$scope, ::this._onPaginationChanged);
         if (this.enableSaving) {
             gridApi.core.on.renderingComplete(this.$scope, () => {
                 this.$timeout(() => {
@@ -190,14 +190,19 @@ class AbstractGrid {
         this.fetchData();
     };
 
+    searchParams = {};
+    setSearchParams(params) {
+        this.searchParams = params;
+    }
+
     /**
      * Получение данных для выбранной страницы таблицы. Вызывается каждый раз, когда меняются условия
      * отображения данных: смена сортировки, переход на другую страницу, смена условий фильтрации данных.
      */
-    async fetchData(searchParams) {
+    async fetchData() {
         console.log('fetchData');
         // Формирование параметров запроса
-        let params = this._getRequestParams(searchParams);
+        let params = this._getRequestParams();
         // Получение данных. Одновременная отправка двух запросов
         let result = await Promise.all([
             this.entityClass.count(params),
@@ -226,16 +231,16 @@ class AbstractGrid {
      *      nameN: valueN
      * }
      */
-    _getFilter() {
-        console.log('get filter');
-        return null;
-    }
+    // _getFilter() {
+    //     console.log('get filter');
+    //     return null;
+    // }
 
     /**
      * Формирование параметров запроса: пейджинг, сортировка + пользовательские фильтры
      */
-    _getRequestParams(searchParams) {
-        let params = searchParams || {};
+    _getRequestParams() {
+        let params = this.searchParams || {};
         // Параметры пейджинга
         let from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
         let to = from + this.paginationPageSize - 1;
@@ -249,11 +254,11 @@ class AbstractGrid {
             });
             params.sort = sort
         }
-        // Дополнительные условия фильтрации
-        let filter = this._getFilter();
-        if (filter) {
-            angular.extend(params, filter);
-        }
+        // // Дополнительные условия фильтрации
+        // let filter = this._getFilter();
+        // if (filter) {
+        //     angular.extend(params, filter);
+        // }
         return params;
     };
 

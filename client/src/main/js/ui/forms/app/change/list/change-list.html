@@ -29,14 +29,48 @@
                     <li class="dropdown">
                         <a href="javascript:void(0)" class="dropdown-toggle"
                            data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            Текущие
+                            {{ctrl.currentFilter.name}}
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:void(0)">Созданные мной</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="javascript:void(0)">Назначенные мне</a></li>
-                            <li><a href="javascript:void(0)">Текущие</a></li>
+                            <li data-ng-repeat="$filter in ctrl.filters track by $index"
+                                data-ng-class="{'dropdown-submenu':$filter.hasChilds, 'divider':$filter.divider, 'dropdown-header':$filter.header}">
+                                <a data-ng-if="$filter.name && $filter.clickable" href="javascript:void(0)" data-ng-click="ctrl.applyFilter($filter)">
+                                    {{$filter.name}}
+                                </a>
+
+                                <a data-ng-if="$filter.name && !$filter.clickable" data-ng-click="$event.stopPropagation()">
+                                    {{$filter.name}}
+                                </a>
+                                <ul data-ng-if="!$filter.divider && $filter.hasChilds" class="dropdown-menu">
+                                    <li data-ng-repeat="$subFilter in $filter.childs track by $index" class="{'divider':$subFilter.divider, 'dropdown-header':$subFilter.header}">
+                                        <a data-ng-if="$subFilter.name" href="javascript:void(0)" data-ng-click="ctrl.applyFilter($subFilter)">
+                                            {{$subFilter.name}}
+                                        </a>
+                                        <span data-ng-if="$subFilter.header">{{$subFilter.header}}</span>
+                                    </li>
+                                </ul>
+
+                                <span data-ng-if="$filter.header">{{$filter.header}}</span>
+                            </li>
+                            <!--<li>-->
+                                <!--<a href="javascript:void(0)" data-ng-click="ctrl.applyFilter('executor')">-->
+                                    <!--Назначенные мне-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li class="dropdown-submenu">-->
+                                <!--<a data-ng-click="$event.stopPropagation()">Назначенные группе</a>-->
+                                <!--<ul class="dropdown-menu">-->
+                                    <!--<li data-ng-repeat="$group in [{name:'Группа 1',id:3},{name:'Группа 2',id:4}] track by $group.id">-->
+                                        <!--<a href="javascript:void(0)">{{$group.name}}</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</li>-->
+                            <!--<li role="separator" class="divider"></li>-->
+                            <!--<li class="dropdown-header">Моя роль:</li>-->
+                            <!--<li><a href="javascript:void(0)">Инициатор</a></li>-->
+                            <!--<li><a href="javascript:void(0)">Менеджер</a></li>-->
+                            <!--<li><a href="javascript:void(0)">Согласующий</a></li>-->
                         </ul>
                     </li>
                 </ul>

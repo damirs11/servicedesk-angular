@@ -54,6 +54,14 @@ function PersonProvider(EditableEntity, SD, $connector) {
          */
         @Serialize(String) @Parse( Nullable(String) ) middleName;
         /**
+         * Сокращенное имя персоны
+         * Фамилия + инициалы
+         * @property
+         * @name SD.Person#shortName
+         * @type {String}
+         */
+        @Parse( Nullable(String) ) shortName;
+        /**
          * Организация персоны
          * @property
          * @name SD.Person#organization
@@ -61,18 +69,6 @@ function PersonProvider(EditableEntity, SD, $connector) {
          */
         @Serialize(org => org.id) @Parse(data => SD.Organization.parse(data)) organization;
 
-        /**
-         * Сокращенное имя персоны
-         * Фамилия + инициалы
-         * @property
-         * @name SD.Person#shortName
-         * @type {String}
-         */
-        get shortName(){
-            return (this.lastName ? this.lastName : "") +
-                (this.firstName ? " " + this.firstName[0] + "." : "") +
-                (this.middleName ? " " + this.middleName[0] + "." : "")
-        }
 
         /**
          * Полное имя персоны
