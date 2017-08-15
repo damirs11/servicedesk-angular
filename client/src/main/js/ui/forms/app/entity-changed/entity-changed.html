@@ -1,14 +1,14 @@
 <div class="modal-content modal-400">
     <div class="modal-header dialog-header-confirm">
         <button type="button" class="close" data-ng-click="ctrl.cancel()" title="{{'DIALOGS_CLOSE' | translate}}">&times;</button>
-        <span class="modal-title">Покинуть страницу</span>
+        <span class="modal-title" data-ng-bind-html="'dialog.entity-changed.title' | translate"/>
     </div>
     <div class="modal-body">
-        <span>Вы действительно хотите покинуть страницу? Несохраненные изменения будут утеряны.</span>
+        <span data-ng-bind-html="'dialog.entity-changed.text' | translate"/></span>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-ng-click="ctrl.exit()" data-translate="DIALOGS_YES"></button>
-        <button type="button" class="btn btn-default" data-ng-click="ctrl.cancel()" data-translate="DIALOGS_NO"></button>
-        <button type="button" class="btn btn-default" data-ng-click="ctrl.save()" data-translate="DIALOGS_SAVE_EXIT"></button>
+        <button type="button" class="btn btn-default" data-ng-click="ctrl.save()" data-translate="DIALOGS_YES"></button>
+        <button type="button" class="btn btn-default" data-ng-click="ctrl.exit()" data-translate="DIALOGS_NO"></button>
+        <button type="button" class="btn btn-default" data-ng-click="ctrl.cancel()" data-translate="DIALOGS_CANCEL"></button>
     </div>
 </div>

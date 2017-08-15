@@ -1,7 +1,7 @@
 // Коды выхода
-const DIALOG_EXIT = 0;
-const DIALOG_CANCEL = 1;
-const DIALOG_SAVE_EXIT = 2;
+const DIALOG_SAVE = 0;
+const DIALOG_EXIT = 1;
+const DIALOG_CANCEL = 2;
 
 class EntityChangedModalController {
 
@@ -22,7 +22,7 @@ class EntityChangedModalController {
     }
 
     save() {
-        this.$modalState.resolve(DIALOG_SAVE_EXIT);
+        this.$modalState.resolve(DIALOG_SAVE);
     }
 
 }

@@ -30,12 +30,13 @@ class ChangeCardEditController{
             if (!this.change || !this.change.checkModified()) return;
             const modalResult = await this.ModalAction.entityChanged();
             if (modalResult == 0) {
+                await this.change.save();
                 return true;
             } else if (modalResult == 1) {
-                return false;
-            } else {
-                this.saveEditing();
+                this.change.reset();
                 return true;
+            } else {
+                return false;
             }
         });
 
