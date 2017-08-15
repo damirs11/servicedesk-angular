@@ -84,9 +84,9 @@ function AbstractGridProvider($parse, $timeout) {
             this.exporterCsvColumnSeparator = ';'; // Разделение в csv
             this.exporterPdfMaxGridWidth = 500;
             this.exporterCsvLinkElement = angular.element(document.querySelectorAll(".custom-csv-link-location"));
-
             this.exporterFieldCallback = ::this._export;
-            $scope._onDblClick = this._onDblClick;
+
+            $scope._onDblClick = ::this._onDblClick;
         }
 
         getSelectedRows(){
@@ -96,13 +96,11 @@ function AbstractGridProvider($parse, $timeout) {
         gridName = "ui-grid";
         enableSaving = false;
         _saveOptions(){
-            console.log("SAVE, "+this.gridName);
             const snapshot = this.gridApi.saveState.save();
             localStorage[this.gridName] = JSON.stringify(snapshot)
         }
 
         _loadOptions(){
-            console.log("Loading");
             const settings = JSON.parse(localStorage[this.gridName]);
             if (!settings) return;
             this.gridApi.saveState.restore(this.$scope,settings);
@@ -129,10 +127,7 @@ function AbstractGridProvider($parse, $timeout) {
 
 
         _onDblClick(row) {
-            console.log('dbl click');
-            if (row.entity) {
-                console.log('id = ' + row.entity.id);
-            }
+            this._broadcastEvent("grid:double-click",{row});
         }
 
         /**
@@ -141,17 +136,24 @@ function AbstractGridProvider($parse, $timeout) {
         onRegisterApi(gridApi) {
             this.gridApi = gridApi;
             this.grid = gridApi.grid;
-            gridApi.core.on.sortChanged(this.$scope, ::this._onSortChanged);
-            gridApi.selection.on.rowSelectionChanged(this.$scope, ::this._onRowSelectionChanged);
-            gridApi.selection.on.rowSelectionChangedBatch(this.$scope, ::this._onRowSelectionChangedBatch);
-            gridApi.pagination.on.paginationChanged(this.$scope, ::this._onPaginationChanged);
-            if (this.enableSaving) {
+
+            const registerGridListeners = () => {
+                gridApi.core.on.sortChanged(this.$scope, ::this._onSortChanged);
+                gridApi.selection.on.rowSelectionChanged(this.$scope, ::this._onRowSelectionChanged);
+                gridApi.selection.on.rowSelectionChangedBatch(this.$scope, ::this._onRowSelectionChangedBatch);
+                gridApi.pagination.on.paginationChanged(this.$scope, ::this._onPaginationChanged);
+            };
+
+            if (!this.enableSaving) {
+                registerGridListeners()
+            } else {
                 gridApi.core.on.renderingComplete(this.$scope, () => {
                     $timeout(() => {
                         this._loadOptions();
                         gridApi.core.on.sortChanged(this.$scope, ::this._saveOptions);
                         gridApi.core.on.filterChanged(this.$scope, ::this._saveOptions);
                         gridApi.core.on.columnVisibilityChanged(this.$scope, ::this._saveOptions);
+                        registerGridListeners()
                     },0)
                 })
             }
@@ -161,8 +163,8 @@ function AbstractGridProvider($parse, $timeout) {
          * Обработчик смены условий сортировки данных
          */
         _onSortChanged(grid, sortColumns) {
-            console.log('sortChanged');
             this.sort = sortColumns;
+            this._broadcastEvent("grid:sort-changed",{sortColumns});
             this.fetchData();
         };
 
@@ -170,7 +172,7 @@ function AbstractGridProvider($parse, $timeout) {
          * Вызывается при выделении(снятии выделения) строки
          */
         _onRowSelectionChanged(row) {
-            console.log('rowSelectionChanged');
+            this._broadcastEvent("grid:selection-changed",{row});
             //$scope.gridApi.grid.selection.lastSelectedRow
         };
 
@@ -178,8 +180,7 @@ function AbstractGridProvider($parse, $timeout) {
          * Вызывается когда выделяются(снимается выделение) все строки щелчком по заголовку таблицы
          */
         _onRowSelectionChangedBatch(rows) {
-            console.log('rowSelectionChangedBatch');
-            //rows.length
+            this._broadcastEvent("grid:selection-changed=batch",{rows});
             //$scope.numberOfSelectedItems = rows.length
             //$scope.gridApi.grid.selection.lastSelectedRow
         };
@@ -188,23 +189,17 @@ function AbstractGridProvider($parse, $timeout) {
          * Вызывается при смене номера текущей страницы, либо изменения количества отображаемых записей страницы
          */
         _onPaginationChanged(pageNumber, pageSize) {
-            console.log('paginationChanged');
+            this._broadcastEvent("grid:pagination-changed",{pageNumber,pageSize});
             this.fetchData();
         };
-
-        searchParams = {};
-        setSearchParams(params) {
-            this.searchParams = params;
-        }
 
         /**
          * Получение данных для выбранной страницы таблицы. Вызывается каждый раз, когда меняются условия
          * отображения данных: смена сортировки, переход на другую страницу, смена условий фильтрации данных.
          */
-        async fetchData() {
-            console.log('fetchData');
+        async fetchData(searchParams) {
             // Формирование параметров запроса
-            let params = this._getRequestParams();
+            let params = this._getRequestParams(searchParams);
             // Получение данных. Одновременная отправка двух запросов
             let result = await Promise.all([
                 this.entityClass.count(params),
@@ -227,8 +222,8 @@ function AbstractGridProvider($parse, $timeout) {
         /**
          * Формирование параметров запроса: пейджинг, сортировка + пользовательские фильтры
          */
-        _getRequestParams() {
-            let params = this.searchParams || {};
+        _getRequestParams(params) {
+            params = params || {};
             // Параметры пейджинга
             let from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
             let to = from + this.paginationPageSize - 1;
@@ -244,6 +239,15 @@ function AbstractGridProvider($parse, $timeout) {
             }
             return params;
         };
+
+        /**
+         * Пушит событие
+         * @private
+         */
+        _broadcastEvent(name,data){
+            data.grid = this;
+            this.$scope.$broadcast(name,data)
+        }
     }
 }
 

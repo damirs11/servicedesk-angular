@@ -11,11 +11,17 @@ class ChangeListController {
     }
 
     $onInit () {
-        this.grid = new this.$grid.ChangeGrid(this.$scope);
+        this.grid = new this.$grid.ChangeGrid(this.$scope,this.SD);
+
         this.configFilter();
         const filter = this.currentFilter = this.filters[0];
-        this.grid.setSearchParams({filter:filter.value});
-        this.grid.fetchData();
+        this.grid.fetchData({filter:filter.value});
+
+        this.$scope.$on("grid:double-click",::this._gridDoubleClick)
+    }
+
+    _gridDoubleClick(event,data){
+        this.$state.go("app.change.card.view",{changeId:data.row.entity.id});
     }
 
     configFilter() {
@@ -41,8 +47,7 @@ class ChangeListController {
      * @param params
      */
     search(params) {
-        this.grid.setSearchParams(params);
-        this.grid.fetchData();
+        this.grid.fetchData(params);
     }
 
     searchSubmit(text) {

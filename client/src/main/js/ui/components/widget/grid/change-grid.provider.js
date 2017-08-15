@@ -1,17 +1,17 @@
 const SHORT_DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
 
 
-ChangeGridProvider.$inject = ["AbstractGrid","$state","SD"];
-function ChangeGridProvider(AbstractGrid,$state,SD) {
+ChangeGridProvider.$inject = ["AbstractGrid"];
+function ChangeGridProvider(AbstractGrid) {
     /**
      * Таблица изменений
      * @class
      * @name $grid.ChangeGrid
      * @extends $grid.AbstractGrid
      */
-    return class ChangesGrid extends AbstractGrid {
+    return class ChangeGrid extends AbstractGrid {
 
-        constructor($scope) {
+        constructor($scope,SD) {
             super($scope, SD.Change);
             this.columnDefs = [
                 { field: 'priority', name: "Приоритет", type: 'string', width: 100, cellTemplate: 'template.grid.cell.priority'},
@@ -24,15 +24,10 @@ function ChangeGridProvider(AbstractGrid,$state,SD) {
                 { field: 'initiator', name: "Инициатор", type: 'string', cellTemplate: 'template.grid.cell.person', width: 150},
                 { field: 'manager', name: "Менеджер", type: 'string', cellTemplate: 'template.grid.cell.person', width: 150}
             ];
-            $scope._onDblClick = ::this.openChange;
         }
 
         gridName = "grid.changes";
         enableSaving = true;
-
-        openChange(row){
-            $state.go("app.change.card.view", {changeId: row.entity.id});
-        }
     }
 
 }
