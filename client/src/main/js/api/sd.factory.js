@@ -26,7 +26,7 @@ function SDFactory($injector) {
 /**
  * Класс, предоставляющий доступ к классам сущностей ServiceDesk
  * @constructor
- * @name SDConstructor
+ * @name SD
  */
 const SDConstructor = function SD($injector,cache) {
     /** Классы для сущностей */

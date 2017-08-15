@@ -1,6 +1,5 @@
 import {Connector} from "./connector";
 
-// $http нужен внутри Connector'а
 function ConnectorProvider() {
     /**
      * Обработчик ошибок ajax запросов.

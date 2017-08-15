@@ -1,0 +1,40 @@
+const SHORT_DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
+
+
+ChangeGridProvider.$inject = ["AbstractGrid","$state","SD"];
+function ChangeGridProvider(AbstractGrid,$state,SD) {
+    /**
+     * Таблица изменений
+     * @class
+     * @name $grid.ChangeGrid
+     * @extends $grid.AbstractGrid
+     */
+    return class ChangesGrid extends AbstractGrid {
+
+        constructor($scope) {
+            super($scope, SD.Change);
+            this.columnDefs = [
+                { field: 'priority', name: "Приоритет", type: 'string', width: 100, cellTemplate: 'template.grid.cell.priority'},
+                { field: 'no', name: "Номер", width: 100, cellClass: "text-right"},
+                { field: 'status', name: "Статус", width: 100, cellClass: "text-center"},
+                { field: 'subject', name: "Тема", cellTooltip: true, minWidth: 300},
+                { field: 'createdDate', name: "Дата создания", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center"},
+                { field: 'deadline', name: "Крайний срок", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center"},
+                { field: 'resolveDate', name: "Фактически выполнено", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 170, cellClass: "text-center"},
+                { field: 'initiator', name: "Инициатор", type: 'string', cellTemplate: 'template.grid.cell.person', width: 150},
+                { field: 'manager', name: "Менеджер", type: 'string', cellTemplate: 'template.grid.cell.person', width: 150}
+            ];
+            $scope._onDblClick = ::this.openChange;
+        }
+
+        gridName = "grid.changes";
+        enableSaving = true;
+
+        openChange(row){
+            $state.go("app.change.card.view", {changeId: row.entity.id});
+        }
+    }
+
+}
+
+export {ChangeGridProvider}

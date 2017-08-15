@@ -1,24 +1,21 @@
-import {ChangesGridOptions} from './grid.config';
 import {UIEntityFilter} from "../../../../utils/ui-entity-filter";
 
 class ChangeListController {
-    static $inject = ['SD', '$scope', '$connector', '$state', '$parse', '$timeout'];
+    static $inject = ['SD', '$scope', '$grid', '$state'];
 
-    constructor(SD, $scope, $connector, $state, $parse, $timeout) {
+    constructor(SD, $scope, $grid, $state) {
         this.SD = SD;
         this.$scope = $scope;
-        this.$connector = $connector;
+        this.$grid = $grid;
         this.$state = $state;
-        this.$parse = $parse;
-        this.$timeout = $timeout;
     }
 
     $onInit () {
-        this.gridOptions = new ChangesGridOptions(this.$scope, this.$connector, this.SD.Change, this.$state, this.$parse, this.$timeout);
+        this.grid = new this.$grid.ChangeGrid(this.$scope);
         this.configFilter();
         const filter = this.currentFilter = this.filters[0];
-        this.gridOptions.setSearchParams({filter});
-        this.gridOptions.fetchData();
+        this.grid.setSearchParams({filter:filter.value});
+        this.grid.fetchData();
     }
 
     configFilter() {
@@ -44,13 +41,12 @@ class ChangeListController {
      * @param params
      */
     search(params) {
-        this.gridOptions.setSearchParams(params);
-        this.gridOptions.fetchData();
+        this.grid.setSearchParams(params);
+        this.grid.fetchData();
     }
 
     searchSubmit(text) {
-        // ToDo вставить нужное название фильтра для быстрого поиска.
-        this.search({text});
+        this.search({fulltext:text});
     }
 
     currentFilter = undefined;
@@ -64,7 +60,7 @@ class ChangeListController {
     }
 
     clickOpen(){
-        const rows = this.gridOptions.getSelectedRows();
+        const rows = this.grid.getSelectedRows();
         if (rows.length != 1) return;
         const row = rows[0];
         this.$state.go("app.change.card.view", {changeId: row.id});

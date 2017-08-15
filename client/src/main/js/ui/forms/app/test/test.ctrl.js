@@ -1,5 +1,3 @@
-import {TestGridOptions} from "./grid.config";
-
 class TestController {
     static $inject = ['$scope', 'ModalAction','SD'];
 

@@ -101,7 +101,7 @@
         <!-- Список действий, которые будут скрываться в кнопке -->
         <div style="padding-left: 15px">
             <a class="btn btn-default navbar-btn"
-               data-ng-disabled="ctrl.gridOptions.getSelectedRows().length != 1"
+               data-ng-disabled="ctrl.grid.getSelectedRows().length != 1"
                data-ng-click="ctrl.clickOpen()">
                 Открыть
             </a>
@@ -110,7 +110,7 @@
 
     <!-- Таблица -->
     <div id="changes-grid" class="grid-container">
-        <div data-ui-grid="ctrl.gridOptions" class="grid"
+        <div data-ui-grid="ctrl.grid" class="grid"
              data-ui-grid-selection
              data-ui-grid-resize-columns
              data-ui-grid-pagination
