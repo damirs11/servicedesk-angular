@@ -25,8 +25,8 @@ public class Workgroup implements HasId, HasStatus, Serializable {
     @FieldMeta(columnName = "wog_sta_oid")
     private EntityStatus status;
 
-    @FieldMeta(columnName = "slc_wog_per_oid", tableAlias = "per")
-    private Person creator;
+    @FieldMeta(columnName = "wog_parent")
+    private Workgroup parent;
 
     @Override
     public EntityStatus getStatus() {
@@ -62,6 +62,14 @@ public class Workgroup implements HasId, HasStatus, Serializable {
 
     public void setSearchcode(String searchcode) {
         this.searchcode = searchcode;
+    }
+
+    public Workgroup getParent() {
+        return parent;
+    }
+
+    public void setParent(Workgroup parent) {
+        this.parent = parent;
     }
 
     @Override

@@ -44,7 +44,7 @@ public class PersonDao extends AbstractEntityDao<Person> {
 
 	@Override
 	protected List<Person> executeQuery(String sql, SqlParameterSource params) {
-		return namedJdbc.query(sql.toString(), params, (RowMapper) mapper);
+		return namedJdbc.query(sql, params, (RowMapper) mapper);
 	}
 
 	@Override

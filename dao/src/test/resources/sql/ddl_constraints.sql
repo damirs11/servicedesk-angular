@@ -20,6 +20,11 @@ ALTER TABLE itsm_cha_information ADD CONSTRAINT fk_information_changes FOREIGN K
 ALTER TABLE itsm_workorders ADD CONSTRAINT pk_workorders PRIMARY KEY (wor_oid);
 -----------------------------------------------------------------------------------
 ALTER TABLE itsm_workgroups ADD CONSTRAINT pk_workgroups PRIMARY KEY (wog_oid);
+ALTER TABLE itsm_workgroups ADD CONSTRAINT fk_workgroups_parent FOREIGN KEY (wog_parent) REFERENCES itsm_workgroups(wog_oid);
 -----------------------------------------------------------------------------------
 ALTER TABLE itsm_configuration_items ADD CONSTRAINT pk_configuration_items PRIMARY KEY (cit_oid);
+-----------------------------------------------------------------------------------
+ALTER TABLE itsm_members ADD CONSTRAINT pk_members PRIMARY KEY (mem_oid);
+ALTER TABLE itsm_members ADD CONSTRAINT fk_members_wog FOREIGN KEY (mem_wog_oid) REFERENCES itsm_workgroups(wog_oid);
+ALTER TABLE itsm_members ADD CONSTRAINT fk_members_pre FOREIGN KEY (mem_per_oid) REFERENCES itsm_persons(per_oid);
 -----------------------------------------------------------------------------------

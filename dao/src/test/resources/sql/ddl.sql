@@ -47,89 +47,96 @@ CREATE TABLE itsm_cha_information (
 );
 
 CREATE TABLE itsm_workorders (
-  WOR_OID DECIMAL(18),
-  WOR_ID DECIMAL(18),
-  REG_CREATED TIMESTAMP,
-  WOR_DEADLINE TIMESTAMP,
-  REG_MODIFIED TIMESTAMP,
-  WOR_ACTUALFINISH TIMESTAMP,
-  WOR_DESCRIPTION VARCHAR (80),
-  WOR_STA_OID DECIMAL(18),
-  WOR_CAT_OID DECIMAL(18),
-  WOR_CLO_OID DECIMAL(18),
-  WOR_REQUESTOR_PER_OID DECIMAL(18),
-  ASS_WORKGROUP DECIMAL(18),
-  ASS_PER_TO_OID DECIMAL(18),
-  WOR_SER_OID DECIMAL(18),
-  WOR_CHA_OID DECIMAL(18)
+  wor_oid DECIMAL(18),
+  wor_id DECIMAL(18),
+  reg_created TIMESTAMP,
+  wor_deadline TIMESTAMP,
+  reg_modified TIMESTAMP,
+  wor_actualfinish TIMESTAMP,
+  wor_description VARCHAR (80),
+  wor_sta_oid DECIMAL(18),
+  wor_cat_oid DECIMAL(18),
+  wor_clo_oid DECIMAL(18),
+  wor_requestor_per_oid DECIMAL(18),
+  ass_workgroup DECIMAL(18),
+  ass_per_to_oid DECIMAL(18),
+  wor_ser_oid DECIMAL(18),
+  wor_cha_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_wor_information (
-  WOI_WOR_OID DECIMAL(18),
-  WOI_INFORMATION VARCHAR(4000)
-)
-
-CREATE TABLE itsm_wor_custom_fields (
-  WCF_WOR_OID DECIMAL(18),
-  WCF_ORG1_OID DECIMAL(18),
-  WCF_DURATION1 FLOAT,
-  WCF_BOOLEAN2 DECIMAL(1)
-)
-
-CREATE TABLE itsm_wor_4k1 (
-  WO1_WOR_OID VARCHAR (18),
-  WO1_4K1 VARCHAR (4000)
-)
-
-CREATE TABLE ITSM_CONFIGURATION_ITEMS (
-  CIT_OID DECIMAL(18),
-  CIT_ID DECIMAL(18),
-  CIT_SEARCHCODE VARCHAR (128),
-  CIT_NAME1 VARCHAR (128),
-  CIT_NAME2 VARCHAR (128),
-  CIT_ORDERNR VARCHAR (128),
-  CIT_SERIALNUMBER VARCHAR (128),
-  CIT_REMARK VARCHAR (128),
-  CIT_IPADDRESS VARCHAR (128),
-  CIT_PRICE DECIMAL (12,2),
-  CIT_ATTACHMENT_EXISTS DECIMAL (1),
-  CIT_STA_OID DECIMAL(18),
-  CIT_CAT_OID DECIMAL(18),
-  CIT_LOC_OID DECIMAL(18),
-  CIT_POO_OID DECIMAL(18),
-  CIT_ADMIN_PER_OID DECIMAL(18),
-  CIT_OWNER_PER_OID DECIMAL(18),
-  CIT_OWNER_ORG_OID DECIMAL(18),
-  CCF_ORG1_OID DECIMAL(18),
-  CIT_ORG_OID DECIMAL(18),
-  CIT_PURCHASEDATE TIMESTAMP,
-  CIT_WARRANTYDATE TIMESTAMP,
-  CIT_BRA_OID DECIMAL (18)
+  woi_wor_oid DECIMAL(18),
+  woi_information VARCHAR(4000)
 );
 
-CREATE TABLE ITSM_CIT_CUSTOM_FIELDS (
-  CCF_CIT_OID DECIMAL (18),
-  CCF_CITEXT1 VARCHAR (128),
-  CCF_CIDATE1 TIMESTAMP,
-  CCF_ORG1_OID DECIMAL (18),
-  CCF_CISHORTTEXT1 VARCHAR (128)
-)
+CREATE TABLE itsm_wor_custom_fields (
+  wcf_wor_oid DECIMAL(18),
+  wcf_org1_oid DECIMAL(18),
+  wcf_duration1 FLOAT,
+  wcf_boolean2 DECIMAL(1)
+);
 
-CREATE TABLE ITSM_CODES_LOCALE (
-  CDL_COD_OID DECIMAL (18),
-  CDL_NAME VARCHAR (128),
-  CDL_LNG_OID DECIMAL (18)
-)
+CREATE TABLE itsm_wor_4k1 (
+  wo1_wor_oid VARCHAR (18),
+  wo1_4k1 VARCHAR (4000)
+);
 
-CREATE TABLE REP_CODES_TEXT (
-  RCD_OID DECIMAL (18),
-  RCT_NAME VARCHAR (128),
-  RCT_LNG_OID DECIMAL (18)
-)
+CREATE TABLE itsm_configuration_items (
+  cit_oid DECIMAL(18),
+  cit_id DECIMAL(18),
+  cit_searchcode VARCHAR (128),
+  cit_name1 VARCHAR (128),
+  cit_name2 VARCHAR (128),
+  cit_ordernr VARCHAR (128),
+  cit_serialnumber VARCHAR (128),
+  cit_remark VARCHAR (128),
+  cit_ipaddress VARCHAR (128),
+  cit_price DECIMAL (12,2),
+  cit_attachment_exists DECIMAL (1),
+  cit_sta_oid DECIMAL(18),
+  cit_cat_oid DECIMAL(18),
+  cit_loc_oid DECIMAL(18),
+  cit_poo_oid DECIMAL(18),
+  cit_admin_per_oid DECIMAL(18),
+  cit_owner_per_oid DECIMAL(18),
+  cit_owner_org_oid DECIMAL(18),
+  ccf_org1_oid DECIMAL(18),
+  cit_org_oid DECIMAL(18),
+  cit_purchasedate TIMESTAMP,
+  cit_warrantydate TIMESTAMP,
+  cit_bra_oid DECIMAL (18)
+);
 
-CREATE TABLE ITSM_WORKGROUPS (
-  WOG_OID DECIMAL (18),
-  WOG_NAME VARCHAR (128),
-  WOG_SEARCHCODE VARCHAR (128),
-  WOG_STA_OID DECIMAL (18)
-)
+CREATE TABLE itsm_cit_custom_fields (
+  ccf_cit_oid DECIMAL (18),
+  ccf_citext1 VARCHAR (128),
+  ccf_cidate1 TIMESTAMP,
+  ccf_org1_oid DECIMAL (18),
+  ccf_cishorttext1 VARCHAR (128)
+);
+
+CREATE TABLE itsm_codes_locale (
+  cdl_cod_oid DECIMAL (18),
+  cdl_name VARCHAR (128),
+  cdl_lng_oid DECIMAL (18)
+);
+
+CREATE TABLE rep_codes_text (
+  rcd_oid DECIMAL (18),
+  rct_name VARCHAR (128),
+  rct_lng_oid DECIMAL (18)
+);
+
+CREATE TABLE itsm_workgroups (
+  wog_oid DECIMAL (18),
+  wog_name VARCHAR (128),
+  wog_searchcode VARCHAR (128),
+  wog_sta_oid DECIMAL (18),
+  wog_parent DECIMAL (18)
+);
+
+CREATE TABLE itsm_members (
+  mem_oid DECIMAL (18),
+  mem_wog_oid DECIMAL (18),
+  mem_per_oid DECIMAL (18)
+);
