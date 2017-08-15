@@ -1,16 +1,15 @@
-<div class="container entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
+<div class="entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
 
     <div class="entity-container__content entity-container__header">
-        <div>
-            <div class="entity-header__title">
-                <span>Изменение №{{ctrl.headerChange.no}} [Редактирование]</span>
-            </div>
-        </div>
-        <div>
-            <div class="entity-header__name" style="max-width: 715px">
-                {{ctrl.headerChange.subject || ctrl.emptyValue}}
-            </div>
-        </div>
+        <a data-ui-sref="app.change.list" title="Вернуться к списку">Изменения</a>
+        <span> \ </span>
+        <a data-ui-sref="app.change.card.view" title="Вернуться к просмотру">
+                    №{{ctrl.headerChange.no}}: {{ctrl.headerChange.subject || ctrl.emptyValue}}
+        </a>
+        <span> \ </span>
+        <span style="font-weight: bold">
+                    Редактирование
+        </span>
     </div>
     <!--Кнопки в верхнем меню-->
     <div class="entity-container__content">
@@ -35,12 +34,12 @@
         </div>
     </div>
 
-    <div class="entity-container__content entity-properties">
-        <div class="entity-property editing">
-            <div class="entity-property__name">
+    <div class="entity-container__content entity-inline-properties">
+        <div class="entity-inline-property editing">
+            <div class="entity-property-name">
                 <span>Инициатор:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.initiator"
                         fetch-data="ctrl.SD.Person.list()"
@@ -50,11 +49,11 @@
             </div>
         </div>
 
-        <div class="entity-property editing">
-            <div class="entity-property__name">
+        <div class="entity-inline-property editing">
+            <div class="entity-property-name">
                 <span>Менеджер:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.manager"
                         fetch-data="ctrl.SD.Person.list()"
@@ -65,12 +64,12 @@
         </div>
     </div>
 
-    <div class="entity-container__content entity-properties">
-        <div class="entity-property editing">
-            <div class="entity-property__name">
+    <div class="entity-container__content entity-inline-properties">
+        <div class="entity-inline-property editing">
+            <div class="entity-property-name">
                 <span>Дата создания:</span>
             </div>
-            <div class="entity-property__value editing">
+            <div class="entity-property-value editing">
                 <sd-datetime
                         target="ctrl.change.createdDate"
                         allow-empty="false"
@@ -78,11 +77,11 @@
             </div>
         </div>
 
-        <div class="entity-property editing">
-            <div class="entity-property__name">
+        <div class="entity-inline-property editing">
+            <div class="entity-property-name">
                 <span>Статус:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.status"
                         fetch-data="ctrl.SD.EntityStatus.list()"
@@ -92,11 +91,11 @@
             </div>
         </div>
 
-        <div class="entity-property editing">
-            <div class="entity-property__name">
+        <div class="entity-inline-property editing">
+            <div class="entity-property-name">
                 <span>Крайний срок:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <sd-datetime
                         target="ctrl.change.deadline"
                         allow-empty="false"
@@ -104,11 +103,11 @@
             </div>
         </div>
 
-        <div class="entity-property editing">
-            <div class="entity-property__name">
+        <div class="entity-inline-property editing">
+            <div class="entity-property-name">
                 <span>Приоритет:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.priority"
                         fetch-data="ctrl.SD.EntityPriority.list()"
@@ -118,11 +117,11 @@
             </div>
         </div>
 
-        <div class="entity-property editing">
-            <div class="entity-property__name">
+        <div class="entity-inline-property editing">
+            <div class="entity-property-name">
                 <span>Фатически выполнено:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <sd-datetime
                         target="ctrl.change.deadline"
                         allow-empty="false"

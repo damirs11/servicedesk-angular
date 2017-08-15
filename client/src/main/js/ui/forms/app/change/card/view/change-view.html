@@ -1,44 +1,11 @@
-<div class="container entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
+<div class="entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
 
     <div class="entity-container__content entity-container__header">
-        <div>
-            <div class="entity-header__actions">
-
-                <!--Кнопка Редактировать-->
-                <a class="entity-header-action"
-                   href="javascript:void(0)"
-                   data-ui-sref="app.change.card.edit"
-                   title="Редактировать"
-                   data-ng-click="ctrl.edit()"
-                >
-                    <span class="entity-header-action__icon glyphicon glyphicon-pencil"></span>
-                    <span class="entity-header-action__text">Редактировать</span>
-                </a>
-                <span>| </span>
-
-                <!--Кнопка История-->
-                <a class="entity-header-action" href="javascript:void(0)" title="История">
-                    <span class="entity-header-action__icon glyphicon glyphicon-list-alt"></span>
-                    <span class="entity-header-action__text">История</span>
-                </a>
-                <span>| </span>
-
-                <!--Кнопка В список-->
-                <a class="entity-header-action" data-ui-sref="app.change.list" href="javascript:void(0)" title="Вернуться к списку">
-                    <span class="entity-header-action__icon glyphicon glyphicon-log-out"></span>
-                    <span class="entity-header-action__text">В список</span>
-                </a>
-
-            </div>
-            <div class="entity-header__title">
-                <span>Изменение №{{ctrl.change.no}}</span>
-            </div>
-        </div>
-        <div>
-            <div class="entity-header__name" style="max-width: 715px">
-                {{ctrl.change.subject || ctrl.emptyValue}}
-            </div>
-        </div>
+        <a data-ui-sref="app.change.list" title="Вернуться к списку">Изменения</a>
+        <span> \ </span>
+        <span style="font-weight: bold">
+                    №{{ctrl.change.no}}: {{ctrl.change.subject || ctrl.emptyValue}}
+        </span>
     </div>
 
     <div class="entity-container__content">
@@ -49,94 +16,95 @@
 
     <!--Кнопки в верхнем меню-->
     <div class="entity-container__content">
-        <div class="row">
-            <!--Кнопки для управления статусом сущности-->
-            <div class="col-md-6">
-                <button class="btn btn-info" data-ng-disabled="ctrl.editMode" data-ng-click="window.alert('Наряд создан')">Взять в работу</button>
-                <button class="btn btn-info" data-ng-disabled="ctrl.editMode" data-ng-click="window.alert('Наряд создан')">Вернуть в ДС</button>
-            </div>
-        </div>
+        <a class="btn btn-default" data-ui-sref="app.change.card.edit">Редактировать</a>
+        <a class="btn btn-default" data-ui-sref="app.change.card.history">История</a>
     </div>
 
-    <div class="entity-container__content">
-        <div class="row">
-            <div class="col-md-6">
-                <span style="font-weight: bold;">Подробная информация: </span>
-                <br>
+    <div class="entity-container__content entity-inline-properties">
+        <div class="entity-property-col">
+            <div class="entity-property-name">
+                <span>Побробная информация:</span>
+            </div>
+            <div class="entity-property-value">
                 <span ng-bind="ctrl.change.description || ctrl.emptyValue"></span>
             </div>
-            <div class="col-md-6">
-                <span style="font-weight: bold;">Вложения: </span>
+        </div>
+        <div class="entity-property-col">
+            <div class="entity-property-name">
+                <span>Вложения:</span>
+            </div>
+            <div class="entity-property-value">
+                - Нет -
             </div>
         </div>
     </div>
 
-    <div class="entity-container__content entity-properties">
-        <div class="entity-property">
-            <div class="entity-property__name">
+    <div class="entity-container__content entity-inline-properties">
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
                 <span>Инициатор:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <span ng-bind="ctrl.change.initiator || ctrl.emptyValue"></span>
             </div>
         </div>
 
-        <div class="entity-property">
-            <div class="entity-property__name">
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
                 <span>Менеджер:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <span ng-bind="ctrl.change.manager || ctrl.emptyValue"></span>
             </div>
         </div>
     </div>
 
-    <div class="entity-container__content entity-properties">
-        <div class="entity-property">
-            <div class="entity-property__name">
+    <div class="entity-container__content entity-inline-properties">
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
                 <span>Дата создания:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <span>
                     {{(ctrl.change.createdDate | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
                 </span>
             </div>
         </div>
 
-        <div class="entity-property">
-            <div class="entity-property__name">
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
                 <span>Статус:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <span ng-bind="ctrl.change.status || ctrl.emptyValue"></span>
             </div>
         </div>
 
-        <div class="entity-property">
-            <div class="entity-property__name">
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
                 <span>Крайний срок:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <span>
                     {{(ctrl.change.deadline | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
                 </span>
             </div>
         </div>
 
-        <div class="entity-property">
-            <div class="entity-property__name">
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
                 <span>Приоритет:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <span ng-bind="ctrl.change.priority || ctrl.emptyValue"></span>
             </div>
         </div>
 
-        <div class="entity-property">
-            <div class="entity-property__name">
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
                 <span>Фатически выполнено:</span>
             </div>
-            <div class="entity-property__value">
+            <div class="entity-property-value">
                 <span>
                     {{(ctrl.change.resolvedDate | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
                 </span>
