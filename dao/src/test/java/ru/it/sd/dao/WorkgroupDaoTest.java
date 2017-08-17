@@ -34,11 +34,30 @@ public class WorkgroupDaoTest extends AbstractDaoTest {
 	@Test
 	private void testFindByFilter(){
 		HashMap<String, String> stringsFilter = new HashMap<>();
-		stringsFilter.put("searchCode_like","поддержки");
-		stringsFilter.put("name_like","Группа");
+		stringsFilter.put("searchCode_like", "поддержки");
+		stringsFilter.put("name_like", "Группа");
 
 		List<Workgroup> items = dao.list(stringsFilter);
+		assertEquals(items.size(), 7);
+
+		stringsFilter = new HashMap<>();
+		stringsFilter.put("name_like", "SD");
+		items = dao.list(stringsFilter);
 		assertEquals(items.size(), 4);
 
+		stringsFilter = new HashMap<>();
+		stringsFilter.put("parent", "20004");
+		items = dao.list(stringsFilter);
+		assertEquals(items.size(), 3);
+
+		stringsFilter = new HashMap<>();
+		stringsFilter.put("person", "1");
+		items = dao.list(stringsFilter);
+		assertEquals(items.size(), 2);
+
+		stringsFilter = new HashMap<>();
+		stringsFilter.put("person", "2");
+		items = dao.list(stringsFilter);
+		assertEquals(items.size(), 1);
 	}
 }
