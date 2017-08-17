@@ -1,3 +1,6 @@
+/**
+ * Фабрика, предоставляющая SD
+ */
 import {EntityProvider} from "./entity/entity.provider";
 import {UserProvider} from "./entity/user.provider";
 import {PersonProvider} from "./entity/person.provider";
@@ -6,10 +9,8 @@ import {StatusProvider} from "./entity/entity-status.provider";
 import {ChangeProvider} from "./entity/change.provider";
 import {PriorityProvider} from "./entity/entity-priority.provider";
 import {EditableEntityProvider} from "./entity/editable-entity.provider";
+import {WorkgroupProvider} from "./entity/workgroup.provider";
 
-/**
- * Фабрика, предоставляющая SD
- */
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
     /**
@@ -43,6 +44,7 @@ const SDConstructor = function SD($injector,cache) {
     this.EntityStatus = $injector.instantiate(StatusProvider,locals);
     this.EntityPriority = $injector.instantiate(PriorityProvider,locals);
     this.Change = $injector.instantiate(ChangeProvider,locals);
+    this.Workgroup = $injector.instantiate(WorkgroupProvider,locals);
 
     this.withCache = (newCache = Object.create(cache)) => {
         return $injector.instantiate(SD,{cache:newCache});
