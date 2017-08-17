@@ -2,11 +2,8 @@
 <div id="changes" class="grid-page">
     <!-- Основная панель-->
     <div class="grid-page__content" style="width: 100%; height: 50px;">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <h1>Изменения</h1>
-        </div>
-        <div class="col-md-6" style="text-align: right;height: 50px;line-height: 50px;">
-            <a href="javascript:void(0)"><span class="glyphicon">+</span> Новое</a>
         </div>
     </div>
     <!-- Панель фильтрации -->
@@ -74,7 +71,7 @@
                         </ul>
                     </li>
                 </ul>
-                <form name="search" class="navbar-form navbar-right" role="search"
+                <form name="search" class="navbar-form" role="search"
                       ng-submit="ctrl.searchSubmit(search.text)" style="margin-bottom: 0">
                     <div class="form-group input-group">
                         <input ng-model="search.text" type="text" class="form-control"
@@ -105,6 +102,11 @@
                data-ng-click="ctrl.clickOpen()">
                 <span class="fa fa-external-link"></span>
                 Открыть
+            </a>
+
+            <a class="btn btn-default navbar-btn">
+                <span class="fa fa-plus"></span>
+                Новое
             </a>
         </div>
     </nav>
