@@ -22,19 +22,29 @@
         </div>
     </div>
 
-    <div class="entity-container__content">
-        <div>
-            <span style="font-weight: bold">Тема:</span>
-            <sd-text target="ctrl.change.subject"></sd-text>
+    <div class="entity-container__content entity-properties">
+        <div class="entity-property-col editing">
+            <div class="entity-property-name">
+                <span>Тема:</span>
+            </div>
+            <div class="entity-property-value">
+                <sd-text target="ctrl.change.subject"
+                ></sd-text>
+            </div>
         </div>
-        <br>
-        <div>
-            <span style="font-weight: bold">Подробная инфмормация:</span>
-            <sd-textarea target="ctrl.change.description" rows="6"></sd-textarea>
+        <div class="entity-property-col editing">
+            <div class="entity-property-name">
+                <span>Поробная информация:</span>
+            </div>
+            <div class="entity-property-value">
+                <sd-textarea target="ctrl.change.description"
+                             rows="1"
+                ></sd-textarea>
+            </div>
         </div>
     </div>
 
-    <div class="entity-container__content entity-inline-properties">
+    <div class="entity-container__content entity-properties">
         <div class="entity-inline-property editing">
             <div class="entity-property-name">
                 <span>Инициатор:</span>
@@ -64,7 +74,7 @@
         </div>
     </div>
 
-    <div class="entity-container__content entity-inline-properties">
+    <div class="entity-container__content entity-properties">
         <div class="entity-inline-property editing">
             <div class="entity-property-name">
                 <span>Дата создания:</span>

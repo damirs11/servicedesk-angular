@@ -34,50 +34,60 @@
 
 }
 
+.entity-properties {
+  font-size: 0;
+}
+
+.entity-property {
+  display: inline-block;
+  width: 435px;
+  margin: 10px 0;
+  position: relative;
+  @media (max-width: @small-screen){
+    &{
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+  &:nth-of-type(2n-1) {
+    margin-right: 20px;
+  }
+}
+
 /**
   Столбец свойств. Для случая, когда свойство не умещается в 1 строку.
  */
 .entity-property-col {
-  display: inline-block;
-  width: 50%;
-  margin: 10px 0;
-  position: relative;
+  .entity-property();
   vertical-align:top;
-  @media (max-width: @small-screen){
-    &{
-      width: 100%;
-    }
-  }
 
   &>.entity-property-name {
     vertical-align:top
   }
+
+  &.editing>.entity-property-name {
+    vertical-align:50%;
+  }
+
 }
 
 /**
   Для свойств, которые умещаются в 1 строку.
  */
-.entity-inline-properties {
-  font-size: 0;
-}
-
 .entity-inline-property {
-  display: inline-block;
-  width: 50%;
-  margin: 10px 0;
-  position: relative;
-  @media (max-width: @small-screen){
-    &{
-      width: 100%;
-    }
-  }
+  .entity-property();
 
   &.editing {
     height: 30px;
   }
 
   &.editing>.entity-property-name{
-    top: -30%;
+    vertical-align: 50%;
+    @media (max-width: @small-screen){
+      &{
+        vertical-align: baseline;
+      }
+    }
   }
 }
 
@@ -87,14 +97,9 @@
   display: inline-block;
   font-weight: bold;
   padding-right: 10px;
-  width: 30%;
+  width: 185px;
   text-align: right;
   white-space: nowrap;
-  @media (max-width: @middle-screen){
-    &{
-      width: 35%;
-    }
-  }
   @media (max-width: @small-screen){
     &{
       width: 100%;
@@ -108,12 +113,7 @@
   padding: 0;
   margin: 0;
   display: inline-block;
-  width: 65%;
-  @media (max-width: @middle-screen){
-    &{
-      width: 60%;
-    }
-  }
+  width: 250px;
   @media (max-width: @small-screen){
     &{
       width: 100%;
