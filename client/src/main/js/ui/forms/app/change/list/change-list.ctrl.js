@@ -39,7 +39,6 @@ class ChangeListController {
         }
 
         filters.push(new UIEntityFilter({divider:true}));
-        filters.push(new UIEntityFilter({header:"Моя роль:"}));
         filters.push(new UIEntityFilter("Согласующий","approver"));
         filters.push(new UIEntityFilter("Инициатор","initiator"));
         filters.push(new UIEntityFilter("Менеджер","manager"));

@@ -44,6 +44,8 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 			Long priorityId = DBUtils.getLong(rs, "cha_imp_oid");
 			change.setPriority(EntityPriority.get(priorityId));
 
+			Long executorId = DBUtils.getLong(rs, "ass_per_to_oid");
+			change.setExecutor(getPerson(personCache, executorId));
 			Long initiatorId = DBUtils.getLong(rs, "cha_requestor_per_oid");
 			change.setInitiator(getPerson(personCache, initiatorId));
 			Long managerId = DBUtils.getLong(rs, "cha_per_man_oid");
