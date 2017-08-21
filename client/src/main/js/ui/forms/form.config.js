@@ -15,6 +15,7 @@ import {ChangeListState} from "./app/change/list/change-list.state";
 import {ChangeCardState} from "./app/change/card/change-card.state";
 import {ChangeCardViewState} from "./app/change/card/view/change-view.state";
 import {ChangeCardEditState} from "./app/change/card/edit/change-edit.state";
+import {ChangeCardHistoryState} from "./app/change/card/history/change-history.state";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -37,6 +38,7 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(ChangeCardState)
         .state(ChangeCardViewState)
         .state(ChangeCardEditState)
+        .state(ChangeCardHistoryState)
         .state(TestState)
 
 }

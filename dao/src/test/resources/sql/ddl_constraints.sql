@@ -28,3 +28,5 @@ ALTER TABLE itsm_members ADD CONSTRAINT pk_members PRIMARY KEY (mem_oid);
 ALTER TABLE itsm_members ADD CONSTRAINT fk_members_wog FOREIGN KEY (mem_wog_oid) REFERENCES itsm_workgroups(wog_oid);
 ALTER TABLE itsm_members ADD CONSTRAINT fk_members_pre FOREIGN KEY (mem_per_oid) REFERENCES itsm_persons(per_oid);
 -----------------------------------------------------------------------------------
+ALTER TABLE itsm_historylines_change ADD CONSTRAINT pk_historylines_changes PRIMARY KEY (hch_oid);
+-----------------------------------------------------------------------------------

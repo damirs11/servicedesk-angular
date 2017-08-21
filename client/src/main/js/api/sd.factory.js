@@ -10,6 +10,7 @@ import {ChangeProvider} from "./entity/change.provider";
 import {PriorityProvider} from "./entity/entity-priority.provider";
 import {EditableEntityProvider} from "./entity/editable-entity.provider";
 import {WorkgroupProvider} from "./entity/workgroup.provider";
+import {HistoryLineProvider} from "./entity/history-line.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -45,6 +46,7 @@ const SDConstructor = function SD($injector,cache) {
     this.EntityPriority = $injector.instantiate(PriorityProvider,locals);
     this.Change = $injector.instantiate(ChangeProvider,locals);
     this.Workgroup = $injector.instantiate(WorkgroupProvider,locals);
+    this.HistoryLine = $injector.instantiate(HistoryLineProvider,locals);
 
     this.withCache = (newCache = Object.create(cache)) => {
         return $injector.instantiate(SD,{cache:newCache});

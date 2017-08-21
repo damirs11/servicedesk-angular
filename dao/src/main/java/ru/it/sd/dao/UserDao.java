@@ -51,4 +51,26 @@ public class UserDao extends AbstractDao {
 		}
 		return users.get(0);
 	}
+
+	/**
+	 * Находит пользователя по его ID
+	 *
+	 * @param id
+	 * @return пользователь или null, если пользователь не найден
+	 */
+	public User read(Long id) {
+		Objects.requireNonNull(id);
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("id", id);
+
+		List<User> users = namedJdbc.query(MessageFormat.format(SELECT_ALL_SQL, "\nWHERE acc_oid = :id"),
+				params, userExtractor);
+		if (users.isEmpty()) {
+			return null;
+		}
+		if (users.size() > 1) {
+			throw new AppException(ResourceMessages.getMessage("error.too.many.result"));
+		}
+		return users.get(0);
+	}
 }

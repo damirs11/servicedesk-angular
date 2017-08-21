@@ -140,3 +140,11 @@ CREATE TABLE itsm_members (
   mem_wog_oid DECIMAL (18),
   mem_per_oid DECIMAL (18)
 );
+
+CREATE TABLE itsm_historylines_change (
+  hch_oid DECIMAL (18),
+  reg_created TIMESTAMP,
+  reg_created_by_oid DECIMAL (18),
+  hch_subject VARCHAR (255),
+  hch_cha_oid DECIMAL (18)
+);
