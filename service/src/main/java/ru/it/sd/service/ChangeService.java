@@ -23,6 +23,8 @@ public class ChangeService implements CrudService<Change>{
 
 	@Autowired
 	private ChangeDao dao;
+	@Autowired
+	private SecurityService securityService;
 
 	@Override
 	public Change read(long id) {
@@ -31,6 +33,10 @@ public class ChangeService implements CrudService<Change>{
 
 	@Override
 	public List<Change> list(Map<String, String> filter) {
+		// Принудительно указываем текущего пользователя. Необходимо для фильтрации данных в дао
+		long personId = securityService.getCurrentUser().getPerson().getId();
+		filter.put("personId", String.valueOf(personId));
+
 		return dao.list(filter);
 	}
 

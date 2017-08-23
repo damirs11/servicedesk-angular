@@ -46,6 +46,9 @@ public class Change implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "cha_actualfinish")
 	private Date resolvedDate;
 
+	/** Исполнитель */
+	@FieldMeta(columnName = "ass_per_to_oid")
+	private Person executor;
 	/** Инициатор изменения */
 	@FieldMeta(columnName = "cha_requestor_per_oid")
 	private Person initiator;
@@ -143,6 +146,14 @@ public class Change implements HasId, HasStatus, Serializable {
 
 	public void setManager(Person manager) {
 		this.manager = manager;
+	}
+
+	public Person getExecutor() {
+		return executor;
+	}
+
+	public void setExecutor(Person executor) {
+		this.executor = executor;
 	}
 
 	@Override
