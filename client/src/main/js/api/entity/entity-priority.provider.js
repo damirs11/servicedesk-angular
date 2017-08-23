@@ -1,14 +1,14 @@
 import {Parse} from "./decorator/parse.decorator";
 
-PriorityProvider.$inject = ["Entity"];
-function PriorityProvider(Entity) {
+PriorityProvider.$inject = ["RESTEntity"];
+function PriorityProvider(RESTEntity) {
     /**
      * Приоритет
      * @class
      * @name SD.EntityPriority
-     * @extends SD.Entity
+     * @extends SD.RESTEntity
      */
-    return class EntityPriority extends Entity {
+    return class EntityPriority extends RESTEntity {
 
         /**
          * Название

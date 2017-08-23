@@ -1,14 +1,14 @@
 import {Parse} from "./decorator/parse.decorator";
 
-WorkgroupProvider.$inject = ["Entity","SD"];
-function WorkgroupProvider(Entity,SD) {
+WorkgroupProvider.$inject = ["RESTEntity","SD"];
+function WorkgroupProvider(RESTEntity,SD) {
     /**
      * Приоритет
      * @class
      * @name SD.EntityPriority
-     * @extends SD.Entity
+     * @extends SD.RESTEntity
      */
-    return class Workgroup extends Entity {
+    return class Workgroup extends RESTEntity {
 
         /**
          * Название

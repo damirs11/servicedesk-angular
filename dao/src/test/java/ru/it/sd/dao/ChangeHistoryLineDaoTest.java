@@ -33,12 +33,12 @@ public class ChangeHistoryLineDaoTest extends AbstractDaoTest {
 	@Test
 	private void testFindByFilter(){
 		HashMap<String, String> stringsFilter = new HashMap<>();
-		stringsFilter.put("change", "111");
+		stringsFilter.put("entity", "111");
 		List<ChangeHistoryLine> items = dao.list(stringsFilter);
 		assertEquals(items.size(), 2);
 
 		stringsFilter = new HashMap<>();
-		stringsFilter.put("change", "222");
+		stringsFilter.put("entity", "222");
 		items = dao.list(stringsFilter);
 		assertEquals(items.size(), 1);
 		assertEquals(items.get(0).getSubject(), "Закрытие заявки");

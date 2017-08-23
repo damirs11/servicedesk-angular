@@ -4,7 +4,7 @@ import {Instantiate} from "./decorator/parse-utils";
 HistoryLineProvider.$inject = ["Entity","SD"];
 function HistoryLineProvider(Entity,SD) {
     /**
-     * Статус
+     * Запись в истории
      * @class
      * @name SD.HistoryLine
      * @extends SD.Entity
@@ -12,31 +12,27 @@ function HistoryLineProvider(Entity,SD) {
     return class HistoryLine extends Entity {
 
         /**
-         * Описание события
+         * Описание записи
          * @property
-         * @name SD.HistoryLine#description
+         * @name SD.HistoryLine#subject
          * @type {string}
          */
-        @Parse( String ) description;
+        @Parse( String ) subject;
         /**
-         * Дата события
+         * Дата
          * @property
          * @name SD.HistoryLine#date
          * @type {Date}
          */
         @Parse( Instantiate(Date) ) date;
         /**
-         * Пользователь, что внес изменения
+         * Пользователь, создавший запись
          * @property
-         * @name SD.HistoryLine#user
+         * @name SD.HistoryLine#account
          * @type {SD.User}
          */
-        @Parse( (data) => SD.User.parse(data) ) user;
-
-        toString(){
-            return this.name
-        }
-    };
+        @Parse( data => SD.User.parse(data) ) account;
+    }
 }
 
 export {HistoryLineProvider};

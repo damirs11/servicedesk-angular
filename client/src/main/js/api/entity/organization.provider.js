@@ -1,14 +1,14 @@
 import {Parse} from "./decorator/parse.decorator";
 import {Nullable} from "./decorator/parse-utils";
 
-OrganizationProvider.$inject = ["Entity"];
-function OrganizationProvider(Entity) {
+OrganizationProvider.$inject = ["RESTEntity"];
+function OrganizationProvider(RESTEntity) {
     /**
      * Организация
      * @class
      * @name SD.Organization
      */
-    return class Organization extends Entity {
+    return class Organization extends RESTEntity {
         /**
          * Название
          * @property

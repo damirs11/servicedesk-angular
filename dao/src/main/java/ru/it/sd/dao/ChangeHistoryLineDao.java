@@ -50,9 +50,9 @@ public class ChangeHistoryLineDao extends AbstractEntityDao<ChangeHistoryLine> {
 		super.buildWhere(filter, sql, params);
 
 		// Фильтр по изменению, то есть получаем все записи в истории для конкретного изменения
-		if (Objects.nonNull(filter) && filter.containsKey("change")) {
-			params.addValue("change", filter.get("change"));
-			sql.append(" AND hch.hch_cha_oid = :change");
+		if (Objects.nonNull(filter) && filter.containsKey("entity")) {
+			params.addValue("entity", filter.get("entity"));
+			sql.append(" AND hch.hch_cha_oid = :entity");
 		}
 
 	}

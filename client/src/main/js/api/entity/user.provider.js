@@ -1,15 +1,15 @@
 import {Parse} from "./decorator/parse.decorator";
 import {Nullable} from "./decorator/parse-utils";
 
-UserProvider.$inject = ["Entity", "SD"];
-function UserProvider(Entity, SD) {
+UserProvider.$inject = ["RESTEntity", "SD"];
+function UserProvider(RESTEntity, SD) {
     /**
      * Пользователь
      * @class
-     * @extends SD.Entity
+     * @extends SD.RESTEntity
      * @name SD.User
      */
-    return class User extends Entity {
+    return class User extends RESTEntity {
         /**
          * Имя пользователя
          * @property

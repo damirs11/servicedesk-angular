@@ -1,14 +1,13 @@
 import {PARSE_MAP} from "./decorator/parse.decorator";
 import {SERIALIZE_MAP} from "./decorator/serialize.decorator";
 
-EntityProvider.$inject = ["$connector","cache"];
-function EntityProvider($connector,cache) {
+EntityProvider.$inject = ["cache"];
+function EntityProvider(cache) {
     /**
      * Базовый класс для сущностей ServiceDesk
      * Содержит служебную логику и методы load и list
      * @class
-     * @classdesc Реализует методы для работы с REST: save, create
-     * @name SD.EditableEntity
+     * @name SD.Entity
      */
     return class Entity {
 
@@ -154,40 +153,6 @@ function EntityProvider($connector,cache) {
                 .forEach(key => delete this[key])
             ;
             return this
-        }
-
-
-
-        /**
-         * Возвращает строкой тип сущности. Используется для запросов
-         * Должен соотвествовать типу на сервере
-         * @returns {string}
-         */
-        get $entityType() {
-            return this.constructor.name;
-        }
-
-        /**
-         * Подгружает изменения в текущую сущность
-         */
-        async load(){
-            const data = await $connector.get(`rest/entity/${this.$entityType}/${this.id}`);
-            return this.$update(data);
-        }
-
-        /**
-         * Осуществляет поиск сущностей по фильтру
-         */
-        static async list(params){
-            const entityList = await $connector.get(`rest/entity/${this.name}`, params);
-            return entityList.map(::this.parse)
-        }
-
-        /**
-         * Получает общее количество записей по указанному фильтру
-         */
-        static async count(params){
-            return await $connector.get(`rest/entity/${this.name}/count`, params);
         }
 
     }

@@ -8,8 +8,8 @@ function ChangeProvider(EditableEntity, SD) {
     /**
      * Персона
      * @class
-     * @extends SD.EditableEntity
      * @name SD.Change
+     * @extends SD.EditableEntity
      */
     return class Change extends EditableEntity {
         /**

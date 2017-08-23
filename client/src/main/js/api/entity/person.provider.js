@@ -3,8 +3,8 @@ import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
 
 
-PersonProvider.$inject = ["EditableEntity", "SD","$connector"];
-function PersonProvider(EditableEntity, SD, $connector) {
+PersonProvider.$inject = ["EditableEntity", "SD"];
+function PersonProvider(EditableEntity, SD) {
     /**
      * Персона
      * @class

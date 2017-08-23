@@ -1,14 +1,14 @@
 import {Parse} from "./decorator/parse.decorator";
 
-StatusProvider.$inject = ["Entity"];
-function StatusProvider(Entity) {
+StatusProvider.$inject = ["RESTEntity"];
+function StatusProvider(RESTEntity) {
     /**
      * Статус
      * @class
      * @name SD.EntityStatus
-     * @extends SD.Entity
+     * @extends SD.RESTEntity
      */
-    return class EntityStatus extends Entity {
+    return class EntityStatus extends RESTEntity {
 
         /**
          * Название

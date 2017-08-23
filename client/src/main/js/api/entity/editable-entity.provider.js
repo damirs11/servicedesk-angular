@@ -1,14 +1,14 @@
 
-EditableEntityProvider.$inject = ["Entity", "SD","$connector"];
-function EditableEntityProvider(Entity, SD, $connector) {
+EditableEntityProvider.$inject = ["RESTEntity","$connector","SD"];
+function EditableEntityProvider(RESTEntity, $connector, SD) {
     /**
      * редактируемая сущность.
      * @class
-     * @classdesc Реализует методы для работы с REST: save, create
-     * @extends SD.Entity
      * @name SD.EditableEntity
+     * @classdesc Реализует методы для работы с редактированием сущности
+     * @extends SD.RESTEntity
      */
-    return class EditableEntity extends Entity {
+    return class EditableEntity extends RESTEntity {
 
         /**
          * Сохраняет изменения текущей сущнсоти
@@ -29,6 +29,26 @@ function EditableEntityProvider(Entity, SD, $connector) {
             const jsonData = this.$serialize();
             const data = await $connector.put(`rest/entity/${this.$entityType}`,null,jsonData);
             this.$update(data)
+        }
+
+        /**
+         * Возвращает коллекцию записей в истории
+         * @return {SD.HistoryLine[]}
+         */
+        async getHistory(params){
+            params = typeof params == "object" ? params : {};
+            params.entity = this.id;
+            const linesData = await $connector.get(`rest/entity/${this.$entityType}HistoryLine`, params);
+            return linesData.map(::SD.HistoryLine.parse)
+        }
+
+        /**
+         * Получает общее количество записей по указанному фильтру
+         */
+        async getHistoryCount(params){
+            params = typeof params == "object" ? params : {};
+            params.entity = this.id;
+            return await $connector.get(`rest/entity/${this.$entityType}HistoryLine/count`,params);
         }
     };
 }

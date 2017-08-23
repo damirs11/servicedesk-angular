@@ -11,6 +11,7 @@ import {PriorityProvider} from "./entity/entity-priority.provider";
 import {EditableEntityProvider} from "./entity/editable-entity.provider";
 import {WorkgroupProvider} from "./entity/workgroup.provider";
 import {HistoryLineProvider} from "./entity/history-line.provider";
+import {RESTEntityProvider} from "./entity/rest-entity";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -32,11 +33,12 @@ function SDFactory($injector) {
  */
 const SDConstructor = function SD($injector,cache) {
     /** Классы для сущностей */
-    /** Базовый класс */
+    /** Базовые классы */
     const Entity = $injector.instantiate(EntityProvider,{cache});
-    const EditableEntity = $injector.instantiate(EditableEntityProvider,{Entity,SD:this});
+    const RESTEntity = $injector.instantiate(RESTEntityProvider,{Entity,SD:this});
+    const EditableEntity = $injector.instantiate(EditableEntityProvider,{Entity,RESTEntity,SD:this});
     /** Пробосится в зависимости для классов сущностей */
-    const locals = {SD:this, Entity, EditableEntity};
+    const locals = {SD:this, Entity, RESTEntity, EditableEntity};
 
     /** Все остальные сущности */
     this.User = $injector.instantiate(UserProvider,locals);
