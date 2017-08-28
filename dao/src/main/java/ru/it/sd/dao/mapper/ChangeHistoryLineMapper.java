@@ -34,6 +34,11 @@ public class ChangeHistoryLineMapper extends EntityRowMapper<ChangeHistoryLine> 
 			historyLine.setAccount(account);
 		}
 
+		Long fieldId = DBUtils.getLong(rs, "hch_valueatr_oid");
+		if ( Objects.nonNull(fieldId) ) {
+			ChangeHistoryLine.ChatSender sender = ChangeHistoryLine.ChatSender.get(fieldId);
+			historyLine.setChatSender(sender);
+		}
 		return historyLine;
 	}
 }

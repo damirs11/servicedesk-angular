@@ -50,6 +50,28 @@ function EditableEntityProvider(RESTEntity, $connector, SD) {
             params.entity = this.id;
             return await $connector.get(`rest/entity/${this.$entityType}HistoryLine/count`,params);
         }
+
+        /**
+         * Возвращает записи чата
+         * @return {SD.HistoryLine[]}
+         */
+        async getChat(params){
+            params = typeof params == "object" ? params : {};
+            params.entity = this.id;
+            params.chat = true;
+            const linesData = await $connector.get(`rest/entity/${this.$entityType}HistoryLine`, params);
+            return linesData.map(::SD.HistoryLine.parse)
+        }
+
+        /**
+         * Возвращает количество сообщений в чате
+         */
+        async getChatCount(params){
+            params = typeof params == "object" ? params : {};
+            params.entity = this.id;
+            params.chat = true;
+            return await $connector.get(`rest/entity/${this.$entityType}HistoryLine/count`,params);
+        }
     };
 }
 

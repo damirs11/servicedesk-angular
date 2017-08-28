@@ -27,12 +27,14 @@ public class ChangeHistoryLineDao extends AbstractEntityDao<ChangeHistoryLine> {
 	 * Общий запрос получения данных о записи в истории
 	 */
 	private static final String BASE_SQL =
-		"SELECT " +
+		" SELECT " +
 			"hch.hch_oid, " +
 			"hch.hch_subject, " +
 			"hch.reg_created_by_oid, " +
-			"hch.reg_created " +
-		"FROM " +
+			"hch.reg_created, " +
+			"hch.hch_newvalue," +
+			"hch.hch_valueatr_oid " +
+		" FROM " +
 			"itsm_historylines_change AS hch";
 
 	@Override
@@ -55,5 +57,22 @@ public class ChangeHistoryLineDao extends AbstractEntityDao<ChangeHistoryLine> {
 			sql.append(" AND hch.hch_cha_oid = :entity");
 		}
 
+		// Фильтр, оставляющий только записи, относящиеся к чату (или наоборот)
+		if (Objects.nonNull(filter) && filter.containsKey("chat")) {
+			String chatFilter = "(724041771,281484032738115) ";
+			String value = filter.get("chat");
+			if (Objects.equals(value, "false") || Objects.equals(value, "0")) {
+				sql.append(" AND hch.hch_valueatr_oid NOT IN ").append(chatFilter);
+			} else {
+				sql.append(" AND hch.hch_valueatr_oid IN ").append(chatFilter);
+			}
+
+		}
+	}
+
+	@Override
+	protected void buildOrderBy(Map<String, String> filter, StringBuilder sql, int insertPos) {
+		super.buildOrderBy(filter, sql, insertPos);
+		sql.append(" hch.reg_created ");
 	}
 }

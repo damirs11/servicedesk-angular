@@ -1,5 +1,5 @@
 import {Parse} from "./decorator/parse.decorator";
-import {Instantiate} from "./decorator/parse-utils";
+import {Instantiate, Nullable} from "./decorator/parse-utils";
 
 HistoryLineProvider.$inject = ["Entity","SD"];
 function HistoryLineProvider(Entity,SD) {
@@ -32,6 +32,25 @@ function HistoryLineProvider(Entity,SD) {
          * @type {SD.User}
          */
         @Parse( data => SD.User.parse(data) ) account;
+        /**
+         * Значение записи. Если это запись чата, value - само сообщение.
+         * Если запись в истории, value - новое значение поля сущности
+         * @property
+         * @name SD.HistoryLine#value
+         * @type {String}
+         */
+        @Parse( Nullable(String) ) value;
+        /**
+         * Номер отправителя сообщения в чат. Различается для разных сущностей.
+         * @property
+         * @name SD.HistoryLine#chatSender
+         * @type {Number}
+         */
+        @Parse( Nullable(Number) ) chatSender;
+
+        get isChat(){
+            return this.chatSender == null;
+        }
     }
 }
 

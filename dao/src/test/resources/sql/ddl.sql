@@ -38,7 +38,8 @@ CREATE TABLE itsm_changes (
   cha_imp_oid DECIMAL(18),
   reg_created DATETIME,
   cha_deadline DATETIME,
-  cha_actualfinish DATETIME
+  cha_actualfinish DATETIME,
+  ass_per_to_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_cha_information (
@@ -146,5 +147,7 @@ CREATE TABLE itsm_historylines_change (
   reg_created TIMESTAMP,
   reg_created_by_oid DECIMAL (18),
   hch_subject VARCHAR (255),
-  hch_cha_oid DECIMAL (18)
+  hch_cha_oid DECIMAL (18),
+  hch_newvalue VARCHAR (128),
+  hch_valueatr_oid DECIMAL (18)
 );
