@@ -69,10 +69,10 @@ public class ChangeHistoryLineDao extends AbstractEntityDao<ChangeHistoryLine> {
 
 		}
 	}
-
-	@Override
-	protected void buildOrderBy(Map<String, String> filter, StringBuilder sql, int insertPos) {
-		super.buildOrderBy(filter, sql, insertPos);
-		sql.append(" hch.reg_created ");
-	}
+//
+//	@Override
+//	protected void buildOrderBy(Map<String, String> filter, StringBuilder sql, int insertPos) {
+//		super.buildOrderBy(filter, sql, insertPos);
+//		sql.append(" hch.reg_created ");
+//	}
 }

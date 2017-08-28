@@ -59,8 +59,7 @@ function EditableEntityProvider(RESTEntity, $connector, SD) {
             params = typeof params == "object" ? params : {};
             params.entity = this.id;
             params.chat = true;
-            const linesData = await $connector.get(`rest/entity/${this.$entityType}HistoryLine`, params);
-            return linesData.map(::SD.HistoryLine.parse)
+            return this.getHistory(params);
         }
 
         /**
@@ -70,7 +69,7 @@ function EditableEntityProvider(RESTEntity, $connector, SD) {
             params = typeof params == "object" ? params : {};
             params.entity = this.id;
             params.chat = true;
-            return await $connector.get(`rest/entity/${this.$entityType}HistoryLine/count`,params);
+            return this.getHistoryCount(params);
         }
     };
 }

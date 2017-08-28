@@ -18,7 +18,7 @@ function HistoryGridProvider(AbstractGrid) {
             this.SD = SD;
             this.entity = entity;
             this.columnDefs = [
-                { field: 'date', name: "Дата", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center"},
+                { field: 'date', name: "Дата", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center", sort: {direction:"desc"}},
                 { field: 'subject', name: "Описание", cellTooltip: true, minWidth: 300},
                 { field: 'account', name: "Аккаунт", type: 'string', width: 260},
             ];
@@ -36,6 +36,8 @@ function HistoryGridProvider(AbstractGrid) {
             this.useExternalSorting = true;
             this.rowTemplate = rowTemplate;
             this.autoResize =true;
+
+            this.sort = [this.columnDefs[0]];
         }
 
         onRegisterApi(gridApi) {
@@ -94,6 +96,7 @@ function HistoryGridProvider(AbstractGrid) {
          * Обработчик смены условий сортировки данных
          */
         _onSortChanged(grid, sortColumns) {
+            console.log(sortColumns);
             this.sort = sortColumns;
             this._broadcastEvent("grid:sort-changed",{sortColumns});
             this.fetchData();
