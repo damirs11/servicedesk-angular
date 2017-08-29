@@ -6,12 +6,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ru.it.sd.exception.NotFoundException;
 import ru.it.sd.meta.MetaUtils;
 import ru.it.sd.model.HasId;
+import ru.it.sd.service.History;
 import ru.it.sd.service.holder.CrudServiceHolder;
+import ru.it.sd.service.holder.HistoryServiceHolder;
 import ru.it.sd.service.holder.ReadServiceHolder;
 import ru.it.sd.util.EntityUtils;
 import ru.it.sd.util.ResourceMessages;
@@ -41,6 +49,8 @@ public class CommonRestController {
     private ReadServiceHolder readServiceHolder;
     @Autowired
     private CrudServiceHolder crudServiceHolder;
+	@Autowired
+	private HistoryServiceHolder historyServiceHolder;
 
     @RequestMapping("/ping")
     public String ping() {
@@ -64,6 +74,29 @@ public class CommonRestController {
         }
         return result;
     }
+
+	/**
+	 * Получить информацию об истории изменений сущности
+	 *
+	 * @param entity название класса сущности
+	 * @param id идентификатор экземпляра сущности, для которого получаем историю
+	 * @return экземпляр сущности
+	 * @throws IllegalArgumentException если указанный в адресной строке класс сущности не был найден, либо произошла ошибка
+	 *                                  на этапе извлечения информации из базы данных
+	 */
+	@RequestMapping(value = "/{entity}/{id}/history", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
+	public List<Object> history(@PathVariable String entity, @PathVariable long id, @RequestParam Map<String, String> filter) {
+		History historyService = historyServiceHolder.findFor(entity);
+		filter.put("entity", Long.valueOf(id).toString());
+		return historyService.list(filter);
+	}
+
+	@RequestMapping(value = "/{entity}/{id}/history/count", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
+	public int historyCount(@PathVariable String entity, @PathVariable long id, @RequestParam Map<String, String> filter) {
+		History historyService = historyServiceHolder.findFor(entity);
+		filter.put("entity", Long.valueOf(id).toString());
+		return historyService.count(filter);
+	}
 
     /**
      * Получить список сущностей
