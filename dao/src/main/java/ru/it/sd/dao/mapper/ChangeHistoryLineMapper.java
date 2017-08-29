@@ -6,10 +6,7 @@ import ru.it.sd.dao.ChangeHistoryLineDao;
 import ru.it.sd.dao.DBUtils;
 import ru.it.sd.dao.UserDao;
 import ru.it.sd.dao.WorkgroupDao;
-import ru.it.sd.model.ChangeHistoryLine;
-import ru.it.sd.model.EntityStatus;
-import ru.it.sd.model.User;
-import ru.it.sd.model.Workgroup;
+import ru.it.sd.model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,8 +33,8 @@ public class ChangeHistoryLineMapper extends EntityRowMapper<ChangeHistoryLine> 
 
 		Long fieldId = DBUtils.getLong(rs, "hch_valueatr_oid");
 		if ( Objects.nonNull(fieldId) ) {
-			ChangeHistoryLine.ChatSender sender = ChangeHistoryLine.ChatSender.get(fieldId);
-			historyLine.setChatSender(sender);
+			HistoryLineType type = HistoryLineType.getByField(fieldId);
+			historyLine.setType(type);
 		}
 		return historyLine;
 	}

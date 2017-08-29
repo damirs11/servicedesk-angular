@@ -37,6 +37,7 @@ import {SDDateTimeComponent} from "./components/fields/sd-datetime/sd-datetime.c
 import {SDTextareaComponent} from "./components/fields/sd-textarea/sd-textarea.component";
 import {UiGridConfig} from "./components/widget/grid/ui-grid.config.js";
 import {SDStatusBarComponent} from "./components/widget/status-bar/sd-status-bar.component";
+import {SDEntityChatComponent} from "./components/widget/sd-entity-chat/sd-entity-chat.component";
 import {SDValidatorFactory} from "./components/sd-validator/sd-validator.factory";
 import {$gridFactory} from "./components/widget/grid/grid.factory";
 
@@ -76,5 +77,6 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .component("sdDropdown", SDDropdownComponent)
     .component("sdDatetime", SDDateTimeComponent)
     .component("sdStatusBar",SDStatusBarComponent)
+    .component("sdEntityChat",SDEntityChatComponent)
     .controller("IndexController",IndexController)
     .name;

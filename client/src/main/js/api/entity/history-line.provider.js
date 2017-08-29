@@ -41,15 +41,15 @@ function HistoryLineProvider(Entity,SD) {
          */
         @Parse( Nullable(String) ) value;
         /**
-         * Номер отправителя сообщения в чат. Различается для разных сущностей.
+         * Тип записи
          * @property
-         * @name SD.HistoryLine#chatSender
+         * @name SD.HistoryLine#type
          * @type {Number}
          */
-        @Parse( Nullable(Number) ) chatSender;
+        @Parse( Nullable(String) ) type;
 
         get isChat(){
-            return this.chatSender == null;
+            return this.type != null;
         }
     }
 }
