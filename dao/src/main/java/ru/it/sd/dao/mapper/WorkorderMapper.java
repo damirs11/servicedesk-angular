@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.dao.DBUtils;
 import ru.it.sd.dao.PersonDao;
+import ru.it.sd.dao.WorkgroupDao;
 import ru.it.sd.model.*;
 
 import java.sql.ResultSet;
@@ -21,41 +22,48 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 	private PersonDao personDao;
 	@Autowired
 	private ChangeDao changeDao;
+    @Autowired
+    private WorkgroupDao workgroupDao;
 
 	@Override
 	public Workorder mapRow(ResultSet rs, int rowNumber) throws SQLException {
 		Workorder workorder = super.mapRow(rs, rowNumber);
 
-		Long statusId = DBUtils.getLong(rs,"WOR_STA_OID");
+		Long statusId = DBUtils.getLong(rs,"wor_sta_oid");
 		if (statusId != null){
 			EntityStatus status = EntityStatus.get(statusId);
 			workorder.setStatus(status);
 		}
-		Long categoryId = DBUtils.getLong(rs,"WOR_CAT_OID");
+		Long categoryId = DBUtils.getLong(rs,"wor_cat_oid");
 		if (categoryId != null){
 			EntityCategory category = EntityCategory.getById(categoryId);
 			workorder.setCategory(category);
 		}
-		Long closureCodeId = DBUtils.getLong(rs,"WOR_CLO_OID");
+		Long closureCodeId = DBUtils.getLong(rs,"wor_clo_oid");
 		if (closureCodeId != null){
 			EntityClosureCode closureCode = EntityClosureCode.getById(closureCodeId);
 			workorder.setClosureCode(closureCode);
 		}
-		Long initiatorId = DBUtils.getLong(rs,"WOR_REQUESTOR_PER_OID");
+		Long initiatorId = DBUtils.getLong(rs,"wor_requestor_per_oid");
 		if (initiatorId != null){
 			Person initiator = personDao.read(initiatorId);
 			workorder.setInitiator(initiator);
 		}
-		Long assigneePersonId = DBUtils.getLong(rs,"ASS_PER_TO_OID");
+		Long assigneePersonId = DBUtils.getLong(rs,"ass_per_to_oid");
 		if (assigneePersonId != null){
 			Person assigneePerson = personDao.read(assigneePersonId);
 			workorder.setAssigneePerson(assigneePerson);
 		}
-		Long changeId = DBUtils.getLong(rs,"WOR_CHA_OID");
+		Long changeId = DBUtils.getLong(rs,"wor_cha_oid");
 		if (changeId != null){
 			Change change = changeDao.read(changeId);
 			workorder.setChange(change);
 		}
+        Long workgroupId = DBUtils.getLong(rs,"ass_workgroup");
+        if (workgroupId != null){
+            Workgroup workgroup = workgroupDao.read(workgroupId);
+            workorder.setWorkgroup(workgroup);
+        }
 
 		return workorder;
 	}
