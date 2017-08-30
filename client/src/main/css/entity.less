@@ -44,13 +44,14 @@
   margin: 10px 0;
   position: relative;
   @media (max-width: @small-screen){
-    &{
-      width: 100%;
-      margin-right: 0;
-    }
+    width: 100%;
+    margin-right: 0;
   }
   &:nth-of-type(2n-1) {
     margin-right: 20px;
+    @media (max-width: @small-screen){
+      margin-right: 0;
+    }
   }
 }
 
@@ -84,9 +85,7 @@
   &.editing>.entity-property-name{
     vertical-align: 50%;
     @media (max-width: @small-screen){
-      &{
-        vertical-align: baseline;
-      }
+      vertical-align: baseline;
     }
   }
 }
@@ -101,10 +100,8 @@
   text-align: right;
   white-space: nowrap;
   @media (max-width: @small-screen){
-    &{
-      width: 100%;
-      text-align: left;
-    }
+    width: 100%;
+    text-align: left;
   }
 }
 
@@ -115,8 +112,6 @@
   display: inline-block;
   width: 250px;
   @media (max-width: @small-screen){
-    &{
-      width: 100%;
-    }
+    width: 100%;
   }
 }

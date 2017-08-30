@@ -1,0 +1,64 @@
+
+
+[{
+    "id":281496678039951,
+    "type":"MANAGER",
+    "value":"на 13 нет ключа, обновляйтесь до 16 и присылайте тим вивер \r\n\\\\172.16.128.153\\admin\\install\\Applications. Office",
+    "date":1501476661000,
+    "account":{
+        "id":281492984102988,
+        "gender":0,
+        "name":"Плотников Михаил Андреевич"
+    }
+},
+    {
+        "id":281496694040356,
+        "type":"DEADLINE_CHANGE",
+        "value":"04.08.17 09:34 UFA",
+        "date":1501673976000,
+        "account":{
+            "id":281493793020263,
+            "person": {
+                "id": 10,
+                "sex":false,
+                "lastName": "Кузнецова",
+                "firstName": "Мария",
+                "middleName": "Александровна",
+                "shortName": "Кузнецова М.А."
+            }
+        }
+    },
+    {
+        "id":281496705696472,
+        "type":"MANAGER",
+        "value":"Нет обратной связи",
+        "date":1501746571000,
+        "account":{
+            "id":281492984102988,
+            "person": {
+                "id": 12,
+                "sex":true,
+                "lastName": "Плотников",
+                "firstName": "Михаил",
+                "middleName": "Андреевич",
+                "shortName": "Плотников М.А."
+            }
+        }
+    },
+    {
+        "id":281496703409331,
+        "type":"INITIATOR",
+        "value":"Ставить 16й офис пока некогда.",
+        "date":1501749773000,
+        "account":{
+            "id":281493793020263,
+            "person": {
+                "id": 15,
+                "sex":false,
+                "lastName": "Кузнецова",
+                "firstName": "Мария",
+                "middleName": "Александровна",
+                "shortName": "Кузнецова М.А."
+            }
+        }
+    }]

@@ -69,7 +69,6 @@ function PersonProvider(EditableEntity, SD) {
          */
         @Serialize(org => org.id) @Parse(data => SD.Organization.parse(data)) organization;
 
-
         /**
          * Полное имя персоны
          * Фамилия + имя + отчество
@@ -86,6 +85,17 @@ function PersonProvider(EditableEntity, SD) {
 
         toString(){
             return this.fullName
+        }
+
+        get avatarPath(){
+            // ToDo учитывать avatarId у персоны
+            if (this.sex) {
+                return "/img/male-avatar.png";
+            } else if (this.sex === false) {
+                return "/img/female-avatar.png";
+            } else {
+                return "/img/default-avatar.png";
+            }
         }
     };
 }

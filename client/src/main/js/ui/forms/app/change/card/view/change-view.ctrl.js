@@ -1,3 +1,5 @@
+import {CHANGE_MESSAGE_TYPES} from "../../../../../components/widget/sd-entity-chat/chat-types";
+
 class ChangeCardViewController{
     /**
      * Пустое значение
@@ -10,6 +12,7 @@ class ChangeCardViewController{
         this.$scope = $scope;
         this.SD = SD;
         this.changeId = changeId;
+        this.msgTypes = CHANGE_MESSAGE_TYPES;
     }
 
     $onInit() {

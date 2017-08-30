@@ -40,6 +40,9 @@ import {SDStatusBarComponent} from "./components/widget/status-bar/sd-status-bar
 import {SDEntityChatComponent} from "./components/widget/sd-entity-chat/sd-entity-chat.component";
 import {SDValidatorFactory} from "./components/sd-validator/sd-validator.factory";
 import {$gridFactory} from "./components/widget/grid/grid.factory";
+import {SDAvatarComponent} from "./components/widget/sd-avatar/sd-avatar.component";
+import {ChatLineComponent} from "./components/widget/sd-entity-chat/chat-line/chat-line.component";
+import {ChatInfoBlockComponent} from "./components/widget/sd-entity-chat/chat-line/chat-info-block/chat-info-block.component";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -60,23 +63,34 @@ export const servicedeskUI = angular.module("servicedesk-ui",
             uiBootstrapDatetimePicker,
             angularMoment,
             uiGridSaveState])
+
     .config(TranslateConfig)
     .config(FormConfig)
     .config(DialogsConfig)
     .config(ConnectorConfig)
     .config(uiSelectConfig)
     .config(UiGridConfig)
+
     .factory("$grid",$gridFactory)
     .factory("SDValidator",SDValidatorFactory)
+
     .directive("equalsTo", EqualsTo)
     .directive("differentFrom", DifferentFrom)
     .directive("sdFocus",SDFocusDirective)
     .directive("sdOnInteractOut",SDOnInteractOutDirective)
+
+    /** Компоненты для редактируемых полей */
     .component("sdText", SDTextComponent)
     .component("sdTextarea", SDTextareaComponent)
     .component("sdDropdown", SDDropdownComponent)
     .component("sdDatetime", SDDateTimeComponent)
+    /** Прочие */
     .component("sdStatusBar",SDStatusBarComponent)
+    .component("sdAvatar",SDAvatarComponent)
+    /** Компоненты для чата */
+    .component("chatLine",ChatLineComponent)
+    .component("chatInfoBlock",ChatInfoBlockComponent)
     .component("sdEntityChat",SDEntityChatComponent)
+
     .controller("IndexController",IndexController)
     .name;
