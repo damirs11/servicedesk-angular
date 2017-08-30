@@ -28,12 +28,16 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 
 	private static final String BASE_SQL =
 			"SELECT\n" +
-			"ch.cha_oid, ch.cha_id, ch.cha_description, ch.cha_requestor_per_oid,\n" +
-			"ch.cha_per_man_oid, ci.chi_information, ch.cha_sta_oid, ch.cha_imp_oid,\n" +
-			"ch.reg_created, ch.cha_deadline, cha_actualfinish, ass_per_to_oid\n" +
-			"FROM\n" +
-			"itsm_changes ch\n" +
-			"LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n";
+					"ch.cha_oid, ch.cha_id, ch.cha_description, ch.cha_requestor_per_oid,\n" +
+					"ch.cha_per_man_oid, ci.chi_information, ch.cha_sta_oid, ch.cha_imp_oid,\n" +
+					"ch.reg_created, ch.cha_deadline, ch.cha_actualfinish, ch.ass_per_to_oid, ch.ass_wog_oid\n" +
+					"FROM\n" +
+					"itsm_changes ch\n" +
+					"LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n" +
+					"LEFT JOIN itsm_workgroups wog1 ON (wog1.wog_oid = ch.ass_wog_oid)\n" +
+					"LEFT JOIN itsm_workgroups wog2 ON (wog2.wog_oid = wog1.wog_parent)\n" +
+					"LEFT JOIN itsm_workgroups wog3 ON (wog3.wog_oid = wog2.wog_parent)\n" +
+					"LEFT JOIN itsm_workgroups wog4 ON (wog4.wog_oid = wog3.wog_parent)";
 
 	@Override
 	protected StringBuilder getBaseSql() {
@@ -64,7 +68,9 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 						break;
 					}
 					case "approver": {
-						//todo ???
+						sql.append(" AND EXISTS(SELECT v.apv_oid FROM itsm_approver_votes v")
+								.append(" WHERE v.apv_apt_oid = ch.cha_oid AND")
+								.append(" v.apv_per_oid = :personId)");
 						break;
 					}
 					case "initiator": {
@@ -78,19 +84,36 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 					default: {
 						if (condition.startsWith("group_")) {
 							String s = StringUtils.split(condition, '_')[1];
-							long id = Long.valueOf(s);
-							//todo условие на группу
+							long groupId = Long.valueOf(s);
+							params.addValue("groupId", groupId);
+							sql.append(" AND EXISTS(SELECT m.mem_oid FROM")
+									.append(" itsm_members m")
+									.append(" WHERE m.mem_per_oid = :personId ")
+									.append(" AND m.mem_wog_oid IN (wog1.wog_oid, wog2.wog_oid, wog3.wog_oid, wog4.wog_oid)")
+									.append(" AND :groupId IN (wog1.wog_oid, wog2.wog_oid, wog3.wog_oid, wog4.wog_oid)")
+									.append(")");
 						} else {
 							throw new BadRequestException(MessageFormat.format("Неправильно указано значение фильтра: {0}", condition));
 						}
 					}
 				}
 			} else {
-				// Когда указан пользоователь, но не указан фильтр по нему, тогда объединяем множества
-				sql.append(" AND (ch.ass_per_to_oid = :personId");
-				//todo approver ???
-				sql.append(" OR ch.cha_requestor_per_oid = :personId");
-				sql.append(" OR ch.cha_per_man_oid = :personId)");
+				// Когда указан пользователь, но не указан фильтр по нему, тогда объединяем множества
+				sql.append(" AND (ch.ass_per_to_oid = :personId") // исполнитель
+						// согласующий
+						.append(" OR EXISTS(SELECT v.apv_oid FROM itsm_approver_votes v")
+						.append(" WHERE v.apv_apt_oid = ch.cha_oid AND")
+						.append(" v.apv_per_oid = :personId)")
+						// инициатор
+						.append(" OR ch.cha_requestor_per_oid = :personId")
+						// менеджер
+						.append(" OR ch.cha_per_man_oid = :personId")
+						// группы
+						.append(" OR EXISTS(SELECT m.mem_oid FROM")
+						.append(" itsm_members m")
+						.append(" WHERE m.mem_per_oid = :personId ")
+						.append(" AND m.mem_wog_oid IN (wog1.wog_oid, wog2.wog_oid, wog3.wog_oid, wog4.wog_oid))")
+						.append(')');
 			}
 		}
 	}
