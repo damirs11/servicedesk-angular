@@ -24,7 +24,7 @@ import java.sql.SQLException;
 @Configuration
 @EnableWebMvc
 @ComponentScan(
-        basePackages = {"ru.it.sd.dao", "ru.it.sd.service", "ru.it.sd.web.controller.rest", "ru.it.sd.security"},
+        basePackages = {"ru.it.sd.dao", "ru.it.sd.service", "ru.it.sd.web.controller.rest", "ru.it.sd.security", "ru.it.sd.hp"},
 		excludeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {SpringWebConfig.class})
 )
 public class SpringWebTestConfig extends WebMvcConfigurerAdapter {

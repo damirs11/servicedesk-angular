@@ -1,6 +1,5 @@
 package ru.it.sd.spring;
 
-import com.jolbox.bonecp.BoneCPDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +28,7 @@ import java.sql.SQLException;
 @Configuration
 @EnableTransactionManagement(mode = AdviceMode.ASPECTJ)
 @EnableGlobalMethodSecurity(prePostEnabled = true, mode= AdviceMode.ASPECTJ)
-@ComponentScan(basePackages = {"ru.it.sd.dao", "ru.it.sd.service"})
+@ComponentScan(basePackages = {"ru.it.sd.dao", "ru.it.sd.service", "ru.it.sd.hp"})
 public class SpringServiceTestConfig extends GlobalMethodSecurityConfiguration {
 
 	@Autowired
