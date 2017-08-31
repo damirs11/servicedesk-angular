@@ -24,4 +24,5 @@ dependencies {
     compile "org.slf4j:jcl-over-slf4j:$slf4jVersion" //Commons logging API over slf4j
     compile "org.slf4j:log4j-over-slf4j:$slf4jVersion" //log4j API over slf4j
     compile "org.slf4j:jul-to-slf4j:$slf4jVersion" //java.util.logging over slf4j
+    compile "org.apache.poi:poi:$poiVersion" // org.apache.poi для конвертации даты в double(кол. дней с 1970/1/1)
 }
