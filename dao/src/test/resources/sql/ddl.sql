@@ -43,7 +43,6 @@ CREATE TABLE itsm_changes (
   reg_created DATETIME,
   cha_deadline DATETIME,
   cha_actualfinish DATETIME,
-  ass_per_to_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_cha_information (
