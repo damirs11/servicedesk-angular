@@ -16,8 +16,8 @@ class EntityChatController {
     }
 
     async fetchChat(){
-        // this.chatLines = await this.entity.getChat()
-        this.chatLines = mockLines.map(::this.SD.HistoryLine.parse)
+        this.chatLines = await this.entity.getChat()
+        // this.chatLines = mockLines.map(::this.SD.HistoryLine.parse)
     }
 
 
