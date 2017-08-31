@@ -6,12 +6,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import ru.it.sd.service.CrudService;
 import ru.it.sd.service.ReadService;
-import ru.it.sd.util.EntityUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.text.MessageFormat;
 import java.util.Map;
 
 /**
@@ -33,11 +30,9 @@ public class ReadServiceHolder extends AbstractHolder<ReadService> {
 		Map<String, ReadService> beans = BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, ReadService.class);
 		for (ReadService service : beans.values()) {
 			Class entityClass = getEntityClass(service);
-			if (entityClass == null) {
-				throw new IllegalStateException(
-						MessageFormat.format("ReadService \"{0}\" doesn't retrive entity class type", service.getClass().getSimpleName()));
+			if (entityClass != null) {
+				storeValue(entityClass.getSimpleName(), service);
 			}
-			storeValue(entityClass.getSimpleName(), service);
 		}
 	}
 

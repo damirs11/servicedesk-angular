@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ChangeDao;
+import ru.it.sd.exception.ServiceException;
+import ru.it.sd.hp.IChangeDao;
 import ru.it.sd.model.Change;
 
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.Set;
 @Service
 public class ChangeService implements CrudService<Change>{
 
+    @Autowired
+    IChangeDao iChangeDao;
 	private static final Logger logger = LoggerFactory.getLogger(ChangeService.class);
 
 	@Autowired
@@ -47,9 +51,12 @@ public class ChangeService implements CrudService<Change>{
 
 	@Override
 	public Change create(Change entity) {
-		//todo
-		entity.setId(Math.round(Math.random() * 100000));
-		return entity;
+        try {
+            long id = iChangeDao.create(entity);
+            return dao.read(id);
+        } catch (Exception e){
+            throw new ServiceException("Возникли проблемы при создании изменения");
+        }
 	}
 
 	@Override

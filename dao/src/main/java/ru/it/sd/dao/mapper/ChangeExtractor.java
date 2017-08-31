@@ -6,10 +6,8 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.DBUtils;
 import ru.it.sd.dao.PersonDao;
-import ru.it.sd.model.Change;
-import ru.it.sd.model.EntityPriority;
-import ru.it.sd.model.EntityStatus;
-import ru.it.sd.model.Person;
+import ru.it.sd.dao.WorkgroupDao;
+import ru.it.sd.model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +27,9 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 	@Autowired
 	private ChangeMapper changeMapper;
 
+	@Autowired
+    WorkgroupDao workgroupDao;
+
 	@Override
 	public List<Change> extractData(ResultSet rs) throws SQLException, DataAccessException {
 		// Кэш для оптимизации чтения данных из бд. Один из вариантов для оптимизации
@@ -40,16 +41,32 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 			Change change = changeMapper.mapRow(rs, 0);
 			//Change change = new Change();
 			Long statusId = DBUtils.getLong(rs, "cha_sta_oid");
-			change.setStatus(EntityStatus.get(statusId));
+			if(statusId !=null) change.setStatus(EntityStatus.get(statusId));
+
 			Long priorityId = DBUtils.getLong(rs, "cha_imp_oid");
-			change.setPriority(EntityPriority.get(priorityId));
+			if(priorityId != null) change.setPriority(EntityPriority.get(priorityId));
 
 			Long executorId = DBUtils.getLong(rs, "ass_per_to_oid");
-			change.setExecutor(getPerson(personCache, executorId));
+			if(executorId != null) change.setExecutor(getPerson(personCache, executorId));
+
+			Long assWorkgroupID = DBUtils.getLong(rs, "ass_wog_oid");
+			if(assWorkgroupID != null) {
+			    Workgroup workgroup = workgroupDao.read(assWorkgroupID);
+			    change.setAssWorkgroup(workgroup);
+            }
+
 			Long initiatorId = DBUtils.getLong(rs, "cha_requestor_per_oid");
-			change.setInitiator(getPerson(personCache, initiatorId));
+			if(initiatorId !=null) change.setInitiator(getPerson(personCache, initiatorId));
+
 			Long managerId = DBUtils.getLong(rs, "cha_per_man_oid");
-			change.setManager(getPerson(personCache, managerId));
+			if(managerId != null) change.setManager(getPerson(personCache, managerId));
+
+			Long categoryId = DBUtils.getLong(rs, "cha_cat_oid");
+			if(categoryId != null) change.setCategory(EntityCategory.getById(categoryId));
+
+            Long classificationId = DBUtils.getLong(rs, "cha_cla_oid");
+            if(classificationId != null) change.setClassification(EntityClassification.getById(classificationId));
+
 			list.add(change);
 		}
 		return list;

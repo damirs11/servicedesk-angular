@@ -32,6 +32,9 @@ public class ChangeDaoTest extends AbstractDaoTest {
 		assertNotNull(change);
 		assertEquals(111222L, change.getId().longValue());
 		assertEquals(112L, change.getNo().longValue());
+		assertEquals(20001L, change.getAssWorkgroup().getId().longValue());
+		assertEquals(3095134296L, change.getClassification().getId().longValue());
+        assertEquals(3095397034L, change.getCategory().getId().longValue());
 	}
 
 	@Test
