@@ -4,8 +4,10 @@ import com.hp.itsm.api.interfaces.*;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.it.sd.model.Change;
 
+@Repository
 public class IChangeDao implements HpCrudDao<Change, IChange>{
     @Autowired
     private HpApi api;
