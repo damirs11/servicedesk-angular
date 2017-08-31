@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.it.sd.hp.Utils.DateUtils;
 import ru.it.sd.model.Change;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.hp.Utils.DateUtils;
 
 @Repository
 public class IChangeDao implements HpCrudDao<Change, IChange>{
