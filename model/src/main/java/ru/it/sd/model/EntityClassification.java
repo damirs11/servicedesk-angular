@@ -17,7 +17,7 @@ public enum EntityClassification implements Code {
 	CHANGE_BUISNESS_REQUIREMENTS("Бизнес требования", CHANGE, 3095134310L),
 	CHANGE_UPDATE_LEGISLATION("Вызвано изменением Законодательства", CHANGE, 3095134317L),
 	CHANGE_UPDATE_PRODUCT("Вызвано изменением продукта/услуги  третьей стороны", CHANGE, 3095134321L),
-	CHANGE_REMOVE_CI("Вызвано удалением \"ОБЪЕКТА ОБСЛУЖИВАНИЯ\"( CI)", CHANGE, 3120234534L),
+	CHANGE_REMOVE_CI("Вызвано удалением 'ОБЪЕКТА ОБСЛУЖИВАНИЯ'( CI)", CHANGE, 3120234534L),
 	CHANGE_UPDATE_RELEASE("Обновление релиза", CHANGE, 281496411242933L);
 
 	/** Идентификатор классификации */

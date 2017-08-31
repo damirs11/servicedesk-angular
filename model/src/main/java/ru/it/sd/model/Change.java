@@ -36,6 +36,14 @@ public class Change implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "cha_imp_oid")
 	private EntityPriority priority;
 
+	/** Категория*/
+	@FieldMeta(columnName = "cha_cat_oid")
+	private EntityCategory category;
+
+    /** Классификация*/
+    @FieldMeta(columnName = "cha_cla_oid")
+	private EntityClassification classification;
+
 	/** Дата создания */
 	@FieldMeta(columnName = "reg_created")
 	private Date createdDate;
@@ -49,6 +57,11 @@ public class Change implements HasId, HasStatus, Serializable {
 	/** Исполнитель */
 	@FieldMeta(columnName = "ass_per_to_oid")
 	private Person executor;
+
+	/** Группа исполнителей*/
+	@FieldMeta(columnName = "ass_wog_oid")
+	private Workgroup assWorkgroup;
+
 	/** Инициатор изменения */
 	@FieldMeta(columnName = "cha_requestor_per_oid")
 	private Person initiator;
@@ -156,7 +169,19 @@ public class Change implements HasId, HasStatus, Serializable {
 		this.executor = executor;
 	}
 
-	@Override
+    public EntityCategory getCategory() { return category; }
+
+    public void setCategory(EntityCategory category) { this.category = category; }
+
+    public EntityClassification getClassification() { return classification; }
+
+    public void setClassification(EntityClassification classification) { this.classification = classification; }
+
+    public Workgroup getAssWorkgroup() { return assWorkgroup; }
+
+    public void setAssWorkgroup(Workgroup assWorkgroup) { this.assWorkgroup = assWorkgroup; }
+
+    @Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
 	}

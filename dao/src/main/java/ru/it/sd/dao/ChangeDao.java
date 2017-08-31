@@ -27,10 +27,11 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 	private ChangeExtractor extractor;
 
 	private static final String BASE_SQL =
-			"SELECT\n" +
+			"SELECT \n" +
 			"ch.cha_oid, ch.cha_id, ch.cha_description, ch.cha_requestor_per_oid,\n" +
 			"ch.cha_per_man_oid, ci.chi_information, ch.cha_sta_oid, ch.cha_imp_oid,\n" +
-			"ch.reg_created, ch.cha_deadline, cha_actualfinish, ass_per_to_oid\n" +
+			"ch.reg_created, ch.cha_deadline, ch.cha_actualfinish, ch.ass_per_to_oid,\n" +
+            "ch.ass_wog_oid, ch.cha_cat_oid, ch.cha_cla_oid \n" +
 			"FROM\n" +
 			"itsm_changes ch\n" +
 			"LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n";
