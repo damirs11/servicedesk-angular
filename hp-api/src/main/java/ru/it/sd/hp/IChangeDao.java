@@ -2,10 +2,11 @@ package ru.it.sd.hp;
 
 import com.hp.itsm.api.interfaces.*;
 import com.hp.itsm.ssp.beans.SdClientBean;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import ru.it.sd.hp.Utils.DateUtils;
 import ru.it.sd.model.Change;
+import org.springframework.stereotype.Repository;
+import ru.it.sd.hp.Utils.DateUtils;
 
 @Repository
 public class IChangeDao implements HpCrudDao<Change, IChange>{
@@ -27,7 +28,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
 
         iChange.setCategory(iChangeCategory);
         iChange.setClassification(iClassificationCha);
-        iChange.setDeadline(DateUtil.getExcelDate(entity.getDeadline())); //Обдумать
+        iChange.setDeadline(DateUtils.toSDDate(entity.getDeadline()));
         iChange.setDescription(entity.getDescription());
         iChange.setInformation(entity.getSubject());
         iChange.setManager(manager);
@@ -37,7 +38,8 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
         iChange.getAssignment().setAssWorkgroup(workgroup);
         iChange.getAssignment().transfer();
         iChange.save();
-        return 0;
+
+        return iChange.getOID();
     }
 
     @Override
