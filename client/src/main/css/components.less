@@ -158,9 +158,9 @@
 @chat-info-width: 120px;
 @chat-info-small-width: 70px;
 
+// Контейнер для всех элементов чата
 .entity-chat-container {
-  margin: 30px 20px;
-  min-height: 20px;
+  margin: 30px 20px 0 20px;
   @media (max-width: @small-screen) {
     margin: 30px 0 0 0;
   }
@@ -172,6 +172,7 @@
   margin-top: 10px;
 }
 
+// Блок слева/справа от тела сообщения
 .entity-chat-info {
   display: inline-block;
   width: @chat-info-width - 2;
@@ -200,7 +201,7 @@
   }
 }
 
-
+// Строка таблицы для сообщения
 .entity-chat-message {
   vertical-align: top;
   // Сообщение слева
@@ -264,6 +265,17 @@
 
 }
 
+// Строка таблицы для ввода текста
+.entity-chat-input {
+  vertical-align: top;
+  @media (max-width: @small-screen) {
+    &>.entity-chat-info-left, &>.entity-chat-info-right {
+      display: none;
+    }
+  }
+}
+
+// Универсальный стиль для блоков информации
 .entity-chat-info-left, .entity-chat-info-right{
   width: @chat-info-width;
   @media (max-width: @small-screen) {
@@ -271,6 +283,7 @@
   }
 }
 
+// Тело сообщения
 .entity-chat-body {
   background: @chat-background;
   border: @chat-border;
@@ -282,6 +295,7 @@
     border-bottom: @chat-border;
     padding-left: 5px;
     padding-right: 5px;
+    white-space: normal;
 
     &__date {
       float: right;
@@ -292,5 +306,33 @@
     margin-bottom: 10px;
     padding-left: 5px;
     padding-right: 5px;
+  }
+}
+
+.entity-chat-input-body {
+  background: @chat-background;
+  border: @chat-border;
+  border-radius: @chat-border-radius;
+  padding: 0 7px 3px 7px;
+  max-width: 800px;
+
+  &__title{
+    display: block;
+  }
+
+  &__input{
+    display: block;
+    width: 100%;
+    resize: none;
+  }
+
+  &__send{
+    display: block;
+    float: right;
+    margin-top: 5px;
+    @media (max-width: @small-screen) {
+      width: 100%;
+      float: none;
+    }
   }
 }

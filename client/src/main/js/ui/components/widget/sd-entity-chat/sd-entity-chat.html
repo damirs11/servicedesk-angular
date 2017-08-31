@@ -45,10 +45,13 @@
 
 <div class="entity-chat-container">
 
-    <chat-line line="$line" type="ctrl.getType($line)" data-ng-repeat="$line in ctrl.chatLines track by $line.id">
-
+    <chat-line line="$line"
+               type="ctrl.getType($line)"
+               data-ng-repeat="$line in ctrl.chatLines track by $line.id">
     </chat-line>
-    <table class="entity-chat-table" data-ng-repeat="$line in ctrl.chatLines track by $line.id">
-    </table>
+
+    <chat-input>
+
+    </chat-input>
 
 </div>

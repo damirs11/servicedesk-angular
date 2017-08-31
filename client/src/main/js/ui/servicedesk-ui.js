@@ -43,6 +43,7 @@ import {$gridFactory} from "./components/widget/grid/grid.factory";
 import {SDAvatarComponent} from "./components/widget/sd-avatar/sd-avatar.component";
 import {ChatLineComponent} from "./components/widget/sd-entity-chat/chat-line/chat-line.component";
 import {ChatInfoBlockComponent} from "./components/widget/sd-entity-chat/chat-line/chat-info-block/chat-info-block.component";
+import {ChatInputComponent} from "./components/widget/sd-entity-chat/chat-input/chat-input.component";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -90,6 +91,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     /** Компоненты для чата */
     .component("chatLine",ChatLineComponent)
     .component("chatInfoBlock",ChatInfoBlockComponent)
+    .component("chatInput",ChatInputComponent)
     .component("sdEntityChat",SDEntityChatComponent)
 
     .controller("IndexController",IndexController)
