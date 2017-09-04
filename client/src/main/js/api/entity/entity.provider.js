@@ -76,6 +76,9 @@ function EntityProvider(cache) {
 
         /**
          * Сериализует объект. Будут включены все поля.
+         * Важно! При сериализации undefined поля пропускаются.
+         * Если на сервер нужно отослать "пустое поле", в поле нужно занести null.
+         * При значение null функции сериалзиации не срабатывают, в json заносится null
          */
         $serialize() {
             const serializeData = Object.create(null);
@@ -90,10 +93,15 @@ function EntityProvider(cache) {
             const json = Object.create(null);
             for (const key in this) {
                 const value = this[key];
+                if (this[key] === undefined) continue;
                 const serializeDescriptor = serializeData[key];
                 if (!serializeDescriptor) continue;
                 const serialize = serializeDescriptor.serialize;
                 const serializedName = serializeDescriptor.serializedName;
+                if (this[key] === null) {
+                    json[serializedName] = null;
+                    continue;
+                }
                 const result = serialize(value,serializedName);
                 if (result !== undefined) json[serializedName] = result;
             }
