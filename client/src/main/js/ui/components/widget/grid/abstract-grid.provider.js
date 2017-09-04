@@ -101,8 +101,9 @@ function AbstractGridProvider($parse, $timeout) {
         }
 
         _loadOptions(){
-            const settings = JSON.parse(localStorage[this.gridName]);
-            if (!settings) return;
+            const saveData = localStorage[this.gridName];
+            if (!saveData) return;
+            const settings = JSON.parse(saveData);
             this.gridApi.saveState.restore(this.$scope,settings);
         }
 

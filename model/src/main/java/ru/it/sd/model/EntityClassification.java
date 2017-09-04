@@ -1,5 +1,7 @@
 package ru.it.sd.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Objects;
 
 import static ru.it.sd.model.EntityType.*;
@@ -7,6 +9,7 @@ import static ru.it.sd.model.EntityType.*;
 /**
  * Классификации сущностей
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum EntityClassification implements Code {
 
 

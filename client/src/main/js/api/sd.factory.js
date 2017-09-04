@@ -12,6 +12,8 @@ import {EditableEntityProvider} from "./entity/editable-entity.provider";
 import {WorkgroupProvider} from "./entity/workgroup.provider";
 import {HistoryLineProvider} from "./entity/history-line.provider";
 import {RESTEntityProvider} from "./entity/rest-entity";
+import {EntityCategoryProvider} from "./entity/entity-category.provider";
+import {EntityClassificationProvider} from "./entity/entity-classification.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -44,11 +46,14 @@ const SDConstructor = function SD($injector,cache) {
     this.User = $injector.instantiate(UserProvider,locals);
     this.Person = $injector.instantiate(PersonProvider,locals);
     this.Organization = $injector.instantiate(OrganizationProvider,locals);
-    this.EntityStatus = $injector.instantiate(StatusProvider,locals);
-    this.EntityPriority = $injector.instantiate(PriorityProvider,locals);
     this.Change = $injector.instantiate(ChangeProvider,locals);
     this.Workgroup = $injector.instantiate(WorkgroupProvider,locals);
     this.HistoryLine = $injector.instantiate(HistoryLineProvider,locals);
+
+    this.EntityStatus = $injector.instantiate(StatusProvider,locals);
+    this.EntityPriority = $injector.instantiate(PriorityProvider,locals);
+    this.EntityCategory = $injector.instantiate(EntityCategoryProvider,locals);
+    this.EntityClassification = $injector.instantiate(EntityClassificationProvider,locals);
 
     this.withCache = (newCache = Object.create(cache)) => {
         return $injector.instantiate(SD,{cache:newCache});

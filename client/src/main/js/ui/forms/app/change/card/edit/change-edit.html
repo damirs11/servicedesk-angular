@@ -138,6 +138,48 @@
                 ></sd-datetime>
             </div>
         </div>
+
+        <div class="entity-inline-property editing">
+            <div class="entity-property-name">
+                <span>Категория:</span>
+            </div>
+            <div class="entity-property-value">
+                <sd-dropdown
+                        target="ctrl.change.category"
+                        fetch-data="ctrl.SD.EntityCategory.list()"
+                        display-value="$value.name"
+                        cache="true"
+                ></sd-dropdown>
+            </div>
+        </div>
+
+        <div class="entity-inline-property editing">
+            <div class="entity-property-name">
+                <span>Рабочая группа:</span>
+            </div>
+            <div class="entity-property-value">
+                <sd-dropdown
+                        target="ctrl.change.workgroup"
+                        fetch-data="ctrl.SD.Workgroup.list()"
+                        placeholder="Введите название группы"
+                        display-value="$value.name"
+                ></sd-dropdown>
+            </div>
+        </div>
+
+        <div class="entity-inline-property editing">
+            <div class="entity-property-name">
+                <span>Классификация:</span>
+            </div>
+            <div class="entity-property-value">
+                <sd-dropdown
+                        target="ctrl.change.classification"
+                        fetch-data="ctrl.SD.EntityClassification.list()"
+                        display-value="$value.name"
+                        cache="true"
+                ></sd-dropdown>
+            </div>
+        </div>
     </div>
 
 </div>

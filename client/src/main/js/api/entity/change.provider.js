@@ -92,6 +92,30 @@ function ChangeProvider(EditableEntity, SD) {
          */
         @Serialize(p => p.id) @Parse(data => SD.Person.parse(data)) manager;
 
+        /**
+         * Классификация
+         * @property
+         * @name SD.Change#classification
+         * @type {SD.EntityClassification}
+         */
+        @Serialize(c => c.id) @Parse(data => SD.EntityClassification.parse(data)) classification;
+
+        /**
+         * Категория
+         * @property
+         * @name SD.Change#category
+         * @type {SD.EntityCategory}
+         */
+        @Serialize(c => c.id) @Parse(data => SD.EntityCategory.parse(data)) category;
+
+        /**
+         * Рабочая группа
+         * @property
+         * @name SD.Change#workgroup
+         * @type {SD.Workgroup}
+         */
+        @Serialize(p => p.id) @Parse("assWorkgroup", data => SD.Workgroup.parse(data)) workgroup;
+
         toString(){
             return this.no;
         }

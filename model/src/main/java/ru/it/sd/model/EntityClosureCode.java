@@ -1,5 +1,7 @@
 package ru.it.sd.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Objects;
 
 import static ru.it.sd.model.EntityType.WORKORDER;
@@ -8,6 +10,7 @@ import static ru.it.sd.model.EntityType.WORKORDER;
  * Код завершения.
  * Created by MYXOMOPX on 013 13.06.17.
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum EntityClosureCode implements Code {
 
 	WORKORDER_COMPLETED("Осуществлен", WORKORDER, 3095134405L),
