@@ -1,16 +1,20 @@
 package ru.it.sd.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Objects;
 
-import static ru.it.sd.model.EntityType.*;
+import static ru.it.sd.model.EntityType.CHANGE;
+import static ru.it.sd.model.EntityType.ITEM;
+import static ru.it.sd.model.EntityType.WORKORDER;
 
 /**
  * Категории сущностей
  */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum EntityCategory implements Code {
+@JsonDeserialize(using = EnumJsonDeserializer.class)
+public enum EntityCategory implements Code, HasId {
 
 	WORKORDER_TASK("Задача", WORKORDER, 3095134393L),
 	WORKORDER_CHANGE("Изменения", WORKORDER, 3095134397L),
