@@ -27,7 +27,7 @@ function EditableEntityProvider(RESTEntity, $connector, SD) {
         async create(){
             // ToDo сущность должна появиться в кэше.
             const jsonData = this.$serialize();
-            const data = await $connector.put(`rest/entity/${this.$entityType}`,null,jsonData);
+            const data = await $connector.post(`rest/entity/${this.$entityType}`,null,jsonData);
             this.$update(data)
         }
 
