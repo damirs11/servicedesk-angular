@@ -1,6 +1,7 @@
 import {Parse} from "./decorator/parse.decorator";
 import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
+import {serializeId} from "./decorator/serialize-utils";
 
 
 ChangeProvider.$inject = ["EditableEntity", "SD"];
@@ -42,7 +43,7 @@ function ChangeProvider(EditableEntity, SD) {
          * @name SD.Change#status
          * @type {SD.EntityStatus}
          */
-        @Serialize(status => status.id) @Parse(data => SD.EntityStatus.parse(data)) status;
+        @Serialize(serializeId) @Parse(data => SD.EntityStatus.parse(data)) status;
 
         /**
          * Приоритет
@@ -50,7 +51,7 @@ function ChangeProvider(EditableEntity, SD) {
          * @name SD.Change#priority
          * @type {SD.EntityPriority}
          */
-        @Serialize(pr => pr.id) @Parse(data => SD.EntityPriority.parse(data)) priority;
+        @Serialize(serializeId) @Parse(data => SD.EntityPriority.parse(data)) priority;
 
         /**
          * Дата создания
@@ -82,7 +83,7 @@ function ChangeProvider(EditableEntity, SD) {
          * @name SD.Change#person
          * @type {SD.Person}
          */
-        @Serialize(p => p.id) @Parse(data => SD.Person.parse(data)) initiator;
+        @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) initiator;
 
         /**
          * Менеджер
@@ -90,7 +91,7 @@ function ChangeProvider(EditableEntity, SD) {
          * @name SD.Change#manager
          * @type {SD.Person}
          */
-        @Serialize(p => p.id) @Parse(data => SD.Person.parse(data)) manager;
+        @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) manager;
 
         /**
          * Классификация
@@ -98,7 +99,7 @@ function ChangeProvider(EditableEntity, SD) {
          * @name SD.Change#classification
          * @type {SD.EntityClassification}
          */
-        @Serialize(c => c.id) @Parse(data => SD.EntityClassification.parse(data)) classification;
+        @Serialize(serializeId) @Parse(data => SD.EntityClassification.parse(data)) classification;
 
         /**
          * Категория
@@ -106,7 +107,7 @@ function ChangeProvider(EditableEntity, SD) {
          * @name SD.Change#category
          * @type {SD.EntityCategory}
          */
-        @Serialize(c => c.id) @Parse(data => SD.EntityCategory.parse(data)) category;
+        @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
 
         /**
          * Рабочая группа
@@ -114,7 +115,7 @@ function ChangeProvider(EditableEntity, SD) {
          * @name SD.Change#workgroup
          * @type {SD.Workgroup}
          */
-        @Serialize(p => p.id) @Parse("assWorkgroup", data => SD.Workgroup.parse(data)) workgroup;
+        @Serialize(serializeId) @Parse("assWorkgroup", data => SD.Workgroup.parse(data)) workgroup;
 
         toString(){
             return this.no;
