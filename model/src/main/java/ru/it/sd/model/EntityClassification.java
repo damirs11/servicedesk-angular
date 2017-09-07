@@ -76,5 +76,5 @@ public enum EntityClassification implements Code {
 		return null;
 	}
 
-	static class Deserializer extends EnumJsonDeserializer<EntityCategory> {}
+	static class Deserializer extends EnumJsonDeserializer<EntityClassification> {}
 }

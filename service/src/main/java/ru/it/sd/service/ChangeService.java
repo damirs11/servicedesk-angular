@@ -55,7 +55,7 @@ public class ChangeService implements CrudService<Change>{
             long id = iChangeDao.create(entity);
             return dao.read(id);
         } catch (Exception e){
-            throw new ServiceException("Возникли проблемы при создании изменения");
+            throw new ServiceException("Возникли проблемы при создании изменения. " + e.getMessage(), e);
         }
 	}
 

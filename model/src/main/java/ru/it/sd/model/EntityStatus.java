@@ -100,5 +100,5 @@ public enum EntityStatus implements Code {
 		throw new ServiceException(ResourceMessages.getMessage("error.not.found"));
 	}
 
-	static class Deserializer extends EnumJsonDeserializer<EntityCategory> {}
+	static class Deserializer extends EnumJsonDeserializer<EntityStatus> {}
 }

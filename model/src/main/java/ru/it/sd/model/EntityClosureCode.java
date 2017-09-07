@@ -84,5 +84,5 @@ public enum EntityClosureCode implements Code {
 		return null;
 	}
 
-	static class Deserializer extends EnumJsonDeserializer<EntityCategory> {}
+	static class Deserializer extends EnumJsonDeserializer<EntityClosureCode> {}
 }

@@ -39,6 +39,7 @@ public class EnumJsonDeserializer<EnumClass extends HasId> extends JsonDeseriali
 				return e;
 			}
 		}
-		throw new BadRequestException(MessageFormat.format("Элемента перечисления с идентификатором \"{0}\" не существует.", id));
+		throw new BadRequestException(MessageFormat.format("Элемента перечисления с идентификатором \"{0}\" " +
+				"не существует в классе \"{1}\".", id, clazz.getSimpleName()));
 	}
 }
