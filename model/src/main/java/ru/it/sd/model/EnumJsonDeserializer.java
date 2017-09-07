@@ -17,9 +17,14 @@ import java.text.MessageFormat;
  * @author mfayzullin@it.ru
  * @since 06.09.2017 17:17
  */
-public class EnumJsonDeserializer<EnumClass extends HasId>  extends JsonDeserializer<EnumClass> {
+public class EnumJsonDeserializer<EnumClass extends HasId> extends JsonDeserializer<EnumClass> {
+
+	public EnumJsonDeserializer(){
+		super();
+	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public EnumClass deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
 		ObjectCodec oc = jp.getCodec();
 		JsonNode node = oc.readTree(jp);

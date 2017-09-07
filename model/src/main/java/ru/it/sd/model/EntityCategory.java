@@ -13,8 +13,8 @@ import static ru.it.sd.model.EntityType.WORKORDER;
  * Категории сущностей
  */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-@JsonDeserialize(using = EnumJsonDeserializer.class)
-public enum EntityCategory implements Code, HasId {
+@JsonDeserialize(using = EntityCategory.Deserializer.class)
+public enum EntityCategory implements Code {
 
 	WORKORDER_TASK("Задача", WORKORDER, 3095134393L),
 	WORKORDER_CHANGE("Изменения", WORKORDER, 3095134397L),
@@ -106,4 +106,15 @@ public enum EntityCategory implements Code, HasId {
 		}
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return "EntityCategory{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", entityType=" + entityType +
+				'}';
+	}
+
+	static class Deserializer extends EnumJsonDeserializer<EntityCategory> {}
 }
