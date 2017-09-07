@@ -1,6 +1,7 @@
 package ru.it.sd.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.util.ResourceMessages;
 
@@ -15,6 +16,7 @@ import static ru.it.sd.model.EntityType.*;
  * @since 01.05.2017
  */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@JsonDeserialize(using = EntityStatus.Deserializer.class)
 public enum EntityStatus implements Code {
 
 	CHANGE_REGISTERED("Зарегистрировано", CHANGE, 3095134325L),
@@ -98,4 +100,5 @@ public enum EntityStatus implements Code {
 		throw new ServiceException(ResourceMessages.getMessage("error.not.found"));
 	}
 
+	static class Deserializer extends EnumJsonDeserializer<EntityCategory> {}
 }

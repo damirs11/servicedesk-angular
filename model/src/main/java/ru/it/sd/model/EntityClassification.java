@@ -1,6 +1,7 @@
 package ru.it.sd.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Objects;
 
@@ -10,6 +11,7 @@ import static ru.it.sd.model.EntityType.*;
  * Классификации сущностей
  */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@JsonDeserialize(using = EntityClassification.Deserializer.class)
 public enum EntityClassification implements Code {
 
 
@@ -73,4 +75,6 @@ public enum EntityClassification implements Code {
 		}
 		return null;
 	}
+
+	static class Deserializer extends EnumJsonDeserializer<EntityCategory> {}
 }

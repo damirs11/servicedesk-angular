@@ -1,6 +1,7 @@
 package ru.it.sd.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.util.ResourceMessages;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
  */
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@JsonDeserialize(using = EntityPriority.Deserializer.class)
 public enum EntityPriority implements Code {
 
 	UNKNOWN("Нет", 3094610020L),
@@ -67,4 +69,6 @@ public enum EntityPriority implements Code {
 		}
 		throw new ServiceException(ResourceMessages.getMessage("error.not.found"));
 	}
+
+	static class Deserializer extends EnumJsonDeserializer<EntityCategory> {}
 }
