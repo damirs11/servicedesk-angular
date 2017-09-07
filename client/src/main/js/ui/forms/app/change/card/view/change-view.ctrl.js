@@ -25,6 +25,21 @@ class ChangeCardViewController{
         this.statusList = statuses.filter(status => status['entityType'] === "CHANGE"); // Временный фильтр. Уберу, когда появится поиск по статусам
 
     }
+
+    async createTestChange() {
+        const parent = this.change;
+        const testChange = new this.SD.Change();
+        testChange.category = parent.category;
+        testChange.classification = parent.classification;
+        testChange.description = "Проверка создания изменений";
+        testChange.subject = "Тестовое изменение";
+        testChange.priority = parent.priority;
+        testChange.deadline = new Date(1504627527522);
+        testChange.initiator = parent.manager;
+        testChange.manager = parent.initiator;
+        testChange.executor = parent.manager;
+        await testChange.create();
+    }
 }
 
 export {ChangeCardViewController as controller}
