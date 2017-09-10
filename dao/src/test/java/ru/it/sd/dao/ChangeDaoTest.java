@@ -9,6 +9,7 @@ import ru.it.sd.model.Change;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.testng.Assert.*;
 
@@ -39,7 +40,7 @@ public class ChangeDaoTest extends AbstractDaoTest {
 
 	@Test
 	private void testByFilter() {
-		HashMap<String, String> filter = new HashMap<>();
+		Map<String, String> filter = new HashMap<>();
 		filter.put("id","55665");
 		List<Change> change = dao.list(filter);
 		assertEquals(change.size(), 0);
@@ -53,5 +54,53 @@ public class ChangeDaoTest extends AbstractDaoTest {
 		filter.put("no_between","10:16");
 		change = dao.list(filter);
 		assertEquals(change.size(), 3);
+	}
+
+	@Test
+	private void testPersonFilter() {
+		Map<String, String> filter = new HashMap<>();
+		filter.put("personId", "2");
+		// Фильтрация по пользователю по умолчанию
+		List<Change> change = dao.list(filter);
+		assertEquals(change.size(), 3);
+
+		filter.put("filter", "executor");
+		change = dao.list(filter);
+		assertEquals(change.size(), 1);
+
+		filter.put("filter", "approver");
+		change = dao.list(filter);
+		assertEquals(change.size(), 2);
+
+		filter.put("filter", "initiator");
+		change = dao.list(filter);
+		assertEquals(change.size(), 2);
+
+		filter.put("filter", "manager");
+		change = dao.list(filter);
+		assertEquals(change.size(), 3);
+	}
+
+	@Test
+	private void testWorkGroupFilter() {
+		Map<String, String> filter = new HashMap<>();
+
+		filter.put("filter", "group_20001");
+		List<Change> change = dao.list(filter);
+		assertEquals(change.size(), 1);
+
+		filter.put("filter", "group_20000");
+		change = dao.list(filter);
+		assertEquals(change.size(), 1);
+
+		filter.put("personId", "2");
+
+		filter.put("filter", "group_20001");
+		change = dao.list(filter);
+		assertEquals(change.size(), 0);
+
+		filter.put("filter", "group_20000");
+		change = dao.list(filter);
+		assertEquals(change.size(), 0);
 	}
 }

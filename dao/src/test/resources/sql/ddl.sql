@@ -42,7 +42,7 @@ CREATE TABLE itsm_changes (
   cha_cla_oid DECIMAL(18),
   reg_created DATETIME,
   cha_deadline DATETIME,
-  cha_actualfinish DATETIME,
+  cha_actualfinish DATETIME
 );
 
 CREATE TABLE itsm_cha_information (
@@ -153,4 +153,12 @@ CREATE TABLE itsm_historylines_change (
   hch_cha_oid DECIMAL (18),
   hch_newvalue VARCHAR (128),
   hch_valueatr_oid DECIMAL (18)
+);
+
+CREATE TABLE itsm_approver_votes (
+  apv_oid DECIMAL (18),
+  apv_apt_oid DECIMAL (18),
+  apv_approved DECIMAL (1),
+  apv_per_oid DECIMAL (18),
+  apv_reason VARCHAR (255)
 );

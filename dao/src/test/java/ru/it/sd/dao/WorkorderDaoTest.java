@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static org.testng.Assert.*;
 
-@Sql(scripts = {"WorkorderDaoTest.sql", "PersonDaoTest.sql", "ChangeDaoTest.sql"})
+@Sql(scripts = {"WorkorderDaoTest.sql", "PersonDaoTest.sql"})
 public class WorkorderDaoTest extends AbstractDaoTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkorderDaoTest.class);

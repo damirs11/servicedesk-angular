@@ -37,16 +37,23 @@ public class ChangeService implements CrudService<Change>{
 
 	@Override
 	public List<Change> list(Map<String, String> filter) {
-		// Принудительно указываем текущего пользователя. Необходимо для фильтрации данных в дао
-		long personId = securityService.getCurrentUser().getPerson().getId();
-		filter.put("personId", String.valueOf(personId));
-
-		return dao.list(filter);
+		return dao.list(addCurrentUserFilter(filter));
 	}
 
 	@Override
 	public int count(Map<String, String> filter) {
-		return dao.count(filter);
+		return dao.count(addCurrentUserFilter(filter));
+	}
+
+	/**
+	 * Добавляем к фильтру идентификатор текущего пользователя
+	 * @param filter
+	 * @return
+	 */
+	private Map<String, String> addCurrentUserFilter(Map<String, String> filter) {
+		long personId = securityService.getCurrentUser().getPerson().getId();
+		filter.put("personId", String.valueOf(personId));
+		return filter;
 	}
 
 	@Override

@@ -28,13 +28,17 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 
 	private static final String BASE_SQL =
 			"SELECT \n" +
-			"ch.cha_oid, ch.cha_id, ch.cha_description, ch.cha_requestor_per_oid,\n" +
-			"ch.cha_per_man_oid, ci.chi_information, ch.cha_sta_oid, ch.cha_imp_oid,\n" +
-			"ch.reg_created, ch.cha_deadline, ch.cha_actualfinish, ch.ass_per_to_oid,\n" +
-            "ch.ass_wog_oid, ch.cha_cat_oid, ch.cha_cla_oid \n" +
+			"   ch.cha_oid, ch.cha_id, ch.cha_description, ch.cha_requestor_per_oid,\n" +
+			"   ch.cha_per_man_oid, ci.chi_information, ch.cha_sta_oid, ch.cha_imp_oid,\n" +
+			"   ch.reg_created, ch.cha_deadline, ch.cha_actualfinish, ch.ass_per_to_oid,\n" +
+            "   ch.ass_wog_oid, ch.cha_cat_oid, ch.cha_cla_oid \n" +
 			"FROM\n" +
-			"itsm_changes ch\n" +
-			"LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n";
+			"   itsm_changes ch\n" +
+			"   LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n" +
+			"   LEFT JOIN itsm_workgroups wg1 ON wg1.wog_oid = ch.ass_wog_oid\n" +
+			"   LEFT JOIN itsm_workgroups wg2 ON wg2.wog_oid = wg1.wog_parent\n" +
+			"   LEFT JOIN itsm_workgroups wg3 ON wg3.wog_oid = wg2.wog_parent\n" +
+			"   LEFT JOIN itsm_workgroups wg4 ON wg4.wog_oid = wg3.wog_parent\n"; // смотрим четыре уровня групп
 
 	@Override
 	protected StringBuilder getBaseSql() {
@@ -53,46 +57,56 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 		}
 		super.buildWhere(filter, sql, params);
 
+		// Фильтр по умолчанию
+		String condition = StringUtils.defaultString(filter.get("filter"), "default");
+		// Обработка персональных фильтров
 		if (filter.containsKey("personId")) {
 			long personId = Long.valueOf(filter.get("personId"));
 			params.addValue("personId", personId);
 
-			String condition = filter.get("filter");
-			if (Objects.nonNull(condition)) {
-				switch (condition) {
-					case "executor": {
-						sql.append(" AND ch.ass_per_to_oid = :personId");
-						break;
-					}
-					case "approver": {
-						//todo ???
-						break;
-					}
-					case "initiator": {
-						sql.append(" AND ch.cha_requestor_per_oid = :personId");
-						break;
-					}
-					case "manager": {
-						sql.append(" AND ch.cha_per_man_oid = :personId");
-						break;
-					}
-					default: {
-						if (condition.startsWith("group_")) {
-							String s = StringUtils.split(condition, '_')[1];
-							long id = Long.valueOf(s);
-							//todo условие на группу
-						} else {
-							throw new BadRequestException(MessageFormat.format("Неправильно указано значение фильтра: {0}", condition));
-						}
-					}
+			switch (condition) {
+				case "executor": {
+					sql.append(" AND ch.ass_per_to_oid = :personId");
+					break;
 				}
-			} else {
-				// Когда указан пользоователь, но не указан фильтр по нему, тогда объединяем множества
-				sql.append(" AND (ch.ass_per_to_oid = :personId");
-				//todo approver ???
-				sql.append(" OR ch.cha_requestor_per_oid = :personId");
-				sql.append(" OR ch.cha_per_man_oid = :personId)");
+				case "approver": {
+					sql.append(" AND :personId IN (SELECT apv_per_oid FROM " +
+							" itsm_approver_votes WHERE apv_apt_oid = ch.cha_oid)");
+					break;
+				}
+				case "initiator": {
+					sql.append(" AND ch.cha_requestor_per_oid = :personId");
+					break;
+				}
+				case "manager": {
+					sql.append(" AND ch.cha_per_man_oid = :personId");
+					break;
+				}
+				default: {
+					// Добавляем все условия через OR
+					sql.append(" AND (");
+					sql.append(" ch.ass_per_to_oid = :personId");
+
+					sql.append(" OR :personId IN (SELECT apv_per_oid FROM " +
+							" itsm_approver_votes WHERE apv_apt_oid = ch.cha_oid)");
+
+					sql.append(" OR ch.cha_requestor_per_oid = :personId");
+
+					sql.append(" OR ch.cha_per_man_oid = :personId");
+					sql.append(')');
+				}
 			}
+		}
+
+		// Фильтрация по группе исполнителей
+		if (condition.startsWith("group_")) {
+			String s = StringUtils.split(condition, '_')[1];
+			long groupId = Long.valueOf(s);
+			params.addValue("groupId", groupId);
+			sql.append(" AND (:groupId = wg1.wog_oid OR " +
+							 ":groupId = wg2.wog_oid OR " +
+					         ":groupId = wg3.wog_oid OR " +
+					         ":groupId = wg4.wog_oid)");
 		}
 	}
 }
