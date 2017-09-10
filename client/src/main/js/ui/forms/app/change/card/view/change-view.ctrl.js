@@ -34,9 +34,10 @@ class ChangeCardViewController{
         testChange.description = "Проверка создания изменений";
         testChange.subject = "Тестовое изменение";
         testChange.priority = parent.priority;
-        testChange.deadline = new Date(1504627527522);
+        testChange.deadline = new Date(Date.now()+2*60*60*1000);
         testChange.initiator = parent.manager;
         testChange.manager = parent.initiator;
+        testChange.workgroup = parent.workgroup;
         testChange.executor = parent.manager;
         await testChange.create();
     }
