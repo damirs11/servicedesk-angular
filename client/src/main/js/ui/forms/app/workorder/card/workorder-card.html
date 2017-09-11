@@ -1,0 +1,32 @@
+<div data-ng-if="ctrl.loading" style="padding-top: 200px; text-align: center">
+    <div>Загрузка</div>
+</div>
+
+<div class="container" data-ng-if="ctrl.loadingError" style="padding-top: 200px; text-align: center">
+    <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsNotFound">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Наряд не найден
+            </h3>
+        </div>
+        <div class="panel-body">
+            Перейдите ко
+            <a data-ui-sref="app.workorder.list">списку нарядов</a>,
+            чтобы найти нужный наряд
+        </div>
+    </div>
+    <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsCustom">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Возникла непредвиденная ошибка
+            </h3>
+        </div>
+        <div class="panel-body">
+            <span data-ng-bind="ctrl.loadingError"></span>
+        </div>
+    </div>
+</div>
+
+<ui-view ng-if="!ctrl.loading && !ctrl.loadingError"></ui-view>

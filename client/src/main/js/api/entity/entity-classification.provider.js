@@ -13,7 +13,7 @@ function EntityClassificationProvider(RESTEntity) {
         /**
          * Название
          * @property
-         * @name SD.EntityStatus#name
+         * @name SD.EntityClassification#name
          * @type {string}
          */
         @Parse( String ) name;

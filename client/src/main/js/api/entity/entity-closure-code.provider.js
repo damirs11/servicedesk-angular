@@ -1,19 +1,19 @@
 import {Parse} from "./decorator/parse.decorator";
 
-EntityCategoryProvider.$inject = ["RESTEntity"];
-function EntityCategoryProvider(RESTEntity) {
+EntityClosureCodeProvider.$inject = ["RESTEntity"];
+function EntityClosureCodeProvider(RESTEntity) {
     /**
-     * Классификация
+     * Код завершения
      * @class
-     * @name SD.EntityCategory
+     * @name SD.EntityClosureCode
      * @extends SD.RESTEntity
      */
-    return class EntityCategory extends RESTEntity {
+    return class EntityClosureCode extends RESTEntity {
 
         /**
          * Название
          * @property
-         * @name SD.EntityCategory#name
+         * @name SD.EntityClosureCode#name
          * @type {string}
          */
         @Parse( String ) name;
@@ -26,4 +26,4 @@ function EntityCategoryProvider(RESTEntity) {
     };
 }
 
-export {EntityCategoryProvider};
+export {EntityClosureCodeProvider};

@@ -1,6 +1,3 @@
-/**
- * Фабрика, предоставляющая SD
- */
 import {EntityProvider} from "./entity/entity.provider";
 import {UserProvider} from "./entity/user.provider";
 import {PersonProvider} from "./entity/person.provider";
@@ -14,7 +11,12 @@ import {HistoryLineProvider} from "./entity/history-line.provider";
 import {RESTEntityProvider} from "./entity/rest-entity";
 import {EntityCategoryProvider} from "./entity/entity-category.provider";
 import {EntityClassificationProvider} from "./entity/entity-classification.provider";
+import {EntityClosureCodeProvider} from "./entity/entity-closure-code.provider";
+import {WorkorderProvider} from "./entity/workorder.provider";
 
+/**
+ * Фабрика, предоставляющая SD
+ */
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
     /**
@@ -47,13 +49,16 @@ const SDConstructor = function SD($injector,cache) {
     this.Person = $injector.instantiate(PersonProvider,locals);
     this.Organization = $injector.instantiate(OrganizationProvider,locals);
     this.Change = $injector.instantiate(ChangeProvider,locals);
+    this.Workorder = $injector.instantiate(WorkorderProvider,locals);
     this.Workgroup = $injector.instantiate(WorkgroupProvider,locals);
     this.HistoryLine = $injector.instantiate(HistoryLineProvider,locals);
 
+    /** Code-сущности */
     this.EntityStatus = $injector.instantiate(StatusProvider,locals);
     this.EntityPriority = $injector.instantiate(PriorityProvider,locals);
     this.EntityCategory = $injector.instantiate(EntityCategoryProvider,locals);
     this.EntityClassification = $injector.instantiate(EntityClassificationProvider,locals);
+    this.EntityClosureCode = $injector.instantiate(EntityClosureCodeProvider,locals);
 
     this.withCache = (newCache = Object.create(cache)) => {
         return $injector.instantiate(SD,{cache:newCache});
