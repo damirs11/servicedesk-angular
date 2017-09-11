@@ -8,6 +8,7 @@ import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.IChangeDao;
 import ru.it.sd.model.Change;
+import ru.it.sd.service.utils.validation.Validator;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,8 @@ import java.util.Set;
 public class ChangeService implements CrudService<Change>{
 
     @Autowired
-    IChangeDao iChangeDao;
+    private IChangeDao iChangeDao;
+    
 	private static final Logger logger = LoggerFactory.getLogger(ChangeService.class);
 
 	@Autowired
@@ -58,6 +60,7 @@ public class ChangeService implements CrudService<Change>{
 
 	@Override
 	public Change create(Change entity) {
+        Validator.validate(entity);
         try {
             long id = iChangeDao.create(entity);
             return dao.read(id);
