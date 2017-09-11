@@ -79,24 +79,21 @@ public class Change implements HasId, HasStatus, Serializable {
     private String approvedDescription;
 
     /** Требуемое число одобривших(сколько надо одобрений)*/
-	@FieldMeta(columnName = "cha_apt_nrofapproversrequired")
+	@FieldMeta(columnName = "cha_apt_nrofapproversrequired", readOnly = true)
 	private Integer numberOfApproversRequired;
 
     /** Число одобряющих*/
-    @FieldMeta(columnName = "cha_apt_nrofapprovers")
+    @FieldMeta(columnName = "cha_apt_nrofapprovers", readOnly = true)
     private Integer numberOfApprovers;
 
     /** Число одобривших(сколько есть одобрений)*/
-    @FieldMeta(columnName = "cha_apt_nrofapproversapproved")
+    @FieldMeta(columnName = "cha_apt_nrofapproversapproved", readOnly = true)
     private Integer numberOfApproversApproved;
 
     //** Группа согласования*/
     @FieldMeta(columnName = "cha_apt_wog_oid")
     private Workgroup approvedWorkgroup;
 
-    //* Согласющие ??????????????*/
-    @FieldMeta(columnName = "apv_per_oid", tableAlias = "apv")
-    private Person[] approvers;
     // ----------------------------------------------------------------------------------------------------------
 
 	@Override
@@ -215,4 +212,5 @@ public class Change implements HasId, HasStatus, Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
 	}
+
 }

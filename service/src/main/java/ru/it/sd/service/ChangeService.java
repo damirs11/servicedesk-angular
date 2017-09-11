@@ -71,8 +71,14 @@ public class ChangeService implements CrudService<Change>{
 
 	@Override
 	public Change update(Change entity) {
-		//todo
-		return entity;
+		Validator.validate(entity);
+		try{
+		    iChangeDao.update(entity);
+            return dao.read(entity.getId());
+        }catch (Exception e){
+            throw new ServiceException("Возникли проблемы при редактировании изменения. " + e.getMessage(), e);
+        }
+
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package ru.it.sd.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.IWorkorderDao;
 import ru.it.sd.model.Workorder;
+import ru.it.sd.service.utils.validation.Validator;
 
 import java.util.List;
 import java.util.Map;
@@ -39,22 +39,27 @@ public class WorkorderService implements CrudService<Workorder>{
 
     @Override
     public Workorder create(Workorder entity) {
-
-        /**
-         * Все проверки пришедшей сущности, валидация, проверка прав и.т.д
-         */
+        Validator.validate(entity);
 
         try {
             long id = hpDao.create(entity);
             return dao.read(id);
         } catch (Exception e){
-            throw new ServiceException("Возникли проблемы при создании наряда");
+            throw new ServiceException("Возникли проблемы при создании наряда. " + e.getMessage(), e);
         }
     }
 
     @Override
     public Workorder update(Workorder entity) {
-        return null;
+        Validator.validate(entity);
+
+        try {
+            hpDao.update(entity);
+            return dao.read(entity.getId());
+        } catch (Exception e){
+            throw new ServiceException("Возникли проблемы при редактировании наряда. " + e.getMessage(), e);
+        }
+
     }
 
     @Override

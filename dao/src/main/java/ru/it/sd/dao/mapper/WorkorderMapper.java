@@ -58,11 +58,11 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 			Change change = changeDao.read(changeId);
 			workorder.setChange(change);
 		}
-        /*Long workgroupId = DBUtils.getLong(rs,"ass_workgroup");
+        Long workgroupId = DBUtils.getLong(rs,"ass_workgroup");
         if (workgroupId != null){
             Workgroup workgroup = workgroupDao.read(workgroupId);
-            workorder.setWorkgroup(workgroup);
-        }*/
+            workorder.setAssWorkgroup(workgroup);
+        }
 
 		return workorder;
 	}

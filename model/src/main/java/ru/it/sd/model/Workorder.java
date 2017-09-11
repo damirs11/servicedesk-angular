@@ -22,10 +22,10 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "wor_id")
 	private Long no;
 	/** Тема */
-	@FieldMeta(columnName = "wor_description", maxLength = 80)
+	@FieldMeta(columnName = "wor_description", required = true, maxLength = 80)
 	private String subject;
 	/** Описание */
-	@FieldMeta(columnName = "woi_information", maxLength = 4000, tableAlias = "winfo")
+	@FieldMeta(columnName = "woi_information", required = true, maxLength = 4000, tableAlias = "winfo")
 	private String description;
 	/** Трудозатраты */
 	@FieldMeta(columnName = "wcf_duration1", tableAlias = "wcustom")
@@ -35,7 +35,7 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	private String solution;
 
 	/** Статус */
-	@FieldMeta(columnName = "wor_sta_oid")
+	@FieldMeta(columnName = "wor_sta_oid", required = true)
 	private EntityStatus status;
 	/** Категория */
 	@FieldMeta(columnName = "wor_cat_oid")
@@ -64,8 +64,11 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "wor_requestor_per_oid")
 	private Person initiator;
 	/** Исполнитель */
-	@FieldMeta(columnName = "ass_per_to_oid")
+	@FieldMeta(columnName = "ass_per_to_oid", required = true)
 	private Person assigneePerson;
+    /** Группа исполнителей*/
+    @FieldMeta(columnName = "ass_workgroup", required = true)
+    private Workgroup assWorkgroup;
 
 	/** Изменение */
 	@FieldMeta(columnName = "wor_cha_oid")
@@ -212,4 +215,12 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	public void setChange(Change change) {
 		this.change = change;
 	}
+
+    public Workgroup getAssWorkgroup() {
+        return assWorkgroup;
+    }
+
+    public void setAssWorkgroup(Workgroup assWorkgroup) {
+        this.assWorkgroup = assWorkgroup;
+    }
 }

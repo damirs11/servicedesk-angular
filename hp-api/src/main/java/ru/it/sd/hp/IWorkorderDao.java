@@ -26,34 +26,25 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
     @Override
     public long create(Workorder entity) {
         SdClientBean sdClientBean = api.getSdClient();
-        //Создание нового наряда
-        IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openNewWorkorder();
-        //Открытие инициатора
-        IPerson initiator = iPersonService.read(entity.getInitiator().getId());
-        //Открытие инициатора
-        IPerson assignee = iPersonService.read(entity.getAssigneePerson().getId());
-        //Открытие статуса
-        IWorkorderStatus iWorkorderStatus = iWorkorderStatusService.read(entity.getStatus().getId());
-        //Открытие категории
-        IWorkorderCategory iWorkorderCategory = iWorkorderCategoryService.read(entity.getCategory().getId());
-        //Открытие организации
-        IOrganization iOrganization = iOrganizationService.read(entity.getInitiator().getOrganization().getId());
 
-        // Открытие рабочей группы(Доработать дао)
-        IWorkgroup iWorkgroup = null;//iWorkgroupService.read(entity.getAssigneePerson().);
+        IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openNewWorkorder(281495075961055L);
 
-        //Заполнение наряда
+        IWorkgroup iWorkgroup = sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(entity.getAssWorkgroup().getId());
+        IPerson initiator = sdClientBean.sd_session().getPersonHome().openPerson(entity.getInitiator().getId());
+        IPerson assignee = sdClientBean.sd_session().getPersonHome().openPerson(entity.getAssigneePerson().getId());
+        IWorkorderStatus iStatus = sdClientBean.sd_session().getWorkorderStatusHome().openWorkorderStatus(entity.getStatus().getId());
+        IWorkorderCategory iWorkorderCategory = sdClientBean.sd_session().getWorkorderCategoryHome().openWorkorderCategory(entity.getCategory().getId());
 
-        iWorkorder.setRequestor(initiator);
-        iWorkorder.setInformation(entity.getDescription());
-        iWorkorder.setDescription(entity.getSubject());
-        iWorkorder.setStatus(iWorkorderStatus);
+        iWorkorder.setStatus(iStatus);
+        iWorkorder.setInformation(entity.getSubject());
+        iWorkorder.setDescription(entity.getDescription());
         iWorkorder.setCategory(iWorkorderCategory);
-        iWorkorder.setWorkorderOrganization1(iOrganization);
+
         iWorkorder.getAssignment().setAssWorkgroup(iWorkgroup);
         iWorkorder.getAssignment().setAssigneePerson(assignee);
         iWorkorder.getAssignment().transfer();
         iWorkorder.save();
+
         return iWorkorder.getID();
     }
 
@@ -65,7 +56,25 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
 
     @Override
     public void update(Workorder entity) {
-        throw new UnsupportedOperationException();
+        SdClientBean sdClientBean = api.getSdClient();
+
+        IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openNewWorkorder(entity.getNo());
+
+        IWorkgroup iWorkgroup = sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(entity.getAssWorkgroup().getId());
+        IPerson initiator = sdClientBean.sd_session().getPersonHome().openPerson(entity.getInitiator().getId());
+        IPerson assignee = sdClientBean.sd_session().getPersonHome().openPerson(entity.getAssigneePerson().getId());
+        IWorkorderStatus iStatus = sdClientBean.sd_session().getWorkorderStatusHome().openWorkorderStatus(entity.getStatus().getId());
+        IWorkorderCategory iWorkorderCategory = sdClientBean.sd_session().getWorkorderCategoryHome().openWorkorderCategory(entity.getCategory().getId());
+
+        iWorkorder.setStatus(iStatus);
+        iWorkorder.setInformation(entity.getSubject());
+        iWorkorder.setDescription(entity.getDescription());
+        iWorkorder.setCategory(iWorkorderCategory);
+
+        iWorkorder.getAssignment().setAssWorkgroup(iWorkgroup);
+        iWorkorder.getAssignment().setAssigneePerson(assignee);
+        iWorkorder.getAssignment().transfer();
+        iWorkorder.save();
     }
 
     @Override
