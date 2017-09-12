@@ -29,6 +29,13 @@ const CHANGE_MESSAGE_TYPES = {
     DEADLINE_CHANGE: new MessageType(1, "<b>Изменение крайнего срока</b>")
 };
 
+const WORKORDER_MESSAGE_TYPES = {
+    DOER: new MessageType(2, "Комментарий инициатору", "Исполнитель"),
+    INITIATOR: new MessageType(0, "Комментарий исполнителю", "Инитиатор"),
+    DEADLINE_CHANGE: new MessageType(1, "<b>Изменение крайнего срока</b>"),
+    DEADLINE_CHANGE_REASON: new MessageType(2, "<b>Причина переноса крайнего срока</b>","Исполнитель"),
+};
+
 
 
 export {CHANGE_MESSAGE_TYPES}

@@ -2,9 +2,8 @@
  * Абстрактный стейт отвечающий за работу с конкретным нарядом.
  */
 import {SDResolver} from "../../sd.resolver";
-import {controller} from "./change-card.ctrl"
-import template from "./change-card.html"
-import {ChangeIdResolver} from "./change-id.resolver";
+import {controller} from "./workorder-card.ctrl"
+import template from "./workorder-card.html"
 import {WorkorderIdResolver} from "./workorder-id.resolver";
 
 let WorkorderCardState = {

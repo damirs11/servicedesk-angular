@@ -1,15 +1,15 @@
 <div class="entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
 
     <div class="entity-container__content entity-container__header">
-        <a data-ui-sref="app.change.list" title="Вернуться к списку">Изменения</a>
+        <a data-ui-sref="app.change.list" title="Вернуться к списку">Наряды</a>
         <span> \ </span>
         <span style="font-weight: bold">
-                    №{{ctrl.change.no}}: {{ctrl.change.subject || ctrl.emptyValue}}
+                    №{{ctrl.workorder.no}}: {{ctrl.workorder.subject || ctrl.emptyValue}}
         </span>
     </div>
 
     <div class="entity-container__content">
-        <sd-status-bar target="ctrl.change"
+        <sd-status-bar target="ctrl.workorder"
                     status-list="ctrl.statusList"
         ></sd-status-bar>
     </div>

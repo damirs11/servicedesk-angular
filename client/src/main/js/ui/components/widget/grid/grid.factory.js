@@ -1,6 +1,7 @@
 import {AbstractGridProvider} from "./abstract-grid.provider";
 import {ChangeGridProvider} from "./change-grid.provider";
 import {HistoryGridProvider} from "./history-grid.provider";
+import {WorkorderGridProvider} from "./workorder-grid.provider";
 
 $gridFactory.$inject = ["$injector"];
 function $gridFactory($injector) {
@@ -26,6 +27,7 @@ const $gridConstructor = function ($injector) {
 
     this.ChangeGrid = $injector.instantiate(ChangeGridProvider,locales);
     this.HistoryGrid = $injector.instantiate(HistoryGridProvider,locales);
+    this.WorkorderGrid = $injector.instantiate(WorkorderGridProvider,locales);
 
 };
 $gridConstructor.$inject = ["$injector"];

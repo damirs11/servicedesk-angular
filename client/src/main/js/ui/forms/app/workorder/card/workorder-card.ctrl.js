@@ -16,13 +16,13 @@ class ChangeViewController {
     workorder = null;
 
     static $inject = ["SD","workorderId"];
-    constructor(SD,changeId){
+    constructor(SD,workorderId){
         this.SD = SD;
         this.workorderId = workorderId;
     }
 
     $onInit(){
-        this.$loadChange();
+        this.$loadWorkorder();
     }
 
     get loading(){
@@ -43,11 +43,11 @@ class ChangeViewController {
             ;
     }
 
-    async $loadChange(){
+    async $loadWorkorder(){
         if (this.busy) throw new Error("Controller is busy " + this.busy);
         try {
             this.busy = "loading";
-            this.change = await new this.SD.Change(this.changeId).load();
+            this.workorder = await new this.SD.Workorder(this.workorderId).load();
         } catch (error) {
             this.loadingError = error || true;
         } finally {

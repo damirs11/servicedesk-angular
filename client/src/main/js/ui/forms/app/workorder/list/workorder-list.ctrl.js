@@ -28,6 +28,10 @@ class WorkorderListController {
     async configFilter() {
         const filters = this.filters = [];
         filters.push(new UIEntityFilter("Назначенные мне","executor"));
+        filters.push(new UIEntityFilter("Созданные мной","creator"));
+        filters.push(new UIEntityFilter({divider: true}));
+        filters.push(new UIEntityFilter("Новые","new"));
+        filters.push(new UIEntityFilter({divider: true}));
 
         const personId = this.Session.user.person.id;
         const groups = await this.SD.Workgroup.list({person:personId});
@@ -37,12 +41,6 @@ class WorkorderListController {
             const groupFilter = new UIEntityFilter({name: "Назначенные группе", childs: uiGroups});
             filters.push(groupFilter)
         }
-
-        filters.push(new UIEntityFilter({divider:true}));
-        filters.push(new UIEntityFilter("Согласующий","approver"));
-        filters.push(new UIEntityFilter("Инициатор","initiator"));
-        filters.push(new UIEntityFilter("Менеджер","manager"));
-
     }
 
     /**

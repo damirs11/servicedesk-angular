@@ -1,9 +1,9 @@
-import template from "./change-view.html"
-import {controller} from "./change-view.ctrl"
+import template from "./workorder-view.html"
+import {controller} from "./workorder-view.ctrl"
 import {SDResolver} from "../../../sd.resolver";
 
-const ChangeCardViewState = {
-    name: "app.change.card.view",
+const WorkorderCardViewState = {
+    name: "app.workorder.card.view",
     url: "",
     controller: controller,
     template: template,
@@ -16,4 +16,4 @@ const ChangeCardViewState = {
     }
 };
 
-export {ChangeCardViewState}
+export {WorkorderCardViewState}
