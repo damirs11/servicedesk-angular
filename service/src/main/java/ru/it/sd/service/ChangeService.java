@@ -3,6 +3,7 @@ package ru.it.sd.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.exception.ServiceException;
@@ -22,15 +23,29 @@ import java.util.Set;
 @Service
 public class ChangeService implements CrudService<Change>{
 
-    @Autowired
-    private IChangeDao iChangeDao;
-    
 	private static final Logger logger = LoggerFactory.getLogger(ChangeService.class);
 
-	@Autowired
 	private ChangeDao dao;
-	@Autowired
 	private SecurityService securityService;
+	private IChangeDao iChangeDao;
+
+	@Autowired
+	@Required
+	public void setDao(ChangeDao dao) {
+		this.dao = dao;
+	}
+
+	@Autowired
+	@Required
+	public void setSecurityService(SecurityService securityService) {
+		this.securityService = securityService;
+	}
+
+	@Autowired
+	@Required
+	public void setiChangeDao(IChangeDao iChangeDao) {
+		this.iChangeDao = iChangeDao;
+	}
 
 	@Override
 	public Change read(long id) {
@@ -39,23 +54,14 @@ public class ChangeService implements CrudService<Change>{
 
 	@Override
 	public List<Change> list(Map<String, String> filter) {
-		return dao.list(addCurrentUserFilter(filter));
+		securityService.addCurrentUserToFilter(filter);
+		return dao.list(filter);
 	}
 
 	@Override
 	public int count(Map<String, String> filter) {
-		return dao.count(addCurrentUserFilter(filter));
-	}
-
-	/**
-	 * Добавляем к фильтру идентификатор текущего пользователя
-	 * @param filter
-	 * @return
-	 */
-	private Map<String, String> addCurrentUserFilter(Map<String, String> filter) {
-		long personId = securityService.getCurrentUser().getPerson().getId();
-		filter.put("personId", String.valueOf(personId));
-		return filter;
+		securityService.addCurrentUserToFilter(filter);
+		return dao.count(filter);
 	}
 
 	@Override

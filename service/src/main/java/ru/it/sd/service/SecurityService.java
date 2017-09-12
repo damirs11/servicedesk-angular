@@ -1,5 +1,6 @@
 package ru.it.sd.service;
 
+import org.springframework.beans.factory.annotation.Required;
 import ru.it.sd.dao.UserDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.DynamicAuthentication;
@@ -16,6 +17,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Objects;
 
 import static ru.it.sd.util.ResourceMessages.getMessage;
@@ -31,10 +33,20 @@ public class SecurityService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SecurityService.class);
 
-	@Autowired
 	private Environment env;
-	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	@Required
+	public void setEnv(Environment env) {
+		this.env = env;
+	}
+
+	@Autowired
+	@Required
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
 
 	/**
 	 * Ищет пользователя приложения по его логину.
@@ -113,9 +125,9 @@ public class SecurityService {
 	/**
 	 * Проверяет корректность пары логин-пароль, и если все ок, то возвращает объект-аутентификацию
 	 *
-	 * @param login
-	 * @param password
-	 * @return
+	 * @param login имя пользователя
+	 * @param password пароль
+	 * @return информация об аутентификации пользователя
 	 */
 	public Authentication authenticate(String login, String password) {
 		try {
@@ -142,5 +154,16 @@ public class SecurityService {
 		String login = env.getProperty("sd_dummy_login");
 		String password = env.getProperty("sd_dummy_password");
 		return new SdClientBean(server, login, password);
+	}
+
+	/**
+	 * Добавляем к фильтру идентификатор текущего пользователя. Необходим
+	 * для ограничения выборка для пользователей с ограниченными правами
+	 *
+	 * @param filter модифицируемый фильтр
+	 */
+	public void addCurrentUserToFilter(Map<String, String> filter) {
+		long personId = getCurrentUser().getPerson().getId();
+		filter.put("personId", String.valueOf(personId));
 	}
 }

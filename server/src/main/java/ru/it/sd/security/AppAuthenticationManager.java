@@ -1,5 +1,6 @@
 package ru.it.sd.security;
 
+import org.springframework.beans.factory.annotation.Required;
 import ru.it.sd.service.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +22,13 @@ import java.util.Objects;
 public class AppAuthenticationManager implements AuthenticationManager {
 	private static final Logger LOG = LoggerFactory.getLogger(AppAuthenticationManager.class);
 
-	@Autowired
 	private SecurityService securityService;
+
+	@Autowired
+	@Required
+	public void setSecurityService(SecurityService securityService) {
+		this.securityService = securityService;
+	}
 
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
