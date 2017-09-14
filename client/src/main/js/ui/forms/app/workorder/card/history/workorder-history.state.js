@@ -1,9 +1,9 @@
-import template from "./change-history.html"
-import {controller} from "./change-history.ctrl"
+import template from "./workorder-history.html"
+import {controller} from "./workorder-history.ctrl"
 import {SDResolver} from "../../../sd.resolver";
 
-const ChangeCardHistoryState = {
-    name: "app.change.card.history",
+const WorkorderCardHistoryState = {
+    name: "app.workorder.card.history",
     url: "/history",
     controller: controller,
     template: template,
@@ -16,4 +16,4 @@ const ChangeCardHistoryState = {
     }
 };
 
-export {ChangeCardHistoryState}
+export {WorkorderCardHistoryState}

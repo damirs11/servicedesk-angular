@@ -1,9 +1,9 @@
-<div class="entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
+<div class="entity-container">
 
     <div class="entity-container__content entity-container__header">
-        <a data-ui-sref="app.change.list" title="Вернуться к списку">Наряды</a>
+        <a data-ui-sref="app.workorder.list" title="Вернуться к списку">Наряды</a>
         <span> \ </span>
-        <a data-ui-sref="app.change.card.view" title="Вернуться к просмотру">
+        <a data-ui-sref="app.workorder.card.view" title="Вернуться к просмотру">
                     №{{ctrl.headerWor.no}}: {{ctrl.headerWor.subject || ctrl.emptyValue}}
         </a>
         <span> \ </span>
