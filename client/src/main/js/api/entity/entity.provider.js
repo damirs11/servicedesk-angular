@@ -140,7 +140,7 @@ function EntityProvider(cache) {
         /**
          * Проверяет, изменялось ли данное поле объекта.
          * Если вызвать без аргументов, проверит изменялся ли объект в целом.
-         * @param field {string} - название поля
+         * @param [field] {string} - название поля
          * @returns {boolean}
          */
         checkModified(field){

@@ -16,8 +16,8 @@
 
     <!--Кнопки в верхнем меню-->
     <div class="entity-container__content">
-        <a class="btn btn-default" data-ui-sref="app.change.card.edit">Редактировать</a>
-        <a class="btn btn-default" data-ui-sref="app.change.card.history">История</a>
+        <a class="btn btn-default" data-ui-sref="app.workorder.card.edit">Редактировать</a>
+        <a class="btn btn-default" data-ui-sref="app.workorder.card.history">История</a>
     </div>
 
     <div class="entity-container__content entity-properties">
@@ -26,7 +26,7 @@
                 <span>Побробная информация:</span>
             </div>
             <div class="entity-property-value">
-                <span ng-bind="ctrl.change.description || ctrl.emptyValue"></span>
+                <span ng-bind="ctrl.workorder.description || ctrl.emptyValue"></span>
             </div>
         </div>
         <div class="entity-property-col">
@@ -45,16 +45,16 @@
                 <span>Инициатор:</span>
             </div>
             <div class="entity-property-value">
-                <span ng-bind="ctrl.change.initiator || ctrl.emptyValue"></span>
+                <span ng-bind="ctrl.workorder.initiator || ctrl.emptyValue"></span>
             </div>
         </div>
 
         <div class="entity-inline-property">
             <div class="entity-property-name">
-                <span>Менеджер:</span>
+                <span>Исполнитель:</span>
             </div>
             <div class="entity-property-value">
-                <span ng-bind="ctrl.change.manager || ctrl.emptyValue"></span>
+                <span ng-bind="ctrl.workorder.assigneePerson || ctrl.emptyValue"></span>
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
             </div>
             <div class="entity-property-value">
                 <span>
-                    {{(ctrl.change.createdDate | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
+                    {{(ctrl.workorder.createdDate | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
                 </span>
             </div>
         </div>
@@ -76,7 +76,7 @@
                 <span>Статус:</span>
             </div>
             <div class="entity-property-value">
-                <span ng-bind="ctrl.change.status || ctrl.emptyValue"></span>
+                <span ng-bind="ctrl.workorder.status || ctrl.emptyValue"></span>
             </div>
         </div>
 
@@ -86,7 +86,7 @@
             </div>
             <div class="entity-property-value">
                 <span>
-                    {{(ctrl.change.deadline | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
+                    {{(ctrl.workorder.deadline | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
                 </span>
             </div>
         </div>
@@ -96,7 +96,7 @@
                 <span>Приоритет:</span>
             </div>
             <div class="entity-property-value">
-                <span ng-bind="ctrl.change.priority || ctrl.emptyValue"></span>
+                <span ng-bind="ctrl.workorder.priority || ctrl.emptyValue"></span>
             </div>
         </div>
 
@@ -106,7 +106,7 @@
             </div>
             <div class="entity-property-value">
                 <span>
-                    {{(ctrl.change.resolvedDate | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
+                    {{(ctrl.workorder.resolvedDate | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
                 </span>
             </div>
         </div>
@@ -116,7 +116,7 @@
                 <span>Категория:</span>
             </div>
             <div class="entity-property-value">
-                <span ng-bind="ctrl.change.category || ctrl.emptyValue"></span>
+                <span ng-bind="ctrl.workorder.category || ctrl.emptyValue"></span>
             </div>
         </div>
 
@@ -125,24 +125,35 @@
                 <span>Рабочая группа:</span>
             </div>
             <div class="entity-property-value">
-                <span ng-bind="ctrl.change.workgroup || ctrl.emptyValue"></span>
+                <span ng-bind="ctrl.workorder.workgroup || ctrl.emptyValue"></span>
             </div>
         </div>
 
         <div class="entity-inline-property">
             <div class="entity-property-name">
-                <span>Классификация:</span>
+                <span>Код завершения:</span>
             </div>
             <div class="entity-property-value">
-                <span ng-bind="ctrl.change.classification || ctrl.emptyValue"></span>
+                <span ng-bind="ctrl.workorder.closureCode || ctrl.emptyValue"></span>
+            </div>
+        </div>
+
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
+                <span>Изменение:</span>
+            </div>
+            <div class="entity-property-value">
+                <a data-ng-show="ctrl.workorder.change"
+                   data-ui-sref="app.change.card.view({changeId:ctrl.workorder.change.id})">
+                    №{{ctrl.workorder.change.no}}
+                </a>
+                <span ng-bind="ctrl.emptyValue" data-ng-hide="ctrl.workorder.change"></span>
             </div>
         </div>
     </div>
 
 </div>
 
-<sd-entity-chat entity="ctrl.change" type-map="ctrl.msgTypes">
+<sd-entity-chat entity="ctrl.workorder" type-map="ctrl.msgTypes">
 
 </sd-entity-chat>
-
-<button class="btn btn-default" data-ng-click="ctrl.createTestChange();">Создать тестовое изменение</button>

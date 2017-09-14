@@ -1,9 +1,9 @@
-import template from "./change-edit.html"
-import {controller} from "./change-edit.ctrl"
+import template from "./workorder-edit.html"
+import {controller} from "./workorder-edit.ctrl"
 import {SDResolver} from "../../../sd.resolver";
 
-const ChangeCardEditState = {
-    name: "app.change.card.edit",
+const WorkorderCardEditState = {
+    name: "app.workorder.card.edit",
     url: "/edit",
     controller: controller,
     template: template,
@@ -16,4 +16,4 @@ const ChangeCardEditState = {
     }
 };
 
-export {ChangeCardEditState}
+export {WorkorderCardEditState}

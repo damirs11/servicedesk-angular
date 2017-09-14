@@ -1,39 +1,35 @@
-class ChangeCardEditController{
+class WorkorderCardEditController{
     /**
      * Пустое значение
      * @type {string}
      */
     emptyValue = "- нет -";
 
-    static $inject = ["$scope","SD","changeId","ModalAction","$transitions","$state"];
-    constructor($scope,SD, changeId, ModalAction, $transitions, $state){
+    static $inject = ["$scope","SD","workorderId","ModalAction","$transitions","$state"];
+    constructor($scope,SD, workorderId, ModalAction, $transitions, $state){
         this.$scope = $scope;
         this.SD = SD;
-        this.changeId = changeId;
+        this.workorderId = workorderId;
         this.ModalAction = ModalAction;
         this.$transitions = $transitions;
         this.$state = $state;
-        this.testValidator = (newDate,oldDate) => {
-            console.log(newDate,oldDate);
-            return "Не валидно"
-        }
     }
 
     $onInit(){
-        this.headerChange = new this.SD.Change(this.changeId); // Участвует в хидере сущности.
-        this.change = new this.SD.Change(this.changeId);
+        this.headerWor = new this.SD.Workorder(this.workorderId); // Участвует в хидере сущности.
+        this.workorder = new this.SD.Workorder(this.workorderId);
 
         const fromCurrentState = {
             from: state => state.name === this.$state.current.name,
         };
         const removeExitHook = this.$transitions.onExit(fromCurrentState,async () => {
-            if (!this.change || !this.change.checkModified()) return;
+            if (!this.workorder || !this.workorder.checkModified()) return;
             const modalResult = await this.ModalAction.entityChanged();
             if (modalResult == 0) {
-                await this.change.save();
+                await this.workorder.save();
                 return true;
             } else if (modalResult == 1) {
-                this.change.reset();
+                this.workorder.reset();
                 return true;
             } else {
                 return false;
@@ -41,7 +37,7 @@ class ChangeCardEditController{
         });
 
         const onBeforeUnload = event => {
-            if (!this.change || !this.change.checkModified()) return;
+            if (!this.workorder || !this.workorder.checkModified()) return;
             console.log("onUnload");
             event.returnValue = "Вы действительно хотите покинуть страницу? Несохраненные изменения будут утеряны."
             return event.returnValue;
@@ -56,13 +52,13 @@ class ChangeCardEditController{
     }
 
     async saveEditing(){
-        await this.change.save();
-        this.$state.go("app.change.card.view");
+        await this.workorder.save();
+        this.$state.go("app.workorder.card.view");
     }
 
     cancelEditing(){
-        this.$state.go("app.change.card.view")
+        this.$state.go("app.workorder.card.view")
     }
 }
 
-export {ChangeCardEditController as controller}
+export {WorkorderCardEditController as controller}

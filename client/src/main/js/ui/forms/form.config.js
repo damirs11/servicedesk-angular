@@ -19,6 +19,7 @@ import {WorkorderState} from "./app/workorder/workorder.state";
 import {WorkorderListState} from "./app/workorder/list/workorder-list.state";
 import {WorkorderCardState} from "./app/workorder/card/workorder-card.state";
 import {WorkorderCardViewState} from "./app/workorder/card/view/workorder-view.state";
+import {WorkorderCardEditState} from "./app/workorder/card/edit/workorder-edit.state";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -45,6 +46,7 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(WorkorderListState)
         .state(WorkorderCardState)
         .state(WorkorderCardViewState)
+        .state(WorkorderCardEditState)
         .state(TestState)
 
 }

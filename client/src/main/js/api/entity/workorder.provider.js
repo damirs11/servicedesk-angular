@@ -134,6 +134,14 @@ function WorkorderProvider(EditableEntity, SD) {
         @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) assigneePerson;
 
         /**
+         * Рабочая группа
+         * @property
+         * @name SD.Workorder#workgroup
+         * @type {SD.Workgroup}
+         */
+        @Serialize("assWorkgroup",serializeId) @Parse("assWorkgroup",data => SD.Workgroup.parse(data)) workgroup;
+
+        /**
          * Изменение
          * @property
          * @name SD.Workorder#change

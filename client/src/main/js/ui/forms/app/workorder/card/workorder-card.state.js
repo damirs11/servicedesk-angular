@@ -15,7 +15,7 @@ let WorkorderCardState = {
     abstract: true,
     resolve: {
         SD: SDResolver,
-        changeId: WorkorderIdResolver
+        workorderId: WorkorderIdResolver
     }
 };
 

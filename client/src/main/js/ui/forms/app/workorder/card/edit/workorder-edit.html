@@ -1,10 +1,10 @@
 <div class="entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
 
     <div class="entity-container__content entity-container__header">
-        <a data-ui-sref="app.change.list" title="Вернуться к списку">Изменения</a>
+        <a data-ui-sref="app.change.list" title="Вернуться к списку">Наряды</a>
         <span> \ </span>
         <a data-ui-sref="app.change.card.view" title="Вернуться к просмотру">
-                    №{{ctrl.headerChange.no}}: {{ctrl.headerChange.subject || ctrl.emptyValue}}
+                    №{{ctrl.headerWor.no}}: {{ctrl.headerWor.subject || ctrl.emptyValue}}
         </a>
         <span> \ </span>
         <span style="font-weight: bold">
@@ -16,7 +16,7 @@
         <div class="row">
             <!--Кнопки для управления статусом сущности-->
             <div class="col-md-6">
-                <button class="btn btn-success" data-ng-disabled="!ctrl.change.checkModified()" data-ng-click="ctrl.saveEditing()">Сохранить</button>
+                <button class="btn btn-success" data-ng-disabled="!ctrl.workorder.checkModified()" data-ng-click="ctrl.saveEditing()">Сохранить</button>
                 <button class="btn btn-danger" data-ng-click="ctrl.cancelEditing()">Отмена</button>
             </div>
         </div>
@@ -28,7 +28,7 @@
                 <span>Тема:</span>
             </div>
             <div class="entity-property-value">
-                <sd-text target="ctrl.change.subject"
+                <sd-text target="ctrl.workorder.subject"
                 ></sd-text>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 <span>Подробная информация:</span>
             </div>
             <div class="entity-property-value">
-                <sd-textarea target="ctrl.change.description"
+                <sd-textarea target="ctrl.workorder.description"
                              rows="1"
                 ></sd-textarea>
             </div>
@@ -51,7 +51,7 @@
             </div>
             <div class="entity-property-value">
                 <sd-dropdown
-                        target="ctrl.change.initiator"
+                        target="ctrl.workorder.initiator"
                         fetch-data="ctrl.SD.Person.list()"
                         placeholder="Введите имя персоны"
                         display-value="$value.fullName"
@@ -61,11 +61,11 @@
 
         <div class="entity-inline-property editing">
             <div class="entity-property-name">
-                <span>Менеджер:</span>
+                <span>Исполнитель:</span>
             </div>
             <div class="entity-property-value">
                 <sd-dropdown
-                        target="ctrl.change.manager"
+                        target="ctrl.workorder.assigneePerson"
                         fetch-data="ctrl.SD.Person.list()"
                         placeholder="Введите имя персоны"
                         display-value="$value.fullName"
@@ -81,7 +81,7 @@
             </div>
             <div class="entity-property-value editing">
                 <sd-datetime
-                        target="ctrl.change.createdDate"
+                        target="ctrl.workorder.createdDate"
                         allow-empty="false"
                 ></sd-datetime>
             </div>
@@ -93,7 +93,7 @@
             </div>
             <div class="entity-property-value">
                 <sd-dropdown
-                        target="ctrl.change.status"
+                        target="ctrl.workorder.status"
                         fetch-data="ctrl.SD.EntityStatus.list()"
                         display-value="$value.fullName"
                         cache="true"
@@ -107,7 +107,7 @@
             </div>
             <div class="entity-property-value">
                 <sd-datetime
-                        target="ctrl.change.deadline"
+                        target="ctrl.workorder.deadline"
                         allow-empty="false"
                 ></sd-datetime>
             </div>
@@ -119,7 +119,7 @@
             </div>
             <div class="entity-property-value">
                 <sd-dropdown
-                        target="ctrl.change.priority"
+                        target="ctrl.workorder.priority"
                         fetch-data="ctrl.SD.EntityPriority.list()"
                         display-value="$value.fullName"
                         cache="true"
@@ -133,25 +133,25 @@
             </div>
             <div class="entity-property-value">
                 <sd-datetime
-                        target="ctrl.change.deadline"
+                        target="ctrl.workorder.deadline"
                         allow-empty="false"
                 ></sd-datetime>
             </div>
         </div>
 
-        <div class="entity-inline-property editing">
-            <div class="entity-property-name">
-                <span>Категория:</span>
-            </div>
-            <div class="entity-property-value">
-                <sd-dropdown
-                        target="ctrl.change.category"
-                        fetch-data="ctrl.SD.EntityCategory.list()"
-                        display-value="$value.name"
-                        cache="true"
-                ></sd-dropdown>
-            </div>
-        </div>
+        <!--<div class="entity-inline-property editing">-->
+            <!--<div class="entity-property-name">-->
+                <!--<span>Категория:</span>-->
+            <!--</div>-->
+            <!--<div class="entity-property-value">-->
+                <!--<sd-dropdown-->
+                        <!--target="ctrl.workorder.category"-->
+                        <!--fetch-data="ctrl.SD.EntityCategory.list()"-->
+                        <!--display-value="$value.name"-->
+                        <!--cache="true"-->
+                <!--&gt;</sd-dropdown>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <div class="entity-inline-property editing">
             <div class="entity-property-name">
@@ -159,7 +159,7 @@
             </div>
             <div class="entity-property-value">
                 <sd-dropdown
-                        target="ctrl.change.workgroup"
+                        target="ctrl.workorder.workgroup"
                         fetch-data="ctrl.SD.Workgroup.list()"
                         placeholder="Введите название группы"
                         display-value="$value.name"
@@ -169,16 +169,16 @@
 
         <div class="entity-inline-property editing">
             <div class="entity-property-name">
-                <span>Классификация:</span>
+                <span>Код завершения:</span>
             </div>
-            <div class="entity-property-value">
-                <sd-dropdown
-                        target="ctrl.change.classification"
-                        fetch-data="ctrl.SD.EntityClassification.list()"
-                        display-value="$value.name"
-                        cache="true"
-                ></sd-dropdown>
-            </div>
+            <!--<div class="entity-property-value">-->
+                <!--<sd-dropdown-->
+                        <!--target="ctrl.workorder.closureCode"-->
+                        <!--fetch-data="ctrl.SD.ClosureCode.list()"-->
+                        <!--display-value="$value.fullName"-->
+                        <!--cache="true"-->
+                <!--&gt;</sd-dropdown>-->
+            <!--</div>-->
         </div>
     </div>
 
