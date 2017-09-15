@@ -23,22 +23,36 @@ import java.util.Objects;
 @Repository
 public class ChangeDao extends AbstractEntityDao<Change> {
 
-	@Autowired
 	private ChangeExtractor extractor;
 
 	private static final String BASE_SQL =
-			"SELECT \n" +
-			"   ch.cha_oid, ch.cha_id, ch.cha_description, ch.cha_requestor_per_oid,\n" +
-			"   ch.cha_per_man_oid, ci.chi_information, ch.cha_sta_oid, ch.cha_imp_oid,\n" +
-			"   ch.reg_created, ch.cha_deadline, ch.cha_actualfinish, ch.ass_per_to_oid,\n" +
-            "   ch.ass_wog_oid, ch.cha_cat_oid, ch.cha_cla_oid \n" +
-			"FROM\n" +
+			" SELECT\n" +
+			"   ch.cha_oid, " +
+			"   ch.cha_id, " +
+			"   ch.cha_description, " +
+			"   ch.cha_requestor_per_oid, " +
+			"   ch.cha_per_man_oid, " +
+			"   ci.chi_information, " +
+			"   ch.cha_sta_oid, " +
+			"   ch.cha_imp_oid, " +
+			"   ch.reg_created, " +
+			"   ch.cha_deadline, " +
+			"   ch.cha_actualfinish, " +
+			"   ch.ass_per_to_oid, " +
+            "   ch.ass_wog_oid, " +
+			"   ch.cha_cat_oid, " +
+			"   ch.cha_cla_oid\n" +
+			" FROM\n" +
 			"   itsm_changes ch\n" +
 			"   LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n" +
 			"   LEFT JOIN itsm_workgroups wg1 ON wg1.wog_oid = ch.ass_wog_oid\n" +
 			"   LEFT JOIN itsm_workgroups wg2 ON wg2.wog_oid = wg1.wog_parent\n" +
 			"   LEFT JOIN itsm_workgroups wg3 ON wg3.wog_oid = wg2.wog_parent\n" +
 			"   LEFT JOIN itsm_workgroups wg4 ON wg4.wog_oid = wg3.wog_parent\n"; // смотрим четыре уровня групп
+
+	public ChangeDao(ChangeExtractor extractor) {
+		this.extractor = extractor;
+	}
 
 	@Override
 	protected StringBuilder getBaseSql() {

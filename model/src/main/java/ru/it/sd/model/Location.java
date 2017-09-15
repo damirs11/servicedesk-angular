@@ -5,12 +5,14 @@ import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.util.AppToStringStyle;
 
+import java.io.Serializable;
+
 /**
  * Местоположение, город.
  * Created by MYXOMOPX on 013 13.06.17.
  */
 @ClassMeta(tableName = "itsm_locations")
-public class Location implements Code {
+public class Location implements Code, Serializable {
 	/**
 	 * Идентификатор
 	 */

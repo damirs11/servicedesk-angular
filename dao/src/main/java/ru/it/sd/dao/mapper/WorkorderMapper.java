@@ -1,6 +1,5 @@
 package ru.it.sd.dao.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.dao.DBUtils;
@@ -17,12 +16,15 @@ import java.sql.SQLException;
 @Component
 public class WorkorderMapper extends EntityRowMapper<Workorder> {
 
-	@Autowired
 	private PersonDao personDao;
-	@Autowired
 	private ChangeDao changeDao;
-    @Autowired
     private WorkgroupDao workgroupDao;
+
+    public WorkorderMapper(PersonDao personDao, ChangeDao changeDao, WorkgroupDao workgroupDao) {
+	    this.personDao = personDao;
+	    this.changeDao = changeDao;
+	    this.workgroupDao = workgroupDao;
+    }
 
 	@Override
 	public Workorder mapRow(ResultSet rs, int rowNumber) throws SQLException {

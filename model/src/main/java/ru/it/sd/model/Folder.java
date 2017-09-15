@@ -5,12 +5,14 @@ import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.util.AppToStringStyle;
 
+import java.io.Serializable;
+
 /**
  * Папка доступа
  * Created by MYXOMOPX on 013 13.06.17.
  */
 @ClassMeta(tableName = "rep_codes_text")
-public class Folder implements Code {
+public class Folder implements Code, Serializable {
 	/**
 	 * Идентификатор
 	 */

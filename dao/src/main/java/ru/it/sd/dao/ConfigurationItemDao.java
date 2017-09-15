@@ -1,8 +1,5 @@
 package ru.it.sd.dao;
 
-import com.jcabi.aspects.Cacheable;
-import org.apache.commons.collections.MultiMap;
-import org.apache.commons.collections.map.MultiValueMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -68,7 +65,6 @@ public class ConfigurationItemDao extends AbstractDao {
 	 * @param id идентификатор объекта
 	 * @return объект
 	 */
-	@Cacheable(lifetime = 5, unit = TimeUnit.SECONDS)
 	public ConfigurationItem read(Long id) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", id);
@@ -82,7 +78,6 @@ public class ConfigurationItemDao extends AbstractDao {
 		}
 	}
 
-	@Cacheable(lifetime = 5, unit = TimeUnit.SECONDS)
 	public List<ConfigurationItem> list(Map<String, String> filter) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		StringBuilder queryPart = new StringBuilder();

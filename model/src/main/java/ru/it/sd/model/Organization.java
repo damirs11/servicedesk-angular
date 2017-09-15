@@ -5,6 +5,8 @@ import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.util.AppToStringStyle;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
+
 /**
  * Организации, к которым соотносим пользователей системы
  *
@@ -12,7 +14,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @since 28.04.2017
  */
 @ClassMeta(tableName = "itsm_organizations")
-public class Organization implements Code {
+public class Organization implements Code, Serializable {
 	/**
 	 * Идентификатор
 	 */

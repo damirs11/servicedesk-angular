@@ -1,6 +1,6 @@
 package ru.it.sd.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.IWorkorderDao;
@@ -14,13 +14,18 @@ import java.util.Set;
 /**
  * Created by user on 26.07.2017.
  */
-//@Service
+@Service
 public class WorkorderService implements CrudService<Workorder>{
 
-    @Autowired
     private WorkorderDao dao;
-    @Autowired
     private IWorkorderDao hpDao;
+    private SecurityService securityService;
+
+    public WorkorderService(WorkorderDao dao, IWorkorderDao hpDao, SecurityService securityService) {
+        this.dao = dao;
+        this.hpDao = hpDao;
+        this.securityService = securityService;
+    }
 
     @Override
     public Workorder read(long id) {
@@ -29,12 +34,16 @@ public class WorkorderService implements CrudService<Workorder>{
 
     @Override
     public List<Workorder> list(Map<String, String> filter) {
+        // todo проверить, что в фильтре не указаны "левые" группы, к которым пользователь не имеет доступа
+        securityService.addCurrentUserToFilter(filter);
         return dao.list(filter);
     }
 
     @Override
     public int count(Map<String, String> filter) {
-        return dao.getTotal(filter);
+        // todo проверить, что в фильтре не указаны "левые" группы, к которым пользователь не имеет доступа
+        securityService.addCurrentUserToFilter(filter);
+        return dao.count(filter);
     }
 
     @Override

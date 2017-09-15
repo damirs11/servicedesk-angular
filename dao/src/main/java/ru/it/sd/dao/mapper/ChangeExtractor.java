@@ -1,6 +1,5 @@
 package ru.it.sd.dao.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
@@ -22,13 +21,15 @@ import java.util.*;
 @Component
 public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 
-	@Autowired
 	private PersonDao personDao;
-	@Autowired
 	private ChangeMapper changeMapper;
+	private WorkgroupDao workgroupDao;
 
-	@Autowired
-    WorkgroupDao workgroupDao;
+	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, WorkgroupDao workgroupDao) {
+		this.personDao = personDao;
+		this.changeMapper = changeMapper;
+		this.workgroupDao = workgroupDao;
+	}
 
 	@Override
 	public List<Change> extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -36,7 +37,6 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 		Map<Long, Person> personCache = new HashMap<>();
 
 		List<Change> list = new ArrayList<>();
-		int i = 0;
 		while(rs.next()){
 			Change change = changeMapper.mapRow(rs, 0);
 			//Change change = new Change();

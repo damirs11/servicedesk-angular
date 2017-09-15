@@ -5,13 +5,15 @@ import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.util.AppToStringStyle;
 
+import java.io.Serializable;
+
 /**
  * бренд
  *
  * Created by MYXOMOPX on 013 13.06.17.
  */
 @ClassMeta(tableName = "itsm_codes_locale")
-public class Brand implements Code, HasId {
+public class Brand implements Code, HasId, Serializable {
     /** Идентификатор */
     @FieldMeta(columnName = "cdl_cod_oid", key = true)
     private Long id;

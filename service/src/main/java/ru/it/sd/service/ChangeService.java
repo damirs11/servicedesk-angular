@@ -29,21 +29,9 @@ public class ChangeService implements CrudService<Change>{
 	private SecurityService securityService;
 	private IChangeDao iChangeDao;
 
-	@Autowired
-	@Required
-	public void setDao(ChangeDao dao) {
+	public ChangeService(ChangeDao dao, SecurityService securityService, IChangeDao iChangeDao) {
 		this.dao = dao;
-	}
-
-	@Autowired
-	@Required
-	public void setSecurityService(SecurityService securityService) {
 		this.securityService = securityService;
-	}
-
-	@Autowired
-	@Required
-	public void setiChangeDao(IChangeDao iChangeDao) {
 		this.iChangeDao = iChangeDao;
 	}
 
@@ -54,12 +42,14 @@ public class ChangeService implements CrudService<Change>{
 
 	@Override
 	public List<Change> list(Map<String, String> filter) {
+		// todo проверить, что в фильтре не указаны "левые" группы, к которым пользователь не имеет доступа
 		securityService.addCurrentUserToFilter(filter);
 		return dao.list(filter);
 	}
 
 	@Override
 	public int count(Map<String, String> filter) {
+		// todo проверить, что в фильтре не указаны "левые" группы, к которым пользователь не имеет доступа
 		securityService.addCurrentUserToFilter(filter);
 		return dao.count(filter);
 	}

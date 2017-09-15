@@ -2,6 +2,7 @@ package ru.it.sd.dao;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import ru.it.sd.meta.FieldMetaData;
@@ -90,6 +91,7 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 	 * @param id идентификатор сущности. Может быть null
 	 * @return сущность. Если идентификатор не задан, либо искомой сущности в бд нет, то вернется null
 	 */
+	@Cacheable(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #id")
 	public EntityClass read(Long id) {
 		if (id == null) {
 			return null;

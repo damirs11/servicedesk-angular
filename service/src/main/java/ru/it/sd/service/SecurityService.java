@@ -36,15 +36,8 @@ public class SecurityService {
 	private Environment env;
 	private UserDao userDao;
 
-	@Autowired
-	@Required
-	public void setEnv(Environment env) {
+	public SecurityService(Environment env, UserDao userDao) {
 		this.env = env;
-	}
-
-	@Autowired
-	@Required
-	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
 

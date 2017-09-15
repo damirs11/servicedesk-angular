@@ -10,10 +10,10 @@
     <!-- Документация http://www.ehcache.org/generated/2.10.2/html/ehc-all -->
     <!-- http://www.ehcache.org/ehcache.xml -->
     <cache name="entity"
-           maxBytesLocalHeap="300M"
+           maxBytesLocalHeap="100M"
            eternal="false"
-           timeToIdleSeconds="60"
-           timeToLiveSeconds="300"
+           timeToIdleSeconds="15"
+           timeToLiveSeconds="30"
            memoryStoreEvictionPolicy="LFU"
            copyOnRead="true"
            copyOnWrite="true">

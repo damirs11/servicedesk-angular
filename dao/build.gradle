@@ -21,8 +21,8 @@ dependencies {
     compile "org.springframework.security:spring-security-core:$springSecurityVersion"
     compile "org.springframework:spring-aspects:$springSecurityVersion"
     compile "commons-beanutils:commons-beanutils:$commonsBeanUtils"
-    compile 'com.jcabi:jcabi-aspects:0.22.6'
     compile "joda-time:joda-time:2.9.2"
+    compile 'javax.validation:validation-api:2.0.0.Final'
 
     // тестирование
     testCompile "org.springframework:spring-test:$springVersion"
