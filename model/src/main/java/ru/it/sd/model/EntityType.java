@@ -6,9 +6,9 @@ package ru.it.sd.model;
  * @author quadrix
  * @since 01.05.2017
  */
-public enum EntityType {
+public enum EntityType implements Code {
 
-	CHANGE("Изменение"),
+	CHANGE("Изменение", 724041768L),
 	PROBLEM("Проблема"),
 	CALL("Обращение"),
 	WORKORDER("Наряд"),
@@ -16,10 +16,36 @@ public enum EntityType {
 	WORKGROUP("Рабочая группа");
 
 	/** Название */
-	private String name;
+	private String title;
+	/** Идентификатор */
+	private Long id;
 
-	EntityType(String name) {
-		this.name = name;
+	EntityType(String title) {
+		this.title = title;
 	}
 
+	EntityType(String title, Long id) {
+		this(title);
+		this.id = id;
+	}
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public String getName() {
+		return title;
+	}
+
+	@Override
+	public void setName(String name) {
+		throw new UnsupportedOperationException();
+	}
 }

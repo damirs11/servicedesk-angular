@@ -17,6 +17,15 @@ import java.util.Date;
 @ClassMeta(tableName = "itsm_changes", tableAlias ="ch")
 public class Change implements HasId, HasStatus, Serializable {
 
+	/**
+	 * Атрибуты, в которых фиксируется общение пользователей.
+	 * Например: workaround и кастомный атрибут
+	 */
+	public static Long[] chatAttributes = new Long[]{
+			HistoryLineType.CHANGE_INITIATOR.fieldId,
+			HistoryLineType.CHANGE_MANAGER.fieldId
+	};
+
 	/** Уникальный идентификатор */
 	@FieldMeta(columnName = "cha_oid", key = true)
 	private Long id ;
