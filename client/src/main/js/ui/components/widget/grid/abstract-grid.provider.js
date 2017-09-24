@@ -39,7 +39,7 @@ function AbstractGridProvider($parse, $timeout) {
             this.saveScroll = true;
             this.saveFocus = false;
             this.saveVisible = true;
-            this.saveSort = true;
+            this.saveSort = false;
             this.saveFilter = true;
             this.savePinning = true;
             this.saveGrouping = true;
@@ -104,7 +104,7 @@ function AbstractGridProvider($parse, $timeout) {
             const saveData = localStorage[this.gridName];
             if (!saveData) return;
             const settings = JSON.parse(saveData);
-            this.gridApi.saveState.restore(this.$scope,settings);
+            // this.gridApi.saveState.restore(this.$scope,settings);
         }
 
         /**
@@ -129,6 +129,21 @@ function AbstractGridProvider($parse, $timeout) {
 
         _onDblClick(row) {
             this._broadcastEvent("grid:double-click",{row});
+        }
+
+        /**
+         * Задать сортировку
+         * @param column {Object} - столбец
+         * @param column.field {string} - название столбца
+         * @param column.direction {string} - asc/desc направление сортировки
+         * @param add {boolean} - добавить к прошлой сортировке
+         */
+        sortBy(column){
+            const sortColumn = this.grid.columns.find(c => {
+                return c.field == column.field
+            });
+            console.log("Col is ",sortColumn);
+            this.grid.sortColumn(sortColumn, column.direction);
         }
 
         /**

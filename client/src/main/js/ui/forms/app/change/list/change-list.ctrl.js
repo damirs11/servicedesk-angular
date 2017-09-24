@@ -1,28 +1,45 @@
 import {UIEntityFilter} from "../../../../utils/ui-entity-filter";
 
 class ChangeListController {
-    static $inject = ['SD', '$scope', '$grid', '$state','Session'];
+    static $inject = ['SD', '$scope', '$grid', '$state','Session','$location','searchParams'];
 
-    constructor(SD, $scope, $grid, $state, Session) {
+    constructor(SD, $scope, $grid, $state, Session, $location, searchParams) {
         this.SD = SD;
         this.$scope = $scope;
         this.$grid = $grid;
         this.$state = $state;
         this.Session = Session;
+        this.$location = $location;
+        this.searchParams = searchParams;
     }
 
     async $onInit () {
         this.grid = new this.$grid.ChangeGrid(this.$scope,this.SD);
 
         await this.configFilter();
-        const filter = this.currentFilter = this.filters[0];
-        this.grid.fetchData({filter:filter.value});
+        this.currentFilter = this.filters[0];
+        // Добавляем стартовые параметры поиска
+        if (this.searchParams.sortBy) this.setSorting(this.searchParams.sortBy);
+        this.grid.fetchData();
 
-        this.$scope.$on("grid:double-click",::this._gridDoubleClick)
+        this.$scope.$on("grid:double-click",::this._gridDoubleClick);
+        this.$scope.$on("grid:sort-changed",::this._onSortChanged)
+    }
+
+    setSorting(sortParam){
+        console.log(sortParam);
+        const args = sortParam.split("-");
+        this.grid.sortBy({field:args[0],direction:args[1]})
     }
 
     _gridDoubleClick(event,data){
         this.$state.go("app.change.card.view",{changeId:data.row.entity.id});
+    }
+
+    _onSortChanged(event,data){
+        let sortColumns = data.sortColumns;
+        sortColumns = sortColumns.map(c => `${c.field}-${c.sort.direction}`);
+        this.$location.search({"sortBy": sortColumns[0]});
     }
 
     async configFilter() {
