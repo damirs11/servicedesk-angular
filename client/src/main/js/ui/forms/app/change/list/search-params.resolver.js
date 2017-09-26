@@ -1,11 +1,12 @@
 SearchParamsResolver.$inject = ["$stateParams"];
 function SearchParamsResolver($stateParams){
     const params = {};
-    const searchParams = ["sortBy"];
+    const searchParams = ["sort","fulltext","filter"];
     searchParams.forEach(name => {
-        params[name] = $stateParams[name]
+        if($stateParams[name] != undefined) params[name] = $stateParams[name]
     });
     return params;
 }
+
 
 export {SearchParamsResolver}

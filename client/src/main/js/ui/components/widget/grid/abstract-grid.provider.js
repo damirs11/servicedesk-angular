@@ -133,17 +133,23 @@ function AbstractGridProvider($parse, $timeout) {
 
         /**
          * Задать сортировку
-         * @param column {Object} - столбец
-         * @param column.field {string} - название столбца
-         * @param column.direction {string} - asc/desc направление сортировки
+         * @param field {string} - название столбца
+         * @param direction {string} - asc/desc направление сортировки
          * @param add {boolean} - добавить к прошлой сортировке
          */
-        sortBy(column){
+        sortBy(field, direction){
             const sortColumn = this.grid.columns.find(c => {
-                return c.field == column.field
+                return c.field == field
             });
-            console.log("Col is ",sortColumn);
-            this.grid.sortColumn(sortColumn, column.direction);
+            this.grid.sortColumn(sortColumn, direction);
+        }
+
+        /**
+         * Перейти на страницу
+         * @param page {number} - номер страницы
+         */
+        changePage(page){
+            this.gridApi.pagination.seek(page);
         }
 
         /**
@@ -153,7 +159,7 @@ function AbstractGridProvider($parse, $timeout) {
             this.gridApi = gridApi;
             this.grid = gridApi.grid;
 
-            const registerGridListeners = () => {
+            const configureGridAPI = () => {
                 gridApi.core.on.sortChanged(this.$scope, ::this._onSortChanged);
                 gridApi.selection.on.rowSelectionChanged(this.$scope, ::this._onRowSelectionChanged);
                 gridApi.selection.on.rowSelectionChangedBatch(this.$scope, ::this._onRowSelectionChangedBatch);
@@ -161,7 +167,7 @@ function AbstractGridProvider($parse, $timeout) {
             };
 
             if (!this.enableSaving) {
-                registerGridListeners()
+                configureGridAPI()
             } else {
                 gridApi.core.on.renderingComplete(this.$scope, () => {
                     $timeout(() => {
@@ -169,7 +175,7 @@ function AbstractGridProvider($parse, $timeout) {
                         gridApi.core.on.sortChanged(this.$scope, ::this._saveOptions);
                         gridApi.core.on.filterChanged(this.$scope, ::this._saveOptions);
                         gridApi.core.on.columnVisibilityChanged(this.$scope, ::this._saveOptions);
-                        registerGridListeners()
+                        configureGridAPI()
                     },0)
                 })
             }
@@ -181,7 +187,7 @@ function AbstractGridProvider($parse, $timeout) {
         _onSortChanged(grid, sortColumns) {
             this.sort = sortColumns;
             this._broadcastEvent("grid:sort-changed",{sortColumns});
-            this.fetchData();
+            this.fetchData({});
         };
 
         /**
@@ -197,15 +203,13 @@ function AbstractGridProvider($parse, $timeout) {
          */
         _onRowSelectionChangedBatch(rows) {
             this._broadcastEvent("grid:selection-changed=batch",{rows});
-            //$scope.numberOfSelectedItems = rows.length
-            //$scope.gridApi.grid.selection.lastSelectedRow
         };
 
         /**
          * Вызывается при смене номера текущей страницы, либо изменения количества отображаемых записей страницы
          */
-        _onPaginationChanged(pageNumber, pageSize) {
-            this._broadcastEvent("grid:pagination-changed",{pageNumber,pageSize});
+        _onPaginationChanged(page, pageSize) {
+            this._broadcastEvent("grid:pagination-changed",{page,pageSize});
             this.fetchData();
         };
 
@@ -214,6 +218,7 @@ function AbstractGridProvider($parse, $timeout) {
          * отображения данных: смена сортировки, переход на другую страницу, смена условий фильтрации данных.
          */
         async fetchData(searchParams) {
+            searchParams = Object.create(searchParams);
             // Формирование параметров запроса
             let params = this._getRequestParams(searchParams);
             // Получение данных. Одновременная отправка двух запросов
