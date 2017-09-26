@@ -19,6 +19,13 @@ INSERT INTO rep_accounts (acc_oid, acc_loginname, acc_showname) VALUES
 INSERT INTO rep_accounts (acc_oid, acc_loginname, acc_showname) VALUES
   (3, 'manager', 'Менеджер заказов');
 
+INSERT INTO rep_roles (rol_oid, rol_description, rol_updateallallowed) VALUES
+  (281494881712586, '1', 1);
+INSERT INTO rep_roles (rol_oid, rol_description, rol_updateallallowed) VALUES
+  (281494881711997, '2', 1);
+INSERT INTO rep_roles (rol_oid, rol_description, rol_updateallallowed) VALUES
+  (281494881711474, '3', 1);
+
 INSERT INTO rep_roles_per_account (rpa_oid, rpa_acc_oid, rpa_rol_oid) VALUES
   (1, 1, 281494881712586);
 INSERT INTO rep_roles_per_account (rpa_oid, rpa_acc_oid, rpa_rol_oid) VALUES

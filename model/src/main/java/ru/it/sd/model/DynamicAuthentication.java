@@ -42,7 +42,6 @@ public class DynamicAuthentication implements Authentication {
             Set<GrantedAuthority> authorities = new HashSet<>();
             for (Role role : user.getRoles()) {
                 authorities.add(role);
-                authorities.addAll(role.getOperations());
             }
             return authorities;
         } else {

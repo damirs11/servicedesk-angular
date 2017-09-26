@@ -162,3 +162,9 @@ CREATE TABLE itsm_approver_votes (
   apv_per_oid DECIMAL (18),
   apv_reason VARCHAR (255)
 );
+
+CREATE TABLE rep_roles (
+  rol_oid DECIMAL (18),
+  rol_description VARCHAR (255),
+  rol_updateallallowed DECIMAL (1)
+);

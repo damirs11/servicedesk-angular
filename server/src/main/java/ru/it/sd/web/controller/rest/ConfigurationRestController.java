@@ -108,9 +108,6 @@ public class ConfigurationRestController extends AbstractController {
 			for (Role role : user.getRoles()) {
 				roles.add(role.getName());
 				grants.add(role.getAuthority());
-				for (Operation operation : role.getOperations()) {
-					grants.add(operation.getAuthority());
-				}
 			}
 		}
 		result.put("roles", roles);

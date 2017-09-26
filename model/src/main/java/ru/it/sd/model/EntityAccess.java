@@ -19,7 +19,7 @@ public class EntityAccess {
 	@FieldMeta(columnName = "ena_status_to_oid")
 	private EntityStatus toStatus;
 	@FieldMeta(columnName = "ena_rol_oid")
-	private UserRole role;
+	private Role role;
 	@FieldMeta(columnName = "ena_ent_oid")
 	private EntityType entityType;
 
@@ -56,11 +56,11 @@ public class EntityAccess {
 		this.toStatus = toStatus;
 	}
 
-	public UserRole getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(UserRole role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

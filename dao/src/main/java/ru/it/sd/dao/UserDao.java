@@ -24,11 +24,12 @@ public class UserDao extends AbstractDao {
 
 	private static final String SELECT_ALL_SQL =
 			"SELECT \n" +
-			"acc_oid, acc_loginname, acc_showname, \n" +
-			"rpa_acc_oid, rpa_rol_oid \n" +
+			"a.acc_oid, a.acc_loginname, a.acc_showname, \n" +
+			"rpa.rpa_acc_oid, r.rol_oid, r.rol_description, r.rol_updateallallowed \n" +
 			"FROM \n" +
 			"rep_accounts a\n" +
-			"LEFT JOIN rep_roles_per_account rpa ON rpa.rpa_acc_oid = a.acc_oid {0}";
+			"LEFT JOIN rep_roles_per_account rpa ON rpa.rpa_acc_oid = a.acc_oid \n" +
+			"LEFT JOIN rep_roles r ON rpa_rol_oid = r.rol_oid \n{0}" ;
 
 	/**
 	 * Находит пользователя по его логину

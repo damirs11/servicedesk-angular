@@ -1,72 +1,56 @@
 package ru.it.sd.model;
 
 import org.springframework.security.core.GrantedAuthority;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
-import static ru.it.sd.model.Operation.*;
+import ru.it.sd.meta.ClassMeta;
+import ru.it.sd.meta.FieldMeta;
 
 /**
- * Роль приложения. Используется при определении прав доступа на выполнение бизнес-операций.
- *
  * @author quadrix
- * @since 07.03.2017
+ * @since 25.09.2017
  */
-public enum Role implements GrantedAuthority {
+@ClassMeta(tableName = "rep_roles")
+public class Role implements Code, GrantedAuthority {
 
-	CHANGE_INITIATOR("Изменения инициатор", 281494881712586L, new Operation[]{
-			CHANGE_READ}),
-	CHANGE_MANAGER("Изменения менеджер", 281494847699690L),
-	CHANGE_APPROVER("Изменения согласующий", 281494881711474L),
-	CHANGE_EXECUROT("Изменения исполнитель", 281494881711997L),
-	CHANGE_SUPERVISOR("Изменения наблюдатель", 281495234950996L);
-
-	/** Название роли */
-	private String name;
-	/** Идентифиикатор роли */
+	/** Идентификатор роли */
+	@FieldMeta(columnName = "rol_oid")
 	private Long id;
-	/** Список назначенных роли бизнес-операций */
-	private List<Operation> operations = new ArrayList<>();
+	/** Наименование роли */
+	@FieldMeta(columnName = "rol_description")
+	private String name;
+	/** Только просмотр данных, используется для аудиторов*/
+	@FieldMeta(columnName = "rol_updateallallowed")
+	private Boolean editor;
 
-	Role(String name, Long id) {
-		this.name = name;
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	Role(String name, Long id, Operation... operations) {
-		this.name = name;
-		this.id = id;
-		this.operations = Arrays.asList(operations);
-	}
-
+	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Boolean getEditor() {
+		return editor;
+	}
+
+	public void setEditor(Boolean editor) {
+		this.editor = editor;
 	}
 
 	@Override
 	public String getAuthority() {
 		return "ROLE_" + name;
 	}
-
-	public List<Operation> getOperations() {
-		return operations;
-	}
-
-	/**
-	 * Поиск роли по её идентификатору
-	 * @return роль, либо null, если указанного идентификатора нет
-	 */
-	public static Role getById(Long id) {
-		Objects.requireNonNull(id);
-		for(Role role : Role.values()) {
-			if (id.equals(role.id)) {
-				return role;
-			}
-		}
-		return null;
-	}
-
 }
