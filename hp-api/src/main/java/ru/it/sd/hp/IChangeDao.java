@@ -14,18 +14,28 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
     private HpApi api;
     @Autowired
     private ChangeDao changeDao;
+    @Autowired
+    private IPersonDao iPersonDao;
+    @Autowired
+    private IWorkgroupDao iWorkgroupDao;
+    @Autowired
+    private IImpactDao iImpactDao;
+    @Autowired
+    private IChangeCategoryDao iChangeCategoryDao;
+    @Autowired
+    private IClassificationChaDao iClassificationChaDao;
     @Override
     public long create(Change entity) {
         SdClientBean sdClientBean = api.getSdClient();
         IChange iChange = sdClientBean.sd_session().getChangeHome().openNewChange(3095920802L);
 
-        IChangeCategory iChangeCategory = sdClientBean.sd_session().getChangeCategoryHome().openChangeCategory(entity.getCategory().getId());
-        IClassificationCha iClassificationCha = sdClientBean.sd_session().getClassificationChaHome().openClassificationCha(entity.getClassification().getId());
-        IPerson initiator = sdClientBean.sd_session().getPersonHome().openPerson(entity.getInitiator().getId());
-        IPerson manager = sdClientBean.sd_session().getPersonHome().openPerson(entity.getManager().getId());
-        IPerson executor = sdClientBean.sd_session().getPersonHome().openPerson(entity.getExecutor().getId());
-        IWorkgroup workgroup = sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(entity.getAssWorkgroup().getId());
-        IImpact impact = sdClientBean.sd_session().getImpactHome().openImpact(entity.getPriority().getId());
+        IChangeCategory iChangeCategory = iChangeCategoryDao.read(entity.getCategory().getId());
+        IClassificationCha iClassificationCha = iClassificationChaDao.read(entity.getClassification().getId());
+        IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
+        IPerson manager = iPersonDao.read(entity.getManager().getId());
+        IPerson executor = iPersonDao.read(entity.getExecutor().getId());
+        IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssWorkgroup().getId());
+        IImpact impact = iImpactDao.read(entity.getPriority().getId());
 
         iChange.setCategory(iChangeCategory);
         iChange.setClassification(iClassificationCha);
@@ -52,15 +62,15 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
     @Override
     public void update(Change entity) {
         SdClientBean sdClientBean = api.getSdClient();
-        IChange iChange = sdClientBean.sd_session().getChangeHome().openChange(entity.getNo());
+        IChange iChange = read(entity.getId());
 
-        IChangeCategory iChangeCategory = sdClientBean.sd_session().getChangeCategoryHome().openChangeCategory(entity.getCategory().getId());
-        IClassificationCha iClassificationCha = sdClientBean.sd_session().getClassificationChaHome().openClassificationCha(entity.getClassification().getId());
-        IPerson initiator = sdClientBean.sd_session().getPersonHome().openPerson(entity.getInitiator().getId());
-        IPerson manager = sdClientBean.sd_session().getPersonHome().openPerson(entity.getManager().getId());
-        IPerson executor = sdClientBean.sd_session().getPersonHome().openPerson(entity.getExecutor().getId());
-        IWorkgroup workgroup = sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(entity.getAssWorkgroup().getId());
-        IImpact impact = sdClientBean.sd_session().getImpactHome().openImpact(entity.getPriority().getId());
+        IChangeCategory iChangeCategory = iChangeCategoryDao.read(entity.getCategory().getId());
+        IClassificationCha iClassificationCha = iClassificationChaDao.read(entity.getClassification().getId());
+        IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
+        IPerson manager = iPersonDao.read(entity.getManager().getId());
+        IPerson executor = iPersonDao.read(entity.getExecutor().getId());
+        IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssWorkgroup().getId());
+        IImpact impact = iImpactDao.read(entity.getPriority().getId());
 
         iChange.setCategory(iChangeCategory);
         iChange.setClassification(iClassificationCha);
