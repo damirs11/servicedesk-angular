@@ -1,21 +1,19 @@
 package ru.it.sd.dao;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.ApproverVoteMapper;
-import ru.it.sd.dao.mapper.WorkorderMapper;
+import ru.it.sd.exception.BadRequestException;
 import ru.it.sd.model.ApproverVote;
-import ru.it.sd.model.Workorder;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
- * Дао для работы с данными нарядов
+ * Дао для работы с данными согласованием
  */
 @Repository
 public class ApproverVoteDao extends AbstractEntityDao<ApproverVote> {
@@ -23,7 +21,7 @@ public class ApproverVoteDao extends AbstractEntityDao<ApproverVote> {
 	private ApproverVoteMapper mapper;
 
 	/**
-	 * Общий запрос получения данных о наряде
+	 * Общий запрос получения данных о согласовании
 	 */
 
 	private static final String BASE_SQL =
@@ -51,9 +49,10 @@ public class ApproverVoteDao extends AbstractEntityDao<ApproverVote> {
 
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
-		if (Objects.isNull(filter) || filter.isEmpty()) {
-			return;
+		if (Objects.isNull(filter) || filter.isEmpty() || !filter.containsKey("entityId")) {
+			throw new BadRequestException("При запросе согласований необходимо указать условия отбора записей (фильтр), например, по полю \"entityId\"");
 		}
 		super.buildWhere(filter, sql, params);
+		//todo добавить проверку прав доступа в personId entityType entityId
 	}
 }

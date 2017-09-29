@@ -4,7 +4,6 @@ import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Модельный класс для "ApproverVotes"
@@ -19,7 +18,7 @@ public class ApproverVote implements HasId,  Serializable {
 	private Long id;
 
 	@FieldMeta(columnName = "apv_apt_oid")
-	private Long entity;
+	private Long entityId;
 
 	@FieldMeta(columnName = "apv_approved")
 	private Integer approved;
@@ -40,12 +39,12 @@ public class ApproverVote implements HasId,  Serializable {
 		this.id = id;
 	}
 
-	public Long getEntity() {
-		return entity;
+	public Long getEntityId() {
+		return entityId;
 	}
 
-	public void setEntity(Long entity) {
-		this.entity = entity;
+	public void setEntityId(Long entityId) {
+		this.entityId = entityId;
 	}
 
 	public Integer getApproved() {
@@ -76,7 +75,7 @@ public class ApproverVote implements HasId,  Serializable {
 	public String toString() {
 		return "ApproverVote{" +
 				"id=" + id +
-				", entity=" + entity +
+				", entityId=" + entityId +
 				", approved=" + approved +
 				", approver=" + approver +
 				", reason='" + reason + '\'' +
