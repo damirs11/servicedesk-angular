@@ -20,7 +20,7 @@ public class ApproverVote implements HasId,  Serializable {
 	@FieldMeta(columnName = "apv_apt_oid")
 	private Long entityId;
 
-	@FieldMeta(columnName = "apv_approved")
+	@FieldMeta(columnName = "apv_approved", required = true)
 	private Integer approved;
 
 	@FieldMeta(columnName = "apv_per_oid")
@@ -28,6 +28,18 @@ public class ApproverVote implements HasId,  Serializable {
 
 	@FieldMeta(columnName = "apv_reason")
 	private String reason;
+
+	@FieldMeta(columnName = "", required = true)
+	private EntityType entityType;
+
+
+	public EntityType getEntityType() {
+		return entityType;
+	}
+
+	public void setEntityType(EntityType entityType) {
+		this.entityType = entityType;
+	}
 
 	@Override
 	public Long getId() {

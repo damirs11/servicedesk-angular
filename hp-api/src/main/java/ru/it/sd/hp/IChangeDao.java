@@ -3,6 +3,7 @@ package ru.it.sd.hp;
 import com.hp.itsm.api.interfaces.*;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.hp.Utils.DateUtils;
 import ru.it.sd.model.Change;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Repository;
 public class IChangeDao implements HpCrudDao<Change, IChange>{
     @Autowired
     private HpApi api;
-
+    @Autowired
+    private ChangeDao changeDao;
     @Override
     public long create(Change entity) {
         SdClientBean sdClientBean = api.getSdClient();
@@ -43,7 +45,8 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
 
     @Override
     public IChange read(long id) {
-        return api.getSdClient().sd_session().getChangeHome().openChange(id);
+        Long no = changeDao.read(id).getNo();
+        return api.getSdClient().sd_session().getChangeHome().openChange(no);
     }
 
     @Override

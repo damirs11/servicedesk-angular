@@ -12,6 +12,7 @@ repositories {
 dependencies {
     compile project(':common')
     compile project(':model')
+    compile project(':dao')
 
     // подключаем внешние библиотеки
     compile fileTree(include: ['*.jar'], dir: '../lib')
