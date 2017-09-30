@@ -89,6 +89,6 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
 
     @Override
     public void delete(long id) {
-
+        throw new UnsupportedOperationException();
     }
 }

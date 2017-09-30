@@ -68,13 +68,11 @@ public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
 
     @Override
     public void update(ApproverVote entity) {
-        SdClientBean sdClientBean = api.getSdClient();
-
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void delete(long id) {
-
+        throw new UnsupportedOperationException();
     }
 }
