@@ -1,10 +1,14 @@
 package ru.it.sd.service;
 
+import com.hp.itsm.api.interfaces.IApprovalVote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ApproverVoteDao;
+import ru.it.sd.exception.ServiceException;
+import ru.it.sd.hp.IApproverVoteDao;
 import ru.it.sd.model.ApproverVote;
+import ru.it.sd.service.utils.validation.Validator;
 
 import java.util.List;
 import java.util.Map;
@@ -22,10 +26,12 @@ public class ApproverVoteService implements CrudService<ApproverVote>{
 
 	private ApproverVoteDao dao;
 	private SecurityService securityService;
+	private IApproverVoteDao hpDao;
 
-	public ApproverVoteService(ApproverVoteDao dao, SecurityService securityService) {
+	public ApproverVoteService(ApproverVoteDao dao, SecurityService securityService, IApproverVoteDao hpDao) {
 		this.dao = dao;
 		this.securityService = securityService;
+		this.hpDao = hpDao;
 	}
 
 	@Override
@@ -45,8 +51,13 @@ public class ApproverVoteService implements CrudService<ApproverVote>{
 
 	@Override
 	public ApproverVote create(ApproverVote entity) {
-		//todo Никита
-		return null;
+		Validator.validate(entity);
+		try{
+			hpDao.create(entity);
+			return dao.read(entity.getId());
+		}catch (Exception e){
+			throw new ServiceException("Возникли проблемы при создании мнения. " + e.getMessage(), e);
+		}
 	}
 
 	@Override
