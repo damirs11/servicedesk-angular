@@ -264,7 +264,7 @@ function AbstractGridProvider($parse, $timeout) {
         async fetchData() {
             // Формирование параметров запроса
             const params = this.getFullSearchParams();
-            console.log("Fetch",params);
+            if ('GULP_REPLACE:DEBUG') console.log("Grid-fetch",params);
 
             // Получение данных. Одновременная отправка двух запросов
             let result = await Promise.all([

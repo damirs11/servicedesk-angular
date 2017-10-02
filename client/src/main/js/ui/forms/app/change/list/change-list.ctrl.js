@@ -41,11 +41,8 @@ class ChangeListController {
     _setTableSort(){
         if (!this.sortParam) return;
         const [field,direction] = this.sortParam.split("-");
-        console.log(this.grid.getTableParams());
-        console.log("Sorting by",{field,direction});
         // this.grid.sortBy([{field,direction}]);
         this.grid.sortBy([{field,direction}],false);
-        console.log(this.grid.getTableParams());
     }
 
     _setFilter(){
@@ -104,7 +101,6 @@ class ChangeListController {
 
         const personId = this.Session.user.person.id;
         const groups = await this.SD.Workgroup.list({person:personId});
-        console.log(groups);
         if (groups && groups.length) {
             const uiGroups = groups.map(g => new UIEntityFilter(g.name,`group_${g.id}`));
             const groupFilter = new UIEntityFilter({name: "Назначенные группе", childs: uiGroups});
@@ -125,7 +121,6 @@ class ChangeListController {
     search(params) {
         this.searchParams = params;
         this.$location.search(this._SearchURLParams); // изменяет url
-        console.log(`url-params`,this._SearchURLParams);
         this.grid.setSearchParams(this.searchParams);
     }
 
