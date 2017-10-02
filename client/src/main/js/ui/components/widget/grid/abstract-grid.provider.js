@@ -146,8 +146,8 @@ function AbstractGridProvider($parse, $timeout) {
             });
             for (let i = 0; i < sortInfos.length; i++) {
                 const info = sortInfos[i];
-                const addToPrevSorting = i==0 ? false : add;
-                this.grid.sortColumn(info.gridColumn,info.direction, addToPrevSorting)
+                const addToPrevSorting = i==0 ? undefined : add;
+                this.grid.sortColumn(info.gridColumn,info.col.direction, addToPrevSorting)
             }
             this.sort = sortInfos.map(_ => _.gridColumn);
         }
@@ -195,7 +195,7 @@ function AbstractGridProvider($parse, $timeout) {
         _onSortChanged(grid, sortColumns) {
             this.sort = sortColumns;
             this._broadcastEvent("grid:sort-changed",{sortColumns});
-            this.fetchData({});
+            this.fetchData();
         };
 
         /**
@@ -221,33 +221,55 @@ function AbstractGridProvider($parse, $timeout) {
             this.fetchData();
         };
 
+        _searchParams = {};
+
+        /**
+         * Задает параметры для поиска
+         */
+        setSearchParams(params){
+            this._searchParams = params;
+            this.fetchData()
+        }
+
+        /**
+         * Возвращает данные для поиска, не включая сортировку и страницы.
+         */
+        getSearchParams(){
+            return this._searchParams;
+        }
+
+        /**
+         * Возвращает объект, содержащий все поля, по которым будет производиться поиск даннных
+         */
+        getFullSearchParams(){
+            const fullParams = Object.create(null);
+            let keys = Object.keys(this._searchParams);
+            for (let i in keys) {
+                const key = keys[i];
+                fullParams[key] = this._searchParams[key]
+            }
+            const tableParams = this.getTableParams();
+            keys = Object.keys(tableParams);
+            for (let i in keys) {
+                const key = keys[i];
+                fullParams[key] = tableParams[key]
+            }
+            return fullParams;
+        }
+
         /**
          * Получение данных для выбранной страницы таблицы. Вызывается каждый раз, когда меняются условия
          * отображения данных: смена сортировки, переход на другую страницу, смена условий фильтрации данных.
          */
-        async fetchData(searchParams) {
-            console.log("Fetch: ",searchParams);
-            let params = Object.create(null);
+        async fetchData() {
             // Формирование параметров запроса
-            const tableParams = this._getRequestParams();
-            let keys = Object.keys(tableParams);
-            for (let i in keys) {
-                const key = keys[i];
-                console.log("#0",key);
-                params[key] = tableParams[key]
-            }
-            keys = Object.keys(searchParams||{});
-            for (let i in keys) {
-                const key = keys[i];
-                console.log("#1",key);
-                params[key] = searchParams[key]
-            }
+            const params = this.getFullSearchParams();
+            console.log("Fetch",params);
 
-            console.log("Fetch: ",params);
             // Получение данных. Одновременная отправка двух запросов
             let result = await Promise.all([
-                this.entityClass.count(searchParams),
-                this.entityClass.list(searchParams)
+                this.entityClass.count(params),
+                this.entityClass.list(params)
 
             ]);
             // Общее количество
@@ -266,7 +288,7 @@ function AbstractGridProvider($parse, $timeout) {
         /**
          * Формирование параметров запроса: пейджинг, сортировка + пользовательские фильтры
          */
-        _getRequestParams() {
+        getTableParams() {
             const params = {};
             // Параметры пейджинга
             let from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;

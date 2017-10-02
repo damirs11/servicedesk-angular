@@ -31,7 +31,7 @@ class ChangeListController {
         // Вызываем у таблицы сортировку по столбцу из url
         this._setTableSort();
         this._setFilter();
-        this.grid.fetchData(this.searchParams);
+        this.grid.setSearchParams(this.searchParams);
 
         this.$scope.$on("grid:double-click",::this._gridDoubleClick);
         this.$scope.$on("grid:sort-changed",::this._gridOnSortChanged);
@@ -41,8 +41,11 @@ class ChangeListController {
     _setTableSort(){
         if (!this.sortParam) return;
         const [field,direction] = this.sortParam.split("-");
-        console.log({field,direction});
-        this.grid.sortBy([{field,direction}])
+        console.log(this.grid.getTableParams());
+        console.log("Sorting by",{field,direction});
+        // this.grid.sortBy([{field,direction}]);
+        this.grid.sortBy([{field,direction}],false);
+        console.log(this.grid.getTableParams());
     }
 
     _setFilter(){
@@ -123,7 +126,7 @@ class ChangeListController {
         this.searchParams = params;
         this.$location.search(this._SearchURLParams); // изменяет url
         console.log(`url-params`,this._SearchURLParams);
-        this.grid.fetchData(this.searchParams);
+        this.grid.setSearchParams(this.searchParams);
     }
 
     /**
