@@ -108,7 +108,7 @@ gulp.task('build:js', function buildJS() {
     let stream = browserify({entries: config.source.mainJS, debug: env.DEBUG||false }) // Используем браузерификацию на основном js файле
         .transform(babelify, { // Пропускаем через компилятор babel. Он приведет все в ES5
             presets: ["es2015", "stage-0"],
-            plugins: ["transform-decorators-legacy"], // Подключаем декораторы
+            plugins: ["transform-decorators-legacy", "transform-es2015-for-of"], // Подключаем декораторы
             only: /src\/.*/,
             ignore: /\.min\.js/
         })
@@ -139,7 +139,7 @@ gulp.task('build:js', function buildJS() {
  */
 gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js библиотеки в отдельный файл
     const files = [
-        'node_modules/babel-polyfill/browser.js',
+        'node_modules/babel-polyfill/dist/polyfill.min.js',
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
         'node_modules/angular/angular.min.js',

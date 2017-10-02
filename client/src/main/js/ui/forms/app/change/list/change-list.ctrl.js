@@ -42,7 +42,7 @@ class ChangeListController {
         if (!this.sortParam) return;
         const [field,direction] = this.sortParam.split("-");
         console.log({field,direction});
-        this.grid.sortBy(field,direction)
+        this.grid.sortBy([{field,direction}])
     }
 
     _setFilter(){
@@ -72,7 +72,7 @@ class ChangeListController {
     }
 
     /** Параметры, которые будут отображены в url */
-    get _SearchParams(){
+    get _SearchURLParams(){
         const object = Object.create(null);
         const keys = Object.keys(this.searchParams);
         for (let i in keys) {
@@ -87,12 +87,12 @@ class ChangeListController {
         let sortColumns = data.sortColumns;
         sortColumns = sortColumns.map(c => `${c.field}-${c.sort.direction}`);
         this.sortParam = sortColumns[0];
-        this.$location.search(this._SearchParams);
+        this.$location.search(this._SearchURLParams);
     }
 
     _gridOnPageChanged(event,data) {
         this.searchParams.page = data.page;
-        this.$location.search(this._SearchParams);
+        this.$location.search(this._SearchURLParams);
     }
 
     async configFilter() {
@@ -121,9 +121,9 @@ class ChangeListController {
      */
     search(params) {
         this.searchParams = params;
-        this.$location.search(this._SearchParams); // изменяет url
-        console.log(`url-params`,this._SearchParams);
-        this.grid.fetchData(this._SearchParams);
+        this.$location.search(this._SearchURLParams); // изменяет url
+        console.log(`url-params`,this._SearchURLParams);
+        this.grid.fetchData(this.searchParams);
     }
 
     /**

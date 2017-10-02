@@ -133,15 +133,23 @@ function AbstractGridProvider($parse, $timeout) {
 
         /**
          * Задать сортировку
-         * @param field {string} - название столбца
-         * @param direction {string} - asc/desc направление сортировки
-         * @param add {boolean} - добавить к прошлой сортировке
+         * @param columns {Object[]}
+         * @param columns[].field {string} - название столбца
+         * @param columns[].direction {string} - asc/desc направление сортировки
+         * @param [add] {boolean} - добавить к прошлой сортировке
          */
-        sortBy(field, direction){
-            const sortColumn = this.grid.columns.find(c => {
-                return c.field == field
+        sortBy(columns,add){
+            // Преобразуем в вид {стобец_из_таблицы,переданный_столбец}
+            const sortInfos = columns.map(col => {
+                const gridColumn = this.grid.columns.find(gridColumn => gridColumn.field == col.field)
+                return {gridColumn, col}
             });
-            this.grid.sortColumn(sortColumn, direction);
+            for (let i = 0; i < sortInfos.length; i++) {
+                const info = sortInfos[i];
+                const addToPrevSorting = i==0 ? false : add;
+                this.grid.sortColumn(info.gridColumn,info.direction, addToPrevSorting)
+            }
+            this.sort = sortInfos.map(_ => _.gridColumn);
         }
 
         /**
@@ -218,13 +226,28 @@ function AbstractGridProvider($parse, $timeout) {
          * отображения данных: смена сортировки, переход на другую страницу, смена условий фильтрации данных.
          */
         async fetchData(searchParams) {
-            searchParams = Object.create(searchParams);
+            console.log("Fetch: ",searchParams);
+            let params = Object.create(null);
             // Формирование параметров запроса
-            let params = this._getRequestParams(searchParams);
+            const tableParams = this._getRequestParams();
+            let keys = Object.keys(tableParams);
+            for (let i in keys) {
+                const key = keys[i];
+                console.log("#0",key);
+                params[key] = tableParams[key]
+            }
+            keys = Object.keys(searchParams||{});
+            for (let i in keys) {
+                const key = keys[i];
+                console.log("#1",key);
+                params[key] = searchParams[key]
+            }
+
+            console.log("Fetch: ",params);
             // Получение данных. Одновременная отправка двух запросов
             let result = await Promise.all([
-                this.entityClass.count(params),
-                this.entityClass.list(params)
+                this.entityClass.count(searchParams),
+                this.entityClass.list(searchParams)
 
             ]);
             // Общее количество
@@ -243,8 +266,8 @@ function AbstractGridProvider($parse, $timeout) {
         /**
          * Формирование параметров запроса: пейджинг, сортировка + пользовательские фильтры
          */
-        _getRequestParams(params) {
-            params = params || {};
+        _getRequestParams() {
+            const params = {};
             // Параметры пейджинга
             let from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
             let to = from + this.paginationPageSize - 1;
