@@ -4,6 +4,7 @@ import com.hp.itsm.api.interfaces.IWorkgroup;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.Workgroup;
 
 /**
@@ -22,8 +23,11 @@ public class IWorkgroupDao implements HpCrudDao<Workgroup, IWorkgroup> {
 
     @Override
     public IWorkgroup read(long id) {
-        SdClientBean sdClientBean = api.getSdClient();
-        return sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(id);
+        try {
+            return api.getSdClient().sd_session().getWorkgroupHome().openWorkgroup(id);
+        } catch (Exception e){
+            throw new ServiceException("Не найдена группа "+e.getMessage(),e);
+        }
     }
 
     @Override

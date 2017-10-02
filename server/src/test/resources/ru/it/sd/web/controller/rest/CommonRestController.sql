@@ -11,3 +11,6 @@ INSERT INTO itsm_persons (per_oid, per_gender, per_email, per_jobtitle, per_firs
   (3, 0, NULL, 'Секретарь', 'Ольга', 'Сергеева', 'Петровна', 2);
 INSERT INTO itsm_persons (per_oid, per_gender, per_email, per_jobtitle, per_firstname, per_lastname, per_middlename, per_org_oid) VALUES
   (4, NULL, NULL, 'Сантехник', 'Марио', 'Сегов', 'Куябович', 2);
+
+INSERT INTO itsm_workorders (wor_oid, wor_id, wor_sta_oid, wor_cat_oid, wor_clo_oid, wor_cha_oid) VALUES
+  (10001, 1001, 281478237061818, 3095134393, 3095134405, 111222);

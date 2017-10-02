@@ -1,38 +1,39 @@
 package ru.it.sd.hp;
 
+import com.hp.itsm.api.interfaces.IImpact;
 import com.hp.itsm.api.interfaces.IOrganization;
-import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
+import ru.it.sd.model.EntityPriority;
 import ru.it.sd.model.Organization;
 
 /**
- * Created by user on 27.07.2017.
+ * Created by nsyhev 29.09.2017
  */
 @Repository
-public class IOrganizationDao implements HpCrudDao<Organization, IOrganization> {
+public class IImpactDao implements HpCrudDao<EntityPriority, IImpact> {
 
     @Autowired
     private HpApi api;
 
     @Override
-    public long create(Organization entity) {
+    public long create(EntityPriority entity) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public IOrganization read(long id) {
+    public IImpact read(long id) {
         try{
-            return api.getSdClient().sd_session().getOrganizationHome().openOrganization(id);
+            return api.getSdClient().sd_session().getImpactHome().openImpact(id);
         }catch (Exception e){
-            throw new ServiceException("Не найдена организация "+e.getMessage(),e);
+            throw new ServiceException("Не найден приоритет. "+e.getMessage(),e);
         }
 
     }
 
     @Override
-    public void update(Organization entity) {
+    public void update(EntityPriority entity) {
         throw new UnsupportedOperationException();
     }
 

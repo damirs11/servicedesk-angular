@@ -5,6 +5,7 @@ import com.hp.itsm.ssp.beans.SdClientBean;
 import com.hp.itsm.ssp.beans.WorkorderCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.it.sd.exception.ServiceException;
 
 /**
  * Created by user on 27.07.2017.
@@ -21,8 +22,11 @@ public class IWorkorderCategoryDao {
     }
 
     public IWorkorderCategory read(long id) {
-        SdClientBean sdClientBean = api.getSdClient();
-        return sdClientBean.sd_session().getWorkorderCategoryHome().openWorkorderCategory(id);
+        try {
+            return  api.getSdClient().sd_session().getWorkorderCategoryHome().openWorkorderCategory(id);
+        } catch (Exception e){
+            throw new ServiceException("Не найдена категория наряда "+e.getMessage(),e);
+        }
     }
 
     public void update(WorkorderCategory entity) {

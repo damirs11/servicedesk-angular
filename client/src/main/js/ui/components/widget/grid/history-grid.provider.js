@@ -2,7 +2,6 @@ import rowTemplate from "./row.html";
 
 const SHORT_DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
 
-
 HistoryGridProvider.$inject = ["AbstractGrid"];
 function HistoryGridProvider(AbstractGrid) {
     /**
@@ -20,7 +19,7 @@ function HistoryGridProvider(AbstractGrid) {
             this.columnDefs = [
                 { field: 'date', name: "Дата", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center", sort: {direction:"desc"}},
                 { field: 'subject', name: "Описание", cellTooltip: true, minWidth: 300},
-                { field: 'account', name: "Аккаунт", type: 'string', width: 260},
+                { field: 'account', name: "Пользователь", type: 'string', width: 260},
             ];
 
             this.enableHorizontalScrollbar = 2; // скороллбар в бок

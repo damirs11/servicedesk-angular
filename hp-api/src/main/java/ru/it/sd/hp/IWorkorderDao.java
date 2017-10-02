@@ -4,6 +4,8 @@ import com.hp.itsm.api.interfaces.*;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.it.sd.dao.ChangeDao;
+import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.model.Workorder;
 
 /**
@@ -15,13 +17,17 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
     @Autowired
     private HpApi api;
     @Autowired
-    private IPersonDao iPersonService;
+    private WorkorderDao workorderDao;
     @Autowired
-    private IWorkorderStatusDao iWorkorderStatusService;
+    private IPersonDao iPersonDao;
     @Autowired
-    private IWorkorderCategoryDao iWorkorderCategoryService;
+    private IWorkorderStatusDao iWorkorderStatusDao;
     @Autowired
-    private IOrganizationDao iOrganizationService;
+    private IWorkorderCategoryDao iWorkorderCategoryDao;
+    @Autowired
+    private IOrganizationDao iOrganizationDao;
+    @Autowired
+    private IWorkgroupDao iWorkgroupDao;
 
     @Override
     public long create(Workorder entity) {
@@ -29,11 +35,11 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
 
         IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openNewWorkorder(281495075961055L);
 
-        IWorkgroup iWorkgroup = sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(entity.getAssWorkgroup().getId());
-        IPerson initiator = sdClientBean.sd_session().getPersonHome().openPerson(entity.getInitiator().getId());
-        IPerson assignee = sdClientBean.sd_session().getPersonHome().openPerson(entity.getAssigneePerson().getId());
-        IWorkorderStatus iStatus = sdClientBean.sd_session().getWorkorderStatusHome().openWorkorderStatus(entity.getStatus().getId());
-        IWorkorderCategory iWorkorderCategory = sdClientBean.sd_session().getWorkorderCategoryHome().openWorkorderCategory(entity.getCategory().getId());
+        IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getAssWorkgroup().getId());
+        IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
+        IPerson assignee = iPersonDao.read(entity.getAssigneePerson().getId());
+        IWorkorderStatus iStatus = iWorkorderStatusDao.read(entity.getStatus().getId());
+        IWorkorderCategory iWorkorderCategory = iWorkorderCategoryDao.read(entity.getCategory().getId());
 
         iWorkorder.setStatus(iStatus);
         iWorkorder.setInformation(entity.getSubject());
@@ -51,20 +57,21 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
     @Override
     public IWorkorder read(long id) {
         SdClientBean sdClientBean = api.getSdClient();
-        return sdClientBean.sd_session().getWorkorderHome().openWorkorder(id);
+        Long no = workorderDao.read(id).getNo();
+        return sdClientBean.sd_session().getWorkorderHome().openWorkorder(no);
     }
 
     @Override
     public void update(Workorder entity) {
         SdClientBean sdClientBean = api.getSdClient();
 
-        IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openNewWorkorder(entity.getNo());
+        IWorkorder iWorkorder = read(entity.getId());
 
-        IWorkgroup iWorkgroup = sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(entity.getAssWorkgroup().getId());
-        IPerson initiator = sdClientBean.sd_session().getPersonHome().openPerson(entity.getInitiator().getId());
-        IPerson assignee = sdClientBean.sd_session().getPersonHome().openPerson(entity.getAssigneePerson().getId());
-        IWorkorderStatus iStatus = sdClientBean.sd_session().getWorkorderStatusHome().openWorkorderStatus(entity.getStatus().getId());
-        IWorkorderCategory iWorkorderCategory = sdClientBean.sd_session().getWorkorderCategoryHome().openWorkorderCategory(entity.getCategory().getId());
+        IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getAssWorkgroup().getId());
+        IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
+        IPerson assignee = iPersonDao.read(entity.getAssigneePerson().getId());
+        IWorkorderStatus iStatus = iWorkorderStatusDao.read(entity.getStatus().getId());
+        IWorkorderCategory iWorkorderCategory = iWorkorderCategoryDao.read(entity.getCategory().getId());
 
         iWorkorder.setStatus(iStatus);
         iWorkorder.setInformation(entity.getSubject());
@@ -79,8 +86,6 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
 
     @Override
     public void delete(long id) {
-        SdClientBean sdClientBean = api.getSdClient();
-        IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openWorkorder(id);
-        iWorkorder.delete();
+        throw new UnsupportedOperationException();
     }
 }

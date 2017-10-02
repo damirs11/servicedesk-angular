@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Модельный класс для "Изменения"
+ * Модельный класс для "Нарядов"
  *
  * @author quadrix
  * @since 03.05.2017
