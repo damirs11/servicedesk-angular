@@ -35,14 +35,14 @@ public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
         IPerson iPerson = iPersonDao.read(entity.getApprover().getId());
 
         //Получаем сущность
-        ILifeCycleObject iLifeCycleObject;
+        IWorkflow iWorkflow;
         switch (entity.getEntityType()){
             case CHANGE:{
-                iLifeCycleObject = iChangeDao.read(entity.getEntityId());
+                iWorkflow = iChangeDao.read(entity.getEntityId());
             }break;
 
             case WORKORDER:{
-                iLifeCycleObject = iWorkorderDao.read(entity.getEntityId());
+                iWorkflow = iWorkorderDao.read(entity.getEntityId());
             }break;
 
             default:{
@@ -52,8 +52,9 @@ public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
 
         //Заполнение мнения и сохранения
         iApprovalVote.setApprover(iPerson);
-        iApprovalVote.setApproval(iLifeCycleObject);
+        iApprovalVote.setApproval(iWorkflow);
         iApprovalVote.save();
+        iWorkflow.getApproval().addApprovalVote(iApprovalVote);  //Добавление мнения в согласование сущности
         return iApprovalVote.getOID();
     }
 
@@ -68,11 +69,15 @@ public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
 
     @Override
     public void update(ApproverVote entity) {
-        throw new UnsupportedOperationException();
+        IApprovalVote iApprovalVote = read(entity.getEntityId());
+        iApprovalVote.setApproved(entity.getApproved()==1);
+        iApprovalVote.setReason(entity.getReason());
+        iApprovalVote.save();
     }
 
     @Override
     public void delete(long id) {
-        throw new UnsupportedOperationException();
+        IApprovalVote iApprovalVote = read(id);
+        iApprovalVote.delete();
     }
 }

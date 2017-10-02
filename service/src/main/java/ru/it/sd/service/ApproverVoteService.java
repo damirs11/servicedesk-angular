@@ -62,13 +62,21 @@ public class ApproverVoteService implements CrudService<ApproverVote>{
 
 	@Override
 	public ApproverVote update(ApproverVote entity) {
-		//todo Никита
-		return null;
+		try{
+			hpDao.update(entity);
+			return dao.read(entity.getId());
+		} catch(Exception e){
+			throw new ServiceException("Возникли проблемы при редактировании мнения. " + e.getMessage(), e);
+		}
 	}
 
 	@Override
 	public void delete(long id) {
-		//todo
+		try{
+			hpDao.delete(id);
+		} catch(Exception e){
+			throw new ServiceException("Возникли проблемы при удалении мнения. " + e.getMessage(), e);
+		}
 	}
 
 	@Override

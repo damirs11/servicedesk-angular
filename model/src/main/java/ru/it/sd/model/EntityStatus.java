@@ -44,8 +44,11 @@ public enum EntityStatus implements Code {
 	ITEM_LOST("Потеряно", ITEM, 3094610408L),
 
 	WORKGROUPS_ACTIVE("Функционирует",WORKGROUP,281478224675129L),
-	WORKGROUPS_INACTIVE("Не функционирует",WORKGROUP,281478224675127L);
+	WORKGROUPS_INACTIVE("Не функционирует",WORKGROUP,281478224675127L),
 
+	APPROVAL_PREPARING("Подготавливается",APPROVAL,281478256721931L),
+	APPROVAL_STARTED("Началось",APPROVAL,281478256721929L),
+	APPROVAL_READY("Готово",APPROVAL,281478256721933L);
 	/** Идентификатор статуса */
 	private Long id;
 	/** Название статуса */
