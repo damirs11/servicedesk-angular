@@ -2,17 +2,20 @@ import {Parse} from "./decorator/parse.decorator";
 import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
 import {serializeId} from "./decorator/serialize-utils";
+import {Mixin} from "./mixin/mixin.decorator";
 
 
-ChangeProvider.$inject = ["EditableEntity", "SD"];
-function ChangeProvider(EditableEntity, SD) {
+ChangeProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable"];
+function ChangeProvider(EditableEntity, SD, Historyable, Approvable) {
     /**
      * Персона
      * @class
      * @name SD.Change
+     * @mixes [ENTITY_MIXIN.Historyable,ENTITY_MIXIN.Approvable]
      * @extends SD.EditableEntity
      */
-    return class Change extends EditableEntity {
+    @Mixin(Historyable, Approvable)
+    class Change extends EditableEntity {
         /**
          * Номер
          * @property
@@ -129,7 +132,8 @@ function ChangeProvider(EditableEntity, SD) {
             return this.no;
         }
 
-    };
+    }
+    return Change
 }
 
 export {ChangeProvider};
