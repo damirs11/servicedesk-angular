@@ -42,7 +42,14 @@ CREATE TABLE itsm_changes (
   cha_cla_oid DECIMAL(18),
   reg_created DATETIME,
   cha_deadline DATETIME,
-  cha_actualfinish DATETIME
+  cha_actualfinish DATETIME,
+  cha_apt_status DECIMAL(18),
+  cha_apt_description VARCHAR(80),
+  cha_apt_deadline DATETIME,
+  cha_apt_nrofapprovers DECIMAL(18),
+  cha_apt_nrofapproversapproved DECIMAL(18),
+  cha_apt_nrofapproversrequired DECIMAL(18),
+  cha_apt_wog_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_cha_information (
@@ -65,7 +72,14 @@ CREATE TABLE itsm_workorders (
   ass_workgroup DECIMAL(18),
   ass_per_to_oid DECIMAL(18),
   wor_ser_oid DECIMAL(18),
-  wor_cha_oid DECIMAL(18)
+  wor_cha_oid DECIMAL(18),
+  wor_apt_status DECIMAL(18),
+  wor_apt_description VARCHAR(80),
+  wor_apt_deadline DATETIME,
+  wor_apt_nrofapprovers DECIMAL(18),
+  wor_apt_nrofapproversapproved DECIMAL(18),
+  wor_apt_nrofapproversrequired DECIMAL(18),
+  wor_apt_wog_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_wor_information (
