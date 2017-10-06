@@ -26,7 +26,7 @@ public class Approval implements HasId, HasStatus, Serializable {
 
     /*Тема*/
     @FieldMeta(columnName = "apt_description")
-    private String approvedDescription;
+    private String approvalDescription;
 
 
     @FieldMeta(columnName = "deadline")
@@ -69,12 +69,12 @@ public class Approval implements HasId, HasStatus, Serializable {
         this.status = id;
     }
 
-    public String getApprovedDescription() {
-        return approvedDescription;
+    public String getApprovalDescription() {
+        return approvalDescription;
     }
 
-    public void setApprovedDescription(String approvedDescription) {
-        this.approvedDescription = approvedDescription;
+    public void setApprovalDescription(String approvalDescription) {
+        this.approvalDescription = approvalDescription;
     }
 
     public Integer getNumberOfApproversRequired() {

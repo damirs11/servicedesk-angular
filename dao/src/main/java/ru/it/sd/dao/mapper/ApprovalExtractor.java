@@ -37,7 +37,7 @@ public class ApprovalExtractor extends EntityRowMapper<Approval> {
 			Approval approval = super.mapRow(rs, 0);
 
 			Long statusId = DBUtils.getLong(rs, "apt_status");
-			if(statusId !=null) approval.setStatus(EntityStatus.APPROVAL_PREPARING);
+			if(statusId !=null) approval.setStatus(EntityStatus.get(statusId));
 
 			Long workgroupID = DBUtils.getLong(rs, "wog_oid");
 			if(workgroupID != null) {
