@@ -1,6 +1,5 @@
 package ru.it.sd.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.UserExtractor;
@@ -19,22 +18,25 @@ import java.util.Objects;
 @Repository
 public class UserDao extends AbstractDao {
 
-	@Autowired
-	private UserExtractor userExtractor;
-
 	private static final String SELECT_ALL_SQL =
 			"SELECT \n" +
 			"a.acc_oid, a.acc_loginname, a.acc_showname, \n" +
-			"rpa.rpa_acc_oid, r.rol_oid, r.rol_description, r.rol_updateallallowed \n" +
+			"rpa_acc_oid, rol_oid, rol_description, rol_updateallallowed \n" +
 			"FROM \n" +
 			"rep_accounts a\n" +
 			"LEFT JOIN rep_roles_per_account rpa ON rpa.rpa_acc_oid = a.acc_oid \n" +
 			"LEFT JOIN rep_roles r ON rpa_rol_oid = r.rol_oid \n{0}" ;
 
+	private UserExtractor userExtractor;
+
+	public UserDao(UserExtractor userExtractor) {
+		this.userExtractor = userExtractor;
+	}
+
 	/**
 	 * Находит пользователя по его логину
 	 *
-	 * @param login
+	 * @param login имя пользователя для входа в систему
 	 * @return пользователь или null, если пользователь не найден
 	 */
 	public User readByLogin(String login) {
@@ -56,7 +58,7 @@ public class UserDao extends AbstractDao {
 	/**
 	 * Находит пользователя по его ID
 	 *
-	 * @param id
+	 * @param id идентификатор пользователя
 	 * @return пользователь или null, если пользователь не найден
 	 */
 	public User read(Long id) {
@@ -73,5 +75,9 @@ public class UserDao extends AbstractDao {
 			throw new AppException(ResourceMessages.getMessage("error.too.many.result"));
 		}
 		return users.get(0);
+	}
+
+	public User read(Integer id) {
+		return read(Long.valueOf(id));
 	}
 }

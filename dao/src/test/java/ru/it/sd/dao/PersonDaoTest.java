@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author quadrix
@@ -30,7 +30,7 @@ public class PersonDaoTest extends AbstractDaoTest {
 	@Test
 	private void testList() {
 		List<Person> list = dao.list(null);
-		assertEquals(4, list.size());
+		assertEquals(list.size(), 4);
 		LOG.debug(list.toString());
 	}
 
@@ -40,16 +40,16 @@ public class PersonDaoTest extends AbstractDaoTest {
 		filter.put(PagingRange.PAGING_PARAM_NAME, new PagingRange(1, 2).toString());
 
 		List<Person> list = dao.list(filter);
-		assertEquals(2, list.size());
-		assertEquals(Long.valueOf(1), list.get(0).getId());
-		assertEquals(Long.valueOf(2), list.get(1).getId());
+		assertEquals(list.size(), 2);
+		assertEquals(list.get(0).getId(), Long.valueOf(1));
+		assertEquals(list.get(1).getId(), Long.valueOf(2));
 
 		filter.put(PagingRange.PAGING_PARAM_NAME, new PagingRange(2, 4).toString());
 		list = dao.list(filter);
-		assertEquals(3, list.size());
-		assertEquals(Long.valueOf(2), list.get(0).getId());
-		assertEquals(Long.valueOf(3), list.get(1).getId());
-		assertEquals(Long.valueOf(4), list.get(2).getId());
+		assertEquals(list.size(), 3);
+		assertEquals(list.get(0).getId(), Long.valueOf(2));
+		assertEquals(list.get(1).getId(), Long.valueOf(3));
+		assertEquals(list.get(2).getId(), Long.valueOf(4));
 	}
 
 	@Test
@@ -58,9 +58,9 @@ public class PersonDaoTest extends AbstractDaoTest {
 		filter.put(SortingInfo.SORTING_PARAM_NAME, "id-desc");
 
 		List<Person> list = dao.list(filter);
-		assertEquals(4, list.size());
-		assertEquals(Long.valueOf(4), list.get(0).getId());
-		assertEquals(Long.valueOf(3), list.get(1).getId());
+		assertEquals(list.size(),4);
+		assertEquals(list.get(0).getId(), Long.valueOf(4));
+		assertEquals(list.get(1).getId(), Long.valueOf(3));
 	}
 
 }

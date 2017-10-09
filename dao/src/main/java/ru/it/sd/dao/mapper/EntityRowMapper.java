@@ -46,6 +46,7 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public T mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Class clazz = EntityUtils.getGenericClass(getClass());
 		// Создаем объект класса

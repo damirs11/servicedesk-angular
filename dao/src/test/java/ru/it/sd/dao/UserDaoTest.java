@@ -1,13 +1,16 @@
 package ru.it.sd.dao;
 
-import ru.it.sd.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.testng.annotations.Test;
+import ru.it.sd.model.Role;
+import ru.it.sd.model.User;
 
-import static org.testng.AssertJUnit.assertEquals;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author quadrix
@@ -24,11 +27,24 @@ public class UserDaoTest extends AbstractDaoTest {
 	@Test
 	private void testFindByLogin() {
 		User user = dao.readByLogin("manager");
-		assertEquals(3, user.getId());
+		assertEquals(user.getId(), 3);
 		LOG.debug(user.toString());
 
 		user = dao.readByLogin("admin");
-		assertEquals(2, user.getId());
+		assertEquals(user.getId(), 2);
 		LOG.debug(user.toString());
+	}
+
+	@Test
+	private void testRead() {
+		User user = dao.read(1);
+		assertEquals(user.getLogin(), "test");
+		List<Role> roles = user.getRoles();
+		assertEquals(roles.size(), 2);
+
+		roles.sort((o1, o2) -> o1.getName().compareTo(o2.getName()));
+		assertEquals(roles.get(0).getName(), "1");
+		assertEquals(roles.get(1).getName(), "2");
+
 	}
 }

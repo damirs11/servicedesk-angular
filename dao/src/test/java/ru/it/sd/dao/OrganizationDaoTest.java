@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author quadrix
@@ -31,7 +31,7 @@ public class OrganizationDaoTest extends AbstractDaoTest {
 	@Test
 	private void testFindAll() {
 		List<Organization> list = dao.list();
-		assertEquals(2, list.size());
+		assertEquals(list.size(), 2);
 		LOG.debug(list.toString());
 	}
 }

@@ -22,12 +22,16 @@ import java.util.*;
 @Component
 public class UserExtractor implements ResultSetExtractor<List<User>> {
 
+	private final PersonDao personDao;
+	private final UserMapper userMapper;
+	private final RoleMapper roleMapper;
+
 	@Autowired
-	private PersonDao personDao;
-	@Autowired
-	private UserMapper userMapper;
-	@Autowired
-	private RoleMapper roleMapper;
+	public UserExtractor(PersonDao personDao, UserMapper userMapper, RoleMapper roleMapper) {
+		this.personDao = personDao;
+		this.userMapper = userMapper;
+		this.roleMapper = roleMapper;
+	}
 
 	@Override
 	public List<User> extractData(ResultSet rs) throws SQLException, DataAccessException {

@@ -17,7 +17,7 @@ public class Role implements Code, GrantedAuthority {
 	/** Наименование роли */
 	@FieldMeta(columnName = "rol_description")
 	private String name;
-	/** Только просмотр данных, используется для аудиторов*/
+	/** Может ли редактировать данные как таковые. Поле используется, например, для аудиторов */
 	@FieldMeta(columnName = "rol_updateallallowed")
 	private Boolean editor;
 
