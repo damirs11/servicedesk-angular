@@ -1,0 +1,90 @@
+<!--View-mode-->
+<div class="sd-approval" data-ng-if="true">
+    <div class="sd-approval__subject">
+        <span class="sd-approval__subject__title">Тема:</span>
+        <span class="sd-approval__subject__text">
+            Большая-прибольшая тема, которая может не вмещаться в одну строку даже на широком экране персональных компьютеров, ведь в ней очень много текста
+        </span>
+    </div>
+    <div class="entity-properties sd-approval__properties">
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
+                Статус:
+            </div>
+            <div class="entity-property-value">
+                В процессе согласования
+            </div>
+        </div>
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
+                Крайний срок:
+            </div>
+            <div class="entity-property-value">
+                15.10.2016 (02:37)
+            </div>
+        </div>
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
+                Количество согласующих:
+            </div>
+            <div class="entity-property-value">
+                16
+            </div>
+        </div>
+    </div>
+    <div class="sd-approval__actions">
+        <button type="button" class="btn btn-success">Согласовать</button>
+        <button type="button" class="btn btn-default">Редактировать</button>
+    </div>
+</div>
+
+<!--Edit-mode-->
+<div class="sd-approval" data-ng-if="true">
+    <div class="sd-approval__subject">
+        <span class="sd-approval__subject__title">Тема:</span>
+        <span class="sd-approval__subject__text">
+            <sd-text target="ctrl.text"></sd-text>
+        </span>
+    </div>
+    <div class="sd-approval__properties">
+        <div class="sd-approval__property editing">
+            <div class="entity-property-name ">
+                Статус:
+            </div>
+            <div class="entity-property-value">
+                <sd-dropdown
+                        target="ctrl.change.status"
+                        fetch-data="ctrl.SD.EntityStatus.list();"
+                        display-value="$value.fullName"
+                        emptyValue="Нет"
+                        cache="true"
+                ></sd-dropdown>
+            </div>
+        </div>
+        <div class="sd-approval__property editing">
+            <div class="entity-property-name">
+                Крайний срок:
+            </div>
+            <div class="entity-property-value">
+                <sd-datetime
+                        target="ctrl.change.deadline"
+                        allow-empty="false"
+                ></sd-datetime>
+            </div>
+        </div>
+        <div class="sd-approval__property editing">
+            <div class="entity-property-name">
+                Количество согласующих:
+            </div>
+            <div class="entity-property-value">
+                <sd-number
+                        target="ctrl.change.something"
+                ></sd-number>
+            </div>
+        </div>
+    </div>
+    <div class="sd-approval__actions">
+        <button type="button" class="btn btn-success">Сохранить</button>
+        <button type="button" class="btn btn-danger">Отмена</button>
+    </div>
+</div>

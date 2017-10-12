@@ -12,14 +12,20 @@ function HistoryGridProvider(AbstractGrid) {
      */
     return class HistoryGrid {
 
+        /**
+         * @param $scope - скоуп, в котором будет работать таблица.
+         * @param SD - объект SD, необходим для использования того же кэша, что в контроллере
+         * @param entity - сущность, у которой берется история
+         */
         constructor($scope,SD,entity) {
             this.$scope = $scope;
             this.SD = SD;
             this.entity = entity;
             this.columnDefs = [
-                { field: 'date', name: "Дата", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center", sort: {direction:"desc"}},
-                { field: 'subject', name: "Описание", cellTooltip: true, minWidth: 300},
-                { field: 'account', name: "Пользователь", type: 'string', width: 260},
+                { field: 'date', name: "Дата", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150,
+                    cellClass: "text-center", sort: {direction:"desc"}, enableHiding: false},
+                { field: 'subject', name: "Описание", cellTooltip: true, minWidth: 300, enableHiding: false},
+                { field: 'account', name: "Пользователь", type: 'string', width: 260, enableHiding: false},
             ];
 
             this.enableHorizontalScrollbar = 2; // скороллбар в бок
@@ -64,7 +70,7 @@ function HistoryGridProvider(AbstractGrid) {
             let rows = [];
             let limit = this.paginationPageSize;
             result[1].every(obj => {
-                rows.push(this.SD.HistoryLine.parse(obj));
+                rows.push(obj);
                 return rows.length < limit;
             });
             this.data = rows;

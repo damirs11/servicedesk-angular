@@ -1,0 +1,21 @@
+<div data-ng-show="true">
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" data-ng-click="ctrl.decreaseValue()">
+                <span class="fa fa-minus"></span>
+            </button>
+        </span>
+        <input type="text"
+               class="form-control"
+               placeholder="Число"
+               style="text-align: center"
+               ng-model="ctrl.displayValue"
+               data-ng-keydown="ctrl.inputKeyDown($event)"
+        >
+        <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" data-ng-click="ctrl.increaseValue()">
+                <span class="fa fa-plus"></span>
+            </button>
+        </span>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="entity-container" style="height: 100%; font-size: 12px">
+
+    <div class="entity-container__content entity-container__header" style="white-space: nowrap">
+        <a data-ui-sref="app.change.list" title="Вернуться к списку">Изменения</a>
+        <span> \ </span>
+        <a data-ui-sref="app.change.card.view" title="Вернуться к просмотру">
+            №{{ctrl.change.no}}: {{ctrl.change.subject || ctrl.emptyValue}}
+        </a>
+        <span> \ </span>
+        <span style="font-weight: bold">
+                    Согласование
+        </span>
+    </div>
+
+    <div class="entity-container__content">
+        <sd-approval sd="ctrl.SD" target="ctrl.change"></sd-approval>
+    </div>
+
+
+    <div class="entity-container__content fixed-grid">
+        <div data-ui-grid="ctrl.grid" class="grid"
+             data-ui-grid-resize-columns
+             data-ui-grid-autoResize>
+        </div>
+    </div>
+</div>

@@ -33,7 +33,8 @@ class SDDropdownComponentController{
         if (this.lastFetchRequest == text) return;
         this.values = null;
         try {
-            const array = await this.fetchData({$text:text});
+            let array = await this.fetchData({$text:text});
+            if (!array) array = [];
             array.splice(MAX_DISPLAY_VALUES,array.length);
             this.values = array;
             this.lastFetchRequest = text

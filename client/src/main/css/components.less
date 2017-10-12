@@ -1,3 +1,5 @@
+@import "entity";
+
 @middle-screen: 1199px;
 @small-screen: 991px;
 @smallest-screen: 560px;
@@ -333,6 +335,52 @@
     @media (max-width: @small-screen) {
       width: 100%;
       float: none;
+    }
+  }
+}
+
+/** Компоненты */
+@sd-approval-border: 1px #e4e4e4 solid;
+.sd-approval {
+  padding: 5px;
+  display: block;
+  width: 100%;
+  font-size: 13px;
+
+  &__subject {
+    border-bottom: @sd-approval-border;
+    padding-bottom: 10px;
+    &__title{
+      font-weight: bold;
+      display: block;
+    }
+    &__text {
+      display: block;
+    }
+  }
+
+  &__actions {
+    margin-top: 10px;
+  }
+
+  &__properties {
+    .entity-properties();
+    border-bottom: @sd-approval-border;
+  }
+
+  &__property {
+    .entity-inline-property();
+  }
+
+  &__prop{
+    .entity-inline-property();
+
+    &__name {
+      font-weight: bold;
+      display: inline-block;
+    }
+    &__value {
+      display: inline-block;
     }
   }
 }
