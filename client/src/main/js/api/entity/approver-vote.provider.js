@@ -11,7 +11,7 @@ function ApproverVoteProvider(RESTEntity, SD) {
      */
     return class ApproverVote extends RESTEntity {
         /**
-         * ID сущности
+         * ID сущности, к которой привязаны голосо
          * @property
          * @name SD.ApproverVote#entityId
          * @type {Number}

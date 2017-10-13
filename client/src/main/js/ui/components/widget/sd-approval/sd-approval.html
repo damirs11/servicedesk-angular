@@ -2,9 +2,7 @@
 <div class="sd-approval" data-ng-if="true">
     <div class="sd-approval__subject">
         <span class="sd-approval__subject__title">Тема:</span>
-        <span class="sd-approval__subject__text">
-            Большая-прибольшая тема, которая может не вмещаться в одну строку даже на широком экране персональных компьютеров, ведь в ней очень много текста
-        </span>
+        <span class="sd-approval__subject__text" ng-bind="ctrl.approval.subject || ctrl.emptyValue"></span>
     </div>
     <div class="entity-properties sd-approval__properties">
         <div class="entity-inline-property">
@@ -12,7 +10,7 @@
                 Статус:
             </div>
             <div class="entity-property-value">
-                В процессе согласования
+                <span ng-bind="ctrl.approval.status.name || ctrl.emptyValue"></span>
             </div>
         </div>
         <div class="entity-inline-property">
@@ -20,7 +18,9 @@
                 Крайний срок:
             </div>
             <div class="entity-property-value">
-                15.10.2016 (02:37)
+                <span>
+                    {{(ctrl.approval.deadline | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
+                </span>
             </div>
         </div>
         <div class="entity-inline-property">
@@ -28,7 +28,7 @@
                 Количество согласующих:
             </div>
             <div class="entity-property-value">
-                16
+                <span ng-bind="ctrl.approval.numberOfApproversRequired || ctrl.emptyValue"></span>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
     <div class="sd-approval__subject">
         <span class="sd-approval__subject__title">Тема:</span>
         <span class="sd-approval__subject__text">
-            <sd-text target="ctrl.text"></sd-text>
+            <sd-text target="ctrl.approval.subject"></sd-text>
         </span>
     </div>
     <div class="sd-approval__properties">
@@ -53,7 +53,7 @@
             </div>
             <div class="entity-property-value">
                 <sd-dropdown
-                        target="ctrl.change.status"
+                        target="ctrl.approval.status"
                         fetch-data="ctrl.SD.EntityStatus.list();"
                         display-value="$value.fullName"
                         emptyValue="Нет"
@@ -67,18 +67,18 @@
             </div>
             <div class="entity-property-value">
                 <sd-datetime
-                        target="ctrl.change.deadline"
+                        target="ctrl.approval.deadline"
                         allow-empty="false"
                 ></sd-datetime>
             </div>
         </div>
         <div class="sd-approval__property editing">
             <div class="entity-property-name">
-                Количество согласующих:
+                Необходимо согласующих:
             </div>
             <div class="entity-property-value">
                 <sd-number
-                        target="ctrl.change.something"
+                        target="ctrl.approval.numberOfApproversRequired"
                 ></sd-number>
             </div>
         </div>

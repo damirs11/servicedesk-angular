@@ -19,6 +19,7 @@ import {WorkorderProvider} from "./entity/workorder.provider";
 import {HistoryableProvider} from "./entity/mixin/historyable.provider";
 import {ApproverVoteProvider} from "./entity/approver-vote.provider";
 import {ApprovableProvider} from "./entity/mixin/approvable.provider";
+import {ApprovalProvider} from "./entity/approval.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -60,6 +61,7 @@ const SDConstructor = function SD($injector,cache) {
     this.Workgroup = $injector.instantiate(WorkgroupProvider,locals);
     this.HistoryLine = $injector.instantiate(HistoryLineProvider,locals);
     this.ApproverVote = $injector.instantiate(ApproverVoteProvider,locals);
+    this.Approval = $injector.instantiate(ApprovalProvider,locals);
 
     /** Code-сущности */
     this.EntityStatus = $injector.instantiate(StatusProvider,locals);
