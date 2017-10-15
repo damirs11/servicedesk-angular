@@ -1,4 +1,6 @@
 class SDStatusBarController {
+    emptyValue = "- нет -";
+    mode = "view";
 
     static $inject = ["$window","$scope","$attrs"];
     constructor($window,$scope, $attrs){
@@ -7,15 +9,43 @@ class SDStatusBarController {
         this.$attrs = $attrs;
     }
 
-    emptyValue = "- нет -";
+    async $onInit(){
+        this.approval = await this.target.getApproval();
+    }
+
+
+    get isEditMode(){
+        return this.mode == "edit"
+    }
+
+    get isViewMode(){
+        return this.mode == "view"
+    }
+
+    // При нажатии на кнопку "Редактировать"
+    edit(){
+        this.mode = "edit";
+    }
+
+    // При нажатии на кнопку "Согласовать"
+    vote(){}
+
+    // При нажатии на кнопку "Сохранить"
+    async saveEditing(){
+        await this.approval.save();
+        this.mode = "view";
+    }
+
+    // При нажатии на кнопку "Отмена"
+    cancelEditing() {
+        this.approval.reset();
+        this.mode = "view";
+    }
 
     get SD(){
         return this.sd;
     }
 
-    async $onInit(){
-        this.approval = await this.target.getApproval();
-    }
 }
 
 export {SDStatusBarController as controller}

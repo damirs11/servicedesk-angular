@@ -16,7 +16,7 @@ function ApprovableProvider($connector, SD) {
             const votesData = await $connector.get(`rest/entity/ApproverVote?entityId=${this.id}`, params);
             return votesData.map(::SD.ApproverVote.parse)
         }
-
+п
         /**
          * Получает количество голосов персон по переданному запросу
          */
