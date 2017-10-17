@@ -3,15 +3,15 @@ import {Instantiate, Nullable} from "./decorator/parse-utils";
 import {Serialize} from "./decorator/serialize.decorator";
 import {serializeId} from "./decorator/serialize-utils";
 
-ApprovalProvider.$inject = ["RESTEntity", "SD"];
-function ApprovalProvider(RESTEntity, SD) {
+ApprovalProvider.$inject = ["EditableEntity", "SD"];
+function ApprovalProvider(EditableEntity, SD) {
     /**
      * Голосование
      * @class
-     * @extends SD.RESTEntity
+     * @extends SD.EditableEntity
      * @name SD.Approval
      */
-    return class Approval extends RESTEntity {
+    return class Approval extends EditableEntity {
         /**
          * ID сущности
          * @property
@@ -19,7 +19,7 @@ function ApprovalProvider(RESTEntity, SD) {
          * @type {String}
          */
         @Serialize("approvalDescription")
-        @Parse("approvalDescription", Nullable( String )) description;
+        @Parse("approvalDescription", Nullable( String )) subject;
 
         /**
          * Необходимое количество поддержавших

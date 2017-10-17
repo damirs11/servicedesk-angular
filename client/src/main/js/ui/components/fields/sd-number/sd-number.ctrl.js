@@ -10,9 +10,8 @@ class SDNumberController{
     }
 
     $onInit(){
-        this.value = this.target;
+        this.displayValue = this.value = this.target;
         this.step = this.step || 1;
-
     }
 
     decreaseValue(){

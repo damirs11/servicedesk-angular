@@ -16,7 +16,7 @@ function ApprovableProvider($connector, SD) {
             const votesData = await $connector.get(`rest/entity/ApproverVote?entityId=${this.id}`, params);
             return votesData.map(::SD.ApproverVote.parse)
         }
-п
+
         /**
          * Получает количество голосов персон по переданному запросу
          */
@@ -30,10 +30,9 @@ function ApprovableProvider($connector, SD) {
          * @return {SD.Approval}
          */
         async getApproval(){
-            return null;
-            // let approvals = await $connector.get(`rest/entity/Approval?entityId=${this.id}`);
-            // approvals = approvals.map(::SD.Approval.parse);
-            // return approvals.length ? null : approvals[0]
+            const approvals = await $connector.get(`rest/entity/Approval?entityId=${this.id}`)
+                .map(::SD.Approval.parse);
+            return approvals.length ? null : approvals[0]
         }
 
     };
