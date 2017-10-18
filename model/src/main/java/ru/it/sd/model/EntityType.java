@@ -1,5 +1,10 @@
 package ru.it.sd.model;
 
+import ru.it.sd.exception.ServiceException;
+import ru.it.sd.util.ResourceMessages;
+
+import java.util.Objects;
+
 /**
  * Типы сущностей, с которыми работает система
  *
@@ -8,15 +13,17 @@ package ru.it.sd.model;
  */
 public enum EntityType implements Code {
 
-	CHANGE("Изменение", 724041768L),
+	CHANGE("Изменение", Change.class.getSimpleName(), 724041768L),
 	PROBLEM("Проблема"),
 	CALL("Обращение"),
-	WORKORDER("Наряд"),
+	WORKORDER("Наряд", Workorder.class.getSimpleName(), 556859410L),
 	ITEM("Объект"),
-	WORKGROUP("Рабочая группа");
+	WORKGROUP("Рабочая группа", Workgroup.class.getSimpleName());
 
 	/** Название */
 	private String title;
+	/** Псевдоним. Как правило, совпадает с названием соответствующего модельного класса */
+	private String alias;
 	/** Идентификатор */
 	private Long id;
 
@@ -24,9 +31,18 @@ public enum EntityType implements Code {
 		this.title = title;
 	}
 
-	EntityType(String title, Long id) {
-		this(title);
+	EntityType(String title, String alias) {
+		this.title = title;
+		this.alias = alias;
+	}
+
+	EntityType(String title, String alias, Long id) {
+		this(title, alias);
 		this.id = id;
+	}
+
+	public String getAlias() {
+		return alias;
 	}
 
 	@Override
@@ -47,5 +63,25 @@ public enum EntityType implements Code {
 	@Override
 	public void setName(String name) {
 		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * Поиск типа сущности по идентификатору
+	 *
+	 * @param id идентификатор
+	 * @return тип сущности
+	 * @throws ServiceException если указан неправильный код
+	 * @throws NullPointerException если идентификатор не определен
+	 */
+	public static EntityType get(Long id) {
+		if (Objects.isNull(id)) {
+			return null;
+		}
+		for (EntityType value : values()) {
+			if (id.equals(value.getId())) {
+				return value;
+			}
+		}
+		throw new ServiceException(ResourceMessages.getMessage("error.not.found"));
 	}
 }

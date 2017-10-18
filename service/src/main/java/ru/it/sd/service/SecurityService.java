@@ -1,6 +1,5 @@
 package ru.it.sd.service;
 
-import org.springframework.beans.factory.annotation.Required;
 import ru.it.sd.dao.UserDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.DynamicAuthentication;
@@ -9,7 +8,6 @@ import ru.it.sd.util.ResourceMessages;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;

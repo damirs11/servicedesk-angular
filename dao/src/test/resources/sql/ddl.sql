@@ -168,3 +168,36 @@ CREATE TABLE rep_roles (
   rol_description VARCHAR (255),
   rol_updateallallowed DECIMAL (1)
 );
+
+CREATE TABLE ifc_entities (
+  ent_oid DECIMAL (18),
+  ent_name VARCHAR (50)
+);
+
+CREATE TABLE rep_entity_access (
+  ena_oid DECIMAL (18),
+  ena_rol_oid DECIMAL (18),
+  ena_ent_oid DECIMAL (18),
+  ena_view DECIMAL (1),
+  ena_viewasnuser DECIMAL (1),
+  ena_viewasnwg DECIMAL (1),
+  ena_modify DECIMAL (1),
+  ena_modifyasnuser DECIMAL (1),
+  ena_modifyasnwg DECIMAL (1),
+  ena_status_from_oid DECIMAL (18),
+  ena_status_to_oid DECIMAL (18),
+  ena_new DECIMAL (1),
+  ena_delete DECIMAL (1),
+  ena_historyview DECIMAL (1),
+  ena_historynew DECIMAL (1),
+  ena_historymodify DECIMAL (1),
+  ena_historymodifycreateduser DECIMAL (1),
+  ena_historymodifycreatedwg DECIMAL (1),
+  ena_historydelete DECIMAL (1),
+  ena_historydeletecreatedwg DECIMAL (1),
+  ena_historydeletecreateduser DECIMAL (1),
+  ena_cod_oid DECIMAL (18),
+  ena_lockseq DECIMAL (9),
+  ena_tem_oid DECIMAL (18),
+  ena_modifytemplate DECIMAL (1)
+);

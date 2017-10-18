@@ -38,3 +38,6 @@ ALTER TABLE itsm_approver_votes ADD CONSTRAINT pk_votes PRIMARY KEY (apv_oid);
 ALTER TABLE itsm_approver_votes ADD CONSTRAINT fk_votes_per FOREIGN KEY (apv_per_oid) REFERENCES itsm_persons(per_oid);
 ALTER TABLE itsm_approver_votes ADD CONSTRAINT ch_votes_approved CHECK (apv_approved IN (0, 1));
 -----------------------------------------------------------------------------------
+ALTER TABLE rep_entity_access ADD CONSTRAINT pk_access PRIMARY KEY (ena_oid);
+ALTER TABLE rep_entity_access ADD CONSTRAINT fk_access_roles FOREIGN KEY (ena_rol_oid) REFERENCES rep_roles(rol_oid);
+-----------------------------------------------------------------------------------

@@ -36,6 +36,17 @@ public final class SortingInfo {
 	}
 
 	/**
+	 * Конструктор для настройки сортировки по одному полю в указанном направлении
+	 *
+	 * @param columnName название поля для сортировки
+	 * @param isAscending направление. true - по возрастанию, false - по убыванию
+	 */
+	public SortingInfo(String columnName, boolean isAscending) {
+		super();
+		columns.put(columnName, isAscending);
+	}
+
+	/**
 	 * <p>Извлекает информацию о сортировке на основе данных параметров фильтрации. Для этого среди параметров
 	 * должен быть параметр с именем 'sort'.</p>
 	 *
