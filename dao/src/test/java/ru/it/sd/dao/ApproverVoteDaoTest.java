@@ -29,16 +29,14 @@ public class ApproverVoteDaoTest extends AbstractDaoTest {
 		assertEquals(approverVote.getId().longValue(), 8183L);
 	}
 
-
 	@Test
 	private void testFilter() {
 		Map<String, String> filter = new HashMap<>();
-		filter.put("entity","266633");
+		filter.put("entityId", "266633");
 		List<ApproverVote> approverVote = dao.list(filter);
 
 		Assert.assertEquals(approverVote.size(), 2);
 
 	}
-
 
 }

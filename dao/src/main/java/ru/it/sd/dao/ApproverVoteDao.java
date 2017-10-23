@@ -49,7 +49,8 @@ public class ApproverVoteDao extends AbstractEntityDao<ApproverVote> {
 
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
-		if (Objects.isNull(filter) || filter.isEmpty() || !filter.containsKey("entityId")) {
+		if (Objects.isNull(filter) || filter.isEmpty() ||
+				(!filter.containsKey("entityId") && !filter.containsKey("id"))) {
 			throw new BadRequestException("При запросе согласований необходимо указать условия отбора записей (фильтр), например, по полю \"entityId\"");
 		}
 		super.buildWhere(filter, sql, params);
