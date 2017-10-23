@@ -1,24 +1,21 @@
 package ru.it.sd.hp;
 
-import com.hp.itsm.api.interfaces.*;
+import com.hp.itsm.api.interfaces.IApprovalVote;
+import com.hp.itsm.api.interfaces.IPerson;
+import com.hp.itsm.api.interfaces.IWorkflow;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.ApproverVoteDao;
-import ru.it.sd.dao.ChangeDao;
-import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.exception.ServiceException;
-import ru.it.sd.hp.Utils.DateUtils;
 import ru.it.sd.model.ApproverVote;
-import ru.it.sd.model.Change;
-import ru.it.sd.model.EntityType;
 
 @Repository
 public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
     @Autowired
     private HpApi api;
 
-
+    @Autowired
+    private IWorkflowDao iWorkflowDao;
     @Autowired
     private IPersonDao iPersonDao;
     @Autowired
@@ -35,21 +32,8 @@ public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
         IPerson iPerson = iPersonDao.read(entity.getApprover().getId());
 
         //Получаем сущность
-        IWorkflow iWorkflow;
-        switch (entity.getEntityType()){
-            case CHANGE:{
-                iWorkflow = iChangeDao.read(entity.getEntityId());
-            }break;
-
-            case WORKORDER:{
-                iWorkflow = iWorkorderDao.read(entity.getEntityId());
-            }break;
-
-            default:{
-                throw new IllegalArgumentException("Не указан тип сущности");
-            }
-        }
-
+        IWorkflow iWorkflow = iWorkflowDao.read(entity.getEntityId(), entity.getEntityType());
+        
         //Заполнение мнения и сохранения
         iApprovalVote.setApprover(iPerson);
         iApprovalVote.setApproval(iWorkflow);

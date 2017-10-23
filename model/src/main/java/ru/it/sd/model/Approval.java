@@ -26,7 +26,7 @@ public class Approval implements HasId, HasStatus, Serializable {
 
     /*Тема*/
     @FieldMeta(columnName = "apt_description")
-    private String approvalDescription;
+    private String description;
 
 
     @FieldMeta(columnName = "deadline")
@@ -37,17 +37,19 @@ public class Approval implements HasId, HasStatus, Serializable {
 	private Integer numberOfApproversRequired;
 
     /* Число согласующих*/
-    @FieldMeta(columnName = "nrofapprovers")
+    @FieldMeta(columnName = "nrofapprovers", readOnly = true)
     private Integer numberOfApprovers;
 
     /* Число одобривших(сколько есть одобрений)*/
-    @FieldMeta(columnName = "nrofapproversapproved")
+    @FieldMeta(columnName = "nrofapproversapproved", readOnly = true)
     private Integer numberOfApproversApproved;
 
     /* Группа согласования*/
     @FieldMeta(columnName = "wog_oid")
     private Workgroup approvalWorkgroup;
 
+    @FieldMeta(columnName = "", required = true)
+    private EntityType entityType;
 
 	@Override
 	public Long getId() {
@@ -69,12 +71,12 @@ public class Approval implements HasId, HasStatus, Serializable {
         this.status = id;
     }
 
-    public String getApprovalDescription() {
-        return approvalDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setApprovalDescription(String approvalDescription) {
-        this.approvalDescription = approvalDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getNumberOfApproversRequired() {
@@ -115,6 +117,14 @@ public class Approval implements HasId, HasStatus, Serializable {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public EntityType getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(EntityType entityType) {
+        this.entityType = entityType;
     }
 
     @Override

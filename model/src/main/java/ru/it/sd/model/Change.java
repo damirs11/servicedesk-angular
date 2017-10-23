@@ -69,32 +69,7 @@ public class Change implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "cha_per_man_oid", required = true)
 	private Person manager;
 
-	// Согласование----------------------------------------------------------------------------------------------
 
-    //* Статус согласования*/
-    @FieldMeta(columnName = "cha_apt_status")
-    private EntityStatus approvedStatus;
-
-    @FieldMeta(columnName = "cha_apt_description")
-    private String approvedDescription;
-
-    /** Требуемое число одобривших(сколько надо одобрений)*/
-	@FieldMeta(columnName = "cha_apt_nrofapproversrequired", readOnly = true)
-	private Integer numberOfApproversRequired;
-
-    /** Число одобряющих*/
-    @FieldMeta(columnName = "cha_apt_nrofapprovers", readOnly = true)
-    private Integer numberOfApprovers;
-
-    /** Число одобривших(сколько есть одобрений)*/
-    @FieldMeta(columnName = "cha_apt_nrofapproversapproved", readOnly = true)
-    private Integer numberOfApproversApproved;
-
-    //** Группа согласования*/
-    @FieldMeta(columnName = "cha_apt_wog_oid")
-    private Workgroup approvedWorkgroup;
-
-    // ----------------------------------------------------------------------------------------------------------
 
 	@Override
 	public Long getId() {
