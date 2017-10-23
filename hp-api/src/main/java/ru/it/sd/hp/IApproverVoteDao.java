@@ -38,7 +38,7 @@ public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
         iApprovalVote.setApprover(iPerson);
         iApprovalVote.setApproval(iWorkflow);
         iApprovalVote.save();
-        iWorkflow.getApproval().addApprovalVote(iApprovalVote);  //Добавление мнения в согласование сущности
+
         return iApprovalVote.getOID();
     }
 

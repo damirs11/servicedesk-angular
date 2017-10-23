@@ -30,7 +30,7 @@ public class ApprovalService implements CrudService<Approval> {
     private ApprovalDao approvalDao;
     @Override
     public Approval update(Approval entity) {
-        if(entity.getStatus() == EntityStatus.APPROVAL_PREPARING) {
+        if(entity.getStatus() == EntityStatus.APPROVAL_PREPARING || entity.getStatus() == null) {
             iApprovalDao.update(entity);
         }
         return read(entity.getId());

@@ -28,7 +28,6 @@ public class IApprovalDao implements HpCrudDao<Approval, IApproval> {
     private IApprovalStatusDao iApprovalStatusDao;
 
     @Override
-    /*unchecked*/
     public void update(Approval entity) {
         //все поля
         IWorkflow iWorkflow = iWorkflowDao.read(entity.getId(),entity.getEntityType());
@@ -36,8 +35,8 @@ public class IApprovalDao implements HpCrudDao<Approval, IApproval> {
         iApproval.setApprovalStatus(iApprovalStatusDao.read(entity.getStatus().getId()));
         iApproval.setDescription(entity.getDescription());
         iApproval.setApprovalDeadline(DateUtils.toSDDate(entity.getDeadline()));
-        iApproval.setNrOfApproversRequired(entity.getNumberOfApproversRequired());
         iApproval.setWorkGroup(iWorkgroupDao.read(entity.getApprovalWorkgroup().getId()));
+        iApproval.setNrOfApproversRequired(entity.getNumberOfApproversRequired());
         iApproval.transfer();
         iWorkflow.save();
     }
