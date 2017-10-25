@@ -339,7 +339,7 @@
   }
 }
 
-/** Компоненты */
+/** Согласование */
 @sd-approval-border: 1px #e4e4e4 solid;
 .sd-approval {
   padding: 5px;
@@ -389,4 +389,54 @@
   min-height: 200px;
   height: 100%;
   max-height: 630px;
+}
+
+/** Вложения */
+.attachment-item {
+  width: 170px;
+  height: 220px;
+  padding: 8px;
+  display: inline-block;
+  border: rgb(189, 189, 189) solid 2px;
+  border-radius: 10px;
+
+  &__box{
+    width: 150px;
+    height: 150px;
+    outline: rgb(189, 189, 189) dotted 1px;
+    margin-bottom: 5px;
+    text-align: center;
+    &>img{
+      max-height: 150px;
+      max-width: 150px;
+    }
+    &__icon {
+      height: 150px;
+      line-height: 150px;
+      font-size: 120px;
+      color: #636363
+    }
+  }
+
+  &__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__info {
+    overflow: hidden;
+    &__size {
+      float: left;
+    }
+    &__date {
+      float: right;
+    }
+  }
+
+  &__author {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

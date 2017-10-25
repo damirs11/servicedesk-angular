@@ -25,6 +25,22 @@ class WorkorderCardViewController{
         this.statusList = statuses.filter(status => status['entityType'] === "WORKORDER"); // Временный фильтр. Уберу, когда появится поиск по статусам
 
     }
+
+    async createTestWorkorder() {
+        const parent = this.workorder;
+        const testEntity = new this.SD.Workorder();
+        testEntity.description = "Проверка создания нарядов";
+        testEntity.subject = "Тестовый наряд";
+        testEntity.labor = 12000;
+        testEntity.category = parent.category;
+        testEntity.status = parent.status;
+        testEntity.deadline = new Date(Date.now()+2*60*60*1000);
+        testEntity.initiator = parent.initiator;
+        testEntity.assigneePerson = parent.assigneePerson;
+        testEntity.workgroup = parent.workgroup;
+        testEntity.solution = "Решения еще нет.";
+        await testEntity.create();
+    }
 }
 
 export {WorkorderCardViewController as controller}
