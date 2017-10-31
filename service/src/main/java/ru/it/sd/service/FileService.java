@@ -8,12 +8,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.FileInfoDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.FileInfo;
 import ru.it.sd.util.ResourceMessages;
 
 import java.io.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Сервис для работы с файлами
@@ -22,7 +25,7 @@ import java.util.Date;
  * @since 24.10.2017
  */
 @Service
-public class FileService {
+public class FileService implements ReadService<FileInfo>{
 
 	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
 
@@ -30,10 +33,11 @@ public class FileService {
 	private static String FILE_SUFFIX = ".tmp";
 
 	private final SecurityService securityService;
-
+    private FileInfoDao fileInfoDao;
 	@Autowired
-	public FileService(SecurityService securityService) {
-		this.securityService = securityService;
+	public FileService(SecurityService securityService, FileInfoDao fileInfoDao) {
+	    this.securityService = securityService;
+	    this.fileInfoDao = fileInfoDao;
 	}
 
 	/**
@@ -98,4 +102,19 @@ public class FileService {
 		info.setSize(size);
 		return info;
 	}
+
+    @Override
+    public FileInfo read(long id) {
+        return fileInfoDao.read(id);
+    }
+
+    @Override
+    public List<FileInfo> list(Map<String, String> filter) {
+        return fileInfoDao.list(filter);
+    }
+
+    @Override
+    public int count(Map<String, String> filter) {
+        return fileInfoDao.count(filter);
+    }
 }
