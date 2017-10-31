@@ -1,6 +1,7 @@
 package ru.it.sd.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.util.AppToStringStyle;
 
@@ -13,7 +14,7 @@ import java.util.Date;
  * @author nsychev
  * @since 03.10.2017
  */
-
+@ClassMeta(tableName = "")
 public class Approval implements HasId, HasStatus, Serializable {
 
     /*id сущности*/

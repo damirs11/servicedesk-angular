@@ -91,7 +91,7 @@ public class FileService {
 		int size = temp.getRight();
 
 		FileInfo info = new FileInfo();
-		info.setId(id);
+		info.setFileId(id);
 		info.setName(fileName);
 		info.setAuthor(securityService.getCurrentUser().getPerson());
 		info.setCreationDate(new Date());
