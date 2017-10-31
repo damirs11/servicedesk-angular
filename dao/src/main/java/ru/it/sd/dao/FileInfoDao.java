@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Дао для работы с изменениями
+ * Дао для работы с вложениями (файлами)
  *
  * @author quadrix
  * @since 28.04.2017

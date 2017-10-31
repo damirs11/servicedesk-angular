@@ -5,6 +5,7 @@ import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.util.AppToStringStyle;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,8 +15,7 @@ import java.util.Date;
  * @since 24.10.2017
  */
 @ClassMeta(tableName = "rep_attachments", tableAlias = "ahs")
-public class FileInfo implements HasId {
-
+public class FileInfo implements HasId, Serializable {
 
 	/** id вложения*/
 	@FieldMeta(columnName = "ahs_oid")
@@ -24,7 +24,7 @@ public class FileInfo implements HasId {
     @FieldMeta(columnName = "ahs_att_oid")
     private Long entityId;
     /** Тип сущности*/
-    @FieldMeta(columnName = "")
+    @FieldMeta(columnName = "ahs_ent_oid")
     private EntityType entityType;
     /** Путь к файлу на веб сервере*/
     @FieldMeta(columnName = "ahs_filename")

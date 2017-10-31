@@ -39,7 +39,7 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 		List<Change> list = new ArrayList<>();
 		while(rs.next()){
 			Change change = changeMapper.mapRow(rs, 0);
-			//Change change = new Change();
+
 			Long statusId = DBUtils.getLong(rs, "cha_sta_oid");
 			if(statusId !=null) change.setStatus(EntityStatus.get(statusId));
 
