@@ -96,6 +96,14 @@ function AttachmentProvider(Entity, SD) {
             return FILETYPE_MAP[fileExt];
         }
 
+        /**
+         * Ссылка для скачивания;
+         * @returns {string}
+         */
+        get url(){
+            return "/img/logo.png"
+        }
+
 
     };
 }

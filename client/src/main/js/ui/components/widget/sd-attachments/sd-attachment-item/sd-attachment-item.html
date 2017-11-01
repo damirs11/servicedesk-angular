@@ -1,27 +1,31 @@
 <div class="attachment-item">
     <div class="attachment-item__box">
-        <img src="https://cs.pikabu.ru/images/big_size_comm/2012-10_4/13"
+        <img data-ng-src="{{ctrl.attachment.url}}"
              data-ng-if="ctrl.attachment.fileType == 'image'">
-        <span class="fa fa-file-word-o attachment-item__box__icon"
+        <span class="attachment-item__box__icon"
               data-ng-if="ctrl.attachment.fileType != 'image'"
               data-ng-class="ctrl.iconClass"
         ></span>
     </div>
     <div class="attachment-item__name">
-        <a data-ng-href="{{ctrl.attachment.downloadUrl}}">
+        <a data-ng-href="{{ctrl.attachment.url}}" title="Сохранить">
+            <span class="fa fa-download" aria-hidden="true"></span>
             <span ng-bind="ctrl.attachment.name"></span>
         </a>
     </div>
     <div class="attachment-item__info">
-        <span class="attachment-item__info__size">
+        <div class="attachment-item__info__size">
             <span>{{ctrl.fileSize}}</span>
-        </span>
-        <span class="attachment-item__info__date">
-            <span>{{(ctrl.attachment.creationDate | amDateFormat:'DD.MM.YYYY (HH:mm)')}}</span>
-        </span>
+        </div>
+        <div class="attachment-item__info__date">
+            <span>{{ (ctrl.attachment.creationDate | amDateFormat:'DD.MM.YYYY HH:mm') }}</span>
+        </div>
     </div>
-    <div class="attachment-item__author">
-        <span class="attachment-item__author__text" ng-bind="ctrl.attachment.author.shortName"></span>
+    <div class="attachment-item__author" title="Автор вложения">
+        <a>
+            <span class="fa fa-user" aria-hidden="true"></span>
+            <span class="attachment-item__author__text" ng-bind="ctrl.attachment.author.shortName"></span>
+        </a>
     </div>
 
 </div>

@@ -48,6 +48,7 @@ import {SDApprovalComponent} from "./components/widget/sd-approval/sd-approval.c
 import {SDNumberComponent} from "./components/fields/sd-number/sd-number.component";
 import {SDAttachmentsComponent} from "./components/widget/sd-attachments/sd-attachments.component";
 import {SDAttachmentItemComponent} from "./components/widget/sd-attachments/sd-attachment-item/sd-attachment-item.component";
+import {SDAttachmentUploaderComponent} from "./components/widget/sd-attachments/sd-attachment-uploader/sd-attachment-uploader.component";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -103,6 +104,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     /** Вложения */
     .component("sdAttachments",SDAttachmentsComponent)
     .component("sdAttachmentItem",SDAttachmentItemComponent)
+    .component("sdAttachmentUploader",SDAttachmentUploaderComponent)
 
     .controller("IndexController",IndexController)
     .name;
