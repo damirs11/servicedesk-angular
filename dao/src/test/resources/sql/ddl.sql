@@ -176,3 +176,11 @@ CREATE TABLE itsm_approver_votes (
   apv_per_oid DECIMAL (18),
   apv_reason VARCHAR (255)
 );
+
+CREATE TABLE rep_attachments (
+  ahs_oid DECIMAL (18),
+  ahs_ent_oid DECIMAL(18),
+  ahs_att_oid DECIMAL(18),
+  ahs_basename VARCHAR(128),
+  ahs_filename VARCHAR(128)
+);

@@ -33,3 +33,4 @@ ALTER TABLE itsm_historylines_change ADD CONSTRAINT pk_historylines_changes PRIM
 ALTER TABLE itsm_approver_votes ADD CONSTRAINT pk_votes PRIMARY KEY (apv_oid);
 ALTER TABLE itsm_approver_votes ADD CONSTRAINT fk_votes_per FOREIGN KEY (apv_per_oid) REFERENCES itsm_persons(per_oid);
 -----------------------------------------------------------------------------------
+ALTER TABLE rep_attachments ADD CONSTRAINT pk_attachment PRIMARY KEY (ahs_oid);
