@@ -38,15 +38,18 @@ const FILETYPE_MAP = {
 
 };
 
-AttachmentProvider.$inject = ["Entity", "SD"];
-function AttachmentProvider(Entity, SD) {
+AttachmentProvider.$inject = ["RESTEntity", "SD"];
+function AttachmentProvider(RESTEntity, SD) {
     /**
      * Персона
      * @class
-     * @extends SD.Entity
+     * @extends SD.RESTEntity
      * @name SD.Attachment
      */
-    return class Attachment extends Entity {
+    return class Attachment extends RESTEntity {
+        static get $entityType() { // Название на сервере.
+            return "FileInfo";
+        }
         /**
          * Название файла
          * @property
@@ -55,14 +58,14 @@ function AttachmentProvider(Entity, SD) {
          */
         @Parse( String ) name;
         /**
-         * Размер файла
+         * Размер файла в байтах
          * @property
          * @name SD.Attachment#size
          * @type {Number}
          */
         @Parse( Number ) size;
         /**
-         * Автор вложения
+         * Персона, создавшая вложение
          * @property
          * @name SD.Attachment#author
          * @type {SD.Person}

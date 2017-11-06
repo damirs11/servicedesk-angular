@@ -16,15 +16,15 @@ function RESTEntityProvider(Entity, $connector) {
          * Должен соотвествовать типу на сервере
          * @returns {string}
          */
-        get $entityType() {
-            return this.constructor.name;
+        static get $entityType() {
+            return this.name;
         }
 
         /**
          * Подгружает изменения в текущую сущность
          */
         async load(){
-            const data = await $connector.get(`rest/entity/${this.$entityType}/${this.id}`);
+            const data = await $connector.get(`rest/entity/${this.constructor.$entityType}/${this.id}`);
             return this.$update(data);
         }
 
@@ -32,7 +32,7 @@ function RESTEntityProvider(Entity, $connector) {
          * Осуществляет поиск сущностей по фильтру
          */
         static async list(params){
-            const entityList = await $connector.get(`rest/entity/${this.name}`, params);
+            const entityList = await $connector.get(`rest/entity/${this.$entityType}`, params);
             return entityList.map(::this.parse)
         }
 
@@ -40,7 +40,7 @@ function RESTEntityProvider(Entity, $connector) {
          * Получает общее количество записей по указанному фильтру
          */
         static async count(params){
-            return await $connector.get(`rest/entity/${this.name}/count`, params);
+            return await $connector.get(`rest/entity/${this.$entityType}/count`, params);
         }
 
     };

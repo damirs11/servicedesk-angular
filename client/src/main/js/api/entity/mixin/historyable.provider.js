@@ -14,7 +14,7 @@ function HistoryableProvider($connector, SD) {
          */
         async getHistory(params){
             params = typeof params == "object" ? params : {};
-            const linesData = await $connector.get(`rest/entity/${this.$entityType}/${this.id}/history`, params);
+            const linesData = await $connector.get(`rest/entity/${this.constructor.$entityType}/${this.id}/history`, params);
             return linesData.map(::SD.HistoryLine.parse)
         }
 
@@ -23,7 +23,7 @@ function HistoryableProvider($connector, SD) {
          */
         async getHistoryCount(params){
             params = typeof params == "object" ? params : {};
-            return await $connector.get(`rest/entity/${this.$entityType}/${this.id}/history/count`,params);
+            return await $connector.get(`rest/entity/${this.constructor.$entityType}/${this.id}/history/count`,params);
         }
 
         /**

@@ -2,7 +2,7 @@ class EntityChatController {
 
     DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
 
-    constructor(SD){
+    constructor(){
     }
 
     $onInit(){
