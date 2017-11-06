@@ -22,10 +22,11 @@ class SDAttachmentItemController {
 
     get fileSize(){
         const size = this.attachment.size;
-        if (!size) return "? kb";
-        if (size < 1024) return `${Math.ceil(size)} kB`; // size < 2^10
-        if (size < 1048576) return `${Math.ceil(size/1024)} MB`; // size < 2^20
-        return `${Math.ceil(size/1048576)} GB`; // size >= 2^20
+        if (!size) return "? b";
+        if (size < 1024) return "1 kb";
+        if (size < 1048576) return `${Math.ceil(size/1024)} kB`; // size < 2^20
+        if (size < 1073741824) return `${Math.ceil(size/1048576)} MB`; // size < 2^30
+        return `${Math.ceil(size/1073741824)} GB`; // size >= 2^30
     }
 }
 
