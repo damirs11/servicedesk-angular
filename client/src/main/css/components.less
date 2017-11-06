@@ -451,27 +451,58 @@
   }
 }
 
-@attachment-uploader-image-color: rgba(43, 43, 43, 0.11);
-@attachment-uploader-border: rgba(197, 197, 197, 0.72) dotted 3px;
-@attachment-uploader-text-color: #b9b9b9;
+@attachmentUploader-textColor: #b9b9b9;
+@attachmentUploader-border: rgba(197, 197, 197, 0.72) dotted 3px;
+@attachmentUploader-iconColor: rgba(43, 43, 43, 0.11);
+
+@attachmentUploader-textColor-dragAccept: #c3bbff;
+@attachmentUploader-border-dragAccept: rgba(144, 143, 249, 0.5) dotted 3px;
+@attachmentUploader-iconColor-dragAccept: rgba(0, 29, 255, 0.17);
+
+@attachmentUploader-textColor-dragReject: rgba(249, 55, 55, 0.28);
+@attachmentUploader-border-dragReject: rgba(255, 0, 0, 0.33) dotted 3px;
+@attachmentUploader-iconColor-dragReject: rgba(212, 91, 91, 0.64);
+
 
 .attachment-item.uploader {
-  border: @attachment-uploader-border;
+  border: @attachmentUploader-border;
+  &.drag-accept { border: @attachmentUploader-border-dragAccept; }
+  &.drag-reject { border: @attachmentUploader-border-dragReject; }
 
-  &>.attachment-item__box{
-    outline: none;
-    &>.attachment-item__box__icon{
-      color: @attachment-uploader-image-color
-    }
-  }
 
-  &>.attachment-item__upload {
-    font-size: 20px;
-    color: @attachment-uploader-text-color;
+  &>.attachment-item__upload-icon{
+    font-size: 135px;
+    color: @attachmentUploader-iconColor;
     text-align: center;
     width: 100%;
   }
+  &.drag-accept>.attachment-item__upload-icon {
+    color: @attachmentUploader-iconColor-dragAccept;
+  }
+  &.drag-reject .attachment-item__upload-icon {
+    color: @attachmentUploader-textColor-dragReject;
+  }
+
+
+  & .attachment-item__upload-text {
+    font-size: 22px;
+    color: @attachmentUploader-textColor;
+    text-align: center;
+    width: 100%;
+    &__hint {
+      font-size: 13px;
+    }
+  }
+  &.drag-accept .attachment-item__upload-text {
+    color: @attachmentUploader-textColor-dragAccept;
+  }
+  &.drag-reject .attachment-item__upload-text {
+    color: @attachmentUploader-textColor-dragReject;
+  }
+
 }
+
+// Контейнер для элементов вложений
 
 .sd-attachments-list {
   margin: 0 auto;

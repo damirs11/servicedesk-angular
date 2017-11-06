@@ -160,6 +160,7 @@ gulp.task('build:js-vendor', function buildJSVendor() { // Собираем js �
         'node_modules/pdfmake/build/vfs_fonts.js',
         'node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
         'node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js',
+        'node_modules/ng-file-upload/dist/ng-file-upload-all.min.js'
     ];
     return gulp.src(files)
         .pipe(plumber())

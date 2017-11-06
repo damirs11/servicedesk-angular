@@ -19,7 +19,8 @@ import {
     ngMessages,
     uiBootstrapDatetimePicker,
     angularMoment,
-    uiGridSaveState
+    uiGridSaveState,
+    ngFileUpload,
 } from "../common/web-libraries.const";
 import {TranslateConfig} from "./components/translate/translate.config";
 import {default as ModalAction} from "./components/modal-action/modal-action";
@@ -68,7 +69,8 @@ export const servicedeskUI = angular.module("servicedesk-ui",
             uiSelect,
             uiBootstrapDatetimePicker,
             angularMoment,
-            uiGridSaveState])
+            uiGridSaveState,
+            ngFileUpload])
 
     .config(TranslateConfig)
     .config(FormConfig)
