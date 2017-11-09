@@ -1,0 +1,17 @@
+<div class="attachment-item uploading">
+    <div class="attachment-item__remove-box">
+        <a class="attachment-item__remove-box__icon"
+           href="javascript:void(0)" ng-click="ctrl.abort()">
+            <span class="fa fa-times"></span>
+        </a>
+    </div>
+    <div class="attachment-item__loading">
+        <span>Загрузка</span>
+    </div>
+    <div class="attachment-item__name" style="text-align: center">
+        <span ng-bind="ctrl.fileName"></span>
+    </div>
+    <uib-progressbar class="progress-striped active" value="ctrl.percentage" type="primary" style="background: #d4d4d4; margin-top: 5px">
+        {{ctrl.percentage < 15 ? "" : ctrl.percentage+"%"}}
+    </uib-progressbar>
+</div>

@@ -408,7 +408,7 @@
     position: relative;
     width: @attachment-item-width - 20px;
     height: @attachment-item-width - 20px;
-    outline: rgb(189, 189, 189) dotted 1px;
+    border: rgb(189, 189, 189) dotted 1px;
     margin-bottom: 5px;
     text-align: center;
     &>img{
@@ -451,42 +451,42 @@
   }
 }
 
-@attachmentUploader-textColor: #b9b9b9;
-@attachmentUploader-border: rgba(197, 197, 197, 0.72) dotted 3px;
-@attachmentUploader-iconColor: rgba(43, 43, 43, 0.11);
+@attachBox-textColor: #b9b9b9;
+@attachBox-border: rgba(197, 197, 197, 0.72) dashed 2px;
+@attachBox-iconColor: rgba(43, 43, 43, 0.11);
 
-@attachmentUploader-textColor-dragAccept: #c3bbff;
-@attachmentUploader-border-dragAccept: rgba(144, 143, 249, 0.5) dotted 3px;
-@attachmentUploader-iconColor-dragAccept: rgba(0, 29, 255, 0.17);
+@attachBox-textColor-dragAccept: #c3bbff;
+@attachBox-border-dragAccept: rgba(144, 143, 249, 0.5) dashed 2px;
+@attachBox-iconColor-dragAccept: rgba(0, 29, 255, 0.17);
 
-@attachmentUploader-textColor-dragReject: rgba(249, 55, 55, 0.28);
-@attachmentUploader-border-dragReject: rgba(255, 0, 0, 0.33) dotted 3px;
-@attachmentUploader-iconColor-dragReject: rgba(212, 91, 91, 0.64);
+@attachBox-textColor-dragReject: rgba(249, 55, 55, 0.28);
+@attachBox-border-dragReject: rgba(255, 0, 0, 0.33) dashed 2px;
+@attachBox-iconColor-dragReject: rgba(212, 91, 91, 0.64);
 
 
-.attachment-item.uploader {
-  border: @attachmentUploader-border;
-  &.drag-accept { border: @attachmentUploader-border-dragAccept; }
-  &.drag-reject { border: @attachmentUploader-border-dragReject; }
+.attachment-item.attach-box {
+  border: @attachBox-border;
+  &.drag-accept { border: @attachBox-border-dragAccept; }
+  &.drag-reject { border: @attachBox-border-dragReject; }
 
 
   &>.attachment-item__upload-icon{
     font-size: 135px;
-    color: @attachmentUploader-iconColor;
+    color: @attachBox-iconColor;
     text-align: center;
     width: 100%;
   }
   &.drag-accept>.attachment-item__upload-icon {
-    color: @attachmentUploader-iconColor-dragAccept;
+    color: @attachBox-iconColor-dragAccept;
   }
   &.drag-reject .attachment-item__upload-icon {
-    color: @attachmentUploader-textColor-dragReject;
+    color: @attachBox-textColor-dragReject;
   }
 
 
   & .attachment-item__upload-text {
     font-size: 22px;
-    color: @attachmentUploader-textColor;
+    color: @attachBox-textColor;
     text-align: center;
     width: 100%;
     &__hint {
@@ -494,12 +494,33 @@
     }
   }
   &.drag-accept .attachment-item__upload-text {
-    color: @attachmentUploader-textColor-dragAccept;
+    color: @attachBox-textColor-dragAccept;
   }
   &.drag-reject .attachment-item__upload-text {
-    color: @attachmentUploader-textColor-dragReject;
+    color: @attachBox-textColor-dragReject;
   }
 
+}
+
+.attachment-item.uploading {
+  .attachment-item__remove-box {
+    width: @attachment-item-width - 50px;
+    height: @attachment-item-width - 50px;
+    margin: 15px 15px 5px;
+    text-align: center;
+    border: rgb(189, 189, 189) dotted 2px;
+    border-radius: 10px;
+    &__icon {
+      line-height: 115px;
+      font-size: 110px;
+    }
+  }
+
+  .attachment-item__loading {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+  }
 }
 
 // Контейнер для элементов вложений
@@ -510,4 +531,11 @@
     vertical-align: top;
     display: inline-block;
   }
+}
+
+.attachments-section-header {
+  font-size: 20px;
+  background-color: #f2f2f2;
+  border-top: none;
+  border-bottom: #e8e8e8 solid 1px;
 }

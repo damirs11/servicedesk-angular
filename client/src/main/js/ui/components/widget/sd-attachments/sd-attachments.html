@@ -6,8 +6,15 @@
                 attachment="$item"
         ></sd-attachment-item>
         <a href="javascript:void(0)">
-            <sd-attachment-uploader></sd-attachment-uploader>
+            <sd-attach-box on-attach="ctrl.onFileAttach($files)">
+            </sd-attach-box>
         </a>
+        <sd-uploading-file
+            ng-repeat="$file in ctrl.uploadingFiles"
+            file-name="$file.name"
+            percentage="53"
+        >
+        </sd-uploading-file>
     </div>
 
 </div>
