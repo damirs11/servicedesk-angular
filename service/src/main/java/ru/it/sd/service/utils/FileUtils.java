@@ -28,6 +28,7 @@ public class FileUtils {
     public static String getFTPPathFromOid(Long attachmentOid, Long containerOid){
         String path="";
         String filename = "";
+        String fullpath;
         String attachmentUuid = oid2uuid(attachmentOid);
         String containerUuid = oid2uuid(containerOid);
 
