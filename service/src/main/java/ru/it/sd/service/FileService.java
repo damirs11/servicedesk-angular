@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.FileInfoDao;
 import ru.it.sd.exception.ServiceException;
+import ru.it.sd.hp.IAttachedItemDao;
 import ru.it.sd.model.FileInfo;
 import ru.it.sd.util.ResourceMessages;
 
@@ -17,6 +18,7 @@ import java.io.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Сервис для работы с файлами
@@ -25,7 +27,7 @@ import java.util.Map;
  * @since 24.10.2017
  */
 @Service
-public class FileService implements ReadService<FileInfo>{
+public class FileService implements CrudService<FileInfo>{
 
 	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
 
@@ -34,10 +36,12 @@ public class FileService implements ReadService<FileInfo>{
 
 	private final SecurityService securityService;
     private FileInfoDao fileInfoDao;
+    private IAttachedItemDao iAttachedItemDao;
 	@Autowired
-	public FileService(SecurityService securityService, FileInfoDao fileInfoDao) {
+	public FileService(SecurityService securityService, FileInfoDao fileInfoDao, IAttachedItemDao iAttachedItemDao) {
 	    this.securityService = securityService;
 	    this.fileInfoDao = fileInfoDao;
+	    this.iAttachedItemDao = iAttachedItemDao;
 	}
 
 	/**
@@ -116,5 +120,34 @@ public class FileService implements ReadService<FileInfo>{
     @Override
     public int count(Map<String, String> filter) {
         return fileInfoDao.count(filter);
+    }
+
+    @Override
+    public FileInfo create(FileInfo entity) {
+        try{
+            long id = iAttachedItemDao.create(entity);
+            return fileInfoDao.read(id);
+        } catch (Exception e){
+            throw new ServiceException("Возникли проблемы при создании вложения. " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public FileInfo update(FileInfo entity) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void delete(long id) {
+        try{
+            iAttachedItemDao.delete(id);
+        } catch (Exception e){
+            throw new ServiceException("Возникли проблемы при удалении вложения. " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public FileInfo patch(FileInfo entity, Set<String> fields) {
+        throw new UnsupportedOperationException();
     }
 }
