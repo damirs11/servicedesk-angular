@@ -20,7 +20,8 @@ import {HistoryableProvider} from "./entity/mixin/historyable.provider";
 import {ApproverVoteProvider} from "./entity/approver-vote.provider";
 import {ApprovableProvider} from "./entity/mixin/approvable.provider";
 import {ApprovalProvider} from "./entity/approval.provider";
-import {AttachmentProvider} from "./entity/Attachment";
+import {AttachmentProvider} from "./entity/attachment.provider";
+import {FileInfoProvider} from "./entity/file-info.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -64,6 +65,7 @@ const SDConstructor = function SD($injector,cache) {
     this.ApproverVote = $injector.instantiate(ApproverVoteProvider,locals);
     this.Approval = $injector.instantiate(ApprovalProvider,locals);
     this.Attachment = $injector.instantiate(AttachmentProvider,locals);
+    this.FileInfo = $injector.instantiate(FileInfoProvider,locals);
 
     /** Code-сущности */
     this.EntityStatus = $injector.instantiate(StatusProvider,locals);

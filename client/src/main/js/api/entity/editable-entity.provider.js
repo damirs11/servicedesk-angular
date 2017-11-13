@@ -21,13 +21,13 @@ function EditableEntityProvider(RESTEntity, $connector) {
 
         /**
          * Создает новую сущность
+         * Создается новый объект по образцу текущего.
          * @return {SD.EditableEntity}
          */
         async create(){
-            // ToDo сущность должна появиться в кэше.
             const jsonData = this.$serialize();
             const data = await $connector.post(`rest/entity/${this.$entityType}`,null,jsonData);
-            this.$update(data)
+            return this.constructor.parse(data);
         }
     }
     return EditableEntity;

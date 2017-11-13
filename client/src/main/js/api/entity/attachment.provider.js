@@ -48,17 +48,17 @@ function AttachmentProvider(RESTEntity, SD) {
      */
     return class Attachment extends RESTEntity {
         static get $entityType() { // Название на сервере.
-            return "FileInfo";
+            return "Attachment";
         }
         /**
-         * Название файла
+         * Название вложения
          * @property
          * @name SD.Attachment#name
          * @type {String}
          */
         @Parse( String ) name;
         /**
-         * Размер файла в байтах
+         * Размер вложения в байтах
          * @property
          * @name SD.Attachment#size
          * @type {Number}
@@ -80,7 +80,7 @@ function AttachmentProvider(RESTEntity, SD) {
         @Parse( Instantiate(Date) ) creationDate;
 
         /**
-         * Расширение файла
+         * Расширение вложение
          * @returns {string|undefined}
          */
         get extension(){
@@ -90,7 +90,7 @@ function AttachmentProvider(RESTEntity, SD) {
         }
 
         /**
-         * Тип файла
+         * Тип вложения
          * @returns {string}
          */
         get fileType(){
@@ -104,9 +104,12 @@ function AttachmentProvider(RESTEntity, SD) {
          * @returns {string}
          */
         get url(){
-            return "/img/logo.png"
+            return `/rest/service/file/download?id=${this.id}`
         }
 
+        static async upload(file,onProgress) {
+
+        }
 
     };
 }

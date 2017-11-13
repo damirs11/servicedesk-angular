@@ -10,7 +10,6 @@ function RESTEntityProvider(Entity, $connector) {
      */
     return class RESTEntity extends Entity {
 
-
         /**
          * Возвращает строкой тип сущности. Используется для запросов
          * Должен соотвествовать типу на сервере
