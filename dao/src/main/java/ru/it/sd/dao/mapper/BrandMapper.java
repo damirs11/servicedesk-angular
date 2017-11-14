@@ -5,6 +5,4 @@ import ru.it.sd.model.Brand;
 
 @Component
 public class BrandMapper extends EntityRowMapper<Brand> {
-
-
 }

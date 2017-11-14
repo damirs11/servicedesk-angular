@@ -6,6 +6,4 @@ import ru.it.sd.model.Folder;
 
 @Component
 public class FolderMapper extends EntityRowMapper<Folder> {
-
-
 }
