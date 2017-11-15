@@ -30,7 +30,9 @@ public class IAttachedItemDao implements HpCrudDao<FileInfo, IAttachedItem>{
         iAttachedItem.setFilename(entity.getPath());
         iAttachedItem.setBaseName(entity.getName());
         iAttachment.addAttachedItem(iAttachedItem);
+        iAttachment.setAttachmentExists(true);
         iAttachment.transfer();
+        iWorkflow.save();
         return iAttachedItem.getOID();
     }
 
