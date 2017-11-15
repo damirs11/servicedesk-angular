@@ -16,6 +16,7 @@ function WorkorderProvider(EditableEntity, SD, Historyable) {
      */
     @Mixin(Historyable)
     class Workorder extends EditableEntity {
+        static $entityTypeId = 556859410;
         /**
          * Номер
          * @property

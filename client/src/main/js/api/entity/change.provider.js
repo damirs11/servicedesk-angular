@@ -5,17 +5,20 @@ import {serializeId} from "./decorator/serialize-utils";
 import {Mixin} from "./mixin/mixin.decorator";
 
 
-ChangeProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable"];
-function ChangeProvider(EditableEntity, SD, Historyable, Approvable) {
+ChangeProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable", "AttachmentsHolder"];
+function ChangeProvider(EditableEntity, SD, Historyable, Approvable, AttachmentsHolder) {
     /**
      * Персона
      * @class
      * @name SD.Change
-     * @mixes [ENTITY_MIXIN.Historyable,ENTITY_MIXIN.Approvable]
+     * @mixes ENTITY_MIXIN.Historyable
+     * @mixes ENTITY_MIXIN.Approvable
+     * @mixes ENTITY_MIXIN.AttachmentsHolder
      * @extends SD.EditableEntity
      */
-    @Mixin(Historyable, Approvable)
+    @Mixin(Historyable, Approvable, AttachmentsHolder)
     class Change extends EditableEntity {
+        static $entityTypeId = 724041768;
         /**
          * Номер
          * @property

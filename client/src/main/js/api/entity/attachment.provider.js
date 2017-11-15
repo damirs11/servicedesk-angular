@@ -38,17 +38,17 @@ const FILETYPE_MAP = {
 
 };
 
-AttachmentProvider.$inject = ["RESTEntity", "SD"];
-function AttachmentProvider(RESTEntity, SD) {
+AttachmentProvider.$inject = ["Entity", "SD"];
+function AttachmentProvider(Entity, SD) {
     /**
      * Персона
      * @class
      * @extends SD.RESTEntity
      * @name SD.Attachment
      */
-    return class Attachment extends RESTEntity {
+    return class Attachment extends Entity {
         static get $entityType() { // Название на сервере.
-            return "Attachment";
+            return "FileInfo";
         }
         /**
          * Название вложения

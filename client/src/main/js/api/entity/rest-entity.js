@@ -9,16 +9,6 @@ function RESTEntityProvider(Entity, $connector) {
      * @name SD.RESTEntity
      */
     return class RESTEntity extends Entity {
-
-        /**
-         * Возвращает строкой тип сущности. Используется для запросов
-         * Должен соотвествовать типу на сервере
-         * @returns {string}
-         */
-        static get $entityType() {
-            return this.name;
-        }
-
         /**
          * Подгружает изменения в текущую сущность
          */

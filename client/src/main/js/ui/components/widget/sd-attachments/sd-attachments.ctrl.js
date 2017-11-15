@@ -51,7 +51,7 @@ class SDAttachmentsController {
         // ToDO attach
         const index = this.uploadingInfos.indexOf(uploadingInfo);
         this.uploadingInfos.splice(index,1);
-        const attachment = await fileInfo.attachTo(this.target);
+        const attachment = await this.target.attachFile(fileInfo);
         this.attachments.push(attachment)
         // ToDo Прикрепить вложение и обновить список вложений
     }

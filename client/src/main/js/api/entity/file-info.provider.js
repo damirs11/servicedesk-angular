@@ -3,15 +3,15 @@ import {Instantiate, Nullable} from "./decorator/parse-utils";
 import {Serialize} from "./decorator/serialize.decorator";
 import {serializeId} from "./decorator/serialize-utils";
 
-FileInfoProvider.$inject = ["RESTEntity", "SD", "Upload","$connector"];
-function FileInfoProvider(RESTEntity, SD, Upload, $connector) {
+FileInfoProvider.$inject = ["Entity", "SD", "Upload"];
+function FileInfoProvider(Entity, SD, Upload) {
     /**
      * Информация о файле. Не имеет своего ID, поэтому кэшируется по fileId
      * @class
      * @extends SD.RESTEntity
      * @name SD.FileInfo
      */
-    return class FileInfo extends RESTEntity {
+    return class FileInfo extends Entity {
         /**
          * Переопределяем трекер для FileInfo
          * Т.к. fileInfo не имеет ID, она трекерится по
@@ -35,34 +35,6 @@ function FileInfoProvider(RESTEntity, SD, Upload, $connector) {
          * @type {String}
          */
         @Serialize( ) @Parse( Nullable(String) ) path;
-        /**
-         * ID сущности, к которой привязан файл
-         * @property
-         * @name SD.FileInfo#entityId
-         * @type {Number}
-         */
-        @Serialize( Nullable(Number) ) entityId;
-        /**
-         * Тип сущности, к которой привязан файл
-         * @property
-         * @name SD.FileInfo#entityType
-         * @type {SD.EntityType}
-         */
-        @Serialize( serializeId ) entityType;
-
-        /**
-         * Прикрепляет файл к сущности.
-         * @method
-         * @param entity - сущность, к которой прикрепится вложение
-         * @returns {Promise.<SD.Attachment>}
-         */
-        async attachTo(entity) {
-            this.entityId = entity.id;
-            this.entityType = SD.EntityType.getFor(entity);
-            const jsonData = this.$serialize();
-            const data = await $connector.post(`rest/entity/${this.constructor.$entityType}`,null,jsonData);
-            return SD.Attachment.parse(data);
-        }
 
         /**
          * Загружает файл на сервер.

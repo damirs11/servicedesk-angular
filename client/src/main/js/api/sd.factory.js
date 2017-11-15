@@ -22,7 +22,7 @@ import {ApprovableProvider} from "./entity/mixin/approvable.provider";
 import {ApprovalProvider} from "./entity/approval.provider";
 import {AttachmentProvider} from "./entity/attachment.provider";
 import {FileInfoProvider} from "./entity/file-info.provider";
-import {EntityTypeProvider} from "./entity/entity-type.provider";
+import {AttachmentsHolderProvider} from "./entity/mixin/attachments-holder.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -37,6 +37,11 @@ function SDFactory($injector) {
     return Object.freeze(SD);
 }
 
+/**
+ * Заглушка для jsdoc.
+ * Все миксимны попадают в SD
+ */
+const ENTITY_MIXIN = null;
 /**
  * Класс, предоставляющий доступ к классам сущностей ServiceDesk
  * @constructor
@@ -54,6 +59,7 @@ const SDConstructor = function SD($injector,cache) {
     /** Миксины */
     locals.Historyable = $injector.instantiate(HistoryableProvider,locals);
     locals.Approvable = $injector.instantiate(ApprovableProvider,locals);
+    locals.AttachmentsHolder = $injector.instantiate(AttachmentsHolderProvider,locals);
 
     /** Все остальные сущности */
     this.User = $injector.instantiate(UserProvider,locals);
@@ -74,7 +80,6 @@ const SDConstructor = function SD($injector,cache) {
     this.EntityCategory = $injector.instantiate(EntityCategoryProvider,locals);
     this.EntityClassification = $injector.instantiate(EntityClassificationProvider,locals);
     this.EntityClosureCode = $injector.instantiate(EntityClosureCodeProvider,locals);
-    this.EntityType = $injector.instantiate(EntityTypeProvider,locals);
 
     this.withCache = (newCache = Object.create(cache)) => {
         return $injector.instantiate(SD,{cache:newCache});

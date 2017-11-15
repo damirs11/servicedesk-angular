@@ -25,6 +25,24 @@ function EntityProvider(cache) {
         };
 
         /**
+         * Идентификатор типа сущности
+         * @static
+         * @property
+         * @name SD.Entity.$entityTypeId
+         * @type {Number}
+         */
+        static $entityTypeId;
+
+        /**
+         * Возвращает строкой тип сущности. Используется для запросов
+         * Должен соотвествовать типу на сервере
+         * @returns {string}
+         */
+        static get $entityType() {
+            return this.name;
+        }
+
+        /**
          * Возвращает сущность из данных json. Может изменить кэшированную версию.
          * Если был передан id - вернет сущность связанную с кешем.
          * @param {object|number} data - json данные или трекер.
