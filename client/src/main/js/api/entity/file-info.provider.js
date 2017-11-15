@@ -1,6 +1,7 @@
 import {Parse} from "./decorator/parse.decorator";
 import {Instantiate, Nullable} from "./decorator/parse-utils";
 import {Serialize} from "./decorator/serialize.decorator";
+import {serializeId} from "./decorator/serialize-utils";
 
 FileInfoProvider.$inject = ["RESTEntity", "SD", "Upload","$connector"];
 function FileInfoProvider(RESTEntity, SD, Upload, $connector) {
@@ -28,24 +29,26 @@ function FileInfoProvider(RESTEntity, SD, Upload, $connector) {
          */
         @Serialize(String) @Parse( String ) name;
         /**
-         * Дата создания
+         * Путь на сервере
          * @property
-         * @name SD.FileInfo#size
-         * @type {Date}
+         * @name SD.FileInfo#path
+         * @type {String}
          */
-        @Serialize(Number) @Parse( Instantiate(Date) ) creationDate;
+        @Serialize( ) @Parse( Nullable(String) ) path;
         /**
-         * Размер файла
+         * ID сущности, к которой привязан файл
          * @property
-         * @name SD.FileInfo#size
+         * @name SD.FileInfo#entityId
          * @type {Number}
          */
-        @Serialize(Number) @Parse( Number ) size;
-
-
-        @Serialize( ) @Parse( Nullable(String) ) path;
-        @Serialize( ) @Parse( Nullable(Number) ) id;
-
+        @Serialize( Nullable(Number) ) entityId;
+        /**
+         * Тип сущности, к которой привязан файл
+         * @property
+         * @name SD.FileInfo#entityType
+         * @type {SD.EntityType}
+         */
+        @Serialize( serializeId ) entityType;
 
         /**
          * Прикрепляет файл к сущности.
@@ -54,15 +57,9 @@ function FileInfoProvider(RESTEntity, SD, Upload, $connector) {
          * @returns {Promise.<SD.Attachment>}
          */
         async attachTo(entity) {
+            this.entityId = entity.id;
+            this.entityType = SD.EntityType.getFor(entity);
             const jsonData = this.$serialize();
-            let entityId;
-            if (typeof entity == "number") {
-                entityId = entity
-            } else {
-                entityId = entity.id; // Тут мы привязаны к полю ID (не к tracker'у)
-            }
-            jsonData.entityId = entityId;
-            jsonData.entityType = SD.EntityType.getFor(this);
             const data = await $connector.post(`rest/entity/${this.constructor.$entityType}`,null,jsonData);
             return SD.Attachment.parse(data);
         }

@@ -1,8 +1,9 @@
-import {Parse} from "./decorator/parse.decorator";
-
 /**
  * Идентификаторы типов сущностей.
  */
+import {Parse} from "./decorator/parse.decorator";
+import {Serialize} from "./decorator/serialize.decorator";
+
 const TYPE_MAP = {
     "Change": 724041768,
     "Workorder": 556859410,
@@ -19,14 +20,6 @@ function EntityTypeProvider(Entity) {
      */
     return class EntityType extends Entity {
         /**
-         * Псевдоним.
-         * @property
-         * @name SD.EntityType#alias
-         * @type {string}
-         */
-        @Parse( String ) alias;
-
-        /**
          * @static
          * @method
          * @name SD.EntityType#getFor
@@ -38,8 +31,7 @@ function EntityTypeProvider(Entity) {
             if (type == null) type = entity.constructor.name;
             if (! TYPE_MAP[type]) return null;
             const data = {
-                id: TYPE_MAP[type],
-                alias: type
+                id: TYPE_MAP[type]
             };
             return this.parse(data)
         }

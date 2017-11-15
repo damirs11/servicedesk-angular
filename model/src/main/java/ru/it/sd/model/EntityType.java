@@ -1,5 +1,7 @@
 package ru.it.sd.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.util.ResourceMessages;
 
@@ -11,6 +13,8 @@ import java.util.Objects;
  * @author quadrix
  * @since 01.05.2017
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+@JsonDeserialize(using = EntityType.Deserializer.class)
 public enum EntityType implements Code {
 
 	CHANGE("Изменение", Change.class.getSimpleName(), 724041768L),
@@ -85,4 +89,5 @@ public enum EntityType implements Code {
 		}
 		throw new ServiceException(ResourceMessages.getMessage("error.not.found"));
 	}
+	static class Deserializer extends EnumJsonDeserializer<EntityType> {}
 }
