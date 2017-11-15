@@ -101,6 +101,7 @@ public class FileService implements CrudService<FileInfo>{
 		FileInfo info = new FileInfo();
 		info.setFileId(id);
 		info.setName(fileName);
+        info.setPath(System.getProperty("java.io.tmpdir") + FILE_PREFIX + info.getFileId() + FILE_SUFFIX);
 		info.setAuthor(securityService.getCurrentUser().getPerson());
 		info.setCreationDate(new Date());
 		info.setSize(size);
