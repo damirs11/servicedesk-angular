@@ -2,7 +2,7 @@ import mocks from "./attachments.mock.json"
 
 class SDAttachmentsController {
 
-    static $inject = ["$attrs","$fileUploader","$fileUploader"];
+    static $inject = ["$attrs"];
     /**
      * [{
      *      file: File               // сам файл
@@ -14,9 +14,14 @@ class SDAttachmentsController {
      */
     uploadingInfos = [];
 
-    constructor($attrs,$fileUploader){
+    /**
+     * Список отображаемых вложений.
+     * @type {SD.Attachment[]}
+     */
+    attachments = [];
+
+    constructor($attrs){
         this.$attrs = $attrs;
-        this.$fileUploader = $fileUploader;
     }
 
     $onInit(){
@@ -31,7 +36,7 @@ class SDAttachmentsController {
         files.forEach(file => {
                 const uploadingInfo = {file: file, error: false};
                 const onProgress = (event) => {uploadingInfo.progress = Math.floor(event.loaded/event.total*100)};
-                const uploadingProcess = this.$fileUploader.upload(file);
+                const uploadingProcess = this.SD.FileInfo.upload(file);
                 uploadingInfo.abort = uploadingProcess.abort;
                 uploadingProcess.then(
                     (fileInfo) => this.$onFileUploaded(uploadingInfo,fileInfo),
@@ -46,6 +51,8 @@ class SDAttachmentsController {
         // ToDO attach
         const index = this.uploadingInfos.indexOf(uploadingInfo);
         this.uploadingInfos.splice(index,1);
+        const attachment = await fileInfo.attachTo(this.target);
+        this.attachments.push(attachment)
         // ToDo Прикрепить вложение и обновить список вложений
     }
 

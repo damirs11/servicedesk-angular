@@ -107,10 +107,6 @@ function AttachmentProvider(RESTEntity, SD) {
             return `/rest/service/file/download?id=${this.id}`
         }
 
-        static async upload(file,onProgress) {
-
-        }
-
     };
 }
 

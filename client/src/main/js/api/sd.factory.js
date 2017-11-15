@@ -22,6 +22,7 @@ import {ApprovableProvider} from "./entity/mixin/approvable.provider";
 import {ApprovalProvider} from "./entity/approval.provider";
 import {AttachmentProvider} from "./entity/attachment.provider";
 import {FileInfoProvider} from "./entity/file-info.provider";
+import {EntityTypeProvider} from "./entity/entity-type.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -67,12 +68,13 @@ const SDConstructor = function SD($injector,cache) {
     this.Attachment = $injector.instantiate(AttachmentProvider,locals);
     this.FileInfo = $injector.instantiate(FileInfoProvider,locals);
 
-    /** Code-сущности */
+    /** другие-сущности */
     this.EntityStatus = $injector.instantiate(StatusProvider,locals);
     this.EntityPriority = $injector.instantiate(PriorityProvider,locals);
     this.EntityCategory = $injector.instantiate(EntityCategoryProvider,locals);
     this.EntityClassification = $injector.instantiate(EntityClassificationProvider,locals);
     this.EntityClosureCode = $injector.instantiate(EntityClosureCodeProvider,locals);
+    this.EntityType = $injector.instantiate(EntityTypeProvider,locals);
 
     this.withCache = (newCache = Object.create(cache)) => {
         return $injector.instantiate(SD,{cache:newCache});
