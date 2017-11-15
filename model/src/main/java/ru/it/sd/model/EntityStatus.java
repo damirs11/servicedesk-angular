@@ -9,7 +9,7 @@ import ru.it.sd.util.ResourceMessages;
  * @author quadrix
  * @since 01.05.2017
  */
-public class EntityStatus extends AbstractRepCode {
+public class EntityStatus extends BaseCode {
 
 	@Override
 	protected Long getTypeId(EntityType entityType) {
@@ -29,5 +29,15 @@ public class EntityStatus extends AbstractRepCode {
 			default:
 				throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
 		}
+	}
+
+	public static EntityStatus from(BaseCode code) {
+		if (code == null) {
+			return null;
+		}
+		EntityStatus result = new EntityStatus();
+		result.setId(code.getId());
+		result.setName(code.getName());
+		return result;
 	}
 }

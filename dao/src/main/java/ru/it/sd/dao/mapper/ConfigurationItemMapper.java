@@ -21,9 +21,7 @@ public class ConfigurationItemMapper extends EntityRowMapper<ConfigurationItem> 
 	@Autowired
 	private LocationDao locationDao;
 	@Autowired
-	private FolderDao folderDao;
-	@Autowired
-	private BrandDao brandDao;
+	private CodeDao codeDao;
 
 	@Override
 	public ConfigurationItem mapRow(ResultSet rs, int rowNumber) throws SQLException {
@@ -31,8 +29,8 @@ public class ConfigurationItemMapper extends EntityRowMapper<ConfigurationItem> 
 
 		Long statusId = DBUtils.getLong(rs,"CIT_STA_OID");
 		if (statusId != null) {
-			EntityStatus status = EntityStatus.get(statusId);
-			item.setStatus(status);
+			BaseCode code = codeDao.read(statusId);
+			item.setStatus(EntityStatus.from(code));
 		}
 		Long categoryId = DBUtils.getLong(rs,"CIT_CAT_OID");
 		if (categoryId != null) {
@@ -46,13 +44,13 @@ public class ConfigurationItemMapper extends EntityRowMapper<ConfigurationItem> 
 		}
 		Long folderId = DBUtils.getLong(rs,"CIT_POO_OID");
 		if (folderId != null) {
-			Folder folder = folderDao.read(folderId);
-			item.setFolder(folder);
+			BaseCode code = codeDao.read(statusId);
+			item.setFolder(Folder.from(code));
 		}
 		Long brandId = DBUtils.getLong(rs,"CIT_BRA_OID");
 		if (brandId != null) {
-			Brand brand = brandDao.read(brandId);
-			item.setBrand(brand);
+			BaseCode code = brandDao.read(brandId);
+			item.setBrand(EntityStatus.from(code));
 		}
 		Long adminId = DBUtils.getLong(rs,"CIT_ADMIN_PER_OID");
 		if (adminId != null) {

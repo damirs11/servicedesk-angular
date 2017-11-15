@@ -1,10 +1,7 @@
 package ru.it.sd.dao.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.it.sd.dao.ChangeDao;
-import ru.it.sd.dao.DBUtils;
-import ru.it.sd.dao.PersonDao;
-import ru.it.sd.dao.WorkgroupDao;
+import ru.it.sd.dao.*;
 import ru.it.sd.model.*;
 
 import java.sql.ResultSet;
@@ -19,11 +16,14 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 	private PersonDao personDao;
 	private ChangeDao changeDao;
     private WorkgroupDao workgroupDao;
+    private CodeDao codeDao;
 
-    public WorkorderMapper(PersonDao personDao, ChangeDao changeDao, WorkgroupDao workgroupDao) {
+    public WorkorderMapper(PersonDao personDao, ChangeDao changeDao, WorkgroupDao workgroupDao,
+    CodeDao codeDao) {
 	    this.personDao = personDao;
 	    this.changeDao = changeDao;
 	    this.workgroupDao = workgroupDao;
+	    this.codeDao = codeDao;
     }
 
 	@Override
@@ -32,8 +32,8 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 
 		Long statusId = DBUtils.getLong(rs,"wor_sta_oid");
 		if (statusId != null){
-			EntityStatus status = EntityStatus.get(statusId);
-			workorder.setStatus(status);
+			BaseCode code = codeDao.read(statusId);
+			workorder.setStatus(EntityStatus.from(code));
 		}
 		Long categoryId = DBUtils.getLong(rs,"wor_cat_oid");
 		if (categoryId != null){
