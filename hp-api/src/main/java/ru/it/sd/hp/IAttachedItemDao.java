@@ -25,7 +25,7 @@ public class IAttachedItemDao implements HpCrudDao<FileInfo, IAttachedItem>{
         IAttachment iAttachment = iWorkflow.getAttachment();
 
         IAttachedItem iAttachedItem = sdClientBean.sd_session().getAttachedItemHome().openNewAttachedItem();
-        IEntityInfo iEntityInfo = sdClientBean.sd_session().getEntityInfoHome().openEntityInfo(563019801L);//Исправить когда доработаем entityType
+        IEntityInfo iEntityInfo = sdClientBean.sd_session().getEntityInfoHome().openEntityInfo(entity.getEntityType().getId());
         iAttachedItem.setParentEntityType(iEntityInfo);
         iAttachedItem.setFilename(entity.getPath());
         iAttachedItem.setBaseName(entity.getName());
