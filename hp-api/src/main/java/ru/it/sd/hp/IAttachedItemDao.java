@@ -28,7 +28,7 @@ public class IAttachedItemDao implements HpCrudDao<FileInfo, IAttachedItem>{
         IEntityInfo iEntityInfo = sdClientBean.sd_session().getEntityInfoHome().openEntityInfo(563019801L);//Исправить когда доработаем entityType
         iAttachedItem.setParentEntityType(iEntityInfo);
         iAttachedItem.setFilename(entity.getPath());
-
+        iAttachedItem.setBaseName(entity.getName());
         iAttachment.addAttachedItem(iAttachedItem);
         iAttachment.transfer();
         return iAttachedItem.getOID();
