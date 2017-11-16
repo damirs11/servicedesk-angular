@@ -55,7 +55,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
 
     @Override
     public IChange read(long id) {
-        Long no = changeDao.read(id).getNo();
+        long no = changeDao.read(id).getNo();
         return api.getSdClient().sd_session().getChangeHome().openChange(no);
     }
 
