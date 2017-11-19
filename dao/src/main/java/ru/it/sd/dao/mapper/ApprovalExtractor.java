@@ -2,9 +2,11 @@ package ru.it.sd.dao.mapper;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
+import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.DBUtils;
 import ru.it.sd.dao.WorkgroupDao;
 import ru.it.sd.model.Approval;
+import ru.it.sd.model.BaseCode;
 import ru.it.sd.model.EntityStatus;
 import ru.it.sd.model.Workgroup;
 
@@ -22,10 +24,12 @@ import java.util.List;
 @Component
 public class ApprovalExtractor extends EntityRowMapper<Approval> {
 
-	private WorkgroupDao workgroupDao;
+	private final WorkgroupDao workgroupDao;
+	private final CodeDao codeDao;
 
-	public ApprovalExtractor(WorkgroupDao workgroupDao) {
+	public ApprovalExtractor(WorkgroupDao workgroupDao, CodeDao codeDao) {
 		this.workgroupDao = workgroupDao;
+		this.codeDao = codeDao;
 	}
 
 	@Override
@@ -37,7 +41,10 @@ public class ApprovalExtractor extends EntityRowMapper<Approval> {
 			Approval approval = super.mapRow(rs, 0);
 
 			Long statusId = DBUtils.getLong(rs, "apt_status");
-			if(statusId !=null) approval.setStatus(EntityStatus.get(statusId));
+			if(statusId != null) {
+				BaseCode code = codeDao.read(statusId);
+				approval.setStatus(code.convertTo(EntityStatus.class));
+			}
 
 			Long workgroupID = DBUtils.getLong(rs, "wog_oid");
 			if(workgroupID != null) {

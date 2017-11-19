@@ -6,7 +6,7 @@ import ru.it.sd.meta.FieldMeta;
 import java.io.Serializable;
 
 /**
- * Модельный класс для "ApproverVotes"
+ * Модельный класс для "Мнение"
  *
  * @author NSychev
  * @since 25.09.2017

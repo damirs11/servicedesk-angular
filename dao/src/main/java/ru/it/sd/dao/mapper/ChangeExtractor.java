@@ -3,6 +3,7 @@ package ru.it.sd.dao.mapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
+import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.DBUtils;
 import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.WorkgroupDao;
@@ -21,14 +22,16 @@ import java.util.*;
 @Component
 public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 
-	private PersonDao personDao;
-	private ChangeMapper changeMapper;
-	private WorkgroupDao workgroupDao;
+	private final PersonDao personDao;
+	private final ChangeMapper changeMapper;
+	private final WorkgroupDao workgroupDao;
+	private final CodeDao codeDao;
 
-	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, WorkgroupDao workgroupDao) {
+	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, WorkgroupDao workgroupDao, CodeDao codeDao) {
 		this.personDao = personDao;
 		this.changeMapper = changeMapper;
 		this.workgroupDao = workgroupDao;
+		this.codeDao = codeDao;
 	}
 
 	@Override
@@ -41,7 +44,8 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 			Change change = changeMapper.mapRow(rs, 0);
 
 			Long statusId = DBUtils.getLong(rs, "cha_sta_oid");
-			if(statusId !=null) change.setStatus(EntityStatus.get(statusId));
+			BaseCode code = codeDao.read(statusId);
+			if(statusId !=null) change.setStatus(code.convertTo(EntityStatus.class));
 
 			Long priorityId = DBUtils.getLong(rs, "cha_imp_oid");
 			if(priorityId != null) change.setPriority(EntityPriority.get(priorityId));
