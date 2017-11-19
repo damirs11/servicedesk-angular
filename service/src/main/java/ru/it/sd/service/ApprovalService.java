@@ -22,15 +22,20 @@ import java.util.Set;
 public class ApprovalService implements CrudService<Approval> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ApprovalService.class);
+	private static final long APPROVAL_PREPARING_STATUS = 281478256721931L; // подготавливается
 
-	@Autowired
-	private IApprovalDao iApprovalDao;
+	private final IApprovalDao iApprovalDao;
+	private final ApprovalDao approvalDao;
 
-	@Autowired
-    private ApprovalDao approvalDao;
+    @Autowired
+    public ApprovalService(IApprovalDao iApprovalDao, ApprovalDao approvalDao) {
+        this.iApprovalDao = iApprovalDao;
+        this.approvalDao = approvalDao;
+    }
+
     @Override
     public Approval update(Approval entity) {
-        if(entity.getStatus() == EntityStatus.APPROVAL_PREPARING || entity.getStatus() == null) {
+        if(entity.getStatus() == null || entity.getStatus().getId() == APPROVAL_PREPARING_STATUS) {
             iApprovalDao.update(entity);
         }
         return read(entity.getId());
@@ -47,13 +52,10 @@ public class ApprovalService implements CrudService<Approval> {
         return approvalDao.read(id);
     }
 
-
-
     @Override
     public List<Approval> list(Map<String, String> filter) {
         return null;
     }
-
     @Override
     public Approval create(Approval entity) {
         return null;

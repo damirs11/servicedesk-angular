@@ -11,33 +11,24 @@ import ru.it.sd.util.ResourceMessages;
  */
 public class EntityStatus extends BaseCode {
 
-	@Override
-	protected Long getTypeId(EntityType entityType) {
+	public EntityStatus(){}
+
+	public static Long getTypeId(EntityType entityType) {
 		switch (entityType) {
 			case CHANGE:
-				return 724041777L;
+				return 724041777L; // rep
 			case CALL:
-				return 606535725L;
+				return 606535725L; // rep
 			case WORKORDER:
-				return 854589446L;
+				return 854589446L; // rep
 			case ITEM:
-				return 801767480L;
+				return 801767480L; // rep
 			case WORKGROUP:
-				return 670761017L;
+				return 670761017L; // rep
 			case APPROVAL:
 				return 281478244794379L; //itsm
 			default:
 				throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
 		}
-	}
-
-	public static EntityStatus from(BaseCode code) {
-		if (code == null) {
-			return null;
-		}
-		EntityStatus result = new EntityStatus();
-		result.setId(code.getId());
-		result.setName(code.getName());
-		return result;
 	}
 }

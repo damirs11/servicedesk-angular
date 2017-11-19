@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.CodeMapper;
 import ru.it.sd.exception.ServiceException;
+import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.model.BaseCode;
 import ru.it.sd.util.ResourceMessages;
 
@@ -29,18 +30,19 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 		"SELECT id, name FROM\n" +
 		"(SELECT\n" +
 		"	cod.cod_oid id,\n" +
-		"	cdl.cdl_name name\n" +
-		"   cod.cod_subtype subtype\n" +
-		"   cod.cod_ordering ordering\n" +
+		"	cdl.cdl_name name,\n" +
+		"	cod.cod_subtype subtype,\n" +
+		"	cod.cod_ordering ordering\n" +
 		"FROM\n" +
 		"	itsm_codes cod\n" +
-		"   LEFT JOIN itsm_codes_locale cdl ON (cdl.cdl_cod_oid = cod.cod_oid AND cdl.cdl_lng_oid = 1049)\n" +
+		"	LEFT JOIN itsm_codes_locale cdl ON (cdl.cdl_cod_oid = cod.cod_oid AND cdl.cdl_lng_oid = 1049)\n" +
 		"WHERE cod.cod_disabled = 0\n" +
+		"UNION ALL\n" +
 		"SELECT\n" +
 		"	rcd.rcd_oid id,\n" +
-		"	rct.rct_name name\n" +
-		"   rcd.rcd_subtype subtype\n" +
-		"   rcd.rcd_ordering ordering\n" +
+		"	rct.rct_name name,\n" +
+		"	rcd.rcd_subtype subtype,\n" +
+		"	rcd.rcd_ordering ordering\n" +
 		"FROM\n" +
 		"	rep_codes rcd\n" +
 		"	LEFT JOIN rep_codes_text rct ON (rct.rct_rcd_oid = rcd.rcd_oid AND rct.rct_lng_oid = 1049)\n" +
@@ -72,7 +74,7 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 	@Override
 	protected void buildOrderBy(Map<String, String> filter, StringBuilder sql, int insertPos) {
 		if (!filter.containsKey(SORTING_PARAM_NAME)) {
-			filter.put(SORTING_PARAM_NAME, "ordering");
+			filter.put(SORTING_PARAM_NAME, "ordering-asc");
 		}
 		super.buildOrderBy(filter, sql, insertPos);
 	}

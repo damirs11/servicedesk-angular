@@ -15,6 +15,7 @@ import static ru.it.sd.model.EntityType.*;
  * @author quadrix
  * @since 01.05.2017
  */
+@Deprecated
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @JsonDeserialize(using = EntityStatus2.Deserializer.class)
 public enum EntityStatus2 implements Code {

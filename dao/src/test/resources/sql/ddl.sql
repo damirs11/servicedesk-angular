@@ -133,14 +133,28 @@ CREATE TABLE itsm_cit_custom_fields (
   ccf_cishorttext1 VARCHAR (128)
 );
 
+CREATE TABLE itsm_codes (
+  cod_oid DECIMAL (18),
+  cod_subtype DECIMAL(18),
+  cod_ordering DECIMAL(9),
+  cod_disabled DECIMAL(1)
+);
+
 CREATE TABLE itsm_codes_locale (
   cdl_cod_oid DECIMAL (18),
   cdl_name VARCHAR (128),
   cdl_lng_oid DECIMAL (18)
 );
 
-CREATE TABLE rep_codes_text (
+CREATE TABLE rep_codes (
   rcd_oid DECIMAL (18),
+  rcd_subtype DECIMAL(18),
+  rcd_ordering DECIMAL(9),
+  rcd_codedisabled DECIMAL(1)
+);
+
+CREATE TABLE rep_codes_text (
+  rct_rcd_oid DECIMAL (18),
   rct_name VARCHAR (128),
   rct_lng_oid DECIMAL (18)
 );

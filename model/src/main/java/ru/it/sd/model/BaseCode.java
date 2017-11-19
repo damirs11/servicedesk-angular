@@ -1,10 +1,10 @@
 package ru.it.sd.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import ru.it.sd.exception.ServiceException;
 import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.util.AppToStringStyle;
-
-import java.io.Serializable;
+import ru.it.sd.util.ResourceMessages;
 
 /**
  * Базовый класс для кодов
@@ -12,13 +12,24 @@ import java.io.Serializable;
  * @author quadrix
  * @since 15.11.2017
  */
-public class BaseCode  {
+public class BaseCode implements Code {
 
 	/**
 	 * Идентификатор
 	 */
 	@FieldMeta(columnName = "id", key = true)
 	private Long id;
+
+	public <T extends Code> T convertTo(Class<T> toClass){
+		try {
+			T to = toClass.newInstance();
+			to.setId(id);
+			to.setName(name);
+			return to;
+		} catch (InstantiationException | IllegalAccessException e) {
+			throw new ServiceException(ResourceMessages.getMessage("error.instantiation", toClass.getName()));
+		}
+	}
 
 	/**
 	 * Название
@@ -49,10 +60,5 @@ public class BaseCode  {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
-	}
-
-	// Возвращает вид кода по типу сущности
-	protected Long getTypeId(EntityType entityType) {
-		return null;
 	}
 }

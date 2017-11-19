@@ -33,7 +33,7 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 		Long statusId = DBUtils.getLong(rs,"wor_sta_oid");
 		if (statusId != null){
 			BaseCode code = codeDao.read(statusId);
-			workorder.setStatus(EntityStatus.from(code));
+			workorder.setStatus(code.convertTo(EntityStatus.class));
 		}
 		Long categoryId = DBUtils.getLong(rs,"wor_cat_oid");
 		if (categoryId != null){

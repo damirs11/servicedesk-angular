@@ -14,14 +14,18 @@ import java.sql.SQLException;
 @Component
 public class ConfigurationItemMapper extends EntityRowMapper<ConfigurationItem> {
 
+	private final PersonDao personDao;
+	private final OrganizationDao organizationDao;
+	private final LocationDao locationDao;
+	private final CodeDao codeDao;
+
 	@Autowired
-	private PersonDao personDao;
-	@Autowired
-	private OrganizationDao organizationDao;
-	@Autowired
-	private LocationDao locationDao;
-	@Autowired
-	private CodeDao codeDao;
+	public ConfigurationItemMapper(PersonDao personDao, OrganizationDao organizationDao, LocationDao locationDao, CodeDao codeDao) {
+		this.personDao = personDao;
+		this.organizationDao = organizationDao;
+		this.locationDao = locationDao;
+		this.codeDao = codeDao;
+	}
 
 	@Override
 	public ConfigurationItem mapRow(ResultSet rs, int rowNumber) throws SQLException {
@@ -30,7 +34,7 @@ public class ConfigurationItemMapper extends EntityRowMapper<ConfigurationItem> 
 		Long statusId = DBUtils.getLong(rs,"CIT_STA_OID");
 		if (statusId != null) {
 			BaseCode code = codeDao.read(statusId);
-			item.setStatus(EntityStatus.from(code));
+			item.setStatus(code.convertTo(EntityStatus.class));
 		}
 		Long categoryId = DBUtils.getLong(rs,"CIT_CAT_OID");
 		if (categoryId != null) {
@@ -44,13 +48,13 @@ public class ConfigurationItemMapper extends EntityRowMapper<ConfigurationItem> 
 		}
 		Long folderId = DBUtils.getLong(rs,"CIT_POO_OID");
 		if (folderId != null) {
-			BaseCode code = codeDao.read(statusId);
-			item.setFolder(Folder.from(code));
+			BaseCode code = codeDao.read(folderId);
+			item.setFolder(code.convertTo(Folder.class));
 		}
 		Long brandId = DBUtils.getLong(rs,"CIT_BRA_OID");
 		if (brandId != null) {
-			BaseCode code = brandDao.read(brandId);
-			item.setBrand(EntityStatus.from(code));
+			BaseCode code = codeDao.read(brandId);
+			item.setBrand(code.convertTo(Brand.class));
 		}
 		Long adminId = DBUtils.getLong(rs,"CIT_ADMIN_PER_OID");
 		if (adminId != null) {
