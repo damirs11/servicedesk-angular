@@ -6,14 +6,11 @@ import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.meta.FieldMetaData;
 import ru.it.sd.meta.MetaUtils;
-import ru.it.sd.util.CheckUtils;
-import ru.it.sd.util.ResourceMessages;
 
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -249,8 +246,8 @@ public class FilterUtils {
             return fmd.getTableAlias();
         }
         ClassMeta classMeta = (ClassMeta)clazz.getAnnotation(ClassMeta.class);
-        CheckUtils.requireNotNull(classMeta, ResourceMessages.getMessage("error.table.alias.not.found"));
-        return classMeta.tableAlias();
+        //CheckUtils.requireNotNull(classMeta, ResourceMessages.getMessage("error.table.alias.not.found"));
+        return classMeta == null ? "" : classMeta.tableAlias();
     }
 
 

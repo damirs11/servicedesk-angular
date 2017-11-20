@@ -1,5 +1,6 @@
 package ru.it.sd.dao.mapper;
 
+import org.springframework.jdbc.core.RowMapperResultSetExtractor;
 import ru.it.sd.exception.AppException;
 import ru.it.sd.meta.FieldMetaData;
 import ru.it.sd.meta.MetaUtils;
@@ -112,5 +113,11 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 		return result;
 	}
 
+	public RowMapper<T> asRowMapper() {
+		return this;
+	}
 
+	public ResultSetExtractor<List<T>>asRowsExtractor() {
+		return this;
+	}
 }

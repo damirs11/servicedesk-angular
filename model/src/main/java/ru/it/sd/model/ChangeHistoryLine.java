@@ -1,6 +1,5 @@
 package ru.it.sd.model;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
@@ -8,7 +7,6 @@ import ru.it.sd.util.AppToStringStyle;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Objects;
 
 @ClassMeta(tableName = "itsm_historylines_change", tableAlias ="hch")
 public class ChangeHistoryLine implements HasId, Serializable {
