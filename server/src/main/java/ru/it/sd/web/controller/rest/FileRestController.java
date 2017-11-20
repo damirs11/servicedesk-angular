@@ -58,7 +58,7 @@ public class FileRestController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public FileInfo upload(@RequestParam("uploaded-file") MultipartFile file, HttpServletRequest request) {
 		try {
-			return fileService.createTempFileInfo(file.getOriginalFilename(), request.getInputStream());
+			return fileService.createTempFileInfo(file.getOriginalFilename(), file.getInputStream());
 		} catch (IOException e) {
 			throw new ServiceException(ResourceMessages.getMessage("error.read.file", file.getOriginalFilename()));
 		}

@@ -24,40 +24,49 @@ class SDAttachmentsController {
         this.$attrs = $attrs;
     }
 
-    $onInit(){
+    async $onInit(){
         this.SD = this.sd; // SD переданный аттрибутом
-        this.attachments = mocks.map($ => this.SD.Attachment.parse($))
+        this.attachments = await this.target.getAttachments();
     }
 
     /**
      * @param files {File[]}
      */
-    $onFileAttach(files) {
+    $onFilePicked(files) {
         files.forEach(file => {
                 const uploadingInfo = {file: file, error: false};
                 const onProgress = (event) => {uploadingInfo.progress = Math.floor(event.loaded/event.total*100)};
                 const uploadingProcess = this.SD.FileInfo.upload(file);
-                uploadingInfo.abort = uploadingProcess.abort;
+                uploadingInfo.abort = () => { // Функция вызывается при нажатии на крестик.
+                    if (!uploadingInfo.error) {
+                        uploadingProcess.abort();
+                    }
+                    this.removeUploadingInfo(uploadingInfo)
+                };
                 uploadingProcess.then(
                     (fileInfo) => this.$onFileUploaded(uploadingInfo,fileInfo),
-                    (resp) => this.$onFileUploadError(file,resp),
+                    (resp) => this.$onFileUploadError(uploadingInfo,resp),
                     onProgress
                 );
                 this.uploadingInfos.push(uploadingInfo);
             })
     }
 
-    async $onFileUploaded(uploadingInfo,fileInfo) {
-        // ToDO attach
+    removeUploadingInfo(uploadingInfo) {
         const index = this.uploadingInfos.indexOf(uploadingInfo);
         this.uploadingInfos.splice(index,1);
+    }
+
+    async $onFileUploaded(uploadingInfo,fileInfo) {
+        // ToDO attach
+        this.removeUploadingInfo(uploadingInfo);
         const attachment = await this.target.attachFile(fileInfo);
         this.attachments.push(attachment)
         // ToDo Прикрепить вложение и обновить список вложений
     }
 
-    async $onFileUploadError(file,resp) {
-        console.log(file,resp,"ERROR")
+    async $onFileUploadError(uploadingInfo,resp) {
+        uploadingInfo.error = true;
     }
 }
 

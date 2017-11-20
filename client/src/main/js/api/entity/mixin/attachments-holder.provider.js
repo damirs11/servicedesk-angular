@@ -35,7 +35,7 @@ function AttachmentsHolderProvider($connector, SD) {
             const jsonData = fileInfo.$serialize();
             jsonData.entityId = this.id;
             jsonData.entityType = {id: this.constructor.$entityTypeId};
-            jsonData.path = "C:\\FTPSD\\1.txt";
+            jsonData.path = fileInfo.path;
             const data = await $connector.post(`rest/entity/${SD.Attachment.$entityType}`,null,jsonData);
             return SD.Attachment.parse(data);
         }
