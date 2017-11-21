@@ -13,7 +13,7 @@
             ng-repeat="$info in ctrl.uploadingInfos"
             file-name="$info.file.name"
             percentage="$info.progress"
-            error="$info.error"
+            status="$info.status"
             on-abort="$info.abort"
         >
         </sd-uploading-file>

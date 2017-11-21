@@ -502,21 +502,30 @@
 
 }
 
-.attachment-item.uploading {
-  .attachment-item__remove-box {
+.uploading-file {
+  &__icon-box {
     width: @attachment-item-width - 50px;
     height: @attachment-item-width - 50px;
-    margin: 15px 15px 5px;
+    margin: 15px 15px 5px 15px;
     text-align: center;
     border: rgb(189, 189, 189) dotted 2px;
     border-radius: 10px;
     &__icon {
-      line-height: 115px;
-      font-size: 110px;
+      &.error {
+        color: #d9534f;
+        line-height: 128px;
+      }
+      &.success {
+        color: #5cb85c;
+        line-height: 128px;
+      }
+      color: #337ab7;
+      line-height: 120px; // Крест отображается некорректно при line-height = box height
+      font-size: 84px;
     }
   }
 
-  .attachment-item__loading {
+  &__loading {
     text-align: center;
     font-size: 16px;
     font-weight: bold;

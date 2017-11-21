@@ -7,6 +7,7 @@ import {controller} from  "./sd-uploading-file.ctrl"
  * onAbort - функция, выполнится при нажатии на крестик
  * fileName - название заливаемого файла
  * percentage - процент прогресса загрузки
+ * status - статус загрузки. pending - загружается. success - загружен. error - возникла ошибка.
  */
 const SDUploadingFileComponent = {
     template: template,
@@ -15,7 +16,8 @@ const SDUploadingFileComponent = {
     bindings: {
         onAbort: "&",
         fileName: "<",
-        percentage: "<"
+        percentage: "<",
+        status: "<"
     }
 };
 

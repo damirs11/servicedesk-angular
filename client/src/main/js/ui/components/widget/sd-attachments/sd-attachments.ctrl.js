@@ -7,7 +7,7 @@ class SDAttachmentsController {
      * [{
      *      file: File               // сам файл
      *      progress: number         // прогресс загрузки 0 - 100
-     *      error: boolean           // произошла ошибка при загрузке
+     *      status: string           // pending / error / success
      *      abort: func              // фукнция, для отмены загрузки
      * }]
      * @type {Array}
@@ -34,11 +34,11 @@ class SDAttachmentsController {
      */
     $onFilePicked(files) {
         files.forEach(file => {
-                const uploadingInfo = {file: file, error: false};
+                const uploadingInfo = {file: file, status: "pending"};
                 const onProgress = (event) => {uploadingInfo.progress = Math.floor(event.loaded/event.total*100)};
                 const uploadingProcess = this.SD.FileInfo.upload(file);
                 uploadingInfo.abort = () => { // Функция вызывается при нажатии на крестик.
-                    if (!uploadingInfo.error) {
+                    if (uploadingInfo.status == "pending") {
                         uploadingProcess.abort();
                     }
                     this.removeUploadingInfo(uploadingInfo)
@@ -58,15 +58,18 @@ class SDAttachmentsController {
     }
 
     async $onFileUploaded(uploadingInfo,fileInfo) {
-        // ToDO attach
-        this.removeUploadingInfo(uploadingInfo);
-        const attachment = await this.target.attachFile(fileInfo);
-        this.attachments.push(attachment)
-        // ToDo Прикрепить вложение и обновить список вложений
+        uploadingInfo.status = "success";
+        try {
+            const attachment = await this.target.attachFile(fileInfo);
+            this.removeUploadingInfo(uploadingInfo);
+            this.attachments.push(attachment)
+        } catch (e) {
+            uploadingInfo.status = "error";
+        }
     }
 
     async $onFileUploadError(uploadingInfo,resp) {
-        uploadingInfo.error = true;
+        uploadingInfo.status = "error";
     }
 }
 
