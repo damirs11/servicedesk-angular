@@ -46,7 +46,7 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 		"FROM\n" +
 		"	rep_codes rcd\n" +
 		"	LEFT JOIN rep_codes_text rct ON (rct.rct_rcd_oid = rcd.rcd_oid AND rct.rct_lng_oid = 1049)\n" +
-		"WHERE rcd.rcd_codedisabled = 0)\n";
+		"WHERE rcd.rcd_codedisabled = 0) code\n";
 
 	@Override
 	protected StringBuilder getBaseSql() {

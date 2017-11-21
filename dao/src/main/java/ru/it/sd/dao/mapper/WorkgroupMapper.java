@@ -22,7 +22,6 @@ public class WorkgroupMapper extends EntityRowMapper<Workgroup> {
 	private final WorkgroupDao dao;
 	private final CodeDao codeDao;
 
-	@Autowired
 	public WorkgroupMapper(WorkgroupDao dao, CodeDao codeDao) {
 		this.dao = dao;
 		this.codeDao = codeDao;
