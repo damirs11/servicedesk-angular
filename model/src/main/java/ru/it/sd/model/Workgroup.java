@@ -13,6 +13,8 @@ import java.io.Serializable;
 @ClassMeta(tableName = "itsm_workgroups", tableAlias = "wg")
 public class Workgroup implements HasId, HasStatus, Serializable {
 
+    private static final long serialVersionUID = -1010139758781532358L;
+
     @FieldMeta(columnName = "wog_oid", key = true)
     private Long id;
 

@@ -17,6 +17,8 @@ import java.util.Date;
 @ClassMeta(tableName = "itsm_configuration_items", tableAlias = "item")
 public class ConfigurationItem implements HasId, HasStatus, Serializable {
 
+	private static final long serialVersionUID = -2060076890778426823L;
+
 	/** Уникальный идентификатор */
 	@FieldMeta(columnName = "cit_oid", key = true)
 	private Long id;

@@ -17,6 +17,8 @@ import java.util.Date;
 @ClassMeta(tableName = "rep_attachments", tableAlias = "ahs")
 public class FileInfo implements HasId, Serializable {
 
+	private static final long serialVersionUID = -8918064963338496454L;
+
 	/** id вложения*/
 	@FieldMeta(columnName = "ahs_oid")
 	private Long id;

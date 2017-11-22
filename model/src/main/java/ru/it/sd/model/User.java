@@ -16,6 +16,9 @@ import java.util.List;
  */
 @ClassMeta(tableName = "rep_accounts")
 public class User implements Serializable {
+
+	private static final long serialVersionUID = 7956825709843649122L;
+
 	/**
 	 * Идентификатор пользователя
 	 */

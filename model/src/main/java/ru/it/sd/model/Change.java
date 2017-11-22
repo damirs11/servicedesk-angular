@@ -17,6 +17,8 @@ import java.util.Date;
 @ClassMeta(tableName = "itsm_changes", tableAlias ="ch")
 public class Change implements HasId, HasStatus, Serializable {
 
+	private static final long serialVersionUID = -857993162919153346L;
+
 	/** Уникальный идентификатор */
 	@FieldMeta(columnName = "cha_oid", key = true)
 	private Long id ;

@@ -11,6 +11,8 @@ import java.util.Date;
 @ClassMeta(tableName = "itsm_historylines_workorder", tableAlias ="hwk")
 public class WorkorderHistoryLine implements HasId, Serializable {
 
+    private static final long serialVersionUID = 5544537153486735750L;
+
     @FieldMeta(columnName = "hwk_oid", key = true)
     private Long id;
 

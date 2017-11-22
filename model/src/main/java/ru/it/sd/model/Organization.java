@@ -15,6 +15,9 @@ import java.io.Serializable;
  */
 @ClassMeta(tableName = "itsm_organizations")
 public class Organization implements Code, Serializable {
+
+	private static final long serialVersionUID = -1146630780979985820L;
+
 	/**
 	 * Идентификатор
 	 */
