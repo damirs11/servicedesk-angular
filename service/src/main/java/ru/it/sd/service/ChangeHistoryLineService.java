@@ -19,8 +19,12 @@ public class ChangeHistoryLineService implements History<Change, ChangeHistoryLi
 
 	private static final Logger LOG = LoggerFactory.getLogger(ChangeHistoryLineService.class);
 
+	private final ChangeHistoryLineDao dao;
+
 	@Autowired
-	private ChangeHistoryLineDao dao;
+	public ChangeHistoryLineService(ChangeHistoryLineDao dao) {
+		this.dao = dao;
+	}
 
 	@Override
 	public ChangeHistoryLine read(long id) {

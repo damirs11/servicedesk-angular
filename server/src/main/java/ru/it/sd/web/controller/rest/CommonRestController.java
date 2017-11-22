@@ -45,14 +45,18 @@ public class CommonRestController {
     private static final ObjectMapper objectMapper = new ObjectMapper()
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
-    @Autowired
-    private ReadServiceHolder readServiceHolder;
-    @Autowired
-    private CrudServiceHolder crudServiceHolder;
-	@Autowired
-	private HistoryServiceHolder historyServiceHolder;
+    private final ReadServiceHolder readServiceHolder;
+    private final CrudServiceHolder crudServiceHolder;
+	private final HistoryServiceHolder historyServiceHolder;
 
-    @RequestMapping("/ping")
+	@Autowired
+	public CommonRestController(ReadServiceHolder readServiceHolder, CrudServiceHolder crudServiceHolder, HistoryServiceHolder historyServiceHolder) {
+		this.readServiceHolder = readServiceHolder;
+		this.crudServiceHolder = crudServiceHolder;
+		this.historyServiceHolder = historyServiceHolder;
+	}
+
+	@RequestMapping("/ping")
     public String ping() {
         return "OK";
     }
@@ -85,7 +89,7 @@ public class CommonRestController {
 	 *                                  на этапе извлечения информации из базы данных
 	 */
 	@RequestMapping(value = "/{entity}/{id}/history", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
-	public List<Object> history(@PathVariable String entity, @PathVariable long id, @RequestParam Map<String, String> filter) {
+	public List history(@PathVariable String entity, @PathVariable long id, @RequestParam Map<String, String> filter) {
 		History historyService = historyServiceHolder.findFor(entity);
 		filter.put("entity", Long.valueOf(id).toString());
 		return historyService.list(filter);
