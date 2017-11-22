@@ -13,6 +13,9 @@ class EntityChatController {
         this.chatLines = await this.entity.getChat()
     }
 
+    send(text, senderType){
+        this.entity.sendMessage(text,senderType);
+    }
 
     getType($line){
         const typeName = $line.type;

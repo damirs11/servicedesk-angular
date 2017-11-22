@@ -3,14 +3,14 @@ import {controller} from "./chat-input.ctrl"
 
 /**
  * Компонент для отправки сообщения в чат.
- * @param entity {SD.EditableEntity} - сущность, внутри которой ведется чат
+ * @param send {Function} - вызовется при нажатии на отправку.
  */
 const ChatInputComponent = {
     template: template,
     controller: controller,
     controllerAs: "ctrl",
     bindings: {
-        entity: "="
+        send: "&"
     }
 };
 

@@ -21,9 +21,7 @@ class ChangeCardViewController{
     }
 
     async loadStatuses() {
-        const statuses = await this.SD.EntityStatus.list();
-        this.statusList = statuses.filter(status => status['entityType'] === "CHANGE"); // Временный фильтр. Уберу, когда появится поиск по статусам
-
+        this.statusList = await this.SD.EntityStatus.list({entityType:this.SD.Change.$entityTypeId});
     }
 
     async createTestChange() {

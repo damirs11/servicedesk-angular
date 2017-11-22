@@ -44,6 +44,16 @@ function HistoryableProvider($connector, SD) {
             params.chat = true;
             return this.getHistoryCount(params);
         }
+
+        async sendMessage(text,type) {
+            if( !this.$messageFields ) throw "Entity haven't declared fields for message sending.";
+            const field = this.$messageFields[type];
+            if (!field) throw `Entity ${this.constructor} haven't field for message sending with type ${type}`;
+            const jsonData = {id: entity.id};
+            jsonData[field] = text;
+            const data = await $connector.patch(`rest/entity/${this.$entityType}/${this.id}`,null,jsonData);
+            this.$update(data);
+        }
     };
 }
 

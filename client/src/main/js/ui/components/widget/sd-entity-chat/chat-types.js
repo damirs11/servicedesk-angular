@@ -5,9 +5,9 @@
  */
 class MessageType {
     constructor(side,title,role){
-        this.side = side;
-        this.title = title;
-        this.role = role;
+        this.side = side; // Сторона. 0-2 <=> лево/центр/право
+        this.title = title; // Заголовок сообщение
+        this.role = role; // Роль. Отображается под иконкой персоны
     }
 
     get isLeft() {

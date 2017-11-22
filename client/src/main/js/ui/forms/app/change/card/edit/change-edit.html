@@ -94,7 +94,7 @@
             <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.status"
-                        fetch-data="ctrl.SD.EntityStatus.list()"
+                        fetch-data="ctrl.SD.EntityStatus.list({entityType:ctrl.SD.Change.$entityTypeId})"
                         display-value="$value.fullName"
                         cache="true"
                 ></sd-dropdown>

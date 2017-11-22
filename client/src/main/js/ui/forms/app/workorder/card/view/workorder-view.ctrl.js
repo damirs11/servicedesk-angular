@@ -21,8 +21,7 @@ class WorkorderCardViewController{
     }
 
     async loadStatuses() {
-        const statuses = await this.SD.EntityStatus.list();
-        this.statusList = statuses.filter(status => status['entityType'] === "WORKORDER"); // Временный фильтр. Уберу, когда появится поиск по статусам
+        this.statusList = await this.SD.EntityStatus.list({entityType:this.SD.Workorder.$entityTypeId});
 
     }
 
