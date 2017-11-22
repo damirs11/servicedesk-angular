@@ -1,12 +1,5 @@
 package ru.it.sd.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import ru.it.sd.exception.ServiceException;
-import ru.it.sd.util.ResourceMessages;
-
-import java.util.Objects;
-
 import static ru.it.sd.model.EntityType.*;
 
 /**
@@ -16,9 +9,7 @@ import static ru.it.sd.model.EntityType.*;
  * @since 01.05.2017
  */
 @Deprecated
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
-@JsonDeserialize(using = EntityStatus2.Deserializer.class)
-public enum EntityStatus2 implements Code {
+public enum EntityStatus2 {
 
 	CHANGE_REGISTERED("Зарегистрировано", CHANGE, 3095134325L),
 	CHANGE_PREPARING("Подготовка", CHANGE, 3095134326L),
@@ -50,59 +41,7 @@ public enum EntityStatus2 implements Code {
 	APPROVAL_PREPARING("Подготавливается", APPROVAL, 281478256721931L),
 	APPROVAL_STARTED("Началось", APPROVAL, 281478256721929L),
 	APPROVAL_READY("Готово", APPROVAL, 281478256721933L);
-	/** Идентификатор статуса */
-	private Long id;
-	/** Название статуса */
-	private String name;
-	/** Тип сущности, к которой относится статус */
-	private EntityType entityType;
 
-	EntityStatus2(String name, EntityType entityType, Long id) {
-		this.name = name;
-		this.entityType = entityType;
-		this.id = id;
-	}
+	EntityStatus2(String name, EntityType entityType, Long id) {}
 
-	public Long getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public EntityType getEntityType() {
-		return entityType;
-	}
-
-	@Override
-	public void setId(Long id) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void setName(String name) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * Поиск статуса по идентификатору
-	 *
-	 * @param id идентификатор
-	 * @return статус
-	 * @throws ServiceException если указан неправильный код
-	 */
-	public static EntityStatus2 get(Long id) {
-		if (Objects.isNull(id)) {
-			return null;
-		}
-		for (EntityStatus2 value : values()) {
-			if (id.equals(value.getId())) {
-				return value;
-			}
-		}
-		throw new ServiceException(ResourceMessages.getMessage("error.not.found"));
-	}
-
-	static class Deserializer extends EnumJsonDeserializer<EntityStatus2> {}
 }
