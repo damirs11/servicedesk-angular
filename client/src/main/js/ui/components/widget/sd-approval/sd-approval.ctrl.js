@@ -1,6 +1,7 @@
-class SDStatusBarController {
+class SDApprovalController {
     emptyValue = "- нет -";
     mode = "view";
+    loadingPromise;
 
     static $inject = ["$window","$scope","$attrs"];
     constructor($window,$scope, $attrs){
@@ -10,7 +11,8 @@ class SDStatusBarController {
     }
 
     async $onInit(){
-        this.approval = await this.target.getApproval();
+        this.loadingPromise = this.target.getApproval();
+        this.approval = await this.loadingPromise;
     }
 
 
@@ -48,4 +50,4 @@ class SDStatusBarController {
 
 }
 
-export {SDStatusBarController as controller}
+export {SDApprovalController as controller}

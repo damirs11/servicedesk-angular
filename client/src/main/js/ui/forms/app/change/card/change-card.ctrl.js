@@ -1,19 +1,31 @@
 class ChangeViewController {
     /**
      * Занят ли контроллер. Будет отображат анимацию загрузки
-     * @type {string|null}
+     * @type {string}
      */
-    busy = null;
+    busy;
     /**
      * Ошибка при загрузке
-     * @type {Error|null}
+     * @type {Error}
      */
-    loadingError = null;
+    loadingError;
     /**
      * Изменение
-     * @type {SD.Change|null}
+     * @type {SD.Change}
      */
-    change = null;
+    change;
+    /**
+     * Промис загрузки изменения
+     */
+    loadingPromise;
+    /**
+     * Дочерние стейты, которые будут отображаться "вкладками"
+     * Название стейта = ${current.name}.${path}
+     */
+    childStates = [
+        {path: "view", name: "Просмотр"}, {path: "history", name: "История"},
+        {path: "approval", name: "Согласование"}, {path: "attachments", name: "Вложения"}
+    ];
 
     static $inject = ["SD","changeId"];
     constructor(SD,changeId){
@@ -47,7 +59,8 @@ class ChangeViewController {
         if (this.busy) throw new Error("Controller is busy " + this.busy);
         try {
             this.busy = "loading";
-            this.change = await new this.SD.Change(this.changeId).load();
+            this.loadingPromise = new this.SD.Change(this.changeId).load();
+            this.change = await this.loadingPromise;
         } catch (error) {
             this.loadingError = error || true;
         } finally {

@@ -30,9 +30,8 @@ function ApprovableProvider($connector, SD) {
          * @return {SD.Approval}
          */
         async getApproval(){
-            const approvals = await $connector.get(`rest/entity/Approval/${this.id}`)
-                .map(::SD.Approval.parse);
-            return approvals.length ? null : approvals[0]
+            const approvalData = await $connector.get(`rest/entity/Approval/${this.id}`);
+            return SD.Approval.parse(approvalData);
         }
 
     };

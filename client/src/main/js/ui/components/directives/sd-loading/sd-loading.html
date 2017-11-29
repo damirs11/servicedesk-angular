@@ -1,0 +1,18 @@
+<div data-ng-if="ctrl.loading" style="width: 100%; text-align: center">
+    <div ng-transclude="spinner">
+        <i style="color: #337ab7;" data-ng-style="{'font-size': ctrl.fontSize}" class="fa fa-circle-o-notch fa-spin"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div data-ng-if="ctrl.success" class="sd-loading__content">
+    <div ng-transclude="content">
+        <span ng-bind="ctrl.value"></span>
+    </div>
+</div>
+
+<div data-ng-if="ctrl.error">
+    <div ng-transclude="error">
+        <span ng-bind="ctrl.value"></span>
+    </div>
+</div>

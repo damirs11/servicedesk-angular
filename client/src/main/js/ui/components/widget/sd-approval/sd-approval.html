@@ -1,90 +1,94 @@
-<!--View-mode-->
-<div class="sd-approval" data-ng-if="ctrl.isViewMode">
-    <div class="sd-approval__subject">
-        <span class="sd-approval__subject__title">Тема:</span>
-        <span class="sd-approval__subject__text" ng-bind="ctrl.approval.subject || ctrl.emptyValue"></span>
-    </div>
-    <div class="entity-properties sd-approval__properties">
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                Статус:
+<div sd-loading="ctrl.loadingPromise">
+    <content>
+        <!--View-mode-->
+        <div class="sd-approval" data-ng-if="ctrl.isViewMode">
+            <div class="sd-approval__subject">
+                <span class="sd-approval__subject__title">Тема:</span>
+                <span class="sd-approval__subject__text" ng-bind="ctrl.approval.subject || ctrl.emptyValue"></span>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.approval.status.name || ctrl.emptyValue"></span>
-            </div>
-        </div>
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                Крайний срок:
-            </div>
-            <div class="entity-property-value">
+            <div class="entity-properties sd-approval__properties">
+                <div class="entity-inline-property">
+                    <div class="entity-property-name">
+                        Статус:
+                    </div>
+                    <div class="entity-property-value">
+                        <span ng-bind="ctrl.approval.status.name || ctrl.emptyValue"></span>
+                    </div>
+                </div>
+                <div class="entity-inline-property">
+                    <div class="entity-property-name">
+                        Крайний срок:
+                    </div>
+                    <div class="entity-property-value">
                 <span>
                     {{(ctrl.approval.deadline | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
                 </span>
+                    </div>
+                </div>
+                <div class="entity-inline-property">
+                    <div class="entity-property-name">
+                        Необходимо согласующих:
+                    </div>
+                    <div class="entity-property-value">
+                        <span ng-bind="ctrl.approval.numberOfApproversRequired || ctrl.emptyValue"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="sd-approval__actions">
+                <button type="button" class="btn btn-success" data-ng-click="ctrl.vote()">Согласовать</button>
+                <button type="button" class="btn btn-default" data-ng-click="ctrl.edit()">Редактировать</button>
             </div>
         </div>
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                Необходимо согласующих:
-            </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.approval.numberOfApproversRequired || ctrl.emptyValue"></span>
-            </div>
-        </div>
-    </div>
-    <div class="sd-approval__actions">
-        <button type="button" class="btn btn-success" data-ng-click="ctrl.vote()">Согласовать</button>
-        <button type="button" class="btn btn-default" data-ng-click="ctrl.edit()">Редактировать</button>
-    </div>
-</div>
 
-<!--Edit-mode-->
-<div class="sd-approval" data-ng-if="ctrl.isEditMode">
-    <div class="sd-approval__subject">
-        <span class="sd-approval__subject__title">Тема:</span>
-        <span class="sd-approval__subject__text">
+        <!--Edit-mode-->
+        <div class="sd-approval" data-ng-if="ctrl.isEditMode">
+            <div class="sd-approval__subject">
+                <span class="sd-approval__subject__title">Тема:</span>
+                <span class="sd-approval__subject__text">
             <sd-text target="ctrl.approval.subject"></sd-text>
         </span>
-    </div>
-    <div class="sd-approval__properties">
-        <div class="sd-approval__property editing">
-            <div class="entity-property-name ">
-                Статус:
             </div>
-            <div class="entity-property-value">
-                <sd-dropdown
-                        target="ctrl.approval.status"
-                        fetch-data="ctrl.SD.EntityStatus.list();"
-                        display-value="$value.fullName"
-                        emptyValue="Нет"
-                        cache="true"
-                ></sd-dropdown>
+            <div class="sd-approval__properties">
+                <div class="sd-approval__property editing">
+                    <div class="entity-property-name ">
+                        Статус:
+                    </div>
+                    <div class="entity-property-value">
+                        <sd-dropdown
+                                target="ctrl.approval.status"
+                                fetch-data="ctrl.SD.EntityStatus.list();"
+                                display-value="$value.fullName"
+                                emptyValue="Нет"
+                                cache="true"
+                        ></sd-dropdown>
+                    </div>
+                </div>
+                <div class="sd-approval__property editing">
+                    <div class="entity-property-name">
+                        Крайний срок:
+                    </div>
+                    <div class="entity-property-value">
+                        <sd-datetime
+                                target="ctrl.approval.deadline"
+                                allow-empty="false"
+                        ></sd-datetime>
+                    </div>
+                </div>
+                <div class="sd-approval__property editing">
+                    <div class="entity-property-name">
+                        Необходимо согласующих:
+                    </div>
+                    <div class="entity-property-value">
+                        <sd-number
+                                target="ctrl.approval.numberOfApproversRequired"
+                        ></sd-number>
+                    </div>
+                </div>
+            </div>
+            <div class="sd-approval__actions">
+                <button type="button" class="btn btn-success" data-ng-click="ctrl.saveEditing()" data-ng-disabled="!ctrl.approval.checkModified()">Сохранить</button>
+                <button type="button" class="btn btn-danger" data-ng-click="ctrl.cancelEditing()">Отмена</button>
             </div>
         </div>
-        <div class="sd-approval__property editing">
-            <div class="entity-property-name">
-                Крайний срок:
-            </div>
-            <div class="entity-property-value">
-                <sd-datetime
-                        target="ctrl.approval.deadline"
-                        allow-empty="false"
-                ></sd-datetime>
-            </div>
-        </div>
-        <div class="sd-approval__property editing">
-            <div class="entity-property-name">
-                Необходимо согласующих:
-            </div>
-            <div class="entity-property-value">
-                <sd-number
-                        target="ctrl.approval.numberOfApproversRequired"
-                ></sd-number>
-            </div>
-        </div>
-    </div>
-    <div class="sd-approval__actions">
-        <button type="button" class="btn btn-success" data-ng-click="ctrl.saveEditing()" data-ng-disabled="!ctrl.approval.checkModified()">Сохранить</button>
-        <button type="button" class="btn btn-danger" data-ng-click="ctrl.cancelEditing()">Отмена</button>
-    </div>
+    </content>
 </div>

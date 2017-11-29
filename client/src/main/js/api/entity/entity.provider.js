@@ -65,10 +65,12 @@ function EntityProvider(cache) {
          */
         constructor(tracker) {
             const trackerField = this.constructor.$tracker.ownField;
+            const entType = this.constructor.$entityType;
             if (tracker) {
-                let entity = cache[tracker];
+                if (!cache[entType]) cache[entType] = {};
+                let entity = cache[entType][tracker];
                 if (!entity) {
-                    cache[tracker] = entity = Object.create(this.constructor.prototype);
+                    cache[entType][tracker] = entity = Object.create(this.constructor.prototype);
                     entity[trackerField] = tracker;
                 }
                 Object.defineProperty(entity, "$data", {value: entity});

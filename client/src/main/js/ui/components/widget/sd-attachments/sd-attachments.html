@@ -1,22 +1,22 @@
-<div>
-
-    <div class="sd-attachments-list">
-        <sd-attachment-item
-                ng-repeat="$item in ctrl.attachments"
-                attachment="$item"
-        ></sd-attachment-item>
-        <a href="javascript:void(0)">
-            <sd-attach-box on-attach="ctrl.$onFilePicked($files)">
-            </sd-attach-box>
-        </a>
-        <sd-uploading-file
-            ng-repeat="$info in ctrl.uploadingInfos"
-            file-name="$info.file.name"
-            percentage="$info.progress"
-            status="$info.status"
-            on-abort="$info.abort"
-        >
-        </sd-uploading-file>
-    </div>
-
+<div sd-loading="ctrl.loadingPromise">
+    <content>
+        <div class="sd-attachments-list">
+            <sd-attachment-item
+                    ng-repeat="$item in ctrl.attachments"
+                    attachment="$item"
+            ></sd-attachment-item>
+            <a href="javascript:void(0)">
+                <sd-attach-box on-attach="ctrl.$onFilePicked($files)">
+                </sd-attach-box>
+            </a>
+            <sd-uploading-file
+                ng-repeat="$info in ctrl.uploadingInfos"
+                file-name="$info.file.name"
+                percentage="$info.progress"
+                status="$info.status"
+                on-abort="$info.abort"
+            >
+            </sd-uploading-file>
+        </div>
+    </content>
 </div>

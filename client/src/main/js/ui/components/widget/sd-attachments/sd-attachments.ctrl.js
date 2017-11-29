@@ -20,13 +20,18 @@ class SDAttachmentsController {
      */
     attachments = [];
 
+    // Промис загрузки вложений
+    loadingPromise ;
+
     constructor($attrs){
         this.$attrs = $attrs;
     }
 
     async $onInit(){
         this.SD = this.sd; // SD переданный аттрибутом
-        this.attachments = await this.target.getAttachments();
+        this.loadingPromise = this.target.getAttachments();
+        this.attachments = await this.loadingPromise;
+        this.loading = false; // Убираем спиннер-загрузку.L
     }
 
     /**
