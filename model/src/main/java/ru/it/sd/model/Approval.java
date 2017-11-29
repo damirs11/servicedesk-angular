@@ -17,6 +17,8 @@ import java.util.Date;
 @ClassMeta(tableName = "")
 public class Approval implements HasId, HasStatus, Serializable {
 
+    private static final long serialVersionUID = 1163131561854180288L;
+
     /*id сущности*/
     @FieldMeta(columnName = "id")
     private Long id;

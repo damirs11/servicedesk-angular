@@ -11,6 +11,8 @@ import ru.it.sd.util.ResourceMessages;
  */
 public class EntityStatus extends BaseCode {
 
+	private static final long serialVersionUID = 2137071665754239831L;
+
 	public EntityStatus(){}
 
 	public static Long getTypeId(EntityType entityType) {

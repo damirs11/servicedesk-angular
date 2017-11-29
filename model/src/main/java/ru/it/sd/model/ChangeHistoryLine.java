@@ -11,6 +11,8 @@ import java.util.Date;
 @ClassMeta(tableName = "itsm_historylines_change", tableAlias ="hch")
 public class ChangeHistoryLine implements HasId, Serializable {
 
+    private static final long serialVersionUID = 1769190659807231967L;
+
     @FieldMeta(columnName = "hch_oid", key = true)
     private Long id;
 

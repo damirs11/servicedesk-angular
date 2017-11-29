@@ -14,6 +14,8 @@ import java.io.Serializable;
 @ClassMeta(tableName = "itsm_approver_votes", tableAlias = "apv")
 public class ApproverVote implements HasId,  Serializable {
 
+	private static final long serialVersionUID = 2315838254380437513L;
+
 	@FieldMeta(columnName = "apv_oid")
 	private Long id;
 

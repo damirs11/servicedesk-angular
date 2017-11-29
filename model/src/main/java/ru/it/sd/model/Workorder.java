@@ -15,6 +15,8 @@ import java.util.Date;
 @ClassMeta(tableName = "itsm_workorders", tableAlias = "w")
 public class Workorder implements HasId, HasStatus, Serializable {
 
+	private static final long serialVersionUID = 9067411334107317799L;
+
 	/** Уникальный идентификатор */
 	@FieldMeta(columnName = "wor_oid", key = true)
 	private Long id;

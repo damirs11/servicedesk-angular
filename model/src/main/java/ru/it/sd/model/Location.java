@@ -13,6 +13,9 @@ import java.io.Serializable;
  */
 @ClassMeta(tableName = "itsm_locations")
 public class Location implements Code, Serializable {
+
+	private static final long serialVersionUID = -7239340747261669079L;
+
 	/**
 	 * Идентификатор
 	 */
