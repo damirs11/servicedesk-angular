@@ -2,14 +2,14 @@
 
     <content>
         <div class="entity-container__content entity-container__header">
-            <ul class="nav nav-pills">
+            <nav class="nav nav-pills">
                 <li>
                     <a data-ui-sref="app.change.list"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
                 </li>
                 <li data-ui-sref-active="active" data-ng-repeat="$item in ctrl.childStates">
                     <a data-ui-sref="app.change.card.{{$item.path}}" ng-bind="$item.name"></a>
                 </li>
-            </ul>
+            </nav>
         </div>
         <ui-view></ui-view>
     </content>

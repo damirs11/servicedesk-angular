@@ -14,7 +14,7 @@ function EditableEntityProvider(RESTEntity, $connector) {
          */
         async save(){
             const jsonData = this.$modifiedData;
-            const data = await $connector.patch(`rest/entity/${this.$entityType}/${this.id}`,null,jsonData);
+            const data = await $connector.patch(`rest/entity/${this.constructor.$entityType}/${this.id}`,null,jsonData);
             this.reset();
             this.$update(data)
         }
@@ -26,7 +26,7 @@ function EditableEntityProvider(RESTEntity, $connector) {
          */
         async create(){
             const jsonData = this.$serialize();
-            const data = await $connector.post(`rest/entity/${this.$entityType}`,null,jsonData);
+            const data = await $connector.post(`rest/entity/${this.constructor.$entityType}`,null,jsonData);
             return this.constructor.parse(data);
         }
     }
