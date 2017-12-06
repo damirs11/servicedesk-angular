@@ -59,7 +59,7 @@ public class CommonRestControllerTest extends AbstractWebTest{
 				.andExpect(jsonPath("$.name").value("Реализация"));
 
 
-		mockMvc.perform(get("/rest/entity/EntityStatus").accept(MEDIA_TYPE))
+		mockMvc.perform(get("/rest/entity/EntityStatus?entityType=724041768").accept(MEDIA_TYPE))
 				.andDo(MockMvcResultHandlers.log())
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MEDIA_TYPE));
