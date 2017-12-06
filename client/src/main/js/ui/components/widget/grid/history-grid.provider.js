@@ -60,10 +60,12 @@ function HistoryGridProvider(AbstractGrid) {
         async fetchData() {
             let params = this._getRequestParams();
             // Получение данных. Одновременная отправка двух запросов
-            let result = await Promise.all([
+            const fetchPromise = Promise.all([
                 this.entity.getHistoryCount(params),
                 this.entity.getHistory(params)
             ]);
+            this._broadcastEvent("grid:fetch",{params,fetchPromise});
+            const result = await fetchPromise;
             // Общее количество
             this.totalItems = result[0];
             // Данные строк таблицы

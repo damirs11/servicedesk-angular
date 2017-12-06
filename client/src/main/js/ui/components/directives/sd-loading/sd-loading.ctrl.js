@@ -11,9 +11,7 @@ class SDLoadingController {
     value;
 
     $onInit() {
-        console.log("On init");
         this.$scope.$watch(() => this.sdLoading, (promise) => {
-            console.log("On watch");
             if (!promise) {
                 this.status = "success";
                 return;

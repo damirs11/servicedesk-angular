@@ -49,13 +49,19 @@ function ApproverVoteGridProvider(AbstractGrid) {
          * отображения данных: смена сортировки, переход на другую страницу, смена условий фильтрации данных.
          */
         async fetchData() {
-            this.data = await this.entity.getApproverVotes()
+            const fetchPromise = this.entity.getApproverVotes();
+            this._broadcastEvent("grid:fetch",{fetchPromise});
+            this.data = await fetchPromise;
         }
 
         /**
-         * Формирование параметров запроса: пейджинг, сортировка + пользовательские фильтры
+         * Пушит событие
+         * @private
          */
-
+        _broadcastEvent(name,data){
+            data.grid = this;
+            this.$scope.$broadcast(name,data)
+        }
     }
 }
 

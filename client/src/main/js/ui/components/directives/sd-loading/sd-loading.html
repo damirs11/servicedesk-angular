@@ -1,18 +1,32 @@
-<div data-ng-if="ctrl.loading" style="width: 100%; text-align: center">
-    <div ng-transclude="spinner">
+<ng-transclude ng-transclude-slot="spinner" data-ng-if="ctrl.loading">
+    <div style="text-align: center; width: 100%">
         <i style="color: #337ab7;" data-ng-style="{'font-size': ctrl.fontSize}" class="fa fa-circle-o-notch fa-spin"></i>
         <span class="sr-only">Loading...</span>
     </div>
-</div>
+</ng-transclude>
 
-<div data-ng-if="ctrl.success" class="sd-loading__content">
-    <div ng-transclude="content">
-        <span ng-bind="ctrl.value"></span>
-    </div>
-</div>
+<!--<div data-ng-if="ctrl.loading" style="width: 100%; text-align: center">-->
+    <!--<div ng-transclude="spinner">-->
+        <!--<i style="color: #337ab7;" data-ng-style="{'font-size': ctrl.fontSize}" class="fa fa-circle-o-notch fa-spin"></i>-->
+        <!--<span class="sr-only">Loading...</span>-->
+    <!--</div>-->
+<!--</div>-->
 
-<div data-ng-if="ctrl.error">
-    <div ng-transclude="error">
-        <span ng-bind="ctrl.value"></span>
-    </div>
-</div>
+<ng-transclude ng-transclude-slot="content" data-ng-if="ctrl.success">
+</ng-transclude>
+
+<!--<div data-ng-if="ctrl.success" class="sd-loading__content">-->
+    <!--<div ng-transclude="content">-->
+        <!--<span ng-bind="ctrl.value"></span>-->
+    <!--</div>-->
+<!--</div>-->
+
+<ng-transclude ng-transclude-slot="error" data-ng-if="ctrl.error">
+    <span ng-bind="ctrl.value"></span>
+</ng-transclude>
+
+<!--<div data-ng-if="ctrl.error">-->
+    <!--<div ng-transclude="error">-->
+        <!--<span ng-bind="ctrl.value"></span>-->
+    <!--</div>-->
+<!--</div>-->

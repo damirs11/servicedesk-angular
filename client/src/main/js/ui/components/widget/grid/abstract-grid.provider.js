@@ -141,7 +141,7 @@ function AbstractGridProvider($parse, $timeout) {
         sortBy(columns,add){
             // Преобразуем в вид {стобец_из_таблицы,переданный_столбец}
             const sortInfos = columns.map(col => {
-                const gridColumn = this.grid.columns.find(gridColumn => gridColumn.field == col.field)
+                const gridColumn = this.grid.columns.find(gridColumn => gridColumn.field == col.field);
                 return {gridColumn, col}
             });
             for (let i = 0; i < sortInfos.length; i++) {
@@ -267,11 +267,12 @@ function AbstractGridProvider($parse, $timeout) {
             if ('GULP_REPLACE:DEBUG') console.log("Grid-fetch",params);
 
             // Получение данных. Одновременная отправка двух запросов
-            let result = await Promise.all([
+            const fetchPromise = Promise.all([
                 this.entityClass.count(params),
                 this.entityClass.list(params)
-
             ]);
+            this._broadcastEvent("grid:fetch",{params,fetchPromise});
+            const result = await fetchPromise;
             // Общее количество
             this.totalItems = result[0];
             // Данные строк таблицы
