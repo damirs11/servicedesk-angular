@@ -1,5 +1,6 @@
-package ru.it.sd.dao;
+package ru.it.sd.dao.utils;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import ru.it.sd.meta.ClassMeta;
@@ -44,8 +45,7 @@ public class FilterUtils {
      * @param filter       фильтр(Map<String, String>)
      */
     public static void createFilter(StringBuilder queryPart, MapSqlParameterSource params, Map<String, String> filter,  Class clazz) {
-
-        if (filter != null && !filter.entrySet().isEmpty()) {
+        if (MapUtils.isNotEmpty(filter)) {
             queryPart.append(" WHERE 1 = 1"); // "WHERE TRUE" в MS SQL не работает
             //Поиск по всем полям класса
             Map<String, FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
@@ -457,5 +457,15 @@ public class FilterUtils {
             Object val = valueOf.invoke(clazz, values[0]);
             params.addValue(fmd.getName() + "_after", val);
         }
+    }
+
+    /**
+     * Возвращает значение булевского флага
+     *
+     * @param flag строкое значение флага, которое необходимо преобразовать в буль
+     * @return true - если значение задано и отличается от "false" и "0". Иначе false
+     */
+    public static boolean getFlagValue(String flag) {
+        return StringUtils.isNotBlank(flag) && !("false".equalsIgnoreCase(flag) || "0".equalsIgnoreCase(flag));
     }
 }

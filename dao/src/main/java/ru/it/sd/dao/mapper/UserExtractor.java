@@ -1,6 +1,6 @@
 package ru.it.sd.dao.mapper;
 
-import ru.it.sd.dao.DBUtils;
+import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.PersonDao;
 import ru.it.sd.model.Role;
 import ru.it.sd.model.User;

@@ -2,9 +2,8 @@ package ru.it.sd.dao.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.it.sd.dao.DBUtils;
+import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.UserDao;
-import ru.it.sd.model.ChangeHistoryLine;
 import ru.it.sd.model.HistoryLineType;
 import ru.it.sd.model.User;
 import ru.it.sd.model.WorkorderHistoryLine;
