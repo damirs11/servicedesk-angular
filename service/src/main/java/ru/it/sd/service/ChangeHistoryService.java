@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.it.sd.dao.WorkorderHistoryLineDao;
-import ru.it.sd.model.Workorder;
-import ru.it.sd.model.WorkorderHistoryLine;
+import ru.it.sd.dao.ChangeHistoryDao;
+import ru.it.sd.model.Change;
+import ru.it.sd.model.ChangeHistory;
 
 import java.util.List;
 import java.util.Map;
@@ -15,20 +15,24 @@ import java.util.Map;
  * Сервис записей в истории для изменений
  */
 @Service
-public class WorkorderHistoryLineService implements History<Workorder, WorkorderHistoryLine> {
+public class ChangeHistoryService implements History<Change, ChangeHistory> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(WorkorderHistoryLineService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ChangeHistoryService.class);
+
+	private final ChangeHistoryDao dao;
 
 	@Autowired
-	private WorkorderHistoryLineDao dao;
+	public ChangeHistoryService(ChangeHistoryDao dao) {
+		this.dao = dao;
+	}
 
 	@Override
-	public WorkorderHistoryLine read(long id) {
+	public ChangeHistory read(long id) {
 		return dao.read(id);
 	}
 
 	@Override
-	public List<WorkorderHistoryLine> list(Map<String, String> filter) {
+	public List<ChangeHistory> list(Map<String, String> filter) {
 		return dao.list(filter);
 	}
 

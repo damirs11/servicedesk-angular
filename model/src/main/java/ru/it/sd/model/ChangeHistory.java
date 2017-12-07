@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @ClassMeta(tableName = "itsm_historylines_change", tableAlias ="hch")
-public class ChangeHistoryLine implements HasId, Serializable {
+public class ChangeHistory implements HasId, Serializable {
 
     private static final long serialVersionUID = 1769190659807231967L;
 
@@ -29,7 +29,7 @@ public class ChangeHistoryLine implements HasId, Serializable {
     private String value;
 
     @FieldMeta(columnName = "type")
-    private HistoryLineType type;
+    private HistoryType type;
 
     public String getValue() {
         return value;
@@ -39,11 +39,11 @@ public class ChangeHistoryLine implements HasId, Serializable {
         this.value = value;
     }
 
-    public HistoryLineType getType() {
+    public HistoryType getType() {
         return type;
     }
 
-    public void setType(HistoryLineType type) {
+    public void setType(HistoryType type) {
         this.type = type;
     }
 

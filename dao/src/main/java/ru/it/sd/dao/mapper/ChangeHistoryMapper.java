@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.UserDao;
-import ru.it.sd.model.HistoryLineType;
-import ru.it.sd.model.User;
-import ru.it.sd.model.WorkorderHistoryLine;
+import ru.it.sd.model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,14 +14,14 @@ import java.util.Objects;
  * Маппер записей в истории
  */
 @Component
-public class WorkorderHistoryLineMapper extends EntityRowMapper<WorkorderHistoryLine> {
+public class ChangeHistoryMapper extends EntityRowMapper<ChangeHistory> {
 
 	@Autowired
 	private UserDao userDao;
 
 	@Override
-	public WorkorderHistoryLine mapRow(ResultSet rs, int rowNumber) throws SQLException {
-		WorkorderHistoryLine historyLine = super.mapRow(rs, rowNumber);
+	public ChangeHistory mapRow(ResultSet rs, int rowNumber) throws SQLException {
+		ChangeHistory historyLine = super.mapRow(rs, rowNumber);
 
 		Long accountId = DBUtils.getLong(rs,"reg_created_by_oid");
 		if (Objects.nonNull(accountId)){
@@ -31,9 +29,9 @@ public class WorkorderHistoryLineMapper extends EntityRowMapper<WorkorderHistory
 			historyLine.setAccount(account);
 		}
 
-		Long fieldId = DBUtils.getLong(rs, "hwk_valueatr_oid");
+		Long fieldId = DBUtils.getLong(rs, "hch_valueatr_oid");
 		if ( Objects.nonNull(fieldId) ) {
-			HistoryLineType type = HistoryLineType.getByField(fieldId);
+			HistoryType type = HistoryType.getByField(fieldId);
 			historyLine.setType(type);
 		}
 		return historyLine;

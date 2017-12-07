@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Created by MYXOMOPX on 029 29.08.17.
  */
-public enum HistoryLineType {
+public enum HistoryType {
     CHANGE_INITIATOR("INITIATOR",724041771L),
     CHANGE_MANAGER("MANAGER",281484032738115L),
 
@@ -17,7 +17,7 @@ public enum HistoryLineType {
     String name;
     Long fieldId;
 
-    HistoryLineType(String name, Long fieldId) {
+    HistoryType(String name, Long fieldId) {
         this.name = name;
         this.fieldId = fieldId;
     }
@@ -40,11 +40,11 @@ public enum HistoryLineType {
     }
 
 
-    public static HistoryLineType getByField(Long id) {
+    public static HistoryType getByField(Long id) {
         if (Objects.isNull(id)) {
             return null;
         }
-        for (HistoryLineType value : values()) {
+        for (HistoryType value : values()) {
             if ( id.equals( value.getFieldId() ) ) {
                 return value;
             }
