@@ -1,7 +1,7 @@
-class MainController {
-    static $inject = [];
+import {NGInject, NGInjectClass} from "../../../../common/decorator/ng-inject.decorator";
 
-    constructor(){}
+class MainController {
+
 }
 
 export {MainController};

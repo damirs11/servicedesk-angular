@@ -1,3 +1,6 @@
+import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
+
+@NGInjectClass()
 class ChangeViewController {
     /**
      * Занят ли контроллер. Будет отображат анимацию загрузки
@@ -27,11 +30,8 @@ class ChangeViewController {
         {path: "approval", name: "Согласование"}, {path: "attachments", name: "Вложения"}
     ];
 
-    static $inject = ["SD","changeId"];
-    constructor(SD,changeId){
-        this.SD = SD;
-        this.changeId = changeId;
-    }
+    @NGInject() SD;
+    @NGInject() changeId;
 
     $onInit(){
         this.$loadChange();
