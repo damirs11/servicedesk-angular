@@ -10,6 +10,8 @@ import java.text.MessageFormat;
  */
 public class NotFoundException extends AppException {
 
+    private static final long serialVersionUID = 4541940977441222163L;
+
     public NotFoundException() {
         super();
     }
