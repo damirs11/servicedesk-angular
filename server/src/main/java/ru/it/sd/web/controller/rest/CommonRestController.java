@@ -152,12 +152,10 @@ public class CommonRestController {
     @RequestMapping(value = "/{entity}", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @SuppressWarnings("unchecked")
-    public Map create(@PathVariable String entity, @RequestBody String json) throws IOException {
+    public Object create(@PathVariable String entity, @RequestBody String json) throws IOException {
         HasId obj = (HasId) objectMapper.readValue(json, EntityUtils.getEntityClass(entity));
         Long id = crudServiceHolder.findFor(entity).create(obj).getId();
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", id);
-        return map;
+        return readServiceHolder.findFor(entity).read(id);
     }
 
     /**

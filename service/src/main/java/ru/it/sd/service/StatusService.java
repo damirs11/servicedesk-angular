@@ -43,11 +43,11 @@ public class StatusService implements ReadService<EntityStatus> {
 
 	@Override
 	public List<EntityStatus> list(Map<String, String> filter) {
-		String entityType = filter.get("entityType");
-		if (entityType == null) {
+		String entityTypeId = filter.get("entityTypeId");
+		if (entityTypeId == null) {
 			throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
 		}
-		Long subType = EntityStatus.getTypeId(EntityType.get(Long.parseLong(entityType)));
+		Long subType = EntityStatus.getTypeId(EntityType.get(Long.parseLong(entityTypeId)));
 		Map<String, String> subFilter = new HashMap<>();
 		subFilter.put("subtype", subType.toString());
 		List<BaseCode> codes = codeDao.list(subFilter);

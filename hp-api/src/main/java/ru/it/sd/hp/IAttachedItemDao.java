@@ -7,15 +7,12 @@ import com.hp.itsm.api.interfaces.IWorkflow;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.FileInfoDao;
 import ru.it.sd.model.FileInfo;
 
 @Repository
 public class IAttachedItemDao implements HpCrudDao<FileInfo, IAttachedItem>{
     @Autowired
     private HpApi api;
-    @Autowired
-    private FileInfoDao fileInfoDao;
     @Autowired
     private IWorkflowDao iWorkflowDao;
     @Override
@@ -39,8 +36,7 @@ public class IAttachedItemDao implements HpCrudDao<FileInfo, IAttachedItem>{
     @Override
     public IAttachedItem read(long id) {
         SdClientBean sdClientBean = api.getSdClient();
-        IAttachedItem iAttachedItem = sdClientBean.sd_session().getAttachedItemHome().openAttachedItem(id);
-        return iAttachedItem;
+        return sdClientBean.sd_session().getAttachedItemHome().openAttachedItem(id);
     }
 
     @Override
