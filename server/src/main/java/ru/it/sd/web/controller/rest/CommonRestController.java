@@ -91,14 +91,14 @@ public class CommonRestController {
 	@RequestMapping(value = "/{entity}/{id}/history", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
 	public List history(@PathVariable String entity, @PathVariable long id, @RequestParam Map<String, String> filter) {
 		History historyService = historyServiceHolder.findFor(entity);
-		filter.put("entity", Long.valueOf(id).toString());
+		filter.put("entityId", Long.valueOf(id).toString());
 		return historyService.list(filter);
 	}
 
 	@RequestMapping(value = "/{entity}/{id}/history/count", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
 	public int historyCount(@PathVariable String entity, @PathVariable long id, @RequestParam Map<String, String> filter) {
 		History historyService = historyServiceHolder.findFor(entity);
-		filter.put("entity", Long.valueOf(id).toString());
+		filter.put("entityId", Long.valueOf(id).toString());
 		return historyService.count(filter);
 	}
 

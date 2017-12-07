@@ -52,9 +52,9 @@ public class WorkorderHistoryLineDao extends AbstractEntityDao<WorkorderHistoryL
 		super.buildWhere(filter, sql, params);
 
 		// Фильтр по изменению, то есть получаем все записи в истории для конкретного изменения
-		if (Objects.nonNull(filter) && filter.containsKey("entity")) {
-			params.addValue("entity", filter.get("entity"));
-			sql.append(" AND hwk.hwk_wor_oid = :entity");
+		if (Objects.nonNull(filter) && filter.containsKey("entityId")) {
+			params.addValue("entityId", filter.get("entityId"));
+			sql.append(" AND hwk.hwk_wor_oid = :entityId");
 		}
 
 		// Фильтр, оставляющий только записи, относящиеся к чату (или наоборот)

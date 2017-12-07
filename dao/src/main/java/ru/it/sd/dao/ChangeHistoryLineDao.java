@@ -6,9 +6,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.ChangeHistoryLineMapper;
-import ru.it.sd.dao.mapper.WorkgroupMapper;
 import ru.it.sd.model.ChangeHistoryLine;
-import ru.it.sd.model.Workgroup;
 
 import java.util.List;
 import java.util.Map;
@@ -52,9 +50,9 @@ public class ChangeHistoryLineDao extends AbstractEntityDao<ChangeHistoryLine> {
 		super.buildWhere(filter, sql, params);
 
 		// Фильтр по изменению, то есть получаем все записи в истории для конкретного изменения
-		if (Objects.nonNull(filter) && filter.containsKey("entity")) {
-			params.addValue("entity", filter.get("entity"));
-			sql.append(" AND hch.hch_cha_oid = :entity");
+		if (Objects.nonNull(filter) && filter.containsKey("entityId")) {
+			params.addValue("entityId", filter.get("entityId"));
+			sql.append(" AND hch.hch_cha_oid = :entityId");
 		}
 
 		// Фильтр, оставляющий только записи, относящиеся к чату (или наоборот)
