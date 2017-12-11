@@ -24,10 +24,6 @@ class AppController {
     loginClick(){
         this.$state.go("app.login")
     }
-
-    async passwordChange() {
-        await this.ModalAction.changePassword(this.$scope)
-    }
 }
 
 export {AppController}

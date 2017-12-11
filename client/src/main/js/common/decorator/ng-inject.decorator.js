@@ -31,7 +31,7 @@ function NGInject(dependencyName) {
 
 /**
  * Декоратор для подготовки класса к @NGInject.
- * Подменяет класс на другой, который прокидывает все нужные зависимости.
+ * Подменяет класс на функцию-конструктор, которая прокинет себе ng-заивисмости и вернет класс-исходник
  */
 function NGInjectClass() {
     return function (clazz) {
@@ -40,15 +40,15 @@ function NGInjectClass() {
         if (!map) return;
         const dependencies = Object.keys(map);
 
-        function NGInjClass() {
+        function NGDecoratedClass() {
             for (let i = 0; i < dependencies.length; i++) {
                 map[dependencies[i]] = arguments[i];
             }
             return new clazz();
         }
-        NGInjClass.$inject = dependencies;
+        NGDecoratedClass.$inject = dependencies;
 
-        return NGInjClass
+        return NGDecoratedClass
     }
 }
 
