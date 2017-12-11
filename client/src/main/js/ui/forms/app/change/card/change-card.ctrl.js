@@ -1,7 +1,7 @@
 import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
 
 @NGInjectClass()
-class ChangeViewController {
+class ChangeCardController {
     /**
      * Занят ли контроллер. Будет отображат анимацию загрузки
      * @type {string}
@@ -69,4 +69,4 @@ class ChangeViewController {
     }
 }
 
-export {ChangeViewController as controller}
+export {ChangeCardController as controller}

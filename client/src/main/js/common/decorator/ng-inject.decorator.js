@@ -40,35 +40,15 @@ function NGInjectClass() {
         if (!map) return;
         const dependencies = Object.keys(map);
 
-        // let ngClass;
-        // eval(`
-        //     function NG_${clazz.name}() {
-        //         for (let i = 0; i < dependencies.length; i++) {
-        //             map[dependencies[i]] = arguments[i];
-        //         }
-        //     }
-        //     ngClass = NG_${clazz.name};
-        // `);
-        //
-        // ngClass.$inject = dependencies;
-        // ngClass.prototype = Object.create(clazz.prototype);
-        // ngClass.prototype.constructor = ngClass;
-        // return ngClass;
-
-        return class NGInjClass extends clazz {
-            static $inject = dependencies;
-
-            constructor(){
-                super();
-                for (let i = 0; i < dependencies.length; i++) {
-                    map[dependencies[i]] = arguments[i];
-                }
+        function NGInjClass() {
+            for (let i = 0; i < dependencies.length; i++) {
+                map[dependencies[i]] = arguments[i];
             }
-            static get name(){return clazz.name}
-            static toString = clazz.toString;
+            return new clazz();
         }
+        NGInjClass.$inject = dependencies;
 
-
+        return NGInjClass
     }
 }
 

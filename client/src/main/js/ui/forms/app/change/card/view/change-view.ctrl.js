@@ -21,7 +21,7 @@ class ChangeCardViewController{
     }
 
     async loadStatuses() {
-        this.statusList = await this.SD.EntityStatus.list({entityType:this.SD.Change.$entityTypeId});
+        this.statusList = await this.SD.EntityStatus.list({entityTypeId:this.SD.Change.$entityTypeId});
     }
 
     async createTestChange() {
