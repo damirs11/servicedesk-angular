@@ -10,6 +10,8 @@ import java.text.MessageFormat;
  */
 public class BadRequestException extends IllegalArgumentException{
 
+    private static final long serialVersionUID = -1621763019352552470L;
+
     public BadRequestException() {
         super();
     }

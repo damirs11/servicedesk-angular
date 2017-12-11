@@ -5,23 +5,21 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.ChangeHistoryLineMapper;
-import ru.it.sd.dao.mapper.WorkgroupMapper;
-import ru.it.sd.model.ChangeHistoryLine;
-import ru.it.sd.model.Workgroup;
+import ru.it.sd.dao.mapper.ChangeHistoryMapper;
+import ru.it.sd.dao.utils.FilterUtils;
+import ru.it.sd.model.ChangeHistory;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Дао для работы с данными записей истории изменений
  */
 @Repository
-public class ChangeHistoryLineDao extends AbstractEntityDao<ChangeHistoryLine> {
+public class ChangeHistoryDao extends AbstractHistoryDao<ChangeHistory> {
 
 	@Autowired
-	private ChangeHistoryLineMapper mapper;
+	private ChangeHistoryMapper mapper;
 
 	/**
 	 * Общий запрос получения данных о записи в истории
@@ -43,30 +41,32 @@ public class ChangeHistoryLineDao extends AbstractEntityDao<ChangeHistoryLine> {
 	}
 
 	@Override
-	protected List<ChangeHistoryLine> executeQuery(String sql, SqlParameterSource params) {
-		return namedJdbc.query(sql, params, (RowMapper<ChangeHistoryLine>) mapper);
+	protected List<ChangeHistory> executeQuery(String sql, SqlParameterSource params) {
+		return namedJdbc.query(sql, params, (RowMapper<ChangeHistory>) mapper);
 	}
 
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 		super.buildWhere(filter, sql, params);
-
-		// Фильтр по изменению, то есть получаем все записи в истории для конкретного изменения
-		if (Objects.nonNull(filter) && filter.containsKey("entity")) {
-			params.addValue("entity", filter.get("entity"));
-			sql.append(" AND hch.hch_cha_oid = :entity");
-		}
-
-		// Фильтр, оставляющий только записи, относящиеся к чату (или наоборот)
-		if (Objects.nonNull(filter) && filter.containsKey("chat")) {
-			String chatFilter = "(724041771,281484032738115) ";
-			String value = filter.get("chat");
-			if (Objects.equals(value, "false") || Objects.equals(value, "0")) {
-				sql.append(" AND hch.hch_valueatr_oid NOT IN ").append(chatFilter);
-			} else {
-				sql.append(" AND hch.hch_valueatr_oid IN ").append(chatFilter);
+		// Если фильтруем запрос списка
+		if (!filter.containsKey("id")) {
+			checkFilterRequirements(filter);
+			// Проверяем необходимость получения истории конкретной сущности
+			if (filter.containsKey("entityId")) {
+				params.addValue("entityId", filter.get("entityId"));
+				sql.append(" AND hch.hch_cha_oid = :entityId");
 			}
+			// Фильтр, оставляющий только записи, относящиеся к чату (или наоборот)
+			if (filter.containsKey("chat")) {
+				sql.append(" AND hch.hch_valueatr_oid ");
 
+				String value = filter.get("chat");
+				if (!FilterUtils.getFlagValue(value)) {
+					sql.append("NOT ");
+				}
+
+				sql.append("IN ").append("(724041771, 281484032738115) ");
+			}
 		}
 	}
 //

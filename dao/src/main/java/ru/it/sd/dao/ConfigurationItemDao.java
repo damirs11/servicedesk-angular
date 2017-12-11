@@ -6,12 +6,12 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.ConfigurationItemMapper;
+import ru.it.sd.dao.utils.FilterUtils;
 import ru.it.sd.model.ConfigurationItem;
 
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Дао для работы с данными объектов

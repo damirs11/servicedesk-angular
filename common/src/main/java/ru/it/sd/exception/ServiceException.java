@@ -11,6 +11,8 @@ import java.text.MessageFormat;
  */
 public class ServiceException extends AppException {
 
+    private static final long serialVersionUID = 879478529770637549L;
+
     public ServiceException() {
         super();
     }

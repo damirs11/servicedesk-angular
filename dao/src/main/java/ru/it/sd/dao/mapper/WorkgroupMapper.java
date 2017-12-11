@@ -1,9 +1,8 @@
 package ru.it.sd.dao.mapper;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.CodeDao;
-import ru.it.sd.dao.DBUtils;
+import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.WorkgroupDao;
 import ru.it.sd.model.BaseCode;
 import ru.it.sd.model.EntityStatus;
@@ -11,7 +10,6 @@ import ru.it.sd.model.Workgroup;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
 
 /**
  * Маппер нарядов

@@ -5,8 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.testng.annotations.Test;
-import ru.it.sd.model.ChangeHistoryLine;
-import ru.it.sd.model.Workgroup;
+import ru.it.sd.model.ChangeHistory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,17 +13,17 @@ import java.util.List;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
-@Sql("ChangeHistoryLineDaoTest.sql")
-public class ChangeHistoryLineDaoTest extends AbstractDaoTest {
+@Sql("ChangeHistoryDaoTest.sql")
+public class ChangeHistoryDaoTest extends AbstractDaoTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ChangeHistoryLineDaoTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ChangeHistoryDaoTest.class);
 
 	@Autowired
-	private ChangeHistoryLineDao dao;
+	private ChangeHistoryDao dao;
 
 	@Test
 	private void testFindOne() {
-		ChangeHistoryLine item = dao.read(1L);
+		ChangeHistory item = dao.read(1L);
 		assertNotNull(item);
 		assertEquals(item.getId().longValue(), 1L);
 		assertEquals(item.getSubject(), "Перенесен крайний срок");
@@ -33,12 +32,12 @@ public class ChangeHistoryLineDaoTest extends AbstractDaoTest {
 	@Test
 	private void testFindByFilter(){
 		HashMap<String, String> stringsFilter = new HashMap<>();
-		stringsFilter.put("entity", "111");
-		List<ChangeHistoryLine> items = dao.list(stringsFilter);
+		stringsFilter.put("entityId", "111");
+		List<ChangeHistory> items = dao.list(stringsFilter);
 		assertEquals(items.size(), 2);
 
 		stringsFilter = new HashMap<>();
-		stringsFilter.put("entity", "222");
+		stringsFilter.put("entityId", "222");
 		items = dao.list(stringsFilter);
 		assertEquals(items.size(), 1);
 		assertEquals(items.get(0).getSubject(), "Закрытие заявки");

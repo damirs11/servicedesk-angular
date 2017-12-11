@@ -4,7 +4,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.CodeDao;
-import ru.it.sd.dao.DBUtils;
+import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.WorkgroupDao;
 import ru.it.sd.model.*;
