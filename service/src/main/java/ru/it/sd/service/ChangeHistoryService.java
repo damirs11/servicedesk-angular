@@ -41,4 +41,8 @@ public class ChangeHistoryService implements History<Change, ChangeHistory> {
 		return dao.count(filter);
 	}
 
+	@Override
+	public void talkToChat(long entityId, String message) {
+		//todo
+	}
 }

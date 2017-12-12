@@ -37,4 +37,8 @@ public class WorkorderHistoryService implements History<Workorder, WorkorderHist
 		return dao.count(filter);
 	}
 
+	@Override
+	public void talkToChat(long entityId, String message) {
+		//todo
+	}
 }

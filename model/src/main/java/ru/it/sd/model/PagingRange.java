@@ -42,7 +42,7 @@ public final class PagingRange {
 	 * или они не могут быть преобразованы в числа
 	 */
 	public static PagingRange fromFilter(Map<String, String> filterParams) {
-	 	if (filterParams != null && filterParams.containsKey(PAGING_PARAM_NAME)) {
+	 	if (isNeedPaging(filterParams)) {
 			PagingRange range = new PagingRange();
 			StringTokenizer values = new StringTokenizer(filterParams.get(PAGING_PARAM_NAME), PAGING_PARAM_SEPARATOR);
 			// Должно быть минимум два параметра
@@ -95,6 +95,10 @@ public final class PagingRange {
 			throw new IllegalArgumentException("The values does not match: \"from\" > \"to\"");
 		}
 		this.from = from;
+	}
+
+	public static boolean isNeedPaging(Map<String, String> filterParams) {
+		return filterParams != null && filterParams.containsKey(PAGING_PARAM_NAME);
 	}
 
 	@Override

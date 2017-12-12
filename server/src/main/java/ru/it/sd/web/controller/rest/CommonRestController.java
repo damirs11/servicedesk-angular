@@ -33,11 +33,11 @@ import java.util.Map;
  * Контроллер CRUD операций общий для всех сущностей. Операции редактирования
  * работают только с модельными классами из пакета "ru.it.sd.model"
  *
- * @author Vitalii Samolovskikh
+ * @author quadrix
+ * @since 22.05.2017
  */
 @RestController
 @RequestMapping("/rest/entity")
-@EnableWebMvc
 public class CommonRestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CommonRestController.class);
@@ -55,11 +55,6 @@ public class CommonRestController {
 		this.crudServiceHolder = crudServiceHolder;
 		this.historyServiceHolder = historyServiceHolder;
 	}
-
-	@RequestMapping("/ping")
-    public String ping() {
-        return "OK";
-    }
 
     /**
      * Получить информацию о сущности по её идентификатору
