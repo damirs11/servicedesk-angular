@@ -31,14 +31,16 @@ public class FileInfo implements HasId, Serializable {
     /** Путь к файлу на веб сервере*/
     @FieldMeta(columnName = "ahs_filename")
 	private String path;
+    /** Название файла */
+    @FieldMeta(columnName = "ahs_basename")
+    private String name;
 
     /**
      * Внутренний идентификатор файла, по нему можно вычислить путь в файловой
      * системе до временного файла
      */
 	private String fileId;
-	/** Название файла */
-	private String name;
+
 	/** Размер файла в байтах */
 	private long size;
 	/** Пользователь, создавший файл */

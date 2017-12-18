@@ -29,14 +29,18 @@ public class IAttachedItemDao implements HpCrudDao<FileInfo, IAttachedItem>{
         iAttachment.addAttachedItem(iAttachedItem);
         iAttachment.setAttachmentExists(true);
         iAttachment.transfer();
-        iWorkflow.save();
+        try{
+            iWorkflow.save();
+        } catch (Exception e){
+            //Поймать исключение по сообщению
+        }
         return iAttachedItem.getOID();
     }
 
     @Override
     public IAttachedItem read(long id) {
-        SdClientBean sdClientBean = api.getSdClient();
-        return sdClientBean.sd_session().getAttachedItemHome().openAttachedItem(id);
+
+        return api.getSdClient().sd_session().getAttachedItemHome().openAttachedItem(id);
     }
 
     @Override

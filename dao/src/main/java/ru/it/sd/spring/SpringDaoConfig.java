@@ -2,10 +2,8 @@ package ru.it.sd.spring;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
-import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +16,7 @@ import org.springframework.core.io.ClassPathResource;
  * @since 11.01.2016
  */
 @Configuration
-@EnableCaching(mode = AdviceMode.ASPECTJ)
+//@EnableCaching(mode = AdviceMode.ASPECTJ)
 @ComponentScan("ru.it.sd.dao")
 public class SpringDaoConfig extends CachingConfigurerSupport {
 

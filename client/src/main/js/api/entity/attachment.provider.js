@@ -104,7 +104,7 @@ function AttachmentProvider(Entity, SD) {
          * @returns {string}
          */
         get url(){
-            return `/rest/service/file/download?id=${this.id}`
+            return `rest/service/file/download?id=${this.id}`
         }
 
     };

@@ -2,8 +2,6 @@ package ru.it.sd.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.exception.ServiceException;
@@ -84,7 +82,7 @@ public class ChangeService implements CrudService<Change>{
 
 	@Override
 	public Change patch(Change entity, Set<String> fields) {
-		//todo
+		iChangeDao.patch(entity, fields);
 		return entity;
 	}
 
