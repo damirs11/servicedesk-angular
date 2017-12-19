@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
@@ -35,23 +34,16 @@ import java.sql.SQLException;
 @EnableGlobalMethodSecurity(prePostEnabled = true, mode= AdviceMode.ASPECTJ)
 @EnableAsync
 @EnableScheduling
-@EnableCaching(mode = AdviceMode.ASPECTJ)
+//@EnableCaching(mode = AdviceMode.ASPECTJ)
 @PropertySource("classpath:application.properties")
 public class SpringServiceConfig extends GlobalMethodSecurityConfiguration {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SpringServiceConfig.class);
 
+	@Autowired
+	private DataSource dataSource;
 	@Resource
 	private Environment env;
-
-	private final DataSource dataSource;
-	private final ApplicationContext ctx;
-
-	@Autowired
-	public SpringServiceConfig(DataSource dataSource, ApplicationContext ctx) {
-		this.dataSource = dataSource;
-		this.ctx = ctx;
-	}
 
 	/**
 	 * Создание бина для доступа к бд

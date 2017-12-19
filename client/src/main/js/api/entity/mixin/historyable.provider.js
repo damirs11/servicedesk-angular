@@ -16,7 +16,7 @@ function HistoryableProvider($connector, SD) {
             params = typeof params == "object" ? params : {};
             params.entityType = this.constructor.$entityType;
             params.entityId = this.id;
-            const linesData = await $connector.get(`/rest/service/history`, params);
+            const linesData = await $connector.get(`rest/service/history`, params);
             return linesData.map(::SD.HistoryLine.parse)
         }
 
