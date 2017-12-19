@@ -1,7 +1,5 @@
 package ru.it.sd.web.controller.rest;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +11,7 @@ import ru.it.sd.service.holder.HistoryServiceHolder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(
-		name = "/rest/service/history",
+		value = "/rest/service/history",
 		produces = "application/json;charset=UTF-8")
 public class HistoryRestController {
 
@@ -42,7 +41,7 @@ public class HistoryRestController {
 	 * @throws IllegalArgumentException если указанный в адресной строке класс сущности не был найден, либо произошла ошибка
 	 *                                  на этапе извлечения информации из базы данных
 	 */
-	@RequestMapping(value="/", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public List<EntityHistory> getHistory(@RequestParam String entityType, @RequestParam long entityId,
 	                                      @RequestParam Map<String, String> filter, HttpServletResponse response) {
 		History<HasId, EntityHistory> historyService = historyServiceHolder.findFor(entityType);
@@ -52,12 +51,17 @@ public class HistoryRestController {
 		if (PagingRange.isNeedPaging(filter)) {
 			LOG.debug("Need to retrieve amount lines of history");
 			int count = historyService.count(filter);
-			response.addHeader("X-Amount", Integer.valueOf(count).toString());
+			PagingRange range = PagingRange.fromFilter(filter);
+			response.addHeader("Content-Range",
+					MessageFormat.format("{0}-{1}/{2}",
+							range.getFrom(),
+							range.getTo(),
+							Integer.valueOf(count).toString()));
 		}
 		return historyService.list(filter);
 	}
 
-	@RequestMapping(value="/", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public void talkToChat(@RequestParam String entityType, @RequestParam long entityId,
 	        @RequestBody String message) throws IOException {
 		History historyService = historyServiceHolder.findFor(entityType);
