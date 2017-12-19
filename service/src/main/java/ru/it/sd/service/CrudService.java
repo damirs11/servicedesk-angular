@@ -1,5 +1,6 @@
 package ru.it.sd.service;
 
+import org.springframework.cache.annotation.CacheEvict;
 import ru.it.sd.model.HasId;
 
 import java.util.Set;
@@ -19,6 +20,7 @@ public interface CrudService<T extends HasId> extends ReadService<T> {
      * @param entity сущность
      * @return идентификатор созданной сущности
      */
+    @CacheEvict(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #id")
     T create(T entity);
 
     /**
@@ -26,6 +28,7 @@ public interface CrudService<T extends HasId> extends ReadService<T> {
      *
      * @param entity сущность
      */
+    @CacheEvict(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #id")
     T update(T entity);
 
     /**
@@ -33,6 +36,7 @@ public interface CrudService<T extends HasId> extends ReadService<T> {
      *
      * @param id        идентификатор сущности
      */
+    @CacheEvict(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #id")
     void delete(long id);
 
     /**
@@ -40,5 +44,6 @@ public interface CrudService<T extends HasId> extends ReadService<T> {
      *
      * @param entity сущность
      */
+    @CacheEvict(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #id")
     T patch(T entity, Set<String> fields);
 }
