@@ -4,6 +4,8 @@ import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import ru.it.sd.model.EntityHistory;
+import ru.it.sd.model.HasId;
 import ru.it.sd.service.History;
 
 import java.lang.reflect.ParameterizedType;
@@ -16,7 +18,7 @@ import java.util.Map;
  * @author mfayzullin
  */
 @Service
-public class HistoryServiceHolder extends AbstractHolder<History> {
+public class HistoryServiceHolder extends AbstractHolder<History<HasId, EntityHistory>> {
 
 	@Autowired
 	private ApplicationContext applicationContext;

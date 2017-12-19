@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import ru.it.sd.model.EntityHistory;
+import ru.it.sd.model.HasId;
 import ru.it.sd.model.PagingRange;
 import ru.it.sd.service.History;
 import ru.it.sd.service.holder.HistoryServiceHolder;
@@ -20,8 +22,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(
 		name = "/rest/service/history",
-		produces = "application/json;charset=UTF-8",
-		method = RequestMethod.GET)
+		produces = "application/json;charset=UTF-8")
 public class HistoryRestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(HistoryRestController.class);
@@ -41,9 +42,10 @@ public class HistoryRestController {
 	 * @throws IllegalArgumentException если указанный в адресной строке класс сущности не был найден, либо произошла ошибка
 	 *                                  на этапе извлечения информации из базы данных
 	 */
-	public List getHistory(@RequestParam String entityType, @RequestParam long entityId,
-			@RequestParam Map<String, String> filter, HttpServletResponse response) {
-		History historyService = historyServiceHolder.findFor(entityType);
+	@RequestMapping(value="/", method = RequestMethod.GET)
+	public List<EntityHistory> getHistory(@RequestParam String entityType, @RequestParam long entityId,
+	                                      @RequestParam Map<String, String> filter, HttpServletResponse response) {
+		History<HasId, EntityHistory> historyService = historyServiceHolder.findFor(entityType);
 		filter.put("entityId", Long.valueOf(entityId).toString());
 		// Проверяем наличие требования к постраничному просмотру.
 		// Только в этом случае возвращаем информацию об общем количестве записей
@@ -55,7 +57,7 @@ public class HistoryRestController {
 		return historyService.list(filter);
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value="/", method = RequestMethod.POST)
 	public void talkToChat(@RequestParam String entityType, @RequestParam long entityId,
 	        @RequestBody String message) throws IOException {
 		History historyService = historyServiceHolder.findFor(entityType);

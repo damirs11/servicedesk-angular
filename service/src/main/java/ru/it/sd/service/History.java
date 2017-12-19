@@ -1,6 +1,6 @@
 package ru.it.sd.service;
 
-import ru.it.sd.model.HasId;
+import ru.it.sd.model.EntityHistory;
 
 /**
  * Интерфейс для классов, которые предоставляют информацию об истории сущности <br>
@@ -11,7 +11,7 @@ import ru.it.sd.model.HasId;
  * @author mfayzullin@it.ru
  * @since 29.08.2017 15:58
  */
-public interface History<EntityClass, HistoryEntityClass extends HasId> extends ReadService<HistoryEntityClass>{
+public interface History<EntityClass, HistoryEntityClass extends EntityHistory> extends ReadService<HistoryEntityClass>{
 	/**
 	 * Записывает комментарий в сущность
 	 * @param entityId идентификатор сущности

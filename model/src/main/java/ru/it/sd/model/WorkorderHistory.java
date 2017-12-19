@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @ClassMeta(tableName = "itsm_historylines_workorder", tableAlias ="hwk")
-public class WorkorderHistory implements HasId, Serializable {
+public class WorkorderHistory implements EntityHistory {
 
     private static final long serialVersionUID = 5544537153486735750L;
 

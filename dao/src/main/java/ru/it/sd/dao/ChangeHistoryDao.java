@@ -64,7 +64,7 @@ public class ChangeHistoryDao extends AbstractHistoryDao<ChangeHistory> {
 				if (!FilterUtils.getFlagValue(value)) {
 					sql.append("NOT ");
 				}
-
+				// todo заменить магические числа
 				sql.append("IN ").append("(724041771, 281484032738115) ");
 			}
 		}
