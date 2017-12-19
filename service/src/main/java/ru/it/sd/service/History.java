@@ -11,4 +11,4 @@ import ru.it.sd.model.HasId;
  * @author mfayzullin@it.ru
  * @since 29.08.2017 15:58
  */
-public interface History<EntityClass, HistoryEntityClass extends HasId> extends ReadService<HistoryEntityClass>{}
+public abstract class History<EntityClass, HistoryEntityClass extends HasId> extends ReadService<HistoryEntityClass>{}

@@ -19,7 +19,7 @@ import java.util.Set;
  * @since 07.10.2017
  */
 @Service
-public class ApprovalService implements CrudService<Approval> {
+public class ApprovalService extends CrudService<Approval> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ApprovalService.class);
 	private static final long APPROVAL_PREPARING_STATUS = 281478256721931L; // подготавливается

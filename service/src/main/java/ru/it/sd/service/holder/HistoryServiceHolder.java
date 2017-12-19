@@ -42,12 +42,11 @@ public class HistoryServiceHolder extends AbstractHolder<History> {
 	 * @return модельный класс сервиса
 	 */
 	private Class getEntityClass(Object entity) {
-		for (Type type : entity.getClass().getGenericInterfaces()) {
-			if (type instanceof ParameterizedType) {
-				ParameterizedType t = (ParameterizedType) type;
-				if (t.getRawType() == History.class) {
-					return (Class) t.getActualTypeArguments()[0];
-				}
+		Type type = entity.getClass().getGenericSuperclass();
+		if (type instanceof ParameterizedType) {
+			ParameterizedType t = (ParameterizedType) type;
+			if (t.getRawType() == History.class) {
+				return (Class) t.getActualTypeArguments()[0];
 			}
 		}
 		return null;

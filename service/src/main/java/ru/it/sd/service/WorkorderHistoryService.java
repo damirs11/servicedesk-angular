@@ -15,7 +15,7 @@ import java.util.Map;
  * Сервис записей в истории для изменений
  */
 @Service
-public class WorkorderHistoryService implements History<Workorder, WorkorderHistory> {
+public class WorkorderHistoryService extends History<Workorder, WorkorderHistory> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkorderHistoryService.class);
 

@@ -17,7 +17,7 @@ import java.util.Map;
  * @since 31.08.2017
  */
 @Service
-public class ClassificationService implements ReadService<EntityClassification> {
+public class ClassificationService extends ReadService<EntityClassification> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ClassificationService.class);
 

@@ -31,7 +31,7 @@ import java.util.Set;
  * @since 24.10.2017
  */
 @Service
-public class FileService implements CrudService<FileInfo>{
+public class FileService extends CrudService<FileInfo>{
 
 	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
 

@@ -19,7 +19,7 @@ import java.util.Set;
  * @since 13.05.2017
  */
 @Service
-public class ChangeService implements CrudService<Change>{
+public class ChangeService extends CrudService<Change>{
 
 	private static final Logger logger = LoggerFactory.getLogger(ChangeService.class);
 

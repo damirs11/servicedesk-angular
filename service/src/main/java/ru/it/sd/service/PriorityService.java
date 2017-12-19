@@ -17,7 +17,7 @@ import java.util.Map;
  * @since 26.07.2017
  */
 @Service
-public class PriorityService implements ReadService<EntityPriority> {
+public class PriorityService extends ReadService<EntityPriority> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PriorityService.class);
 

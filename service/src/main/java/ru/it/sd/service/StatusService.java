@@ -24,7 +24,7 @@ import java.util.Map;
  * @since 26.07.2017
  */
 @Service
-public class StatusService implements ReadService<EntityStatus> {
+public class StatusService extends ReadService<EntityStatus> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(StatusService.class);
 
