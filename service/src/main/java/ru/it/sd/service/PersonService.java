@@ -16,7 +16,7 @@ import java.util.Map;
  * @since 13.05.2017
  */
 @Service
-public class PersonService implements ReadService<Person> {
+public class PersonService extends ReadService<Person> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PersonService.class);
 

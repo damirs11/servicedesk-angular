@@ -42,12 +42,11 @@ public class CrudServiceHolder extends AbstractHolder<CrudService> {
 	 * @return модельный класс сервиса
 	 */
 	private Class getEntityClass(Object entity) {
-		for (Type type : entity.getClass().getGenericInterfaces()) {
-			if (type instanceof ParameterizedType) {
-				ParameterizedType t = (ParameterizedType) type;
-				if (t.getRawType() == CrudService.class) {
-					return (Class) t.getActualTypeArguments()[0];
-				}
+		Type type = entity.getClass().getGenericSuperclass();
+		if (type instanceof ParameterizedType) {
+			ParameterizedType t = (ParameterizedType) type;
+			if (t.getRawType() == CrudService.class) {
+				return (Class) t.getActualTypeArguments()[0];
 			}
 		}
 		return null;

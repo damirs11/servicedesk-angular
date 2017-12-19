@@ -15,7 +15,7 @@ import java.util.Map;
  * Сервис записей в истории для изменений
  */
 @Service
-public class ChangeHistoryService implements History<Change, ChangeHistory> {
+public class ChangeHistoryService extends History<Change, ChangeHistory> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ChangeHistoryService.class);
 

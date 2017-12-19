@@ -20,6 +20,7 @@ public class IWorkflowDao  {
 
     public IWorkflow read(long id, EntityType entityType) {
 
+        if(entityType == null) throw new IllegalArgumentException("Не указан тип сущности");
         switch (entityType){
             case CHANGE:{
                 return iChangeDao.read(id);
@@ -28,7 +29,7 @@ public class IWorkflowDao  {
                 return iWorkorderDao.read(id);
             }
             default:{
-                throw new IllegalArgumentException("Не указан тип сущности");
+                throw new IllegalArgumentException("Не правильно указан тип сущности");
             }
         }
 

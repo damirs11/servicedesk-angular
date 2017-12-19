@@ -11,11 +11,11 @@ import ru.it.sd.model.EntityHistory;
  * @author mfayzullin@it.ru
  * @since 29.08.2017 15:58
  */
-public interface History<EntityClass, HistoryEntityClass extends EntityHistory> extends ReadService<HistoryEntityClass>{
+public abstract class History<EntityClass, HistoryEntityClass extends EntityHistory> extends ReadService<HistoryEntityClass>{
 	/**
 	 * Записывает комментарий в сущность
 	 * @param entityId идентификатор сущности
 	 * @param message текст комментария
 	 */
-	void talkToChat(long entityId, String message);
+	public abstract void talkToChat(long entityId, String message);
 }

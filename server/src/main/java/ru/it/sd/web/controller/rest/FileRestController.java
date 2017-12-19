@@ -2,6 +2,8 @@ package ru.it.sd.web.controller.rest;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,19 +35,21 @@ import java.util.List;
 @RequestMapping(value = "/rest/service/file", produces = "application/json;charset=UTF-8")
 public class FileRestController {
 
-    @Value("sd_ftp_server")
+    private static final Logger logger = LoggerFactory.getLogger(FileRestController.class);
+
+    @Value("${sd_ftp_server}")
     private String server;
 
-    @Value("sd_ftp_port")
+    @Value("${sd_ftp_port}")
     private String port;
 
-    @Value("sd_ftp_login")
+    @Value("${sd_ftp_login}")
     private String login;
 
-    @Value("sd_ftp_password")
+    @Value("${sd_ftp_password}")
     private String password;
 
-    @Value("sd_ftp_homepath")
+    @Value("${sd_ftp_homepath}")
     private String homepath;
 
 	private final FileService fileService;
@@ -78,11 +82,12 @@ public class FileRestController {
             ftpClient.enterLocalPassiveMode();
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
             String path = homepath +fileInfo.getEntityType().getAlias() +"/"+ FileUtils.getFTPPathFromOid(fileInfo.getId(), fileInfo.getEntityId());
-            ftpClient.retrieveFile( path, response.getOutputStream());
-            ftpClient.disconnect();
+            //Записываем файл в поток
+            if(!ftpClient.retrieveFile( path, response.getOutputStream()))
+                throw new ServiceException("Файл не найден");
             response.flushBuffer();
-        } catch (Exception e) {
-            throw new ServiceException("Ошибка получения файла с сервера ", e.getMessage());
+        } catch (IOException e) {
+            throw new ServiceException("Ошибка скачивания файла ", e.getMessage());
         } finally {
             if(ftpClient.isConnected()){
                 try {

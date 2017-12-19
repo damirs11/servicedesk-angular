@@ -17,7 +17,7 @@ import java.util.Map;
  * @since 15.08.2017
  */
 @Service
-public class WorkgroupService implements ReadService<Workgroup> {
+public class WorkgroupService extends ReadService<Workgroup> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkgroupService.class);
 

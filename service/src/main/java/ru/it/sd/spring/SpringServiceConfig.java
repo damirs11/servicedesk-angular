@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
@@ -34,6 +35,7 @@ import java.sql.SQLException;
 @EnableGlobalMethodSecurity(prePostEnabled = true, mode= AdviceMode.ASPECTJ)
 @EnableAsync
 @EnableScheduling
+@EnableCaching(mode = AdviceMode.ASPECTJ)
 @PropertySource("classpath:application.properties")
 public class SpringServiceConfig extends GlobalMethodSecurityConfiguration {
 

@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.FileInfoDao;
@@ -14,7 +15,10 @@ import ru.it.sd.hp.IAttachedItemDao;
 import ru.it.sd.model.FileInfo;
 import ru.it.sd.util.ResourceMessages;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +31,12 @@ import java.util.Set;
  * @since 24.10.2017
  */
 @Service
-public class FileService implements CrudService<FileInfo>{
+public class FileService extends CrudService<FileInfo>{
 
 	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
+
+	@Value("${sd_upload_webserver_dir}")
+    private String webserverDir;
 
 	private static String FILE_PREFIX = "sd-dth";
 	private static String FILE_SUFFIX = ".tmp";
@@ -101,7 +108,6 @@ public class FileService implements CrudService<FileInfo>{
 		FileInfo info = new FileInfo();
 		info.setFileId(id);
 		info.setName(fileName);
-        info.setPath(System.getProperty("java.io.tmpdir") + FILE_PREFIX + info.getFileId() + FILE_SUFFIX);
 		info.setAuthor(securityService.getCurrentUser().getPerson());
 		info.setCreationDate(new Date());
 		info.setSize(size);
@@ -126,6 +132,8 @@ public class FileService implements CrudService<FileInfo>{
     @Override
     public FileInfo create(FileInfo entity) {
         try{
+
+            entity.setPath(webserverDir + FILE_PREFIX + entity.getFileId() + FILE_SUFFIX);
             long id = iAttachedItemDao.create(entity);
             return fileInfoDao.read(id);
         } catch (Exception e){
