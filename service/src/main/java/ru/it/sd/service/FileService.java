@@ -1,5 +1,6 @@
 package ru.it.sd.service;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -37,6 +38,8 @@ public class FileService extends CrudService<FileInfo>{
 
 	@Value("${sd_upload_webserver_dir}")
     private String webserverDir;
+    @Value("${sd_upload_appserver_dir}")
+    private String appserverDir;
 
 	private static String FILE_PREFIX = "sd-dth";
 	private static String FILE_SUFFIX = ".tmp";
@@ -132,9 +135,11 @@ public class FileService extends CrudService<FileInfo>{
     @Override
     public FileInfo create(FileInfo entity) {
         try{
-
-            entity.setPath(webserverDir + FILE_PREFIX + entity.getFileId() + FILE_SUFFIX);
+            String tmpFileName = FILE_PREFIX + entity.getFileId() + FILE_SUFFIX;
+            FileUtils.copyFileToDirectory(new File(System.getProperty("java.io.tmpdir") + tmpFileName) ,new File(webserverDir));
+            entity.setPath(appserverDir + tmpFileName);
             long id = iAttachedItemDao.create(entity);
+            FileUtils.forceDelete(new File(webserverDir + tmpFileName));
             return fileInfoDao.read(id);
         } catch (Exception e){
             throw new ServiceException("Возникли проблемы при создании вложения. " + e.getMessage(), e);
