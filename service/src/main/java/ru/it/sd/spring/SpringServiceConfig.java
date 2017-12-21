@@ -4,10 +4,17 @@ import com.jolbox.bonecp.BoneCPDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachingConfigurer;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
+import org.springframework.cache.interceptor.CacheErrorHandler;
+import org.springframework.cache.interceptor.CacheResolver;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -36,7 +43,7 @@ import java.sql.SQLException;
 @EnableScheduling
 //@EnableCaching(mode = AdviceMode.ASPECTJ)
 @PropertySource("classpath:application.properties")
-public class SpringServiceConfig extends GlobalMethodSecurityConfiguration {
+public class SpringServiceConfig extends GlobalMethodSecurityConfiguration implements CachingConfigurer {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SpringServiceConfig.class);
 
@@ -84,5 +91,32 @@ public class SpringServiceConfig extends GlobalMethodSecurityConfiguration {
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
+	}
+
+	@Bean
+	@Override
+	public CacheManager cacheManager() {
+		return new EhCacheCacheManager(ehCacheCacheManager().getObject());
+	}
+
+	public EhCacheManagerFactoryBean ehCacheCacheManager() {
+		EhCacheManagerFactoryBean factory = new EhCacheManagerFactoryBean();
+		factory.setConfigLocation(new ClassPathResource("ehcache.xml"));
+		return factory;
+	}
+
+	@Override
+	public CacheResolver cacheResolver() {
+		return null;
+	}
+
+	@Override
+	public KeyGenerator keyGenerator() {
+		return null;
+	}
+
+	@Override
+	public CacheErrorHandler errorHandler() {
+		return null;
 	}
 }
