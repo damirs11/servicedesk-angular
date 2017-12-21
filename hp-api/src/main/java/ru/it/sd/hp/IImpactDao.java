@@ -1,12 +1,10 @@
 package ru.it.sd.hp;
 
 import com.hp.itsm.api.interfaces.IImpact;
-import com.hp.itsm.api.interfaces.IOrganization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.EntityPriority;
-import ru.it.sd.model.Organization;
 
 /**
  * Created by nsyhev 29.09.2017

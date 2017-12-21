@@ -4,7 +4,6 @@ import com.hp.itsm.api.interfaces.*;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.model.Workorder;
 
 /**
@@ -16,15 +15,11 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
     @Autowired
     private HpApi api;
     @Autowired
-    private WorkorderDao workorderDao;
-    @Autowired
     private IPersonDao iPersonDao;
     @Autowired
     private IWorkorderStatusDao iWorkorderStatusDao;
     @Autowired
     private IWorkorderCategoryDao iWorkorderCategoryDao;
-    @Autowired
-    private IOrganizationDao iOrganizationDao;
     @Autowired
     private IWorkgroupDao iWorkgroupDao;
 

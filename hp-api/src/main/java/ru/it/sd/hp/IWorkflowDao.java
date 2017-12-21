@@ -12,8 +12,6 @@ import ru.it.sd.model.EntityType;
 public class IWorkflowDao  {
 
     @Autowired
-    private HpApi api;
-    @Autowired
     private IChangeDao iChangeDao;
     @Autowired
     private IWorkorderDao iWorkorderDao;

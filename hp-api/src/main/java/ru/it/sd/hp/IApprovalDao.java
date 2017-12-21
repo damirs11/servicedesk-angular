@@ -11,13 +11,13 @@ import ru.it.sd.model.Approval;
 import java.util.Set;
 
 /**
+ * API для работы с согласованиями
+ *
  * Created by user on 27.07.2017.
  */
 @Repository
 public class IApprovalDao implements HpCrudDao<Approval, IApproval> {
 
-    @Autowired
-    private HpApi api;
     @Autowired
     private IWorkflowDao iWorkflowDao;
 

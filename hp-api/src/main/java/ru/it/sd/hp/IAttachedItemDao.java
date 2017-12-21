@@ -50,7 +50,6 @@ public class IAttachedItemDao implements HpCrudDao<FileInfo, IAttachedItem>{
 
     @Override
     public void delete(long id) {
-        SdClientBean sdClientBean = api.getSdClient();
         IAttachedItem iAttachedItem = read(id);
         iAttachedItem.delete();
     }

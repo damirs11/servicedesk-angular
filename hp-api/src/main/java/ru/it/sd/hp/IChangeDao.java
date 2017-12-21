@@ -5,22 +5,20 @@ import com.hp.itsm.ssp.beans.SdClientBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.it.sd.dao.ChangeDao;
+import org.springframework.stereotype.Repository;
 import ru.it.sd.hp.Utils.DateUtils;
 import ru.it.sd.model.Change;
-import org.springframework.stereotype.Repository;
 
 import java.util.Set;
 
 @Repository
 public class IChangeDao implements HpCrudDao<Change, IChange>{
 
+    @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(IChangeDao.class);
 
     @Autowired
     private HpApi api;
-    @Autowired
-    private ChangeDao changeDao;
     @Autowired
     private IPersonDao iPersonDao;
     @Autowired
@@ -67,7 +65,6 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
 
     @Override
     public void update(Change entity) {
-        SdClientBean sdClientBean = api.getSdClient();
         IChange iChange = read(entity.getId());
 
         IChangeCategory iChangeCategory = iChangeCategoryDao.read(entity.getCategory().getId());

@@ -8,6 +8,8 @@ import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.Organization;
 
 /**
+ * Сервис для редактирования подразделений
+ *
  * Created by user on 27.07.2017.
  */
 @Repository
