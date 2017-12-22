@@ -47,8 +47,27 @@
                 <span ng-bind="ctrl.change.manager || ctrl.emptyValue"></span>
             </div>
         </div>
-    </div>
 
+
+    </div>
+    <div class="entity-container__content entity-properties">
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
+                <span>Рабочая группа:</span>
+            </div>
+            <div class="entity-property-value">
+                <span ng-bind="ctrl.change.workgroup || ctrl.emptyValue"></span>
+            </div>
+        </div>
+        <div class="entity-inline-property">
+            <div class="entity-property-name">
+                <span>Исполнитель:</span>
+            </div>
+            <div class="entity-property-value">
+                <span ng-bind="ctrl.change.executor || ctrl.emptyValue"></span>
+            </div>
+        </div>
+    </div>
     <div class="entity-container__content entity-properties">
         <div class="entity-inline-property">
             <div class="entity-property-name">
@@ -110,14 +129,6 @@
             </div>
         </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Рабочая группа:</span>
-            </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.workgroup || ctrl.emptyValue"></span>
-            </div>
-        </div>
 
         <div class="entity-inline-property">
             <div class="entity-property-name">

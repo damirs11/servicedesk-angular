@@ -38,12 +38,14 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 		}
 		Long categoryId = DBUtils.getLong(rs,"wor_cat_oid");
 		if (categoryId != null){
-			EntityCategory category = EntityCategory.getById(categoryId);
+            BaseCode code = codeDao.read(categoryId);
+			EntityCategory category = code.convertTo(EntityCategory.class);
 			workorder.setCategory(category);
 		}
 		Long closureCodeId = DBUtils.getLong(rs,"wor_clo_oid");
 		if (closureCodeId != null){
-			EntityClosureCode closureCode = EntityClosureCode.getById(closureCodeId);
+            BaseCode code = codeDao.read(closureCodeId);
+			EntityClosureCode closureCode = code.convertTo(EntityClosureCode.class);
 			workorder.setClosureCode(closureCode);
 		}
 		Long initiatorId = DBUtils.getLong(rs,"wor_requestor_per_oid");

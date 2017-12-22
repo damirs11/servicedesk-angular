@@ -82,7 +82,7 @@
             <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.status"
-                        fetch-data="ctrl.SD.EntityStatus.list({entityType:ctrl.SD.Change.$entityTypeId})"
+                        fetch-data="ctrl.SD.EntityStatus.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
                         display-value="$value.fullName"
                         cache="true"
                 ></sd-dropdown>
@@ -134,7 +134,7 @@
             <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.category"
-                        fetch-data="ctrl.SD.EntityCategory.list()"
+                        fetch-data="ctrl.SD.EntityCategory.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
                         display-value="$value.name"
                         cache="true"
                 ></sd-dropdown>
@@ -162,7 +162,7 @@
             <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.classification"
-                        fetch-data="ctrl.SD.EntityClassification.list()"
+                        fetch-data="ctrl.SD.EntityClassification.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
                         display-value="$value.name"
                         cache="true"
                 ></sd-dropdown>
