@@ -93,6 +93,10 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
     public void patch(Change entity, Set<String> fields) {
         IChange iChange = read(entity.getId());
 
+        if(fields.contains("status")){
+            IStatusChange iStatusChange = api.getSdClient().sd_session().getStatusChangeHome().openStatusChange(entity.getStatus().getId());
+            iChange.setStatus(iStatusChange);
+        }
         if(fields.contains("category")){
             IChangeCategory iChangeCategory = iChangeCategoryDao.read(entity.getCategory().getId());
             iChange.setCategory(iChangeCategory);
