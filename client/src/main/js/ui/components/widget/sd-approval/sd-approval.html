@@ -56,7 +56,7 @@
                     <div class="entity-property-value">
                         <sd-dropdown
                                 target="ctrl.approval.status"
-                                fetch-data="ctrl.SD.EntityStatus.list();"
+                                fetch-data="ctrl.SD.EntityStatus.list({entityTypeId:ctrl.SD.Change.$entityTypeId});"
                                 display-value="$value.fullName"
                                 emptyValue="Нет"
                                 cache="true"
