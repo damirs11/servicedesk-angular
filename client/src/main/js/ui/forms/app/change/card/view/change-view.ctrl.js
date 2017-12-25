@@ -1,27 +1,77 @@
 import {CHANGE_MESSAGE_TYPES} from "../../../../../components/widget/sd-entity-chat/chat-types";
+import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
 
+@NGInjectClass()
 class ChangeCardViewController{
     /**
      * Пустое значение
      * @type {string}
      */
     emptyValue = "- нет -";
+    // NG зависимости
+    @NGInject() $scope;
+    @NGInject() SD;
+    @NGInject() changeId;
+    @NGInject() ModalAction;
+    @NGInject() $state;
+    @NGInject() $transitions;
 
-    static $inject = ["$scope","SD","changeId"];
-    constructor($scope,SD,changeId){
-        this.$scope = $scope;
-        this.SD = SD;
-        this.changeId = changeId;
+    constructor(){
         this.msgTypes = CHANGE_MESSAGE_TYPES;
     }
 
     $onInit() {
         this.change = new this.SD.Change(this.changeId);
         this.loadStatuses();
+        this.registerLeaveEditListener();
     }
 
     async loadStatuses() {
         this.statusList = await this.SD.EntityStatus.list({entityTypeId:this.SD.Change.$entityTypeId});
+    }
+
+    // Статус стейта, редактирование/просмотр
+    editing = false;
+    startEditing(){
+        this.editing = true;
+    }
+    async saveEditing(){
+        await this.change.save();
+        this.editing = false;
+    }
+    cancelEditing(){
+        this.editing = false;
+        this.change.reset();
+    }
+
+    registerLeaveEditListener() {
+        const fromCurrentState = {
+            from: state => state.name === this.$state.current.name,
+        };
+        const removeExitHook = this.$transitions.onExit(fromCurrentState,async () => {
+            if (!this.change || !this.change.checkModified()) return;
+            const modalResult = await this.ModalAction.entityChanged();
+            if (modalResult == 0) {
+                await this.change.save();
+                return true;
+            } else if (modalResult == 1) {
+                this.change.reset();
+                return true;
+            } else {
+                return false;
+            }
+        });
+        const onBeforeUnload = event => {
+            if (!this.change || !this.change.checkModified()) return;
+            console.log("onUnload");
+            event.returnValue = "Вы действительно хотите покинуть страницу? Несохраненные изменения будут утеряны.";
+            return event.returnValue;
+        };
+        window.addEventListener("beforeunload", onBeforeUnload);
+        this.$scope.$on("$destroy", () => {
+            removeExitHook();
+            window.removeEventListener("beforeunload", onBeforeUnload)
+        })
     }
 
     async createTestChange() {

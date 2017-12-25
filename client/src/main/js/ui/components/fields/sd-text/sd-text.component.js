@@ -11,6 +11,7 @@ import {SDTextController as controller} from "./sd-text.ctrl"
  * disabled {expression} - выражение, определяющее можно ли редактировать поле
  * onCommit {expression($event)} - кэлбэк при коммите.
  * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
+ * editing {Boolean} - режим редактирования.
  */
 const SDTextComponent = {
     template: template,
@@ -21,7 +22,7 @@ const SDTextComponent = {
         minlength: "<",
         maxlength: "<",
         allowEmpty: "<",
-        enabled: "<",
+        editing: "<",
         placeholder: "@",
         emptyValue: "@",
         validate: "&"

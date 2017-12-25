@@ -11,6 +11,9 @@ class SDTextController{
 
     $onInit(){
         this.value = this.target;
+        this.$scope.$watch("ctrl.editing", () => {
+            this.value = this.target;
+        });
 
         // Коммитим значение по дебаунсу.
         let commitTask = null;

@@ -1,5 +1,5 @@
-<div data-ng-show="ctrl.isEnabled">
-    <div class="input-group" style="width: 100%">
+<div data-ng-show="ctrl.editing" class="sd-textarea">
+    <div class="input-group sd-textarea__input-container" style="width: 100%">
         <textarea type="text"
                style="resize: none;"
                class="form-control"
@@ -8,12 +8,10 @@
                data-ng-maxlength="ctrl.maxlength"
                data-ng-minlength="ctrl.minlength"
                ng-required="ctrl.required"
-               rows="{{ctrl.rows}}"
+               auto-height="ctrl.editing"
         ></textarea>
     </div>
 </div>
 
 <!--Режим просмотра-->
-<div ng-hide="ctrl.isEnabled">
-    <span ng-bind="ctrl.displayValue"></span>
-</div>
+<div ng-hide="ctrl.editing" class="sd-textarea-view"><span ng-bind="ctrl.displayValue"></span></div>

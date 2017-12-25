@@ -1,5 +1,5 @@
-<div data-ng-show="true">
-    <div class="input-group">
+<div data-ng-show="ctrl.editing" class="sd-number">
+    <div class="input-group sd-number__input-container">
         <span class="input-group-btn">
             <button class="btn btn-primary" type="button" data-ng-click="ctrl.decreaseValue()">
                 <span class="fa fa-minus"></span>
@@ -18,4 +18,8 @@
             </button>
         </span>
     </div>
+</div>
+
+<div data-ng-hide="ctrl.editing" class="sd-number-view">
+    <span ng-bind="ctrl.value"></span>
 </div>

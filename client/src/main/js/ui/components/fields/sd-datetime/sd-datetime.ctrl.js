@@ -34,6 +34,10 @@ class SDDateTimeComponent {
 
         this.$scope.$watch("ctrl.selectedDate", (newDate) => {
             this.formattedDate = this.$formatDate(newDate)
+        });
+
+        this.$scope.$watch("ctrl.editing", () => {
+            this.selectedDate = this.target;
         })
     }
 

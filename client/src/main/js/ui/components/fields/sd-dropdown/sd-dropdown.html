@@ -1,21 +1,23 @@
 <!--Режим редактирования-->
-<ui-select ng-show="ctrl.isEnabled"
-           ng-model="ctrl.selectedValue"
-           on-select="ctrl.onSelect($item,$model)"
-           search-enabled="ctrl.searchEnabled"
->
-    <ui-select-match allow-clear="{{ctrl.isAllowClear}}" placeholder="{{ctrl.placeholder}}">
-        {{ctrl.display($select.selected)}}
-    </ui-select-match>
-    <ui-select-choices repeat="$value in ctrl.getFilteredValues($select.search) track by $index"
-                       refresh="ctrl.fetchValues($select.search)"
-                       refresh-delay="ctrl.debounceTime"
+<div ng-show="ctrl.editing" class="sd-dropdown">
+    <ui-select
+               ng-model="ctrl.selectedValue"
+               on-select="ctrl.onSelect($item,$model)"
+               search-enabled="ctrl.searchEnabled"
     >
-        <div ng-bind-html="ctrl.display($value) | highlight: $select.search"></div>
-    </ui-select-choices>
-</ui-select>
+        <ui-select-match allow-clear="{{ctrl.isAllowClear}}" placeholder="{{ctrl.placeholder}}">
+            {{ctrl.display($select.selected)}}
+        </ui-select-match>
+        <ui-select-choices repeat="$value in ctrl.getFilteredValues($select.search) track by $index"
+                           refresh="ctrl.fetchValues($select.search)"
+                           refresh-delay="ctrl.debounceTime"
+        >
+            <div ng-bind-html="ctrl.display($value) | highlight: $select.search"></div>
+        </ui-select-choices>
+    </ui-select>
+</div>
 
 <!--Режим просмотра-->
-<div ng-hide="ctrl.isEnabled" class="field-disabled-offset">
+<div ng-hide="ctrl.editing" class="sd-dropdown-view">
     <span ng-bind="ctrl.display(ctrl.selectedValue)"></span>
 </div>

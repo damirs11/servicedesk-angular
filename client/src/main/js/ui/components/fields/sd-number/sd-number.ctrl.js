@@ -12,6 +12,9 @@ class SDNumberController{
     $onInit(){
         this.displayValue = this.value = this.target;
         this.step = this.step || 1;
+        this.$scope.$watch("ctrl.editing", () => {
+            this.displayValue = this.value = this.target;
+        })
     }
 
     decreaseValue(){

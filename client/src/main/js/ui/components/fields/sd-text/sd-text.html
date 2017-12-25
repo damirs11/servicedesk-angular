@@ -1,5 +1,5 @@
-<div data-ng-show="ctrl.isEnabled">
-    <div class="input-group" style="width: 100%">
+<div data-ng-show="ctrl.editing" class="sd-text">
+    <div class="input-group sd-text__input-container" style="width: 100%">
         <input type="text"
                class="form-control"
                ng-model="ctrl.value"
@@ -12,6 +12,4 @@
 </div>
 
 <!--Режим просмотра-->
-<div ng-hide="ctrl.isEnabled">
-    <span ng-bind="ctrl.displayValue"></span>
-</div>
+<div ng-hide="ctrl.editing" class="sd-text-view"><span ng-bind="ctrl.displayValue"></span></div>

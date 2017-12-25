@@ -8,7 +8,7 @@ import {controller} from "./sd-textarea.ctrl"
  * maxLength {Number} - максимальная длина текста
  * allow-empty {Boolean} - разрешить пустое значение
  * empty-value {String} - отображаемое значение, когда поле пустое
- * disabled {expression} - выражение, определяющее можно ли редактировать поле
+ * editing {boolean} - режим редактирования
  * onCommit {expression($event)} - кэлбэк при коммите.
  * rows {Number} - количество строк
  * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
@@ -22,7 +22,7 @@ const SDTextareaComponent = {
         minlength: "<",
         maxlength: "<",
         allowEmpty: "<",
-        enabled: "<",
+        editing: "<",
         placeholder: "@",
         emptyValue: "@",
         rows: "<",
