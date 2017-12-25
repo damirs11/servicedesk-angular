@@ -18,8 +18,8 @@ function ApprovalProvider(EditableEntity, SD) {
          * @name SD.Approval#approvalDescription
          * @type {String}
          */
-        @Serialize("approvalDescription")
-        @Parse("approvalDescription", Nullable( String )) subject;
+        @Serialize("description")
+        @Parse("description", Nullable( String )) subject;
 
         /**
          * Необходимое количество поддержавших
@@ -70,6 +70,7 @@ function ApprovalProvider(EditableEntity, SD) {
          * @type {Date}
          */
         @Serialize() @Parse( Instantiate(Date) ) deadline;
+
 
         toString(){
             return this.name

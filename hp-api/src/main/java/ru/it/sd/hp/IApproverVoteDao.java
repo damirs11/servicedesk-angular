@@ -11,17 +11,13 @@ import ru.it.sd.model.ApproverVote;
 
 @Repository
 public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
+
     @Autowired
     private HpApi api;
-
     @Autowired
     private IWorkflowDao iWorkflowDao;
     @Autowired
     private IPersonDao iPersonDao;
-    @Autowired
-    private IChangeDao iChangeDao;
-    @Autowired
-    private IWorkorderDao iWorkorderDao;
 
     @Override
     public long create(ApproverVote entity) {

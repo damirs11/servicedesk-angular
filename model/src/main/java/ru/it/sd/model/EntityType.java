@@ -18,10 +18,10 @@ import java.util.Objects;
 public enum EntityType implements Code {
 
 	CHANGE("Изменение", Change.class.getSimpleName(), 724041768L),
-	PROBLEM("Проблема"),
+	PROBLEM("Проблема",null, 717488173L),
 	CALL("Обращение", null, 563019801L),
 	WORKORDER("Наряд", Workorder.class.getSimpleName(), 556859410L),
-	ITEM("Объект"),
+	ITEM("Объект", ConfigurationItem.class.getSimpleName(), 796000260L),
 	WORKGROUP("Рабочая группа", Workgroup.class.getSimpleName()),
 	APPROVAL("Согласование");
 

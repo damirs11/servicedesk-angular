@@ -1,7 +1,6 @@
 package ru.it.sd.hp;
 
 import com.hp.itsm.api.interfaces.IWorkorderCategory;
-import com.hp.itsm.ssp.beans.SdClientBean;
 import com.hp.itsm.ssp.beans.WorkorderCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

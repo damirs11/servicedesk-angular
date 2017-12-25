@@ -1,11 +1,6 @@
 /**
  * Модуль работы с базой данных.
  */
-configurations {
-    ajc
-    aspects
-}
-
 apply plugin: 'java'
 
 repositories {
@@ -15,12 +10,15 @@ repositories {
 
 dependencies {
     compile project(':model')
+
     compile "org.springframework:spring-context:$springVersion"
     compile "org.springframework:spring-context-support:$springVersion"
     compile "org.springframework:spring-jdbc:$springVersion"
     compile "org.springframework.security:spring-security-core:$springSecurityVersion"
-    compile "org.springframework:spring-aspects:$springSecurityVersion"
+
     compile "commons-beanutils:commons-beanutils:$commonsBeanUtils"
+    compile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
+    compile "org.apache.commons:commons-io:$apacheCommonsIOVersion"
     compile "joda-time:joda-time:2.9.2"
     compile 'javax.validation:validation-api:2.0.0.Final'
 
@@ -35,45 +33,8 @@ dependencies {
     compile "org.slf4j:jcl-over-slf4j:$slf4jVersion" //Commons logging API over slf4j
     compile "org.slf4j:log4j-over-slf4j:$slf4jVersion" //log4j API over slf4j
     compile "org.slf4j:jul-to-slf4j:$slf4jVersion" //java.util.logging over slf4j
-
-    compile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
-    compile "org.apache.commons:commons-io:$apacheCommonsIOVersion"
-    // кэширование
-    compile "net.sf.ehcache:ehcache:$ehcacheVersion"
-
-    // Dependencies required for aspect compilation
-    compile "org.aspectj:aspectjrt:$aspectjVersion"
-    ajc "org.aspectj:aspectjtools:$aspectjVersion"
-    aspects "org.springframework:spring-aspects:$springVersion"
-
     // Reflection
     compile "org.reflections:reflections:$reflectionsVersion"
-}
-
-/**
- * Запускаем AspectJ после компиляции Java
- */
-compileJava {
-    doLast{
-        println 'aspectj compile'
-        ant.taskdef(
-                resource:"org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
-                classpath: configurations.ajc.asPath)
-        ant.iajc(
-                source: project.sourceCompatibility,
-                target: project.targetCompatibility,
-                destDir: sourceSets.main.output.classesDir.absolutePath,
-                maxmem: "1024m",
-                fork: "true",
-                aspectPath: configurations.aspects.asPath,
-                classpath: configurations.compile.asPath){
-            sourceroots{
-                sourceSets.main.java.srcDirs.each{
-                    pathelement(location:it.absolutePath)
-                }
-            }
-        }
-    }
 }
 
 test {

@@ -20,7 +20,7 @@ import java.util.Set;
  * @since 13.05.2017
  */
 @Service
-public class ApproverVoteService implements CrudService<ApproverVote>{
+public class ApproverVoteService extends CrudService<ApproverVote>{
 
 	private static final Logger logger = LoggerFactory.getLogger(ApproverVoteService.class);
 

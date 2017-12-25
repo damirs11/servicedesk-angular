@@ -31,53 +31,53 @@ public class ConfigurationItemMapper extends EntityRowMapper<ConfigurationItem> 
 	@Override
 	public ConfigurationItem mapRow(ResultSet rs, int rowNumber) throws SQLException {
 		ConfigurationItem item = super.mapRow(rs, rowNumber);
-
-		Long statusId = DBUtils.getLong(rs,"CIT_STA_OID");
+		Long statusId = DBUtils.getLong(rs,"cit_sta_oid");
 		if (statusId != null) {
-			BaseCode code = codeDao.read(statusId);
+            BaseCode code = codeDao.read(statusId);
 			item.setStatus(code.convertTo(EntityStatus.class));
 		}
-		Long categoryId = DBUtils.getLong(rs,"CIT_CAT_OID");
+		Long categoryId = DBUtils.getLong(rs,"cit_cat_oid");
 		if (categoryId != null) {
-			EntityCategory category = EntityCategory.getById(categoryId);
+            BaseCode code = codeDao.read(categoryId);
+			EntityCategory category = code.convertTo(EntityCategory.class);
 			item.setCategory(category);
 		}
-		Long locationId = DBUtils.getLong(rs,"CIT_LOC_OID");
+		Long locationId = DBUtils.getLong(rs,"cit_loc_oid");
 		if (locationId != null) {
 			Location location = locationDao.read(locationId);
 			item.setLocation(location);
 		}
-		Long folderId = DBUtils.getLong(rs,"CIT_POO_OID");
+		Long folderId = DBUtils.getLong(rs,"cit_poo_oid");
 		if (folderId != null) {
 			BaseCode code = codeDao.read(folderId);
 			item.setFolder(code.convertTo(Folder.class));
 		}
-		Long brandId = DBUtils.getLong(rs,"CIT_BRA_OID");
+		Long brandId = DBUtils.getLong(rs,"cit_bra_oid");
 		if (brandId != null) {
 			BaseCode code = codeDao.read(brandId);
 			item.setBrand(code.convertTo(Brand.class));
 		}
-		Long adminId = DBUtils.getLong(rs,"CIT_ADMIN_PER_OID");
+		Long adminId = DBUtils.getLong(rs,"cit_admin_per_oid");
 		if (adminId != null) {
 			Person admin = personDao.read(adminId);
 			item.setAdmin(admin);
 		}
-		Long ownerId = DBUtils.getLong(rs,"CIT_OWNER_PER_OID");
+		Long ownerId = DBUtils.getLong(rs,"cit_owner_per_oid");
 		if (ownerId != null) {
 			Person owner = personDao.read(ownerId);
 			item.setOwner(owner);
 		}
-		Long ownerOrgId = DBUtils.getLong(rs,"CIT_OWNER_ORG_OID");
+		Long ownerOrgId = DBUtils.getLong(rs,"cit_owner_org_oid");
 		if (ownerOrgId != null) {
 			Organization ownerOrg = organizationDao.read(ownerOrgId);
 			item.setOwnerOrganization(ownerOrg);
 		}
-		Long payerId = DBUtils.getLong(rs,"CCF_ORG1_OID");
+		Long payerId = DBUtils.getLong(rs,"ccf_org1_oid");
 		if (payerId != null) {
 			Organization payer = organizationDao.read(payerId);
 			item.setPayer(payer);
 		}
-		Long supplierId = DBUtils.getLong(rs,"CIT_ORG_OID");
+		Long supplierId = DBUtils.getLong(rs,"cit_org_oid");
 		if (supplierId != null) {
 			Organization supplier = organizationDao.read(supplierId);
 			item.setSupplier(supplier);
