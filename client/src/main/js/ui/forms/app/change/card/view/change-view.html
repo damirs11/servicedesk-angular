@@ -143,7 +143,7 @@
                 <label>Категория:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.category"
-                             fetch-data="ctrl.SD.EntityCategory.list()"
+                             fetch-data="ctrl.SD.EntityCategory.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
                              display-value="$value.name"
                              cache="true"
                              editing="ctrl.editing"
@@ -151,7 +151,7 @@
             </div>
 
             <div class="form-group e-prop">
-                <label>Категория:</label>
+                <label>Рабочая группа::</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.workgroup"
                              fetch-data="ctrl.SD.Workgroup.list()"
