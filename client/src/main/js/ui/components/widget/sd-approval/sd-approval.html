@@ -45,8 +45,8 @@
             <div class="sd-approval__subject">
                 <span class="sd-approval__subject__title">Тема:</span>
                 <span class="sd-approval__subject__text">
-            <sd-text target="ctrl.approval.subject"></sd-text>
-        </span>
+                    <sd-text target="ctrl.approval.subject" editing="true"></sd-text>
+                </span>
             </div>
             <div class="sd-approval__properties">
                 <div class="sd-approval__property editing">
@@ -60,6 +60,7 @@
                                 display-value="$value.fullName"
                                 emptyValue="Нет"
                                 cache="true"
+                                editing="true"
                         ></sd-dropdown>
                     </div>
                 </div>
@@ -71,6 +72,7 @@
                         <sd-datetime
                                 target="ctrl.approval.deadline"
                                 allow-empty="false"
+                                editing="true"
                         ></sd-datetime>
                     </div>
                 </div>
@@ -81,6 +83,7 @@
                     <div class="entity-property-value">
                         <sd-number
                                 target="ctrl.approval.numberOfApproversRequired"
+                                editing="true"
                         ></sd-number>
                     </div>
                 </div>
