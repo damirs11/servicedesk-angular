@@ -59,7 +59,6 @@ public class Change implements HasId, HasStatus, Serializable {
 	/** Исполнитель */
 	@FieldMeta(columnName = "ass_per_to_oid", required = true)
 	private Person executor;
-
 	/** Группа исполнителей*/
 	@FieldMeta(columnName = "ass_wog_oid", required = true)
 	private Workgroup assWorkgroup;
@@ -70,6 +69,12 @@ public class Change implements HasId, HasStatus, Serializable {
 	/** Менеджер изменения */
 	@FieldMeta(columnName = "cha_per_man_oid", required = true)
 	private Person manager;
+
+	@FieldMeta(columnName = "cha_closurecode")
+	private EntityClosureCode closureCode;
+
+	@FieldMeta(columnName = "cha_poo_oid")
+	private Folder folder;
 
 
 
@@ -184,6 +189,22 @@ public class Change implements HasId, HasStatus, Serializable {
     public Workgroup getAssWorkgroup() { return assWorkgroup; }
 
     public void setAssWorkgroup(Workgroup assWorkgroup) { this.assWorkgroup = assWorkgroup; }
+
+    public EntityClosureCode getClosureCode() {
+        return closureCode;
+    }
+
+    public void setClosureCode(EntityClosureCode closureCode) {
+        this.closureCode = closureCode;
+    }
+
+    public Folder getFolder() {
+        return folder;
+    }
+
+    public void setFolder(Folder folder) {
+        this.folder = folder;
+    }
 
     @Override
 	public String toString() {

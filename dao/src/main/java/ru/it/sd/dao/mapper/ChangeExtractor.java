@@ -79,8 +79,20 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 
             Long classificationId = DBUtils.getLong(rs, "cha_cla_oid");
             if(classificationId != null) {
-                BaseCode code = codeDao.read(categoryId);
+                BaseCode code = codeDao.read(classificationId);
                 change.setClassification(code.convertTo(EntityClassification.class));
+            }
+
+            Long closureCodeId = DBUtils.getLong(rs, "cha_closurecode");
+            if(closureCodeId != null) {
+                BaseCode code = codeDao.read(closureCodeId);
+                change.setClosureCode(code.convertTo(EntityClosureCode.class));
+            }
+
+            Long folderId = DBUtils.getLong(rs, "cha_poo_oid");
+            if(folderId != null) {
+                BaseCode code = codeDao.read(folderId);
+                change.setFolder(code.convertTo(Folder.class));
             }
 
 			list.add(change);

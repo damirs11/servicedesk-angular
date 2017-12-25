@@ -25,7 +25,7 @@ public class IClassificationChaDao implements HpCrudDao<EntityClassification, IC
         try{
             return api.getSdClient().sd_session().getClassificationChaHome().openClassificationCha(id);
         }catch (Exception e){
-            throw new ServiceException("Не найдена категория изменения. "+e.getMessage(),e);
+            throw new ServiceException("Не найдена классификация изменения. "+e.getMessage(),e);
         }
 
     }
