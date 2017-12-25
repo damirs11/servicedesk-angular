@@ -15,7 +15,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.it.sd.model.PagingRange;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -91,12 +90,4 @@ public class HistoryRestControllerTest extends AbstractWebTest{
 		assertEquals(data.get(0).get("id"), 2);
 	}
 
-	private void showResponseInfo(MockHttpServletResponse response) throws UnsupportedEncodingException {
-		logger.info("###");
-		logger.info(response.getContentAsString());
-		logger.info(response.getHeaderNames().toString());
-		for (String header : response.getHeaderNames()) {
-			logger.info("HEADER: " + header + "=" + response.getHeader(header));
-		}
-	}
 }

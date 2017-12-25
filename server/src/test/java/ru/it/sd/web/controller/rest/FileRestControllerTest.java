@@ -1,6 +1,8 @@
 package ru.it.sd.web.controller.rest;
 
 import org.hamcrest.Matchers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -28,6 +30,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * @author quadrix
  */
 public class FileRestControllerTest extends AbstractWebTest{
+
+    private static final Logger logger = LoggerFactory.getLogger(FileRestControllerTest.class);
 
     @Autowired
     private FileRestController fileRestController;
@@ -107,6 +111,4 @@ public class FileRestControllerTest extends AbstractWebTest{
                         .andExpect(MockMvcResultMatchers.jsonPath("$[3].name", Matchers.is(multipartFile4.getOriginalFilename())))
                         .andReturn();
     }
-
-
 }

@@ -30,8 +30,8 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 		assertEquals(workorder.getId().longValue(), 10001L);
 		assertEquals(workorder.getNo().longValue(), 1001L);
 		assertEquals(workorder.getStatus().getId().longValue(), 281478237061818L);
-		assertEquals(workorder.getCategory(), EntityCategory.WORKORDER_TASK);
-		assertEquals(workorder.getClosureCode(), EntityClosureCode.WORKORDER_COMPLETED);
+		assertEquals(workorder.getCategory().getId().longValue(), 3095134393L);
+		assertEquals(workorder.getClosureCode().getId().longValue(), 3095134405L);
 	}
 
 	@Test
