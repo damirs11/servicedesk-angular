@@ -22,12 +22,7 @@ class ChangeCardViewController{
 
     $onInit() {
         this.change = new this.SD.Change(this.changeId);
-        this.loadStatuses();
         this.registerLeaveEditListener();
-    }
-
-    async loadStatuses() {
-        this.statusList = await this.SD.EntityStatus.list({entityTypeId:this.SD.Change.$entityTypeId});
     }
 
     // Статус стейта, редактирование/просмотр
@@ -40,8 +35,8 @@ class ChangeCardViewController{
         this.editing = false;
     }
     cancelEditing(){
-        this.editing = false;
         this.change.reset();
+        this.editing = false;
     }
 
     registerLeaveEditListener() {

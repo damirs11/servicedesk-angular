@@ -2,15 +2,23 @@
 
     <content>
         <div class="entity-container__content entity-container__header">
+            <a data-ui-sref="app.change.list" style="margin-right: 10px">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </a>
             <span>Изменение №{{ctrl.change.no}}:
                 <span style="font-weight: bold">{{ctrl.change.subject}}</span>
             </span>
         </div>
         <div class="entity-container__content entity-container__header">
-            <nav class="nav nav-pills">
-                <li>
-                    <a data-ui-sref="app.change.list"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-                </li>
+            <sd-status-bar target="ctrl.change"
+                           status-list="ctrl.statusList"
+            ></sd-status-bar>
+        </div>
+        <div class="entity-container__content entity-container__header">
+            <nav class="nav nav-pills nav-justified">
+                <!--<li>-->
+                    <!--<a data-ui-sref="app.change.list"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>-->
+                <!--</li>-->
                 <li data-ui-sref-active="active" data-ng-repeat="$item in ctrl.childStates">
                     <a data-ui-sref="app.change.card.{{$item.path}}" ng-bind="$item.name"></a>
                 </li>

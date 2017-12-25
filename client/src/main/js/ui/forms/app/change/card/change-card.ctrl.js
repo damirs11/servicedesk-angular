@@ -33,8 +33,17 @@ class ChangeCardController {
     @NGInject() SD;
     @NGInject() changeId;
 
-    $onInit(){
-        this.$loadChange();
+    async $onInit(){
+        this.loadingPromise = this.loadData();
+    }
+
+    async loadData(){
+        await this.$loadChange();
+        await this.$loadStatuses();
+    }
+
+    async $loadStatuses() {
+        this.statusList = await this.SD.EntityStatus.list({entityTypeId:this.SD.Change.$entityTypeId});
     }
 
     get loading(){
@@ -59,8 +68,7 @@ class ChangeCardController {
         if (this.busy) throw new Error("Controller is busy " + this.busy);
         try {
             this.busy = "loading";
-            this.loadingPromise = new this.SD.Change(this.changeId).load();
-            this.change = await this.loadingPromise;
+            this.change = await  new this.SD.Change(this.changeId).load();
         } catch (error) {
             this.loadingError = error || true;
         } finally {

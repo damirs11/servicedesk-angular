@@ -1,10 +1,4 @@
 <div class="entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
-    <div class="entity-container__content">
-        <sd-status-bar target="ctrl.change"
-                    status-list="ctrl.statusList"
-        ></sd-status-bar>
-    </div>
-
     <!--Кнопки в верхнем меню-->
     <div class="entity-container__content">
         <a class="btn btn-default" data-ng-if="!ctrl.editing" data-ng-click="ctrl.startEditing()">Редактировать</a>
@@ -56,35 +50,9 @@
                 ></sd-dropdown>
             </div>
         </form>
-            <div class="entity-property-value">
-                - Нет -
-            </div>
-        </div>
     </div>
 
-    <div class="entity-container__content entity-properties">
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Инициатор:</span>
-            </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.initiator || ctrl.emptyValue"></span>
-            </div>
-        </div>
-
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Менеджер:</span>
-            </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.manager || ctrl.emptyValue"></span>
-            </div>
-        </div>
-
-
-    </div>
-
-    <div class="entity-container__content entity-properties">
+    <div class="entity-container__content">
         <form class="form-inline entity-properties">
 
             <div class="form-group e-prop">
@@ -151,7 +119,7 @@
             </div>
 
             <div class="form-group e-prop">
-                <label>Рабочая группа::</label>
+                <label>Рабочая группа:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.workgroup"
                              fetch-data="ctrl.SD.Workgroup.list()"
@@ -165,7 +133,7 @@
                 <label>Классифицкаия:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.classification"
-                             fetch-data="ctrl.SD.EntityClassification.list()"
+                             fetch-data="ctrl.SD.EntityClassification.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
                              display-value="$value.name"
                              cache="true"
                              editing="ctrl.editing"
