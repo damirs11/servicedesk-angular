@@ -83,7 +83,7 @@ public class ChangeService extends CrudService<Change>{
 	@Override
 	public Change patch(Change entity, Set<String> fields) {
 		iChangeDao.patch(entity, fields);
-		return entity;
+		return dao.read(entity.getId());
 	}
 
 }
