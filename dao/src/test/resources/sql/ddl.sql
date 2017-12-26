@@ -49,7 +49,9 @@ CREATE TABLE itsm_changes (
   cha_apt_nrofapprovers DECIMAL(18),
   cha_apt_nrofapproversapproved DECIMAL(18),
   cha_apt_nrofapproversrequired DECIMAL(18),
-  cha_apt_wog_oid DECIMAL(18)
+  cha_apt_wog_oid DECIMAL(18),
+  cha_closurecode DECIMAL(18),
+  cha_poo_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_cha_information (
