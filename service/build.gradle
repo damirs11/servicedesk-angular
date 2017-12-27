@@ -53,7 +53,7 @@ dependencies {
     compile "net.sf.ehcache:ehcache:$ehcacheVersion"
 
     compile "org.springframework:spring-aspects:$springVersion"
-    compile "org.apache.commons:commons-io:$apacheCommonsIOVersion"
+    compile "commons-io:commons-io:$apacheCommonsIOVersion"
 
     // Для упрощения работы со свойствами бинов
     compile "commons-beanutils:commons-beanutils:$commonsBeanUtils"

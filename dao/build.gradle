@@ -18,7 +18,7 @@ dependencies {
 
     compile "commons-beanutils:commons-beanutils:$commonsBeanUtils"
     compile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
-    compile "org.apache.commons:commons-io:$apacheCommonsIOVersion"
+    compile "commons-io:commons-io:$apacheCommonsIOVersion"
     compile "joda-time:joda-time:2.9.2"
     compile 'javax.validation:validation-api:2.0.0.Final'
 
