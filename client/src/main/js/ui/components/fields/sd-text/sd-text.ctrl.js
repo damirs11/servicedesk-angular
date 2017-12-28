@@ -1,4 +1,4 @@
-const COMMIT_DEBOUNCE = 500;
+const COMMIT_DEBOUNCE = 250;
 
 class SDTextController{
 
