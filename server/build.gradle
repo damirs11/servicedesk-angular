@@ -34,11 +34,8 @@ dependencies {
     compile project(':dao')
     compile project(':service')
     providedCompile "javax.servlet:javax.servlet-api:$servletVersion"
-    compile "org.springframework:spring-webmvc"
+    compile "org.springframework:spring-webmvc:$springVersion"
     compile "org.springframework:spring-context:$springVersion"
-    // Кэширование
-    compile "org.springframework:spring-context-support:$springSecurityVersion" //Support for Ehcache and others
-    compile "net.sf.ehcache:ehcache:$ehcacheVersion"
     // Безопасность
     compile "org.springframework.security:spring-security-core:$springSecurityVersion"
     compile "org.springframework.security:spring-security-config:$springSecurityVersion"
@@ -55,11 +52,11 @@ dependencies {
     compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonCodehausVersion"
 
     compile "commons-fileupload:commons-fileupload:$apacheCommonsFileUploadVersion"
-    compile "org.apache.commons:commons-io:$apacheCommonsIOVersion"
+    compile "commons-io:commons-io:$apacheCommonsIOVersion"
     compile "org.hsqldb:hsqldb:$hsqldbVersion"
     compile "com.jolbox:bonecp:$boneCPVersion"
     compile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
-    compile "commons-net:commons-net:3.3"
+    compile "commons-net:commons-net:$apacheCommonsNetVersion"
 
     // тестирование
     testCompile "org.springframework:spring-test:$springVersion"

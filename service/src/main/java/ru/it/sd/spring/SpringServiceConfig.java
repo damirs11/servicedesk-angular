@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.cache.interceptor.CacheErrorHandler;
@@ -41,7 +42,7 @@ import java.sql.SQLException;
 @EnableGlobalMethodSecurity(prePostEnabled = true, mode= AdviceMode.ASPECTJ)
 @EnableAsync
 @EnableScheduling
-//@EnableCaching(mode = AdviceMode.ASPECTJ)
+@EnableCaching(mode = AdviceMode.ASPECTJ)
 @PropertySource("classpath:application.properties")
 public class SpringServiceConfig extends GlobalMethodSecurityConfiguration implements CachingConfigurer {
 

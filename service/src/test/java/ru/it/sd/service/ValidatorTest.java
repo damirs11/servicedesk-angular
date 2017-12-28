@@ -31,6 +31,9 @@ public class ValidatorTest {
         change.setExecutor(new Person());
         //change.setCategory(EntityCategory.CHANGE_CAB);
         change.setDeadline(new Date());
+        change.setClassification(new EntityClassification());
+        change.setCategory(new EntityCategory());
+        change.setPriority(new EntityPriority());
         Validator.validate(change);
 
     }
