@@ -23,12 +23,14 @@ import {WorkorderCardHistoryState} from "./app/workorder/card/history/workorder-
 import {ChangeCardApprovalState} from "./app/change/card/approval/change-approval.state";
 import {ChangeCardAttachmentsState} from "./app/change/card/attachments/change-attachments.state";
 import {ChangePasswordState} from "./app/change-password/change-password.state";
+import {LeavePageModal} from "./app/leave-page/leave-page.modal";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
     $urlRouterProvider.otherwise("/");
     ModalActionProvider
-        .modal(EntityChangedModal);
+        .modal(EntityChangedModal)
+        .modal(LeavePageModal);
     $stateProvider
         .state(AppState)
         .state(MainState)

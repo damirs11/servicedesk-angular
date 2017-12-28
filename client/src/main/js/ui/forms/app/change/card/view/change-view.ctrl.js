@@ -15,6 +15,7 @@ class ChangeCardViewController{
     @NGInject() ModalAction;
     @NGInject() $state;
     @NGInject() $transitions;
+    @NGInject() $pageLock;
 
     constructor(){
         this.msgTypes = CHANGE_MESSAGE_TYPES;
@@ -40,33 +41,18 @@ class ChangeCardViewController{
     }
 
     registerLeaveEditListener() {
-        const fromCurrentState = {
-            from: state => state.name === this.$state.current.name,
-        };
-        const removeExitHook = this.$transitions.onExit(fromCurrentState,async () => {
-            if (!this.change || !this.change.checkModified()) return;
-            const modalResult = await this.ModalAction.entityChanged();
-            if (modalResult == 0) {
+        this.$pageLock(this.$scope)
+            .setTitle("Несохраненные изменения")
+            .setText("Внимание! В сущность были внесены изменение, сохранить их перед уходом?")
+            .setCondition(() => this.change.checkModified())
+            .addAction("Да",async () => {
                 await this.change.save();
                 return true;
-            } else if (modalResult == 1) {
+            }).addAction("Нет", () => {
                 this.change.reset();
                 return true;
-            } else {
-                return false;
-            }
-        });
-        const onBeforeUnload = event => {
-            if (!this.change || !this.change.checkModified()) return;
-            console.log("onUnload");
-            event.returnValue = "Вы действительно хотите покинуть страницу? Несохраненные изменения будут утеряны.";
-            return event.returnValue;
-        };
-        window.addEventListener("beforeunload", onBeforeUnload);
-        this.$scope.$on("$destroy", () => {
-            removeExitHook();
-            window.removeEventListener("beforeunload", onBeforeUnload)
-        })
+            }).addAction("Отмена", () => false)
+            .lock();
     }
 
     async createTestChange() {

@@ -1,7 +1,7 @@
 <div data-ng-show="ctrl.editing" class="sd-number">
     <div class="input-group sd-number__input-container">
-        <span class="input-group-btn">
-            <button class="btn btn-primary" type="button" data-ng-click="ctrl.decreaseValue()">
+        <span class="input-group-btn" style="width: 35px">
+            <button class="btn btn-primary" style="width: 35px" type="button" data-ng-click="ctrl.decreaseValue()">
                 <span class="fa fa-minus"></span>
             </button>
         </span>
@@ -12,8 +12,8 @@
                ng-model="ctrl.displayValue"
                data-ng-keydown="ctrl.inputKeyDown($event)"
         >
-        <span class="input-group-btn">
-            <button class="btn btn-primary" type="button" data-ng-click="ctrl.increaseValue()">
+        <span class="input-group-btn" style="width: 35px">
+            <button class="btn btn-primary" style="width: 35px" type="button" data-ng-click="ctrl.increaseValue()">
                 <span class="fa fa-plus"></span>
             </button>
         </span>

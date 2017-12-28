@@ -12,6 +12,7 @@ function ApprovalProvider(EditableEntity, SD) {
      * @name SD.Approval
      */
     return class Approval extends EditableEntity {
+        static $entityTypeId = 281478244794382;
         /**
          * ID сущности
          * @property

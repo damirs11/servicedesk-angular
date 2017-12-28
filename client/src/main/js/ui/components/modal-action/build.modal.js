@@ -98,6 +98,7 @@ function buildModal($modalConfig, $modalName, $scope, $q, $modalData, $callback,
                 locals[dep] = $modalData && $modalData[dep];
             });
             const controller = $modalConfig.controller ? $controller($modalConfig.controller, locals) : null;
+            controller.$onInit && controller.$onInit(); // Вызывает $onInit, если есть
             if ($modalConfig.controllerAs) modalScope[$modalConfig.controllerAs] = controller;
             if (typeof $callback === "function") $callback($modalState, $modalData, $scope);
             link(modalScope, el => $element = el);

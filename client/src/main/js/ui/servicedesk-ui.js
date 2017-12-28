@@ -53,6 +53,7 @@ import {SDAttachBoxComponent} from "./components/widget/sd-attachments/sd-attach
 import {SDUploadingFileComponent} from "./components/widget/sd-attachments/sd-uploading-file/sd-uploading-file.component";
 import {SDLoadingDirective} from "./components/directives/sd-loading/sd-loading.directive";
 import {AutoHeightDirective} from "./components/directives/auto-height.directive";
+import {PageLockFactory} from "./components/page-lock.factory";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -84,6 +85,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
 
     .factory("$grid",$gridFactory)
     .factory("SDValidator",SDValidatorFactory)
+    .factory("$pageLock",PageLockFactory)
 
     .directive("equalsTo", EqualsTo)
     .directive("differentFrom", DifferentFrom)
