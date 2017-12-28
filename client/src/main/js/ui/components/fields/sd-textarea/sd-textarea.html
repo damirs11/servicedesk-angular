@@ -4,7 +4,7 @@
                style="resize: none;"
                class="form-control"
                ng-model="ctrl.value"
-               placeholder="{{ctrl.placeholder}}"
+               placeholder="{{this.emptyValue || '- нет -'}}"
                data-ng-maxlength="ctrl.maxlength"
                data-ng-minlength="ctrl.minlength"
                ng-required="ctrl.required"
