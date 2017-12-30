@@ -200,3 +200,14 @@ CREATE TABLE rep_attachments (
   ahs_basename VARCHAR(128),
   ahs_filename VARCHAR(128)
 );
+
+CREATE TABLE itsm_service_relations (
+    sre_oid DECIMAL(18),
+    sre_revrty_oid DECIMAL(18),
+    sre_ent_oid DECIMAL(18),
+    sre_rty_oid DECIMAL(18),
+    sre_inc_oid DECIMAL(18),
+    sre_pro_oid DECIMAL(18),
+    sre_ser_oid DECIMAL(18),
+    sre_cha_oid DECIMAL(18)
+);
