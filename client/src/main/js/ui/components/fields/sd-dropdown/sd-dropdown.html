@@ -1,5 +1,5 @@
 <!--Режим редактирования-->
-<div ng-show="ctrl.editing" class="sd-dropdown">
+<div data-ng-if="ctrl.editing" class="sd-dropdown">
     <ui-select
                ng-model="ctrl.selectedValue"
                on-select="ctrl.onSelect($item,$model)"
@@ -18,6 +18,6 @@
 </div>
 
 <!--Режим просмотра-->
-<div ng-hide="ctrl.editing" class="sd-dropdown-view">
+<div data-ng-if="!ctrl.editing" class="sd-dropdown-view">
     <span ng-bind="ctrl.display(ctrl.selectedValue)"></span>
 </div>

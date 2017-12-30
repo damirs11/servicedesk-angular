@@ -6,10 +6,10 @@
                placeholder="{{this.emptyValue || '- нет -'}}"
                data-ng-maxlength="ctrl.maxlength"
                data-ng-minlength="ctrl.minlength"
-               ng-required="ctrl.required"
+               data-ng-required="ctrl.required"
         >
     </div>
 </div>
 
 <!--Режим просмотра-->
-<div ng-hide="ctrl.editing" class="sd-text-view"><span ng-bind="ctrl.displayValue"></span></div>
+<div data-ng-hide="ctrl.editing" class="sd-text-view"><span ng-bind="ctrl.displayValue"></span></div>
