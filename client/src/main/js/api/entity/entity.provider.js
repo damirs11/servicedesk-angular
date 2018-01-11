@@ -11,6 +11,36 @@ function EntityProvider(cache) {
      */
     return class Entity {
 
+        /**
+         * @static
+         * @name Entity.constructor#$tracker
+         * Объект, содержащий настройки трекера.
+         * dataField - названия поля в данных, приходящих с сервера (json / etc.)
+         * ownField - название поля в объекте, куда занесется значение трекера.
+         * По стандарту оба поля "id"
+         */
+        static $tracker = {
+              dataField: "id",
+              ownField: "id"
+        };
+
+        /**
+         * Идентификатор типа сущности
+         * @static
+         * @property
+         * @name SD.Entity.$entityTypeId
+         * @type {Number}
+         */
+        static $entityTypeId;
+
+        /**
+         * Возвращает строкой тип сущности. Используется для запросов
+         * Должен соотвествовать типу на сервере
+         * @returns {string}
+         */
+        static get $entityType() {
+            return this.name;
+        }
 
         /**
          * Возвращает сущность из данных json. Может изменить кэшированную версию.
@@ -20,22 +50,28 @@ function EntityProvider(cache) {
         static parse(data) {
             if (!data) return null;
             if (typeof data !== "object") return new this(data);
-            return new this(data.id).$update(data)
+            const serverTrackerName = this.$tracker.dataField;
+            return new this(data[serverTrackerName]).$update(data);
         }
 
         /**
          * Создает сущность. Если не передать tracker - считается, что создается новая сущность (которой нет в БД)
          * Она не попадет в кэш.
-         * Если же id передан - вернет новый объект, который наследуется от кэшированного.
-         * @param {number} [id] - ID сущности
+         * Если же tracker передан - вернет новый объект, который наследуется от кэшированного.
+         * Переданный tracker попадет в поле, указанное в $tracker["ownField"].
+         * @link Entity.constructor#$tracker
+         * @param {number} [tracker] - трекер сущности
          * @returns {Entity|*}
          */
-        constructor(id) {
-            if (id) {
-                let entity = cache[id];
+        constructor(tracker) {
+            const trackerField = this.constructor.$tracker.ownField;
+            const entType = this.constructor.$entityType;
+            if (tracker) {
+                if (!cache[entType]) cache[entType] = {};
+                let entity = cache[entType][tracker];
                 if (!entity) {
-                    cache[id] = entity = Object.create(this.constructor.prototype);
-                    entity.id = id;
+                    cache[entType][tracker] = entity = Object.create(this.constructor.prototype);
+                    entity[trackerField] = tracker;
                 }
                 Object.defineProperty(entity, "$data", {value: entity});
                 return Object.create(entity)
@@ -105,6 +141,8 @@ function EntityProvider(cache) {
                 const result = serialize(value,serializedName);
                 if (result !== undefined) json[serializedName] = result;
             }
+            // Добавляем трекер в json.
+            json[ this.constructor.$tracker.dataField ] = this[ this.constructor.$tracker.ownField ];
             return json;
         }
 

@@ -1,4 +1,4 @@
-class ChangeViewController {
+class WorkorderViewController {
     /**
      * Занят ли контроллер. Будет отображат анимацию загрузки
      * @type {string|null}
@@ -56,4 +56,4 @@ class ChangeViewController {
     }
 }
 
-export {ChangeViewController as controller}
+export {WorkorderViewController as controller}

@@ -1,28 +1,49 @@
-class ChangeViewController {
+import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
+
+@NGInjectClass()
+class ChangeCardController {
     /**
      * Занят ли контроллер. Будет отображат анимацию загрузки
-     * @type {string|null}
+     * @type {string}
      */
-    busy = null;
+    busy;
     /**
      * Ошибка при загрузке
-     * @type {Error|null}
+     * @type {Error}
      */
-    loadingError = null;
+    loadingError;
     /**
      * Изменение
-     * @type {SD.Change|null}
+     * @type {SD.Change}
      */
-    change = null;
+    change;
+    /**
+     * Промис загрузки изменения
+     */
+    loadingPromise;
+    /**
+     * Дочерние стейты, которые будут отображаться "вкладками"
+     * Название стейта = ${current.name}.${path}
+     */
+    childStates = [
+        {path: "view", name: "Просмотр"}, {path: "history", name: "История"},
+        {path: "approval", name: "Согласование"}, {path: "attachments", name: "Вложения"}
+    ];
 
-    static $inject = ["SD","changeId"];
-    constructor(SD,changeId){
-        this.SD = SD;
-        this.changeId = changeId;
+    @NGInject() SD;
+    @NGInject() changeId;
+
+    async $onInit(){
+        this.loadingPromise = this.loadData();
     }
 
-    $onInit(){
-        this.$loadChange();
+    async loadData(){
+        await this.$loadChange();
+        await this.$loadStatuses();
+    }
+
+    async $loadStatuses() {
+        this.statusList = await this.SD.EntityStatus.list({entityTypeId:this.SD.Change.$entityTypeId});
     }
 
     get loading(){
@@ -47,7 +68,7 @@ class ChangeViewController {
         if (this.busy) throw new Error("Controller is busy " + this.busy);
         try {
             this.busy = "loading";
-            this.change = await new this.SD.Change(this.changeId).load();
+            this.change = await  new this.SD.Change(this.changeId).load();
         } catch (error) {
             this.loadingError = error || true;
         } finally {
@@ -56,4 +77,4 @@ class ChangeViewController {
     }
 }
 
-export {ChangeViewController as controller}
+export {ChangeCardController as controller}

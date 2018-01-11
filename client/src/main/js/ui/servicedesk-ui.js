@@ -19,7 +19,8 @@ import {
     ngMessages,
     uiBootstrapDatetimePicker,
     angularMoment,
-    uiGridSaveState
+    uiGridSaveState,
+    ngFileUpload,
 } from "../common/web-libraries.const";
 import {TranslateConfig} from "./components/translate/translate.config";
 import {default as ModalAction} from "./components/modal-action/modal-action";
@@ -44,6 +45,15 @@ import {SDAvatarComponent} from "./components/widget/sd-avatar/sd-avatar.compone
 import {ChatLineComponent} from "./components/widget/sd-entity-chat/chat-line/chat-line.component";
 import {ChatInfoBlockComponent} from "./components/widget/sd-entity-chat/chat-line/chat-info-block/chat-info-block.component";
 import {ChatInputComponent} from "./components/widget/sd-entity-chat/chat-input/chat-input.component";
+import {SDApprovalComponent} from "./components/widget/sd-approval/sd-approval.component";
+import {SDNumberComponent} from "./components/fields/sd-number/sd-number.component";
+import {SDAttachmentsComponent} from "./components/widget/sd-attachments/sd-attachments.component";
+import {SDAttachmentItemComponent} from "./components/widget/sd-attachments/sd-attachment-item/sd-attachment-item.component";
+import {SDAttachBoxComponent} from "./components/widget/sd-attachments/sd-attach-box/sd-attach-box.component";
+import {SDUploadingFileComponent} from "./components/widget/sd-attachments/sd-uploading-file/sd-uploading-file.component";
+import {SDLoadingDirective} from "./components/directives/sd-loading/sd-loading.directive";
+import {AutoHeightDirective} from "./components/directives/auto-height.directive";
+import {PageLockFactory} from "./components/page-lock.factory";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -63,7 +73,8 @@ export const servicedeskUI = angular.module("servicedesk-ui",
             uiSelect,
             uiBootstrapDatetimePicker,
             angularMoment,
-            uiGridSaveState])
+            uiGridSaveState,
+            ngFileUpload])
 
     .config(TranslateConfig)
     .config(FormConfig)
@@ -74,17 +85,21 @@ export const servicedeskUI = angular.module("servicedesk-ui",
 
     .factory("$grid",$gridFactory)
     .factory("SDValidator",SDValidatorFactory)
+    .factory("$pageLock",PageLockFactory)
 
     .directive("equalsTo", EqualsTo)
     .directive("differentFrom", DifferentFrom)
     .directive("sdFocus",SDFocusDirective)
     .directive("sdOnInteractOut",SDOnInteractOutDirective)
+    .directive("sdLoading",SDLoadingDirective)
+    .directive("autoHeight",AutoHeightDirective)
 
     /** Компоненты для редактируемых полей */
     .component("sdText", SDTextComponent)
     .component("sdTextarea", SDTextareaComponent)
     .component("sdDropdown", SDDropdownComponent)
     .component("sdDatetime", SDDateTimeComponent)
+    .component("sdNumber", SDNumberComponent)
     /** Прочие */
     .component("sdStatusBar",SDStatusBarComponent)
     .component("sdAvatar",SDAvatarComponent)
@@ -93,6 +108,13 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .component("chatInfoBlock",ChatInfoBlockComponent)
     .component("chatInput",ChatInputComponent)
     .component("sdEntityChat",SDEntityChatComponent)
+    /** Согласование */
+    .component("sdApproval",SDApprovalComponent)
+    /** Вложения */
+    .component("sdAttachments",SDAttachmentsComponent)
+    .component("sdAttachmentItem",SDAttachmentItemComponent)
+    .component("sdAttachBox",SDAttachBoxComponent)
+    .component("sdUploadingFile",SDUploadingFileComponent)
 
     .controller("IndexController",IndexController)
     .name;

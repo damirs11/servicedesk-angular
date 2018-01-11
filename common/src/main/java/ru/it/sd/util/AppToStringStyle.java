@@ -14,6 +14,8 @@ import java.util.Date;
 
 public class AppToStringStyle extends ToStringStyle {
 
+	private static final long serialVersionUID = 4193424031779774851L;
+
 	private static final String DATETIME_FORMAT_PATTERN = "dd.MM.yyyy HH:mm:ss";
 	private static AppToStringStyle INSTANCE = new AppToStringStyle();
 	/**

@@ -1,7 +1,7 @@
 <!--Режим редактирования-->
-<div ng-show="ctrl.isEnabled" class="dropdown datetimepicker-{{ctrl.dropdownId}}">
+<div data-ng-show="ctrl.editing" class="sd-datetime dropdown datetimepicker-{{ctrl.dropdownId}}">
     <a class="dropdown-toggle" id="datetimepicker-dropdown-{{ctrl.dropdownId}}" role="button" data-toggle="dropdown" data-target=".datetimepicker-{{ctrl.dropdownId}}" href="javascript:void(0)">
-        <div class="input-group">
+        <div class="input-group sd-datetime__input-container">
             <input type="text"
                    name="input"
                    class="form-control"
@@ -25,6 +25,6 @@
 </div>
 
 <!--Режим просмотра-->
-<div ng-hide="ctrl.isEnabled" class="field-disabled-offset">
+<div data-ng-hide="ctrl.editing" class="sd-datetime-view">
     <span ng-bind="ctrl.formattedDate"></span>
 </div>

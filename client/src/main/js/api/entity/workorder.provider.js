@@ -2,17 +2,21 @@ import {Parse} from "./decorator/parse.decorator";
 import {Serialize} from "./decorator/serialize.decorator";
 import {Instantiate, Nullable} from "./decorator/parse-utils";
 import {serializeId} from "./decorator/serialize-utils";
+import {Mixin} from "./mixin/mixin.decorator";
 
 
-WorkorderProvider.$inject = ["EditableEntity", "SD"];
-function WorkorderProvider(EditableEntity, SD) {
+WorkorderProvider.$inject = ["EditableEntity", "SD", "Historyable"];
+function WorkorderProvider(EditableEntity, SD, Historyable) {
     /**
      * Персона
      * @class
      * @name SD.Workorder
+     * @mixes ENTITY_MIXIN.Historyable
      * @extends SD.EditableEntity
      */
-    return class Workorder extends EditableEntity {
+    @Mixin(Historyable)
+    class Workorder extends EditableEntity {
+        static $entityTypeId = 556859410;
         /**
          * Номер
          * @property
@@ -153,7 +157,8 @@ function WorkorderProvider(EditableEntity, SD) {
             return this.no;
         }
 
-    };
+    }
+    return Workorder
 }
 
 export {WorkorderProvider};

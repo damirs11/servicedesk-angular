@@ -2,17 +2,23 @@ import {Parse} from "./decorator/parse.decorator";
 import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
 import {serializeId} from "./decorator/serialize-utils";
+import {Mixin} from "./mixin/mixin.decorator";
 
 
-ChangeProvider.$inject = ["EditableEntity", "SD"];
-function ChangeProvider(EditableEntity, SD) {
+ChangeProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable", "AttachmentsHolder"];
+function ChangeProvider(EditableEntity, SD, Historyable, Approvable, AttachmentsHolder) {
     /**
      * Персона
      * @class
      * @name SD.Change
+     * @mixes ENTITY_MIXIN.Historyable
+     * @mixes ENTITY_MIXIN.Approvable
+     * @mixes ENTITY_MIXIN.AttachmentsHolder
      * @extends SD.EditableEntity
      */
-    return class Change extends EditableEntity {
+    @Mixin(Historyable, Approvable, AttachmentsHolder)
+    class Change extends EditableEntity {
+        static $entityTypeId = 724041768;
         /**
          * Номер
          * @property
@@ -129,7 +135,8 @@ function ChangeProvider(EditableEntity, SD) {
             return this.no;
         }
 
-    };
+    }
+    return Change
 }
 
 export {ChangeProvider};

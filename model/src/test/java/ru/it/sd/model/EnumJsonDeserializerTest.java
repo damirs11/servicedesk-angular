@@ -21,10 +21,10 @@ public class EnumJsonDeserializerTest {
 
 	@Test
 	private void serializeTest() throws Exception {
-		String s = objectMapper.writeValueAsString(EntityCategory.ITEM_CAMERA);
+		String s = objectMapper.writeValueAsString(EntityType.CHANGE);
 		LOG.debug("serialize: " + s);
-		EntityCategory category = objectMapper.readValue(s, EntityCategory.class);
+		EntityType category = objectMapper.readValue(s, EntityType.class);
 		LOG.debug("deserialize: " + category.toString());
-		assertEquals(category, EntityCategory.ITEM_CAMERA);
+		assertEquals(category, EntityType.CHANGE);
 	}
 }

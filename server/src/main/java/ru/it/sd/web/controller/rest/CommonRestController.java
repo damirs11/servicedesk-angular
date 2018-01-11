@@ -33,11 +33,11 @@ import java.util.Map;
  * Контроллер CRUD операций общий для всех сущностей. Операции редактирования
  * работают только с модельными классами из пакета "ru.it.sd.model"
  *
- * @author Vitalii Samolovskikh
+ * @author quadrix
+ * @since 22.05.2017
  */
 @RestController
 @RequestMapping("/rest/entity")
-@EnableWebMvc
 public class CommonRestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CommonRestController.class);
@@ -55,11 +55,6 @@ public class CommonRestController {
 		this.crudServiceHolder = crudServiceHolder;
 		this.historyServiceHolder = historyServiceHolder;
 	}
-
-	@RequestMapping("/ping")
-    public String ping() {
-        return "OK";
-    }
 
     /**
      * Получить информацию о сущности по её идентификатору
@@ -79,26 +74,10 @@ public class CommonRestController {
         return result;
     }
 
-	/**
-	 * Получить информацию об истории изменений сущности
-	 *
-	 * @param entity название класса сущности
-	 * @param id идентификатор экземпляра сущности, для которого получаем историю
-	 * @return экземпляр сущности
-	 * @throws IllegalArgumentException если указанный в адресной строке класс сущности не был найден, либо произошла ошибка
-	 *                                  на этапе извлечения информации из базы данных
-	 */
-	@RequestMapping(value = "/{entity}/{id}/history", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
-	public List<Object> history(@PathVariable String entity, @PathVariable long id, @RequestParam Map<String, String> filter) {
-		History historyService = historyServiceHolder.findFor(entity);
-		filter.put("entity", Long.valueOf(id).toString());
-		return historyService.list(filter);
-	}
-
 	@RequestMapping(value = "/{entity}/{id}/history/count", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
 	public int historyCount(@PathVariable String entity, @PathVariable long id, @RequestParam Map<String, String> filter) {
 		History historyService = historyServiceHolder.findFor(entity);
-		filter.put("entity", Long.valueOf(id).toString());
+		filter.put("entityId", Long.valueOf(id).toString());
 		return historyService.count(filter);
 	}
 
@@ -152,12 +131,10 @@ public class CommonRestController {
     @RequestMapping(value = "/{entity}", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @SuppressWarnings("unchecked")
-    public Map create(@PathVariable String entity, @RequestBody String json) throws IOException {
+    public Object create(@PathVariable String entity, @RequestBody String json) throws IOException {
         HasId obj = (HasId) objectMapper.readValue(json, EntityUtils.getEntityClass(entity));
         Long id = crudServiceHolder.findFor(entity).create(obj).getId();
-        Map<String, Object> map = new HashMap<>();
-        map.put("id", id);
-        return map;
+        return readServiceHolder.findFor(entity).read(id);
     }
 
     /**
@@ -173,10 +150,10 @@ public class CommonRestController {
     @RequestMapping(value = "/{entity}/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @SuppressWarnings("unchecked")
-    public void update(@PathVariable String entity, @PathVariable long id, @RequestBody String json) throws IOException {
+    public Object update(@PathVariable String entity, @PathVariable long id, @RequestBody String json) throws IOException {
         HasId obj = (HasId) objectMapper.readValue(json, EntityUtils.getEntityClass(entity));
         obj.setId(id); // в приоритете id из адресной строки
-        crudServiceHolder.findFor(entity).update(obj);
+        return crudServiceHolder.findFor(entity).update(obj);
     }
 
     /**
@@ -193,11 +170,11 @@ public class CommonRestController {
     @ResponseStatus(HttpStatus.OK)
     @SuppressWarnings("unchecked")
     @Deprecated
-    public void patch(@PathVariable String entity, @PathVariable long id, @RequestBody String json) throws IOException {
+    public Object patch(@PathVariable String entity, @PathVariable long id, @RequestBody String json) throws IOException {
         HasId obj = (HasId) objectMapper.readValue(json, EntityUtils.getEntityClass(entity));
         obj.setId(id); // в приоритете id из адресной строки
         Map<String, Object> fields = new ObjectMapper().readValue(json, HashMap.class);
-        crudServiceHolder.findFor(entity).patch(obj, fields.keySet());
+        return crudServiceHolder.findFor(entity).patch(obj, fields.keySet());
     }
 
     /**

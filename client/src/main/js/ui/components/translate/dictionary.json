@@ -33,6 +33,8 @@
   "password.change.title": "Смена пароля",
   "password.change.confirm.p": "Для проверки введите повторно новый пароль",
   "password.change.old.p": "Введите старый пароль",
+  "password.change.button-ok": "Изменить пароль",
+  "password.change.button-cancel": "Отмена",
   "password.change.invalid.old.password": "Неправильно указан старый пароль. Повторите попытку и введите правильные данные.",
   "DIALOGS_SAVE": "Сохранить",
   "DIALOGS_NOTIFICATION": "Уведомление",

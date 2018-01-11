@@ -1,0 +1,47 @@
+package ru.it.sd.model;
+
+import static ru.it.sd.model.EntityType.*;
+
+/**
+ * Статусы сущностей
+ *
+ * @author quadrix
+ * @since 01.05.2017
+ */
+@Deprecated
+public enum EntityStatus2 {
+
+	CHANGE_REGISTERED("Зарегистрировано", CHANGE, 3095134325L),
+	CHANGE_PREPARING("Подготовка", CHANGE, 3095134326L),
+	CHANGE_ON_APPROVE("На согласовании", CHANGE, 3095134327L),
+	CHANGE_APPROVE_COMPLETE("Согласование завершено", CHANGE, 3095134328L),
+	CHANGE_EXECUTING("Реализация", CHANGE, 3095134329L),
+	CHANGE_RESOLVED("Решено", CHANGE, 3095134330L),
+	CHANGE_CLOSED("Закрыто", CHANGE, 3095134331L),
+
+	CALL_REGISTERED("Зарегистрировано", CALL, 3094610092L),
+	CALL_TO_ENGINEER("Направлено инженеру", CALL, 281478327763609L),
+	CALL_EXECUTING("В работе инженер", CALL, 281478336938148L),
+	CALL_RESOLVED("Решено", CALL, 3094610094L),
+	CALL_CLOSED("Закрыто", CALL, 3094610096L),
+
+	WORKORDER_OPEN("Открыт", WORKORDER, 281478237061820L),
+	WORKORDER_COMPLETE("Выполнен", WORKORDER, 3095134439L),
+	WORKORDER_CLOSED("Закрыт", WORKORDER, 281478237061818L),
+
+	ITEM_ONSTOCK("На складе", ITEM, 3094610398L),
+	ITEM_INWORK("В эксплуатации", ITEM, 3094610404L),
+	ITEM_REPAIRING("Ремонтируется", ITEM, 3094610405L),
+	ITEM_WRITENOFF("Списано", ITEM, 3094610406L),
+	ITEM_LOST("Потеряно", ITEM, 3094610408L),
+
+	WORKGROUPS_ACTIVE("Функционирует", WORKGROUP, 281478224675129L),
+	WORKGROUPS_INACTIVE("Не функционирует", WORKGROUP, 281478224675127L),
+
+	APPROVAL_PREPARING("Подготавливается", APPROVAL, 281478256721931L),
+	APPROVAL_STARTED("Началось", APPROVAL, 281478256721929L),
+	APPROVAL_READY("Готово", APPROVAL, 281478256721933L);
+
+	EntityStatus2(String name, EntityType entityType, Long id) {}
+
+}

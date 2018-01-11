@@ -1,142 +1,145 @@
 <div class="entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
-
-    <div class="entity-container__content entity-container__header">
-        <a data-ui-sref="app.change.list" title="Вернуться к списку">Изменения</a>
-        <span> \ </span>
-        <span style="font-weight: bold">
-                    №{{ctrl.change.no}}: {{ctrl.change.subject || ctrl.emptyValue}}
-        </span>
-    </div>
-
-    <div class="entity-container__content">
-        <sd-status-bar target="ctrl.change"
-                    status-list="ctrl.statusList"
-        ></sd-status-bar>
-    </div>
-
     <!--Кнопки в верхнем меню-->
     <div class="entity-container__content">
-        <a class="btn btn-default" data-ui-sref="app.change.card.edit">Редактировать</a>
-        <a class="btn btn-default" data-ui-sref="app.change.card.history">История</a>
+        <a class="btn btn-default" data-ng-if="!ctrl.editing" data-ng-click="ctrl.startEditing()">Редактировать</a>
+        <button class="btn btn-success" data-ng-if="ctrl.editing" data-ng-disabled="!ctrl.change.checkModified()" data-ng-click="ctrl.saveEditing()">Сохранить</button>
+        <button class="btn btn-default" data-ng-if="ctrl.editing" data-ng-click="ctrl.cancelEditing()">Отмена</button>
     </div>
 
-    <div class="entity-container__content entity-properties">
-        <div class="entity-property-col">
-            <div class="entity-property-name">
-                <span>Побробная информация:</span>
+    <div class="entity-container__content">
+        <form class="form-inline">
+            <div class="form-group entity-text" style="width: 100%; height: 42px">
+                <label>Тема:</label>
+                <div class="entity-text__inline-field">
+                    <sd-text target="ctrl.change.subject" editing="ctrl.editing"></sd-text>
+                </div>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.description || ctrl.emptyValue"></span>
+
+            <div class="form-group entity-text" style="width: 100%;">
+                <label>Подробная информация:</label>
+                <div class="entity-text__multiline-field">
+                    <sd-textarea target="ctrl.change.description" editing="ctrl.editing"></sd-textarea>
+                </div>
             </div>
-        </div>
-        <div class="entity-property-col">
-            <div class="entity-property-name">
-                <span>Вложения:</span>
-            </div>
-            <div class="entity-property-value">
-                - Нет -
-            </div>
-        </div>
+
+        </form>
     </div>
 
-    <div class="entity-container__content entity-properties">
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Инициатор:</span>
-            </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.initiator || ctrl.emptyValue"></span>
-            </div>
-        </div>
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Менеджер:</span>
+            <div class="form-group e-prop">
+                <label>Инициатор:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.initiator"
+                             fetch-data="ctrl.SD.Person.list()"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="ctrl.editing"
+                ></sd-dropdown>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.manager || ctrl.emptyValue"></span>
+
+            <div class="form-group e-prop">
+                <label>Менеджер:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.manager"
+                             fetch-data="ctrl.SD.Person.list()"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="ctrl.editing"
+                ></sd-dropdown>
             </div>
-        </div>
+        </form>
     </div>
 
-    <div class="entity-container__content entity-properties">
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Дата создания:</span>
-            </div>
-            <div class="entity-property-value">
-                <span>
-                    {{(ctrl.change.createdDate | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
-                </span>
-            </div>
-        </div>
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Статус:</span>
+            <div class="form-group e-prop">
+                <label>Дата создания:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.change.createdDate"
+                        allow-empty="false"
+                        editing="ctrl.editing"
+                ></sd-datetime>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.status || ctrl.emptyValue"></span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Крайний срок:</span>
+            <div class="form-group e-prop">
+                <label>Статус:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.status"
+                             fetch-data="ctrl.SD.EntityStatus.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
+                             display-value="$value.fullName"
+                             cache="true"
+                             editing="ctrl.editing"
+                ></sd-dropdown>
             </div>
-            <div class="entity-property-value">
-                <span>
-                    {{(ctrl.change.deadline | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
-                </span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Приоритет:</span>
+            <div class="form-group e-prop">
+                <label>Крайний срок:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.change.deadline"
+                        allow-empty="false"
+                        editing="ctrl.editing"
+                ></sd-datetime>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.priority || ctrl.emptyValue"></span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Фатически выполнено:</span>
+            <div class="form-group e-prop">
+                <label>Приоритет:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.priority"
+                             fetch-data="ctrl.SD.EntityPriority.list()"
+                             display-value="$value.fullName"
+                             cache="true"
+                             editing="ctrl.editing"
+                ></sd-dropdown>
             </div>
-            <div class="entity-property-value">
-                <span>
-                    {{(ctrl.change.resolvedDate | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
-                </span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Категория:</span>
+            <div class="form-group e-prop">
+                <label>Фактически выполнено:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.change.resolvedDate"
+                        allow-empty="false"
+                        editing="ctrl.editing"
+                ></sd-datetime>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.category || ctrl.emptyValue"></span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Рабочая группа:</span>
+            <div class="form-group e-prop">
+                <label>Категория:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.category"
+                             fetch-data="ctrl.SD.EntityCategory.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
+                             display-value="$value.name"
+                             cache="true"
+                             editing="ctrl.editing"
+                ></sd-dropdown>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.workgroup || ctrl.emptyValue"></span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Классификация:</span>
+            <div class="form-group e-prop">
+                <label>Рабочая группа:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.workgroup"
+                             fetch-data="ctrl.SD.Workgroup.list()"
+                             placeholder="Введите название группы"
+                             display-value="$value.name"
+                             editing="ctrl.editing"
+                ></sd-dropdown>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.change.classification || ctrl.emptyValue"></span>
+
+            <div class="form-group e-prop">
+                <label>Классифицкаия:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.classification"
+                             fetch-data="ctrl.SD.EntityClassification.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
+                             display-value="$value.name"
+                             cache="true"
+                             editing="ctrl.editing"
+                ></sd-dropdown>
             </div>
-        </div>
+        </form>
     </div>
 
 </div>

@@ -2,7 +2,7 @@
     
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>- %d{yyyy.MM.dd HH:mm:ss.SSS};%-5level;%X{app_user};%X{app_host};%thread;%X{app_query};[%logger{80}] - %msg%n</pattern>
+            <pattern>- %d{yyyy.MM.dd HH:mm:ss.SSS};%-5level;%X{app_user};%X{app_host};%thread;%X{app_query};[%logger{80}-%line] - %msg%n</pattern>
         </encoder>
         <!--rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>/opt/apache-tomcat-8.0.33/logs/usim-%d{yyyy-MM-dd}(%i).zip</fileNamePattern>

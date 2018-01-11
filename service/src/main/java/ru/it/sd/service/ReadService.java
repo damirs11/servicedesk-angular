@@ -12,7 +12,7 @@ import java.util.Map;
  * @author quadrix
  * @since 22.05.2017
  */
-public interface ReadService<T extends HasId> {
+public abstract class ReadService<T extends HasId> {
 
     /**
      * Читает сущность из БД по ее идентификатору
@@ -20,7 +20,7 @@ public interface ReadService<T extends HasId> {
      * @param id идентификатор сущности
      * @return объект сущности
      */
-    T read(long id);
+    public abstract T read(long id);
 
     /**
      * Возвращает отфильтрованный список сущностей
@@ -28,7 +28,7 @@ public interface ReadService<T extends HasId> {
      * @param filter параметры фильтрации списка
      * @return список сущностей
      */
-    List<T> list(Map<String, String> filter);
+    public abstract List<T> list(Map<String, String> filter);
 
     /**
      * Возвращает общее количество записей без учета пейджинга.
@@ -38,5 +38,5 @@ public interface ReadService<T extends HasId> {
      * @param filter параметры фильтрации
      * @return количество записей.
      */
-    int count(Map<String, String> filter);
+    public abstract int count(Map<String, String> filter);
 }

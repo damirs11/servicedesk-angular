@@ -10,6 +10,8 @@ import java.text.MessageFormat;
  */
 public class SecurityException extends AppException {
 
+	private static final long serialVersionUID = -16301658445024617L;
+
 	public SecurityException() {
 		super();
 	}

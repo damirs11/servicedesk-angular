@@ -17,6 +17,8 @@ import java.util.Date;
 @ClassMeta(tableName = "itsm_changes", tableAlias ="ch")
 public class Change implements HasId, HasStatus, Serializable {
 
+	private static final long serialVersionUID = -857993162919153346L;
+
 	/**
 	 * Атрибуты, в которых фиксируется общение пользователей.
 	 * Например: workaround и кастомный атрибут
@@ -66,7 +68,6 @@ public class Change implements HasId, HasStatus, Serializable {
 	/** Исполнитель */
 	@FieldMeta(columnName = "ass_per_to_oid", required = true)
 	private Person executor;
-
 	/** Группа исполнителей*/
 	@FieldMeta(columnName = "ass_wog_oid", required = true)
 	private Workgroup assWorkgroup;
@@ -78,32 +79,13 @@ public class Change implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "cha_per_man_oid", required = true)
 	private Person manager;
 
-	// Согласование----------------------------------------------------------------------------------------------
+	@FieldMeta(columnName = "cha_closurecode")
+	private EntityClosureCode closureCode;
 
-    //* Статус согласования*/
-    @FieldMeta(columnName = "cha_apt_status")
-    private EntityStatus approvedStatus;
+	@FieldMeta(columnName = "cha_poo_oid")
+	private Folder folder;
 
-    @FieldMeta(columnName = "cha_apt_description")
-    private String approvedDescription;
 
-    /** Требуемое число одобривших(сколько надо одобрений)*/
-	@FieldMeta(columnName = "cha_apt_nrofapproversrequired", readOnly = true)
-	private Integer numberOfApproversRequired;
-
-    /** Число одобряющих*/
-    @FieldMeta(columnName = "cha_apt_nrofapprovers", readOnly = true)
-    private Integer numberOfApprovers;
-
-    /** Число одобривших(сколько есть одобрений)*/
-    @FieldMeta(columnName = "cha_apt_nrofapproversapproved", readOnly = true)
-    private Integer numberOfApproversApproved;
-
-    //** Группа согласования*/
-    @FieldMeta(columnName = "cha_apt_wog_oid")
-    private Workgroup approvedWorkgroup;
-
-    // ----------------------------------------------------------------------------------------------------------
 
 	@Override
 	public Long getId() {
@@ -216,6 +198,22 @@ public class Change implements HasId, HasStatus, Serializable {
     public Workgroup getAssWorkgroup() { return assWorkgroup; }
 
     public void setAssWorkgroup(Workgroup assWorkgroup) { this.assWorkgroup = assWorkgroup; }
+
+    public EntityClosureCode getClosureCode() {
+        return closureCode;
+    }
+
+    public void setClosureCode(EntityClosureCode closureCode) {
+        this.closureCode = closureCode;
+    }
+
+    public Folder getFolder() {
+        return folder;
+    }
+
+    public void setFolder(Folder folder) {
+        this.folder = folder;
+    }
 
     @Override
 	public String toString() {

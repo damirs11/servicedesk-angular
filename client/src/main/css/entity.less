@@ -16,12 +16,15 @@
 
   &__header {
     background-color: #f1f1f1;
-    font-size: 14px;
+    //font-size: 14px;
   }
 
   &__content {
     display: block;
     padding: 7px;
+    &.no-padding {
+      padding: 0;
+    }
   }
 
   // Границы для контентов
@@ -38,6 +41,7 @@
   font-size: 0;
 }
 
+/** Нужен для entity-property-col и entity-inline-property. Абстрактный стиль */
 .entity-property {
   display: inline-block;
   width: 435px;
@@ -114,4 +118,148 @@
   @media (max-width: @small-screen){
     width: 100%;
   }
+}
+
+.entity-navbar>li>a {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+
+
+
+@e-prop-width: 460px;
+@e-prop__label-width: 162px;
+@e-prop__value-width: @e-prop-width - @e-prop__label-width - 5;
+.e-prop {
+  font-size: @font-size;
+  display: inline-block;
+  width: @e-prop-width;
+  margin: 0 0;
+  position: relative;
+  white-space: nowrap;
+  height: 42px;
+  &:nth-of-type(2n-1) {
+    margin-right: 20px;
+    @media (max-width: @small-screen){
+      margin-right: 0;
+    }
+  }
+  @media (max-width: @small-screen){
+    width: 100%;
+    margin-right: 0;
+    height: auto;
+  }
+
+
+  &>label {
+    font-size: @font-size;
+    width: @e-prop__label-width;
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: right;
+    white-space: nowrap;
+    height: 42px;
+    vertical-align: middle;
+    padding-top: 12px;
+    @media (max-width: @small-screen){
+      width: 100%;
+      display: block;
+      height: auto;
+      text-align: left;
+    }
+  }
+
+  &__value {
+    font-size: @font-size;
+    padding: 0;
+    margin: 0;
+    display: inline-block !important;
+    //overflow: hidden;
+    text-overflow: ellipsis;
+    width: @e-prop__value-width;
+    @media (max-width: @small-screen){
+      width: 100%;
+      height: auto;
+    }
+    height: 42px;
+  }
+}
+
+
+//sd-text
+
+.e-prop__value { // Изменяем sd-text под e-prop
+  & .sd-text {
+    height: 42px;
+    padding-top: 4px;
+    &__input-container{
+      width: 100%;
+    }
+  }
+
+  & .sd-text-view {
+    height: 42px;
+    padding-top: 12px;
+    padding-left: 13px;
+    //text-overflow: ellipsis;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+
+.entity-text { // Изменяем sd-text под subject/тему
+  & label {
+    margin-bottom: 0;
+    height: 42px;
+    padding-left: 12px;
+    padding-top: 8px;
+    width: 164px;
+    text-align: right;
+    vertical-align: top;
+  }
+
+  &__inline-field {
+    display: inline-block;
+    vertical-align: middle;
+    width: 500px;
+    white-space: nowrap;
+  }
+
+  &__multiline-field {
+    display: inline-block;
+    vertical-align: top;
+    width: 500px;
+  }
+
+  & .sd-text {
+    height: 42px;
+    &__input-container{
+      width: 100%;
+    }
+  }
+  & .sd-text-view {
+    height: 42px;
+    padding-top: 8px;
+    padding-left: 13px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  & .sd-textarea {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  & .sd-textarea-view {
+    max-height: 500px;
+    padding-top: 7px;
+    padding-left: 13px;
+    white-space: pre-wrap;
+    margin-bottom: 7px;
+    word-break: break-word;
+    padding-right: 13px;
+  }
+
 }

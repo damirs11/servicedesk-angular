@@ -2,14 +2,18 @@ const MAX_DISPLAY_VALUES = 20;
 
 class SDDropdownComponentController{
 
-    static $inject = ["$attrs"];
+    static $inject = ["$attrs","$scope"];
 
-    constructor($attrs){
+    constructor($attrs,$scope){
         this.$attrs = $attrs;
+        this.$scope = $scope;
     }
 
     $onInit(){
         this.selectedValue = this.target;
+        this.$scope.$watch("ctrl.editing", () => {
+            this.selectedValue = this.target;
+        })
     }
 
     get isEnabled() {
@@ -33,7 +37,8 @@ class SDDropdownComponentController{
         if (this.lastFetchRequest == text) return;
         this.values = null;
         try {
-            const array = await this.fetchData({$text:text});
+            let array = await this.fetchData({$text:text});
+            if (!array) array = [];
             array.splice(MAX_DISPLAY_VALUES,array.length);
             this.values = array;
             this.lastFetchRequest = text

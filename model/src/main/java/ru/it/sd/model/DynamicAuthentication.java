@@ -17,6 +17,9 @@ import java.util.Set;
  * @since 07.03.2017
  */
 public class DynamicAuthentication implements Authentication {
+
+    private static final long serialVersionUID = -2583493387047600728L;
+
     /** Аутентифицированный пользователь */
     private final User user;
     /** Указывает на то, что аутентификация пройдена. */

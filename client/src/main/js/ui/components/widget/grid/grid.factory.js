@@ -2,6 +2,7 @@ import {AbstractGridProvider} from "./abstract-grid.provider";
 import {ChangeGridProvider} from "./change-grid.provider";
 import {HistoryGridProvider} from "./history-grid.provider";
 import {WorkorderGridProvider} from "./workorder-grid.provider";
+import {ApproverVoteGridProvider} from "./approver-vote-grid.provider";
 
 $gridFactory.$inject = ["$injector"];
 function $gridFactory($injector) {
@@ -26,8 +27,9 @@ const $gridConstructor = function ($injector) {
     const locales = {AbstractGrid,$grid:this};
 
     this.ChangeGrid = $injector.instantiate(ChangeGridProvider,locales);
-    this.HistoryGrid = $injector.instantiate(HistoryGridProvider,locales);
     this.WorkorderGrid = $injector.instantiate(WorkorderGridProvider,locales);
+    this.HistoryGrid = $injector.instantiate(HistoryGridProvider,locales);
+    this.ApproverVoteGrid = $injector.instantiate(ApproverVoteGridProvider,locales);
 
 };
 $gridConstructor.$inject = ["$injector"];

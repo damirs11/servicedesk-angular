@@ -55,10 +55,11 @@
     "angular-xeditable": "^0.8.0",
     "babel-polyfill": "^6.23.0",
     "bootstrap": "^3.3.7",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "moment": "^2.18.1",
+    "ng-file-upload": "^12.2.13",
     "pdfmake": "^0.1.32",
-    "ui-select": "^0.19.8",
-    "font-awesome": "^4.7.0"
+    "ui-select": "^0.19.8"
   }
 }

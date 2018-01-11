@@ -1,3 +1,6 @@
+/**
+ * Фабрика, предоставляющая SD
+ */
 import {EntityProvider} from "./entity/entity.provider";
 import {UserProvider} from "./entity/user.provider";
 import {PersonProvider} from "./entity/person.provider";
@@ -13,10 +16,14 @@ import {EntityCategoryProvider} from "./entity/entity-category.provider";
 import {EntityClassificationProvider} from "./entity/entity-classification.provider";
 import {EntityClosureCodeProvider} from "./entity/entity-closure-code.provider";
 import {WorkorderProvider} from "./entity/workorder.provider";
+import {HistoryableProvider} from "./entity/mixin/historyable.provider";
+import {ApproverVoteProvider} from "./entity/approver-vote.provider";
+import {ApprovableProvider} from "./entity/mixin/approvable.provider";
+import {ApprovalProvider} from "./entity/approval.provider";
+import {AttachmentProvider} from "./entity/attachment.provider";
+import {FileInfoProvider} from "./entity/file-info.provider";
+import {AttachmentsHolderProvider} from "./entity/mixin/attachments-holder.provider";
 
-/**
- * Фабрика, предоставляющая SD
- */
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
     /**
@@ -31,6 +38,11 @@ function SDFactory($injector) {
 }
 
 /**
+ * Заглушка для jsdoc.
+ * Все миксимны попадают в SD
+ */
+const ENTITY_MIXIN = null;
+/**
  * Класс, предоставляющий доступ к классам сущностей ServiceDesk
  * @constructor
  * @name SD
@@ -44,6 +56,11 @@ const SDConstructor = function SD($injector,cache) {
     /** Пробосится в зависимости для классов сущностей */
     const locals = {SD:this, Entity, RESTEntity, EditableEntity};
 
+    /** Миксины */
+    locals.Historyable = $injector.instantiate(HistoryableProvider,locals);
+    locals.Approvable = $injector.instantiate(ApprovableProvider,locals);
+    locals.AttachmentsHolder = $injector.instantiate(AttachmentsHolderProvider,locals);
+
     /** Все остальные сущности */
     this.User = $injector.instantiate(UserProvider,locals);
     this.Person = $injector.instantiate(PersonProvider,locals);
@@ -52,8 +69,12 @@ const SDConstructor = function SD($injector,cache) {
     this.Workorder = $injector.instantiate(WorkorderProvider,locals);
     this.Workgroup = $injector.instantiate(WorkgroupProvider,locals);
     this.HistoryLine = $injector.instantiate(HistoryLineProvider,locals);
+    this.ApproverVote = $injector.instantiate(ApproverVoteProvider,locals);
+    this.Approval = $injector.instantiate(ApprovalProvider,locals);
+    this.Attachment = $injector.instantiate(AttachmentProvider,locals);
+    this.FileInfo = $injector.instantiate(FileInfoProvider,locals);
 
-    /** Code-сущности */
+    /** другие-сущности */
     this.EntityStatus = $injector.instantiate(StatusProvider,locals);
     this.EntityPriority = $injector.instantiate(PriorityProvider,locals);
     this.EntityCategory = $injector.instantiate(EntityCategoryProvider,locals);

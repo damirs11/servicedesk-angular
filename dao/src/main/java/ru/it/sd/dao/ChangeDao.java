@@ -1,15 +1,12 @@
 package ru.it.sd.dao;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.ChangeExtractor;
-import ru.it.sd.exception.BadRequestException;
 import ru.it.sd.model.Change;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -41,6 +38,8 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 			"   ch.ass_per_to_oid, " +
             "   ch.ass_wog_oid, " +
 			"   ch.cha_cat_oid, " +
+            "   ch.cha_closurecode, " +
+            "   ch.cha_poo_oid, " +
 			"   ch.cha_cla_oid\n" +
 			" FROM\n" +
 			"   itsm_changes ch\n" +

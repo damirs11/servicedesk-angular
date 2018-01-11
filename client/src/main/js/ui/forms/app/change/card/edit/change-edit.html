@@ -1,16 +1,4 @@
 <div class="entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
-
-    <div class="entity-container__content entity-container__header">
-        <a data-ui-sref="app.change.list" title="Вернуться к списку">Изменения</a>
-        <span> \ </span>
-        <a data-ui-sref="app.change.card.view" title="Вернуться к просмотру">
-                    №{{ctrl.headerChange.no}}: {{ctrl.headerChange.subject || ctrl.emptyValue}}
-        </a>
-        <span> \ </span>
-        <span style="font-weight: bold">
-                    Редактирование
-        </span>
-    </div>
     <!--Кнопки в верхнем меню-->
     <div class="entity-container__content">
         <div class="row">
@@ -94,7 +82,7 @@
             <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.status"
-                        fetch-data="ctrl.SD.EntityStatus.list()"
+                        fetch-data="ctrl.SD.EntityStatus.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
                         display-value="$value.fullName"
                         cache="true"
                 ></sd-dropdown>
@@ -146,7 +134,7 @@
             <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.category"
-                        fetch-data="ctrl.SD.EntityCategory.list()"
+                        fetch-data="ctrl.SD.EntityCategory.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
                         display-value="$value.name"
                         cache="true"
                 ></sd-dropdown>
@@ -174,7 +162,7 @@
             <div class="entity-property-value">
                 <sd-dropdown
                         target="ctrl.change.classification"
-                        fetch-data="ctrl.SD.EntityClassification.list()"
+                        fetch-data="ctrl.SD.EntityClassification.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
                         display-value="$value.name"
                         cache="true"
                 ></sd-dropdown>

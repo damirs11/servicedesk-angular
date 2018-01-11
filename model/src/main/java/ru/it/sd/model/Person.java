@@ -17,6 +17,8 @@ import java.io.Serializable;
  */
 @ClassMeta(tableName = "itsm_persons")
 public class Person implements HasId, Serializable {
+
+	private static final long serialVersionUID = 6269144031555905094L;
 	private static final Logger LOG = LoggerFactory.getLogger(Person.class);
 
 	/** Уникальный идентификатор */

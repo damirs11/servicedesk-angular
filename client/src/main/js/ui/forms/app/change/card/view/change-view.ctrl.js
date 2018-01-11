@@ -1,29 +1,58 @@
 import {CHANGE_MESSAGE_TYPES} from "../../../../../components/widget/sd-entity-chat/chat-types";
+import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
 
+@NGInjectClass()
 class ChangeCardViewController{
     /**
      * Пустое значение
      * @type {string}
      */
     emptyValue = "- нет -";
+    // NG зависимости
+    @NGInject() $scope;
+    @NGInject() SD;
+    @NGInject() changeId;
+    @NGInject() ModalAction;
+    @NGInject() $state;
+    @NGInject() $transitions;
+    @NGInject() $pageLock;
 
-    static $inject = ["$scope","SD","changeId"];
-    constructor($scope,SD,changeId){
-        this.$scope = $scope;
-        this.SD = SD;
-        this.changeId = changeId;
+    constructor(){
         this.msgTypes = CHANGE_MESSAGE_TYPES;
     }
 
     $onInit() {
         this.change = new this.SD.Change(this.changeId);
-        this.loadStatuses();
+        this.registerLeaveEditListener();
     }
 
-    async loadStatuses() {
-        const statuses = await this.SD.EntityStatus.list();
-        this.statusList = statuses.filter(status => status['entityType'] === "CHANGE"); // Временный фильтр. Уберу, когда появится поиск по статусам
+    // Статус стейта, редактирование/просмотр
+    editing = false;
+    startEditing(){
+        this.editing = true;
+    }
+    async saveEditing(){
+        await this.change.save();
+        this.editing = false;
+    }
+    cancelEditing(){
+        this.change.reset();
+        this.editing = false;
+    }
 
+    registerLeaveEditListener() {
+        this.$pageLock(this.$scope)
+            .setTitle("Несохраненные изменения")
+            .setText("Внимание! В сущность были внесены изменение, сохранить их перед уходом?")
+            .setCondition(() => this.change.checkModified())
+            .addAction("Да",async () => {
+                await this.change.save();
+                return true;
+            }).addAction("Нет", () => {
+                this.change.reset();
+                return true;
+            }).addAction("Отмена", () => false)
+            .lock();
     }
 
     async createTestChange() {

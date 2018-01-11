@@ -39,7 +39,7 @@ function AbstractGridProvider($parse, $timeout) {
             this.saveScroll = true;
             this.saveFocus = false;
             this.saveVisible = true;
-            this.saveSort = true;
+            this.saveSort = false;
             this.saveFilter = true;
             this.savePinning = true;
             this.saveGrouping = true;
@@ -104,7 +104,7 @@ function AbstractGridProvider($parse, $timeout) {
             const saveData = localStorage[this.gridName];
             if (!saveData) return;
             const settings = JSON.parse(saveData);
-            this.gridApi.saveState.restore(this.$scope,settings);
+            // this.gridApi.saveState.restore(this.$scope,settings);
         }
 
         /**
@@ -132,13 +132,42 @@ function AbstractGridProvider($parse, $timeout) {
         }
 
         /**
+         * Задать сортировку
+         * @param columns {Object[]}
+         * @param columns[].field {string} - название столбца
+         * @param columns[].direction {string} - asc/desc направление сортировки
+         * @param [add] {boolean} - добавить к прошлой сортировке
+         */
+        sortBy(columns,add){
+            // Преобразуем в вид {стобец_из_таблицы,переданный_столбец}
+            const sortInfos = columns.map(col => {
+                const gridColumn = this.grid.columns.find(gridColumn => gridColumn.field == col.field);
+                return {gridColumn, col}
+            });
+            for (let i = 0; i < sortInfos.length; i++) {
+                const info = sortInfos[i];
+                const addToPrevSorting = i==0 ? undefined : add;
+                this.grid.sortColumn(info.gridColumn,info.col.direction, addToPrevSorting)
+            }
+            this.sort = sortInfos.map(_ => _.gridColumn);
+        }
+
+        /**
+         * Перейти на страницу
+         * @param page {number} - номер страницы
+         */
+        changePage(page){
+            this.gridApi.pagination.seek(page);
+        }
+
+        /**
          * Вызывается при инициализации таблицы
          */
         onRegisterApi(gridApi) {
             this.gridApi = gridApi;
             this.grid = gridApi.grid;
 
-            const registerGridListeners = () => {
+            const configureGridAPI = () => {
                 gridApi.core.on.sortChanged(this.$scope, ::this._onSortChanged);
                 gridApi.selection.on.rowSelectionChanged(this.$scope, ::this._onRowSelectionChanged);
                 gridApi.selection.on.rowSelectionChangedBatch(this.$scope, ::this._onRowSelectionChangedBatch);
@@ -146,7 +175,7 @@ function AbstractGridProvider($parse, $timeout) {
             };
 
             if (!this.enableSaving) {
-                registerGridListeners()
+                configureGridAPI()
             } else {
                 gridApi.core.on.renderingComplete(this.$scope, () => {
                     $timeout(() => {
@@ -154,7 +183,7 @@ function AbstractGridProvider($parse, $timeout) {
                         gridApi.core.on.sortChanged(this.$scope, ::this._saveOptions);
                         gridApi.core.on.filterChanged(this.$scope, ::this._saveOptions);
                         gridApi.core.on.columnVisibilityChanged(this.$scope, ::this._saveOptions);
-                        registerGridListeners()
+                        configureGridAPI()
                     },0)
                 })
             }
@@ -182,31 +211,68 @@ function AbstractGridProvider($parse, $timeout) {
          */
         _onRowSelectionChangedBatch(rows) {
             this._broadcastEvent("grid:selection-changed=batch",{rows});
-            //$scope.numberOfSelectedItems = rows.length
-            //$scope.gridApi.grid.selection.lastSelectedRow
         };
 
         /**
          * Вызывается при смене номера текущей страницы, либо изменения количества отображаемых записей страницы
          */
-        _onPaginationChanged(pageNumber, pageSize) {
-            this._broadcastEvent("grid:pagination-changed",{pageNumber,pageSize});
+        _onPaginationChanged(page, pageSize) {
+            this._broadcastEvent("grid:pagination-changed",{page,pageSize});
             this.fetchData();
         };
+
+        _searchParams = {};
+
+        /**
+         * Задает параметры для поиска
+         */
+        setSearchParams(params){
+            this._searchParams = params;
+            this.fetchData()
+        }
+
+        /**
+         * Возвращает данные для поиска, не включая сортировку и страницы.
+         */
+        getSearchParams(){
+            return this._searchParams;
+        }
+
+        /**
+         * Возвращает объект, содержащий все поля, по которым будет производиться поиск даннных
+         */
+        getFullSearchParams(){
+            const fullParams = Object.create(null);
+            let keys = Object.keys(this._searchParams);
+            for (let i in keys) {
+                const key = keys[i];
+                fullParams[key] = this._searchParams[key]
+            }
+            const tableParams = this.getTableParams();
+            keys = Object.keys(tableParams);
+            for (let i in keys) {
+                const key = keys[i];
+                fullParams[key] = tableParams[key]
+            }
+            return fullParams;
+        }
 
         /**
          * Получение данных для выбранной страницы таблицы. Вызывается каждый раз, когда меняются условия
          * отображения данных: смена сортировки, переход на другую страницу, смена условий фильтрации данных.
          */
-        async fetchData(searchParams) {
+        async fetchData() {
             // Формирование параметров запроса
-            let params = this._getRequestParams(searchParams);
+            const params = this.getFullSearchParams();
+            if ('GULP_REPLACE:DEBUG') console.log("Grid-fetch",params);
+
             // Получение данных. Одновременная отправка двух запросов
-            let result = await Promise.all([
+            const fetchPromise = Promise.all([
                 this.entityClass.count(params),
                 this.entityClass.list(params)
-
             ]);
+            this._broadcastEvent("grid:fetch",{params,fetchPromise});
+            const result = await fetchPromise;
             // Общее количество
             this.totalItems = result[0];
             // Данные строк таблицы
@@ -223,8 +289,8 @@ function AbstractGridProvider($parse, $timeout) {
         /**
          * Формирование параметров запроса: пейджинг, сортировка + пользовательские фильтры
          */
-        _getRequestParams(params) {
-            params = params || {};
+        getTableParams() {
+            const params = {};
             // Параметры пейджинга
             let from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
             let to = from + this.paginationPageSize - 1;

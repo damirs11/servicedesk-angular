@@ -1,4 +1,4 @@
-const COMMIT_DEBOUNCE = 500;
+const COMMIT_DEBOUNCE = 250;
 
 class SDTextController{
 
@@ -9,17 +9,24 @@ class SDTextController{
         this.$timeout = $timeout;
     }
 
+    commitTask = null;
     $onInit(){
         this.value = this.target;
+        this.$scope.$watch("ctrl.editing", () => {
+            if (this.commitTask) {
+                this.$timeout.cancel(this.commitTask);
+                this.commitTask = null;
+            }
+            this.value = this.target;
+        });
 
         // Коммитим значение по дебаунсу.
-        let commitTask = null;
         this.$scope.$watch(() => this.value, (newVal,oldVal) => {
             if (newVal == oldVal) return;
-            if (commitTask) this.$timeout.cancel(commitTask);
-            commitTask = this.$timeout(() => {
+            if (this.commitTask) this.$timeout.cancel(this.commitTask);
+            this.commitTask = this.$timeout(() => {
                 this.commit(newVal);
-                commitTask = null;
+                this.commitTask = null;
             },COMMIT_DEBOUNCE)
         })
     }

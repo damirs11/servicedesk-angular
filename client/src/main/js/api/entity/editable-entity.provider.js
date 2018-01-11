@@ -1,6 +1,5 @@
-
-EditableEntityProvider.$inject = ["RESTEntity","$connector","SD"];
-function EditableEntityProvider(RESTEntity, $connector, SD) {
+EditableEntityProvider.$inject = ["RESTEntity","$connector"];
+function EditableEntityProvider(RESTEntity, $connector) {
     /**
      * редактируемая сущность.
      * @class
@@ -8,66 +7,30 @@ function EditableEntityProvider(RESTEntity, $connector, SD) {
      * @classdesc Реализует методы для работы с редактированием сущности
      * @extends SD.RESTEntity
      */
-    return class EditableEntity extends RESTEntity {
+    class EditableEntity extends RESTEntity {
 
         /**
          * Сохраняет изменения текущей сущнсоти
          */
         async save(){
             const jsonData = this.$modifiedData;
-            const data = await $connector.patch(`rest/entity/${this.$entityType}/${this.id}`,null,jsonData);
+            const data = await $connector.patch(`rest/entity/${this.constructor.$entityType}/${this.id}`,null,jsonData);
             this.reset();
             this.$update(data)
         }
 
         /**
          * Создает новую сущность
+         * Создается новый объект по образцу текущего.
          * @return {SD.EditableEntity}
          */
         async create(){
-            // ToDo сущность должна появиться в кэше.
             const jsonData = this.$serialize();
-            const data = await $connector.post(`rest/entity/${this.$entityType}`,null,jsonData);
-            this.$update(data)
+            const data = await $connector.post(`rest/entity/${this.constructor.$entityType}`,null,jsonData);
+            return this.constructor.parse(data);
         }
-
-        /**
-         * Возвращает коллекцию записей в истории
-         * @return {SD.HistoryLine[]}
-         */
-        async getHistory(params){
-            params = typeof params == "object" ? params : {};
-            const linesData = await $connector.get(`rest/entity/${this.$entityType}/${this.id}/history`, params);
-            return linesData.map(::SD.HistoryLine.parse)
-        }
-
-        /**
-         * Получает общее количество записей по указанному фильтру
-         */
-        async getHistoryCount(params){
-            params = typeof params == "object" ? params : {};
-            return await $connector.get(`rest/entity/${this.$entityType}/${this.id}/history/count`,params);
-        }
-
-        /**
-         * Возвращает записи чата
-         * @return {SD.HistoryLine[]}
-         */
-        async getChat(params){
-            params = typeof params == "object" ? params : {};
-            params.chat = true;
-            return this.getHistory(params);
-        }
-
-        /**
-         * Возвращает количество сообщений в чате
-         */
-        async getChatCount(params){
-            params = typeof params == "object" ? params : {};
-            params.chat = true;
-            return this.getHistoryCount(params);
-        }
-    };
+    }
+    return EditableEntity;
 }
 
 export {EditableEntityProvider};

@@ -12,7 +12,9 @@ function ConnectorProvider() {
             errorHandler = handler;
         },
         $get($injector){
-            return $injector.instantiate(Connector, {errorHandler})
+            const $connector = $injector.instantiate(Connector, {errorHandler});
+            if ('GULP_REPLACE:DEBUG') window._$connector = $connector;
+            return $connector
         }
     };
     provider.$get.$inject = ["$injector"];

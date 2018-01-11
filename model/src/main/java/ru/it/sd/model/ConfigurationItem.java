@@ -9,13 +9,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Модельный класс для "Изменения"
+ * Модельный класс для "Оборудование"
  *
  * @author quadrix
  * @since 03.05.2017
  */
 @ClassMeta(tableName = "itsm_configuration_items", tableAlias = "item")
 public class ConfigurationItem implements HasId, HasStatus, Serializable {
+
+	private static final long serialVersionUID = -2060076890778426823L;
 
 	/** Уникальный идентификатор */
 	@FieldMeta(columnName = "cit_oid", key = true)

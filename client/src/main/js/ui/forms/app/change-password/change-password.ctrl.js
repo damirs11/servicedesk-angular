@@ -1,13 +1,14 @@
-export class ChangePasswordController {
+import {NGInject, NGInjectClass} from "../../../../common/decorator/ng-inject.decorator";
 
-    static $inject = ["$scope", "SD", "$modalState"];
+@NGInjectClass()
+class ChangePasswordController {
 
-    constructor($scope, SD, $modalState) {
-        this.$modalState = $modalState;
-        this.SD = SD;
-        this.$scope = $scope;
+    @NGInject() $scope;
+    @NGInject() Session;
+    @NGInject() $state;
 
-        this.loginFailed = false;
+    constructor() {
+        this.changeFailed = false;
         this.minLength = 6; // минимальная длина пароля
         this.maxLength = 50; // максимальная длина пароля
         this.oldPassword = null; // прежний пароль
@@ -15,21 +16,20 @@ export class ChangePasswordController {
         this.confirmPassword = null; // повторно введенный новый пароль
     }
 
-    close() {
-        this.$modalState.resolve(false)
-    }
-
     async save() {
         if (this.$scope.passwordChangeForm.$invalid) {
             return;
         }
         try {
-            await this.SD.changePassword(this.oldPassword, this.newPassword)
+            await this.Session.changePassword(this.oldPassword, this.newPassword)
         } catch (errorResponse) {
-            this.loginFailed = true;
-            return
+            this.changeFailed = true;
+            return;
         }
-        this.$modalState.resolve(true);
+        this.Session.logout();
+        this.$state.go("app.login");
     }
 
 }
+
+export {ChangePasswordController as controller}

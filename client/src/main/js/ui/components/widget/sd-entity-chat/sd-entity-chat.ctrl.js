@@ -1,14 +1,8 @@
-import mockLines from "./mock-lines.json";
-
-
 class EntityChatController {
 
     DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
 
-    static $inject = ["SD"];
-
-    constructor(SD){
-        this.SD = SD;
+    constructor(){
     }
 
     $onInit(){
@@ -17,9 +11,11 @@ class EntityChatController {
 
     async fetchChat(){
         this.chatLines = await this.entity.getChat()
-        // this.chatLines = mockLines.map(::this.SD.HistoryLine.parse)
     }
 
+    send(text, senderType){
+        this.entity.sendMessage(text,senderType);
+    }
 
     getType($line){
         const typeName = $line.type;

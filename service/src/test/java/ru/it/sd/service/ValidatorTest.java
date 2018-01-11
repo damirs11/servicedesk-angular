@@ -23,14 +23,17 @@ public class ValidatorTest {
         change.setId(321L);
         change.setSubject("12");
         change.setDescription("sdasd");
-        change.setPriority(EntityPriority.MINOR);
+        //change.setPriority(EntityPriority.MINOR);
         change.setManager(new Person());
         change.setAssWorkgroup(new Workgroup());
         change.setInitiator(new Person());
-        change.setClassification(EntityClassification.CHANGE_NEW_CI);
+        //change.setClassification(EntityClassification.CHANGE_NEW_CI);
         change.setExecutor(new Person());
-        change.setCategory(EntityCategory.CHANGE_CAB);
+        //change.setCategory(EntityCategory.CHANGE_CAB);
         change.setDeadline(new Date());
+        change.setClassification(new EntityClassification());
+        change.setCategory(new EntityCategory());
+        change.setPriority(new EntityPriority());
         Validator.validate(change);
 
     }

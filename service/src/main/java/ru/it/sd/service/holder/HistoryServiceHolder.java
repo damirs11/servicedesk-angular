@@ -4,6 +4,8 @@ import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import ru.it.sd.model.EntityHistory;
+import ru.it.sd.model.HasId;
 import ru.it.sd.service.History;
 
 import java.lang.reflect.ParameterizedType;
@@ -16,7 +18,7 @@ import java.util.Map;
  * @author mfayzullin
  */
 @Service
-public class HistoryServiceHolder extends AbstractHolder<History> {
+public class HistoryServiceHolder extends AbstractHolder<History<HasId, EntityHistory>> {
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -42,12 +44,11 @@ public class HistoryServiceHolder extends AbstractHolder<History> {
 	 * @return модельный класс сервиса
 	 */
 	private Class getEntityClass(Object entity) {
-		for (Type type : entity.getClass().getGenericInterfaces()) {
-			if (type instanceof ParameterizedType) {
-				ParameterizedType t = (ParameterizedType) type;
-				if (t.getRawType() == History.class) {
-					return (Class) t.getActualTypeArguments()[0];
-				}
+		Type type = entity.getClass().getGenericSuperclass();
+		if (type instanceof ParameterizedType) {
+			ParameterizedType t = (ParameterizedType) type;
+			if (t.getRawType() == History.class) {
+				return (Class) t.getActualTypeArguments()[0];
 			}
 		}
 		return null;

@@ -42,7 +42,16 @@ CREATE TABLE itsm_changes (
   cha_cla_oid DECIMAL(18),
   reg_created DATETIME,
   cha_deadline DATETIME,
-  cha_actualfinish DATETIME
+  cha_actualfinish DATETIME,
+  cha_apt_status DECIMAL(18),
+  cha_apt_description VARCHAR(80),
+  cha_apt_deadline DATETIME,
+  cha_apt_nrofapprovers DECIMAL(18),
+  cha_apt_nrofapproversapproved DECIMAL(18),
+  cha_apt_nrofapproversrequired DECIMAL(18),
+  cha_apt_wog_oid DECIMAL(18),
+  cha_closurecode DECIMAL(18),
+  cha_poo_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_cha_information (
@@ -65,7 +74,14 @@ CREATE TABLE itsm_workorders (
   ass_workgroup DECIMAL(18),
   ass_per_to_oid DECIMAL(18),
   wor_ser_oid DECIMAL(18),
-  wor_cha_oid DECIMAL(18)
+  wor_cha_oid DECIMAL(18),
+  wor_apt_status DECIMAL(18),
+  wor_apt_description VARCHAR(80),
+  wor_apt_deadline DATETIME,
+  wor_apt_nrofapprovers DECIMAL(18),
+  wor_apt_nrofapproversapproved DECIMAL(18),
+  wor_apt_nrofapproversrequired DECIMAL(18),
+  wor_apt_wog_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_wor_information (
@@ -119,14 +135,28 @@ CREATE TABLE itsm_cit_custom_fields (
   ccf_cishorttext1 VARCHAR (128)
 );
 
+CREATE TABLE itsm_codes (
+  cod_oid DECIMAL (18),
+  cod_subtype DECIMAL(18),
+  cod_ordering DECIMAL(9),
+  cod_disabled DECIMAL(1)
+);
+
 CREATE TABLE itsm_codes_locale (
   cdl_cod_oid DECIMAL (18),
   cdl_name VARCHAR (128),
   cdl_lng_oid DECIMAL (18)
 );
 
-CREATE TABLE rep_codes_text (
+CREATE TABLE rep_codes (
   rcd_oid DECIMAL (18),
+  rcd_subtype DECIMAL(18),
+  rcd_ordering DECIMAL(9),
+  rcd_codedisabled DECIMAL(1)
+);
+
+CREATE TABLE rep_codes_text (
+  rct_rcd_oid DECIMAL (18),
   rct_name VARCHAR (128),
   rct_lng_oid DECIMAL (18)
 );
@@ -161,6 +191,25 @@ CREATE TABLE itsm_approver_votes (
   apv_approved DECIMAL (1),
   apv_per_oid DECIMAL (18),
   apv_reason VARCHAR (255)
+);
+
+CREATE TABLE rep_attachments (
+  ahs_oid DECIMAL (18),
+  ahs_ent_oid DECIMAL(18),
+  ahs_att_oid DECIMAL(18),
+  ahs_basename VARCHAR(128),
+  ahs_filename VARCHAR(128)
+);
+
+CREATE TABLE itsm_service_relations (
+    sre_oid DECIMAL(18),
+    sre_revrty_oid DECIMAL(18),
+    sre_ent_oid DECIMAL(18),
+    sre_rty_oid DECIMAL(18),
+    sre_inc_oid DECIMAL(18),
+    sre_pro_oid DECIMAL(18),
+    sre_ser_oid DECIMAL(18),
+    sre_cha_oid DECIMAL(18)
 );
 
 CREATE TABLE rep_roles (

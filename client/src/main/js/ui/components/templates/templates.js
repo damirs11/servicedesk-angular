@@ -6,6 +6,8 @@ import priorityCell from "./cells/priority.cell.html"
 import personCell from "./cells/person.cell.html"
 // Просрочено? Да-Нет
 import expiredCell from "./cells/expired.cell.html"
+// Соласование [За/Против/Не согласовани]
+import approvedCell from "./cells/approved.cell.html"
 
 Templates.$inject = ["$templateCache"];
 function Templates($templateCache){
@@ -13,6 +15,7 @@ function Templates($templateCache){
     $templateCache.put("template.grid.cell.priority", priorityCell);
     $templateCache.put("template.grid.cell.person", personCell);
     $templateCache.put("template.grid.cell.expired", expiredCell);
+    $templateCache.put("template.grid.cell.approved", approvedCell);
 }
 
 export {Templates};

@@ -3,7 +3,8 @@ package ru.it.sd.dao.mapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
-import ru.it.sd.dao.DBUtils;
+import ru.it.sd.dao.CodeDao;
+import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.WorkgroupDao;
 import ru.it.sd.model.*;
@@ -21,14 +22,16 @@ import java.util.*;
 @Component
 public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 
-	private PersonDao personDao;
-	private ChangeMapper changeMapper;
-	private WorkgroupDao workgroupDao;
+	private final PersonDao personDao;
+	private final ChangeMapper changeMapper;
+	private final WorkgroupDao workgroupDao;
+	private final CodeDao codeDao;
 
-	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, WorkgroupDao workgroupDao) {
+	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, WorkgroupDao workgroupDao, CodeDao codeDao) {
 		this.personDao = personDao;
 		this.changeMapper = changeMapper;
 		this.workgroupDao = workgroupDao;
+		this.codeDao = codeDao;
 	}
 
 	@Override
@@ -39,12 +42,19 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 		List<Change> list = new ArrayList<>();
 		while(rs.next()){
 			Change change = changeMapper.mapRow(rs, 0);
-			//Change change = new Change();
+
 			Long statusId = DBUtils.getLong(rs, "cha_sta_oid");
-			if(statusId !=null) change.setStatus(EntityStatus.get(statusId));
+
+			if(statusId !=null) {
+                BaseCode code = codeDao.read(statusId);
+			    change.setStatus(code.convertTo(EntityStatus.class));
+            }
 
 			Long priorityId = DBUtils.getLong(rs, "cha_imp_oid");
-			if(priorityId != null) change.setPriority(EntityPriority.get(priorityId));
+			if(priorityId != null) {
+                BaseCode code = codeDao.read(priorityId);
+			    change.setPriority(code.convertTo(EntityPriority.class));
+            }
 
 			Long executorId = DBUtils.getLong(rs, "ass_per_to_oid");
 			if(executorId != null) change.setExecutor(getPerson(personCache, executorId));
@@ -62,10 +72,28 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 			if(managerId != null) change.setManager(getPerson(personCache, managerId));
 
 			Long categoryId = DBUtils.getLong(rs, "cha_cat_oid");
-			if(categoryId != null) change.setCategory(EntityCategory.getById(categoryId));
+			if(categoryId != null) {
+                BaseCode code = codeDao.read(categoryId);
+			    change.setCategory(code.convertTo(EntityCategory.class));
+            }
 
             Long classificationId = DBUtils.getLong(rs, "cha_cla_oid");
-            if(classificationId != null) change.setClassification(EntityClassification.getById(classificationId));
+            if(classificationId != null) {
+                BaseCode code = codeDao.read(classificationId);
+                change.setClassification(code.convertTo(EntityClassification.class));
+            }
+
+            Long closureCodeId = DBUtils.getLong(rs, "cha_closurecode");
+            if(closureCodeId != null) {
+                BaseCode code = codeDao.read(closureCodeId);
+                change.setClosureCode(code.convertTo(EntityClosureCode.class));
+            }
+
+            Long folderId = DBUtils.getLong(rs, "cha_poo_oid");
+            if(folderId != null) {
+                BaseCode code = codeDao.read(folderId);
+                change.setFolder(code.convertTo(Folder.class));
+            }
 
 			list.add(change);
 		}

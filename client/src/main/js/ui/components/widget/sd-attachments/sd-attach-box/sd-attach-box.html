@@ -1,0 +1,17 @@
+<div class="attachment-item attach-box"
+     ngf-select="ctrl.select($files)"
+     ngf-drop="ctrl.drop($files)"
+     ngf-multiple="true"
+     ngf-keep="distinct"
+     ngf-max-files="10"
+     ngf-drag-over-class="{accept:'drag-accept', reject:'drag-reject'}"
+     ngf-drop-available
+>
+    <span class="attachment-item__upload-icon fa fa-upload"></span>
+    <div class="attachment-item__upload-text">
+        <span>Загрузить</span>
+        <div class="attachment-item__upload-text__hint">
+            <span>Нажмите или перенесите файлы</span>
+        </div>
+    </div>
+</div>

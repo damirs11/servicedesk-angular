@@ -41,3 +41,12 @@ ALTER TABLE itsm_approver_votes ADD CONSTRAINT ch_votes_approved CHECK (apv_appr
 ALTER TABLE rep_entity_access ADD CONSTRAINT pk_access PRIMARY KEY (ena_oid);
 ALTER TABLE rep_entity_access ADD CONSTRAINT fk_access_roles FOREIGN KEY (ena_rol_oid) REFERENCES rep_roles(rol_oid);
 -----------------------------------------------------------------------------------
+ALTER TABLE rep_attachments ADD CONSTRAINT pk_attachment PRIMARY KEY (ahs_oid);
+-----------------------------------------------------------------------------------
+ALTER TABLE itsm_codes ADD CONSTRAINT pk_itsm_codes PRIMARY KEY (cod_oid);
+ALTER TABLE itsm_codes_locale ADD CONSTRAINT fk_itsm_codes FOREIGN KEY (cdl_cod_oid) REFERENCES itsm_codes (cod_oid);
+-----------------------------------------------------------------------------------
+ALTER TABLE rep_codes ADD CONSTRAINT pk_rep_codes PRIMARY KEY (rcd_oid);
+ALTER TABLE rep_codes_text ADD CONSTRAINT fk_rep_codes FOREIGN KEY (rct_rcd_oid) REFERENCES rep_codes (rcd_oid);
+-----------------------------------------------------------------------------------
+ALTER TABLE itsm_service_relations ADD CONSTRAINT pk_ser PRIMARY KEY (sre_oid);

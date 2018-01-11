@@ -15,13 +15,13 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
     @Autowired
     private HpApi api;
     @Autowired
-    private IPersonDao iPersonService;
+    private IPersonDao iPersonDao;
     @Autowired
-    private IWorkorderStatusDao iWorkorderStatusService;
+    private IWorkorderStatusDao iWorkorderStatusDao;
     @Autowired
-    private IWorkorderCategoryDao iWorkorderCategoryService;
+    private IWorkorderCategoryDao iWorkorderCategoryDao;
     @Autowired
-    private IOrganizationDao iOrganizationService;
+    private IWorkgroupDao iWorkgroupDao;
 
     @Override
     public long create(Workorder entity) {
@@ -29,11 +29,11 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
 
         IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openNewWorkorder(281495075961055L);
 
-        IWorkgroup iWorkgroup = sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(entity.getAssWorkgroup().getId());
-        IPerson initiator = sdClientBean.sd_session().getPersonHome().openPerson(entity.getInitiator().getId());
-        IPerson assignee = sdClientBean.sd_session().getPersonHome().openPerson(entity.getAssigneePerson().getId());
-        IWorkorderStatus iStatus = sdClientBean.sd_session().getWorkorderStatusHome().openWorkorderStatus(entity.getStatus().getId());
-        IWorkorderCategory iWorkorderCategory = sdClientBean.sd_session().getWorkorderCategoryHome().openWorkorderCategory(entity.getCategory().getId());
+        IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getAssWorkgroup().getId());
+        IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
+        IPerson assignee = iPersonDao.read(entity.getAssigneePerson().getId());
+        IWorkorderStatus iStatus = iWorkorderStatusDao.read(entity.getStatus().getId());
+        IWorkorderCategory iWorkorderCategory = iWorkorderCategoryDao.read(entity.getCategory().getId());
 
         iWorkorder.setStatus(iStatus);
         iWorkorder.setInformation(entity.getSubject());
@@ -50,21 +50,20 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
 
     @Override
     public IWorkorder read(long id) {
-        SdClientBean sdClientBean = api.getSdClient();
-        return sdClientBean.sd_session().getWorkorderHome().openWorkorder(id);
+        return api.getSdClient().sd_session().getWorkorderHome().openWorkorder(Long.valueOf(id));
     }
 
     @Override
     public void update(Workorder entity) {
         SdClientBean sdClientBean = api.getSdClient();
 
-        IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openNewWorkorder(entity.getNo());
+        IWorkorder iWorkorder = read(entity.getId());
 
-        IWorkgroup iWorkgroup = sdClientBean.sd_session().getWorkgroupHome().openWorkgroup(entity.getAssWorkgroup().getId());
-        IPerson initiator = sdClientBean.sd_session().getPersonHome().openPerson(entity.getInitiator().getId());
-        IPerson assignee = sdClientBean.sd_session().getPersonHome().openPerson(entity.getAssigneePerson().getId());
-        IWorkorderStatus iStatus = sdClientBean.sd_session().getWorkorderStatusHome().openWorkorderStatus(entity.getStatus().getId());
-        IWorkorderCategory iWorkorderCategory = sdClientBean.sd_session().getWorkorderCategoryHome().openWorkorderCategory(entity.getCategory().getId());
+        IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getAssWorkgroup().getId());
+        IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
+        IPerson assignee = iPersonDao.read(entity.getAssigneePerson().getId());
+        IWorkorderStatus iStatus = iWorkorderStatusDao.read(entity.getStatus().getId());
+        IWorkorderCategory iWorkorderCategory = iWorkorderCategoryDao.read(entity.getCategory().getId());
 
         iWorkorder.setStatus(iStatus);
         iWorkorder.setInformation(entity.getSubject());
@@ -79,8 +78,6 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
 
     @Override
     public void delete(long id) {
-        SdClientBean sdClientBean = api.getSdClient();
-        IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openWorkorder(id);
-        iWorkorder.delete();
+        throw new UnsupportedOperationException();
     }
 }

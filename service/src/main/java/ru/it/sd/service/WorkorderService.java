@@ -15,7 +15,7 @@ import java.util.Set;
  * Created by user on 26.07.2017.
  */
 @Service
-public class WorkorderService implements CrudService<Workorder>{
+public class WorkorderService extends CrudService<Workorder>{
 
     private WorkorderDao dao;
     private IWorkorderDao hpDao;

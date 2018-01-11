@@ -1,24 +1,15 @@
-<div class="entity-container" style="height: 100%; font-size: 12px">
-
-    <div class="entity-container__content entity-container__header" style="float: left; width: 100%; white-space: nowrap">
-        <a data-ui-sref="app.change.list" title="Вернуться к списку">Изменения</a>
-        <span> \ </span>
-        <a data-ui-sref="app.change.card.view" title="Вернуться к просмотру">
-            №{{ctrl.change.no}}: {{ctrl.change.subject || ctrl.emptyValue}}
-        </a>
-        <span> \ </span>
-        <span style="font-weight: bold">
-                    История
-        </span>
-    </div>
-
-    <div class="entity-container__content" style="padding: 0; height: 100%; min-width: 100%">
-        <div id="changes-grid" style="height: 100%; padding-top: 37px">
-            <div data-ui-grid="ctrl.grid" class="grid"
-                 data-ui-grid-resize-columns
-                 data-ui-grid-pagination
-                 data-ui-grid-autoResize>
+<div sd-loading="ctrl.fetchPromise">
+    <content style="display: block; height: 563px" >
+        <div class="entity-container" style="font-size: 12px" >
+            <div class="entity-container__content" style="padding: 0; min-width: 100%">
+                <div style="height: 720px; padding-top: 0">
+                    <div data-ui-grid="ctrl.grid" class="grid"
+                        data-ui-grid-resize-columns
+                        data-ui-grid-pagination
+                        data-ui-grid-autoResize
+                    ></div>
+                </div>
             </div>
         </div>
-    </div>
+    </content>
 </div>

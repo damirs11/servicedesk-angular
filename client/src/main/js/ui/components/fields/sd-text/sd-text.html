@@ -1,17 +1,15 @@
-<div data-ng-show="ctrl.isEnabled">
-    <div class="input-group" style="width: 100%">
+<div data-ng-show="ctrl.editing" class="sd-text">
+    <div class="input-group sd-text__input-container" style="width: 100%">
         <input type="text"
                class="form-control"
                ng-model="ctrl.value"
-               placeholder="{{ctrl.placeholder}}"
+               placeholder="{{this.emptyValue || '- нет -'}}"
                data-ng-maxlength="ctrl.maxlength"
                data-ng-minlength="ctrl.minlength"
-               ng-required="ctrl.required"
+               data-ng-required="ctrl.required"
         >
     </div>
 </div>
 
 <!--Режим просмотра-->
-<div ng-hide="ctrl.isEnabled">
-    <span ng-bind="ctrl.displayValue"></span>
-</div>
+<div data-ng-hide="ctrl.editing" class="sd-text-view"><span ng-bind="ctrl.displayValue"></span></div>

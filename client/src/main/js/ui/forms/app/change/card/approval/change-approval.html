@@ -1,0 +1,65 @@
+<div sd-loading="ctrl.loadingPromise">
+    <content>
+        <div class="entity-container" style="height: 100%; font-size: 12px">
+
+            <div class="entity-container__content">
+                <form class="form-inline">
+                    <div class="form-group entity-text" style="width: 100%; height: 42px">
+                        <label>Тема:</label>
+                        <div class="entity-text__inline-field">
+                            <sd-text target="ctrl.approval.subject" editing="ctrl.editing"></sd-text>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="entity-container__content">
+                <form class="form-inline entity-properties">
+
+                    <div class="form-group e-prop">
+                        <label>Статус:</label>
+                        <sd-dropdown class="input-group e-prop__value"
+                                     target="ctrl.approval.status"
+                                     fetch-data="ctrl.SD.EntityStatus.list({entityTypeId:ctrl.SD.Approval.$entityTypeId})"
+                                     display-value="$value.fullName"
+                                     cache="true"
+                                     editing="ctrl.editing"
+                        ></sd-dropdown>
+                    </div>
+
+                    <div class="form-group e-prop">
+                        <label>Крайний срок:</label>
+                        <sd-datetime
+                                class="input-group e-prop__value"
+                                target="ctrl.approval.deadline"
+                                allow-empty="false"
+                                editing="ctrl.editing"
+                        ></sd-datetime>
+                    </div>
+
+                    <div class="form-group e-prop">
+                        <label>Необходимо согласующих:</label>
+                        <sd-number
+                                class="input-group e-prop__value"
+                                target="ctrl.approval.numberOfApproversRequired"
+                                editing="ctrl.editing"
+                        ></sd-number>
+                    </div>
+                </form>
+            </div>
+
+            <div class="entity-container__content">
+                <a class="btn btn-default" data-ng-if="!ctrl.editing" data-ng-click="ctrl.startEditing()">Редактировать</a>
+                <button class="btn btn-success" data-ng-if="ctrl.editing" data-ng-disabled="!ctrl.approval.checkModified()" data-ng-click="ctrl.saveEditing()">Сохранить</button>
+                <button class="btn btn-default" data-ng-if="ctrl.editing" data-ng-click="ctrl.cancelEditing()">Отмена</button>
+            </div>
+
+            <div class="entity-container__content sd-approval-grid">
+                <div data-ui-grid="ctrl.grid" class="grid"
+                     data-ui-grid-resize-columns
+                     data-ui-grid-autoResize>
+                </div>
+            </div>
+        </div>
+    </content>
+</div>

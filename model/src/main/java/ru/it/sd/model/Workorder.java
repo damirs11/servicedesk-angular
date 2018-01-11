@@ -7,13 +7,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Модельный класс для "Изменения"
+ * Модельный класс для "Нарядов"
  *
  * @author quadrix
  * @since 03.05.2017
  */
 @ClassMeta(tableName = "itsm_workorders", tableAlias = "w")
 public class Workorder implements HasId, HasStatus, Serializable {
+
+	private static final long serialVersionUID = 9067411334107317799L;
 
 	/** Уникальный идентификатор */
 	@FieldMeta(columnName = "wor_oid", key = true)
