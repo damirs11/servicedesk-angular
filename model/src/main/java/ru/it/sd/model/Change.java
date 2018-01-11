@@ -24,8 +24,8 @@ public class Change implements HasId, HasStatus, Serializable {
 	 * Например: workaround и кастомный атрибут
 	 */
 	public static Long[] chatAttributes = new Long[]{
-			HistoryLineType.CHANGE_INITIATOR.fieldId,
-			HistoryLineType.CHANGE_MANAGER.fieldId
+			HistoryType.CHANGE_INITIATOR.fieldId,
+			HistoryType.CHANGE_MANAGER.fieldId
 	};
 
 	/** Уникальный идентификатор */

@@ -1,8 +1,10 @@
 package ru.it.sd.dao.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.it.sd.dao.DBUtils;
+import ru.it.sd.dao.CodeDao;
+import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.RoleDao;
+import ru.it.sd.model.BaseCode;
 import ru.it.sd.model.EntityStatus;
 import ru.it.sd.model.EntityType;
 import ru.it.sd.model.Grant;
@@ -16,9 +18,11 @@ import java.util.Objects;
 public class GrantMapper extends EntityRowMapper<Grant> {
 
 	private RoleDao roleDao;
+	private final CodeDao codeDao;
 
-	public GrantMapper(RoleDao roleDao) {
+	public GrantMapper(RoleDao roleDao, CodeDao codeDao) {
 		this.roleDao = roleDao;
+		this.codeDao = codeDao;
 	}
 
 	@Override
@@ -47,12 +51,19 @@ public class GrantMapper extends EntityRowMapper<Grant> {
 				rs.getBoolean("ena_delete"),
 				false,
 				false));
-		if (Objects.nonNull(id = DBUtils.getLong(rs, "ena_status_from_oid"))) {
-			grant.setStatusFrom(EntityStatus.get(id));
+
+		Long statusFromId = DBUtils.getLong(rs, "ena_status_from_oid");
+		if(statusFromId != null) {
+			BaseCode code = codeDao.read(statusFromId);
+			grant.setStatusFrom(code.convertTo(EntityStatus.class));
 		}
-		if (Objects.nonNull(id = DBUtils.getLong(rs, "ena_status_to_oid"))) {
-			grant.setStatusTo(EntityStatus.get(id));
+
+		Long statusToId = DBUtils.getLong(rs, "ena_status_to_oid");
+		if(statusToId != null) {
+			BaseCode code = codeDao.read(statusToId);
+			grant.setStatusTo(code.convertTo(EntityStatus.class));
 		}
+
 		// Права доступа на историю сущности
 		grant.setHistoryCreate(GrantRule.get(
 				rs.getBoolean("ena_historynew"),

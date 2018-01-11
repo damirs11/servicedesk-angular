@@ -1,6 +1,5 @@
 package ru.it.sd.dao;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -48,7 +47,7 @@ public class ChangeHistoryDao extends AbstractHistoryDao<ChangeHistory> {
 
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
-		if (Objects.isNull(filter)) {
+		if (filter == null) {
 			return;
 		}
 		super.buildWhere(filter, sql, params);
