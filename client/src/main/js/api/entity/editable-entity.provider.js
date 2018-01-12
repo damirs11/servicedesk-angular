@@ -11,12 +11,16 @@ function EditableEntityProvider(RESTEntity, $connector) {
 
         /**
          * Сохраняет изменения текущей сущнсоти
+         * @param [data] {Object} - данные для сохранения
+         *   Если передать data - отправит этот объект запросом сохранения.
+         *   Если не передавать - соберет значения измененых полей через $modifiedData
+         * @link $modifiedData
          */
-        async save(){
-            const jsonData = this.$modifiedData;
-            const data = await $connector.patch(`rest/entity/${this.constructor.$entityType}/${this.id}`,null,jsonData);
+        async save(data){
+            const jsonData = data || this.$modifiedData;
+            const respData = await $connector.patch(`rest/entity/${this.constructor.$entityType}/${this.id}`,null,jsonData);
             this.reset();
-            this.$update(data)
+            this.$update(respData)
         }
 
         /**

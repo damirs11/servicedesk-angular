@@ -72,6 +72,31 @@ function ApprovalProvider(EditableEntity, SD) {
          */
         @Serialize() @Parse( Instantiate(Date) ) deadline;
 
+        /**
+         * Идентификатор сущности,
+         * которой принадлежит согласование
+         * @property
+         * @name SD.Approval#ownerEntityType
+         * @type {Number}
+         * @ATTENTION
+         * Т.к. это поле должно отправляться при сохранении всегда,
+         * метод сериализации не используются. Оно добавляется
+         * в переопределенном методе save
+         * @link save
+         * @link SD.Approval#save
+         */
+        @Parse("entityType", (data) => data.id) ownerEntityType;
+
+        /**
+         * @override
+         * Переопределение, чтобы добавлять всегда поле entityType
+         */
+        async save(data){
+            const saveData = data || this.$modifiedData;
+            saveData["entityType"] = {id: this.ownerEntityType};
+            return super.save(saveData);
+        }
+
 
         toString(){
             return this.name
