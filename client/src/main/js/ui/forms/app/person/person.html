@@ -1,5 +1,5 @@
-<div class="container well entity-container" data-ng-show="ctrl.person && !ctrl.loading">
-    <div class="entity-header">
+<div class="person_profile container well entity-container" data-ng-show="ctrl.person && !ctrl.loading">
+    <div class="entity-container__header">
         {{ctrl.person.fullName}}
     </div>
     <hr class="entity-separator">
@@ -8,7 +8,7 @@
             <button class="btn btn-default" data-ng-click="window.alert('Наряд создан')">Создать наряд</button>
         </div>
         <div class="col-md-6" style="text-align: right">
-            Статус персоны Активен/Уволен
+            Статус персоны: <strong>Активен</strong>/Уволен
         </div>
     </div>
     <hr class="entity-separator">
@@ -21,28 +21,28 @@
         </div>
         <div class="col-md-5">
             <div class="property">
-                <div class="property__name">Фамилия:</div>
-                <div class="property__value" data-ng-bind="ctrl.person.lastName"></div>
+                <div class="entity-property-name">Фамилия:</div>
+                <div class="entity-property-value" data-ng-bind="ctrl.person.lastName"></div>
             </div>
             <div class="property">
-                <div class="property__name">Имя:</div>
-                <div class="property__value" data-ng-bind="ctrl.person.firstName"></div>
+                <div class="entity-property-name">Имя:</div>
+                <div class="entity-property-value" data-ng-bind="ctrl.person.firstName"></div>
             </div>
             <div class="property">
-                <div class="property__name">Отчество:</div>
-                <div class="property__value" data-ng-bind="ctrl.person.middleName"></div>
+                <div class="entity-property-name">Отчество:</div>
+                <div class="entity-property-value" data-ng-bind="ctrl.person.middleName"></div>
             </div>
             <div class="property">
-                <div class="property__name">Должность:</div>
-                <div class="property__value" data-ng-bind="ctrl.person.job"></div>
+                <div class="entity-property-name">Должность:</div>
+                <div class="entity-property-value" data-ng-bind="ctrl.person.job"></div>
             </div>
             <div class="property">
-                <div class="property__name">Организация:</div>
-                <div class="property__value" data-ng-bind="ctrl.person.organization"></div>
+                <div class="entity-property-name">Организация:</div>
+                <div class="entity-property-value" data-ng-bind="ctrl.person.organization"></div>
             </div>
             <div class="property">
-                <div class="property__name">Email:</div>
-                <div class="property__value" data-ng-bind="ctrl.person.email"></div>
+                <div class="entity-property-name">Email:</div>
+                <div class="entity-property-value" data-ng-bind="ctrl.person.email"></div>
             </div>
         </div>
     </div>
