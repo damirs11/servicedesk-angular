@@ -6,6 +6,8 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.ApprovalExtractor;
 import ru.it.sd.model.Approval;
+import ru.it.sd.model.Change;
+import ru.it.sd.model.Workorder;
 
 import java.util.List;
 
@@ -25,29 +27,31 @@ public class ApprovalDao extends AbstractDao{
     }
 
 	private static final String BASE_SQL =
-                            "SELECT  " +
-                            "  cha_oid as id,  " +
-                            "  cha_apt_status as apt_status,  " +
-                            "  cha_apt_description as apt_description,  " +
-                            "  cha_apt_deadline as deadline,  " +
-                            "  cha_apt_nrofapprovers as nrofapprovers,  " +
-                            "  cha_apt_nrofapproversapproved as nrofapproversapproved,  " +
-                            "  cha_apt_nrofapproversrequired as nrofapproversrequired,  " +
-                            "  cha_apt_wog_oid as wog_oid " +
-                            "FROM ITSM_CHANGES  " +
-                            "WHERE cha_oid =  :id \n " +
+                            "SELECT " +
+                            "  cha_oid AS id, " +
+                            "  cha_apt_status AS apt_status, " +
+                            "  cha_apt_description AS apt_description, " +
+                            "  cha_apt_deadline AS deadline, " +
+                            "  cha_apt_nrofapprovers AS nrofapprovers, " +
+                            "  cha_apt_nrofapproversapproved AS nrofapproversapproved, " +
+                            "  cha_apt_nrofapproversrequired AS nrofapproversrequired, " +
+                            "  cha_apt_wog_oid AS wog_oid, " +
+							"  '" + Change.class.getSimpleName() + "' AS entityType " +
+                            "FROM ITSM_CHANGES " +
+                            "WHERE cha_oid = :id \n " +
                             "UNION ALL " +
-                            "SELECT  " +
-                            "  wor_oid as id,  " +
-                            "  wor_apt_status as apt_status,  " +
-                            "  wor_apt_description as apt_description,  " +
-                            "  wor_apt_deadline as deadline,  " +
-                            "  wor_apt_nrofapprovers as nrofapprovers,  " +
-                            "  wor_apt_nrofapproversapproved as nrofapproversapproved,  " +
-                            "  wor_apt_nrofapproversrequired as nrofapproversrequired,  " +
-                            "  wor_apt_wog_oid as wog_oid " +
-                            "FROM itsm_workorders  " +
-                            "WHERE wor_oid =  :id ";
+                            "SELECT " +
+                            "  wor_oid AS id, " +
+                            "  wor_apt_status AS apt_status, " +
+                            "  wor_apt_description AS apt_description, " +
+                            "  wor_apt_deadline AS deadline, " +
+                            "  wor_apt_nrofapprovers AS nrofapprovers, " +
+                            "  wor_apt_nrofapproversapproved AS nrofapproversapproved, " +
+                            "  wor_apt_nrofapproversrequired AS nrofapproversrequired, " +
+                            "  wor_apt_wog_oid AS wog_oid, " +
+							"  '" + Workorder.class.getSimpleName() + "' AS entityType " +
+                            "FROM itsm_workorders " +
+                            "WHERE wor_oid = :id ";
 
 	private StringBuilder getBaseSql() {
 		return new StringBuilder(BASE_SQL);
@@ -60,7 +64,6 @@ public class ApprovalDao extends AbstractDao{
 	public Approval read(Long id){
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
-        StringBuilder sql = getBaseSql();
-        return executeQuery(BASE_SQL, params).get(0);
+        return executeQuery(getBaseSql().toString(), params).get(0);
     }
 }

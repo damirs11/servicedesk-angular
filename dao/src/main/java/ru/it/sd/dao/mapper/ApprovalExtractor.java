@@ -1,14 +1,16 @@
 package ru.it.sd.dao.mapper;
 
-import org.springframework.dao.DataAccessException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.CodeDao;
-import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.WorkgroupDao;
+import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.Approval;
 import ru.it.sd.model.BaseCode;
 import ru.it.sd.model.EntityStatus;
+import ru.it.sd.model.EntityType;
 import ru.it.sd.model.Workgroup;
+import ru.it.sd.util.EntityUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +35,7 @@ public class ApprovalExtractor extends EntityRowMapper<Approval> {
 	}
 
 	@Override
-	public List<Approval> extractData(ResultSet rs) throws SQLException, DataAccessException {
+	public List<Approval> extractData(ResultSet rs) throws SQLException {
 
 		List<Approval> list = new ArrayList<>();
 
@@ -51,6 +53,12 @@ public class ApprovalExtractor extends EntityRowMapper<Approval> {
 			    Workgroup workgroup = workgroupDao.read(workgroupID);
 			    approval.setApprovalWorkgroup(workgroup);
             }
+
+            String entityTypeStr = rs.getString("entityType");
+			if (StringUtils.isNotBlank(entityTypeStr)) {
+				Class entityClass = EntityUtils.getEntityClass(entityTypeStr.trim());
+				approval.setEntityType(EntityType.getByClass(entityClass));
+			}
 
 			list.add(approval);
 		}

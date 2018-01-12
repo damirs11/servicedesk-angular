@@ -4,9 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.it.sd.model.Approval;
+import ru.it.sd.model.EntityType;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * @author quadrix
@@ -23,8 +25,8 @@ public class ApprovalDaoTest extends AbstractDaoTest {
 	@Test
 	private void testRead() {
         Approval approval = dao.read(111222L);
-        Assert.assertEquals(approval.getId(),(Long)111222L);
+        assertEquals(approval.getId(), (Long)111222L);
+        assertEquals(approval.getEntityType(), EntityType.CHANGE);
     }
-
 
 }

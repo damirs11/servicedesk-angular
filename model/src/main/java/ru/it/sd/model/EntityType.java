@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.util.ResourceMessages;
 
-import java.util.Objects;
-
 /**
  * Типы сущностей, с которыми работает система
  *
@@ -18,18 +16,24 @@ import java.util.Objects;
 public enum EntityType implements Code {
 
 	CHANGE("Изменение", Change.class.getSimpleName(), 724041768L),
-	PROBLEM("Проблема",null, 717488173L),
+	PROBLEM("Проблема", null, 717488173L),
 	CALL("Обращение", null, 563019801L),
 	WORKORDER("Наряд", Workorder.class.getSimpleName(), 556859410L),
 	ITEM("Объект", ConfigurationItem.class.getSimpleName(), 796000260L),
 	WORKGROUP("Рабочая группа", Workgroup.class.getSimpleName()),
-	APPROVAL("Согласование", Approval.class.getSimpleName(),281478244794382L);
+	APPROVAL("Согласование", Approval.class.getSimpleName(), 281478244794382L);
 
-	/** Название */
+	/**
+	 * Название
+	 */
 	private String title;
-	/** Псевдоним. Как правило, совпадает с названием соответствующего модельного класса */
+	/**
+	 * Псевдоним. Как правило, совпадает с названием соответствующего модельного класса
+	 */
 	private String alias;
-	/** Идентификатор */
+	/**
+	 * Идентификатор
+	 */
 	private Long id;
 
 	EntityType(String title) {
@@ -75,11 +79,11 @@ public enum EntityType implements Code {
 	 *
 	 * @param id идентификатор
 	 * @return тип сущности
-	 * @throws ServiceException если указан неправильный код
+	 * @throws ServiceException     если указан неправильный код
 	 * @throws NullPointerException если идентификатор не определен
 	 */
 	public static EntityType get(Long id) {
-		if (Objects.isNull(id)) {
+		if (id == null) {
 			return null;
 		}
 		for (EntityType value : values()) {
@@ -89,5 +93,25 @@ public enum EntityType implements Code {
 		}
 		throw new ServiceException(ResourceMessages.getMessage("error.not.found"));
 	}
-	static class Deserializer extends EnumJsonDeserializer<EntityType> {}
+
+	/**
+	 * Получаем тип сущности по классу
+	 *
+	 * @param clazz класс сущности
+	 * @return тип сущности
+	 */
+	public static EntityType getByClass(Class clazz) {
+		if (clazz == null) {
+			return null;
+		}
+		for (EntityType value : values()) {
+			if (clazz.getSimpleName().equals(value.getAlias())) {
+				return value;
+			}
+		}
+		throw new ServiceException(ResourceMessages.getMessage("error.not.found"));
+	}
+
+	static class Deserializer extends EnumJsonDeserializer<EntityType> {
+	}
 }

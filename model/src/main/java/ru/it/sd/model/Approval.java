@@ -51,7 +51,7 @@ public class Approval implements HasId, HasStatus, Serializable {
     @FieldMeta(columnName = "wog_oid")
     private Workgroup approvalWorkgroup;
 
-    @FieldMeta(columnName = "", required = true)
+    @FieldMeta(columnName = "entityType", required = true)
     private EntityType entityType;
 
 	@Override
