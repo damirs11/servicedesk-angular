@@ -2,7 +2,9 @@ package ru.it.sd.dao.utils;
 
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.stereotype.Component;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 import ru.it.sd.meta.FieldMetaData;
@@ -20,8 +22,13 @@ import java.util.Map;
  * @author NSychev
  * @since 14.07.2017
  */
+@Component
 public class FilterUtils {
-    //
+
+	private static final String FULLTEXT_FILTER_NAME = "fulltext";
+
+	@Autowired
+	private DBUtils dbUtils;
 
     /**
      * Возможные сравнения
@@ -44,9 +51,12 @@ public class FilterUtils {
      * @param clazz        модель по которой будет происходить поиск аннотированных полей
      * @param filter       фильтр(Map<String, String>)
      */
-    public static void createFilter(StringBuilder queryPart, MapSqlParameterSource params, Map<String, String> filter,  Class clazz) {
+    public void createFilter(StringBuilder queryPart, MapSqlParameterSource params, Map<String, String> filter,  Class clazz) {
         if (MapUtils.isNotEmpty(filter)) {
             queryPart.append(" WHERE 1 = 1"); // "WHERE TRUE" в MS SQL не работает
+
+			createFullTextFilter(queryPart, params, filter, clazz);
+
             //Поиск по всем полям класса
             Map<String, FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
             for (FieldMetaData fmd : fieldMetaDataList.values()) {
@@ -133,28 +143,30 @@ public class FilterUtils {
     }
 
     /**
-     * Функция добовляющая условие на схожесть значений
+     * Функция добавляющая условие на схожесть значений
      *
      * @param fmd    мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
      * @param prefix префикс таблицы, определяется в функции {@link #getPrefix}
      * @param value значение(я) фильтра для конкретного поля
      * @param params  список параметров, которые вставляются в запрос при его отправке в бд
-     * @return строку с условием
      */
-    private static void likeComparison(StringBuilder queryPart, FieldMetaData fmd,MapSqlParameterSource params, String value, String prefix){
+    private void likeComparison(StringBuilder queryPart, FieldMetaData fmd,MapSqlParameterSource params, String value, String prefix){
         String[] valueArr = new String[1];
         valueArr[0] = value;
 
         //Определение типа данных по полю fmd
         if (checkParams(fmd, params, valueArr, Comparison.LIKE)) {
             queryPart.
-                    append("\n\tAND ").
-                    append(prefix).
-                    append(StringUtils.isNotBlank(prefix) ? "." : "").
-                    append(fmd.getColumnName()).
-                    append(" LIKE '%'||:").
-                    append(fmd.getName()).append("_like").
-                    append("||'%'");
+                    append("\n\tAND ")
+                    .append(prefix)
+                    .append(StringUtils.isNotBlank(prefix) ? "." : "")
+                    .append(fmd.getColumnName())
+                    .append(" LIKE '%' ")
+					.append(dbUtils.getConcatOperator())
+                    .append(":")
+                    .append(fmd.getName()).append("_like")
+                    .append(dbUtils.getConcatOperator())
+                    .append(" '%'");
         }
     }
 
@@ -468,4 +480,21 @@ public class FilterUtils {
     public static boolean getFlagValue(String flag) {
         return StringUtils.isNotBlank(flag) && !("false".equalsIgnoreCase(flag) || "0".equalsIgnoreCase(flag));
     }
+
+	private void createFullTextFilter(StringBuilder queryPart, MapSqlParameterSource params, Map<String, String> filter,  Class clazz) {
+		String fulltext = filter.get(FULLTEXT_FILTER_NAME);
+		if (StringUtils.isBlank(fulltext)) {
+			return;
+		}
+		Map<String, FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
+		for (FieldMetaData fmd : fieldMetaDataList.values()) {
+			if(fmd.isAnnotation()) {
+				String prefix = getPrefix(clazz, fmd);
+				//todo расширить полнотекстовую фильтрацию лоя всех типов полей
+				if (fmd.getType().equals(String.class)) {
+					likeComparison(queryPart, fmd, params, fulltext, prefix);
+				}
+			}
+		}
+	}
 }

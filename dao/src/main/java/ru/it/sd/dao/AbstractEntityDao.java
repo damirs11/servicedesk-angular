@@ -32,6 +32,9 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 	@Autowired
 	protected DBUtils dbUtils;
 
+	@Autowired
+	protected FilterUtils filterUtils;
+
 	@SuppressWarnings("unchecked")
 	protected Class<EntityClass> entityClass = EntityUtils.getGenericClass(getClass());
 
@@ -119,7 +122,7 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 	protected abstract List<EntityClass> executeQuery(String sql, SqlParameterSource params);
 
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
-		FilterUtils.createFilter(sql, params, filter, entityClass);
+		filterUtils.createFilter(sql, params, filter, entityClass);
 	}
 	/**
 	 * Обрабатывает условия постраничного отображения данных, если они были указаны

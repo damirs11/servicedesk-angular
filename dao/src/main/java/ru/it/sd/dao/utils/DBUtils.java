@@ -64,4 +64,8 @@ public final class DBUtils extends AbstractDao {
         return rs.wasNull() ? null : result;
     }
 
+    public String getConcatOperator() {
+    	return isTest ? "||" : "+";
+	}
+
 }

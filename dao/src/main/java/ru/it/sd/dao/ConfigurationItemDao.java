@@ -22,6 +22,9 @@ public class ConfigurationItemDao extends AbstractDao {
 	@Autowired
 	private ConfigurationItemMapper mapper;
 
+	@Autowired
+	private FilterUtils filterUtils;
+
 	/**
 	 * Общий запрос получения данных об объекте
 	 */
@@ -81,7 +84,7 @@ public class ConfigurationItemDao extends AbstractDao {
 	public List<ConfigurationItem> list(Map<String, String> filter) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		StringBuilder queryPart = new StringBuilder();
-        FilterUtils.createFilter(queryPart, params, filter, ConfigurationItem.class);
+		filterUtils.createFilter(queryPart, params, filter, ConfigurationItem.class);
 
 		try {
 			List<ConfigurationItem> items = namedJdbc.query(
