@@ -35,24 +35,24 @@ public class Change implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "cha_id")
 	private Long no;
 	/** Тема */
-	@FieldMeta(columnName = "cha_description", required = true)
+	@FieldMeta(columnName = "cha_description", required = true, attribute = 556335107L)
 	private String subject;
 	/** Описание */
-	@FieldMeta(columnName = "chi_information", tableAlias = "ci", required = true)
+	@FieldMeta(columnName = "chi_information", tableAlias = "ci", required = true, attribute = 738983997L)
 	private String description;
 	/** Статус */
-	@FieldMeta(columnName = "cha_sta_oid")
+	@FieldMeta(columnName = "cha_sta_oid", attribute = 724041782L)
 	private EntityStatus status;
 	/** Приоритет */
-	@FieldMeta(columnName = "cha_imp_oid", required = true)
+	@FieldMeta(columnName = "cha_imp_oid", required = true, attribute = 281478611337217L)
 	private EntityPriority priority ;
 
 	/** Категория*/
-	@FieldMeta(columnName = "cha_cat_oid", required = true)
+	@FieldMeta(columnName = "cha_cat_oid", required = true, attribute = 724041784)
 	private EntityCategory category;
 
     /** Классификация*/
-    @FieldMeta(columnName = "cha_cla_oid", required = true)
+    @FieldMeta(columnName = "cha_cla_oid", required = true, attribute = 165888L)
 	private EntityClassification classification;
 
 	/** Дата создания */
@@ -61,9 +61,10 @@ public class Change implements HasId, HasStatus, Serializable {
 	/** Крайний срок */
 	@FieldMeta(columnName = "cha_deadline", required = true)
 	private Date deadline;
-	/** Фактически выполнено */
-	@FieldMeta(columnName = "cha_actualfinish")
+	/** Выполнено(дата)*/
+	@FieldMeta(columnName = "cha_actualfinish", attribute = 556335112)
 	private Date resolvedDate;
+    //todo Закрыто(дата) attribut = 70370
 
 	/** Исполнитель */
 	@FieldMeta(columnName = "ass_per_to_oid", required = true)
@@ -73,10 +74,10 @@ public class Change implements HasId, HasStatus, Serializable {
 	private Workgroup assWorkgroup;
 
 	/** Инициатор изменения */
-	@FieldMeta(columnName = "cha_requestor_per_oid", required = true)
+	@FieldMeta(columnName = "cha_requestor_per_oid", required = true, attribute = 281478292766727L)
 	private Person initiator;
 	/** Менеджер изменения */
-	@FieldMeta(columnName = "cha_per_man_oid", required = true)
+	@FieldMeta(columnName = "cha_per_man_oid", required = true, attribute = 281483590631438L)
 	private Person manager;
 
 	@FieldMeta(columnName = "cha_closurecode")
@@ -85,7 +86,26 @@ public class Change implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "cha_poo_oid")
 	private Folder folder;
 
+    @FieldMeta(columnName = "cha_apt_description")
+    private String approvedDescription;
 
+    /** Требуемое число одобривших(сколько надо одобрений)*/
+	@FieldMeta(columnName = "cha_apt_nrofapproversrequired", readOnly = true)
+	private Integer numberOfApproversRequired;
+
+    /** Число одобряющих*/
+    @FieldMeta(columnName = "cha_apt_nrofapprovers", readOnly = true)
+    private Integer numberOfApprovers;
+
+    /** Число одобривших(сколько есть одобрений)*/
+    @FieldMeta(columnName = "cha_apt_nrofapproversapproved", readOnly = true)
+    private Integer numberOfApproversApproved;
+
+    //** Группа согласования*/
+    @FieldMeta(columnName = "cha_apt_wog_oid")
+    private Workgroup approvedWorkgroup;
+
+    // ----------------------------------------------------------------------------------------------------------
 
 	@Override
 	public Long getId() {

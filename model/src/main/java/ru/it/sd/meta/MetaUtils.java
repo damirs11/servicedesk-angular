@@ -116,6 +116,7 @@ public class MetaUtils {
 			md.setUnique(meta.unique());
 			md.setPattern(meta.pattern());
 			md.setKey(meta.key());
+			md.setAttribute(meta.attribute());
 		}
 		return md;
 	}

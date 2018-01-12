@@ -66,6 +66,8 @@ public class FieldMetaData implements Cloneable {
 	 */
 	private String pattern = "";
 
+	private long attribute = Long.MIN_VALUE;
+
 	public boolean isAnnotation() {
 		return annotation;
 	}
@@ -178,7 +180,15 @@ public class FieldMetaData implements Cloneable {
 		this.key = key;
 	}
 
-	private boolean isNumberClass() {
+    public long getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(long attribute) {
+        this.attribute = attribute;
+    }
+
+    private boolean isNumberClass() {
 		return int.class.equals(type) ||
 				long.class.equals(type) ||
 				byte.class.equals(type) ||

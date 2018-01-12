@@ -50,3 +50,5 @@ ALTER TABLE rep_codes ADD CONSTRAINT pk_rep_codes PRIMARY KEY (rcd_oid);
 ALTER TABLE rep_codes_text ADD CONSTRAINT fk_rep_codes FOREIGN KEY (rct_rcd_oid) REFERENCES rep_codes (rcd_oid);
 -----------------------------------------------------------------------------------
 ALTER TABLE itsm_service_relations ADD CONSTRAINT pk_ser PRIMARY KEY (sre_oid);
+-------------------------------------------------------------------------------------
+ALTER TABLE rep_attribute_access ADD CONSTRAINT pk_attribute_access PRIMARY KEY (ata_oid);

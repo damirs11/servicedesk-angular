@@ -71,4 +71,9 @@ public @interface FieldMeta {
 	 */
 	String pattern() default "";
 
+    /**
+     * Идентификатор атрибута
+     */
+	long attribute() default  Long.MIN_VALUE;
+
 }

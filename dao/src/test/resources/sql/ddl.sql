@@ -250,3 +250,10 @@ CREATE TABLE rep_entity_access (
   ena_tem_oid DECIMAL (18),
   ena_modifytemplate DECIMAL (1)
 );
+
+CREATE TABLE rep_attribute_access (
+  ata_oid DECIMAL(18),
+  ata_atr_oid DECIMAL(18),
+  ata_modify DECIMAL(1),
+  ata_ena_oid DECIMAL(18)
+);
