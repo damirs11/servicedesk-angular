@@ -21,6 +21,9 @@ public class AttributeAccess implements HasId, Serializable {
     @FieldMeta(columnName = "ata_atr_oid")
     private Long attributeId;
 
+    @FieldMeta(columnName = "ata_ena_oid")
+    private Grant grant;
+
     @Override
     public Long getId() {
         return id;
@@ -47,4 +50,11 @@ public class AttributeAccess implements HasId, Serializable {
         this.attributeId = attributeId;
     }
 
+    public Grant getGrant() {
+        return grant;
+    }
+
+    public void setGrant(Grant grant) {
+        this.grant = grant;
+    }
 }
