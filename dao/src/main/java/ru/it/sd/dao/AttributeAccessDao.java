@@ -28,7 +28,9 @@ public class AttributeAccessDao extends AbstractEntityDao<AttributeAccess> {
             "   raa.ata_ena_oid," +
             "   raa.ata_atr_oid\n" +
             "FROM\n" +
-            "   rep_attribute_access raa\n";
+            "   rep_attribute_access raa\n"+
+            "LEFT JOIN rep_entity_access rea ON rea.ena_oid = raa.ata_ena_oid\n"+
+            "LEFT JOIN rep_roles_per_account rpa ON rpa.rpa_rol_oid = rea.ena_rol_oid\n";
 
 	private AttributeAccessMapper mapper;
 
@@ -49,19 +51,14 @@ public class AttributeAccessDao extends AbstractEntityDao<AttributeAccess> {
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 	    //todo Проверить почему при filter = null test list проходит
-	    if(filter == null || filter.isEmpty()){
+	    if(filter == null || filter.isEmpty() && !filter.containsKey("accountId")){
             throw new ServiceException(ResourceMessages.getMessage("error.dao.filter"));
         }
 	    super.buildWhere(filter, sql, params);
-        //todo добавить фильтры по необходимости
-        /*if(filter.containsKey("entityId")){
-            params.addValue("entityId", filter.get("entityId"));
-            sql.append(" AND rea.ena_ent_oid = :entityId");
-        }
 
-        if(filter.containsKey("userId")){
-            params.addValue("userId", filter.get("userId"));
-            sql.append(" AND rpa.rpa_acc_oid = :userId");
-        }*/
+        if(filter.containsKey("accountId")){
+            params.addValue("accountId", filter.get("accountId"));
+            sql.append(" AND rpa.rpa_acc_oid = :accountId");
+        }
 	}
 }

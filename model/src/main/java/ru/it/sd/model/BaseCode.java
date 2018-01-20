@@ -31,6 +31,9 @@ public class BaseCode implements Code, Serializable {
 	@FieldMeta(columnName = "name")
 	private String name;
 
+    @FieldMeta(columnName = "ordering")
+    private Integer ordering;
+
 	@Override
 	public Long getId() {
 		return this.id;
@@ -51,7 +54,15 @@ public class BaseCode implements Code, Serializable {
 		return name;
 	}
 
-	@Override
+    public Integer getOrdering() {
+        return ordering;
+    }
+
+    public void setOrdering(Integer ordering) {
+        this.ordering = ordering;
+    }
+
+    @Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
 	}

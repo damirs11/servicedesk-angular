@@ -46,6 +46,9 @@ public class Grant implements HasId, Serializable {
 	@FieldMeta(columnName = "ena_status_to_oid")
 	private EntityStatus statusTo;
 
+	@FieldMeta(columnName = "ena_cod_oid")
+    private Folder folder;
+
 	/** Создание записи в истории */
 	@FieldMeta(columnName = "ena_historynew")
 	private GrantRule historyCreate;
@@ -164,4 +167,12 @@ public class Grant implements HasId, Serializable {
 	public void setHistoryDelete(GrantRule historyDelete) {
 		this.historyDelete = historyDelete;
 	}
+
+    public Folder getFolder() {
+        return folder;
+    }
+
+    public void setFolder(Folder folder) {
+        this.folder = folder;
+    }
 }

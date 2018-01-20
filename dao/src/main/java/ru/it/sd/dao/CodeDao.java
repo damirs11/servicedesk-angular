@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.CodeMapper;
 import ru.it.sd.exception.ServiceException;
-import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.model.BaseCode;
 import ru.it.sd.util.ResourceMessages;
 
@@ -27,7 +26,7 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 	}
 
 	String BASE_SQL =
-		"SELECT id, name FROM\n" +
+		"SELECT id, name, ordering FROM\n" +
 		"(SELECT\n" +
 		"	cod.cod_oid id,\n" +
 		"	cdl.cdl_name name,\n" +

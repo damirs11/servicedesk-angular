@@ -4,11 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.RoleDao;
-import ru.it.sd.model.BaseCode;
-import ru.it.sd.model.EntityStatus;
-import ru.it.sd.model.EntityType;
-import ru.it.sd.model.Grant;
-import ru.it.sd.model.GrantRule;
+import ru.it.sd.model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,6 +59,12 @@ public class GrantMapper extends EntityRowMapper<Grant> {
 			BaseCode code = codeDao.read(statusToId);
 			grant.setStatusTo(code.convertTo(EntityStatus.class));
 		}
+
+        Long folderId = DBUtils.getLong(rs, "ena_cod_oid");
+        if(folderId != null) {
+            BaseCode code = codeDao.read(folderId);
+            grant.setFolder(code.convertTo(Folder.class));
+        }
 
 		// Права доступа на историю сущности
 		grant.setHistoryCreate(GrantRule.get(

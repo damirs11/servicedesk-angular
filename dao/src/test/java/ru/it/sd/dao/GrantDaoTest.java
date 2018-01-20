@@ -29,6 +29,8 @@ public class GrantDaoTest extends AbstractDaoTest {
 	private void testList() {
 		Map<String, String> filter = new HashMap<>();
 		filter.put(SortingInfo.SORTING_PARAM_NAME, "id-asc");
+		filter.put("accountId", "1");
+		filter.put("entityType", EntityType.getByClass(Change.class).getId().toString());
 		List<Grant> list = dao.list(filter);
 		assertEquals(list.size(), 3);
 		assertEquals(list.get(0).getId(), Long.valueOf(1));
@@ -42,5 +44,5 @@ public class GrantDaoTest extends AbstractDaoTest {
 		assertEquals(list.get(1).getCreate(), GrantRule.ALWAYS);
 		assertEquals(list.get(1).getUpdate(), GrantRule.EXECUTOR);
 
-	}
+    }
 }
