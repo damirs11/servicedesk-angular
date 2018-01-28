@@ -41,7 +41,7 @@ public class GrantDao extends AbstractEntityDao<Grant> {
 			"       ena_historydelete,\n" +
 			"       ena_historydeletecreatedwg,\n" +
 			"       ena_historydeletecreateduser,\n" +
-			"       ena_cod_oid,\n" +
+			"       ena_cod_oid,\n" + // папка
 			"       ena_lockseq,\n" +
 			"       ena_tem_oid,\n" +
 			"       ena_modifytemplate\n" +

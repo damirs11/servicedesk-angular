@@ -8,6 +8,8 @@ package ru.it.sd.model;
  */
 public class Folder extends BaseCode {
 
+	private static final long serialVersionUID = -1829729559230647182L;
+
 	public Folder(){}
 
 	public static Long getTypeId() {

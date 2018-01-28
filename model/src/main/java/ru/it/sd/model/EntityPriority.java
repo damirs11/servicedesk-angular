@@ -8,6 +8,8 @@ package ru.it.sd.model;
  */
 public class EntityPriority extends BaseCode {
 
+	private static final long serialVersionUID = 5270563648746819342L;
+
 	public EntityPriority(){}
 
 	public static Long getTypeId() {
