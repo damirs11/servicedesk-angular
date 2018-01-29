@@ -52,7 +52,7 @@ public class CommonRestControllerTest extends AbstractWebTest{
 	    when(crudService.update(isA(Change.class))).thenReturn(mockChange);
 
 	    CommonRestController commonRestController = new CommonRestController(
-			    readServiceHolder, crudServiceHolder, null
+			    readServiceHolder, crudServiceHolder, null, null, null
 	    );
         this.mockMvc = MockMvcBuilders
 		        .standaloneSetup(commonRestController)
@@ -97,7 +97,7 @@ public class CommonRestControllerTest extends AbstractWebTest{
 		Change change = new Change();
 		change.setId(321L);
 		change.setManager(new Person());
-		change.setAssWorkgroup(new Workgroup());
+		change.setWorkgroup(new Workgroup());
 		change.setSubject("qwerty");
 		change.setInitiator(new Person());
 		change.setDescription("asdfg");

@@ -35,6 +35,10 @@ public enum EntityType implements Code {
 	 * Идентификатор
 	 */
 	private Long id;
+	/**
+	 * Порядок
+	 */
+	private Integer order;
 
 	EntityType(String title) {
 		this.title = title;
@@ -71,6 +75,16 @@ public enum EntityType implements Code {
 
 	@Override
 	public void setName(String name) {
+		throw new UnsupportedOperationException();
+	}
+	@Override
+	public Integer getOrder(){
+		return order;
+	}
+
+
+	@Override
+	public void setOrder(Integer order){
 		throw new UnsupportedOperationException();
 	}
 

@@ -62,7 +62,7 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 			Long assWorkgroupID = DBUtils.getLong(rs, "ass_wog_oid");
 			if(assWorkgroupID != null) {
 			    Workgroup workgroup = workgroupDao.read(assWorkgroupID);
-			    change.setAssWorkgroup(workgroup);
+			    change.setWorkgroup(workgroup);
             }
 
 			Long initiatorId = DBUtils.getLong(rs, "cha_requestor_per_oid");

@@ -68,6 +68,10 @@ public class GrantDao extends AbstractEntityDao<Grant> {
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 	    //todo проверить чтобы фильтр небыл пустым
 		super.buildWhere(filter, sql, params);
+		if(filter.containsKey("entityId")){
+			params.addValue("entityId", filter.get("entityId"));
+			sql.append(" AND ena_ent_oid = :entityId");
+		}
         if(filter.containsKey("accountId")){
             params.addValue("accountId", filter.get("accountId"));
             sql.append(" AND rpa.rpa_acc_oid = :accountId");

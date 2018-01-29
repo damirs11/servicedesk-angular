@@ -26,7 +26,7 @@ public class ChangeService extends CrudService<Change>{
 	private ChangeDao dao;
 	private SecurityService securityService;
 	private IChangeDao iChangeDao;
-
+	private AccessService accessService;
 	public ChangeService(ChangeDao dao, SecurityService securityService, IChangeDao iChangeDao) {
 		this.dao = dao;
 		this.securityService = securityService;
@@ -35,6 +35,7 @@ public class ChangeService extends CrudService<Change>{
 
 	@Override
 	public Change read(long id) {
+
 		return dao.read(id);
 	}
 

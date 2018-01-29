@@ -39,7 +39,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
         IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
         IPerson manager = iPersonDao.read(entity.getManager().getId());
         IPerson executor = iPersonDao.read(entity.getExecutor().getId());
-        IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssWorkgroup().getId());
+        IWorkgroup workgroup = iWorkgroupDao.read(entity.getWorkgroup().getId());
         IImpact impact = iImpactDao.read(entity.getPriority().getId());
 
         iChange.setCategory(iChangeCategory);
@@ -72,7 +72,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
         IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
         IPerson manager = iPersonDao.read(entity.getManager().getId());
         IPerson executor = iPersonDao.read(entity.getExecutor().getId());
-        IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssWorkgroup().getId());
+        IWorkgroup workgroup = iWorkgroupDao.read(entity.getWorkgroup().getId());
         IImpact impact = iImpactDao.read(entity.getPriority().getId());
 
         iChange.setCategory(iChangeCategory);
@@ -127,7 +127,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             iChange.setImpact(impact);
         }
         if(fields.contains("assWorkgroup")) {
-            IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssWorkgroup().getId());
+            IWorkgroup workgroup = iWorkgroupDao.read(entity.getWorkgroup().getId());
             iChange.getAssignment().setAssWorkgroup(workgroup);
         }
         if(fields.contains("executor")) {

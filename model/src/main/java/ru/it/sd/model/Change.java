@@ -15,7 +15,7 @@ import java.util.Date;
  * @since 03.05.2017
  */
 @ClassMeta(tableName = "itsm_changes", tableAlias ="ch")
-public class Change implements HasId, HasStatus, Serializable {
+public class Change implements Entity, Serializable {
 
 	private static final long serialVersionUID = -857993162919153346L;
 
@@ -48,7 +48,7 @@ public class Change implements HasId, HasStatus, Serializable {
 	private EntityPriority priority ;
 
 	/** Категория*/
-	@FieldMeta(columnName = "cha_cat_oid", required = true, attribute = 724041784)
+	@FieldMeta(columnName = "cha_cat_oid", required = true, attribute = 724041784L)
 	private EntityCategory category;
 
     /** Классификация*/
@@ -71,7 +71,7 @@ public class Change implements HasId, HasStatus, Serializable {
 	private Person executor;
 	/** Группа исполнителей*/
 	@FieldMeta(columnName = "ass_wog_oid", required = true)
-	private Workgroup assWorkgroup;
+	private Workgroup workgroup;
 
 	/** Инициатор изменения */
 	@FieldMeta(columnName = "cha_requestor_per_oid", required = true, attribute = 281478292766727L)
@@ -85,25 +85,6 @@ public class Change implements HasId, HasStatus, Serializable {
 
 	@FieldMeta(columnName = "cha_poo_oid")
 	private Folder folder;
-
-    @FieldMeta(columnName = "cha_apt_description")
-    private String approvedDescription;
-
-    /** Требуемое число одобривших(сколько надо одобрений)*/
-	@FieldMeta(columnName = "cha_apt_nrofapproversrequired", readOnly = true)
-	private Integer numberOfApproversRequired;
-
-    /** Число одобряющих*/
-    @FieldMeta(columnName = "cha_apt_nrofapprovers", readOnly = true)
-    private Integer numberOfApprovers;
-
-    /** Число одобривших(сколько есть одобрений)*/
-    @FieldMeta(columnName = "cha_apt_nrofapproversapproved", readOnly = true)
-    private Integer numberOfApproversApproved;
-
-    //** Группа согласования*/
-    @FieldMeta(columnName = "cha_apt_wog_oid")
-    private Workgroup approvedWorkgroup;
 
     // ----------------------------------------------------------------------------------------------------------
 
@@ -198,11 +179,11 @@ public class Change implements HasId, HasStatus, Serializable {
 	public void setManager(Person manager) {
 		this.manager = manager;
 	}
-
+    @Override
 	public Person getExecutor() {
 		return executor;
 	}
-
+    @Override
 	public void setExecutor(Person executor) {
 		this.executor = executor;
 	}
@@ -214,10 +195,10 @@ public class Change implements HasId, HasStatus, Serializable {
     public EntityClassification getClassification() { return classification; }
 
     public void setClassification(EntityClassification classification) { this.classification = classification; }
-
-    public Workgroup getAssWorkgroup() { return assWorkgroup; }
-
-    public void setAssWorkgroup(Workgroup assWorkgroup) { this.assWorkgroup = assWorkgroup; }
+    @Override
+    public Workgroup getWorkgroup() { return workgroup; }
+    @Override
+    public void setWorkgroup(Workgroup assWorkgroup) { this.workgroup = assWorkgroup; }
 
     public EntityClosureCode getClosureCode() {
         return closureCode;
@@ -226,11 +207,11 @@ public class Change implements HasId, HasStatus, Serializable {
     public void setClosureCode(EntityClosureCode closureCode) {
         this.closureCode = closureCode;
     }
-
+    @Override
     public Folder getFolder() {
         return folder;
     }
-
+    @Override
     public void setFolder(Folder folder) {
         this.folder = folder;
     }

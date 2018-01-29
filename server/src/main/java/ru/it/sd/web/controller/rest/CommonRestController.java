@@ -6,17 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.bind.annotation.*;
 import ru.it.sd.exception.NotFoundException;
 import ru.it.sd.meta.MetaUtils;
+import ru.it.sd.model.AttributeGrantRule;
+import ru.it.sd.model.EntityType;
+import ru.it.sd.model.Grant;
 import ru.it.sd.model.HasId;
+import ru.it.sd.service.AccessService;
+import ru.it.sd.service.ChangeService;
 import ru.it.sd.service.History;
 import ru.it.sd.service.holder.CrudServiceHolder;
 import ru.it.sd.service.holder.HistoryServiceHolder;
@@ -48,12 +46,16 @@ public class CommonRestController {
     private final ReadServiceHolder readServiceHolder;
     private final CrudServiceHolder crudServiceHolder;
 	private final HistoryServiceHolder historyServiceHolder;
+	private AccessService accessService;
+	private ChangeService changeService;
 
 	@Autowired
-	public CommonRestController(ReadServiceHolder readServiceHolder, CrudServiceHolder crudServiceHolder, HistoryServiceHolder historyServiceHolder) {
+	public CommonRestController(ReadServiceHolder readServiceHolder, CrudServiceHolder crudServiceHolder, HistoryServiceHolder historyServiceHolder, AccessService accessService, ChangeService changeService) {
 		this.readServiceHolder = readServiceHolder;
 		this.crudServiceHolder = crudServiceHolder;
 		this.historyServiceHolder = historyServiceHolder;
+		this.accessService = accessService;
+		this.changeService = changeService;
 	}
 
     /**
@@ -190,4 +192,20 @@ public class CommonRestController {
     public void delete(@PathVariable String entity, @PathVariable long id) {
         crudServiceHolder.findFor(entity).delete(id);
     }
+
+
+    @RequestMapping(value = "/{entity}/{id}/grants", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Grant entityGrants(@PathVariable String entity, @PathVariable long id) {
+        EntityType entityType = EntityType.getByClass(EntityUtils.getEntityClass(entity));
+        return accessService.getEntityAccess(changeService.read(id), EntityType.CHANGE).getLeft();
+    }
+
+    @RequestMapping(value = "/{entity}/{id}/attributes", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, AttributeGrantRule> attributeGrants(@PathVariable String entity, @PathVariable long id) {
+        EntityType entityType = EntityType.getByClass(EntityUtils.getEntityClass(entity));
+        return accessService.getEntityAccess(changeService.read(id), EntityType.CHANGE).getRight();
+    }
+
 }
