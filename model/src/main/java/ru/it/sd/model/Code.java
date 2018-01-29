@@ -12,4 +12,10 @@ public interface Code extends HasId {
 	String getName();
 	/** Установить наименование объекта */
 	void setName(String name);
+
+	Integer getOrder();
+
+	void setOrder(Integer order);
+
+
 }

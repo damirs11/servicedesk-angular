@@ -52,6 +52,16 @@ public class Organization implements Code, Serializable {
 		this.name = name;
 	}
 
+	@Override
+	public Integer getOrder() {
+		return null;
+	}
+
+	@Override
+	public void setOrder(Integer order) {
+
+	}
+
 	public String getEmail() {
 		return email;
 	}

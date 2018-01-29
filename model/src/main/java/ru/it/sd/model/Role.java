@@ -41,6 +41,16 @@ public class Role implements Code, GrantedAuthority {
 		this.name = name;
 	}
 
+	@Override
+	public Integer getOrder() {
+		return null;
+	}
+
+	@Override
+	public void setOrder(Integer order) {
+
+	}
+
 	public Boolean getEditor() {
 		return editor;
 	}

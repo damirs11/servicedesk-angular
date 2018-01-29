@@ -49,7 +49,15 @@ public enum EntityPriority2 implements Code {
 	public void setName(String name) {
 		throw new UnsupportedOperationException();
 	}
+	@Override
+	public Integer getOrder() {
+		return null;
+	}
 
+	@Override
+	public void setOrder(Integer order) {
+
+	}
 	/**
 	 * Поиск приоритета по идентификатору
 	 *

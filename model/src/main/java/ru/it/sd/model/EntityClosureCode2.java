@@ -60,7 +60,15 @@ public enum EntityClosureCode2 implements Code {
 	public Long getId() {
 		return id;
 	}
+	@Override
+	public Integer getOrder() {
+		return null;
+	}
 
+	@Override
+	public void setOrder(Integer order) {
+
+	}
 
 	public EntityType getEntityType() {
 		return entityType;

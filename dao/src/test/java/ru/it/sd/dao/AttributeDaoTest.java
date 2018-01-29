@@ -40,10 +40,10 @@ public class AttributeDaoTest extends AbstractDaoTest {
     @Test
     private void testFilter() {
         Map<String, String> filter = new HashMap<>();
-        filter.put("accountId","1");
-        filter.put("attributeId", "11");
+        filter.put("attributeId","11");
+        filter.put("grant", "5");
         List<AttributeAccess> attributeAccess = dao.list(filter);
-        assertEquals(attributeAccess.size(), 2);
+        assertEquals(attributeAccess.size(), 1);
 
     }
 

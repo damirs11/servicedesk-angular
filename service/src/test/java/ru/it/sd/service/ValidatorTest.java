@@ -25,7 +25,7 @@ public class ValidatorTest {
         change.setDescription("sdasd");
         //change.setPriority(EntityPriority.MINOR);
         change.setManager(new Person());
-        change.setAssWorkgroup(new Workgroup());
+        change.setWorkgroup(new Workgroup());
         change.setInitiator(new Person());
         //change.setClassification(EntityClassification.CHANGE_NEW_CI);
         change.setExecutor(new Person());
