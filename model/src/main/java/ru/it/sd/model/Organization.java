@@ -59,7 +59,6 @@ public class Organization implements Code, Serializable {
 
 	@Override
 	public void setOrder(Integer order) {
-
 	}
 
 	public String getEmail() {

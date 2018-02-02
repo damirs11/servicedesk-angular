@@ -11,6 +11,7 @@ import ru.it.sd.meta.FieldMeta;
 @ClassMeta(tableName = "rep_roles")
 public class Role implements Code, GrantedAuthority {
 
+	private static final long serialVersionUID = 3230787447825628308L;
 	/** Идентификатор роли */
 	@FieldMeta(columnName = "rol_oid")
 	private Long id;
@@ -48,7 +49,6 @@ public class Role implements Code, GrantedAuthority {
 
 	@Override
 	public void setOrder(Integer order) {
-
 	}
 
 	public Boolean getEditor() {

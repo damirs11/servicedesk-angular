@@ -26,24 +26,10 @@ public class CodeChildsDao extends AbstractEntityDao<BaseCode>{
 		this.dbUtils = dbUtils;
 	}
 
-	String BASE_SQL =
-		"with folder(id) as(\n" +
-		"	SELECT rcd.rcd_oid FROM rep_codes rcd WHERE rcd.rcd_rcd_oid = :parentId\n" +
-		"	UNION ALL\n" +
-		"	SELECT rcd.rcd_oid FROM rep_codes rcd\n" +
-		"	INNER JOIN folder ON folder.id = rcd.rcd_rcd_oid\n" +
-		")\n" +
-		"SELECT " +
-				"rcd.rcd_oid id," +
-				"rct.rct_name name, " +
-				"rcd.rcd_subtype subtype, " +
-				"rcd.rcd_ordering ordering " +
-		"FROM rep_codes rcd\n" +
-		"LEFT JOIN rep_codes_text rct ON rct.rct_rcd_oid = rcd.rcd_oid\n" +
-		"WHERE rct.rct_lng_oid = 1049 and rcd.rcd_oid in (SELECT folder.id FROM folder)\n";
 
-	String TEST_BASE_SQL =
-			"with recursive folder(id) as(\n" +
+
+	String BASE_SQL =
+			"with %s folder(id) as(\n" +
 			"	SELECT rcd.rcd_oid FROM rep_codes rcd WHERE rcd.rcd_rcd_oid = :parentId\n" +
 			"	UNION ALL\n" +
 			"	SELECT rcd.rcd_oid FROM rep_codes rcd\n" +
@@ -61,9 +47,9 @@ public class CodeChildsDao extends AbstractEntityDao<BaseCode>{
 	@Override
 	protected StringBuilder getBaseSql() {
 		if(dbUtils.isTest()){
-			return new StringBuilder(TEST_BASE_SQL);
+			return new StringBuilder(String.format(BASE_SQL, "recursive"));
 		}else{
-			return new StringBuilder(BASE_SQL);
+			return new StringBuilder(String.format(BASE_SQL, ""));
 		}
 	}
 

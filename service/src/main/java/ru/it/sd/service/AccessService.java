@@ -35,15 +35,14 @@ public class AccessService {
     }
 
     /**
-     * Функция получения прав доступа на все атрибуты сущности
+     * Функция получения прав доступа на все атрибуты сущности по правам доступа {@link Grant}
      * @param grant права доступа
-     * @param entityType тип сущности
-     * @return возращает мапу со списком атрибутов и их доступности(0-спрятать, 1-читать, 2-писать)
+     * @return возращает мапу со списком атрибутов и их доступности {@link AttributeGrantRule}
      */
-    public Map<String, AttributeGrantRule> getAttributeAccess(Grant grant, EntityType entityType){
+    public Map<String, AttributeGrantRule> getAttributeAccess(Grant grant){
         Map<String, AttributeGrantRule> attributeEntitlement = new HashMap<>();
         ///User user = securityService.getCurrentUser();
-        Class clazz = EntityUtils.getEntityClass(entityType.getAlias());
+        Class clazz = EntityUtils.getEntityClass(grant.getEntityType().getAlias());
         Map<String, FieldMetaData> fieldMetaDataMap = MetaUtils.getFieldsMetaData(clazz);
 
         //Получение количество прав доступа для конкретной сущности и пользователя
@@ -84,28 +83,21 @@ public class AccessService {
     }
 
     /**
-     * Проверка всех прав доступа для конкретной сущности и текущего пользователя и объединение их в однму мапу
+     * Проверка всех прав доступа для конкретной сущности и текущего пользователя и объединение их
      * @param entity сущность для проверки прав доступа
-     * @return Map с ключами 'entity_read', 'entity_update', 'entity_create', 'entity_delete'
+     * @return {@link Grant} общие права доступа к конкретной сущности
      */
-    public Pair<Grant, Map<String, AttributeGrantRule>> getEntityAccess(Entity entity, EntityType entityType){
+    public Pair<Grant, Map<String, AttributeGrantRule>> getEntityAccess(Entity entity){
         User user = securityService.getCurrentUser();
         Long accountId = user.getId();
         Map<String, String> filter = new HashMap<>();
         filter.put("accountId", accountId.toString());
-        filter.put("entityId", entityType.getId().toString());
+        filter.put("entityId", EntityType.getByClass(entity.getClass()).getId().toString());
         List<Grant> grantList = grantDao.list(filter);
-
-        //Результат проверки прав доступа и установленные значения по умолчанию
-        Grant access = new Grant();
-
-        Map<String, Boolean> entitlement = new HashMap<>();
-        entitlement.put("entity_read", false);
-        entitlement.put("entity_update", false);
-        entitlement.put("entity_create", false);
-        entitlement.put("entity_delete", false);
-
-        Map<String, AttributeGrantRule> attributeAccessResult = new HashMap<>();
+        //Результат проверки прав доступа
+        Grant entityAccess = new Grant();
+        //Результат проверки прав доступа атрибутов
+        Map<String, AttributeGrantRule> attributeAccessMap = new HashMap<>();
         //Цикл по всем правам доступа к сущности(ena)
         for(Grant grant: grantList){
             //Необходимость проверки условий
@@ -136,63 +128,59 @@ public class AccessService {
                 if(grant.getRead() == GrantRule.EXECUTOR){
 
                     if(Objects.equals(user.getPerson().getId(),(entity.getExecutor().getId()))){
-                        entitlement.put("entity_read", true);
-                        access.setRead(GrantRule.ALWAYS);
+                        entityAccess.setRead(GrantRule.EXECUTOR);
                     }
                 }
                 if(grant.getUpdate() == GrantRule.EXECUTOR){
                     if(Objects.equals(user.getPerson().getId(),(entity.getExecutor().getId()))){
-                        entitlement.put("entity_update", true);
-                        access.setUpdate(GrantRule.ALWAYS);
+                        entityAccess.setUpdate(GrantRule.EXECUTOR);
                     }
                 }
                 //проверка рабочей группы (Без дочерних)
                 if(grant.getRead() == GrantRule.WORKGROUP){
                     if(isMember(entity.getWorkgroup(), user.getPerson())){
-                        entitlement.put("entity_read", true);
-                        access.setRead(GrantRule.ALWAYS);
+                        entityAccess.setRead(GrantRule.WORKGROUP);
                     }
                 }
                 if(grant.getUpdate() == GrantRule.WORKGROUP) {
                     if (isMember(entity.getWorkgroup(), user.getPerson())) {
-                        entitlement.put("entity_update", true);
-                        access.setUpdate(GrantRule.ALWAYS);
+                        entityAccess.setUpdate(GrantRule.WORKGROUP);
                     }
                 }
                 //проверка общих прав доступ
                 if(grant.getRead() == GrantRule.ALWAYS) {
-                    entitlement.put("entity_read", true);
-                    access.setRead(GrantRule.ALWAYS);
+                    entityAccess.setRead(GrantRule.ALWAYS);
                 }
                 if(grant.getUpdate() == GrantRule.ALWAYS){
-                    entitlement.put("entity_update", true);
-                    access.setUpdate(GrantRule.ALWAYS);
+                    entityAccess.setUpdate(GrantRule.ALWAYS);
                 }
 
                 if(grant.getCreate() == GrantRule.ALWAYS){
-                    entitlement.put("entity_create", true);
-                    access.setCreate(GrantRule.ALWAYS);
+                    entityAccess.setCreate(GrantRule.ALWAYS);
                 }
                 if(grant.getDelete() == GrantRule.ALWAYS){
-                    entitlement.put("entity_delete", true);
-                    access.setCreate(GrantRule.ALWAYS);
+                    entityAccess.setCreate(GrantRule.ALWAYS);
+                }
+                if(grant.getHistoryRead() == GrantRule.ALWAYS){
+                    entityAccess.setHistoryRead(GrantRule.ALWAYS);
                 }
 
+
                 //Получение и объединение атрибутов
-                Map<String,AttributeGrantRule> attributeAccess = getAttributeAccess(grant, entityType);
+                Map<String,AttributeGrantRule> attributeAccess = getAttributeAccess(grant);
                 attributeAccess.forEach((k,v)-> System.out.println(k + " " + v));
                 for(String field: attributeAccess.keySet()){
-                    if(attributeAccessResult.get(field) == null){
-                        attributeAccessResult.put(field, attributeAccess.get(field));
-                    }else if(attributeAccessResult.get(field).getId() < attributeAccess.get(field).getId()){
-                        attributeAccessResult.put(field, attributeAccess.get(field));
+                    if(attributeAccessMap.get(field) == null){
+                        attributeAccessMap.put(field, attributeAccess.get(field));
+                    }else if(attributeAccessMap.get(field).getId() < attributeAccess.get(field).getId()){
+                        attributeAccessMap.put(field, attributeAccess.get(field));
                     }
                 }
             }
         }
         MutablePair<Grant, Map<String, AttributeGrantRule>> result = new MutablePair<>();
-        result.setLeft(access);
-        result.setRight(attributeAccessResult);
+        result.setLeft(entityAccess);
+        result.setRight(attributeAccessMap);
 
         return result;
     }
@@ -233,12 +221,12 @@ public class AccessService {
     /**
      * Проверка является ли user членом entityWorkgroup
      * @param entityWorkgroup рабочая группа исполнителя
-     * @param person персона текущего пользователя
+     * @param executor персона текущего пользователя
      * @return true если user входит, false если нет
      */
-    private Boolean isMember(Workgroup entityWorkgroup, Person person){
+    private Boolean isMember(Workgroup entityWorkgroup, Person executor){
         Map<String, String> filter = new HashMap<>();
-        filter.put("person", person.getId().toString());
+        filter.put("person", executor.getId().toString());
         List<Workgroup> workgroups = workgroupDao.list(filter);
         for(Workgroup workgroup: workgroups){
             if(Objects.equals(workgroup.getId(), entityWorkgroup.getId())){
