@@ -33,4 +33,8 @@ function ChangeGridProvider(AbstractGrid) {
 
 }
 
+class ChangeGridPropertyContainer {
+
+}
+
 export {ChangeGridProvider}
