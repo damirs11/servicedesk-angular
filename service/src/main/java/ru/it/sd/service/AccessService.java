@@ -66,11 +66,13 @@ public class AccessService {
                     }
                     //Проверка прав для атрибутов
 
-                    if(Objects.isNull(attributeAccess)){
+                    if(attributeAccess == null && grant.getUpdate() != GrantRule.NONE){//Если есть права доступа на редактирование и редактирование атрибута
                         attributeEntitlement.put(fmd.getName(), AttributeGrantRule.UPDATE);
-                    } else if(attributeAccess.getModify() == false){
+                    } else if(attributeAccess == null){//Если есть права доступа на редактирование атрибута, но нет на редактирование сущности
                         attributeEntitlement.put(fmd.getName(), AttributeGrantRule.READ);
-                    } else if(attributeAccess.getModify() == true){
+                    } else if(attributeAccess.getModify() == false){//Если есть права доступа на чтение атрибутов
+                        attributeEntitlement.put(fmd.getName(), AttributeGrantRule.READ);
+                    } else{
                         attributeEntitlement.put(fmd.getName(), AttributeGrantRule.HIDE);
                     }
                 } else {
@@ -96,34 +98,34 @@ public class AccessService {
         List<Grant> grantList = grantDao.list(filter);
         //Результат проверки прав доступа
         Grant entityAccess = new Grant();
+        //Значение по умолчанию
+        entityAccess.setCreate(GrantRule.NONE);
+        entityAccess.setRead(GrantRule.NONE);
+        entityAccess.setUpdate(GrantRule.NONE);
+        entityAccess.setDelete(GrantRule.NONE);
+        entityAccess.setHistoryCreate(GrantRule.NONE);
+        entityAccess.setHistoryRead(GrantRule.NONE);
+        entityAccess.setHistoryUpdate(GrantRule.NONE);
+        entityAccess.setHistoryDelete(GrantRule.NONE);
+
         //Результат проверки прав доступа атрибутов
         Map<String, AttributeGrantRule> attributeAccessMap = new HashMap<>();
         //Цикл по всем правам доступа к сущности(ena)
         for(Grant grant: grantList){
             //Необходимость проверки условий
-            Boolean status = true;
             Boolean folder = true;
-            //Проверка статуса
-            if(grant.getStatusFrom() != null && grant.getStatusTo() != null){
-                //Если статус сущности входит в диапозон статусов, то на сущность распостраняются права доступа
-                if(statusIn(grant, entity.getStatus())){
-                    status = true;
-                }else {
-                    status = false;
-                }
-            }
             //Проверка папки
-            if(Objects.nonNull(grant.getFolder())){
+            if(grant.getFolder() != null){
                 //Если это одна и та же папка или папка сущности является дочрней, то на сущность распостраняются права доступа grant
-                if(Objects.nonNull(entity.getFolder()) && Objects.equals(grant.getFolder().getId(),entity.getFolder().getId()) || isChildFolder(grant.getFolder(), entity.getFolder())){
+                if(entity.getFolder() != null && Objects.equals(grant.getFolder().getId(),entity.getFolder().getId()) || isChildFolder(grant.getFolder(), entity.getFolder())){
                     folder = true;
                 }else {
                     folder = false;
                 }
             }
 
-            //Если условия для статуса и папки для конкретной сущности выполняются, то права распостраняются на эту сущность
-            if (status && folder){
+            //Если условие папки для конкретной сущности выполняются, то права распостраняются на эту сущность
+            if (folder){
                 //проверка исполнителя
                 if(grant.getRead() == GrantRule.EXECUTOR){
 
@@ -131,7 +133,7 @@ public class AccessService {
                         entityAccess.setRead(GrantRule.EXECUTOR);
                     }
                 }
-                if(grant.getUpdate() == GrantRule.EXECUTOR){
+                if(grant.getUpdate() == GrantRule.EXECUTOR && statusIn(grant, entity.getStatus())){
                     if(Objects.equals(user.getPerson().getId(),(entity.getExecutor().getId()))){
                         entityAccess.setUpdate(GrantRule.EXECUTOR);
                     }
@@ -142,7 +144,7 @@ public class AccessService {
                         entityAccess.setRead(GrantRule.WORKGROUP);
                     }
                 }
-                if(grant.getUpdate() == GrantRule.WORKGROUP) {
+                if(grant.getUpdate() == GrantRule.WORKGROUP && statusIn(grant, entity.getStatus())) {
                     if (isMember(entity.getWorkgroup(), user.getPerson())) {
                         entityAccess.setUpdate(GrantRule.WORKGROUP);
                     }
@@ -151,7 +153,7 @@ public class AccessService {
                 if(grant.getRead() == GrantRule.ALWAYS) {
                     entityAccess.setRead(GrantRule.ALWAYS);
                 }
-                if(grant.getUpdate() == GrantRule.ALWAYS){
+                if(grant.getUpdate() == GrantRule.ALWAYS && statusIn(grant, entity.getStatus())){
                     entityAccess.setUpdate(GrantRule.ALWAYS);
                 }
 
@@ -161,14 +163,14 @@ public class AccessService {
                 if(grant.getDelete() == GrantRule.ALWAYS){
                     entityAccess.setCreate(GrantRule.ALWAYS);
                 }
+                //Права на историю
                 if(grant.getHistoryRead() == GrantRule.ALWAYS){
                     entityAccess.setHistoryRead(GrantRule.ALWAYS);
                 }
-
+                //todo добавить права на создание, редактирование и удаление истории
 
                 //Получение и объединение атрибутов
                 Map<String,AttributeGrantRule> attributeAccess = getAttributeAccess(grant);
-                attributeAccess.forEach((k,v)-> System.out.println(k + " " + v));
                 for(String field: attributeAccess.keySet()){
                     if(attributeAccessMap.get(field) == null){
                         attributeAccessMap.put(field, attributeAccess.get(field));
@@ -181,7 +183,6 @@ public class AccessService {
         MutablePair<Grant, Map<String, AttributeGrantRule>> result = new MutablePair<>();
         result.setLeft(entityAccess);
         result.setRight(attributeAccessMap);
-
         return result;
     }
 
@@ -192,8 +193,8 @@ public class AccessService {
      * @return true если входит в диапозон, false если нет
      */
     private Boolean statusIn(Grant grant, EntityStatus status){
-        if(Objects.isNull(status) || Objects.isNull(grant.getStatusFrom()) || Objects.isNull(grant.getStatusTo())
-                || Objects.isNull(status.getOrder()) || Objects.isNull(grant.getStatusFrom().getOrder()) || Objects.isNull(grant.getStatusTo().getOrder())) return false;
+        if(Objects.isNull(grant.getStatusFrom()) || Objects.isNull(grant.getStatusTo())) return true;
+        if(Objects.isNull(status.getOrder()) || Objects.isNull(grant.getStatusFrom().getOrder()) || Objects.isNull(grant.getStatusTo().getOrder())) return false;
         if((status.getOrder()>= grant.getStatusFrom().getOrder()) && (status.getOrder()<= grant.getStatusTo().getOrder()))
             return true;
         return false;

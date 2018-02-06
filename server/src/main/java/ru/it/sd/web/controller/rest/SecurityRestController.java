@@ -1,13 +1,12 @@
 package ru.it.sd.web.controller.rest;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.it.sd.model.AttributeGrantRule;
-import ru.it.sd.model.Entity;
-import ru.it.sd.model.Grant;
-import ru.it.sd.model.User;
+import ru.it.sd.exception.BadRequestException;
+import ru.it.sd.model.*;
 import ru.it.sd.service.AccessService;
 import ru.it.sd.service.SecurityService;
 import ru.it.sd.service.holder.ReadServiceHolder;
@@ -16,6 +15,7 @@ import ru.it.sd.util.ResourceMessages;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -86,13 +86,16 @@ public class SecurityRestController extends AbstractController{
 
 	@RequestMapping(value = "access/{entity}/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public Grant entityGrants(@PathVariable String entity, @PathVariable long id) {
-		return accessService.getEntityAccess((Entity)readServiceHolder.findFor(entity).read(id)).getLeft();
-	}
-
-	@RequestMapping(value = "access/attributes/{entity}/{id}", method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	public Map<String, AttributeGrantRule> attributeGrants(@PathVariable String entity, @PathVariable long id) {
-		return accessService.getEntityAccess((Entity)readServiceHolder.findFor(entity).read(id)).getRight();
+	public Map<String, Object> entityGrants(@PathVariable String entity, @PathVariable long id) {
+		Map<String, Object> access = new HashMap<>();
+		HasId obj = readServiceHolder.findFor(entity).read(id);
+		if(obj instanceof Entity){
+			Pair<Grant, Map<String, AttributeGrantRule>> result = accessService.getEntityAccess((Entity)obj);
+			access.put("entity",result.getLeft());
+			access.put("attributes",result.getRight());
+			return access;
+		} else{
+			throw new BadRequestException("Сущность не является классом наследником Entity");
+		}
 	}
 }

@@ -6,7 +6,6 @@ package ru.it.sd.model;
  * @author quadrix
  * @since 10.10.2017
  */
-//todo добавить сериализацию в JSON
 public enum GrantRule implements HasId{
 
 	/** Действие запрещено (не указано) */
