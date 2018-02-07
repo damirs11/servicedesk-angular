@@ -1,18 +1,14 @@
 package ru.it.sd.dao;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.ChangeExtractor;
 import ru.it.sd.dao.mapper.GrantMapper;
-import ru.it.sd.model.Change;
 import ru.it.sd.model.Grant;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Дао для работы с правами доступа
@@ -49,7 +45,8 @@ public class GrantDao extends AbstractEntityDao<Grant> {
 			"       ena_lockseq,\n" +
 			"       ena_tem_oid,\n" +
 			"       ena_modifytemplate\n" +
-			"FROM rep_entity_access";
+			"FROM rep_entity_access\n" +
+            "LEFT JOIN rep_roles_per_account rpa ON rpa.rpa_rol_oid = ena_rol_oid";
 
 	private GrantMapper mapper;
 
@@ -69,7 +66,15 @@ public class GrantDao extends AbstractEntityDao<Grant> {
 
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
+	    //todo проверить чтобы фильтр небыл пустым
 		super.buildWhere(filter, sql, params);
-		// todo добавить фильтрацию по роли
+		if(filter.containsKey("entityId")){
+			params.addValue("entityId", filter.get("entityId"));
+			sql.append(" AND ena_ent_oid = :entityId");
+		}
+        if(filter.containsKey("accountId")){
+            params.addValue("accountId", filter.get("accountId"));
+            sql.append(" AND rpa.rpa_acc_oid = :accountId");
+        }
 	}
 }

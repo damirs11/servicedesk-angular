@@ -15,7 +15,7 @@ import java.util.Date;
  * @since 03.05.2017
  */
 @ClassMeta(tableName = "itsm_changes", tableAlias ="ch")
-public class Change implements HasId, HasStatus, Serializable {
+public class Change implements Entity, Serializable {
 
 	private static final long serialVersionUID = -857993162919153346L;
 
@@ -48,7 +48,7 @@ public class Change implements HasId, HasStatus, Serializable {
 	private EntityPriority priority ;
 
 	/** Категория*/
-	@FieldMeta(columnName = "cha_cat_oid", required = true, attribute = 724041784)
+	@FieldMeta(columnName = "cha_cat_oid", required = true, attribute = 724041784L)
 	private EntityCategory category;
 
     /** Классификация*/
@@ -59,19 +59,20 @@ public class Change implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "reg_created")
 	private Date createdDate;
 	/** Крайний срок */
-	@FieldMeta(columnName = "cha_deadline", required = true)
+	@FieldMeta(columnName = "cha_deadline", attribute = 556335111, required = true)
 	private Date deadline;
 	/** Выполнено(дата)*/
 	@FieldMeta(columnName = "cha_actualfinish", attribute = 556335112)
 	private Date resolvedDate;
     //todo Закрыто(дата) attribut = 70370
 
+
 	/** Исполнитель */
-	@FieldMeta(columnName = "ass_per_to_oid", required = true)
+	@FieldMeta(columnName = "ass_per_to_oid", attribute = 665649208L, required = true)
 	private Person executor;
 	/** Группа исполнителей*/
-	@FieldMeta(columnName = "ass_wog_oid", required = true)
-	private Workgroup assWorkgroup;
+	@FieldMeta(columnName = "ass_wog_oid", attribute = 665649208L, required = true)
+	private Workgroup workgroup;
 
 	/** Инициатор изменения */
 	@FieldMeta(columnName = "cha_requestor_per_oid", required = true, attribute = 281478292766727L)
@@ -80,32 +81,24 @@ public class Change implements HasId, HasStatus, Serializable {
 	@FieldMeta(columnName = "cha_per_man_oid", required = true, attribute = 281483590631438L)
 	private Person manager;
 
-	@FieldMeta(columnName = "cha_closurecode")
+	@FieldMeta(columnName = "cha_closurecode", attribute = 166006L)
 	private EntityClosureCode closureCode;
 
-	@FieldMeta(columnName = "cha_poo_oid")
+	@FieldMeta(columnName = "cha_poo_oid", attribute = 1032388614L)
 	private Folder folder;
 
-    @FieldMeta(columnName = "cha_apt_description")
-    private String approvedDescription;
+    //Поля для получения доступа к вкладкам(согласование, вложения, наряды, взаимосвязи)
+	@FieldMeta(columnName = "", attribute = 281478248988673L)
+	private long approval;
 
-    /** Требуемое число одобривших(сколько надо одобрений)*/
-	@FieldMeta(columnName = "cha_apt_nrofapproversrequired", readOnly = true)
-	private Integer numberOfApproversRequired;
+	@FieldMeta(columnName = "", attribute = 68465L)
+	private long attachment;
 
-    /** Число одобряющих*/
-    @FieldMeta(columnName = "cha_apt_nrofapprovers", readOnly = true)
-    private Integer numberOfApprovers;
+	@FieldMeta(columnName = "", attribute = 724041786L)
+	private long workorders;
 
-    /** Число одобривших(сколько есть одобрений)*/
-    @FieldMeta(columnName = "cha_apt_nrofapproversapproved", readOnly = true)
-    private Integer numberOfApproversApproved;
-
-    //** Группа согласования*/
-    @FieldMeta(columnName = "cha_apt_wog_oid")
-    private Workgroup approvedWorkgroup;
-
-    // ----------------------------------------------------------------------------------------------------------
+	@FieldMeta(columnName = "", attribute = 166009L)
+	private long relations;
 
 	@Override
 	public Long getId() {
@@ -198,11 +191,11 @@ public class Change implements HasId, HasStatus, Serializable {
 	public void setManager(Person manager) {
 		this.manager = manager;
 	}
-
+    @Override
 	public Person getExecutor() {
 		return executor;
 	}
-
+    @Override
 	public void setExecutor(Person executor) {
 		this.executor = executor;
 	}
@@ -214,10 +207,10 @@ public class Change implements HasId, HasStatus, Serializable {
     public EntityClassification getClassification() { return classification; }
 
     public void setClassification(EntityClassification classification) { this.classification = classification; }
-
-    public Workgroup getAssWorkgroup() { return assWorkgroup; }
-
-    public void setAssWorkgroup(Workgroup assWorkgroup) { this.assWorkgroup = assWorkgroup; }
+    @Override
+    public Workgroup getWorkgroup() { return workgroup; }
+    @Override
+    public void setWorkgroup(Workgroup assWorkgroup) { this.workgroup = assWorkgroup; }
 
     public EntityClosureCode getClosureCode() {
         return closureCode;
@@ -226,16 +219,48 @@ public class Change implements HasId, HasStatus, Serializable {
     public void setClosureCode(EntityClosureCode closureCode) {
         this.closureCode = closureCode;
     }
-
+    @Override
     public Folder getFolder() {
         return folder;
     }
-
+    @Override
     public void setFolder(Folder folder) {
         this.folder = folder;
     }
 
-    @Override
+	public long getApproval() {
+		return approval;
+	}
+
+	public void setApproval(long approval) {
+		this.approval = approval;
+	}
+
+	public long getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(long attachment) {
+		this.attachment = attachment;
+	}
+
+	public long getWorkorders() {
+		return workorders;
+	}
+
+	public void setWorkorders(long workorders) {
+		this.workorders = workorders;
+	}
+
+	public long getRelations() {
+		return relations;
+	}
+
+	public void setRelations(long relations) {
+		this.relations = relations;
+	}
+
+	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
 	}

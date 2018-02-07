@@ -1,3 +1,6 @@
+INSERT INTO rep_accounts(acc_oid) VALUES
+(1);
+
 INSERT INTO rep_roles (rol_oid, rol_description, rol_updateallallowed) VALUES
   (281494881712586, 'role1', 1);
 INSERT INTO rep_roles (rol_oid, rol_description, rol_updateallallowed) VALUES
@@ -31,7 +34,7 @@ INSERT INTO rep_entity_access (
   ena_historyview, ena_historynew,
   ena_historymodify, ena_historymodifycreateduser, ena_historymodifycreatedwg,
   ena_historydelete, ena_historydeletecreatedwg, ena_historydeletecreateduser) VALUES
-  (2, 281494881712586, 556859410,
+  (2, 281494881712586, 724041768,
       1, NULL, NULL,
       1, 1, NULL,
       NULL, NULL,
@@ -56,3 +59,11 @@ INSERT INTO rep_entity_access (
     NULL, NULL,
     NULL, NULL, NULL,
     NULL, NULL, NULL);
+
+INSERT INTO rep_roles_per_account(rpa_oid, rpa_acc_oid, rpa_rol_oid) VALUES
+(1, 1, 281494881712586);
+INSERT INTO rep_roles_per_account(rpa_oid, rpa_acc_oid, rpa_rol_oid) VALUES
+(2, 1, 281494881711997);
+INSERT INTO rep_roles_per_account(rpa_oid, rpa_acc_oid, rpa_rol_oid) VALUES
+(3, 1, 281494881711474);
+

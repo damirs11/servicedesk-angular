@@ -1,15 +1,12 @@
 package ru.it.sd.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 /**
  * Тип ограничения на право доступа
  *
  * @author quadrix
  * @since 10.10.2017
  */
-//todo добавить сериализацию в JSON
-public enum GrantRule {
+public enum GrantRule implements HasId{
 
 	/** Действие запрещено (не указано) */
 	NONE,
@@ -37,4 +34,16 @@ public enum GrantRule {
 		return NONE;
 	}
 
+	@Override
+	public Long getId() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void setId(Long id) {
+		throw new UnsupportedOperationException();
+	}
+
+	static class Deserializer extends EnumJsonDeserializer<GrantRule> {
+	}
 }

@@ -97,7 +97,7 @@ public class CommonRestControllerTest extends AbstractWebTest{
 		Change change = new Change();
 		change.setId(321L);
 		change.setManager(new Person());
-		change.setAssWorkgroup(new Workgroup());
+		change.setWorkgroup(new Workgroup());
 		change.setSubject("qwerty");
 		change.setInitiator(new Person());
 		change.setDescription("asdfg");

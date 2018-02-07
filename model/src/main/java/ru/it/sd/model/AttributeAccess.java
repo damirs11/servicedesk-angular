@@ -12,6 +12,8 @@ import java.io.Serializable;
 @ClassMeta(tableName = "rep_attribute_access", tableAlias = "raa")
 public class AttributeAccess implements HasId, Serializable {
 
+    private static final long serialVersionUID = 6226368257970918570L;
+
     @FieldMeta(columnName = "ata_oid", key = true)
     private Long id;
 
@@ -20,6 +22,9 @@ public class AttributeAccess implements HasId, Serializable {
 
     @FieldMeta(columnName = "ata_atr_oid")
     private Long attributeId;
+
+    @FieldMeta(columnName = "ata_ena_oid")
+    private Long grant;
 
     @Override
     public Long getId() {
@@ -47,4 +52,11 @@ public class AttributeAccess implements HasId, Serializable {
         this.attributeId = attributeId;
     }
 
+    public Long getGrant() {
+        return grant;
+    }
+
+    public void setGrant(Long grant) {
+        this.grant = grant;
+    }
 }

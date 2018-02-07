@@ -43,6 +43,16 @@ public class Location implements Code, Serializable {
 	}
 
 	@Override
+	public Integer getOrder() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void setOrder(Integer order) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public String getName() {
 		return name;
 	}

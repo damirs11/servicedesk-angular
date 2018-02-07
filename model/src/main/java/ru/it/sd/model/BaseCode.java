@@ -31,6 +31,9 @@ public class BaseCode implements Code, Serializable {
 	@FieldMeta(columnName = "name")
 	private String name;
 
+    @FieldMeta(columnName = "ordering")
+    private Integer order;
+
 	@Override
 	public Long getId() {
 		return this.id;
@@ -52,6 +55,16 @@ public class BaseCode implements Code, Serializable {
 	}
 
 	@Override
+    public Integer getOrder() {
+        return order;
+    }
+	@Override
+	public void setOrder(Integer order) {
+		this.order = order;
+	}
+
+
+    @Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
 	}
@@ -61,6 +74,7 @@ public class BaseCode implements Code, Serializable {
 			T to = toClass.newInstance();
 			to.setId(id);
 			to.setName(name);
+			to.setOrder(order);
 			return to;
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new ServiceException(ResourceMessages.getMessage("error.instantiation", toClass.getName()));

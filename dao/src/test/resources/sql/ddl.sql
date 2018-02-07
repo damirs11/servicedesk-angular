@@ -152,7 +152,8 @@ CREATE TABLE rep_codes (
   rcd_oid DECIMAL (18),
   rcd_subtype DECIMAL(18),
   rcd_ordering DECIMAL(9),
-  rcd_codedisabled DECIMAL(1)
+  rcd_codedisabled DECIMAL(1),
+  rcd_rcd_oid DECIMAL(18)
 );
 
 CREATE TABLE rep_codes_text (

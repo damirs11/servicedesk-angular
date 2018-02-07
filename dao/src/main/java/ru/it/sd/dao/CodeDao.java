@@ -4,8 +4,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.CodeMapper;
+import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.exception.ServiceException;
-import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.model.BaseCode;
 import ru.it.sd.util.ResourceMessages;
 
@@ -21,13 +21,29 @@ import static ru.it.sd.model.SortingInfo.SORTING_PARAM_NAME;
 public class CodeDao extends AbstractEntityDao<BaseCode>{
 
 	private CodeMapper mapper;
+	private DBUtils dbUtils;
 
-	public CodeDao(CodeMapper mapper) {
+	public CodeDao(CodeMapper mapper, DBUtils dbUtils) {
 		this.mapper = mapper;
+		this.dbUtils = dbUtils;
 	}
 
+	String CHILDS_SQL =
+		"with %s folder_rep(id) as(\n" +
+		"	SELECT rcd.rcd_oid FROM rep_codes rcd WHERE rcd.rcd_rcd_oid = :parentId\n" +
+		"	UNION ALL\n" +
+		"	SELECT rcd.rcd_oid FROM rep_codes rcd\n" +
+		"	INNER JOIN folder_rep ON folder_rep.id = rcd.rcd_rcd_oid\n" +
+		"),\n"+
+		"folder_cod(id) as(\n" +
+		"	SELECT cod.COD_OID FROM ITSM_CODES cod WHERE cod.COD_cod_OID = :parentId\n" +
+		"	UNION ALL\n" +
+		"	SELECT cod.COD_OID FROM ITSM_CODES cod\n" +
+		"	INNER JOIN folder_cod ON folder_cod.id = cod.COD_cod_OID\n" +
+		")\n";
+
 	String BASE_SQL =
-		"SELECT id, name FROM\n" +
+		"SELECT id, name, ordering FROM\n" +
 		"(SELECT\n" +
 		"	cod.cod_oid id,\n" +
 		"	cdl.cdl_name name,\n" +
@@ -61,13 +77,19 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 		if (filter == null || filter.isEmpty() ||
-				!(filter.containsKey("id") || filter.containsKey("subtype"))) {
+				!(filter.containsKey("id") || filter.containsKey("subtype")|| filter.containsKey("parentId"))) {
 			throw new ServiceException(ResourceMessages.getMessage("error.dao.filter"));
 		}
 		super.buildWhere(filter, sql, params);
 		if (filter.containsKey("subtype")) {
 			params.addValue("subtype", filter.get("subtype"));
 			sql.append(" AND subtype = :subtype");
+		}
+
+		if (filter.containsKey("parentId")) {
+			sql.insert(0, String.format(CHILDS_SQL, dbUtils.isTest() ? "recursive" : "", dbUtils.isTest() ? "recursive" : ""));
+			params.addValue("parentId", filter.get("parentId"));
+			sql.append(" AND code.id in (SELECT folder_rep.id FROM folder_rep UNION SELECT folder_cod.id FROM folder_cod)");
 		}
 	}
 

@@ -62,7 +62,15 @@ public enum EntityClassification2 implements Code {
 	public void setEntityType(EntityType entityType) {
 		this.entityType = entityType;
 	}
+	@Override
+	public Integer getOrder() {
+		return null;
+	}
 
+	@Override
+	public void setOrder(Integer order) {
+
+	}
 	/**
 	 * Поиск классификации по её идентификатору
 	 * @return категория, либо null, если указанного идентификатора нет

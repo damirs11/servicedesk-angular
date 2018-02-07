@@ -5,10 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.testng.annotations.Test;
-import ru.it.sd.model.ConfigurationItem;
 import ru.it.sd.model.Workgroup;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
