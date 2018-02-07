@@ -22,6 +22,8 @@ class ChangeListController {
 
         await this.configFilter();
         this._setFilter();
+        // если мы перешли по ссылке с fulltext=... - ставим этот текст в поле поиска
+        if (this.urlSearchParams.fulltext) this.$scope.search.text = this.urlSearchParams.fulltext;
         this.grid.initializeSearchParams(this.urlSearchParams);
         // При изменении критериев поиска в таблице -  меняем URL
         this.gridSearchParams.on("change", (params) => {

@@ -14,7 +14,7 @@ class WorkorderListController {
         this.Session = Session;
         this.$location = $location;
 
-        this.searchParams = searchParams;
+        this.urlSearchParams = searchParams;
     }
 
     async $onInit () {
@@ -22,6 +22,8 @@ class WorkorderListController {
 
         await this.configFilter();
         this._setFilter();
+        // Если перешли по ссылке с fulltext=..., ставим этот текст в поле
+        if (this.urlSearchParams.fulltext) this.$scope.search.text = this.urlSearchParams.fulltext;
         this.grid.initializeSearchParams(this.urlSearchParams);
         // При изменении критериев поиска в таблице -  меняем URL
         this.gridSearchParams.on("change", (params) => {
@@ -36,11 +38,11 @@ class WorkorderListController {
     }
 
     _setFilter(){
-        if (!this.searchParams.filter) {
+        if (!this.urlSearchParams.filter) {
             this.currentFilter = this.filters[0];
             return;
         }
-        const filterName = this.searchParams.filter;
+        const filterName = this.urlSearchParams.filter;
         /** Рекурсивная функция, которая ищет фильтр/дочерний фильтр с переданным value */
         const findFilterChildByValue = (filter, value) => {
             if (filter.value == value) return filter;
