@@ -22,13 +22,14 @@
             </div>
             <!-- Список действий, которые будут скрываться в кнопке -->
             <div class="collapse overlay-collapse navbar-collapse" id="changes-filter-nav">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="javascript:void(0)" class="dropdown-toggle"
+                <form name="search" class="navbar-form" role="search"
+                      ng-submit="ctrl.searchSubmit(search.text)" style="margin-bottom: 0">
+                    <div class="form-group btn-group">
+                        <button class="btn btn-default dropdown-toggle"
                            data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             {{ctrl.currentFilter.name}}
                             <span class="caret"></span>
-                        </a>
+                        </button>
                         <ul class="dropdown-menu">
                             <li data-ng-repeat="$filter in ctrl.filters track by $index"
                                 data-ng-class="{'dropdown-submenu':$filter.hasChilds, 'divider':$filter.divider, 'dropdown-header':$filter.header}">
@@ -50,30 +51,10 @@
 
                                 <span data-ng-if="$filter.header">{{$filter.header}}</span>
                             </li>
-                            <!--<li>-->
-                                <!--<a href="javascript:void(0)" data-ng-click="ctrl.applyFilter('executor')">-->
-                                    <!--Назначенные мне-->
-                                <!--</a>-->
-                            <!--</li>-->
-                            <!--<li class="dropdown-submenu">-->
-                                <!--<a data-ng-click="$event.stopPropagation()">Назначенные группе</a>-->
-                                <!--<ul class="dropdown-menu">-->
-                                    <!--<li data-ng-repeat="$group in [{name:'Группа 1',id:3},{name:'Группа 2',id:4}] track by $group.id">-->
-                                        <!--<a href="javascript:void(0)">{{$group.name}}</a>-->
-                                    <!--</li>-->
-                                <!--</ul>-->
-                            <!--</li>-->
-                            <!--<li role="separator" class="divider"></li>-->
-                            <!--<li class="dropdown-header">Моя роль:</li>-->
-                            <!--<li><a href="javascript:void(0)">Инициатор</a></li>-->
-                            <!--<li><a href="javascript:void(0)">Менеджер</a></li>-->
-                            <!--<li><a href="javascript:void(0)">Согласующий</a></li>-->
                         </ul>
-                    </li>
-                </ul>
-                <form name="search" class="navbar-form" role="search"
-                      ng-submit="ctrl.searchSubmit(search.text)" style="margin-bottom: 0">
-                    <div class="form-group input-group">
+                    </div>
+
+                    <div class="form-group input-group" style="margin-left: 10px">
                         <input ng-model="search.text" type="text" class="form-control"
                                placeholder="Введите строку поиска">
                         <div class="input-group-btn">

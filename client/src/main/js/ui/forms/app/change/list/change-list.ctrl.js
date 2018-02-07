@@ -107,7 +107,7 @@ class ChangeListController {
     applyFilter(filter){
         this.currentFilter = filter;
         this.searchParams.filter = filter.value;
-        this.grid.searchParamsContainer.add({filter:filter}); // set params & auto-fetch
+        this.grid.searchParamsContainer.add({filter:filter.value}); // set params & auto-fetch
     }
 
     clickOpen(){

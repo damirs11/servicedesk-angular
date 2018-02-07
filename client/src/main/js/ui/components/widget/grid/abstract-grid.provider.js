@@ -105,13 +105,6 @@ function AbstractGridProvider($parse, $timeout) {
         initializeSearchParams(params) {
             // Заносим туда переданные данные, но без кидания эвента об их изменении
             if (params) this.searchParamsContainer.quietAdd(params);
-            // Берем у таблицы страницы и заносим их в параметры
-            if (!params || !params.paging) {
-                console.log("NO paging");
-                const from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
-                const to = from + this.paginationPageSize - 1;
-                this.searchParamsContainer.quietAdd({paging: `${from};${to}`});
-            }
             // Если есть сортировка, выставляем в таблице сортировку
             if (params && params.sort) {
                 const sField = params.sort.split("-")[0];
@@ -273,6 +266,10 @@ function AbstractGridProvider($parse, $timeout) {
                 const key = keys[i];
                 fullParams[key] = this.searchParamsContainer[key]
             }
+            // Т.к. со страницами пока проблема, каждый раз заносим нужные страницы в параметры
+            const from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
+            const to = from + this.paginationPageSize - 1;
+            fullParams["paging"] = `${from};${to}`;
             return fullParams;
         }
 
