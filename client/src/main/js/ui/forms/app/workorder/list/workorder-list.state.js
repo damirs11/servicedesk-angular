@@ -8,6 +8,7 @@ import {SearchParamsResolver} from "./search-params.resolver";
 const WorkorderListState = {
     name: "app.workorder.list",
     url: "?fulltext&sort&filter",
+    reloadOnSearch: false,
     controller: controller,
     template: template,
     controllerAs: "ctrl",

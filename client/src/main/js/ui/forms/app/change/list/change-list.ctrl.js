@@ -3,10 +3,8 @@ import {UIEntityFilter} from "../../../../utils/ui-entity-filter";
 class ChangeListController {
     static $inject = ['SD', '$scope', '$grid', '$state','Session','$location','searchParams'];
 
-    /** Текущие филтры поисках */
-    searchParams = {};
-    /** Текущая сортировка */
-    sortParam = null;
+    /** Критерии поиска, находящиеся в ссылке */
+    urlSearchParams = {};
 
     constructor(SD, $scope, $grid, $state, Session, $location, searchParams) {
         this.SD = SD;
@@ -16,41 +14,35 @@ class ChangeListController {
         this.Session = Session;
         this.$location = $location;
 
-        this.searchParams = searchParams;
-        this.sortParam = searchParams['sort'];
-        delete searchParams['sort'];
+        this.urlSearchParams = searchParams;
     }
 
     async $onInit () {
         this.grid = new this.$grid.ChangeGrid(this.$scope,this.SD);
 
         await this.configFilter();
-        // this.currentFilter = this.filters[0];
-        // Если мы перешли на страницу без дополнительных фильтров - задаем filter
-        if (Object.keys(this.searchParams).length == 0) this.searchParams.filter = this.currentFilter
-        // Вызываем у таблицы сортировку по столбцу из url
-        this._setTableSort();
         this._setFilter();
-        this.grid.setSearchParams(this.searchParams);
+        // если мы перешли по ссылке с fulltext=... - ставим этот текст в поле поиска
+        if (this.urlSearchParams.fulltext) this.$scope.search.text = this.urlSearchParams.fulltext;
+        this.grid.initializeSearchParams(this.urlSearchParams);
+        // При изменении критериев поиска в таблице -  меняем URL
+        this.gridSearchParams.on("change", (params) => {
+            this.$location.search(params)
+        });
 
         this.$scope.$on("grid:double-click",::this._gridDoubleClick);
-        this.$scope.$on("grid:sort-changed",::this._gridOnSortChanged);
-        this.$scope.$on("grid:pagination-changed",::this._gridOnPageChanged);
     }
 
-    _setTableSort(){
-        if (!this.sortParam) return;
-        const [field,direction] = this.sortParam.split("-");
-        // this.grid.sortBy([{field,direction}]);
-        this.grid.sortBy([{field,direction}],false);
+    get gridSearchParams(){
+        return this.grid.searchParamsContainer
     }
 
     _setFilter(){
-        if (!this.searchParams.filter) {
+        if (!this.urlSearchParams.filter) {
             this.currentFilter = this.filters[0];
             return;
         }
-        const filterName = this.searchParams.filter;
+        const filterName = this.urlSearchParams.filter;
         /** Рекурсивная функция, которая ищет фильтр/дочерний фильтр с переданным value */
         const findFilterChildByValue = (filter, value) => {
             if (filter.value == value) return filter;
@@ -69,30 +61,6 @@ class ChangeListController {
 
     _gridDoubleClick(event,data){
         this.$state.go("app.change.card.view",{changeId:data.row.entity.id});
-    }
-
-    /** Параметры, которые будут отображены в url */
-    get _SearchURLParams(){
-        const object = Object.create(null);
-        const keys = Object.keys(this.searchParams);
-        for (let i in keys) {
-            const key = keys[i];
-            object[key] = this.searchParams[key]
-        }
-        object.sort = this.sortParam;
-        return object;
-    }
-
-    _gridOnSortChanged(event,data){
-        let sortColumns = data.sortColumns;
-        sortColumns = sortColumns.map(c => `${c.field}-${c.sort.direction}`);
-        this.sortParam = sortColumns[0];
-        this.$location.search(this._SearchURLParams);
-    }
-
-    _gridOnPageChanged(event,data) {
-        this.searchParams.page = data.page;
-        this.$location.search(this._SearchURLParams);
     }
 
     async configFilter() {
@@ -115,21 +83,22 @@ class ChangeListController {
     }
 
     /**
-     * Поиск данных по фильтру
-     * @param params
-     */
-    search(params) {
-        this.searchParams = params;
-        this.$location.search(this._SearchURLParams); // изменяет url
-        this.grid.setSearchParams(this.searchParams);
-    }
-
-    /**
      * При нажатии на кнопку "Найти"
      */
     searchSubmit(text) {
-        if (text == null || text == "") return;
-        this.search({fulltext:text});
+        if (text == null || text == "") {
+            this.clearFulltextSearch();
+            return;
+        }
+        this.grid.searchParamsContainer.add({fulltext:text}); // set params & auto-fetch
+    }
+    /**
+     * При нажатии на кнопку "Сбросить"
+     */
+    clearFulltextSearch() {
+        this.$scope.search.text = null; // Сбрасываем само текстовое поле.
+        if (this.gridSearchParams.fulltext == undefined) return;
+        this.gridSearchParams.add({fulltext:undefined}); // set params & auto-fetch
     }
 
     currentFilter = undefined;
@@ -139,7 +108,7 @@ class ChangeListController {
      */
     applyFilter(filter){
         this.currentFilter = filter;
-        this.search({filter:filter.value})
+        this.gridSearchParams.add({filter:filter.value}); // set params & auto-fetch
     }
 
     clickOpen(){

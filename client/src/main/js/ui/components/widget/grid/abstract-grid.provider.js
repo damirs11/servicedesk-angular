@@ -1,8 +1,8 @@
-import rowTemplate from "./row.html";
-
 /**
  * Абстрактный класс для работы с таблицой. Содержит базовые настройки и обработчики событий.
  */
+import rowTemplate from "./row.html";
+import {Enumerable} from "../../../../common/decorator/enumerable.decorator";
 
 AbstractGridProvider.$inject = ["$parse", "$timeout"];
 function AbstractGridProvider($parse, $timeout) {
@@ -23,7 +23,7 @@ function AbstractGridProvider($parse, $timeout) {
             this.$scope = $scope;
             this.entityClass = entityClass; // Класс, данные которого будут отображаться в таблице
             this.grid = null; // Выставляем при инициализации таблицы
-            this.sort = []; // Параметры сортировки данных
+            // this.sort = []; // Параметры сортировки данных
 
             // Свойства таблицы ui-grid
             this.enableCellEdit = false; // Запрещаем редактирование
@@ -33,7 +33,6 @@ function AbstractGridProvider($parse, $timeout) {
             this.enableHorizontalScrollbar = 2; // скороллбар в бок
             this.enableVerticalScrollbar = 2; // ставим скроллбар наверз "WHEN_NEEDED"
 
-            // Настройки сохранения состояния таблицы
             this.saveWidths = true;
             this.saveOrder = true;
             this.saveScroll = true;
@@ -87,6 +86,33 @@ function AbstractGridProvider($parse, $timeout) {
             this.exporterFieldCallback = ::this._export;
 
             $scope._onDblClick = ::this._onDblClick;
+
+            this.searchParamsContainer = new GridPropertyContainer();
+            // При любом изменении кидаем запрос данных на сервер
+            this.searchParamsContainer.on("change", () => {
+                this.fetchData();
+            });
+        }
+
+        /**
+         * Критерии поиска таблицы.
+         * При их обновлении таблица запрашивает данные с сервера.
+         * @property $grid.AbstractGrid#searchParamsContainer
+         * @type {GridPropertyContainer}
+         */
+        searchParamsContainer;
+
+        initializeSearchParams(params) {
+            // Заносим туда переданные данные, но без кидания эвента об их изменении
+            if (params) this.searchParamsContainer.quietAdd(params);
+            // Если есть сортировка, выставляем в таблице сортировку
+            if (params && params.sort) {
+                const sField = params.sort.split("-")[0];
+                const sDir = params.sort.split("-")[1];
+                console.log("Sorting table by",sField,sDir);
+                this.sortBy([{field:sField,direction:sDir}])
+            }
+            this.fetchData();
         }
 
         getSelectedRows(){
@@ -95,11 +121,19 @@ function AbstractGridProvider($parse, $timeout) {
 
         gridName = "ui-grid";
         enableSaving = false;
+        /**
+         * Сохраняет данные таблицы.
+         * @private
+         */
         _saveOptions(){
             const snapshot = this.gridApi.saveState.save();
             localStorage[this.gridName] = JSON.stringify(snapshot)
         }
-
+        /**
+         * Загружает состояние таблицы.
+         * Сюда входят параметры в стиле: какие столбцы скрыты, размеры и т.п.
+         * @private
+         */
         _loadOptions(){
             const saveData = localStorage[this.gridName];
             if (!saveData) return;
@@ -149,7 +183,6 @@ function AbstractGridProvider($parse, $timeout) {
                 const addToPrevSorting = i==0 ? undefined : add;
                 this.grid.sortColumn(info.gridColumn,info.col.direction, addToPrevSorting)
             }
-            this.sort = sortInfos.map(_ => _.gridColumn);
         }
 
         /**
@@ -193,19 +226,19 @@ function AbstractGridProvider($parse, $timeout) {
          * Обработчик смены условий сортировки данных
          */
         _onSortChanged(grid, sortColumns) {
-            this.sort = sortColumns;
             this._broadcastEvent("grid:sort-changed",{sortColumns});
-            this.fetchData();
+            let sortField = undefined;
+            if (sortColumns[0] != undefined) {
+                sortField = `${sortColumns[0].field}-${sortColumns[0].sort.direction}`;
+            }
+            this.searchParamsContainer.add({sort: sortField})
         };
-
         /**
          * Вызывается при выделении(снятии выделения) строки
          */
         _onRowSelectionChanged(row) {
             this._broadcastEvent("grid:selection-changed",{row});
-            //$scope.gridApi.grid.selection.lastSelectedRow
         };
-
         /**
          * Вызывается когда выделяются(снимается выделение) все строки щелчком по заголовку таблицы
          */
@@ -218,45 +251,30 @@ function AbstractGridProvider($parse, $timeout) {
          */
         _onPaginationChanged(page, pageSize) {
             this._broadcastEvent("grid:pagination-changed",{page,pageSize});
-            this.fetchData();
+            const from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
+            const to = from + this.paginationPageSize - 1;
+            this.searchParamsContainer.add({paging: `${from};${to}`});
         };
-
-        _searchParams = {};
-
-        /**
-         * Задает параметры для поиска
-         */
-        setSearchParams(params){
-            this._searchParams = params;
-            this.fetchData()
-        }
-
-        /**
-         * Возвращает данные для поиска, не включая сортировку и страницы.
-         */
-        getSearchParams(){
-            return this._searchParams;
-        }
 
         /**
          * Возвращает объект, содержащий все поля, по которым будет производиться поиск даннных
          */
         getFullSearchParams(){
             const fullParams = Object.create(null);
-            let keys = Object.keys(this._searchParams);
+            let keys = Object.keys(this.searchParamsContainer);
             for (let i in keys) {
                 const key = keys[i];
-                fullParams[key] = this._searchParams[key]
+                fullParams[key] = this.searchParamsContainer[key]
             }
-            const tableParams = this.getTableParams();
-            keys = Object.keys(tableParams);
-            for (let i in keys) {
-                const key = keys[i];
-                fullParams[key] = tableParams[key]
-            }
+            // Т.к. со страницами пока проблема, каждый раз заносим нужные страницы в параметры
+            const from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
+            const to = from + this.paginationPageSize - 1;
+            fullParams["paging"] = `${from};${to}`;
             return fullParams;
         }
 
+        // Текущий запрос данных
+        currentFetchPromise = null;
         /**
          * Получение данных для выбранной страницы таблицы. Вызывается каждый раз, когда меняются условия
          * отображения данных: смена сортировки, переход на другую страницу, смена условий фильтрации данных.
@@ -265,14 +283,14 @@ function AbstractGridProvider($parse, $timeout) {
             // Формирование параметров запроса
             const params = this.getFullSearchParams();
             if ('GULP_REPLACE:DEBUG') console.log("Grid-fetch",params);
-
             // Получение данных. Одновременная отправка двух запросов
-            const fetchPromise = Promise.all([
+            const fetchPromise = this.currentFetchPromise = Promise.all([
                 this.entityClass.count(params),
                 this.entityClass.list(params)
             ]);
             this._broadcastEvent("grid:fetch",{params,fetchPromise});
             const result = await fetchPromise;
+            if (this.currentFetchPromise != fetchPromise) return; // Если уже начался другой поиск.
             // Общее количество
             this.totalItems = result[0];
             // Данные строк таблицы
@@ -285,28 +303,6 @@ function AbstractGridProvider($parse, $timeout) {
             this.data = rows;
         }
 
-
-        /**
-         * Формирование параметров запроса: пейджинг, сортировка + пользовательские фильтры
-         */
-        getTableParams() {
-            const params = {};
-            // Параметры пейджинга
-            let from = this.paginationPageSize * (this.paginationCurrentPage - 1) + 1;
-            let to = from + this.paginationPageSize - 1;
-            params.paging = from + ';' + to;
-            // Параметры сортировки
-            let sortColumns = this.sort;
-            if (sortColumns && sortColumns.length > 0) {
-                let sort = '';
-                sortColumns.forEach(function (column) {
-                    sort += column.field + '-' + column.sort.direction + ';'
-                });
-                params.sort = sort
-            }
-            return params;
-        };
-
         /**
          * Пушит событие
          * @private
@@ -318,4 +314,81 @@ function AbstractGridProvider($parse, $timeout) {
     }
 }
 
-export {AbstractGridProvider};
+class GridPropertyContainer {
+
+    @Enumerable(false)
+    eventHandlers = {};
+
+    /**
+     * Задает поля в объект и кидает эвенты об обновлении.
+     * Для того, чтобы задать поле и не кидать эвент
+     * достаточно сделать obj["fieldName"] = value;
+     * или quietAdd(obj)
+     * Т.к. все эти значения заносятся прямо в этот объект.
+     * @param properties
+     */
+    add(properties) {
+        const keys = Object.keys(properties);
+        for (let key of keys) {
+            if (properties[key] === undefined) {
+                delete this[key];
+            } else {
+                this[key] = properties[key]
+            }
+            this._notifyPropertyChange(key,this[key],properties[key]);
+        }
+        this._notifyPropertyChange()
+    }
+
+    /**
+     * Задает поля в объект, но не кидает эвент
+     * @param properties
+     */
+    quietAdd(properties) {
+        const keys = Object.keys(properties);
+        for (let key of keys) {
+            if (properties[key] === undefined) {
+                delete this[key];
+            } else {
+                this[key] = properties[key]
+            }
+        }
+    }
+
+    _notifyPropertyChange(propertyName,oldValue,newValue) {
+        let eventName = propertyName != null ? `change:${propertyName}` : "change";
+        const handlers = this.eventHandlers[eventName];
+        if (handlers == null) return;
+        handlers.forEach(h => h(this,oldValue,newValue))
+    }
+
+    /**
+     * Подписаться на эвент.
+     * Эвенты:
+     * change - общий эвент обновления. Кидается последним
+     * change:%fieldName% - эвент обновления кокретного поля.
+     * где fieldName - название поля.
+     * Часто таблицы завязаны на эти эвенты и делают fetch при эвенте change.
+     * (Если, конечно, класс используется как параметры поиска)
+     */
+    on(eventName, handler) {
+        let handlerList = this.eventHandlers[eventName];
+        if (handlerList == null) {
+            handlerList = this.eventHandlers[eventName] = [];
+        }
+        handlerList.push(handler)
+    }
+
+    /**
+     * Отписаться от эвента
+     */
+    off(eventName, handler) {
+        const handlers = this.eventHandlers[eventName];
+        if (handlers == null) return;
+        const index = handlers.indexOf(handler);
+        if (index < 0) return;
+        handlers.splice(index,1)
+    }
+}
+
+export {AbstractGridProvider, GridPropertyContainer};

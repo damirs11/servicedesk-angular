@@ -10,6 +10,8 @@ function ApprovalProvider(EditableEntity, SD) {
      * @class
      * @extends SD.EditableEntity
      * @name SD.Approval
+     * Имеет миксин, который внедряет в сущности методы для согласований
+     * @see ENTITY_MIXIN.Approvable
      */
     return class Approval extends EditableEntity {
         static $entityTypeId = 281478244794382;
@@ -71,6 +73,31 @@ function ApprovalProvider(EditableEntity, SD) {
          * @type {Date}
          */
         @Serialize() @Parse( Instantiate(Date) ) deadline;
+
+        /**
+         * Идентификатор сущности,
+         * которой принадлежит согласование
+         * @property
+         * @name SD.Approval#ownerEntityType
+         * @type {Number}
+         * @ATTENTION
+         * Т.к. это поле должно отправляться при сохранении всегда,
+         * метод сериализации не используются. Оно добавляется
+         * в переопределенном методе save
+         * @link save
+         * @link SD.Approval#save
+         */
+        @Parse("entityType", (data) => data.id) ownerEntityType;
+
+        /**
+         * @override
+         * Переопределение, чтобы добавлять всегда поле entityType
+         */
+        async save(data){
+            const saveData = data || this.$modifiedData;
+            saveData["entityType"] = {id: this.ownerEntityType};
+            return super.save(saveData);
+        }
 
 
         toString(){

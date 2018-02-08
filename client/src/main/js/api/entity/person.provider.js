@@ -1,16 +1,20 @@
 import {Parse} from "./decorator/parse.decorator";
 import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
+import {Enumerable} from "../../common/decorator/enumerable.decorator";
+import {Mixin} from "./mixin/mixin.decorator";
 
 
-PersonProvider.$inject = ["EditableEntity", "SD"];
-function PersonProvider(EditableEntity, SD) {
+PersonProvider.$inject = ["EditableEntity", "SD", "AttachmentsHolder"];
+function PersonProvider(EditableEntity, SD, AttachmentsHolder) {
     /**
      * Персона
      * @class
      * @name SD.Person
+     * @mixes ENTITY_MIXIN.AttachmentsHolder
      */
-    return class Person extends EditableEntity {
+    @Mixin(AttachmentsHolder)
+    class Person extends EditableEntity {
         /**
          * Пол персоны: false - женский, true - мужской
          * @property
@@ -87,8 +91,14 @@ function PersonProvider(EditableEntity, SD) {
             return this.fullName
         }
 
+        $avatarAttachment;
+        $loadingAvatar = false;
+
         get avatarPath(){
-            // ToDo учитывать avatarId у персоны
+            if (this.avatarAttachment) return `rest/service/file/download?id=${this.avatarAttachment.id}`;
+            // Если вложения все нет - асинхронно грузим его, а возвращаем дефолтную аватарку.
+            if (this.avatarAttachment === undefined && !this.$loadingAvatar) this.$loadAvatarAttachment();
+
             if (this.sex) {
                 return "/img/male-avatar.png";
             } else if (this.sex === false) {
@@ -97,7 +107,19 @@ function PersonProvider(EditableEntity, SD) {
                 return "/img/default-avatar.png";
             }
         }
-    };
+
+        async $loadAvatarAttachment(){
+            this.$loadingAvatar = true;
+            const attachments = await this.getAttachments();
+            if (!attachments || !attachments.length) {
+                this.avatarAttachment = null;
+            } else {
+                this.avatarAttachment = attachments[0];
+            }
+            this.$loadingAvatar = false;
+        }
+    }
+    return Person;
 }
 
 export {PersonProvider};

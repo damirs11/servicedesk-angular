@@ -44,12 +44,12 @@ public class Location implements Code, Serializable {
 
 	@Override
 	public Integer getOrder() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void setOrder(Integer order) {
-
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

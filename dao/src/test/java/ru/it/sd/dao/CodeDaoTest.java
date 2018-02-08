@@ -38,8 +38,8 @@ public class CodeDaoTest extends AbstractDaoTest {
 	@Test
 	private void testFolderChilds() {
 		Map<String, String> filter = new HashMap<>();
-		filter.put("parentId", "1");
+		filter.put("folderId", "5");
 		List<BaseCode> code = codeChildsDao.list(filter);
-		assertEquals(code.size(), 3);
+		assertEquals(code.size(), 2);
 	}
 }

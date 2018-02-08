@@ -41,7 +41,9 @@ const FILETYPE_MAP = {
 AttachmentProvider.$inject = ["Entity", "SD"];
 function AttachmentProvider(Entity, SD) {
     /**
-     * Персона
+     * Вложение. Используется для вложений / аватарок и т.п.
+     * Класс не имеет своих методов работы с REST, они внедряются в другие сущности
+     * @see ENTITY_MIXIN.AttachmentsHolder
      * @class
      * @extends SD.RESTEntity
      * @name SD.Attachment

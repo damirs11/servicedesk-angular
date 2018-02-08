@@ -4,6 +4,20 @@
 
 @font-size: @font-size-base;
 
+
+// Изменить, при изменении размера хидера в карте.
+@entity-card-header-height: 122px;
+.entity-card-header {
+  height: @entity-card-header-height;
+  float: left;
+}
+
+.entity-card-body {
+  padding-top: @entity-card-header-height;
+  display: block;
+  height: 100%;
+}
+
 .entity-container {
   display: block;
   font-size: @font-size;
@@ -126,7 +140,8 @@
 }
 
 
-
+// Текущие стили, использующиеся в сущностях
+// ToDo провести рефакторинг, переименовать стили, стереть старые
 
 @e-prop-width: 460px;
 @e-prop__label-width: 162px;
@@ -135,16 +150,17 @@
   font-size: @font-size;
   display: inline-block;
   width: @e-prop-width;
-  margin: 0 0;
+  //margin: 0 0;
   position: relative;
   white-space: nowrap;
   height: 42px;
-  &:nth-of-type(2n-1) {
-    margin-right: 20px;
-    @media (max-width: @small-screen){
-      margin-right: 0;
-    }
-  }
+  margin-left: 20px;
+  //&:nth-of-type(2n-1) {
+  //  margin-right: 20px;
+  //  @media (max-width: @small-screen){
+  //    margin-right: 0;
+  //  }
+  //}
   @media (max-width: @small-screen){
     width: 100%;
     margin-right: 0;
@@ -157,7 +173,7 @@
     width: @e-prop__label-width;
     display: inline-block;
     margin-bottom: 0;
-    text-align: right;
+    text-align: left;
     white-space: nowrap;
     height: 42px;
     vertical-align: middle;
@@ -210,13 +226,15 @@
 
 
 .entity-text { // Изменяем sd-text под subject/тему
+  margin-left: 10px;
   & label {
+    margin-right: 10px;
     margin-bottom: 0;
     height: 42px;
     padding-left: 12px;
     padding-top: 8px;
     width: 164px;
-    text-align: right;
+    text-align: left;
     vertical-align: top;
   }
 
@@ -263,3 +281,4 @@
   }
 
 }
+

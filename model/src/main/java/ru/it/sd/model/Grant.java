@@ -1,5 +1,6 @@
 package ru.it.sd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 
@@ -15,13 +16,19 @@ import java.io.Serializable;
 @ClassMeta(tableName = "rep_entity_access")
 public class Grant implements HasId, Serializable {
 
+
+	private static final long serialVersionUID = 5153521957582945220L;
+
 	/** Идентификатор */
+	@JsonIgnore
 	@FieldMeta(columnName = "ena_oid", key = true)
 	private Long id;
 	/** Роль */
+	@JsonIgnore
 	@FieldMeta(columnName = "ena_rol_oid")
 	private Role role;
 	/** Тип сущности, на которую применяются права */
+	@JsonIgnore
 	@FieldMeta(columnName = "ena_ent_oid")
 	private EntityType entityType;
 
@@ -39,13 +46,16 @@ public class Grant implements HasId, Serializable {
 	private GrantRule delete;
 	/** Статус, начиная с которого можно редактировать экземпляр, но только, если
 	 * выставлено разрешение в поле {@link #update} */
+	@JsonIgnore
 	@FieldMeta(columnName = "ena_status_from_oid")
 	private EntityStatus statusFrom;
 	/** Статус, по который можно редактировать экземпляр, но только, если
 	 * выставлено разрешение в поле {@link #update} */
+	@JsonIgnore
 	@FieldMeta(columnName = "ena_status_to_oid")
 	private EntityStatus statusTo;
 
+	@JsonIgnore
 	@FieldMeta(columnName = "ena_cod_oid")
     private Folder folder;
 
