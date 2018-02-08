@@ -22,3 +22,7 @@ INSERT INTO rep_codes(rcd_oid, rcd_rcd_oid, rcd_codedisabled) VALUES
 (4,1,0);
 INSERT INTO rep_codes_text( rct_rcd_oid, rct_name, rct_lng_oid) VALUES
 ( 4, 'fchild3', 1049);
+INSERT INTO rep_codes(rcd_oid, rcd_rcd_oid, rcd_codedisabled) VALUES
+(5,4,0);
+INSERT INTO rep_codes_text( rct_rcd_oid, rct_name, rct_lng_oid) VALUES
+( 5, 'fchild31', 1049);

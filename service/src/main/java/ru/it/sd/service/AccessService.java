@@ -108,6 +108,10 @@ public class AccessService {
         entityAccess.setHistoryUpdate(GrantRule.NONE);
         entityAccess.setHistoryDelete(GrantRule.NONE);
 
+        filter.put("folderId", entity.getFolder().getId().toString());
+        List<BaseCode> parentFolders = codeChildsDao.list(filter);
+
+
         //Результат проверки прав доступа атрибутов
         Map<String, AttributeGrantRule> attributeAccessMap = new HashMap<>();
         //Цикл по всем правам доступа к сущности(ena)
@@ -116,8 +120,8 @@ public class AccessService {
             Boolean folder = true;
             //Проверка папки
             if(grant.getFolder() != null){
-                //Если это одна и та же папка или папка сущности является дочрней, то на сущность распостраняются права доступа grant
-                if(entity.getFolder() != null && Objects.equals(grant.getFolder().getId(),entity.getFolder().getId()) || isChildFolder(grant.getFolder(), entity.getFolder())){
+                //Если это одна и та же папка или папка из прав доступа является родительской по отношению к папке сущности, то на сущность распостраняются права доступа grant
+                if(entity.getFolder() != null && Objects.equals(grant.getFolder().getId(),entity.getFolder().getId()) || isParentFolder(parentFolders, grant.getFolder())){
                     folder = true;
                 }else {
                     folder = false;
@@ -195,24 +199,20 @@ public class AccessService {
     private Boolean statusIn(Grant grant, EntityStatus status){
         if(Objects.isNull(grant.getStatusFrom()) || Objects.isNull(grant.getStatusTo())) return true;
         if(Objects.isNull(status.getOrder()) || Objects.isNull(grant.getStatusFrom().getOrder()) || Objects.isNull(grant.getStatusTo().getOrder())) return false;
-        if((status.getOrder()>= grant.getStatusFrom().getOrder()) && (status.getOrder()<= grant.getStatusTo().getOrder()))
-            return true;
+        if((status.getOrder()>= grant.getStatusFrom().getOrder()) && (status.getOrder()<= grant.getStatusTo().getOrder())) return true;
         return false;
     }
 
-    /**
-     * Проверка является ли childFolder дочерней папкой parentFolder
-     * @param parentfolder родительская папка
-     * @param childFolder папка для проверки
-     * @return true если является дочерней, false если нет
+
+     /** Проверка является ли folder(папка из прав доступа) родительской папкой сущности
+     * @param parentCodes список родительских папок
+     * @param folder папка для проверки(из прав доступа)
+     * @return true если является родительской, false если нет
      */
-    private Boolean isChildFolder(Folder parentfolder, Folder childFolder){
-        if(Objects.isNull(parentfolder) || Objects.isNull(childFolder)) return false;
-        Map<String, String> filter = new HashMap<>();
-        filter.put("parentId", parentfolder.getId().toString());
-        List<BaseCode> baseCodes = codeChildsDao.list(filter);
-        for(BaseCode baseCode: baseCodes){
-            if(Objects.equals(baseCode.getId(),childFolder.getId())){
+    private Boolean isParentFolder(List<BaseCode> parentCodes, Folder folder){
+        if(parentCodes.isEmpty()) return false;
+        for(BaseCode baseCode: parentCodes){
+            if(Objects.equals(baseCode.getId(),folder.getId())){
                 return true;
             }
         }

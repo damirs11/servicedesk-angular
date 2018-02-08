@@ -30,10 +30,10 @@ public class CodeChildsDao extends AbstractEntityDao<BaseCode>{
 
 	String BASE_SQL =
 			"with %s folder(id) as(\n" +
-			"	SELECT rcd.rcd_oid FROM rep_codes rcd WHERE rcd.rcd_rcd_oid = :parentId\n" +
+			"	SELECT rcd.rcd_rcd_oid FROM rep_codes rcd WHERE rcd.rcd_oid = :folderId\n" +
 			"	UNION ALL\n" +
-			"	SELECT rcd.rcd_oid FROM rep_codes rcd\n" +
-			"	INNER JOIN folder ON folder.id = rcd.rcd_rcd_oid\n" +
+			"	SELECT rcd.rcd_rcd_oid FROM rep_codes rcd\n" +
+			"	INNER JOIN folder ON folder.id = rcd.rcd_oid\n" +
 			")\n" +
 			"SELECT " +
 					"rcd.rcd_oid id," +
@@ -61,11 +61,12 @@ public class CodeChildsDao extends AbstractEntityDao<BaseCode>{
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 		if (filter == null || filter.isEmpty() ||
-				!(filter.containsKey("id") || filter.containsKey("parentId"))) {
+				!(filter.containsKey("id") || filter.containsKey("folderId"))) {
 			throw new ServiceException(ResourceMessages.getMessage("error.dao.filter"));
 		}
-		if (filter.containsKey("parentId")) {
-			params.addValue("parentId", filter.get("parentId"));
+		//Получение всех родителей папки
+		if (filter.containsKey("folderId")) {
+			params.addValue("folderId", filter.get("folderId"));
 		}
 	}
 
