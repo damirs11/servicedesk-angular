@@ -5,6 +5,8 @@ HistoryLineProvider.$inject = ["Entity","SD"];
 function HistoryLineProvider(Entity,SD) {
     /**
      * Запись в истории
+     * Не имеет своих методов работы с REST они внедряются в сущности с помощью миксина
+     * @see ENTITY_MIXIN.Historyable
      * @class
      * @name SD.HistoryLine
      * @extends SD.Entity

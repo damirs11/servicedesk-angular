@@ -6,10 +6,12 @@ import {serializeId} from "./decorator/serialize-utils";
 FileInfoProvider.$inject = ["Entity", "SD", "Upload"];
 function FileInfoProvider(Entity, SD, Upload) {
     /**
-     * Информация о файле. Не имеет своего ID, поэтому кэшируется по fileId
      * @class
      * @extends SD.RESTEntity
      * @name SD.FileInfo
+     * Информация о файле. Не имеет своего ID, поэтому кэшируется по fileId
+     * Используется в основном для загрузки файла на сервер. В других случаях используется Attachment
+     * @see SD.Attachment
      */
     return class FileInfo extends Entity {
         /**

@@ -10,6 +10,8 @@ function ApprovalProvider(EditableEntity, SD) {
      * @class
      * @extends SD.EditableEntity
      * @name SD.Approval
+     * Имеет миксин, который внедряет в сущности методы для согласований
+     * @see ENTITY_MIXIN.Approvable
      */
     return class Approval extends EditableEntity {
         static $entityTypeId = 281478244794382;
