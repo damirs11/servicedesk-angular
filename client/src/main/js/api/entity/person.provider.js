@@ -91,13 +91,13 @@ function PersonProvider(EditableEntity, SD, AttachmentsHolder) {
             return this.fullName
         }
 
-        avatarAttachment;
-        loadingAvatar = false;
+        $avatarAttachment;
+        $loadingAvatar = false;
 
         get avatarPath(){
             if (this.avatarAttachment) return `rest/service/file/download?id=${this.avatarAttachment.id}`;
             // Если вложения все нет - асинхронно грузим его, а возвращаем дефолтную аватарку.
-            if (this.avatarAttachment === undefined && !this.loadingAvatar) this.$loadAvatarPath();
+            if (this.avatarAttachment === undefined && !this.$loadingAvatar) this.$loadAvatarAttachment();
 
             if (this.sex) {
                 return "/img/male-avatar.png";
@@ -108,15 +108,15 @@ function PersonProvider(EditableEntity, SD, AttachmentsHolder) {
             }
         }
 
-        async $loadAvatarPath(){
-            this.loadingAvatar = true;
+        async $loadAvatarAttachment(){
+            this.$loadingAvatar = true;
             const attachments = await this.getAttachments();
             if (!attachments || !attachments.length) {
                 this.avatarAttachment = null;
             } else {
                 this.avatarAttachment = attachments[0];
             }
-            this.loadingAvatar = false;
+            this.$loadingAvatar = false;
         }
     }
     return Person;
