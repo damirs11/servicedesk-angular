@@ -40,6 +40,10 @@ function EntityAccessProvider(Entity) {
             }, {});
         }) actionAccess;
 
+        /**
+         * Методы для общей логики
+         */
+
         canEditField(field) {
             return this.fieldAccess[field] && this.fieldAccess[field].canEdit
         }
@@ -49,7 +53,50 @@ function EntityAccessProvider(Entity) {
         }
 
         actionAllowed(action) {
-            return this.fieldAccess[action] && this.fieldAccess[action].allowed
+            return this.actionAccess[action] && this.actionAccess[action].allowed
+        }
+
+        /**
+         * Методы, облегчающие работу
+         */
+        get createEntityAllowed() {
+            return this.actionAccess["create"].allowed;
+        }
+        get readEntityAllowed() {
+            return this.actionAccess["read"].allowed;
+        }
+        get editEntityAllowed() {
+            return this.actionAccess["update"].allowed;
+        }
+        get deleteEntityAllowed() {
+            return this.actionAccess["delete"].allowed;
+        }
+
+        get createHistoryAllowed() {
+            return this.actionAccess["historyCreate"].allowed;
+        }
+        get readHistoryAllowed() {
+            return this.actionAccess["historyRead"].allowed;
+        }
+        get editHistoryAllowed() {
+            return this.actionAccess["historyUpdate"].allowed;
+        }
+        get deleteHistoryAllowed() {
+            return this.actionAccess["historyDelete"].allowed;
+        }
+
+        get readApprovalAllowed() {
+            return this.fieldAccess["approval"].canSee;
+        }
+        get editApprovalAllowed() {
+            return this.fieldAccess["approval"].canEdit;
+        }
+
+        get readAttachmentsAllowed() {
+            return this.fieldAccess["attachment"].canSee;
+        }
+        get editAttachmentsAllowed() {
+            return this.fieldAccess["attachment"].canEdit;
         }
 
     };
