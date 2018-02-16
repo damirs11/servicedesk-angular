@@ -56,7 +56,7 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 		Long assigneePersonId = DBUtils.getLong(rs,"ass_per_to_oid");
 		if (assigneePersonId != null){
 			Person assigneePerson = personDao.read(assigneePersonId);
-			workorder.setAssigneePerson(assigneePerson);
+			workorder.setExecutor(assigneePerson);
 		}
 		Long changeId = DBUtils.getLong(rs,"wor_cha_oid");
 		if (changeId != null){
@@ -66,7 +66,7 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
         Long workgroupId = DBUtils.getLong(rs,"ass_workgroup");
         if (workgroupId != null){
             Workgroup workgroup = workgroupDao.read(workgroupId);
-            workorder.setAssWorkgroup(workgroup);
+            workorder.setWorkgroup(workgroup);
         }
 
 		return workorder;

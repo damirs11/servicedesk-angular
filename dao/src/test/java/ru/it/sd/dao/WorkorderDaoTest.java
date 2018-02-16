@@ -42,7 +42,7 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 		secondFilter.put("initiator", "2");
 		Map<String, String> thirdFilter = new HashMap<>();
 		thirdFilter.put("initiator", "1");
-		thirdFilter.put("assigneePerson", "2");
+		thirdFilter.put("executor", "2");
 
 		List<Workorder> workorders = dao.list(firstFilter);
 		assertEquals(workorders.size(),2);
@@ -50,7 +50,7 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 		assertEquals(workorders.size(),1);
 		workorders = dao.list(thirdFilter);
 		assertEquals(workorders.size(),1);
-		assertNotNull(workorders.get(0).getAssigneePerson());
+		assertNotNull(workorders.get(0).getExecutor());
 
 		Map<String, String> byChangeFilter = new HashMap<>();
 		byChangeFilter.put("change_like", "111222");
