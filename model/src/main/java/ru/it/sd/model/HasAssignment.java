@@ -1,13 +1,13 @@
 package ru.it.sd.model;
 
 /**
- * Интерфейс для объектов с идентификаторами
+ * Интерфейс для сущностей с назначением(исполнителем и группой исполнителей)
  *
  * @author quadrix
  * @since 02.08.2016
  */
 
-public interface Entity extends HasId,HasStatus{
+public interface HasAssignment {
 
 	Person getExecutor();
 
@@ -17,7 +17,4 @@ public interface Entity extends HasId,HasStatus{
 
 	void setWorkgroup(Workgroup workgroup);
 
-	Folder getFolder();
-
-	void setFolder(Folder folder);
 }

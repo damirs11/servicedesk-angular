@@ -15,7 +15,7 @@ import java.util.Date;
  * @since 03.05.2017
  */
 @ClassMeta(tableName = "itsm_changes", tableAlias ="ch")
-public class Change implements Entity, Serializable {
+public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Serializable {
 
 	private static final long serialVersionUID = -857993162919153346L;
 

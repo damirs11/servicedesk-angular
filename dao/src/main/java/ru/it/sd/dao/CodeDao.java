@@ -28,20 +28,6 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 		this.dbUtils = dbUtils;
 	}
 
-	String CHILDS_SQL =
-		"with %s folder_rep(id) as(\n" +
-		"	SELECT rcd.rcd_oid FROM rep_codes rcd WHERE rcd.rcd_rcd_oid = :parentId\n" +
-		"	UNION ALL\n" +
-		"	SELECT rcd.rcd_oid FROM rep_codes rcd\n" +
-		"	INNER JOIN folder_rep ON folder_rep.id = rcd.rcd_rcd_oid\n" +
-		"),\n"+
-		"folder_cod(id) as(\n" +
-		"	SELECT cod.COD_OID FROM ITSM_CODES cod WHERE cod.COD_cod_OID = :parentId\n" +
-		"	UNION ALL\n" +
-		"	SELECT cod.COD_OID FROM ITSM_CODES cod\n" +
-		"	INNER JOIN folder_cod ON folder_cod.id = cod.COD_cod_OID\n" +
-		")\n";
-
 	String BASE_SQL =
 		"SELECT id, name, ordering FROM\n" +
 		"(SELECT\n" +
@@ -77,7 +63,7 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 		if (filter == null || filter.isEmpty() ||
-				!(filter.containsKey("id") || filter.containsKey("subtype")|| filter.containsKey("parentId"))) {
+				!(filter.containsKey("id") || filter.containsKey("subtype")|| filter.containsKey("codeId"))) {
 			throw new ServiceException(ResourceMessages.getMessage("error.dao.filter"));
 		}
 		super.buildWhere(filter, sql, params);
@@ -85,11 +71,10 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 			params.addValue("subtype", filter.get("subtype"));
 			sql.append(" AND subtype = :subtype");
 		}
-
-		if (filter.containsKey("parentId")) {
-			sql.insert(0, String.format(CHILDS_SQL, dbUtils.isTest() ? "recursive" : "", dbUtils.isTest() ? "recursive" : ""));
-			params.addValue("parentId", filter.get("parentId"));
-			sql.append(" AND code.id in (SELECT folder_rep.id FROM folder_rep UNION SELECT folder_cod.id FROM folder_cod)");
+		//Получение списка родительских кодов + codeId
+		if (filter.containsKey("codeId")) {
+			params.addValue("codeId", filter.get("codeId"));
+			sql.append(" AND code.id in (select id from SdGetRepCodes(:codeId, 1))");
 		}
 	}
 

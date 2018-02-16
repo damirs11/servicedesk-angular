@@ -89,13 +89,13 @@ public class SecurityRestController extends AbstractController{
 	public Map<String, Object> entityGrants(@PathVariable String entity, @PathVariable long id) {
 		Map<String, Object> access = new HashMap<>();
 		HasId obj = readServiceHolder.findFor(entity).read(id);
-		if(obj instanceof Entity){
-			Pair<Grant, Map<String, AttributeGrantRule>> result = accessService.getEntityAccess((Entity)obj);
+		if(obj instanceof HasFolder){
+			Pair<Grant, Map<String, AttributeGrantRule>> result = accessService.getEntityAccess((HasFolder) obj);
 			access.put("entity",result.getLeft());
 			access.put("attributes",result.getRight());
 			return access;
 		} else{
-			throw new BadRequestException("Сущность не является классом наследником Entity");
+			throw new BadRequestException("Сущность не реализует интерфейс HasFolder");
 		}
 	}
 }

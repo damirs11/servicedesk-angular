@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ApprovalDao;
 import ru.it.sd.hp.IApprovalDao;
 import ru.it.sd.model.Approval;
-import ru.it.sd.model.EntityStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -35,9 +34,7 @@ public class ApprovalService extends CrudService<Approval> {
 
     @Override
     public Approval update(Approval entity) {
-        if(entity.getStatus() == null || entity.getStatus().getId() == APPROVAL_PREPARING_STATUS) {
-            iApprovalDao.update(entity);
-        }
+        iApprovalDao.update(entity);
         return read(entity.getId());
     }
 
