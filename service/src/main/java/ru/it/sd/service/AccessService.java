@@ -175,6 +175,28 @@ public class AccessService {
     }
 
     /**
+     * Определяет есть ли права на чтение и создание по типу сущности
+     * @param entityType тип сущности
+     * @return {@link Grant} права на чтение и создание
+     */
+    public Grant getAccess(EntityType entityType){
+        User user = securityService.getCurrentUser();
+        Long accountId = user.getId();
+        Grant grant = new Grant();
+        Map<String, String> filter = new HashMap<>();
+        filter.put("entityId", entityType.getId().toString());
+        filter.put("accountId",accountId.toString());
+        filter.put("read", "");
+        //На чтение
+        Integer grantsCount = grantDao.count(filter);
+        if(grantsCount > 0) grant.setRead(GrantRule.ALWAYS);
+        filter.put("create", "");
+        //На чтение и создание
+        grantsCount = grantDao.count(filter);
+        if(grantsCount > 0) grant.setCreate(GrantRule.ALWAYS);
+        return grant;
+    }
+    /**
      * Проставление прав на чтение
      * @param entityAccess конечные права доступа сущности
      * @param grant права доступа, которые проверяем

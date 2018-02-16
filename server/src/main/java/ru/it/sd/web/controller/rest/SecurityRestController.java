@@ -10,6 +10,7 @@ import ru.it.sd.model.*;
 import ru.it.sd.service.AccessService;
 import ru.it.sd.service.SecurityService;
 import ru.it.sd.service.holder.ReadServiceHolder;
+import ru.it.sd.util.EntityUtils;
 import ru.it.sd.util.ResourceMessages;
 
 import javax.servlet.http.HttpServletRequest;
@@ -84,6 +85,12 @@ public class SecurityRestController extends AbstractController{
 		request.getSession(true);
 	}
 
+	/**
+	 * Получение прав доступа к конкретной сущности (общие права и атрибуты)
+	 * @param entity тип сущности
+	 * @param id сущности
+	 * @return Map с общими правами entity:{@link Grant} и List с правами для атрибутов
+	 */
 	@RequestMapping(value = "access/{entity}/{id}", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public Map<String, Object> entityGrants(@PathVariable String entity, @PathVariable long id) {
@@ -94,6 +101,24 @@ public class SecurityRestController extends AbstractController{
 			access.put("entity",result.getLeft());
 			access.put("attributes",result.getRight());
 			return access;
+		} else{
+			throw new BadRequestException("Сущность не реализует интерфейс HasFolder");
+		}
+	}
+
+	/**
+	 * Получение прав доступа к конкретной сущности (общие права и атрибуты)
+	 * @param entity тип сущности
+	 * @return общие права сущности на чтение и создание {@link Grant}
+	 */
+	@RequestMapping(value = "access/{entity}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public Grant entityGrant(@PathVariable String entity) {
+		Class clazz = EntityUtils.getEntityClass(entity);
+		EntityType entityType = EntityType.getByClass(clazz);
+
+		if(HasFolder.class.isAssignableFrom(clazz)){
+			return accessService.getAccess(entityType);
 		} else{
 			throw new BadRequestException("Сущность не реализует интерфейс HasFolder");
 		}

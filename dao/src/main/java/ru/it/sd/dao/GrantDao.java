@@ -75,5 +75,12 @@ public class GrantDao extends AbstractEntityDao<Grant> {
             params.addValue("accountId", filter.get("accountId"));
             sql.append(" AND ena_rol_oid in (SELECT DISTINCT t.id FROM rep_roles_per_account ra CROSS APPLY SdGetRoles(ra.rpa_rol_oid, 0) t WHERE ra.rpa_acc_oid = :accountId)");
         }
+		if(filter.containsKey("read")){
+			sql.append(" AND ((ena_view + ena_viewasnuser + ena_viewasnwg) > 0)");
+		}
+		if(filter.containsKey("create")){
+			sql.append(" AND (ena_new > 0)");
+		}
+
 	}
 }
