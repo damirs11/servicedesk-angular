@@ -260,3 +260,15 @@ CREATE TABLE rep_attribute_access (
   ata_modify DECIMAL(1),
   ata_ena_oid DECIMAL(18)
 );
+
+CREATE TABLE rep_templates (
+  tem_oid DECIMAL(18),
+  tem_name VARCHAR(50),
+  tem_ent_oid DECIMAL(18),
+  tem_rcd_oid DECIMAL(18)
+);
+CREATE TABLE rep_template_access (
+  tac_oid DECIMAL(18),
+  tac_tem_oid DECIMAL(18),
+  tac_rol_oid DECIMAL(18)
+);
