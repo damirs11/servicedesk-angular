@@ -18,16 +18,22 @@
             </div>
             <div class="entity-container__content entity-container__header">
                 <nav class="nav nav-pills nav-justified">
-                    <!--<li>-->
-                        <!--<a data-ui-sref="app.change.list"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>-->
-                    <!--</li>-->
-                    <li data-ui-sref-active="active" data-ng-repeat="$item in ctrl.childStates">
-                        <a data-ui-sref="app.change.card.{{$item.path}}" ng-bind="$item.name"></a>
+                    <li data-ui-sref-active="active">
+                        <a data-ui-sref="app.change.card.view">Просмотр</a>
+                    </li>
+                    <li data-ui-sref-active="active" data-ng-if="!ctrl.change.entityAccessWWW.readHistoryAllowed">
+                        <a data-ui-sref="app.change.card.history">История</a>
+                    </li>
+                    <li data-ui-sref-active="active" data-ng-if="!ctrl.change.entityAccessWWW.readApprovalAllowed">
+                        <a data-ui-sref="app.change.card.approval">Согласование</a>
+                    </li>
+                    <li data-ui-sref-active="active" data-ng-if="!ctrl.change.entityAccessWWW.readAttachmentsAllowed">
+                        <a data-ui-sref="app.change.card.attachments">Вложения</a>
                     </li>
                 </nav>
             </div>
         </div>
-        <!-- Body. View / history / approval / etc.-->
+        <!-- Body of view / history / approval / etc.-->
         <ui-view class="entity-card-body"></ui-view>
     </content>
 
@@ -46,6 +52,19 @@
                     чтобы найти нужное изменение
                 </div>
             </div>
+
+            <div class="panel panel-danger" data-ng-if="ctrl.errorReadDisallowed">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-ban-circle"></span>
+                        Ошибка доступа
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    У вас нет прав на просмотр данного изменения
+                </div>
+            </div>
+
             <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsCustom">
                 <div class="panel-heading">
                     <h3 class="panel-title">

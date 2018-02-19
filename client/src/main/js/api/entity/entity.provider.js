@@ -84,7 +84,7 @@ function EntityProvider(cache) {
         /**
          * Обновить объект в кэше.
          * Кэш обновляется с помощью методов, которые добавляет @Parse
-         * @see @Parse
+         * @see Parse
          * @param {object} data - json данные
          * @chain
          */
@@ -106,6 +106,20 @@ function EntityProvider(cache) {
                 const parse = mapDescriptor.parse;
                 const result = parse.call(cached,value,data,key,cached);
                 if (result !== undefined) cached[mapDescriptor.propertyName] = result;
+            }
+            return this;
+        }
+
+        /**
+         * Обновляет кэш объекта, без использовать @Parse
+         * Подставляет все данные из map в объект кэша
+         * @param map
+         * @chain
+         */
+        $updateRaw(map){
+            const cached = this.$data;
+            for (let key in map) {
+                cached[key] = map[key];
             }
             return this;
         }

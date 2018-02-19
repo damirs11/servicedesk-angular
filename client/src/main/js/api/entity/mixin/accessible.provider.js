@@ -8,28 +8,21 @@ function AccessibleProvider($connector, SD) {
     return class Accessible {
 
         /**
-         * В сущностях будет поле permissions
          * @type SD.EntityAccess
          */
-        _entityAccess;
-
-        async getEntityAccess(){
-            if (this._entityAccess) return this._entityAccess;
-            this._entityAccess = await this.loadEntityAccess();
-            return this._entityAccess
-        }
+        entityAccess;
 
 
         /**
          * Подгружает права доступа к сущности.
          * @returns {SD.EntityAccess}
          */
-        async loadEntityAccess(){
+        async updateEntityAccess(){
             const entityAccessData = await $connector.get(
                 `rest/service/security/access/${this.constructor.$entityType}/${this.id}`
             );
             entityAccessData["id"] = this.id; // Чтобы сущность кэшировалась; см. док к классу EntityAccess
-            return SD.EntityAccess.parse(entityAccessData);
+            this.$updateRaw({entityAccess:SD.EntityAccess.parse(entityAccessData)});
         }
 
 

@@ -9,6 +9,7 @@ class ChangeCardController {
     busy;
     /**
      * Ошибка при загрузке
+     * Или ошибка прав
      * @type {Error}
      */
     loadingError;
@@ -39,6 +40,7 @@ class ChangeCardController {
 
     async loadData(){
         await this.$loadChange();
+        await this.$loadAccess();
         await this.$loadStatuses();
     }
 
@@ -51,28 +53,44 @@ class ChangeCardController {
     }
 
     get loadingErrorIsNotFound(){
-        return this.loadingError.status === 404;
+        return this.loadingError && this.loadingError.status === 404;
     }
 
     get loadingErrorIsServerOffline(){
-        return this.loadingError.status === -1;
+        return this.loadingError && this.loadingError.status === -1;
+    }
+
+    get errorReadDisallowed(){
+        return this.loadingError && this.loadingError.reason == "readDisallowed"
     }
 
     get loadingErrorIsCustom(){
         return !this.loadingErrorIsNotFound &&
-            !this.loadingErrorIsServerOffline
-            ;
+            !this.loadingErrorIsServerOffline &&
+            !this.errorReadDisallowed
+        ;
+    }
+
+    async $loadAccess() {
+        try {
+            await this.change.updateEntityAccess();
+        } catch (error) {
+            this.loadingError = error || true;
+            throw error;
+        }
+        if (!this.change.entityAccess.readEntityAllowed) {
+            this.loadingError = {reason: "readDisallowed"};
+            throw this.loadingError
+        }
     }
 
     async $loadChange(){
-        if (this.busy) throw new Error("Controller is busy " + this.busy);
         try {
             this.busy = "loading";
-            this.change = await  new this.SD.Change(this.changeId).load();
+            this.change = await new this.SD.Change(this.changeId).load();
         } catch (error) {
             this.loadingError = error || true;
-        } finally {
-            this.busy = null;
+            throw error;
         }
     }
 }
