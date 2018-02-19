@@ -51,7 +51,8 @@ CREATE TABLE itsm_changes (
   cha_apt_nrofapproversrequired DECIMAL(18),
   cha_apt_wog_oid DECIMAL(18),
   cha_closurecode DECIMAL(18),
-  cha_poo_oid DECIMAL(18)
+  cha_poo_oid DECIMAL(18),
+  cha_initiator_per_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_cha_information (
@@ -81,7 +82,8 @@ CREATE TABLE itsm_workorders (
   wor_apt_nrofapprovers DECIMAL(18),
   wor_apt_nrofapproversapproved DECIMAL(18),
   wor_apt_nrofapproversrequired DECIMAL(18),
-  wor_apt_wog_oid DECIMAL(18)
+  wor_apt_wog_oid DECIMAL(18),
+  wor_initiator_per_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_wor_information (

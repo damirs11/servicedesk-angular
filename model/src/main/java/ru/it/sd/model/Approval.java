@@ -23,6 +23,10 @@ public class Approval implements HasId, HasStatus, Serializable {
     @FieldMeta(columnName = "id")
     private Long id;
 
+    /*Инициатор согласования*/
+    @FieldMeta(columnName = "initiator")
+    private Person initiator;
+
     /* Статус согласования*/
     @FieldMeta(columnName = "apt_status")
     private EntityStatus status;
@@ -128,6 +132,14 @@ public class Approval implements HasId, HasStatus, Serializable {
 
     public void setEntityType(EntityType entityType) {
         this.entityType = entityType;
+    }
+
+    public Person getInitiator() {
+        return initiator;
+    }
+
+    public void setInitiator(Person initiator) {
+        this.initiator = initiator;
     }
 
     @Override

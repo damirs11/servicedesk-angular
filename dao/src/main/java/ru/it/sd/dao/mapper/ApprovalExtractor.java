@@ -3,13 +3,10 @@ package ru.it.sd.dao.mapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.CodeDao;
+import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.WorkgroupDao;
 import ru.it.sd.dao.utils.DBUtils;
-import ru.it.sd.model.Approval;
-import ru.it.sd.model.BaseCode;
-import ru.it.sd.model.EntityStatus;
-import ru.it.sd.model.EntityType;
-import ru.it.sd.model.Workgroup;
+import ru.it.sd.model.*;
 import ru.it.sd.util.EntityUtils;
 
 import java.sql.ResultSet;
@@ -28,10 +25,12 @@ public class ApprovalExtractor extends EntityRowMapper<Approval> {
 
 	private final WorkgroupDao workgroupDao;
 	private final CodeDao codeDao;
+	private final PersonDao personDao;
 
-	public ApprovalExtractor(WorkgroupDao workgroupDao, CodeDao codeDao) {
+	public ApprovalExtractor(WorkgroupDao workgroupDao, CodeDao codeDao, PersonDao personDao) {
 		this.workgroupDao = workgroupDao;
 		this.codeDao = codeDao;
+		this.personDao = personDao;
 	}
 
 	@Override
@@ -41,6 +40,12 @@ public class ApprovalExtractor extends EntityRowMapper<Approval> {
 
 		while(rs.next()){
 			Approval approval = super.mapRow(rs, 0);
+
+			Long initiatorId = DBUtils.getLong(rs, "initiator");
+			if(initiatorId != null) {
+				Person initiator = personDao.read(initiatorId);
+				approval.setInitiator(initiator);
+			}
 
 			Long statusId = DBUtils.getLong(rs, "apt_status");
 			if(statusId != null) {
