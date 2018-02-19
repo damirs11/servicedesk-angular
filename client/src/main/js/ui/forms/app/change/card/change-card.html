@@ -2,7 +2,7 @@
 
     <content style="display: block; height: 100%">
         <!-- Card header -->
-        <div class="entity-card-header">
+        <div class="entity-card-header" style="width: 100%">
             <div class="entity-container__content entity-container__header">
                 <a data-ui-sref="app.change.list" style="margin-right: 10px">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -21,13 +21,13 @@
                     <li data-ui-sref-active="active">
                         <a data-ui-sref="app.change.card.view">Просмотр</a>
                     </li>
-                    <li data-ui-sref-active="active" data-ng-if="!ctrl.change.entityAccessWWW.readHistoryAllowed">
+                    <li data-ui-sref-active="active" ng-show="ctrl.change.entityAccess.readHistoryAllowed">
                         <a data-ui-sref="app.change.card.history">История</a>
                     </li>
-                    <li data-ui-sref-active="active" data-ng-if="!ctrl.change.entityAccessWWW.readApprovalAllowed">
+                    <li data-ui-sref-active="active" ng-show="ctrl.change.entityAccess.readApprovalAllowed">
                         <a data-ui-sref="app.change.card.approval">Согласование</a>
                     </li>
-                    <li data-ui-sref-active="active" data-ng-if="!ctrl.change.entityAccessWWW.readAttachmentsAllowed">
+                    <li data-ui-sref-active="active" ng-show="ctrl.change.entityAccess.readAttachmentsAllowed">
                         <a data-ui-sref="app.change.card.attachments">Вложения</a>
                     </li>
                 </nav>
@@ -38,45 +38,49 @@
     </content>
 
     <error>
-        <div class="container" style="padding-top: 200px; text-align: center">
-            <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsNotFound">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                        Изменение не найдено
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    Перейдите к
-                    <a data-ui-sref="app.change.list">списку изменений</a>,
-                    чтобы найти нужное изменение
-                </div>
-            </div>
 
-            <div class="panel panel-danger" data-ng-if="ctrl.errorReadDisallowed">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                        Ошибка доступа
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    У вас нет прав на просмотр данного изменения
-                </div>
-            </div>
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsNotFound">
+            <header class="head entity-error__header__text">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Изменение не найдено
+            </header>
+            <message class="body entity-error__body__text">
+                Перейдите к
+                <a data-ui-sref="app.change.list">списку изменений</a>,
+                чтобы найти нужное изменение
+            </message>
+        </sd-entity-error>
 
-            <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsCustom">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                        Возникла непредвиденная ошибка
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <span data-ng-bind="ctrl.loadingError"></span>
-                </div>
-            </div>
-        </div>
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsReadDisallowed">
+            <header class="head entity-error__header__text">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Ошибка доступа
+            </header>
+            <message class="body entity-error__body__text">
+                У вас нет прав на просмотр данного изменения
+            </message>
+        </sd-entity-error>
+
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsServerOffline">
+            <header class="head entity-error__header__text">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Сервер недоступен.
+            </header>
+            <message class="body entity-error__body__text">
+                Нет соединения с сервером. Попробуйте повторить попытку позже.
+            </message>
+        </sd-entity-error>
+
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsCustom">
+            <header class="head entity-error__header__text">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Возникла непредвиденная ошибка
+            </header>
+            <message class="body entity-error__body__text">
+                <span data-ng-bind="ctrl.loadingError"></span>
+            </message>
+        </sd-entity-error>
+
     </error>
 
 </div>

@@ -54,6 +54,7 @@ import {SDUploadingFileComponent} from "./components/widget/sd-attachments/sd-up
 import {SDLoadingDirective} from "./components/directives/sd-loading/sd-loading.directive";
 import {AutoHeightDirective} from "./components/directives/auto-height.directive";
 import {PageLockFactory} from "./components/page-lock.factory";
+import {SDEntityErrorDirective} from "./components/widget/sd-entity-error/sd-entity-error.directive";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -93,6 +94,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .directive("sdOnInteractOut",SDOnInteractOutDirective)
     .directive("sdLoading",SDLoadingDirective)
     .directive("autoHeight",AutoHeightDirective)
+    .directive("sdEntityError",SDEntityErrorDirective)
 
     /** Компоненты для редактируемых полей */
     .component("sdText", SDTextComponent)

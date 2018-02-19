@@ -60,14 +60,14 @@ class ChangeCardController {
         return this.loadingError && this.loadingError.status === -1;
     }
 
-    get errorReadDisallowed(){
+    get loadingErrorIsReadDisallowed(){
         return this.loadingError && this.loadingError.reason == "readDisallowed"
     }
 
     get loadingErrorIsCustom(){
         return !this.loadingErrorIsNotFound &&
             !this.loadingErrorIsServerOffline &&
-            !this.errorReadDisallowed
+            !this.loadingErrorIsReadDisallowed
         ;
     }
 
