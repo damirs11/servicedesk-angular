@@ -1,30 +1,36 @@
+import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
+
+const ERROR_HISTORY_READ_DISALLOWED = Symbol("ERROR_HISTORY_READ_DISALLOWED");
+
+@NGInjectClass()
 class ChangeCardHistoryController{
+    @NGInject() $scope;
+    @NGInject() SD;
+    @NGInject() changeId;
+    @NGInject() $grid;
     /**
      * Пустое значение
      * @type {string}
      */
     emptyValue = "- нет -";
-
+    /**
+     * Промис загрузки данных
+     */
     fetchPromise;
 
-    static $inject = ["$scope","SD","changeId","$grid"];
-    constructor($scope, SD, changeId, $grid){
-        this.$scope = $scope;
-        this.SD = SD;
-        this.changeId = changeId;
-        this.$grid = $grid;
-    }
 
     $onInit() {
         const change = this.change = new this.SD.Change(this.changeId);
+        if (!this.change.entityAccess.readHistoryAllowed) return;
         const grid = this.grid = new this.$grid.HistoryGrid(this.$scope,this.SD,change);
         this.$scope.$on("grid:fetch",::this.$onTableFetch);
         grid.fetchData();
     }
 
+
     $onTableFetch(ignored,event) {
         if (this.fetchPromise != null) return;
-        this.fetchPromise = event.fetchPromise;
+        this.fetchPromise = event.fetchPromise
     }
 }
 

@@ -1,4 +1,4 @@
-<div sd-loading="ctrl.loadingPromise">
+<div sd-loading="ctrl.loadingPromise" ng-if="ctrl.change.entityAccess.readApprovalAllowed">
     <content>
         <div class="entity-container" style="height: 100%; font-size: 12px">
 
@@ -49,9 +49,24 @@
             </div>
 
             <div class="entity-container__content">
-                <a class="btn btn-default" data-ng-if="!ctrl.editing" data-ng-click="ctrl.startEditing()">Редактировать</a>
-                <button class="btn btn-success" data-ng-if="ctrl.editing" data-ng-disabled="!ctrl.approval.checkModified()" data-ng-click="ctrl.saveEditing()">Сохранить</button>
-                <button class="btn btn-default" data-ng-if="ctrl.editing" data-ng-click="ctrl.cancelEditing()">Отмена</button>
+                <div style="display: inline-block" data-ng-if="ctrl.change.entityAccess.editApprovalAllowed">
+                <button class="btn btn-default"
+                        data-ng-if="!ctrl.editing"
+                        data-ng-click="ctrl.startEditing()">
+                    Редактировать
+                </button>
+                <button class="btn btn-success"
+                        data-ng-if="ctrl.editing"
+                        data-ng-disabled="!ctrl.approval.checkModified()"
+                        data-ng-click="ctrl.saveEditing()">
+                    Сохранить
+                </button>
+                <button class="btn btn-default"
+                        data-ng-if="ctrl.editing"
+                        data-ng-click="ctrl.cancelEditing()">
+                    Отмена
+                </button>
+                </div>
             </div>
 
             <div class="entity-container__content sd-approval-grid">
@@ -63,3 +78,13 @@
         </div>
     </content>
 </div>
+
+<sd-entity-error ng-hide="ctrl.change.entityAccess.readApprovalAllowed">
+    <header class="head entity-error__header__text">
+        <span class="glyphicon glyphicon-ban-circle"></span>
+        Ошибка доступа
+    </header>
+    <message class="body entity-error__body__text">
+        У вас нет прав на просмотр согласования.
+    </message>
+</sd-entity-error>

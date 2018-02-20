@@ -1,4 +1,4 @@
-<div sd-loading="ctrl.fetchPromise">
+<div sd-loading="ctrl.fetchPromise" ng-if="ctrl.change.entityAccess.readHistoryAllowed">
     <content style="display: block; height: 563px" >
         <div class="entity-container" style="font-size: 12px" >
             <div class="entity-container__content" style="padding: 0; min-width: 100%">
@@ -13,3 +13,13 @@
         </div>
     </content>
 </div>
+
+<sd-entity-error ng-hide="ctrl.change.entityAccess.readHistoryAllowed">
+    <header class="head entity-error__header__text">
+        <span class="glyphicon glyphicon-ban-circle"></span>
+        Ошибка доступа
+    </header>
+    <message class="body entity-error__body__text">
+        У вас нет прав на просмотр истории.
+    </message>
+</sd-entity-error>

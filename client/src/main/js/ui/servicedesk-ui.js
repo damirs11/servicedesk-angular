@@ -45,7 +45,6 @@ import {SDAvatarComponent} from "./components/widget/sd-avatar/sd-avatar.compone
 import {ChatLineComponent} from "./components/widget/sd-entity-chat/chat-line/chat-line.component";
 import {ChatInfoBlockComponent} from "./components/widget/sd-entity-chat/chat-line/chat-info-block/chat-info-block.component";
 import {ChatInputComponent} from "./components/widget/sd-entity-chat/chat-input/chat-input.component";
-import {SDApprovalComponent} from "./components/widget/sd-approval/sd-approval.component";
 import {SDNumberComponent} from "./components/fields/sd-number/sd-number.component";
 import {SDAttachmentsComponent} from "./components/widget/sd-attachments/sd-attachments.component";
 import {SDAttachmentItemComponent} from "./components/widget/sd-attachments/sd-attachment-item/sd-attachment-item.component";
@@ -110,8 +109,6 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .component("chatInfoBlock",ChatInfoBlockComponent)
     .component("chatInput",ChatInputComponent)
     .component("sdEntityChat",SDEntityChatComponent)
-    /** Согласование */
-    .component("sdApproval",SDApprovalComponent)
     /** Вложения */
     .component("sdAttachments",SDAttachmentsComponent)
     .component("sdAttachmentItem",SDAttachmentItemComponent)
