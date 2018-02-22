@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Created by user on 22.07.2017.
  */
 @ClassMeta(tableName = "rep_templates", tableAlias = "tem")
-public class Template implements HasId, Serializable {
+public class Template implements HasId,HasFolder, Serializable {
 
 
     private static final long serialVersionUID = -2169656457023869007L;
@@ -59,10 +59,11 @@ public class Template implements HasId, Serializable {
         this.entityType = entityType;
     }
 
+    @Override
     public Folder getFolder() {
         return folder;
     }
-
+    @Override
     public void setFolder(Folder folder) {
         this.folder = folder;
     }

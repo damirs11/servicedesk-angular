@@ -52,7 +52,8 @@ CREATE TABLE itsm_changes (
   cha_apt_wog_oid DECIMAL(18),
   cha_closurecode DECIMAL(18),
   cha_poo_oid DECIMAL(18),
-  cha_initiator_per_oid DECIMAL(18)
+  cha_initiator_per_oid DECIMAL(18),
+  cha_tem_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_cha_information (

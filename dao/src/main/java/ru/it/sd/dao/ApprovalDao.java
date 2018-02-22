@@ -12,7 +12,7 @@ import ru.it.sd.model.Workorder;
 import java.util.List;
 
 /**
- * Дао для работы с изменениями
+ * Дао для работы с согласованием
  *
  * @author quadrix
  * @since 28.04.2017

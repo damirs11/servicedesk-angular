@@ -34,21 +34,22 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 		"	cod.cod_oid id,\n" +
 		"	cdl.cdl_name name,\n" +
 		"	cod.cod_subtype subtype,\n" +
+		"	cod.cod_disabled disabled,\n" +
 		"	cod.cod_ordering ordering\n" +
 		"FROM\n" +
 		"	itsm_codes cod\n" +
 		"	LEFT JOIN itsm_codes_locale cdl ON (cdl.cdl_cod_oid = cod.cod_oid AND cdl.cdl_lng_oid = 1049)\n" +
-		"WHERE cod.cod_disabled = 0\n" +
 		"UNION ALL\n" +
 		"SELECT\n" +
 		"	rcd.rcd_oid id,\n" +
 		"	rct.rct_name name,\n" +
 		"	rcd.rcd_subtype subtype,\n" +
+		"	rcd.rcd_codedisabled disabled,\n" +
 		"	rcd.rcd_ordering ordering\n" +
 		"FROM\n" +
 		"	rep_codes rcd\n" +
 		"	LEFT JOIN rep_codes_text rct ON (rct.rct_rcd_oid = rcd.rcd_oid AND rct.rct_lng_oid = 1049)\n" +
-		"WHERE rcd.rcd_codedisabled = 0) code\n";
+		") code\n";
 
 	@Override
 	protected StringBuilder getBaseSql() {
@@ -67,6 +68,7 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 			throw new ServiceException(ResourceMessages.getMessage("error.dao.filter"));
 		}
 		super.buildWhere(filter, sql, params);
+		sql.append(" AND code.disabled = 0");
 		if (filter.containsKey("subtype")) {
 			params.addValue("subtype", filter.get("subtype"));
 			sql.append(" AND subtype = :subtype");

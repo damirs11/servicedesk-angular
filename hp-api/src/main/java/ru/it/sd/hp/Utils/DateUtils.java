@@ -29,4 +29,16 @@ public class DateUtils {
             throw new IllegalArgumentException("Can not get SD date");
         }
     }
+
+    public static Date toJavaDate(Double date){
+        if (date == null) return null;
+        try {
+            Field f_date_calc = SdClientBean.class.getDeclaredField("date_calc");
+            Method m_sd_date2java_date = f_date_calc.getType().getDeclaredMethod("sd_date2java_date", Double.class);
+            m_sd_date2java_date.setAccessible(true);
+            return (Date) m_sd_date2java_date.invoke(null, date);
+        } catch (Exception e) {
+            throw new RuntimeException("can't get java date",e);
+        }
+    }
 }

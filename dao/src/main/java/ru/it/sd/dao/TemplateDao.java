@@ -45,7 +45,7 @@ public class TemplateDao extends AbstractEntityDao<Template>{
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 		if (filter == null || filter.isEmpty() ||
-				!(filter.containsKey("id") || filter.containsKey("entityId"))) {
+				!(filter.containsKey("id") || filter.containsKey("entityId") || filter.containsKey("accountId"))) {
 			throw new ServiceException(ResourceMessages.getMessage("error.dao.filter"));
 		}
 		super.buildWhere(filter, sql, params);
