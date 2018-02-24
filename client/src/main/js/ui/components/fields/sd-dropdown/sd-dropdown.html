@@ -1,5 +1,5 @@
 <!--Режим редактирования-->
-<div data-ng-if="ctrl.editing" class="sd-dropdown">
+<div data-ng-if="ctrl.editing && !ctrl.disabled" class="sd-dropdown">
     <ui-select
                ng-model="ctrl.selectedValue"
                on-select="ctrl.onSelect($item,$model)"
@@ -15,6 +15,20 @@
             <div ng-bind-html="ctrl.display($value) | highlight: $select.search"></div>
         </ui-select-choices>
     </ui-select>
+</div>
+
+<!--Режим редактирования-->
+<div data-ng-if="ctrl.editing && ctrl.disabled" class="sd-dropdown">
+
+    <div class="ui-select-container ui-select-bootstrap" disabled="disabled">
+        <div class="ui-select-match ng-scope" disabled="disabled">
+            <span tabindex="-1" class="form-control ui-select-toggle" style="outline: 0;" disabled="true">
+                <span class="ui-select-placeholder text-muted" ng-bind="ctrl.display(ctrl.selectedValue)"></span>
+                <i class="caret pull-right"></i>
+            </span>
+        </div>
+    </div>
+
 </div>
 
 <!--Режим просмотра-->

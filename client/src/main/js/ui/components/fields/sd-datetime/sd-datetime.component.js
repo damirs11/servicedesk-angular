@@ -10,6 +10,7 @@ import {controller} from "./sd-datetime.ctrl"
  * max-date {Date} - максимальная разрешенная дата.
  * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
  * editing {boolean} - режим редактирования
+ * disabled {boolean} - состояние в режиме редактирования. true - поле будет серым и недоступным.
  */
 const SDDateTimeComponent = {
     template: template,
@@ -17,7 +18,7 @@ const SDDateTimeComponent = {
     controllerAs: "ctrl",
     bindings: {
         target: "=",
-        enabled: "<",
+        disabled: "<",
         emptyValue: "@",
         allowEmpty: "<",
         minDate: "<",

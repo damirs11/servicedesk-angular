@@ -9,6 +9,7 @@ import {SDNumberController as controller} from "./sd-number.ctrl"
  * step {number} - шаг, который будут добавлять кнопки + и -
  * onChange {ngFunction} - функция, которая выполнится при изменении значения
  * editing - состояние редактирования, true - режим редактирования, false - режим просмотра
+ * disabled {boolean} - состояние в режиме редактирования. true - поле будет серым и недоступным.
  */
 const SDNumberComponent = {
     template: template,
@@ -21,6 +22,7 @@ const SDNumberComponent = {
         step: "<",
         onChange: "&",
         editing: "<",
+        disabled: "<"
     }
 };
 

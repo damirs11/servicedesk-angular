@@ -15,6 +15,7 @@ import {controller} from "./sd-dropdown.ctrl"
  * filter {expr} - фильтрация по найденым значениям. Работает в паре с cache. Переменные: $text, $value
  * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
  * editing {Boolean} - состояние компонента. Режим редактирования (true) или режим просмотра (false).
+ * disabled {Boolean} - состояние в режиме редактирования. true - поле будет серым и недоступным.
  */
 const SDDropdownComponent = {
     template: template,
@@ -24,7 +25,7 @@ const SDDropdownComponent = {
         target: "=",
         fetchData: "&",
         debounce: "<",
-        enabled: "<",
+        disabled: "<",
         searchEnabled: "<",
         allowEmpty: "<",
         placeholder: "@",
