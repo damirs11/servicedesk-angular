@@ -54,6 +54,7 @@ import {SDLoadingDirective} from "./components/directives/sd-loading/sd-loading.
 import {AutoHeightDirective} from "./components/directives/auto-height.directive";
 import {PageLockFactory} from "./components/page-lock.factory";
 import {SDEntityErrorDirective} from "./components/widget/sd-entity-error/sd-entity-error.directive";
+import {SDEntityCardTabsComponent} from "./components/widget/sd-entity-card-tabs/sd-entity-card-tabs.component";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -102,6 +103,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .component("sdDatetime", SDDateTimeComponent)
     .component("sdNumber", SDNumberComponent)
     /** Прочие */
+    .component("sdEntityCardTabs",SDEntityCardTabsComponent)
     .component("sdStatusBar",SDStatusBarComponent)
     .component("sdAvatar",SDAvatarComponent)
     /** Компоненты для чата */

@@ -24,7 +24,7 @@ import {AttachmentProvider} from "./entity/attachment.provider";
 import {FileInfoProvider} from "./entity/file-info.provider";
 import {AttachmentsHolderProvider} from "./entity/mixin/attachments-holder.provider";
 import {AccessibleProvider} from "./entity/mixin/accessible.provider";
-import {EntityAccessProvider} from "./entity/EntityAccess";
+import {EntityAccessProvider} from "./entity/entity-access.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {

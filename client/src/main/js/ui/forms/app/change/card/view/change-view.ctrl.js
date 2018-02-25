@@ -17,12 +17,19 @@ class ChangeCardViewController{
     @NGInject() $transitions;
     @NGInject() $pageLock;
 
+    /**
+     * Дублирование change.entityAccess
+     * для краткости в html
+     */
+    entityAccess;
+
     constructor(){
         this.msgTypes = CHANGE_MESSAGE_TYPES;
     }
 
     $onInit() {
         this.change = new this.SD.Change(this.changeId);
+        this.entityAccess = this.change.entityAccess;
         this.registerLeaveEditListener();
     }
 

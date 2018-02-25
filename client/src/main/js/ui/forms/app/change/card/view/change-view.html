@@ -27,14 +27,22 @@
             <div class="form-group entity-text" style="width: 100%; height: 42px">
                 <label>Тема:</label>
                 <div class="entity-text__inline-field">
-                    <sd-text target="ctrl.change.subject" editing="ctrl.editing"></sd-text>
+                    <sd-text target="ctrl.change.subject"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.entityAccess.canEditField('subject')"
+                    >
+                    </sd-text>
                 </div>
             </div>
 
             <div class="form-group entity-text" style="width: 100%;">
                 <label>Подробная информация:</label>
                 <div class="entity-text__multiline-field">
-                    <sd-textarea target="ctrl.change.description" editing="ctrl.editing"></sd-textarea>
+                    <sd-textarea target="ctrl.change.description"
+                                 editing="ctrl.editing"
+                                 disabled="!ctrl.entityAccess.canEditField('description')"
+                    >
+                    </sd-textarea>
                 </div>
             </div>
 
@@ -52,6 +60,7 @@
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
                              editing="ctrl.editing"
+                             disabled="!ctrl.entityAccess.canEditField('initiator')"
                 ></sd-dropdown>
             </div>
 
@@ -63,6 +72,7 @@
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
                              editing="ctrl.editing"
+                             disabled="!ctrl.entityAccess.canEditField('manager')"
                 ></sd-dropdown>
             </div>
         </form>
@@ -78,6 +88,7 @@
                         target="ctrl.change.createdDate"
                         allow-empty="false"
                         editing="ctrl.editing"
+                        disabled="!ctrl.entityAccess.canEditField('createdDate')"
                 ></sd-datetime>
             </div>
 
@@ -89,6 +100,7 @@
                              display-value="$value.fullName"
                              cache="true"
                              editing="ctrl.editing"
+                             disabled="!ctrl.entityAccess.canEditField('status')"
                 ></sd-dropdown>
             </div>
 
@@ -99,6 +111,7 @@
                         target="ctrl.change.deadline"
                         allow-empty="false"
                         editing="ctrl.editing"
+                        disabled="!ctrl.entityAccess.canEditField('deadline')"
                 ></sd-datetime>
             </div>
 
@@ -110,6 +123,7 @@
                              display-value="$value.fullName"
                              cache="true"
                              editing="ctrl.editing"
+                             disabled="!ctrl.entityAccess.canEditField('priority')"
                 ></sd-dropdown>
             </div>
 
@@ -120,6 +134,7 @@
                         target="ctrl.change.resolvedDate"
                         allow-empty="false"
                         editing="ctrl.editing"
+                        disabled="!ctrl.entityAccess.canEditField('resolvedDate')"
                 ></sd-datetime>
             </div>
 
@@ -131,6 +146,7 @@
                              display-value="$value.name"
                              cache="true"
                              editing="ctrl.editing"
+                             disabled="!ctrl.entityAccess.canEditField('category')"
                 ></sd-dropdown>
             </div>
 
@@ -142,6 +158,7 @@
                              placeholder="Введите название группы"
                              display-value="$value.name"
                              editing="ctrl.editing"
+                             disabled="!ctrl.entityAccess.canEditField('workgroup')"
                 ></sd-dropdown>
             </div>
 
@@ -153,6 +170,7 @@
                              display-value="$value.name"
                              cache="true"
                              editing="ctrl.editing"
+                             disabled="!ctrl.entityAccess.canEditField('classification')"
                 ></sd-dropdown>
             </div>
         </form>

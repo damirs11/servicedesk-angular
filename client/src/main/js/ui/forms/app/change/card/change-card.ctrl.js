@@ -23,12 +23,16 @@ class ChangeCardController {
      */
     loadingPromise;
     /**
-     * Дочерние стейты, которые будут отображаться "вкладками"
-     * Название стейта = ${current.name}.${path}
+     * Вкладки в хидере карточки
      */
-    childStates = [
-        {path: "view", name: "Просмотр"}, {path: "history", name: "История"},
-        {path: "approval", name: "Согласование"}, {path: "attachments", name: "Вложения"}
+    headerTabs = [
+        {name:'Просмотр',sref:'app.change.card.view'},
+        {name:'История',sref:'app.change.card.history',
+            disabled:() => this.entityAccess && !this.entityAccess.readHistoryAllowed},
+        {name:'Согласование',sref:'app.change.card.approval',
+            disabled:() => this.entityAccess && !this.entityAccess.readApprovalAllowed},
+        {name:'Вложения',sref:'app.change.card.attachments',
+            disabled:() => this.entityAccess && !this.entityAccess.readAttachmentsAllowed},
     ];
 
     @NGInject() SD;
@@ -36,6 +40,8 @@ class ChangeCardController {
 
     async $onInit(){
         this.loadingPromise = this.loadData();
+        await this.loadingPromise;
+        this.entityAccess = this.change.entityAccess
     }
 
     async loadData(){

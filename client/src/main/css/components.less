@@ -601,3 +601,13 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+// sd-entity-card-tabs
+
+.sd-entity-card-tabs {
+  &>li[disabled="disabled"]>a {
+    background-color: inherit;
+    color: @disabled-text-color;
+    cursor: not-allowed;
+  }
+}

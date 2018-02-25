@@ -25,7 +25,8 @@ const SDTextComponent = {
         editing: "<",
         placeholder: "@",
         emptyValue: "@",
-        validate: "&"
+        validate: "&",
+        disabled: "<"
     }
 };
 
