@@ -40,6 +40,7 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 			"   ch.cha_cat_oid, " +
             "   ch.cha_closurecode, " +
             "   ch.cha_poo_oid, " +
+			"   ch.cha_tem_oid, " +
 			"   ch.cha_cla_oid\n" +
 			" FROM\n" +
 			"   itsm_changes ch\n" +

@@ -41,7 +41,7 @@ public class AccessServiceTest extends AbstractServiceTest {
 		securityService = mock(SecurityService.class);
 		codeChildsDao = mock(CodeChildsDao.class);
 		workgroupDao = mock(WorkgroupDao.class);
-        accessService = new AccessService(attributeAccessDao, grantDao, securityService, codeChildsDao, workgroupDao);
+
 		//Текущий пользователь
         when(securityService.getCurrentUser()).thenAnswer(new Answer<User>() {
             public User answer(InvocationOnMock invocation) throws Throwable {

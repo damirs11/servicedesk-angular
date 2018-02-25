@@ -15,7 +15,7 @@ import java.util.Date;
  * @since 03.05.2017
  */
 @ClassMeta(tableName = "itsm_changes", tableAlias ="ch")
-public class Change implements Entity, Serializable {
+public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Serializable {
 
 	private static final long serialVersionUID = -857993162919153346L;
 
@@ -35,31 +35,31 @@ public class Change implements Entity, Serializable {
 	@FieldMeta(columnName = "cha_id")
 	private Long no;
 	/** Тема */
-	@FieldMeta(columnName = "cha_description", required = true, attribute = 556335107L)
+	@FieldMeta(columnName = "cha_description",  attribute = 556335107L)
 	private String subject;
 	/** Описание */
-	@FieldMeta(columnName = "chi_information", tableAlias = "ci", required = true, attribute = 738983997L)
+	@FieldMeta(columnName = "chi_information", tableAlias = "ci",  attribute = 738983997L)
 	private String description;
 	/** Статус */
 	@FieldMeta(columnName = "cha_sta_oid", attribute = 724041782L)
 	private EntityStatus status;
 	/** Приоритет */
-	@FieldMeta(columnName = "cha_imp_oid", required = true, attribute = 281478611337217L)
+	@FieldMeta(columnName = "cha_imp_oid",  attribute = 281478611337217L)
 	private EntityPriority priority ;
 
 	/** Категория*/
-	@FieldMeta(columnName = "cha_cat_oid", required = true, attribute = 724041784L)
+	@FieldMeta(columnName = "cha_cat_oid",  attribute = 724041784L)
 	private EntityCategory category;
 
     /** Классификация*/
-    @FieldMeta(columnName = "cha_cla_oid", required = true, attribute = 165888L)
+    @FieldMeta(columnName = "cha_cla_oid",  attribute = 165888L)
 	private EntityClassification classification;
 
 	/** Дата создания */
 	@FieldMeta(columnName = "reg_created")
 	private Date createdDate;
 	/** Крайний срок */
-	@FieldMeta(columnName = "cha_deadline", attribute = 556335111, required = true)
+	@FieldMeta(columnName = "cha_deadline", attribute = 556335111)
 	private Date deadline;
 	/** Выполнено(дата)*/
 	@FieldMeta(columnName = "cha_actualfinish", attribute = 556335112)
@@ -68,17 +68,17 @@ public class Change implements Entity, Serializable {
 
 
 	/** Исполнитель */
-	@FieldMeta(columnName = "ass_per_to_oid", attribute = 665649208L, required = true)
+	@FieldMeta(columnName = "ass_per_to_oid", attribute = 665649208L)
 	private Person executor;
 	/** Группа исполнителей*/
-	@FieldMeta(columnName = "ass_wog_oid", attribute = 665649208L, required = true)
+	@FieldMeta(columnName = "ass_wog_oid", attribute = 665649208L)
 	private Workgroup workgroup;
 
 	/** Инициатор изменения */
-	@FieldMeta(columnName = "cha_requestor_per_oid", required = true, attribute = 281478292766727L)
+	@FieldMeta(columnName = "cha_requestor_per_oid", attribute = 281478292766727L)
 	private Person initiator;
 	/** Менеджер изменения */
-	@FieldMeta(columnName = "cha_per_man_oid", required = true, attribute = 281483590631438L)
+	@FieldMeta(columnName = "cha_per_man_oid",  attribute = 281483590631438L)
 	private Person manager;
 
 	@FieldMeta(columnName = "cha_closurecode", attribute = 166006L)
@@ -99,6 +99,9 @@ public class Change implements Entity, Serializable {
 
 	@FieldMeta(columnName = "", attribute = 166009L)
 	private long relations;
+
+	@FieldMeta(columnName = "cha_tem_oid")
+	private Template template;
 
 	@Override
 	public Long getId() {
@@ -258,6 +261,14 @@ public class Change implements Entity, Serializable {
 
 	public void setRelations(long relations) {
 		this.relations = relations;
+	}
+
+	public Template getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(Template template) {
+		this.template = template;
 	}
 
 	@Override

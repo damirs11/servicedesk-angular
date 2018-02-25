@@ -28,41 +28,28 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 		this.dbUtils = dbUtils;
 	}
 
-	String CHILDS_SQL =
-		"with %s folder_rep(id) as(\n" +
-		"	SELECT rcd.rcd_oid FROM rep_codes rcd WHERE rcd.rcd_rcd_oid = :parentId\n" +
-		"	UNION ALL\n" +
-		"	SELECT rcd.rcd_oid FROM rep_codes rcd\n" +
-		"	INNER JOIN folder_rep ON folder_rep.id = rcd.rcd_rcd_oid\n" +
-		"),\n"+
-		"folder_cod(id) as(\n" +
-		"	SELECT cod.COD_OID FROM ITSM_CODES cod WHERE cod.COD_cod_OID = :parentId\n" +
-		"	UNION ALL\n" +
-		"	SELECT cod.COD_OID FROM ITSM_CODES cod\n" +
-		"	INNER JOIN folder_cod ON folder_cod.id = cod.COD_cod_OID\n" +
-		")\n";
-
 	String BASE_SQL =
 		"SELECT id, name, ordering FROM\n" +
 		"(SELECT\n" +
 		"	cod.cod_oid id,\n" +
 		"	cdl.cdl_name name,\n" +
 		"	cod.cod_subtype subtype,\n" +
+		"	cod.cod_disabled disabled,\n" +
 		"	cod.cod_ordering ordering\n" +
 		"FROM\n" +
 		"	itsm_codes cod\n" +
 		"	LEFT JOIN itsm_codes_locale cdl ON (cdl.cdl_cod_oid = cod.cod_oid AND cdl.cdl_lng_oid = 1049)\n" +
-		"WHERE cod.cod_disabled = 0\n" +
 		"UNION ALL\n" +
 		"SELECT\n" +
 		"	rcd.rcd_oid id,\n" +
 		"	rct.rct_name name,\n" +
 		"	rcd.rcd_subtype subtype,\n" +
+		"	rcd.rcd_codedisabled disabled,\n" +
 		"	rcd.rcd_ordering ordering\n" +
 		"FROM\n" +
 		"	rep_codes rcd\n" +
 		"	LEFT JOIN rep_codes_text rct ON (rct.rct_rcd_oid = rcd.rcd_oid AND rct.rct_lng_oid = 1049)\n" +
-		"WHERE rcd.rcd_codedisabled = 0) code\n";
+		") code\n";
 
 	@Override
 	protected StringBuilder getBaseSql() {
@@ -77,19 +64,19 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 	@Override
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 		if (filter == null || filter.isEmpty() ||
-				!(filter.containsKey("id") || filter.containsKey("subtype")|| filter.containsKey("parentId"))) {
+				!(filter.containsKey("id") || filter.containsKey("subtype")|| filter.containsKey("codeId"))) {
 			throw new ServiceException(ResourceMessages.getMessage("error.dao.filter"));
 		}
 		super.buildWhere(filter, sql, params);
+		sql.append(" AND code.disabled = 0");
 		if (filter.containsKey("subtype")) {
 			params.addValue("subtype", filter.get("subtype"));
 			sql.append(" AND subtype = :subtype");
 		}
-
-		if (filter.containsKey("parentId")) {
-			sql.insert(0, String.format(CHILDS_SQL, dbUtils.isTest() ? "recursive" : "", dbUtils.isTest() ? "recursive" : ""));
-			params.addValue("parentId", filter.get("parentId"));
-			sql.append(" AND code.id in (SELECT folder_rep.id FROM folder_rep UNION SELECT folder_cod.id FROM folder_cod)");
+		//Получение списка родительских кодов + codeId
+		if (filter.containsKey("codeId")) {
+			params.addValue("codeId", filter.get("codeId"));
+			sql.append(" AND code.id in (select id from SdGetRepCodes(:codeId, 1))");
 		}
 	}
 

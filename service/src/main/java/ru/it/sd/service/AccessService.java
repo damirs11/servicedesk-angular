@@ -23,15 +23,15 @@ public class AccessService {
     private AttributeAccessDao attributeAccessDao;
     private GrantDao grantDao;
     private SecurityService securityService;
-    private CodeChildsDao codeChildsDao;
+    private CodeDao codeDao;
     private WorkgroupDao workgroupDao;
 
-    public AccessService(AttributeAccessDao attributeAccessDao, GrantDao grantDao, SecurityService securityService, CodeChildsDao codeChildsDao, WorkgroupDao workgroupDao){
+    public AccessService(AttributeAccessDao attributeAccessDao, GrantDao grantDao, SecurityService securityService, WorkgroupDao workgroupDao, CodeDao codeDao){
         this.attributeAccessDao = attributeAccessDao;
         this.grantDao = grantDao;
         this.securityService = securityService;
-        this.codeChildsDao = codeChildsDao;
         this.workgroupDao = workgroupDao;
+        this.codeDao = codeDao;
     }
 
     /**
@@ -39,13 +39,11 @@ public class AccessService {
      * @param grant права доступа
      * @return возращает мапу со списком атрибутов и их доступности {@link AttributeGrantRule}
      */
-    public Map<String, AttributeGrantRule> getAttributeAccess(Grant grant){
+    private Map<String, AttributeGrantRule> getAttributeAccess(Grant grant){
+        //todo оптимизировать
         Map<String, AttributeGrantRule> attributeEntitlement = new HashMap<>();
-        ///User user = securityService.getCurrentUser();
         Class clazz = EntityUtils.getEntityClass(grant.getEntityType().getAlias());
         Map<String, FieldMetaData> fieldMetaDataMap = MetaUtils.getFieldsMetaData(clazz);
-
-        //Получение количество прав доступа для конкретной сущности и пользователя
         for(FieldMetaData fmd: fieldMetaDataMap.values()){
             //Если записан id атрибута в моделе
             if(!Objects.equals(fmd.getAttribute(),Long.MIN_VALUE)){
@@ -70,7 +68,7 @@ public class AccessService {
                         attributeEntitlement.put(fmd.getName(), AttributeGrantRule.UPDATE);
                     } else if(attributeAccess == null){//Если есть права доступа на редактирование атрибута, но нет на редактирование сущности
                         attributeEntitlement.put(fmd.getName(), AttributeGrantRule.READ);
-                    } else if(attributeAccess.getModify() == false){//Если есть права доступа на чтение атрибутов
+                    } else if(!attributeAccess.getModify()){//Если есть права доступа на чтение атрибутов
                         attributeEntitlement.put(fmd.getName(), AttributeGrantRule.READ);
                     } else{
                         attributeEntitlement.put(fmd.getName(), AttributeGrantRule.HIDE);
@@ -89,7 +87,7 @@ public class AccessService {
      * @param entity сущность для проверки прав доступа
      * @return {@link Grant} общие права доступа к конкретной сущности
      */
-    public Pair<Grant, Map<String, AttributeGrantRule>> getEntityAccess(Entity entity){
+    public Pair<Grant, Map<String, AttributeGrantRule>> getEntityAccess(HasFolder entity){
         User user = securityService.getCurrentUser();
         Long accountId = user.getId();
         Map<String, String> filter = new HashMap<>();
@@ -107,11 +105,8 @@ public class AccessService {
         entityAccess.setHistoryRead(GrantRule.NONE);
         entityAccess.setHistoryUpdate(GrantRule.NONE);
         entityAccess.setHistoryDelete(GrantRule.NONE);
-
-        filter.put("folderId", entity.getFolder().getId().toString());
-        List<BaseCode> parentFolders = codeChildsDao.list(filter);
-
-
+        filter.put("codeId", entity.getFolder().getId().toString());
+        List<BaseCode> parentFolders = codeDao.list(filter);
         //Результат проверки прав доступа атрибутов
         Map<String, AttributeGrantRule> attributeAccessMap = new HashMap<>();
         //Цикл по всем правам доступа к сущности(ena)
@@ -120,68 +115,57 @@ public class AccessService {
             Boolean folder = true;
             //Проверка папки
             if(grant.getFolder() != null){
-                //Если это одна и та же папка или папка из прав доступа является родительской по отношению к папке сущности, то на сущность распостраняются права доступа grant
-                if(entity.getFolder() != null && Objects.equals(grant.getFolder().getId(),entity.getFolder().getId()) || isParentFolder(parentFolders, grant.getFolder())){
-                    folder = true;
-                }else {
+                //Если папка сущности == null или папка прав достпа не является родительской, то условие папки не выполняется
+                if(entity.getFolder() == null || !isParentFolder(parentFolders, grant.getFolder())){
                     folder = false;
                 }
             }
-
             //Если условие папки для конкретной сущности выполняются, то права распостраняются на эту сущность
             if (folder){
-                //проверка исполнителя
-                if(grant.getRead() == GrantRule.EXECUTOR){
-
-                    if(Objects.equals(user.getPerson().getId(),(entity.getExecutor().getId()))){
-                        entityAccess.setRead(GrantRule.EXECUTOR);
+                //Если у сущности есть статус
+                if(entity instanceof HasStatus) {
+                    HasStatus hasStatus = (HasStatus)entity;
+                    //Входит ли статус в диапозон статусов(только для редактирования)
+                    if(statusBetween(grant, hasStatus.getStatus())) {
+                        setUpdateAccess(entityAccess, grant, entity, user);
                     }
+                } else {//Если у сущности нет статуса, то проверяем есть ли доступ на редактирование
+                    setUpdateAccess(entityAccess, grant, entity, user);
                 }
-                if(grant.getUpdate() == GrantRule.EXECUTOR && statusIn(grant, entity.getStatus())){
-                    if(Objects.equals(user.getPerson().getId(),(entity.getExecutor().getId()))){
-                        entityAccess.setUpdate(GrantRule.EXECUTOR);
-                    }
-                }
-                //проверка рабочей группы (Без дочерних)
-                if(grant.getRead() == GrantRule.WORKGROUP){
-                    if(isMember(entity.getWorkgroup(), user.getPerson())){
-                        entityAccess.setRead(GrantRule.WORKGROUP);
-                    }
-                }
-                if(grant.getUpdate() == GrantRule.WORKGROUP && statusIn(grant, entity.getStatus())) {
-                    if (isMember(entity.getWorkgroup(), user.getPerson())) {
-                        entityAccess.setUpdate(GrantRule.WORKGROUP);
-                    }
-                }
-                //проверка общих прав доступ
-                if(grant.getRead() == GrantRule.ALWAYS) {
-                    entityAccess.setRead(GrantRule.ALWAYS);
-                }
-                if(grant.getUpdate() == GrantRule.ALWAYS && statusIn(grant, entity.getStatus())){
-                    entityAccess.setUpdate(GrantRule.ALWAYS);
-                }
-
+                setReadAccess(entityAccess, grant, entity, user);
                 if(grant.getCreate() == GrantRule.ALWAYS){
                     entityAccess.setCreate(GrantRule.ALWAYS);
                 }
                 if(grant.getDelete() == GrantRule.ALWAYS){
-                    entityAccess.setCreate(GrantRule.ALWAYS);
+                    entityAccess.setDelete(GrantRule.ALWAYS);
                 }
                 //Права на историю
+                //todo добавить права на чтение и редактирование истории по исполнителю и группе
+                if(grant.getHistoryCreate() == GrantRule.ALWAYS){
+                    entityAccess.setHistoryCreate(GrantRule.ALWAYS);
+                }
                 if(grant.getHistoryRead() == GrantRule.ALWAYS){
                     entityAccess.setHistoryRead(GrantRule.ALWAYS);
                 }
-                //todo добавить права на создание, редактирование и удаление истории
+                if(grant.getHistoryUpdate() == GrantRule.ALWAYS){
+                    entityAccess.setHistoryUpdate(GrantRule.ALWAYS);
+                }
+                if(grant.getHistoryDelete() == GrantRule.ALWAYS){
+                    entityAccess.setHistoryDelete(GrantRule.ALWAYS);
+                }
 
                 //Получение и объединение атрибутов
-                Map<String,AttributeGrantRule> attributeAccess = getAttributeAccess(grant);
-                for(String field: attributeAccess.keySet()){
-                    if(attributeAccessMap.get(field) == null){
-                        attributeAccessMap.put(field, attributeAccess.get(field));
-                    }else if(attributeAccessMap.get(field).getId() < attributeAccess.get(field).getId()){
-                        attributeAccessMap.put(field, attributeAccess.get(field));
+                if(entityAccess.getRead() != GrantRule.NONE) {
+                    Map<String, AttributeGrantRule> attributeAccess = getAttributeAccess(grant);
+                    for (String field : attributeAccess.keySet()) {
+                        if (attributeAccessMap.get(field) == null) {
+                            attributeAccessMap.put(field, attributeAccess.get(field));
+                        } else if (attributeAccessMap.get(field).getId() < attributeAccess.get(field).getId()) {
+                            attributeAccessMap.put(field, attributeAccess.get(field));
+                        }
                     }
                 }
+
             }
         }
         MutablePair<Grant, Map<String, AttributeGrantRule>> result = new MutablePair<>();
@@ -191,12 +175,97 @@ public class AccessService {
     }
 
     /**
+     * Определяет есть ли права на чтение и создание по типу сущности
+     * @param entityType тип сущности
+     * @return {@link Grant} права на чтение и создание
+     */
+    public Grant getAccess(EntityType entityType){
+        User user = securityService.getCurrentUser();
+        Long accountId = user.getId();
+        Grant grant = new Grant();
+        Map<String, String> filter = new HashMap<>();
+        filter.put("entityId", entityType.getId().toString());
+        filter.put("accountId",accountId.toString());
+        filter.put("read", "");
+        //На чтение
+        Integer grantsCount = grantDao.count(filter);
+        if(grantsCount > 0) grant.setRead(GrantRule.ALWAYS);
+        filter.put("create", "");
+        //На чтение и создание
+        grantsCount = grantDao.count(filter);
+        if(grantsCount > 0) grant.setCreate(GrantRule.ALWAYS);
+        return grant;
+    }
+    /**
+     * Проставление прав на чтение
+     * @param entityAccess конечные права доступа сущности
+     * @param grant права доступа, которые проверяем
+     * @param entity сущность которую проверяем
+     * @param user текущий пользователь
+     */
+    private void setReadAccess(Grant entityAccess, Grant grant, HasFolder entity, User user){
+        switch (grant.getRead()){
+            case ALWAYS:{
+                entityAccess.setRead(GrantRule.ALWAYS);
+            }break;
+            case EXECUTOR:{
+                if (entity instanceof HasAssignment){
+                    HasAssignment hasAssignment = (HasAssignment) entity;
+                    if (Objects.equals(user.getPerson().getId(), (hasAssignment.getExecutor().getId()))) {
+                        entityAccess.setRead(GrantRule.EXECUTOR);
+                    }
+                }
+            }break;
+            case WORKGROUP:{
+                if (entity instanceof HasAssignment) {
+                    HasAssignment hasAssignment = (HasAssignment) entity;
+                    if (isMember(hasAssignment.getWorkgroup(), user.getPerson())) {
+                        entityAccess.setRead(GrantRule.WORKGROUP);
+                    }
+                }
+            }break;
+        }
+
+    }
+
+    /**
+     * Проставление прав на редактирование
+     * @param entityAccess конечные права доступа сущности
+     * @param grant права доступа, которые проверяем
+     * @param entity сущность которую проверяем
+     * @param user текущий пользователь
+     */
+    private void setUpdateAccess(Grant entityAccess, Grant grant, HasFolder entity, User user){
+        switch (grant.getUpdate()){
+            case ALWAYS:{
+                entityAccess.setUpdate(GrantRule.ALWAYS);
+            }break;
+            case EXECUTOR:{
+                if (entity instanceof HasAssignment){
+                    HasAssignment hasAssignment = (HasAssignment) entity;
+                    if (Objects.equals(user.getPerson().getId(), (hasAssignment.getExecutor().getId()))) {
+                        entityAccess.setUpdate(GrantRule.EXECUTOR);
+                    }
+                }
+            }break;
+            case WORKGROUP:{
+                if (entity instanceof HasAssignment) {
+                    HasAssignment hasAssignment = (HasAssignment) entity;
+                    if (isMember(hasAssignment.getWorkgroup(), user.getPerson())) {
+                        entityAccess.setUpdate(GrantRule.WORKGROUP);
+                    }
+                }
+            }break;
+        }
+
+    }
+    /**
      * Проверка находится ли status в диапозон statusFrom - statusTo
      * @param grant описание прав доступа включая диапозон статусов
      * @param status статус для проверки
      * @return true если входит в диапозон, false если нет
      */
-    private Boolean statusIn(Grant grant, EntityStatus status){
+    private Boolean statusBetween(Grant grant, EntityStatus status){
         if(Objects.isNull(grant.getStatusFrom()) || Objects.isNull(grant.getStatusTo())) return true;
         if(Objects.isNull(status.getOrder()) || Objects.isNull(grant.getStatusFrom().getOrder()) || Objects.isNull(grant.getStatusTo().getOrder())) return false;
         if((status.getOrder()>= grant.getStatusFrom().getOrder()) && (status.getOrder()<= grant.getStatusTo().getOrder())) return true;
