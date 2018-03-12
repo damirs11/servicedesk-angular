@@ -4,9 +4,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.CodeDao;
-import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.PersonDao;
-import ru.it.sd.dao.WorkgroupDao;
+import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.*;
 
 import java.sql.ResultSet;
@@ -24,14 +23,14 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 
 	private final PersonDao personDao;
 	private final ChangeMapper changeMapper;
-	private final WorkgroupDao workgroupDao;
 	private final CodeDao codeDao;
+	private final AssignmentMapper assignmentMapper;
 
-	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, WorkgroupDao workgroupDao, CodeDao codeDao) {
+	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, CodeDao codeDao, AssignmentMapper assignmentMapper) {
 		this.personDao = personDao;
 		this.changeMapper = changeMapper;
-		this.workgroupDao = workgroupDao;
 		this.codeDao = codeDao;
+		this.assignmentMapper = assignmentMapper;
 	}
 
 	@Override
@@ -42,6 +41,8 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 		List<Change> list = new ArrayList<>();
 		while(rs.next()){
 			Change change = changeMapper.mapRow(rs, 0);
+			Assignment assignment = assignmentMapper.mapRow(rs, 0);
+			change.setAssignment(assignment);
 
 			Long statusId = DBUtils.getLong(rs, "cha_sta_oid");
 
@@ -54,15 +55,6 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 			if(priorityId != null) {
                 BaseCode code = codeDao.read(priorityId);
 			    change.setPriority(code.convertTo(EntityPriority.class));
-            }
-
-			Long executorId = DBUtils.getLong(rs, "ass_per_to_oid");
-			if(executorId != null) change.setExecutor(getPerson(personCache, executorId));
-
-			Long assWorkgroupID = DBUtils.getLong(rs, "ass_wog_oid");
-			if(assWorkgroupID != null) {
-			    Workgroup workgroup = workgroupDao.read(assWorkgroupID);
-			    change.setWorkgroup(workgroup);
             }
 
 			Long initiatorId = DBUtils.getLong(rs, "cha_requestor_per_oid");

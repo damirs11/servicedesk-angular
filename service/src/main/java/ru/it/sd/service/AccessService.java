@@ -211,7 +211,7 @@ public class AccessService {
             case EXECUTOR:{
                 if (entity instanceof HasAssignment){
                     HasAssignment hasAssignment = (HasAssignment) entity;
-                    if (Objects.equals(user.getPerson().getId(), (hasAssignment.getExecutor().getId()))) {
+                    if (Objects.equals(user.getPerson().getId(), (hasAssignment.getAssignment().getExecutor().getId()))) {
                         entityAccess.setRead(GrantRule.EXECUTOR);
                     }
                 }
@@ -219,7 +219,7 @@ public class AccessService {
             case WORKGROUP:{
                 if (entity instanceof HasAssignment) {
                     HasAssignment hasAssignment = (HasAssignment) entity;
-                    if (isMember(hasAssignment.getWorkgroup(), user.getPerson())) {
+                    if (isMember(hasAssignment.getAssignment().getWorkgroup(), user.getPerson())) {
                         entityAccess.setRead(GrantRule.WORKGROUP);
                     }
                 }
@@ -243,7 +243,7 @@ public class AccessService {
             case EXECUTOR:{
                 if (entity instanceof HasAssignment){
                     HasAssignment hasAssignment = (HasAssignment) entity;
-                    if (Objects.equals(user.getPerson().getId(), (hasAssignment.getExecutor().getId()))) {
+                    if (Objects.equals(user.getPerson().getId(), (hasAssignment.getAssignment().getExecutor().getId()))) {
                         entityAccess.setUpdate(GrantRule.EXECUTOR);
                     }
                 }
@@ -251,7 +251,7 @@ public class AccessService {
             case WORKGROUP:{
                 if (entity instanceof HasAssignment) {
                     HasAssignment hasAssignment = (HasAssignment) entity;
-                    if (isMember(hasAssignment.getWorkgroup(), user.getPerson())) {
+                    if (isMember(hasAssignment.getAssignment().getWorkgroup(), user.getPerson())) {
                         entityAccess.setUpdate(GrantRule.WORKGROUP);
                     }
                 }

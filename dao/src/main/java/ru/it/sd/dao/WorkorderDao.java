@@ -1,7 +1,6 @@
 package ru.it.sd.dao;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -39,8 +38,10 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> {
 			"   w.wor_clo_oid, " +
 			"   wcustom.wcf_boolean2, " +
 			"   w.wor_requestor_per_oid, " +
-			"   w.ass_workgroup, " +
-			"   w.ass_per_to_oid, " +
+			"   w.ass_assignstatus ass_status, " +
+			"   w.wor_assignpriority ass_priority, " +
+			"   w.ass_workgroup ass_workgroup_to, " +
+			"   w.ass_per_to_oid ass_person_to, " +
 			"   wcustom.wcf_duration1, " +
 			"   wor4k1.wo1_4k1, " +
 			"   w.wor_ser_oid, " +
@@ -67,7 +68,7 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> {
 
 	@Override
 	protected List<Workorder> executeQuery(String sql, SqlParameterSource params) {
-		return namedJdbc.query(sql, params, (RowMapper<Workorder>) mapper);
+		return namedJdbc.query(sql, params, mapper.asRowMapper());
 	}
 
 	@Override
