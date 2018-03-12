@@ -1,4 +1,4 @@
-<div sd-loading="ctrl.loadingPromise" ng-if="ctrl.change.entityAccess.readApprovalAllowed">
+<div sd-loading="ctrl.loadingPromise" ng-if="ctrl.change.accessRules.isReadApprovalAllowed">
     <content>
         <div class="entity-container" style="height: 100%; font-size: 12px">
 
@@ -49,7 +49,7 @@
             </div>
 
             <div class="entity-container__content">
-                <div style="display: inline-block" data-ng-if="ctrl.change.entityAccess.editApprovalAllowed">
+                <div style="display: inline-block" data-ng-if="ctrl.change.entityAccess.isUpdateApprovalAllowed">
                 <button class="btn btn-default"
                         data-ng-if="!ctrl.editing"
                         data-ng-click="ctrl.startEditing()">
@@ -79,7 +79,7 @@
     </content>
 </div>
 
-<sd-entity-error ng-hide="ctrl.change.entityAccess.readApprovalAllowed">
+<sd-entity-error ng-hide="ctrl.change.accessRules.isReadApprovalAllowed">
     <header class="head entity-error__header__text">
         <span class="glyphicon glyphicon-ban-circle"></span>
         Ошибка доступа

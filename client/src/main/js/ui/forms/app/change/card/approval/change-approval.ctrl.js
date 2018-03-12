@@ -39,7 +39,7 @@ class ChangeCardApprovalController{
 
     async $onInit() {
         const change = this.change = new this.SD.Change(this.changeId);
-        if (!this.change.entityAccess.readApprovalAllowed) return;
+        if (!this.change.accessRules.isReadApprovalAllowed) return;
         const grid = this.grid = new this.$grid.ApproverVoteGrid(this.$scope,this.SD,change);
         this.loadingPromise = this.change.getApproval();
         this.approval = await this.loadingPromise;

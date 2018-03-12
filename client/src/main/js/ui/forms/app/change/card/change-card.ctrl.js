@@ -28,11 +28,11 @@ class ChangeCardController {
     headerTabs = [
         {name:'Просмотр',sref:'app.change.card.view'},
         {name:'История',sref:'app.change.card.history',
-            disabled:() => this.entityAccess && !this.entityAccess.readHistoryAllowed},
+            disabled:() => this.accessRules && !this.accessRules.isReadHistoryAllowed},
         {name:'Согласование',sref:'app.change.card.approval',
-            disabled:() => this.entityAccess && !this.entityAccess.readApprovalAllowed},
+            disabled:() => this.accessRules && !this.accessRules.isReadApprovalAllowed},
         {name:'Вложения',sref:'app.change.card.attachments',
-            disabled:() => this.entityAccess && !this.entityAccess.readAttachmentsAllowed},
+            disabled:() => this.accessRules && !this.accessRules.isReadAttachmentsAllowed},
     ];
 
     @NGInject() SD;
@@ -41,7 +41,7 @@ class ChangeCardController {
     async $onInit(){
         this.loadingPromise = this.loadData();
         await this.loadingPromise;
-        this.entityAccess = this.change.entityAccess
+        this.accessRules = this.change.accessRules;
     }
 
     async loadData(){
@@ -78,13 +78,9 @@ class ChangeCardController {
     }
 
     async $loadAccess() {
-        try {
-            await this.change.updateEntityAccess();
-        } catch (error) {
-            this.loadingError = error || true;
-            throw error;
-        }
-        if (!this.change.entityAccess.readEntityAllowed) {
+        await this.change.updateAccessRules();
+
+        if (!this.change.accessRules.isReadEntityAllowed) {
             this.loadingError = {reason: "readDisallowed"};
             throw this.loadingError
         }

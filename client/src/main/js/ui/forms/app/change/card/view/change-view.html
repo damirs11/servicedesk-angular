@@ -2,7 +2,7 @@
     <!--Кнопки в верхнем меню-->
     <div class="entity-container__content">
         <!-- Кнопки для редактирования -->
-        <div style="display: inline-block" data-ng-if="ctrl.change.entityAccess.editEntityAllowed">
+        <div style="display: inline-block" data-ng-if="ctrl.change.accessRules.isUpdateEntityAllowed">
             <button class="btn btn-default"
                     data-ng-if="!ctrl.editing"
                     data-ng-click="ctrl.startEditing()">
@@ -29,7 +29,7 @@
                 <div class="entity-text__inline-field">
                     <sd-text target="ctrl.change.subject"
                              editing="ctrl.editing"
-                             disabled="!ctrl.entityAccess.canEditField('subject')"
+                             disabled="!ctrl.accessRules.canUpdate('subject')"
                     >
                     </sd-text>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="entity-text__multiline-field">
                     <sd-textarea target="ctrl.change.description"
                                  editing="ctrl.editing"
-                                 disabled="!ctrl.entityAccess.canEditField('description')"
+                                 disabled="!ctrl.accessRules.canUpdate('description')"
                     >
                     </sd-textarea>
                 </div>
@@ -52,7 +52,7 @@
     <div class="entity-container__content">
         <form class="form-inline entity-properties">
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('initiator')">
                 <label>Инициатор:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.initiator"
@@ -60,11 +60,11 @@
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
                              editing="ctrl.editing"
-                             disabled="!ctrl.entityAccess.canEditField('initiator')"
+                             disabled="!ctrl.accessRules.canUpdate('initiator')"
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('manager')">
                 <label>Менеджер:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.manager"
@@ -72,7 +72,7 @@
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
                              editing="ctrl.editing"
-                             disabled="!ctrl.entityAccess.canEditField('manager')"
+                             disabled="!ctrl.accessRules.canUpdate('manager')"
                 ></sd-dropdown>
             </div>
         </form>
@@ -81,18 +81,18 @@
     <div class="entity-container__content">
         <form class="form-inline entity-properties">
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('createdDate')">
                 <label>Дата создания:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
                         target="ctrl.change.createdDate"
                         allow-empty="false"
                         editing="ctrl.editing"
-                        disabled="!ctrl.entityAccess.canEditField('createdDate')"
+                        disabled="!ctrl.accessRules.canUpdate('createdDate')"
                 ></sd-datetime>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('status')">
                 <label>Статус:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.status"
@@ -100,22 +100,22 @@
                              display-value="$value.fullName"
                              cache="true"
                              editing="ctrl.editing"
-                             disabled="!ctrl.entityAccess.canEditField('status')"
+                             disabled="!ctrl.accessRules.canUpdate('status')"
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('deadline')">
                 <label>Крайний срок:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
                         target="ctrl.change.deadline"
                         allow-empty="false"
                         editing="ctrl.editing"
-                        disabled="!ctrl.entityAccess.canEditField('deadline')"
+                        disabled="!ctrl.accessRules.canUpdate('deadline')"
                 ></sd-datetime>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('priority')">
                 <label>Приоритет:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.priority"
@@ -123,22 +123,22 @@
                              display-value="$value.fullName"
                              cache="true"
                              editing="ctrl.editing"
-                             disabled="!ctrl.entityAccess.canEditField('priority')"
+                             disabled="!ctrl.accessRules.canUpdate('priority')"
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('resolvedDate')">
                 <label>Фактически выполнено:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
                         target="ctrl.change.resolvedDate"
                         allow-empty="false"
                         editing="ctrl.editing"
-                        disabled="!ctrl.entityAccess.canEditField('resolvedDate')"
+                        disabled="!ctrl.accessRules.canUpdate('resolvedDate')"
                 ></sd-datetime>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('category')">
                 <label>Категория:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.category"
@@ -146,11 +146,11 @@
                              display-value="$value.name"
                              cache="true"
                              editing="ctrl.editing"
-                             disabled="!ctrl.entityAccess.canEditField('category')"
+                             disabled="!ctrl.accessRules.canUpdate('category')"
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('workgroup')">
                 <label>Рабочая группа:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.workgroup"
@@ -158,11 +158,11 @@
                              placeholder="Введите название группы"
                              display-value="$value.name"
                              editing="ctrl.editing"
-                             disabled="!ctrl.entityAccess.canEditField('workgroup')"
+                             disabled="!ctrl.accessRules.canUpdate('workgroup')"
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('classification')">
                 <label>Классифицкаия:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.classification"
@@ -170,7 +170,7 @@
                              display-value="$value.name"
                              cache="true"
                              editing="ctrl.editing"
-                             disabled="!ctrl.entityAccess.canEditField('classification')"
+                             disabled="!ctrl.accessRules.canUpdate('classification')"
                 ></sd-dropdown>
             </div>
         </form>

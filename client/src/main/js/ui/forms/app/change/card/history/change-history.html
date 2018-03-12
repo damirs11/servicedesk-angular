@@ -1,4 +1,4 @@
-<div sd-loading="ctrl.fetchPromise" ng-if="ctrl.change.entityAccess.readHistoryAllowed">
+<div sd-loading="ctrl.fetchPromise" ng-if="ctrl.accessRules.isReadHistoryAllowed">
     <content style="display: block; height: 563px" >
         <div class="entity-container" style="font-size: 12px" >
             <div class="entity-container__content" style="padding: 0; min-width: 100%">
@@ -14,7 +14,7 @@
     </content>
 </div>
 
-<sd-entity-error ng-hide="ctrl.change.entityAccess.readHistoryAllowed">
+<sd-entity-error ng-if="!ctrl.accessRules.isReadHistoryAllowed">
     <header class="head entity-error__header__text">
         <span class="glyphicon glyphicon-ban-circle"></span>
         Ошибка доступа

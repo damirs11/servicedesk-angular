@@ -27,9 +27,9 @@ class ChangeCardViewController{
         this.msgTypes = CHANGE_MESSAGE_TYPES;
     }
 
-    $onInit() {
+    async $onInit() {
         this.change = new this.SD.Change(this.changeId);
-        this.entityAccess = this.change.entityAccess;
+        this.accessRules = await this.change.accessRules;
         this.registerLeaveEditListener();
     }
 

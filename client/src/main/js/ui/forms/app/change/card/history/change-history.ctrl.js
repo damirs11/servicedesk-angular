@@ -19,9 +19,10 @@ class ChangeCardHistoryController{
     fetchPromise;
 
 
-    $onInit() {
+    async $onInit() {
         const change = this.change = new this.SD.Change(this.changeId);
-        if (!this.change.entityAccess.readHistoryAllowed) return;
+        this.accessRules = change.accessRules;
+        if (!this.accessRules.isReadHistoryAllowed) return;
         const grid = this.grid = new this.$grid.HistoryGrid(this.$scope,this.SD,change);
         this.$scope.$on("grid:fetch",::this.$onTableFetch);
         grid.fetchData();
