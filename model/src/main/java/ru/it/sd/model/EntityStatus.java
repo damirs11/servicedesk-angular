@@ -29,6 +29,8 @@ public class EntityStatus extends BaseCode {
 				return 670761017L; // rep
 			case APPROVAL:
 				return 281478244794379L; //itsm
+			case ASSIGNMENT:
+				return 625803273L;
 			default:
 				throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
 		}

@@ -67,12 +67,15 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
     //todo Закрыто(дата) attribut = 70370
 
 
+	@FieldMeta(columnName = "", attribute = 665649208)
+	private Assignment assignment;
+
 	/** Исполнитель */
-	@FieldMeta(columnName = "ass_per_to_oid", attribute = 665649208L)
+	/*@FieldMeta(columnName = "ass_per_to_oid", attribute = 665649208L)
 	private Person executor;
-	/** Группа исполнителей*/
+	*//** Группа исполнителей*//*
 	@FieldMeta(columnName = "ass_wog_oid", attribute = 665649208L)
-	private Workgroup workgroup;
+	private Workgroup workgroup;*/
 
 	/** Инициатор изменения */
 	@FieldMeta(columnName = "cha_requestor_per_oid", attribute = 281478292766727L)
@@ -194,14 +197,6 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
 	public void setManager(Person manager) {
 		this.manager = manager;
 	}
-    @Override
-	public Person getExecutor() {
-		return executor;
-	}
-    @Override
-	public void setExecutor(Person executor) {
-		this.executor = executor;
-	}
 
     public EntityCategory getCategory() { return category; }
 
@@ -210,10 +205,6 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
     public EntityClassification getClassification() { return classification; }
 
     public void setClassification(EntityClassification classification) { this.classification = classification; }
-    @Override
-    public Workgroup getWorkgroup() { return workgroup; }
-    @Override
-    public void setWorkgroup(Workgroup assWorkgroup) { this.workgroup = assWorkgroup; }
 
     public EntityClosureCode getClosureCode() {
         return closureCode;
@@ -269,6 +260,16 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
 
 	public void setTemplate(Template template) {
 		this.template = template;
+	}
+
+	@Override
+	public Assignment getAssignment() {
+		return assignment;
+	}
+
+	@Override
+	public void setAssignment(Assignment assignment) {
+		this.assignment = assignment;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package ru.it.sd.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.TemplateDao;
+import ru.it.sd.model.Change;
 import ru.it.sd.model.Template;
 import ru.it.sd.model.User;
 
@@ -30,7 +31,7 @@ public class TemplateService extends CrudService<Template> {
 
     @Override
     public Template read(long id) {
-        throw new UnsupportedOperationException();
+        return templateDao.read(id);
     }
 
     @Override
@@ -63,5 +64,11 @@ public class TemplateService extends CrudService<Template> {
     @Override
     public void delete(long id) {
         throw new UnsupportedOperationException();
+    }
+
+    public Change fillFields(Template template){
+        Change change = new Change();
+
+        return change;
     }
 }

@@ -22,6 +22,7 @@ public enum EntityType implements Code {
 	ITEM("Объект", ConfigurationItem.class.getSimpleName(), 796000260L),
 	WORKGROUP("Рабочая группа", Workgroup.class.getSimpleName()),
 	APPROVAL("Согласование", Approval.class.getSimpleName(), 281478244794382L),
+	ASSIGNMENT("Назначение", Assignment.class.getSimpleName(), 665649174L),
 	PERSON("Персона",Person.class.getSimpleName(), 555155484L);
 
 	/**

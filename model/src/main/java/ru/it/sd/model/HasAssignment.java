@@ -9,12 +9,8 @@ package ru.it.sd.model;
 
 public interface HasAssignment {
 
-	Person getExecutor();
+	Assignment getAssignment();
 
-	void setExecutor(Person executor);
-
-	Workgroup getWorkgroup();
-
-	void setWorkgroup(Workgroup workgroup);
+	void setAssignment(Assignment assignment);
 
 }

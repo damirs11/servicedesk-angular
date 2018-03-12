@@ -31,9 +31,9 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
 
         IWorkorder iWorkorder = sdClientBean.sd_session().getWorkorderHome().openNewWorkorder(281495075961055L);
 
-        IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getWorkgroup().getId());
+        IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
         IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
-        IPerson assignee = iPersonDao.read(entity.getExecutor().getId());
+        IPerson assignee = iPersonDao.read(entity.getAssignment().getExecutor().getId());
         IWorkorderStatus iStatus = iWorkorderStatusDao.read(entity.getStatus().getId());
         IWorkorderCategory iWorkorderCategory = iWorkorderCategoryDao.read(entity.getCategory().getId());
 
@@ -61,9 +61,9 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
 
         IWorkorder iWorkorder = read(entity.getId());
 
-        IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getWorkgroup().getId());
+        IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
         IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
-        IPerson assignee = iPersonDao.read(entity.getExecutor().getId());
+        IPerson assignee = iPersonDao.read(entity.getAssignment().getExecutor().getId());
         IWorkorderStatus iStatus = iWorkorderStatusDao.read(entity.getStatus().getId());
         IWorkorderCategory iWorkorderCategory = iWorkorderCategoryDao.read(entity.getCategory().getId());
 
@@ -101,11 +101,11 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
             iWorkorder.setCategory(iWorkorderCategory);
         }
         if(fields.contains("workgroup")){
-            IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getWorkgroup().getId());
+            IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
             iWorkorder.getAssignment().setAssWorkgroup(iWorkgroup);
         }
         if(fields.contains("executor")){
-            IPerson executor = iPersonDao.read(entity.getExecutor().getId());
+            IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
             iWorkorder.getAssignment().setAssigneePerson(executor);
         }
         if(fields.contains("initiator")){

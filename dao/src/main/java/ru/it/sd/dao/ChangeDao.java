@@ -35,8 +35,10 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 			"   ch.reg_created, " +
 			"   ch.cha_deadline, " +
 			"   ch.cha_actualfinish, " +
-			"   ch.ass_per_to_oid, " +
-            "   ch.ass_wog_oid, " +
+			"   ch.cha_assign_status ass_status, " +
+			"   ch.cha_assign_priority ass_priority, " +
+			"   ch.ass_per_to_oid ass_person_to, " +
+            "   ch.ass_wog_oid ass_workgroup_to, " +
 			"   ch.cha_cat_oid, " +
             "   ch.cha_closurecode, " +
             "   ch.cha_poo_oid, " +

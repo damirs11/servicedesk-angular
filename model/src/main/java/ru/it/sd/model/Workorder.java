@@ -65,17 +65,13 @@ public class Workorder implements HasId, HasStatus, HasAssignment, Serializable 
 	/** Инициатор */
 	@FieldMeta(columnName = "wor_requestor_per_oid")
 	private Person initiator;
-	/** Исполнитель */
-	@FieldMeta(columnName = "ass_per_to_oid", required = true)
-	private Person executor;
-    /** Группа исполнителей*/
-    @FieldMeta(columnName = "ass_workgroup", required = true)
-    private Workgroup workgroup;
 
 	/** Изменение */
 	@FieldMeta(columnName = "wor_cha_oid")
 	private Change change;
 
+	@FieldMeta(columnName = "", attribute = 665649208)
+	private Assignment assignment;
 
 	@Override
 	public Long getId() {
@@ -194,15 +190,7 @@ public class Workorder implements HasId, HasStatus, HasAssignment, Serializable 
 		this.initiator = initiator;
 	}
 
-	@Override
-	public Person getExecutor() {
-		return executor;
-	}
 
-	@Override
-	public void setExecutor(Person executor) {
-		this.executor = executor;
-	}
 
 	public Boolean getExpired() {
 		return expired;
@@ -220,13 +208,15 @@ public class Workorder implements HasId, HasStatus, HasAssignment, Serializable 
 		this.change = change;
 	}
 
-	@Override
-    public Workgroup getWorkgroup() {
-        return workgroup;
-    }
+
 
 	@Override
-    public void setWorkgroup(Workgroup workgroup) {
-        this.workgroup = workgroup;
-    }
+	public Assignment getAssignment() {
+		return assignment;
+	}
+
+	@Override
+	public void setAssignment(Assignment assignment) {
+		this.assignment = assignment;
+	}
 }
