@@ -95,15 +95,16 @@ public class CommonRestControllerTest extends AbstractWebTest{
 	private void testUpdate() throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Change change = new Change();
+		change.setAssignment(new Assignment());
 		change.setId(321L);
 		change.setManager(new Person());
-		change.setWorkgroup(new Workgroup());
+		change.getAssignment().setWorkgroup(new Workgroup());
 		change.setSubject("qwerty");
 		change.setInitiator(new Person());
 		change.setDescription("asdfg");
 		change.setClassification(new EntityClassification());
 		change.setPriority(new EntityPriority());
-		change.setExecutor(new Person());
+		change.getAssignment().setExecutor(new Person());
 		change.setCategory(new EntityCategory());
 		change.setDeadline(new Date());
 
