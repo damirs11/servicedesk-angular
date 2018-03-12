@@ -109,6 +109,8 @@ class SDAccessRules {
     actionAllowed(action) {
         if (this._maxActionAccessMap[action] == false) return false;
 
+        if (this.serverAccessData.entity[action] == "NONE") return false;
+
         const localRules = this._localActionRules[action];
         if (localRules) for (let i = 0; i < localRules.length; i++) {
             const result = this.$injector.invoke(localRules[i]);
