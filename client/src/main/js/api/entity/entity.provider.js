@@ -90,28 +90,34 @@ function EntityProvider(cache) {
          */
         $update(data) {
             const cached = this.$data;
-            const parseData = Object.create(null);
+            const parserMap = Object.create(null);
             let obj = cached;
             while (obj = Object.getPrototypeOf(obj)) {
                 const map = obj[PARSE_MAP];
                 if (!map) continue;
                 for (const val in map) {
-                    parseData[val] = parseData[val] || map[val];
+                    parserMap[val] = parserMap[val] || map[val];
                 }
             }
-            for (const key in data) {
-                const value = data[key];
-                const mapDescriptor = parseData[key];
-                if (!mapDescriptor) continue;
+
+            function parseValue(key,value){
+                if (typeof value === "object") for (const subkey in value)  {
+                    const newKey = key ? key+"."+subkey : subkey;
+                    parseValue(newKey,value[subkey]);
+                }
+                if (!key) return;
+                const mapDescriptor = parserMap[key];
+                if (!mapDescriptor) return;
                 const parse = mapDescriptor.parse;
                 const result = parse.call(cached,value,data,key,cached);
                 if (result !== undefined) cached[mapDescriptor.propertyName] = result;
             }
+            parseValue(null,data);
             return this;
         }
 
         /**
-         * Обновляет кэш объекта, без использовать @Parse
+         * Обновляет кэш объекта, без использования @Parse
          * Подставляет все данные из map в объект кэша
          * @param map
          * @chain
@@ -141,6 +147,7 @@ function EntityProvider(cache) {
                 }
             }
             const json = Object.create(null);
+
             for (const key in this) {
                 const value = this[key];
                 if (this[key] === undefined) continue;
@@ -148,12 +155,21 @@ function EntityProvider(cache) {
                 if (!serializeDescriptor) continue;
                 const serialize = serializeDescriptor.serialize;
                 const serializedName = serializeDescriptor.serializedName;
-                if (this[key] === null) {
-                    json[serializedName] = null;
-                    continue;
+                let result = null;
+                // Если значение поля null, то на него не срабатывает функция сериализации
+                if (this[key] !== null) {
+                    result = serialize(value,serializedName);
+                    if (result === undefined) continue;
                 }
-                const result = serialize(value,serializedName);
-                if (result !== undefined) json[serializedName] = result;
+                // Сериализация для сложных ключей. Например assignment.status.oid
+                // В этом случае, если @Serialize вернет 10, то произойдет json.assignment.status.oid = 10
+                const parts = serializedName.split(".");
+                let obj = json;
+                for (let i = 0 ; i < parts.length-1; i++) { // Создаем нужные объекты по цепочке
+                    obj[parts[i]] = obj[parts[i]] || {};
+                    obj = obj[parts[i]]
+                }
+                obj[parts[parts.length-1]] = result // В финальный ключ заносим значение
             }
             // Добавляем трекер в json.
             json[ this.constructor.$tracker.dataField ] = this[ this.constructor.$tracker.ownField ];
@@ -162,6 +178,7 @@ function EntityProvider(cache) {
 
         /**
          * Возвращает объект с измененными полями сущности
+         * @chain
          */
         get $modifiedData() {
             const serializeData = Object.create(null);
@@ -183,7 +200,14 @@ function EntityProvider(cache) {
                 const serialize = serializeDescriptor.serialize;
                 const serializedName = serializeDescriptor.serializedName;
                 const result = serialize(value,serializedName);
-                if (result !== undefined) json[serializedName] = result;
+                if (result === undefined) continue;
+                const parts = serializedName.split(".");
+                let obj = json;
+                for (let i = 0 ; i < parts.length-1; i++) { // Создаем нужные объекты по цепочке
+                    obj[parts[i]] = obj[parts[i]] || {};
+                    obj = obj[parts[i]]
+                }
+                obj[parts[parts.length-1]] = result // В финальный ключ заносим значение
             }
             return json;
         }

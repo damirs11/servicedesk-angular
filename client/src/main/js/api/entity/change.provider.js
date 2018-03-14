@@ -3,6 +3,7 @@ import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
 import {serializeId} from "./decorator/serialize-utils";
 import {Mixin} from "./mixin/mixin.decorator";
+import {AccessRule} from "./decorator/access-utils.decorator";
 
 
 ChangeProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable", "AttachmentsHolder","Accessible"];
@@ -50,7 +51,8 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @name SD.Change#status
          * @type {SD.EntityStatus}
          */
-        @Serialize(serializeId) @Parse(data => SD.EntityStatus.parse(data)) status;
+        @Serialize(serializeId)
+        @Parse(data => SD.EntityStatus.parse(data)) status;
 
         /**
          * Приоритет
@@ -58,7 +60,8 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @name SD.Change#priority
          * @type {SD.EntityPriority}
          */
-        @Serialize(serializeId) @Parse(data => SD.EntityPriority.parse(data)) priority;
+        @Serialize(serializeId)
+        @Parse(data => SD.EntityPriority.parse(data)) priority;
 
         /**
          * Дата создания
@@ -100,13 +103,14 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          */
         @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) manager;
 
-        /**
-         * Исполнитель
-         * @property
-         * @name SD.Change#manager
-         * @type {SD.Person}
-         */
-        @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) executor;
+        // /**
+        //  * Исполнитель
+        //  * @property
+        //  * @name SD.Change#manager
+        //  * @type {SD.Person}
+        //  */
+        // @Serialize("assignment.executor", serializeId)
+        // @Parse("assignment.executor", data => SD.Person.parse(data)) executor;
 
         /**
          * Классификация
@@ -124,13 +128,14 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          */
         @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
 
-        /**
-         * Рабочая группа
-         * @property
-         * @name SD.Change#workgroup
-         * @type {SD.Workgroup}
-         */
-        @Serialize("assWorkgroup",serializeId) @Parse("assWorkgroup", data => SD.Workgroup.parse(data)) workgroup;
+        // /**
+        //  * Рабочая группа
+        //  * @property
+        //  * @name SD.Change#workgroup
+        //  * @type {SD.Workgroup}
+        //  */
+        // @Serialize("assignment.workgroup",serializeId)
+        // @Parse("assignment.workgroup", data => SD.Workgroup.parse(data)) workgroup;
 
         toString(){
             return this.no;

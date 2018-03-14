@@ -83,15 +83,23 @@ const SDConstructor = function SD($injector,cache) {
     this.EntityClassification = $injector.instantiate(EntityClassificationProvider,locals);
     this.EntityClosureCode = $injector.instantiate(EntityClosureCodeProvider,locals);
 
-    this.withCache = (newCache = Object.create(cache)) => {
-        return $injector.instantiate(SD,{cache:newCache});
-    };
+    // this.withCache = (newCache = Object.create(cache)) => {
+    //     return $injector.instantiate(SD,{cache:newCache});
+    // };
 
-    this.clearCache = () => {
-        Object.keys(this.cache)
-            .forEach(key => delete this.cache[key])
-        ;
-    };
+    Object.defineProperty(this,"withCache",{
+        enumerable: false,
+        value: (newCache = Object.create(cache)) => {
+            return $injector.instantiate(SD,{cache:newCache});
+        }
+    });
+
+    Object.defineProperty(this,"clearCache",{
+        enumerable: false,
+        value: () => {
+            Object.keys(this.cache).forEach(key => delete this.cache[key]);
+        }
+    });
 
     return Object.freeze(this)
 };
