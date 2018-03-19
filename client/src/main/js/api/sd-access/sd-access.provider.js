@@ -1,5 +1,4 @@
 import {SDAccess} from "./sd-access";
-import {ACCESSRULE_MAP} from "../entity/decorator/access-utils.decorator";
 
 function SDAccessProvider() {
 

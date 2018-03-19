@@ -1,3 +1,4 @@
+import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
 const ICON_CLASS_MAP = {
     "archive": "fa-file-archive-o",
     "word": "fa-file-o-word",
@@ -11,7 +12,10 @@ const ICON_CLASS_MAP = {
     "text": "fa-file-text-o"
 };
 
+@NGInjectClass()
 class SDAttachmentItemController {
+
+    @NGInject() ModalAction;
 
     get iconClass(){
         const classes = {fa:true};
@@ -27,6 +31,13 @@ class SDAttachmentItemController {
         if (size < 1048576) return `${Math.ceil(size/1024)} kB`; // size < 2^20
         if (size < 1073741824) return `${Math.ceil(size/1048576)} MB`; // size < 2^30
         return `${Math.ceil(size/1073741824)} GB`; // size >= 2^30
+    }
+
+    openImagePopup() {
+        this.ModalAction.imagePopup(this.$scope, {
+            url: "http://i0.kym-cdn.com/photos/images/newsfeed/001/295/524/cda.jpg"
+            // url: "https://static.pexels.com/photos/349758/hummingbird-bird-birds-349758.jpeg"
+        })
     }
 }
 

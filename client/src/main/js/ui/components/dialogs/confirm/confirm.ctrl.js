@@ -1,4 +1,4 @@
-export class ConfirmController{
+class ConfirmController{
 
     static $inject = ["$modalState", "header", "msg", "required"];
     constructor($modalState, header, msg, required){
@@ -22,3 +22,5 @@ export class ConfirmController{
         this.$modalState.resolve(false);
     }
 }
+
+export {ConfirmController as controller}
