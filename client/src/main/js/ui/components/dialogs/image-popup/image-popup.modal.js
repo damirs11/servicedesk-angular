@@ -5,7 +5,8 @@ import {controller} from "./image-popup.ctrl";
  * Всплывающая картинка.
  *
  * Параметры:
- * @param url {string} - путь к картинке
+ * @param urls {string[]} - массив ссылок на изображения
+ * @param startFrom {?number} - номер изображения, с которого начать. опционально.
  *
  * Возвращает:
  * @returns undefined

@@ -32,13 +32,6 @@ class SDAttachmentItemController {
         if (size < 1073741824) return `${Math.ceil(size/1048576)} MB`; // size < 2^30
         return `${Math.ceil(size/1073741824)} GB`; // size >= 2^30
     }
-
-    openImagePopup() {
-        this.ModalAction.imagePopup(this.$scope, {
-            url: "http://i0.kym-cdn.com/photos/images/newsfeed/001/295/524/cda.jpg"
-            // url: "https://static.pexels.com/photos/349758/hummingbird-bird-birds-349758.jpeg"
-        })
-    }
 }
 
 export {SDAttachmentItemController as controller}

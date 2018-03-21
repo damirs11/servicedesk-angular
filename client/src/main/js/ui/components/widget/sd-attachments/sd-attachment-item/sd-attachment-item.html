@@ -2,11 +2,10 @@
     <div class="attachment-item__box">
         <img data-ng-src="{{ctrl.attachment.url}}"
              data-ng-if="ctrl.attachment.fileType == 'image'"
-             data-ng-click="ctrl.openImagePopup()">
+        >
         <span class="attachment-item__box__icon"
               data-ng-if="ctrl.attachment.fileType != 'image'"
               data-ng-class="ctrl.iconClass"
-              data-ng-click="ctrl.openImagePopup()"
         ></span>
     </div>
     <div class="attachment-item__name">
