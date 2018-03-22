@@ -32,6 +32,7 @@ CREATE TABLE itsm_changes (
   cha_oid DECIMAL(18),
   cha_id DECIMAL(18),
   cha_description VARCHAR(80),
+  cha_solution VARCHAR(80),
   cha_requestor_per_oid DECIMAL(18),
   ass_per_to_oid DECIMAL(18),
   ass_wog_oid DECIMAL(18),
@@ -42,7 +43,12 @@ CREATE TABLE itsm_changes (
   cha_cla_oid DECIMAL(18),
   reg_created DATETIME,
   cha_deadline DATETIME,
+  cha_actualstart DATETIME,
   cha_actualfinish DATETIME,
+  cha_latefinish DATETIME,
+  cha_planstart DATETIME,
+  cha_planfinish DATETIME,
+  cha_planduration FLOAT,
   cha_apt_status DECIMAL(18),
   cha_apt_description VARCHAR(80),
   cha_apt_deadline DATETIME,
@@ -55,7 +61,13 @@ CREATE TABLE itsm_changes (
   cha_initiator_per_oid DECIMAL(18),
   cha_tem_oid DECIMAL(18),
   cha_assign_status DECIMAL(18),
-	cha_assign_priority DECIMAL(18)
+	cha_assign_priority DECIMAL(18),
+	cha_cit_oid DECIMAL(18)
+);
+
+CREATE TABLE itsm_cha_custom_fields(
+  ccu_cha_oid DECIMAL(18),
+  ccu_changecode1 DECIMAL(18)
 );
 
 CREATE TABLE itsm_cha_information (

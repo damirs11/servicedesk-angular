@@ -4,6 +4,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.CodeDao;
+import ru.it.sd.dao.ConfigurationItemDao;
 import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.*;
@@ -25,12 +26,14 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 	private final ChangeMapper changeMapper;
 	private final CodeDao codeDao;
 	private final AssignmentMapper assignmentMapper;
+	private final ConfigurationItemDao configurationItemDao;
 
-	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, CodeDao codeDao, AssignmentMapper assignmentMapper) {
+	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, CodeDao codeDao, AssignmentMapper assignmentMapper, ConfigurationItemDao configurationItemDao) {
 		this.personDao = personDao;
 		this.changeMapper = changeMapper;
 		this.codeDao = codeDao;
 		this.assignmentMapper = assignmentMapper;
+		this.configurationItemDao = configurationItemDao;
 	}
 
 	@Override
@@ -44,8 +47,15 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 			Assignment assignment = assignmentMapper.mapRow(rs, 0);
 			change.setAssignment(assignment);
 
-			Long statusId = DBUtils.getLong(rs, "cha_sta_oid");
+			Double duration = rs.getDouble("cha_planduration");
+			if(duration != 0){
+				//Переводим дату из double в миллисекунды
+				Double time = duration * 24 * 60 * 60 * 1000;
+				Date date = new Date(time.longValue());
+				change.setPlanDuration(date);
+			}
 
+			Long statusId = DBUtils.getLong(rs, "cha_sta_oid");
 			if(statusId !=null) {
                 BaseCode code = codeDao.read(statusId);
 			    change.setStatus(code.convertTo(EntityStatus.class));
@@ -86,6 +96,19 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
                 BaseCode code = codeDao.read(folderId);
                 change.setFolder(code.convertTo(Folder.class));
             }
+
+			Long systemCodeId = DBUtils.getLong(rs, "ccu_changecode1");
+			if(systemCodeId != null) {
+				BaseCode code = codeDao.read(systemCodeId);
+				change.setSystem(code.convertTo(EntityCode1.class));
+			}
+
+			/* до реализцаии ConfigurationItem
+			Long configurationItemId = DBUtils.getLong(rs, "cha_cit_oid");
+			if(configurationItemId != null) {
+				ConfigurationItem configurationItem = configurationItemDao.read(configurationItemId);
+				change.setConfigurationItem(configurationItem);
+			}*/
 
 			list.add(change);
 		}

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.ApproverVote;
 
+import java.util.Set;
+
 @Repository
 public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
 
@@ -26,10 +28,8 @@ public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
         IApprovalVote iApprovalVote = sdClientBean.sd_session().getApprovalVoteHome().openNewApprovalVote();
         //Открытие персоны
         IPerson iPerson = iPersonDao.read(entity.getApprover().getId());
-
         //Получаем сущность
         IWorkflow iWorkflow = iWorkflowDao.read(entity.getEntityId(), entity.getEntityType());
-        
         //Заполнение мнения и сохранения
         iApprovalVote.setApprover(iPerson);
         iApprovalVote.setApproval(iWorkflow);
@@ -50,7 +50,7 @@ public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
     @Override
     public void update(ApproverVote entity) {
         IApprovalVote iApprovalVote = read(entity.getEntityId());
-        iApprovalVote.setApproved(entity.getApproved()==1);
+        iApprovalVote.setApproved(entity.getApproved());
         iApprovalVote.setReason(entity.getReason());
         iApprovalVote.save();
     }
@@ -59,5 +59,19 @@ public class IApproverVoteDao implements HpCrudDao<ApproverVote, IApprovalVote>{
     public void delete(long id) {
         IApprovalVote iApprovalVote = read(id);
         iApprovalVote.delete();
+    }
+
+    public void patch(ApproverVote entity, Set<String> fields){
+        IApprovalVote iApprovalVote = read(entity.getId());
+        if(fields.contains("approved")){
+            iApprovalVote.setApproved(entity.getApproved());
+        }
+        if(fields.contains("approver")) {
+            iApprovalVote.setApprover(iPersonDao.read(entity.getApprover().getId()));
+        }
+        if(fields.contains("reason")){
+            iApprovalVote.setReason(entity.getReason());
+        }
+        iApprovalVote.save();
     }
 }

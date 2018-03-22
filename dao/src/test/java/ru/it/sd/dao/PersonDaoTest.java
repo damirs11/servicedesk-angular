@@ -62,5 +62,12 @@ public class PersonDaoTest extends AbstractDaoTest {
 		assertEquals(list.get(0).getId(), Long.valueOf(4));
 		assertEquals(list.get(1).getId(), Long.valueOf(3));
 	}
+	@Test
+	private void testWorkgroupFilter(){
+		Map<String, String> filter = new HashMap<>();
+		filter.put("workgroup", "20001");
+		List<Person> list = dao.list(filter);
+		assertEquals(2, list.size());
+	}
 
 }

@@ -44,11 +44,11 @@ public class Approval implements HasId, HasStatus, Serializable {
 	private Integer numberOfApproversRequired;
 
     /* Число согласующих*/
-    @FieldMeta(columnName = "nrofapprovers", readOnly = true)
+    @FieldMeta(columnName = "nrofapprovers")
     private Integer numberOfApprovers;
 
     /* Число одобривших(сколько есть одобрений)*/
-    @FieldMeta(columnName = "nrofapproversapproved", readOnly = true)
+    @FieldMeta(columnName = "nrofapproversapproved")
     private Integer numberOfApproversApproved;
 
     /* Группа согласования*/

@@ -1,6 +1,5 @@
 package ru.it.sd.service;
 
-import com.hp.itsm.api.interfaces.IApprovalVote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -81,8 +80,8 @@ public class ApproverVoteService extends CrudService<ApproverVote>{
 
 	@Override
 	public ApproverVote patch(ApproverVote entity, Set<String> fields) {
-		//todo
-		return entity;
+		hpDao.patch(entity, fields);
+		return dao.read(entity.getId());
 	}
 
 }

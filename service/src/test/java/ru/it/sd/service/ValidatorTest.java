@@ -19,16 +19,17 @@ public class ValidatorTest {
     @Test
     private void test(){
         Change change = new Change();
+        change.setAssignment(new Assignment());
         change.setNo(123L);
         change.setId(321L);
         change.setSubject("12");
         change.setDescription("sdasd");
         //change.setPriority(EntityPriority.MINOR);
         change.setManager(new Person());
-        change.setWorkgroup(new Workgroup());
+        change.getAssignment().setWorkgroup(new Workgroup());
         change.setInitiator(new Person());
         //change.setClassification(EntityClassification.CHANGE_NEW_CI);
-        change.setExecutor(new Person());
+        change.getAssignment().setExecutor(new Person());
         //change.setCategory(EntityCategory.CHANGE_CAB);
         change.setDeadline(new Date());
         change.setClassification(new EntityClassification());
