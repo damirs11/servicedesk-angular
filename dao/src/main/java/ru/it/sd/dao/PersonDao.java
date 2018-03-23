@@ -1,7 +1,5 @@
 package ru.it.sd.dao;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -56,6 +54,14 @@ public class PersonDao extends AbstractEntityDao<Person> {
 			params.addValue("userId", filter.get("userId"));
 			sql.append(" AND per_acc_oid = :userId");
 		}
+
+		if (Objects.nonNull(filter) && filter.containsKey("workgroup")) {
+			params.addValue("workgroup", filter.get("workgroup"));
+			sql.append(" AND p.per_oid IN (" +
+					"SELECT mem_per_oid FROM itsm_members " +
+					"WHERE mem_wog_oid = :workgroup)");
+		}
+
 	}
 
 	/**

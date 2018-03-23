@@ -44,7 +44,7 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 		secondFilter.put("filter", "initiator");
 		Map<String, String> thirdFilter = new HashMap<>();
 		thirdFilter.put("initiator", "1");
-		//исполнитель
+		//РёСЃРїРѕР»РЅРёС‚РµР»СЊ
 		thirdFilter.put("personId", "2");
 		thirdFilter.put("filter", "executor");
 

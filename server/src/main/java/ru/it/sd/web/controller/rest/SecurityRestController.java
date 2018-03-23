@@ -107,7 +107,7 @@ public class SecurityRestController extends AbstractController{
 	}
 
 	/**
-	 * Получение прав доступа к конкретной сущности (общие права и атрибуты)
+	 * Получение прав доступа по типу сущности
 	 * @param entity тип сущности
 	 * @return общие права сущности на чтение и создание {@link Grant}
 	 */

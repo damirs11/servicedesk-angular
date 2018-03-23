@@ -105,8 +105,13 @@ public class AccessService {
         entityAccess.setHistoryRead(GrantRule.NONE);
         entityAccess.setHistoryUpdate(GrantRule.NONE);
         entityAccess.setHistoryDelete(GrantRule.NONE);
-        filter.put("codeId", entity.getFolder().getId().toString());
-        List<BaseCode> parentFolders = codeDao.list(filter);
+
+        List<BaseCode> parentFolders = new ArrayList<>();
+        if(entity.getFolder() != null){
+            filter.put("codeId", entity.getFolder().getId().toString());
+            parentFolders = codeDao.list(filter);
+        }
+
         //Результат проверки прав доступа атрибутов
         Map<String, AttributeGrantRule> attributeAccessMap = new HashMap<>();
         //Цикл по всем правам доступа к сущности(ena)
