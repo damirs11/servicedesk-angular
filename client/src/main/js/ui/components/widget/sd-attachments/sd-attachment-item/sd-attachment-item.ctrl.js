@@ -32,6 +32,12 @@ class SDAttachmentItemController {
         if (size < 1073741824) return `${Math.ceil(size/1048576)} MB`; // size < 2^30
         return `${Math.ceil(size/1073741824)} GB`; // size >= 2^30
     }
+
+    onClick(){
+        this.onIconClick({$attachment:this.attachment})
+    }
+
+
 }
 
 export {SDAttachmentItemController as controller}

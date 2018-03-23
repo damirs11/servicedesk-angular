@@ -1,8 +1,9 @@
 import mocks from "./attachments.mock.json"
+import {NGInject, NGInjectClass} from "../../../../common/decorator/ng-inject.decorator";
 
+@NGInjectClass()
 class SDAttachmentsController {
 
-    static $inject = ["$attrs"];
     /**
      * [{
      *      file: File               // сам файл
@@ -23,9 +24,9 @@ class SDAttachmentsController {
     // Промис загрузки вложений
     loadingPromise ;
 
-    constructor($attrs){
-        this.$attrs = $attrs;
-    }
+    @NGInject() $attrs;
+    @NGInject() ModalAction;
+    @NGInject() $scope;
 
     async $onInit(){
         this.SD = this.sd; // SD переданный аттрибутом
@@ -71,6 +72,17 @@ class SDAttachmentsController {
         } catch (e) {
             uploadingInfo.status = "error";
         }
+    }
+
+    onIconClick(attachment){
+        const imageAttachments = this.attachments
+            .filter(a => a.fileType == "image")
+        ;
+        if (!imageAttachments.length) return;
+        const startFrom = imageAttachments.indexOf(attachment);
+        const urls = imageAttachments.map(a => a.url);
+        this.ModalAction.imagePopup(this.$scope, {urls, startFrom});
+
     }
 
     async $onFileUploadError(uploadingInfo,resp) {

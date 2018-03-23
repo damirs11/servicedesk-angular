@@ -2,10 +2,12 @@
     <div class="attachment-item__box">
         <img data-ng-src="{{ctrl.attachment.url}}"
              data-ng-if="ctrl.attachment.fileType == 'image'"
+             ng-click="ctrl.onClick()"
         >
         <span class="attachment-item__box__icon"
               data-ng-if="ctrl.attachment.fileType != 'image'"
               data-ng-class="ctrl.iconClass"
+              ng-click="ctrl.onClick()"
         ></span>
     </div>
     <div class="attachment-item__name">

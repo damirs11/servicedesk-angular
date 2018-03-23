@@ -4,6 +4,7 @@
             <sd-attachment-item
                     ng-repeat="$item in ctrl.attachments"
                     attachment="$item"
+                    on-icon-click="ctrl.onIconClick($attachment)"
             ></sd-attachment-item>
             <a href="javascript:void(0)">
                 <sd-attach-box on-attach="ctrl.$onFilePicked($files)">
