@@ -102,15 +102,6 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          */
         @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) manager;
 
-        // /**
-        //  * Исполнитель
-        //  * @property
-        //  * @name SD.Change#manager
-        //  * @type {SD.Person}
-        //  */
-        // @Serialize("assignment.executor", serializeId)
-        // @Parse("assignment.executor", data => SD.Person.parse(data)) executor;
-
         /**
          * Классификация
          * @property
@@ -127,14 +118,14 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          */
         @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
 
-        // /**
-        //  * Рабочая группа
-        //  * @property
-        //  * @name SD.Change#workgroup
-        //  * @type {SD.Workgroup}
-        //  */
-        // @Serialize("assignment.workgroup",serializeId)
-        // @Parse("assignment.workgroup", data => SD.Workgroup.parse(data)) workgroup;
+        /**
+         * Сущность "назначено"
+         * @property
+         * @name SD.Change#assignment
+         * @type {SD.EntityAssignment}
+         */
+        @Serialize("assignment",(ag) => ag.$serialize())
+        @Parse("assignment", data => SD.EntityAssignment.parse(data)) assignment;
 
         toString(){
             return this.no;

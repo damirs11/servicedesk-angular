@@ -24,6 +24,7 @@ import {AttachmentProvider} from "./entity/attachment.provider";
 import {FileInfoProvider} from "./entity/file-info.provider";
 import {AttachmentsHolderProvider} from "./entity/mixin/attachments-holder.provider";
 import {AccessibleProvider} from "./entity/mixin/accessible";
+import {EntityAssignmentProvider} from "./entity/entity-assignment.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -78,6 +79,7 @@ const SDConstructor = function SD($injector,cache) {
 
     /** другие-сущности */
     this.EntityStatus = $injector.instantiate(StatusProvider,locals);
+    this.EntityAssignment = $injector.instantiate(EntityAssignmentProvider,locals);
     this.EntityPriority = $injector.instantiate(PriorityProvider,locals);
     this.EntityCategory = $injector.instantiate(EntityCategoryProvider,locals);
     this.EntityClassification = $injector.instantiate(EntityClassificationProvider,locals);
