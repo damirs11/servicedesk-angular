@@ -4,19 +4,10 @@
 
 @font-size: @font-size-base;
 
+@disabled-text-color: #b0bcc7;
 
-// Изменить, при изменении размера хидера в карте.
-@entity-card-header-height: 122px;
-.entity-card-header {
-  height: @entity-card-header-height;
-  float: left;
-}
 
-.entity-card-body {
-  padding-top: @entity-card-header-height;
-  display: block;
-  height: 100%;
-}
+
 
 .entity-container {
   display: block;
@@ -31,6 +22,7 @@
   &__header {
     background-color: #f1f1f1;
     font-size: 14px;
+    padding: 7px;
   }
 
   &__content {

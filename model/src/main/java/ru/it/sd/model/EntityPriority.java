@@ -12,8 +12,14 @@ public class EntityPriority extends BaseCode {
 
 	public EntityPriority(){}
 
-	public static Long getTypeId() {
+	public static Long getTypeId(EntityType entityType) {
 	    //Для всех сущностей одинаковый subtype
-		return 889389215L;
+
+		switch(entityType){
+			case ASSIGNMENT:
+				return 76990L;
+			default:
+				return 889389215L;
+		}
 	}
 }

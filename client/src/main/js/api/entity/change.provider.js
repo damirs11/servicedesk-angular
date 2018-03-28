@@ -5,8 +5,8 @@ import {serializeId} from "./decorator/serialize-utils";
 import {Mixin} from "./mixin/mixin.decorator";
 
 
-ChangeProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable", "AttachmentsHolder"];
-function ChangeProvider(EditableEntity, SD, Historyable, Approvable, AttachmentsHolder) {
+ChangeProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable", "AttachmentsHolder","Accessible"];
+function ChangeProvider(EditableEntity, SD, Historyable, Approvable, AttachmentsHolder, Accessible) {
     /**
      * Персона
      * @class
@@ -14,9 +14,10 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
      * @mixes ENTITY_MIXIN.Historyable
      * @mixes ENTITY_MIXIN.Approvable
      * @mixes ENTITY_MIXIN.AttachmentsHolder
+     * @mixes ENTITY_MIXIN.Accessible
      * @extends SD.EditableEntity
      */
-    @Mixin(Historyable, Approvable, AttachmentsHolder)
+    @Mixin(Historyable, Approvable, AttachmentsHolder, Accessible)
     class Change extends EditableEntity {
         static $entityTypeId = 724041768;
         /**
@@ -49,7 +50,8 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @name SD.Change#status
          * @type {SD.EntityStatus}
          */
-        @Serialize(serializeId) @Parse(data => SD.EntityStatus.parse(data)) status;
+        @Serialize(serializeId)
+        @Parse(data => SD.EntityStatus.parse(data)) status;
 
         /**
          * Приоритет
@@ -57,7 +59,8 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @name SD.Change#priority
          * @type {SD.EntityPriority}
          */
-        @Serialize(serializeId) @Parse(data => SD.EntityPriority.parse(data)) priority;
+        @Serialize(serializeId)
+        @Parse(data => SD.EntityPriority.parse(data)) priority;
 
         /**
          * Дата создания
@@ -100,14 +103,6 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
         @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) manager;
 
         /**
-         * Исполнитель
-         * @property
-         * @name SD.Change#manager
-         * @type {SD.Person}
-         */
-        @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) executor;
-
-        /**
          * Классификация
          * @property
          * @name SD.Change#classification
@@ -124,12 +119,13 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
         @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
 
         /**
-         * Рабочая группа
+         * Сущность "назначено"
          * @property
-         * @name SD.Change#workgroup
-         * @type {SD.Workgroup}
+         * @name SD.Change#assignment
+         * @type {SD.EntityAssignment}
          */
-        @Serialize("assWorkgroup",serializeId) @Parse("assWorkgroup", data => SD.Workgroup.parse(data)) workgroup;
+        @Serialize("assignment",(ag) => ag.$serialize())
+        @Parse("assignment", data => SD.EntityAssignment.parse(data)) assignment;
 
         toString(){
             return this.no;

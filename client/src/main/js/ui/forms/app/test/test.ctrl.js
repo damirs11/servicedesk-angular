@@ -1,43 +1,17 @@
+import {NGInject, NGInjectClass} from "../../../../common/decorator/ng-inject.decorator";
+@NGInjectClass()
 class TestController {
-    static $inject = ['$scope', 'ModalAction','SD'];
+    @NGInject() ModalAction;
 
-    constructor($scope, ModalAction,SD) {
-        this.$scope = $scope;
-        this.ModalAction = ModalAction;
-        this.SD = SD;
-
-        this.enabled = true;
-        this.minDate = moment().subtract(2,"days").toDate();
-        this.maxDate = moment().add(1,"day").toDate();
+    openImagePopup(){
+        this.ModalAction.imagePopup(this.$scope, {
+            urls: ["http://i0.kym-cdn.com/photos/images/newsfeed/001/295/524/cda.jpg",
+                "https://static.pexels.com/photos/349758/hummingbird-bird-birds-349758.jpeg",
+                "http://www.theuiaa.org/wp-content/uploads/2016/08/uiaa-sustainability-intro-1300x600.jpg"]
+        })
     }
 
-    $onInit(){
-        this.servicecall = {
-            subject: "Длинная тема заявки",
-            change: this.SD.Change.parse({no:-15}),
-            deadline: new Date()
-        }
-    }
 
-    errorClick() {
-        this.ModalAction.alert(this.$scope, {
-            header: 'Ошибка',
-            msg: 'Превышен лимит стоимости заказа на производство',
-            style: 'dialog-header-error'
-        });
-        //aplanaDialogs.error('Ошибка', 'Превышен лимит стоимости заказа на производство', {});
-    }
-
-    async loadChanges(text){
-        console.log(text);
-        if (text == "0") return this.changes = null;
-        this.changes = await this.SD.Change.list();
-        this.servicecall.change = this.changes[0];
-    }
-
-    logSC(){
-        console.log(this.servicecall)
-    }
 }
 
 export {TestController};

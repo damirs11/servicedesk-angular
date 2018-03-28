@@ -11,7 +11,8 @@ import {controller} from "./sd-textarea.ctrl"
  * editing {boolean} - режим редактирования
  * onCommit {expression($event)} - кэлбэк при коммите.
  * rows {Number} - количество строк
- * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
+ * validate {expression} - функция-валидатор. Если result(validationError)==true - выражение не закоммитится
+ * disabled {Boolean} - состояние в режиме редактирования. true - поле будет серым и недоступным.
  */
 const SDTextareaComponent = {
     template: template,
@@ -26,7 +27,8 @@ const SDTextareaComponent = {
         placeholder: "@",
         emptyValue: "@",
         rows: "<",
-        validate: "&"
+        validate: "&",
+        disabled: "<"
     }
 };
 

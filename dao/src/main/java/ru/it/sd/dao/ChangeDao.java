@@ -31,19 +31,31 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 			"   ch.cha_per_man_oid, " +
 			"   ci.chi_information, " +
 			"   ch.cha_sta_oid, " +
+			"   ch.cha_solution, " +
 			"   ch.cha_imp_oid, " +
 			"   ch.reg_created, " +
 			"   ch.cha_deadline, " +
+			"   ch.cha_actualstart, " +
 			"   ch.cha_actualfinish, " +
-			"   ch.ass_per_to_oid, " +
-            "   ch.ass_wog_oid, " +
+			"   ch.cha_latefinish, " +
+			"   ch.cha_planstart, " +
+			"   ch.cha_planfinish, " +
+			"   ch.cha_planduration, " +
+			"   ch.cha_assign_status ass_status, " +
+			"   ch.cha_assign_priority ass_priority, " +
+			"   ch.ass_per_to_oid ass_person_to, " +
+            "   ch.ass_wog_oid ass_workgroup_to, " +
 			"   ch.cha_cat_oid, " +
             "   ch.cha_closurecode, " +
             "   ch.cha_poo_oid, " +
-			"   ch.cha_cla_oid\n" +
+			"   ch.cha_tem_oid, " +
+			"   ch.cha_cla_oid, " +
+			"   ch.cha_cit_oid, " +
+			"   ccu.ccu_changecode1\n" +
 			" FROM\n" +
 			"   itsm_changes ch\n" +
 			"   LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n" +
+			"   LEFT JOIN itsm_cha_custom_fields ccu ON ccu.ccu_cha_oid = ch.cha_oid\n" +
 			"   LEFT JOIN itsm_workgroups wg1 ON wg1.wog_oid = ch.ass_wog_oid\n" +
 			"   LEFT JOIN itsm_workgroups wg2 ON wg2.wog_oid = wg1.wog_parent\n" +
 			"   LEFT JOIN itsm_workgroups wg3 ON wg3.wog_oid = wg2.wog_parent\n" +

@@ -14,22 +14,23 @@ import java.sql.SQLException;
 @Component
 public class WorkorderMapper extends EntityRowMapper<Workorder> {
 
-	private PersonDao personDao;
-	private ChangeDao changeDao;
-    private WorkgroupDao workgroupDao;
-    private CodeDao codeDao;
+	private final PersonDao personDao;
+	private final ChangeDao changeDao;
+    private final CodeDao codeDao;
+    private final AssignmentMapper assignmentMapper;
 
-    public WorkorderMapper(PersonDao personDao, ChangeDao changeDao, WorkgroupDao workgroupDao,
-    CodeDao codeDao) {
+    public WorkorderMapper(PersonDao personDao, ChangeDao changeDao, CodeDao codeDao, AssignmentMapper assignmentMapper) {
 	    this.personDao = personDao;
 	    this.changeDao = changeDao;
-	    this.workgroupDao = workgroupDao;
 	    this.codeDao = codeDao;
+	    this.assignmentMapper = assignmentMapper;
     }
 
 	@Override
 	public Workorder mapRow(ResultSet rs, int rowNumber) throws SQLException {
 		Workorder workorder = super.mapRow(rs, rowNumber);
+		Assignment assignment = assignmentMapper.mapRow(rs, rowNumber);
+		workorder.setAssignment(assignment);
 
 		Long statusId = DBUtils.getLong(rs,"wor_sta_oid");
 		if (statusId != null){
@@ -53,21 +54,12 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 			Person initiator = personDao.read(initiatorId);
 			workorder.setInitiator(initiator);
 		}
-		Long assigneePersonId = DBUtils.getLong(rs,"ass_per_to_oid");
-		if (assigneePersonId != null){
-			Person assigneePerson = personDao.read(assigneePersonId);
-			workorder.setAssigneePerson(assigneePerson);
-		}
 		Long changeId = DBUtils.getLong(rs,"wor_cha_oid");
 		if (changeId != null){
 			Change change = changeDao.read(changeId);
 			workorder.setChange(change);
 		}
-        Long workgroupId = DBUtils.getLong(rs,"ass_workgroup");
-        if (workgroupId != null){
-            Workgroup workgroup = workgroupDao.read(workgroupId);
-            workorder.setAssWorkgroup(workgroup);
-        }
+
 
 		return workorder;
 	}

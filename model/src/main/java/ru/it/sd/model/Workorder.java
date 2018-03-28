@@ -13,7 +13,7 @@ import java.util.Date;
  * @since 03.05.2017
  */
 @ClassMeta(tableName = "itsm_workorders", tableAlias = "w")
-public class Workorder implements HasId, HasStatus, Serializable {
+public class Workorder implements HasId, HasStatus, HasAssignment, Serializable {
 
 	private static final long serialVersionUID = 9067411334107317799L;
 
@@ -65,17 +65,13 @@ public class Workorder implements HasId, HasStatus, Serializable {
 	/** Инициатор */
 	@FieldMeta(columnName = "wor_requestor_per_oid")
 	private Person initiator;
-	/** Исполнитель */
-	@FieldMeta(columnName = "ass_per_to_oid", required = true)
-	private Person assigneePerson;
-    /** Группа исполнителей*/
-    @FieldMeta(columnName = "ass_workgroup", required = true)
-    private Workgroup assWorkgroup;
 
 	/** Изменение */
 	@FieldMeta(columnName = "wor_cha_oid")
 	private Change change;
 
+	@FieldMeta(columnName = "", attribute = 665649208)
+	private Assignment assignment;
 
 	@Override
 	public Long getId() {
@@ -194,13 +190,7 @@ public class Workorder implements HasId, HasStatus, Serializable {
 		this.initiator = initiator;
 	}
 
-	public Person getAssigneePerson() {
-		return assigneePerson;
-	}
 
-	public void setAssigneePerson(Person assigneePerson) {
-		this.assigneePerson = assigneePerson;
-	}
 
 	public Boolean getExpired() {
 		return expired;
@@ -218,11 +208,15 @@ public class Workorder implements HasId, HasStatus, Serializable {
 		this.change = change;
 	}
 
-    public Workgroup getAssWorkgroup() {
-        return assWorkgroup;
-    }
 
-    public void setAssWorkgroup(Workgroup assWorkgroup) {
-        this.assWorkgroup = assWorkgroup;
-    }
+
+	@Override
+	public Assignment getAssignment() {
+		return assignment;
+	}
+
+	@Override
+	public void setAssignment(Assignment assignment) {
+		this.assignment = assignment;
+	}
 }

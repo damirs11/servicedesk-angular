@@ -12,7 +12,7 @@ import ru.it.sd.model.Workorder;
 import java.util.List;
 
 /**
- * Дао для работы с изменениями
+ * Дао для работы с согласованием
  *
  * @author quadrix
  * @since 28.04.2017
@@ -29,6 +29,7 @@ public class ApprovalDao extends AbstractDao{
 	private static final String BASE_SQL =
                             "SELECT " +
                             "  cha_oid AS id, " +
+							"  cha_initiator_per_oid AS initiator, " +
                             "  cha_apt_status AS apt_status, " +
                             "  cha_apt_description AS apt_description, " +
                             "  cha_apt_deadline AS deadline, " +
@@ -42,6 +43,7 @@ public class ApprovalDao extends AbstractDao{
                             "UNION ALL " +
                             "SELECT " +
                             "  wor_oid AS id, " +
+							"  wor_initiator_per_oid AS initiator, " +
                             "  wor_apt_status AS apt_status, " +
                             "  wor_apt_description AS apt_description, " +
                             "  wor_apt_deadline AS deadline, " +

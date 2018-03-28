@@ -1,4 +1,4 @@
-<div data-ng-show="ctrl.editing" class="sd-text">
+<div data-ng-show="ctrl.editing && !ctrl.disabled" class="sd-text">
     <div class="input-group sd-text__input-container" style="width: 100%">
         <input type="text"
                class="form-control"
@@ -7,6 +7,7 @@
                data-ng-maxlength="ctrl.maxlength"
                data-ng-minlength="ctrl.minlength"
                data-ng-required="ctrl.required"
+               data-ng-disabled="ctrl.disabled"
         >
     </div>
 </div>

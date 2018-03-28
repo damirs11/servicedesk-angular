@@ -1,3 +1,7 @@
+/**
+ * @type {SD.User|null}
+ */
+import {NGInject, NGInjectClass} from "../common/decorator/ng-inject.decorator";
 "use strict";
 
 SessionFactory.$inject = ["$injector"];
@@ -5,24 +9,25 @@ function SessionFactory($injector) {
     return $injector.instantiate(Session)
 }
 
-/**
- * @type {SD.User|null}
- */
 let user = null;
+
+/**
+ * Права доступа к типам сущностей.
+ * @type Object<string,SDTypeAccessRules>
+ */
+let typeAccessRules = {};
 
 /**
  * Реализует работу с сессией.
  * @class
  * @name Session
  */
+@NGInjectClass()
 class Session {
 
-    static $inject = ["$connector", "SD"];
-
-    constructor($connector, SD) {
-        this.$connector = $connector;
-        this.SD = SD;
-    }
+    @NGInject() $connector;
+    @NGInject() SD;
+    @NGInject() $sdAccess;
 
     /**
      * Входит в систему, возвращает user'а
@@ -32,7 +37,19 @@ class Session {
         const loginData = {login, password};
         const data = await this.$connector.post('rest/service/security/login', null, loginData);
         this.user = this.SD.User.parse(data);
+        await this._loadAccessData();
         return this.user;
+    }
+
+    async _loadAccessData() {
+        const entityTypeList = ["Change"];
+        const accessDataArray = await Promise.all(
+            entityTypeList.map(type => this.$sdAccess.loadTypeAccessRules(type))
+        );
+        for (let i = 0; i < entityTypeList.length; i++) {
+            const type = entityTypeList[i];
+            typeAccessRules[type] = accessDataArray[i]
+        }
     }
 
     /**
@@ -40,8 +57,9 @@ class Session {
      */
     async authorize() {
         const data = await this.$connector.get('rest/service/config/getInfo');
-        if (data.user) {
-            return this.user = this.SD.User.parse(data.user);
+        if (data.user) { // Успешная авторизация по кукисам
+            user = this.SD.User.parse(data.user);
+            await this._loadAccessData();
         }
         return user;
     }
@@ -61,6 +79,11 @@ class Session {
     async logout() {
         await this.$connector.get('rest/service/security/logout');
         this.user = null;
+        typeAccessRules = {};
+    }
+
+    getTypeAccessRules(type){
+        return typeAccessRules[type]
     }
 
     get user() {

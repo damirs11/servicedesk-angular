@@ -17,12 +17,19 @@ class ChangeCardViewController{
     @NGInject() $transitions;
     @NGInject() $pageLock;
 
+    /**
+     * Дублирование change.entityAccess
+     * для краткости в html
+     */
+    entityAccess;
+
     constructor(){
         this.msgTypes = CHANGE_MESSAGE_TYPES;
     }
 
-    $onInit() {
+    async $onInit() {
         this.change = new this.SD.Change(this.changeId);
+        this.accessRules = await this.change.accessRules;
         this.registerLeaveEditListener();
     }
 
@@ -55,21 +62,65 @@ class ChangeCardViewController{
             .lock();
     }
 
-    async createTestChange() {
-        const parent = this.change;
-        const testChange = new this.SD.Change();
-        testChange.category = parent.category;
-        testChange.classification = parent.classification;
-        testChange.description = "Проверка создания изменений";
-        testChange.subject = "Тестовое изменение";
-        testChange.priority = parent.priority;
-        testChange.deadline = new Date(Date.now()+2*60*60*1000);
-        testChange.initiator = parent.manager;
-        testChange.manager = parent.initiator;
-        testChange.workgroup = parent.workgroup;
-        testChange.executor = parent.manager;
-        await testChange.create();
+    // Методы подгрузки, для состояния редактирования
+
+    // Проверка, есть ли несохраненные изменения. Влияет на кнопку "Сохранить"
+    checkUnsavedModifies(){
+        return this.change.checkModified() || this.change.assignment.checkModified();
     }
+
+    async loadInititators(text) {
+        const filter = {};
+        if (text) filter.text = text;
+        return this.SD.Person.list(filter);
+    }
+
+    async loadManagers(text) {
+        const filter = {};
+        if (text) filter.text = text;
+        return this.SD.Person.list(filter);
+    }
+
+    async loadExecutors(text){
+        const filter = {};
+        if (text) filter.text = text;
+        const workgroup = this.change.assignment.workgroup;
+        if (workgroup) filter.workgroup = workgroup.id;
+        return this.SD.Person.list(filter);
+    }
+
+    async loadWorkgroups(text){
+        const filter = {};
+        if (text) filter.text = text;
+        const executor = this.change.assignment.executor;
+        if (executor) filter.personId = executor.id;
+        return this.SD.Workgroup.list(filter);
+    }
+
+    async loadStatuses(text) {
+        const filter = {entityTypeId: this.SD.Change.$entityTypeId};
+        if (text) filter.text = text;
+        return this.SD.EntityStatus.list(filter);
+    }
+
+    async loadPriorities(text) {
+        const filter = {entityTypeId: this.SD.Change.$entityTypeId};
+        if (text) filter.text = text;
+        return this.SD.EntityPriority.list(filter);
+    }
+
+    async loadCategories(text) {
+        const filter = {entityTypeId: this.SD.Change.$entityTypeId};
+        if (text) filter.text = text;
+        return this.SD.EntityCategory.list(filter);
+    }
+
+    async loadClassifications(text) {
+        const filter = {entityTypeId: this.SD.Change.$entityTypeId};
+        if (text) filter.text = text;
+        return this.SD.EntityClassification.list(filter);
+    }
+
 }
 
 export {ChangeCardViewController as controller}

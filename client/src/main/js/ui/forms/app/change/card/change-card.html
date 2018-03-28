@@ -2,8 +2,8 @@
 
     <content style="display: block; height: 100%">
         <!-- Card header -->
-        <div class="entity-card-header">
-            <div class="entity-container__content entity-container__header">
+        <div class="entity-container" style="width: 100%">
+            <div class="entity-container__header">
                 <a data-ui-sref="app.change.list" style="margin-right: 10px">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </a>
@@ -11,53 +11,65 @@
                     <span style="font-weight: bold">{{ctrl.change.subject}}</span>
                 </span>
             </div>
-            <div class="entity-container__content entity-container__header">
+            <div class="entity-container__header">
                 <sd-status-bar target="ctrl.change"
                                status-list="ctrl.statusList"
                 ></sd-status-bar>
             </div>
-            <div class="entity-container__content entity-container__header">
-                <nav class="nav nav-pills nav-justified">
-                    <!--<li>-->
-                        <!--<a data-ui-sref="app.change.list"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>-->
-                    <!--</li>-->
-                    <li data-ui-sref-active="active" data-ng-repeat="$item in ctrl.childStates">
-                        <a data-ui-sref="app.change.card.{{$item.path}}" ng-bind="$item.name"></a>
-                    </li>
-                </nav>
+            <div class="entity-container__header">
+                <sd-entity-card-tabs tabs="ctrl.headerTabs">
+
+                </sd-entity-card-tabs>
             </div>
         </div>
-        <!-- Body. View / history / approval / etc.-->
-        <ui-view class="entity-card-body"></ui-view>
+        <!-- Body of view / history / approval / etc.-->
+        <ui-view></ui-view>
     </content>
 
     <error>
-        <div class="container" style="padding-top: 200px; text-align: center">
-            <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsNotFound">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                        Изменение не найдено
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    Перейдите к
-                    <a data-ui-sref="app.change.list">списку изменений</a>,
-                    чтобы найти нужное изменение
-                </div>
-            </div>
-            <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsCustom">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                        Возникла непредвиденная ошибка
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <span data-ng-bind="ctrl.loadingError"></span>
-                </div>
-            </div>
-        </div>
+
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsNotFound">
+            <header class="head entity-error__header__text">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Изменение не найдено
+            </header>
+            <message class="body entity-error__body__text">
+                Перейдите к
+                <a data-ui-sref="app.change.list">списку изменений</a>,
+                чтобы найти нужное изменение
+            </message>
+        </sd-entity-error>
+
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsReadDisallowed">
+            <header class="head entity-error__header__text">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Ошибка доступа
+            </header>
+            <message class="body entity-error__body__text">
+                У вас нет прав на просмотр данного изменения
+            </message>
+        </sd-entity-error>
+
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsServerOffline">
+            <header class="head entity-error__header__text">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Сервер недоступен.
+            </header>
+            <message class="body entity-error__body__text">
+                Нет соединения с сервером. Попробуйте повторить попытку позже.
+            </message>
+        </sd-entity-error>
+
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsCustom">
+            <header class="head entity-error__header__text">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Возникла непредвиденная ошибка
+            </header>
+            <message class="body entity-error__body__text">
+                <span data-ng-bind="ctrl.loadingError"></span>
+            </message>
+        </sd-entity-error>
+
     </error>
 
 </div>

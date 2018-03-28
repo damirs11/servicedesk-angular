@@ -44,6 +44,8 @@ function AttachmentProvider(Entity, SD) {
      * Вложение. Используется для вложений / аватарок и т.п.
      * Класс не имеет своих методов работы с REST, они внедряются в другие сущности
      * @see ENTITY_MIXIN.AttachmentsHolder
+     * Для загрузки файлов на сервер используется FileInfo
+     * @see SD.FileInfo
      * @class
      * @extends SD.RESTEntity
      * @name SD.Attachment

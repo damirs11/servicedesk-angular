@@ -1,19 +1,18 @@
+import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
+
+@NGInjectClass()
 class ChangeCardAttachmentsController{
+    @NGInject() $scope;
+    @NGInject() SD;
+    @NGInject() changeId;
     /**
      * Пустое значение
      * @type {string}
      */
     emptyValue = "- нет -";
 
-    static $inject = ["$scope","SD","changeId"];
-    constructor($scope, SD, changeId, $grid){
-        this.$scope = $scope;
-        this.SD = SD;
-        this.changeId = changeId;
-    }
-
     $onInit(){
-        this.change = this.SD.Change.parse(this.changeId)
+        this.change = new this.SD.Change(this.changeId)
     }
 }
 

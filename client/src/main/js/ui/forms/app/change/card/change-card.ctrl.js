@@ -9,6 +9,7 @@ class ChangeCardController {
     busy;
     /**
      * Ошибка при загрузке
+     * Или ошибка прав
      * @type {Error}
      */
     loadingError;
@@ -22,12 +23,16 @@ class ChangeCardController {
      */
     loadingPromise;
     /**
-     * Дочерние стейты, которые будут отображаться "вкладками"
-     * Название стейта = ${current.name}.${path}
+     * Вкладки в хидере карточки
      */
-    childStates = [
-        {path: "view", name: "Просмотр"}, {path: "history", name: "История"},
-        {path: "approval", name: "Согласование"}, {path: "attachments", name: "Вложения"}
+    headerTabs = [
+        {name:'Просмотр',sref:'app.change.card.view'},
+        {name:'История',sref:'app.change.card.history',
+            disabled:() => this.accessRules && !this.accessRules.isReadHistoryAllowed},
+        {name:'Согласование',sref:'app.change.card.approval',
+            disabled:() => this.accessRules && !this.accessRules.isReadApprovalAllowed},
+        {name:'Вложения',sref:'app.change.card.attachments',
+            disabled:() => this.accessRules && !this.accessRules.isReadAttachmentsAllowed},
     ];
 
     @NGInject() SD;
@@ -35,10 +40,13 @@ class ChangeCardController {
 
     async $onInit(){
         this.loadingPromise = this.loadData();
+        await this.loadingPromise;
+        this.accessRules = this.change.accessRules;
     }
 
     async loadData(){
         await this.$loadChange();
+        await this.$loadAccess();
         await this.$loadStatuses();
     }
 
@@ -51,28 +59,40 @@ class ChangeCardController {
     }
 
     get loadingErrorIsNotFound(){
-        return this.loadingError.status === 404;
+        return this.loadingError && this.loadingError.status === 404;
     }
 
     get loadingErrorIsServerOffline(){
-        return this.loadingError.status === -1;
+        return this.loadingError && this.loadingError.status === -1;
+    }
+
+    get loadingErrorIsReadDisallowed(){
+        return this.loadingError && this.loadingError.reason == "readDisallowed"
     }
 
     get loadingErrorIsCustom(){
         return !this.loadingErrorIsNotFound &&
-            !this.loadingErrorIsServerOffline
-            ;
+            !this.loadingErrorIsServerOffline &&
+            !this.loadingErrorIsReadDisallowed
+        ;
+    }
+
+    async $loadAccess() {
+        await this.change.updateAccessRules();
+
+        if (!this.change.accessRules.isReadEntityAllowed) {
+            this.loadingError = {reason: "readDisallowed"};
+            throw this.loadingError
+        }
     }
 
     async $loadChange(){
-        if (this.busy) throw new Error("Controller is busy " + this.busy);
         try {
             this.busy = "loading";
-            this.change = await  new this.SD.Change(this.changeId).load();
+            this.change = await new this.SD.Change(this.changeId).load();
         } catch (error) {
             this.loadingError = error || true;
-        } finally {
-            this.busy = null;
+            throw error;
         }
     }
 }

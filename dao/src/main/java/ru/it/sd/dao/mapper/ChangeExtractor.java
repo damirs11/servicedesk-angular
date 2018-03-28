@@ -4,9 +4,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.CodeDao;
-import ru.it.sd.dao.utils.DBUtils;
+import ru.it.sd.dao.ConfigurationItemDao;
 import ru.it.sd.dao.PersonDao;
-import ru.it.sd.dao.WorkgroupDao;
+import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.*;
 
 import java.sql.ResultSet;
@@ -24,14 +24,16 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 
 	private final PersonDao personDao;
 	private final ChangeMapper changeMapper;
-	private final WorkgroupDao workgroupDao;
 	private final CodeDao codeDao;
+	private final AssignmentMapper assignmentMapper;
+	private final ConfigurationItemDao configurationItemDao;
 
-	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, WorkgroupDao workgroupDao, CodeDao codeDao) {
+	public ChangeExtractor(PersonDao personDao, ChangeMapper changeMapper, CodeDao codeDao, AssignmentMapper assignmentMapper, ConfigurationItemDao configurationItemDao) {
 		this.personDao = personDao;
 		this.changeMapper = changeMapper;
-		this.workgroupDao = workgroupDao;
 		this.codeDao = codeDao;
+		this.assignmentMapper = assignmentMapper;
+		this.configurationItemDao = configurationItemDao;
 	}
 
 	@Override
@@ -42,9 +44,18 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 		List<Change> list = new ArrayList<>();
 		while(rs.next()){
 			Change change = changeMapper.mapRow(rs, 0);
+			Assignment assignment = assignmentMapper.mapRow(rs, 0);
+			change.setAssignment(assignment);
+
+			Double duration = rs.getDouble("cha_planduration");
+			if(duration != 0){
+				//Переводим дату из double в миллисекунды
+				Double time = duration * 24 * 60 * 60 * 1000;
+				Date date = new Date(time.longValue());
+				change.setPlanDuration(date);
+			}
 
 			Long statusId = DBUtils.getLong(rs, "cha_sta_oid");
-
 			if(statusId !=null) {
                 BaseCode code = codeDao.read(statusId);
 			    change.setStatus(code.convertTo(EntityStatus.class));
@@ -54,15 +65,6 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 			if(priorityId != null) {
                 BaseCode code = codeDao.read(priorityId);
 			    change.setPriority(code.convertTo(EntityPriority.class));
-            }
-
-			Long executorId = DBUtils.getLong(rs, "ass_per_to_oid");
-			if(executorId != null) change.setExecutor(getPerson(personCache, executorId));
-
-			Long assWorkgroupID = DBUtils.getLong(rs, "ass_wog_oid");
-			if(assWorkgroupID != null) {
-			    Workgroup workgroup = workgroupDao.read(assWorkgroupID);
-			    change.setWorkgroup(workgroup);
             }
 
 			Long initiatorId = DBUtils.getLong(rs, "cha_requestor_per_oid");
@@ -94,6 +96,19 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
                 BaseCode code = codeDao.read(folderId);
                 change.setFolder(code.convertTo(Folder.class));
             }
+
+			Long systemCodeId = DBUtils.getLong(rs, "ccu_changecode1");
+			if(systemCodeId != null) {
+				BaseCode code = codeDao.read(systemCodeId);
+				change.setSystem(code.convertTo(EntityCode1.class));
+			}
+
+			/* до реализцаии ConfigurationItem
+			Long configurationItemId = DBUtils.getLong(rs, "cha_cit_oid");
+			if(configurationItemId != null) {
+				ConfigurationItem configurationItem = configurationItemDao.read(configurationItemId);
+				change.setConfigurationItem(configurationItem);
+			}*/
 
 			list.add(change);
 		}

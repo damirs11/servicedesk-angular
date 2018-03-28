@@ -15,7 +15,7 @@ import java.util.Date;
  * @since 03.05.2017
  */
 @ClassMeta(tableName = "itsm_changes", tableAlias ="ch")
-public class Change implements Entity, Serializable {
+public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Serializable {
 
 	private static final long serialVersionUID = -857993162919153346L;
 
@@ -35,57 +35,78 @@ public class Change implements Entity, Serializable {
 	@FieldMeta(columnName = "cha_id")
 	private Long no;
 	/** Тема */
-	@FieldMeta(columnName = "cha_description", required = true, attribute = 556335107L)
+	@FieldMeta(columnName = "cha_description",  attribute = 556335107L)
 	private String subject;
 	/** Описание */
-	@FieldMeta(columnName = "chi_information", tableAlias = "ci", required = true, attribute = 738983997L)
+	@FieldMeta(columnName = "chi_information", tableAlias = "ci",  attribute = 738983997L)
 	private String description;
+	/** Решение*/
+	@FieldMeta(columnName = "cha_solution")
+	private String solution;
 	/** Статус */
 	@FieldMeta(columnName = "cha_sta_oid", attribute = 724041782L)
 	private EntityStatus status;
 	/** Приоритет */
-	@FieldMeta(columnName = "cha_imp_oid", required = true, attribute = 281478611337217L)
+	@FieldMeta(columnName = "cha_imp_oid",  attribute = 281478611337217L)
 	private EntityPriority priority ;
 
 	/** Категория*/
-	@FieldMeta(columnName = "cha_cat_oid", required = true, attribute = 724041784L)
+	@FieldMeta(columnName = "cha_cat_oid",  attribute = 724041784L)
 	private EntityCategory category;
 
     /** Классификация*/
-    @FieldMeta(columnName = "cha_cla_oid", required = true, attribute = 165888L)
+    @FieldMeta(columnName = "cha_cla_oid",  attribute = 165888L)
 	private EntityClassification classification;
 
 	/** Дата создания */
 	@FieldMeta(columnName = "reg_created")
 	private Date createdDate;
 	/** Крайний срок */
-	@FieldMeta(columnName = "cha_deadline", attribute = 556335111, required = true)
+	@FieldMeta(columnName = "cha_deadline", attribute = 556335111)
 	private Date deadline;
+	/** Реально начато*/
+	@FieldMeta(columnName = "cha_actualstart", attribute = 556335112)
+	private Date actualStart;
 	/** Выполнено(дата)*/
 	@FieldMeta(columnName = "cha_actualfinish", attribute = 556335112)
 	private Date resolvedDate;
-    //todo Закрыто(дата) attribut = 70370
+    /** Закртыто(дата)*/
+	@FieldMeta(columnName = "cha_latefinish", attribute = 70370)
+	private Date closureDate;
+	/** План начала*/
+	@FieldMeta(columnName = "cha_planstart")
+	private Date planStart;
+	/** План завершения*/
+	@FieldMeta(columnName = "cha_planfinish")
+	private Date planFinish;
+	/** План продолжительность
+	 * columnName = cha_planduration - не стандартное поле(время приходит в double)
+	 * отдельно обрабатывается в ChangeExtractor
+	 */
+	@FieldMeta(columnName = "")
+	private Date planDuration;
 
-
-	/** Исполнитель */
-	@FieldMeta(columnName = "ass_per_to_oid", attribute = 665649208L, required = true)
-	private Person executor;
-	/** Группа исполнителей*/
-	@FieldMeta(columnName = "ass_wog_oid", attribute = 665649208L, required = true)
-	private Workgroup workgroup;
+	@FieldMeta(columnName = "", attribute = 665649208)
+	private Assignment assignment;
 
 	/** Инициатор изменения */
-	@FieldMeta(columnName = "cha_requestor_per_oid", required = true, attribute = 281478292766727L)
+	@FieldMeta(columnName = "cha_requestor_per_oid", attribute = 281478292766727L)
 	private Person initiator;
 	/** Менеджер изменения */
-	@FieldMeta(columnName = "cha_per_man_oid", required = true, attribute = 281483590631438L)
+	@FieldMeta(columnName = "cha_per_man_oid",  attribute = 281483590631438L)
 	private Person manager;
-
+	/** Код завершения */
 	@FieldMeta(columnName = "cha_closurecode", attribute = 166006L)
 	private EntityClosureCode closureCode;
+	/** Система*/
+	@FieldMeta(columnName = "ccu_changecode1")
+	private EntityCode1 system;
 
 	@FieldMeta(columnName = "cha_poo_oid", attribute = 1032388614L)
 	private Folder folder;
+
+	@FieldMeta(columnName = "cha_cit_oid")
+	private ConfigurationItem configurationItem;
 
     //Поля для получения доступа к вкладкам(согласование, вложения, наряды, взаимосвязи)
 	@FieldMeta(columnName = "", attribute = 281478248988673L)
@@ -99,6 +120,9 @@ public class Change implements Entity, Serializable {
 
 	@FieldMeta(columnName = "", attribute = 166009L)
 	private long relations;
+
+	@FieldMeta(columnName = "cha_tem_oid")
+	private Template template;
 
 	@Override
 	public Long getId() {
@@ -191,14 +215,6 @@ public class Change implements Entity, Serializable {
 	public void setManager(Person manager) {
 		this.manager = manager;
 	}
-    @Override
-	public Person getExecutor() {
-		return executor;
-	}
-    @Override
-	public void setExecutor(Person executor) {
-		this.executor = executor;
-	}
 
     public EntityCategory getCategory() { return category; }
 
@@ -207,10 +223,6 @@ public class Change implements Entity, Serializable {
     public EntityClassification getClassification() { return classification; }
 
     public void setClassification(EntityClassification classification) { this.classification = classification; }
-    @Override
-    public Workgroup getWorkgroup() { return workgroup; }
-    @Override
-    public void setWorkgroup(Workgroup assWorkgroup) { this.workgroup = assWorkgroup; }
 
     public EntityClosureCode getClosureCode() {
         return closureCode;
@@ -258,6 +270,88 @@ public class Change implements Entity, Serializable {
 
 	public void setRelations(long relations) {
 		this.relations = relations;
+	}
+
+	public Template getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(Template template) {
+		this.template = template;
+	}
+
+	public String getSolution() {
+		return solution;
+	}
+
+	public void setSolution(String solution) {
+		this.solution = solution;
+	}
+
+	public Date getActualStart() {
+		return actualStart;
+	}
+
+	public void setActualStart(Date actualStart) {
+		this.actualStart = actualStart;
+	}
+
+	public Date getClosureDate() {
+		return closureDate;
+	}
+
+	public void setClosureDate(Date closureDate) {
+		this.closureDate = closureDate;
+	}
+
+	public Date getPlanStart() {
+		return planStart;
+	}
+
+	public void setPlanStart(Date planStart) {
+		this.planStart = planStart;
+	}
+
+	public Date getPlanFinish() {
+		return planFinish;
+	}
+
+	public void setPlanFinish(Date planFinish) {
+		this.planFinish = planFinish;
+	}
+
+	public Date getPlanDuration() {
+		return planDuration;
+	}
+
+	public void setPlanDuration(Date planDuration) {
+		this.planDuration = planDuration;
+	}
+
+	public EntityCode1 getSystem() {
+		return system;
+	}
+
+	public void setSystem(EntityCode1 system) {
+		this.system = system;
+	}
+
+	public ConfigurationItem getConfigurationItem() {
+		return configurationItem;
+	}
+
+	public void setConfigurationItem(ConfigurationItem configurationItem) {
+		this.configurationItem = configurationItem;
+	}
+
+	@Override
+	public Assignment getAssignment() {
+		return assignment;
+	}
+
+	@Override
+	public void setAssignment(Assignment assignment) {
+		this.assignment = assignment;
 	}
 
 	@Override

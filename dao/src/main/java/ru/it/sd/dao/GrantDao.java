@@ -45,8 +45,7 @@ public class GrantDao extends AbstractEntityDao<Grant> {
 			"       ena_lockseq,\n" +
 			"       ena_tem_oid,\n" +
 			"       ena_modifytemplate\n" +
-			"FROM rep_entity_access\n" +
-            "LEFT JOIN rep_roles_per_account rpa ON rpa.rpa_rol_oid = ena_rol_oid";
+			"FROM rep_entity_access\n";
 
 	private GrantMapper mapper;
 
@@ -74,7 +73,14 @@ public class GrantDao extends AbstractEntityDao<Grant> {
 		}
         if(filter.containsKey("accountId")){
             params.addValue("accountId", filter.get("accountId"));
-            sql.append(" AND rpa.rpa_acc_oid = :accountId");
+            sql.append(" AND ena_rol_oid in (SELECT DISTINCT t.id FROM rep_roles_per_account ra CROSS APPLY SdGetRoles(ra.rpa_rol_oid, 0) t WHERE ra.rpa_acc_oid = :accountId)");
         }
+		if(filter.containsKey("read")){
+			sql.append(" AND ((ena_view + ena_viewasnuser + ena_viewasnwg) > 0)");
+		}
+		if(filter.containsKey("create")){
+			sql.append(" AND (ena_new > 0)");
+		}
+
 	}
 }

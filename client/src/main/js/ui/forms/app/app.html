@@ -14,7 +14,7 @@
 
         <div class="collapse navbar-collapse" id="main-menu">
             <ul class="nav navbar-nav" data-ng-if="ctrl.authorized">
-                <li>
+                <li ng-if="ctrl.canSeeTabChanges">
                     <a data-ui-sref="app.change.list">
                         <span class="glyphicon glyphicon-cloud"></span> Изменения
                     </a>
@@ -24,12 +24,12 @@
                         <span class="glyphicon glyphicon-list"></span> Заявки
                     </a>
                 </li>
-                <li>
+                <li ng-if="ctrl.canSeeTabWorkorders">
                     <a data-ui-sref="app.workorder.list">
                         <span class="glyphicon glyphicon-th"></span> Наряды
                     </a>
                 </li>
-                <li>
+                <li ng-if="ctrl.canSeeTabPersons">
                     <a data-ui-sref="app.person.list">
                         <span class="glyphicon glyphicon-user"></span> Персоны
                     </a>

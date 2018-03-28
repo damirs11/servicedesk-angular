@@ -12,7 +12,6 @@ import {ChangeState} from "./app/change/change.state";
 import {ChangeListState} from "./app/change/list/change-list.state";
 import {ChangeCardState} from "./app/change/card/change-card.state";
 import {ChangeCardViewState} from "./app/change/card/view/change-view.state";
-import {ChangeCardEditState} from "./app/change/card/edit/change-edit.state";
 import {ChangeCardHistoryState} from "./app/change/card/history/change-history.state";
 import {WorkorderState} from "./app/workorder/workorder.state";
 import {WorkorderListState} from "./app/workorder/list/workorder-list.state";
@@ -45,7 +44,6 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(ChangeListState)
         .state(ChangeCardState)
         .state(ChangeCardViewState)
-        .state(ChangeCardEditState)
         .state(ChangeCardHistoryState)
         .state(ChangeCardApprovalState)
         .state(ChangeCardAttachmentsState)

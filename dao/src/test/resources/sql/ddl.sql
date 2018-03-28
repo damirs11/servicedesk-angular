@@ -32,6 +32,7 @@ CREATE TABLE itsm_changes (
   cha_oid DECIMAL(18),
   cha_id DECIMAL(18),
   cha_description VARCHAR(80),
+  cha_solution VARCHAR(80),
   cha_requestor_per_oid DECIMAL(18),
   ass_per_to_oid DECIMAL(18),
   ass_wog_oid DECIMAL(18),
@@ -42,7 +43,12 @@ CREATE TABLE itsm_changes (
   cha_cla_oid DECIMAL(18),
   reg_created DATETIME,
   cha_deadline DATETIME,
+  cha_actualstart DATETIME,
   cha_actualfinish DATETIME,
+  cha_latefinish DATETIME,
+  cha_planstart DATETIME,
+  cha_planfinish DATETIME,
+  cha_planduration FLOAT,
   cha_apt_status DECIMAL(18),
   cha_apt_description VARCHAR(80),
   cha_apt_deadline DATETIME,
@@ -51,7 +57,17 @@ CREATE TABLE itsm_changes (
   cha_apt_nrofapproversrequired DECIMAL(18),
   cha_apt_wog_oid DECIMAL(18),
   cha_closurecode DECIMAL(18),
-  cha_poo_oid DECIMAL(18)
+  cha_poo_oid DECIMAL(18),
+  cha_initiator_per_oid DECIMAL(18),
+  cha_tem_oid DECIMAL(18),
+  cha_assign_status DECIMAL(18),
+	cha_assign_priority DECIMAL(18),
+	cha_cit_oid DECIMAL(18)
+);
+
+CREATE TABLE itsm_cha_custom_fields(
+  ccu_cha_oid DECIMAL(18),
+  ccu_changecode1 DECIMAL(18)
 );
 
 CREATE TABLE itsm_cha_information (
@@ -81,7 +97,10 @@ CREATE TABLE itsm_workorders (
   wor_apt_nrofapprovers DECIMAL(18),
   wor_apt_nrofapproversapproved DECIMAL(18),
   wor_apt_nrofapproversrequired DECIMAL(18),
-  wor_apt_wog_oid DECIMAL(18)
+  wor_apt_wog_oid DECIMAL(18),
+  wor_initiator_per_oid DECIMAL(18),
+  ass_assignstatus DECIMAL(18),
+	wor_assignpriority DECIMAL(18)
 );
 
 CREATE TABLE itsm_wor_information (
@@ -257,4 +276,16 @@ CREATE TABLE rep_attribute_access (
   ata_atr_oid DECIMAL(18),
   ata_modify DECIMAL(1),
   ata_ena_oid DECIMAL(18)
+);
+
+CREATE TABLE rep_templates (
+  tem_oid DECIMAL(18),
+  tem_name VARCHAR(50),
+  tem_ent_oid DECIMAL(18),
+  tem_rcd_oid DECIMAL(18)
+);
+CREATE TABLE rep_template_access (
+  tac_oid DECIMAL(18),
+  tac_tem_oid DECIMAL(18),
+  tac_rol_oid DECIMAL(18)
 );

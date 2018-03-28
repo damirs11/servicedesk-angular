@@ -10,7 +10,8 @@ const SDAttachmentItemComponent = {
     controller: controller,
     controllerAs: "ctrl",
     bindings: {
-        attachment: "<"
+        attachment: "<",
+        onIconClick: "&"
     }
 };
 

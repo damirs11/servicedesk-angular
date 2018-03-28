@@ -8,10 +8,10 @@ import {SDTextController as controller} from "./sd-text.ctrl"
  * maxLength {Number} - максимальная длина текста
  * allow-empty {Boolean} - разрешить пустое значение
  * empty-value {String} - отображаемое значение, когда поле пустое
- * disabled {expression} - выражение, определяющее можно ли редактировать поле
  * onCommit {expression($event)} - кэлбэк при коммите.
  * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
  * editing {Boolean} - режим редактирования.
+ * disabled {Boolean} - состояние в режиме редактирования. true - поле будет серым и недоступным.
  */
 const SDTextComponent = {
     template: template,
@@ -25,7 +25,8 @@ const SDTextComponent = {
         editing: "<",
         placeholder: "@",
         emptyValue: "@",
-        validate: "&"
+        validate: "&",
+        disabled: "<"
     }
 };
 

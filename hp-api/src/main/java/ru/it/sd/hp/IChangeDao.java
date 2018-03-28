@@ -38,8 +38,8 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
         IClassificationCha iClassificationCha = iClassificationChaDao.read(entity.getClassification().getId());
         IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
         IPerson manager = iPersonDao.read(entity.getManager().getId());
-        IPerson executor = iPersonDao.read(entity.getExecutor().getId());
-        IWorkgroup workgroup = iWorkgroupDao.read(entity.getWorkgroup().getId());
+        IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
+        IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
         IImpact impact = iImpactDao.read(entity.getPriority().getId());
 
         iChange.setCategory(iChangeCategory);
@@ -71,8 +71,8 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
         IClassificationCha iClassificationCha = iClassificationChaDao.read(entity.getClassification().getId());
         IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
         IPerson manager = iPersonDao.read(entity.getManager().getId());
-        IPerson executor = iPersonDao.read(entity.getExecutor().getId());
-        IWorkgroup workgroup = iWorkgroupDao.read(entity.getWorkgroup().getId());
+        IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
+        IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
         IImpact impact = iImpactDao.read(entity.getPriority().getId());
 
         iChange.setCategory(iChangeCategory);
@@ -93,6 +93,15 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
     public void patch(Change entity, Set<String> fields) {
         IChange iChange = read(entity.getId());
 
+        if(fields.contains("subject")) {
+            iChange.setDescription(entity.getSubject());
+        }
+        if(fields.contains("description")) {
+            iChange.setInformation(entity.getDescription());
+        }
+        if(fields.contains("solution")) {
+            iChange.setSolution(entity.getSolution());
+        }
         if(fields.contains("status")){
             IStatusChange iStatusChange = api.getSdClient().sd_session().getStatusChangeHome().openStatusChange(entity.getStatus().getId());
             iChange.setStatus(iStatusChange);
@@ -108,11 +117,23 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
         if(fields.contains("deadline")) {
             iChange.setDeadline(DateUtils.toSDDate(entity.getDeadline()));
         }
-        if(fields.contains("subject")) {
-            iChange.setDescription(entity.getSubject());
+        if(fields.contains("actualStart")) {
+            iChange.setActualStart(DateUtils.toSDDate(entity.getActualStart()));
         }
-        if(fields.contains("description")) {
-            iChange.setInformation(entity.getDescription());
+        if(fields.contains("resolvedDate")) {
+            iChange.setActualFinish(DateUtils.toSDDate(entity.getResolvedDate()));
+        }
+        if(fields.contains("closureDate")) {
+            iChange.setLateFinish(DateUtils.toSDDate(entity.getClosureDate()));
+        }
+        if(fields.contains("planStart")) {
+            iChange.setPlanStart(DateUtils.toSDDate(entity.getPlanStart()));
+        }
+        if(fields.contains("planFinish")) {
+            iChange.setActualFinish(DateUtils.toSDDate(entity.getPlanFinish()));
+        }
+        if(fields.contains("planDuration")) {
+            iChange.setPlanDuration(Double.valueOf(entity.getPlanDuration().getTime())/1000/24/60/60);
         }
         if(fields.contains("manager")){
             IPerson manager = iPersonDao.read(entity.getManager().getId());
@@ -126,12 +147,12 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             IImpact impact = iImpactDao.read(entity.getPriority().getId());
             iChange.setImpact(impact);
         }
-        if(fields.contains("assWorkgroup")) {
-            IWorkgroup workgroup = iWorkgroupDao.read(entity.getWorkgroup().getId());
+        if(fields.contains("workgroup")) {
+            IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
             iChange.getAssignment().setAssWorkgroup(workgroup);
         }
         if(fields.contains("executor")) {
-            IPerson executor = iPersonDao.read(entity.getExecutor().getId());
+            IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
             iChange.getAssignment().setAssigneePerson(executor);
         }
         iChange.getAssignment().transfer();

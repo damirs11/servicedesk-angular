@@ -33,9 +33,11 @@ public class ChangeDaoTest extends AbstractDaoTest {
 		assertNotNull(change);
 		assertEquals(111222L, change.getId().longValue());
 		assertEquals(112L, change.getNo().longValue());
-		assertEquals(20001L, change.getWorkgroup().getId().longValue());
+		assertEquals(20001L, change.getAssignment().getWorkgroup().getId().longValue());
 		assertEquals(3095134296L, change.getClassification().getId().longValue());
         assertEquals(3095397040L, change.getCategory().getId().longValue());
+        assertEquals(129600000L, change.getPlanDuration().getTime());
+        assertEquals(11111111L, change.getSystem().getId().longValue());
 	}
 
 	@Test
@@ -103,5 +105,12 @@ public class ChangeDaoTest extends AbstractDaoTest {
 		filter.put("filter", "group_20000");
 		change = dao.list(filter);
 		assertEquals(change.size(), 0);
+	}
+
+	@Test(enabled = false)
+	private void testChangeConfigurationItem() {
+		Change change = dao.read(101010L);
+		assertEquals(202020L, change.getConfigurationItem().getId().longValue());
+		assertEquals(2001L, change.getConfigurationItem().getNo().longValue());
 	}
 }

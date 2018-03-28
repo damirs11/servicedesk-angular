@@ -23,6 +23,8 @@ import {ApprovalProvider} from "./entity/approval.provider";
 import {AttachmentProvider} from "./entity/attachment.provider";
 import {FileInfoProvider} from "./entity/file-info.provider";
 import {AttachmentsHolderProvider} from "./entity/mixin/attachments-holder.provider";
+import {AccessibleProvider} from "./entity/mixin/accessible";
+import {EntityAssignmentProvider} from "./entity/entity-assignment.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -60,6 +62,7 @@ const SDConstructor = function SD($injector,cache) {
     locals.Historyable = $injector.instantiate(HistoryableProvider,locals);
     locals.Approvable = $injector.instantiate(ApprovableProvider,locals);
     locals.AttachmentsHolder = $injector.instantiate(AttachmentsHolderProvider,locals);
+    locals.Accessible = $injector.instantiate(AccessibleProvider,locals);
 
     /** Все остальные сущности */
     this.User = $injector.instantiate(UserProvider,locals);
@@ -76,20 +79,29 @@ const SDConstructor = function SD($injector,cache) {
 
     /** другие-сущности */
     this.EntityStatus = $injector.instantiate(StatusProvider,locals);
+    this.EntityAssignment = $injector.instantiate(EntityAssignmentProvider,locals);
     this.EntityPriority = $injector.instantiate(PriorityProvider,locals);
     this.EntityCategory = $injector.instantiate(EntityCategoryProvider,locals);
     this.EntityClassification = $injector.instantiate(EntityClassificationProvider,locals);
     this.EntityClosureCode = $injector.instantiate(EntityClosureCodeProvider,locals);
 
-    this.withCache = (newCache = Object.create(cache)) => {
-        return $injector.instantiate(SD,{cache:newCache});
-    };
+    // this.withCache = (newCache = Object.create(cache)) => {
+    //     return $injector.instantiate(SD,{cache:newCache});
+    // };
 
-    this.clearCache = () => {
-        Object.keys(this.cache)
-            .forEach(key => delete this.cache[key])
-        ;
-    };
+    Object.defineProperty(this,"withCache",{
+        enumerable: false,
+        value: (newCache = Object.create(cache)) => {
+            return $injector.instantiate(SD,{cache:newCache});
+        }
+    });
+
+    Object.defineProperty(this,"clearCache",{
+        enumerable: false,
+        value: () => {
+            Object.keys(this.cache).forEach(key => delete this.cache[key]);
+        }
+    });
 
     return Object.freeze(this)
 };

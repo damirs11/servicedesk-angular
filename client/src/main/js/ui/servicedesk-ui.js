@@ -45,7 +45,6 @@ import {SDAvatarComponent} from "./components/widget/sd-avatar/sd-avatar.compone
 import {ChatLineComponent} from "./components/widget/sd-entity-chat/chat-line/chat-line.component";
 import {ChatInfoBlockComponent} from "./components/widget/sd-entity-chat/chat-line/chat-info-block/chat-info-block.component";
 import {ChatInputComponent} from "./components/widget/sd-entity-chat/chat-input/chat-input.component";
-import {SDApprovalComponent} from "./components/widget/sd-approval/sd-approval.component";
 import {SDNumberComponent} from "./components/fields/sd-number/sd-number.component";
 import {SDAttachmentsComponent} from "./components/widget/sd-attachments/sd-attachments.component";
 import {SDAttachmentItemComponent} from "./components/widget/sd-attachments/sd-attachment-item/sd-attachment-item.component";
@@ -54,6 +53,8 @@ import {SDUploadingFileComponent} from "./components/widget/sd-attachments/sd-up
 import {SDLoadingDirective} from "./components/directives/sd-loading/sd-loading.directive";
 import {AutoHeightDirective} from "./components/directives/auto-height.directive";
 import {PageLockFactory} from "./components/page-lock.factory";
+import {SDEntityErrorDirective} from "./components/widget/sd-entity-error/sd-entity-error.directive";
+import {SDEntityCardTabsComponent} from "./components/widget/sd-entity-card-tabs/sd-entity-card-tabs.component";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -93,6 +94,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .directive("sdOnInteractOut",SDOnInteractOutDirective)
     .directive("sdLoading",SDLoadingDirective)
     .directive("autoHeight",AutoHeightDirective)
+    .directive("sdEntityError",SDEntityErrorDirective)
 
     /** Компоненты для редактируемых полей */
     .component("sdText", SDTextComponent)
@@ -101,6 +103,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .component("sdDatetime", SDDateTimeComponent)
     .component("sdNumber", SDNumberComponent)
     /** Прочие */
+    .component("sdEntityCardTabs",SDEntityCardTabsComponent)
     .component("sdStatusBar",SDStatusBarComponent)
     .component("sdAvatar",SDAvatarComponent)
     /** Компоненты для чата */
@@ -108,8 +111,6 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .component("chatInfoBlock",ChatInfoBlockComponent)
     .component("chatInput",ChatInputComponent)
     .component("sdEntityChat",SDEntityChatComponent)
-    /** Согласование */
-    .component("sdApproval",SDApprovalComponent)
     /** Вложения */
     .component("sdAttachments",SDAttachmentsComponent)
     .component("sdAttachmentItem",SDAttachmentItemComponent)

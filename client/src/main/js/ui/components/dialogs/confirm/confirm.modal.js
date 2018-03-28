@@ -1,5 +1,5 @@
 import template from "./confirm.tpl.html";
-import {ConfirmController as controller} from "./confirm.ctrl";
+import {controller} from "./confirm.ctrl";
 
 
 /**
