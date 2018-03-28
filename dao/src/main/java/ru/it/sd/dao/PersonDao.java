@@ -55,11 +55,12 @@ public class PersonDao extends AbstractEntityDao<Person> {
 			sql.append(" AND per_acc_oid = :userId");
 		}
 
-		if (Objects.nonNull(filter) && filter.containsKey("workgroup")) {
-			params.addValue("workgroup", filter.get("workgroup"));
+		// Фильтр по рабочей группе
+		if (Objects.nonNull(filter) && filter.containsKey("workgroupId")) {
+			params.addValue("workgroupId", filter.get("workgroupId"));
 			sql.append(" AND p.per_oid IN (" +
 					"SELECT mem_per_oid FROM itsm_members " +
-					"WHERE mem_wog_oid = :workgroup)");
+					"WHERE mem_wog_oid = :workgroupId)");
 		}
 
 	}

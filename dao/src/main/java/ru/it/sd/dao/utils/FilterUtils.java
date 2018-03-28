@@ -25,7 +25,7 @@ import java.util.Map;
 @Component
 public class FilterUtils {
 
-	private static final String FULLTEXT_FILTER_NAME = "fulltext";
+	public static final String FULLTEXT_FILTER_NAME = "fulltext";
 
 	@Autowired
 	private DBUtils dbUtils;
@@ -72,7 +72,7 @@ public class FilterUtils {
                     //Поиск похожих элементов
                     if (filter.containsKey(fmd.getName() + "_like")) {
                         String value = filter.get(fmd.getName()+"_like");
-                        likeComparison(queryPart, fmd, params, value, prefix);
+                        likeComparison(queryPart, fmd, params, value, prefix, true);
                         continue;
                     }
                     //Поиск до
@@ -125,7 +125,6 @@ public class FilterUtils {
                     append(" = :").
                     append(fmd.getName()).
                     append("");
-            return;
             } else {
                 queryPart.append("\n\tAND (");
                 for (int i = 0; i < valueArr.length; i++) {
@@ -148,16 +147,19 @@ public class FilterUtils {
      * @param fmd    мета данные поля полуемые из {@link MetaUtils#getFieldsMetaData(Class)}
      * @param prefix префикс таблицы, определяется в функции {@link #getPrefix}
      * @param value значение(я) фильтра для конкретного поля
-     * @param params  список параметров, которые вставляются в запрос при его отправке в бд
+     * @param params список параметров, которые вставляются в запрос при его отправке в бд
+     * @param isAnd true - используется оператор AND, false - используется оператор OR
      */
-    private void likeComparison(StringBuilder queryPart, FieldMetaData fmd,MapSqlParameterSource params, String value, String prefix){
+    private void likeComparison(StringBuilder queryPart, FieldMetaData fmd,MapSqlParameterSource params, String value,
+                                String prefix, Boolean isAnd){
         String[] valueArr = new String[1];
         valueArr[0] = value;
 
         //Определение типа данных по полю fmd
         if (checkParams(fmd, params, valueArr, Comparison.LIKE)) {
-            queryPart.
-                    append("\n\tAND ")
+            queryPart.append("\n\t")
+                    .append(isAnd ? "AND" : "OR")
+                    .append(" ")
                     .append(prefix)
                     .append(StringUtils.isNotBlank(prefix) ? "." : "")
                     .append(fmd.getColumnName())
@@ -270,7 +272,7 @@ public class FilterUtils {
      * @param params список параметров, которые вставляются в запрос при его отправке в бд
      * @param values массив значений фильтра
      * @param type   тип поиска, все варианты поиска перечислены в {@link Comparison}
-     * @return истина если нашлось поле для ключа из filtr и не было ошибок при его преобразовании ; ложль если не нашлось подходящего поля в классе и
+     * @return true - нашлось поле для ключа из filter и не было ошибок при его преобразовании ; false - если не нашлось подходящего поля в классе
      */
     private static boolean checkParams(FieldMetaData fmd, MapSqlParameterSource params, String[] values, Comparison type) {
         switch (fmd.getType().getName()) {
@@ -486,15 +488,17 @@ public class FilterUtils {
 		if (StringUtils.isBlank(fulltext)) {
 			return;
 		}
+        queryPart.append("\n\tAND (1 = 2");
 		Map<String, FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
 		for (FieldMetaData fmd : fieldMetaDataList.values()) {
 			if(fmd.isAnnotation()) {
 				String prefix = getPrefix(clazz, fmd);
 				//todo расширить полнотекстовую фильтрацию лоя всех типов полей
 				if (fmd.getType().equals(String.class)) {
-					likeComparison(queryPart, fmd, params, fulltext, prefix);
+					likeComparison(queryPart, fmd, params, fulltext, prefix, false);
 				}
 			}
 		}
+        queryPart.append(")");
 	}
 }

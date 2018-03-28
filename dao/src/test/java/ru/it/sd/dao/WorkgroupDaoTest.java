@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.testng.annotations.Test;
+import ru.it.sd.dao.utils.FilterUtils;
 import ru.it.sd.model.Workgroup;
 
 import java.util.HashMap;
@@ -31,31 +32,36 @@ public class WorkgroupDaoTest extends AbstractDaoTest {
 
 	@Test
 	private void testFindByFilter(){
-		HashMap<String, String> stringsFilter = new HashMap<>();
-		stringsFilter.put("searchCode_like", "поддержки");
-		stringsFilter.put("name_like", "Группа");
+		HashMap<String, String> filter = new HashMap<>();
+		filter.put("searchCode_like", "поддержки");
+		filter.put("name_like", "Группа");
 
-		List<Workgroup> items = dao.list(stringsFilter);
+		List<Workgroup> items = dao.list(filter);
 		assertEquals(items.size(), 8);
 
-		stringsFilter = new HashMap<>();
-		stringsFilter.put("name_like", "SD");
-		items = dao.list(stringsFilter);
+		filter.clear();
+		filter.put("name_like", "SD");
+		items = dao.list(filter);
 		assertEquals(items.size(), 5);
 
-		stringsFilter = new HashMap<>();
-		stringsFilter.put("parentId", "20004");
-		items = dao.list(stringsFilter);
+		filter.clear();
+		filter.put("parentId", "20004");
+		items = dao.list(filter);
 		assertEquals(items.size(), 3);
 
-		stringsFilter = new HashMap<>();
-		stringsFilter.put("personId", "1");
-		items = dao.list(stringsFilter);
+		filter.clear();
+		filter.put("personId", "1");
+		items = dao.list(filter);
 		assertEquals(items.size(), 2);
 
-		stringsFilter = new HashMap<>();
-		stringsFilter.put("personId", "2");
-		items = dao.list(stringsFilter);
+		filter.clear();
+		filter.put("personId", "2");
+		items = dao.list(filter);
 		assertEquals(items.size(), 1);
+
+		filter.clear();
+		filter.put(FilterUtils.FULLTEXT_FILTER_NAME, "O");
+		items = dao.list(filter);
+		assertEquals(items.size(), 2);
 	}
 }

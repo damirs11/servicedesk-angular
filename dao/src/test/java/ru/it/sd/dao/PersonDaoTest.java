@@ -1,5 +1,6 @@
 package ru.it.sd.dao;
 
+import ru.it.sd.dao.utils.FilterUtils;
 import ru.it.sd.model.PagingRange;
 import ru.it.sd.model.Person;
 import org.slf4j.Logger;
@@ -65,9 +66,14 @@ public class PersonDaoTest extends AbstractDaoTest {
 	@Test
 	private void testWorkgroupFilter(){
 		Map<String, String> filter = new HashMap<>();
-		filter.put("workgroup", "20001");
+		filter.put("workgroupId", "20001");
 		List<Person> list = dao.list(filter);
-		assertEquals(2, list.size());
+		assertEquals(list.size(), 2);
+
+		filter.clear();
+		filter.put(FilterUtils.FULLTEXT_FILTER_NAME, "ич");
+		list = dao.list(filter);
+		assertEquals(list.size(), 3);
 	}
 
 }
