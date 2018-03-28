@@ -1,5 +1,6 @@
 import {NGInject, NGInjectClass} from "../../common/decorator/ng-inject.decorator";
 import {SDAccessRules} from "./sd-access-rules";
+import {SDTypeAccessRules} from "./sd-type-access-rules";
 
 @NGInjectClass()
 class SDAccess {
@@ -63,16 +64,44 @@ class SDAccess {
         entityRenames[fieldName] = newName;
     }
 
-    async loadAccessRules(entity) {
+    /**
+     * Подгружает права на конкрутную сущность
+     * @param entityOrType {SD.Entity|string} - тип сущности строкой или сама сущность
+     * @param id {number} - необходим, если entity передан строкой
+     * @return {Promise.<SDAccessRules>}
+     */
+    async loadAccessRules(entityOrType,id) {
+        let entityType, entityId;
+        if (typeof entityOrType == "string") {
+            entityType = entityOrType;
+            entityId = id;
+        } else {
+            entityType = entityOrType.constructor.$entityType;
+            entityId = entityOrType.id;
+        }
         const serverAccessData = await this.$connector.get(
-            `rest/service/security/access/${entity.constructor.$entityType}/${entity.id}`
+            `rest/service/security/access/${entityType}/${entityId}`
         );
-        const entityType = entity.constructor.name;
         const fieldRules = this.globalFieldRules[entityType] || {};
         const actionRules = this.globalActionRules[entityType] || {};
         const renamedFields = this.renamedFields[entityType] || {};
         return this.$injector.instantiate(SDAccessRules,{
-            entity, serverAccessData, fieldRules, actionRules, renamedFields
+            serverAccessData, fieldRules, actionRules, renamedFields
+        });
+    }
+
+    /**
+     * Права доступа к типу сущности в общем, не основываясь на конкретной сущности.
+     * @param entityType {string} - тип сущности
+     * @return {Promise.<SDTypeAccessRules>}
+     */
+    async loadTypeAccessRules(entityType) {
+        const serverAccessData = await this.$connector.get(
+            `rest/service/security/access/${entityType}`
+        );
+        const actionRules = this.globalActionRules[entityType] || {};
+        return this.$injector.instantiate(SDTypeAccessRules,{
+            serverAccessData, actionRules
         });
     }
 }

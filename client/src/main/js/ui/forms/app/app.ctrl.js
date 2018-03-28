@@ -1,12 +1,10 @@
-class AppController {
-    static $inject = ['Session', '$scope', 'ModalAction', '$state'];
-    constructor(Session, $scope, ModalAction, $state){
-        this.Session = Session;
-        this.ModalAction = ModalAction;
-        this.$scope = $scope;
-        this.$state = $state;
+import {NGInject, NGInjectClass} from "../../../common/decorator/ng-inject.decorator";
 
-    }
+@NGInjectClass()
+class AppController {
+    @NGInject() Session;
+    @NGInject() $scope;
+    @NGInject() $state;
 
     get user(){
         return this.Session.user;
@@ -23,6 +21,19 @@ class AppController {
 
     loginClick(){
         this.$state.go("app.login")
+    }
+
+    get canSeeTabChanges() {
+        // return false;
+        return this.Session.getTypeAccessRules("Change").isReadEntityAllowed
+    }
+    get canSeeTabWorkorders() {
+        return true;
+        // return this.Session.getTypeAccessRules("Workorder").isReadEntityAllowed
+    }
+    get canSeeTabPersons() {
+        return true;
+        // return this.Session.getTypeAccessRules("Person").isReadEntityAllowed
     }
 }
 

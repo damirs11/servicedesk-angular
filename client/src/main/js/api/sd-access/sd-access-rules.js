@@ -9,7 +9,6 @@ class SDAccessRules {
      */
     @NGInject() $injector;
 
-    @NGInject() entity;
     @NGInject() serverAccessData;
     @NGInject() fieldRules;
     @NGInject() actionRules;
