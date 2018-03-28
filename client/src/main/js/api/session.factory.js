@@ -57,10 +57,10 @@ class Session {
      */
     async authorize() {
         const data = await this.$connector.get('rest/service/config/getInfo');
-        if (data.user) {
+        if (data.user) { // Успешная авторизация по кукисам
             user = this.SD.User.parse(data.user);
+            await this._loadAccessData();
         }
-        await this._loadAccessData();
         return user;
     }
 
