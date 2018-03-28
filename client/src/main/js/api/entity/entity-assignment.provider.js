@@ -8,6 +8,7 @@ function EntityAssignmentProvider(Entity,SD) {
      * "Назначено"
      * @class
      * @name SD.EntityAssignment
+     * @extends SD.Entity
      */
     return class EntityAssignment extends Entity {
         /**

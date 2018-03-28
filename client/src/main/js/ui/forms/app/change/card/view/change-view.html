@@ -2,21 +2,21 @@
     <!--Кнопки в верхнем меню-->
     <div class="entity-container__content">
         <!-- Кнопки для редактирования -->
-        <div style="display: inline-block" data-ng-if="ctrl.change.accessRules.isUpdateEntityAllowed">
+        <div style="display: inline-block" data-ng-show="ctrl.change.accessRules.isUpdateEntityAllowed">
             <button class="btn btn-default"
-                    data-ng-if="!ctrl.editing"
-                    data-ng-click="ctrl.startEditing()">
+                    ng-if="!ctrl.editing"
+                    ng-click="ctrl.startEditing()">
                 Редактировать
             </button>
             <button class="btn btn-success"
-                    data-ng-if="ctrl.editing"
-                    data-ng-disabled="!ctrl.change.checkModified()"
-                    data-ng-click="ctrl.saveEditing()">
+                    ng-if="ctrl.editing"
+                    ng-disabled="!ctrl.checkUnsavedModifies()"
+                    ng-click="ctrl.saveEditing()">
                 Сохранить
             </button>
             <button class="btn btn-default"
-                    data-ng-if="ctrl.editing"
-                    data-ng-click="ctrl.cancelEditing()">
+                    ng-if="ctrl.editing"
+                    ng-click="ctrl.cancelEditing()">
                 Отмена
             </button>
         </div>
@@ -80,9 +80,21 @@
                 <label>Исполнитель:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.assignment.executor"
-                             fetch-data="ctrl.SD.Person.list()"
+                             fetch-data="ctrl.loadExecutors($text)"
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('assignment')"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('assignment')">
+                <label>Рабочая группа:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.assignment.workgroup"
+                             fetch-data="ctrl.loadWorkgroups($text)"
+                             placeholder="Введите название группы"
+                             display-value="$value.name"
                              editing="ctrl.editing"
                              disabled="!ctrl.accessRules.canUpdate('assignment')"
                 ></sd-dropdown>
@@ -108,7 +120,7 @@
                 <label>Статус:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.status"
-                             fetch-data="ctrl.SD.EntityStatus.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
+                             fetch-data="ctrl.loadStatuses($text)"
                              display-value="$value.fullName"
                              cache="true"
                              editing="ctrl.editing"
@@ -131,7 +143,7 @@
                 <label>Приоритет:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.priority"
-                             fetch-data="ctrl.SD.EntityPriority.list()"
+                             fetch-data="ctrl.loadPriorities($text)"
                              display-value="$value.fullName"
                              cache="true"
                              editing="ctrl.editing"
@@ -154,7 +166,7 @@
                 <label>Категория:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.category"
-                             fetch-data="ctrl.SD.EntityCategory.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
+                             fetch-data="ctrl.loadCategories($text)"
                              display-value="$value.name"
                              cache="true"
                              editing="ctrl.editing"
@@ -162,23 +174,11 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('assignment')">
-                <label>Рабочая группа:</label>
-                <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.change.assignment.workgroup"
-                             fetch-data="ctrl.SD.Workgroup.list()"
-                             placeholder="Введите название группы"
-                             display-value="$value.name"
-                             editing="ctrl.editing"
-                             disabled="!ctrl.accessRules.canUpdate('assignment')"
-                ></sd-dropdown>
-            </div>
-
             <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('classification')">
                 <label>Классифицкаия:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.classification"
-                             fetch-data="ctrl.SD.EntityClassification.list({entityTypeId:ctrl.SD.Change.$entityTypeId})"
+                             fetch-data="ctrl.loadClassifications($text)"
                              display-value="$value.name"
                              cache="true"
                              editing="ctrl.editing"
@@ -195,4 +195,4 @@
 </sd-entity-chat>
 
 <!--
-<button class="btn btn-default" data-ng-click="ctrl.createTestChange();">Создать тестовое изменение</button>-->
+<button class="btn btn-default" ng-click="ctrl.createTestChange();">Создать тестовое изменение</button>-->
