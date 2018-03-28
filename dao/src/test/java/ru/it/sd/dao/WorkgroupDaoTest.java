@@ -36,25 +36,25 @@ public class WorkgroupDaoTest extends AbstractDaoTest {
 		stringsFilter.put("name_like", "Группа");
 
 		List<Workgroup> items = dao.list(stringsFilter);
-		assertEquals(items.size(), 7);
+		assertEquals(items.size(), 8);
 
 		stringsFilter = new HashMap<>();
 		stringsFilter.put("name_like", "SD");
 		items = dao.list(stringsFilter);
-		assertEquals(items.size(), 4);
+		assertEquals(items.size(), 5);
 
 		stringsFilter = new HashMap<>();
-		stringsFilter.put("parent", "20004");
+		stringsFilter.put("parentId", "20004");
 		items = dao.list(stringsFilter);
 		assertEquals(items.size(), 3);
 
 		stringsFilter = new HashMap<>();
-		stringsFilter.put("person", "1");
+		stringsFilter.put("personId", "1");
 		items = dao.list(stringsFilter);
 		assertEquals(items.size(), 2);
 
 		stringsFilter = new HashMap<>();
-		stringsFilter.put("person", "2");
+		stringsFilter.put("personId", "2");
 		items = dao.list(stringsFilter);
 		assertEquals(items.size(), 1);
 	}
