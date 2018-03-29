@@ -85,7 +85,7 @@ class ChangeCardViewController{
         const filter = {};
         if (text) filter.text = text;
         const workgroup = this.change.assignment.workgroup;
-        if (workgroup) filter.workgroup = workgroup.id;
+        if (workgroup) filter.workgroupId = workgroup.id;
         return this.SD.Person.list(filter);
     }
 
