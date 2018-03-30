@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Created by user on 22.07.2017.
  */
 @ClassMeta(tableName = "itsm_workgroups", tableAlias = "wg")
-public class Workgroup implements HasId, HasStatus, Serializable {
+public class Workgroup implements HasId, HasStatus, HasFolder, Serializable {
 
     private static final long serialVersionUID = -1010139758781532358L;
 
@@ -30,6 +30,8 @@ public class Workgroup implements HasId, HasStatus, Serializable {
     @FieldMeta(columnName = "wog_parent")
     private Workgroup parent;
 
+    @FieldMeta(columnName = "wog_poo_oid")
+    private Folder folder;
     @Override
     public EntityStatus getStatus() {
         return status;
@@ -77,5 +79,15 @@ public class Workgroup implements HasId, HasStatus, Serializable {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
+    }
+
+    @Override
+    public Folder getFolder() {
+        return folder;
+    }
+
+    @Override
+    public void setFolder(Folder folder) {
+        this.folder = folder;
     }
 }

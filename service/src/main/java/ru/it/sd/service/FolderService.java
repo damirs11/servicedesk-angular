@@ -43,6 +43,9 @@ public class FolderService extends ReadService<Folder> {
         Long subType = Folder.getTypeId();
         Map<String, String> subFilter = new HashMap<>();
         subFilter.put("subtype", subType.toString());
+        if (filter.get("disabled") != null) {
+            subFilter.put("disabled", filter.get("disabled"));
+        }
         List<BaseCode> codes = codeDao.list(subFilter);
         List<Folder> result = new ArrayList<>();
         codes.forEach((code) ->

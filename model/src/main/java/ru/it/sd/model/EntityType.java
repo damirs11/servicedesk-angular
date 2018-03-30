@@ -20,10 +20,11 @@ public enum EntityType implements Code {
 	CALL("Обращение", null, 563019801L),
 	WORKORDER("Наряд", Workorder.class.getSimpleName(), 556859410L),
 	ITEM("Объект", ConfigurationItem.class.getSimpleName(), 796000260L),
-	WORKGROUP("Рабочая группа", Workgroup.class.getSimpleName()),
+	WORKGROUP("Рабочая группа", Workgroup.class.getSimpleName(), 555679840L),
 	APPROVAL("Согласование", Approval.class.getSimpleName(), 281478244794382L),
 	ASSIGNMENT("Назначение", Assignment.class.getSimpleName(), 665649174L),
-	PERSON("Персона",Person.class.getSimpleName(), 555155484L);
+	PERSON("Персона",Person.class.getSimpleName(), 555155484L),
+	ORGANIZATION("Организация", Organization.class.getSimpleName(), 555155488L);
 
 	/**
 	 * Название

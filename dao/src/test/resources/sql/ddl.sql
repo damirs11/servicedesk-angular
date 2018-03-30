@@ -7,13 +7,15 @@ CREATE TABLE itsm_persons (
   per_lastname VARCHAR(50),
   per_middlename VARCHAR(50),
   per_org_oid DECIMAL(18),
-  per_acc_oid DECIMAL(18)
+  per_acc_oid DECIMAL(18),
+  per_poo_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_organizations (
   org_oid DECIMAL(18),
   org_name1 VARCHAR(255),
-  org_email VARCHAR(50)
+  org_email VARCHAR(50),
+  org_poo_oid DECIMAL(18)
 );
 
 CREATE TABLE rep_accounts (
@@ -100,7 +102,8 @@ CREATE TABLE itsm_workorders (
   wor_apt_wog_oid DECIMAL(18),
   wor_initiator_per_oid DECIMAL(18),
   ass_assignstatus DECIMAL(18),
-	wor_assignpriority DECIMAL(18)
+	wor_assignpriority DECIMAL(18),
+	wor_poo_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_wor_information (
@@ -186,7 +189,8 @@ CREATE TABLE itsm_workgroups (
   wog_name VARCHAR (128),
   wog_searchcode VARCHAR (128),
   wog_sta_oid DECIMAL (18),
-  wog_parent DECIMAL (18)
+  wog_parent DECIMAL (18),
+  wog_poo_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_members (

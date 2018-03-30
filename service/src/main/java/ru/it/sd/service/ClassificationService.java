@@ -50,6 +50,9 @@ public class ClassificationService extends ReadService<EntityClassification> {
         Long subType = EntityClassification.getTypeId(EntityType.get(Long.parseLong(entityTypeId)));
         Map<String, String> subFilter = new HashMap<>();
         subFilter.put("subtype", subType.toString());
+        if (filter.get("disabled") != null) {
+            subFilter.put("disabled", filter.get("disabled"));
+        }
         List<BaseCode> codes = codeDao.list(subFilter);
         List<EntityClassification> result = new ArrayList<>();
         codes.forEach((code) ->

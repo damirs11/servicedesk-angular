@@ -1,14 +1,10 @@
 package ru.it.sd.dao;
 
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.OrganizationMapper;
 import ru.it.sd.model.Organization;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -16,40 +12,31 @@ import java.util.List;
  * @since 28.04.2017
  */
 @Repository
-public class OrganizationDao extends AbstractDao {
+public class OrganizationDao extends AbstractEntityDao<Organization> {
 
-	@Autowired
 	private OrganizationMapper organizationMapper;
 
-	private static final String SELECT_ALL_SQL =
+	public OrganizationDao(OrganizationMapper organizationMapper){
+		this.organizationMapper = organizationMapper;
+	}
+	private static final String BASE_SQL =
 			"SELECT " +
-				"org_oid, " +
-				"org_name1, " +
-				"org_email " +
+				"o.org_oid, " +
+				"o.org_name1, " +
+				"o.org_email, " +
+				"o.org_poo_oid " +
 			"FROM " +
-				"itsm_organizations " +
-			"{0}";
+				"itsm_organizations o\n ";
 
-	public List<Organization> list() {
-		return namedJdbc.query(MessageFormat.format(SELECT_ALL_SQL, ""), (RowMapper) organizationMapper);
+
+	@Override
+	protected StringBuilder getBaseSql() {
+		return new StringBuilder(BASE_SQL);
 	}
 
-	/**
-	 * Возвращает организацию по её идентификатору
-	 * @param id идентификатор организации
-	 * @return организация
-	 */
-	public Organization read(Long id) {
-		MapSqlParameterSource params = new MapSqlParameterSource();
-		params.addValue("id", id);
-		try {
-			Organization organization = namedJdbc.queryForObject(
-					MessageFormat.format(SELECT_ALL_SQL, " WHERE org_oid = :id"),
-					params, organizationMapper);
-			return organization;
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
+	@Override
+	protected List<Organization> executeQuery(String sql, SqlParameterSource params) {
+		return namedJdbc.query(sql, params, organizationMapper.asRowMapper());
 	}
 
 }

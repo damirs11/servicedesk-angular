@@ -13,8 +13,8 @@ import java.io.Serializable;
  * @author quadrix
  * @since 28.04.2017
  */
-@ClassMeta(tableName = "itsm_organizations")
-public class Organization implements Code, Serializable {
+@ClassMeta(tableName = "itsm_organizations", tableAlias = "o")
+public class Organization implements Code, HasFolder, Serializable {
 
 	private static final long serialVersionUID = -1146630780979985820L;
 
@@ -33,6 +33,9 @@ public class Organization implements Code, Serializable {
 	 */
 	@FieldMeta(columnName = "org_email")
 	private String email;
+
+	@FieldMeta(columnName = "org_poo_oid")
+	private Folder folder;
 
 	@Override
 	public Long getId() {
@@ -72,5 +75,15 @@ public class Organization implements Code, Serializable {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
+	}
+
+	@Override
+	public Folder getFolder() {
+		return folder;
+	}
+
+	@Override
+	public void setFolder(Folder folder) {
+		this.folder = folder;
 	}
 }

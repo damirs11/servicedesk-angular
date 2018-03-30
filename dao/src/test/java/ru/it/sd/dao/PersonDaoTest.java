@@ -29,6 +29,12 @@ public class PersonDaoTest extends AbstractDaoTest {
 	private PersonDao dao;
 
 	@Test
+	private void testRead(){
+		Person person = dao.read(1L);
+		assertEquals(person.getId().longValue(), 1L);
+		assertEquals(person.getFolder().getId().longValue(), 12345678L);
+	}
+	@Test
 	private void testList() {
 		List<Person> list = dao.list(null);
 		assertEquals(list.size(), 4);

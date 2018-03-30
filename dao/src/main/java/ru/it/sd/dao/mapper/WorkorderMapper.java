@@ -1,7 +1,9 @@
 package ru.it.sd.dao.mapper;
 
 import org.springframework.stereotype.Component;
-import ru.it.sd.dao.*;
+import ru.it.sd.dao.ChangeDao;
+import ru.it.sd.dao.CodeDao;
+import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.*;
 
@@ -60,6 +62,11 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 			workorder.setChange(change);
 		}
 
+		Long folderId = DBUtils.getLong(rs, "wor_poo_oid");
+		if(folderId != null){
+			BaseCode code = codeDao.read(folderId);
+			workorder.setFolder(code.convertTo(Folder.class));
+		}
 
 		return workorder;
 	}

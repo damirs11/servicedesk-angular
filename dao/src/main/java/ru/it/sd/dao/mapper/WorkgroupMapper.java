@@ -6,6 +6,7 @@ import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.WorkgroupDao;
 import ru.it.sd.model.BaseCode;
 import ru.it.sd.model.EntityStatus;
+import ru.it.sd.model.Folder;
 import ru.it.sd.model.Workgroup;
 
 import java.sql.ResultSet;
@@ -41,6 +42,11 @@ public class WorkgroupMapper extends EntityRowMapper<Workgroup> {
 			workgroup.setParent(parent);
 		}
 
+		Long folderId = DBUtils.getLong(rs, "wog_poo_oid");
+		if(folderId != null){
+			BaseCode code = codeDao.read(folderId);
+			workgroup.setFolder(code.convertTo(Folder.class));
+		}
 		return workgroup;
 	}
 }

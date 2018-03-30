@@ -15,8 +15,8 @@ import java.io.Serializable;
  * @author quadrix
  * @since 03.05.2017
  */
-@ClassMeta(tableName = "itsm_persons")
-public class Person implements HasId, Serializable {
+@ClassMeta(tableName = "itsm_persons", tableAlias = "p")
+public class Person implements HasId, HasFolder, Serializable {
 
 	private static final long serialVersionUID = 6269144031555905094L;
 	private static final Logger LOG = LoggerFactory.getLogger(Person.class);
@@ -45,6 +45,9 @@ public class Person implements HasId, Serializable {
 	/** Организация */
 	@FieldMeta(columnName = "per_org_oid")
 	private Organization organization;
+
+	@FieldMeta(columnName = "per_poo_oid")
+	private Folder folder;
 
 	@Override
 	public Long getId() {
@@ -130,5 +133,15 @@ public class Person implements HasId, Serializable {
 				.append("middleName", this.middleName)
 				.append("organization", this.organization)
 				.toString();
+	}
+
+	@Override
+	public Folder getFolder() {
+		return folder;
+	}
+
+	@Override
+	public void setFolder(Folder folder) {
+		this.folder = folder;
 	}
 }

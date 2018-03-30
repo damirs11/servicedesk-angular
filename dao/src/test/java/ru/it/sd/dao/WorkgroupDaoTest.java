@@ -27,7 +27,7 @@ public class WorkgroupDaoTest extends AbstractDaoTest {
 		Workgroup item = dao.read(20001L);
 		assertNotNull(item);
 		assertEquals(item.getId().longValue(), 20001L);
-		assertEquals(item.getName(), "Группа поддержки БД");
+		assertEquals(item.getFolder().getId().longValue(), 12345678L);
 	}
 
 	@Test

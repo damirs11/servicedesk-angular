@@ -32,6 +32,7 @@ public class WorkorderDaoTest extends AbstractDaoTest {
 		assertEquals(workorder.getStatus().getId().longValue(), 281478237061818L);
 		assertEquals(workorder.getCategory().getId().longValue(), 3095134393L);
 		assertEquals(workorder.getClosureCode().getId().longValue(), 3095134405L);
+		assertEquals(workorder.getFolder().getId().longValue(), 123456789L);
 	}
 
 	@Test

@@ -68,7 +68,10 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 			throw new ServiceException(ResourceMessages.getMessage("error.dao.filter"));
 		}
 		super.buildWhere(filter, sql, params);
-		sql.append(" AND code.disabled = 0");
+		if(filter.containsKey("disabled")){
+			params.addValue("disabled",filter.get("disabled"));
+			sql.append(" AND code.disabled = :disabled");
+		}
 		if (filter.containsKey("subtype")) {
 			params.addValue("subtype", filter.get("subtype"));
 			sql.append(" AND subtype = :subtype");

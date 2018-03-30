@@ -50,6 +50,9 @@ public class CategoryService extends ReadService<EntityCategory> {
         Long subType = EntityCategory.getTypeId(EntityType.get(Long.parseLong(entityTypeId)));
         Map<String, String> subFilter = new HashMap<>();
         subFilter.put("subtype", subType.toString());
+        if (filter.get("disabled") != null) {
+            subFilter.put("disabled", filter.get("disabled"));
+        }
         List<BaseCode> codes = codeDao.list(subFilter);
         List<EntityCategory> result = new ArrayList<>();
         codes.forEach((code) ->

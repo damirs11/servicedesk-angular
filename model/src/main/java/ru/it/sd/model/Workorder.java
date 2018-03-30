@@ -13,7 +13,7 @@ import java.util.Date;
  * @since 03.05.2017
  */
 @ClassMeta(tableName = "itsm_workorders", tableAlias = "w")
-public class Workorder implements HasId, HasStatus, HasAssignment, Serializable {
+public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Serializable {
 
 	private static final long serialVersionUID = 9067411334107317799L;
 
@@ -62,6 +62,8 @@ public class Workorder implements HasId, HasStatus, HasAssignment, Serializable 
 	@FieldMeta(columnName = "wcf_boolean2", tableAlias = "wcustom")
 	private Boolean expired;
 
+	@FieldMeta(columnName = "wor_poo_oid")
+	private Folder folder;
 	/** Инициатор */
 	@FieldMeta(columnName = "wor_requestor_per_oid")
 	private Person initiator;
@@ -218,5 +220,15 @@ public class Workorder implements HasId, HasStatus, HasAssignment, Serializable 
 	@Override
 	public void setAssignment(Assignment assignment) {
 		this.assignment = assignment;
+	}
+
+	@Override
+	public Folder getFolder() {
+		return folder;
+	}
+
+	@Override
+	public void setFolder(Folder folder) {
+		this.folder = folder;
 	}
 }

@@ -50,6 +50,9 @@ public class ClosureCodeService extends ReadService<EntityClosureCode> {
         Long subType = EntityClosureCode.getTypeId(EntityType.get(Long.parseLong(entityTypeId)));
         Map<String, String> subFilter = new HashMap<>();
         subFilter.put("subtype", subType.toString());
+        if (filter.get("disabled") != null) {
+            subFilter.put("disabled", filter.get("disabled"));
+        }
         List<BaseCode> codes = codeDao.list(subFilter);
         List<EntityClosureCode> result = new ArrayList<>();
         codes.forEach((code) ->

@@ -36,6 +36,7 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> {
 			"   w.wor_sta_oid, " +
 			"   w.wor_cat_oid, " +
 			"   w.wor_clo_oid, " +
+			"   w.wor_poo_oid, " +
 			"   wcustom.wcf_boolean2, " +
 			"   w.wor_requestor_per_oid, " +
 			"   w.ass_assignstatus ass_status, " +

@@ -7,6 +7,12 @@ INSERT INTO itsm_codes_locale (cdl_cod_oid, cdl_name, cdl_lng_oid) VALUES
 INSERT INTO itsm_codes_locale (cdl_cod_oid, cdl_name, cdl_lng_oid) VALUES
   (281478224675127, 'Не функционирует', 1049);
 
+  -----Folder------
+INSERT INTO itsm_codes (cod_oid, cod_subtype, cod_ordering, cod_disabled) VALUES
+  (12345678, 396748, 2, 0);
+INSERT INTO itsm_codes_locale (cdl_cod_oid, cdl_name, cdl_lng_oid) VALUES
+  (12345678, 'FolderTest', 1049);
+
 -- Группа поддержки БД
 -- Группа поддержки CRM
 -- Группа поддержки PROJECT
@@ -15,8 +21,8 @@ INSERT INTO itsm_codes_locale (cdl_cod_oid, cdl_name, cdl_lng_oid) VALUES
 --   |-Группа поддержки SD2
 --       |-Группа поддержки SD21
 --   |-Группа поддержки SD3
-INSERT INTO itsm_workgroups (wog_oid, wog_name, wog_searchcode, wog_sta_oid) VALUES (
-  20001, 'Группа поддержки БД', 'БД-DOMINO', 281478224675129);
+INSERT INTO itsm_workgroups (wog_oid, wog_name, wog_searchcode, wog_sta_oid, wog_poo_oid) VALUES (
+  20001, 'Группа поддержки БД', 'БД-DOMINO', 281478224675129, 12345678);
 INSERT INTO itsm_workgroups (wog_oid, wog_name, wog_searchcode, wog_sta_oid) VALUES (
   20002, 'Группа поддержки CRM', 'CRM', 281478224675129);
 INSERT INTO itsm_workgroups (wog_oid, wog_name, wog_searchcode, wog_sta_oid) VALUES (

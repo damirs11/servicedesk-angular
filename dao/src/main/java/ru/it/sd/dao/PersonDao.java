@@ -1,7 +1,5 @@
 package ru.it.sd.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -24,16 +22,30 @@ import java.util.Objects;
 @Repository
 public class PersonDao extends AbstractEntityDao<Person> {
 
-	@Autowired
-	private PersonMapper mapper;
+	private final PersonMapper mapper;
+
+	public PersonDao(PersonMapper mapper){
+		this.mapper = mapper;
+	}
 
 	private static final String BASE_SQL =
 			"SELECT\n" +
-			"per_oid, per_gender, per_email, per_jobtitle, per_firstname, per_lastname, per_middlename, per_org_oid,\n" +
-			"org_oid, org_name1, org_email\n" +
+			"	p.per_oid, " +
+			"	p.per_gender, " +
+			"	p.per_email, " +
+			"	p.per_jobtitle, " +
+			"	p.per_firstname, " +
+			"	p.per_lastname, " +
+			"	p.per_middlename, " +
+            "	org_name1, " +
+            "	org_oid, " +
+            "	org_email, " +
+            "	org_poo_oid, " +
+			"	p.per_org_oid, " +
+			"	p.per_poo_oid\n " +
 			"FROM\n" +
 			"itsm_persons p\n" +
-			"LEFT JOIN itsm_organizations o ON o.org_oid = p.per_org_oid\n";
+            "LEFT JOIN itsm_organizations o ON p.per_org_oid = org_oid";
 
 	@Override
 	protected StringBuilder getBaseSql() {
@@ -42,7 +54,7 @@ public class PersonDao extends AbstractEntityDao<Person> {
 
 	@Override
 	protected List<Person> executeQuery(String sql, SqlParameterSource params) {
-		return namedJdbc.query(sql, params, (RowMapper) mapper);
+		return namedJdbc.query(sql, params, mapper.asRowMapper());
 	}
 
 	@Override

@@ -495,8 +495,12 @@ public class FilterUtils {
 				String prefix = getPrefix(clazz, fmd);
 				//todo расширить полнотекстовую фильтрацию лоя всех типов полей
 				if (fmd.getType().equals(String.class)) {
-					likeComparison(queryPart, fmd, params, fulltext, prefix, false);
-				}
+				    String[] values = new String[1];
+				    values[0] = fulltext;
+                    if(checkParams(fmd,params, values, Comparison.LIKE)) {
+                        likeComparison(queryPart, fmd, params, fulltext, prefix, false);
+                    }
+                }
 			}
 		}
         queryPart.append(")");

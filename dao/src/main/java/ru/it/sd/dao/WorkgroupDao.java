@@ -30,7 +30,8 @@ public class WorkgroupDao extends AbstractEntityDao<Workgroup> {
 			"wg.wog_name, " +
 			"wg.wog_searchcode, " +
 			"wg.wog_sta_oid, " +
-			"wg.wog_parent " +
+			"wg.wog_parent, " +
+			"wg.wog_poo_oid " +
 		"FROM " +
 			"itsm_workgroups AS wg";
 

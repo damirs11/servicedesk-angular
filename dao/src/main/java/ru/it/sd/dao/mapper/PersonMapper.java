@@ -1,10 +1,12 @@
 package ru.it.sd.dao.mapper;
 
+import org.springframework.stereotype.Component;
+import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.utils.DBUtils;
+import ru.it.sd.model.BaseCode;
+import ru.it.sd.model.Folder;
 import ru.it.sd.model.Organization;
 import ru.it.sd.model.Person;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,15 +21,25 @@ import java.util.Objects;
 @Component
 public class PersonMapper extends EntityRowMapper<Person> {
 
-	@Autowired
-	private OrganizationMapper orgnizationMapper;
+	private final OrganizationMapper orgnizationMapper;
+	private final CodeDao codeDao;
 
+	public PersonMapper(OrganizationMapper orgnizationMapper, CodeDao codeDao){
+		this.orgnizationMapper = orgnizationMapper;
+		this.codeDao = codeDao;
+	}
 	@Override
 	public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Person person = super.mapRow(rs, rowNum);
 		if (Objects.nonNull(DBUtils.getLong(rs, "per_org_oid"))) {
 			Organization organization = orgnizationMapper.mapRow(rs, rowNum);
 			person.setOrganization(organization);
+		}
+
+		Long folderId = DBUtils.getLong(rs, "per_poo_oid");
+		if(folderId != null){
+			BaseCode code = codeDao.read(folderId);
+			person.setFolder(code.convertTo(Folder.class));
 		}
 		return person;
 	}
