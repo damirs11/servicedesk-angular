@@ -1,52 +1,37 @@
 package ru.it.sd.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.LocationMapper;
 import ru.it.sd.model.Location;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 @Repository
-public class LocationDao extends AbstractDao {
+public class LocationDao extends AbstractEntityDao<Location> {
 
-	@Autowired
 	private LocationMapper mapper;
 
-	private static final String SELECT_ALL_SQL =
+	public LocationDao(LocationMapper mapper){
+		this.mapper = mapper;
+	}
+	private static final String BASE_SQL =
 			"SELECT " +
 				"LOC_OID, " +
-				"LOC_SEARCHCODE, " +
+				"LOC_SEARCHCODE " +
 			"FROM " +
-				"ITSM_LOCATIONS " +
-			"{0}";
+				"ITSM_LOCATIONS\n";
 
-	public List<Location> getAll() {
-		return namedJdbc.query(MessageFormat.format(SELECT_ALL_SQL, ""), (RowMapper) mapper);
+
+	@Override
+	protected StringBuilder getBaseSql() {
+		return new StringBuilder(BASE_SQL);
 	}
 
-	/**
-	 * Возвращает местоположение по идентификатору
-	 * @param id идентификатор местоположения
-	 * @return местоположение
-	 */
-	public Location read(Long id) {
-		MapSqlParameterSource params = new MapSqlParameterSource();
-		params.addValue("id", id);
-		try {
-			Location location = namedJdbc.queryForObject(
-					MessageFormat.format(SELECT_ALL_SQL, " WHERE org_oid = :id"),
-					params, mapper);
-			return location;
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
+	@Override
+	protected List<Location> executeQuery(String sql, SqlParameterSource params) {
+		return namedJdbc.query(sql, params, mapper.asRowMapper());
 	}
-
 }
 
 

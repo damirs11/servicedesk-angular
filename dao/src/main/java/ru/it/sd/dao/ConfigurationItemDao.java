@@ -1,35 +1,28 @@
 package ru.it.sd.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.ConfigurationItemMapper;
-import ru.it.sd.dao.utils.FilterUtils;
 import ru.it.sd.model.ConfigurationItem;
 
-import java.text.MessageFormat;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Дао для работы с данными объектов
  */
 @Repository
-public class ConfigurationItemDao extends AbstractDao {
+public class ConfigurationItemDao extends AbstractEntityDao<ConfigurationItem> {
 
-	@Autowired
-	private ConfigurationItemMapper mapper;
+	private final ConfigurationItemMapper mapper;
 
-	@Autowired
-	private FilterUtils filterUtils;
-
+	public ConfigurationItemDao(ConfigurationItemMapper mapper){
+		this.mapper = mapper;
+	}
 	/**
 	 * Общий запрос получения данных об объекте
 	 */
 
-	private static final String SELECT_ALL_SQL =
+	private static final String BASE_SQL =
 			"SELECT " +
 					"item.cit_oid, " +
 					"item.cit_id, " +
@@ -60,52 +53,16 @@ public class ConfigurationItemDao extends AbstractDao {
 					"item.cit_org_oid " +
 				" FROM " +
 					"itsm_configuration_items AS item " +
-					"LEFT JOIN itsm_cit_custom_fields AS custom ON custom.ccf_cit_oid = item.cit_oid " +
-				"{0}";
+					"LEFT JOIN itsm_cit_custom_fields AS custom ON custom.ccf_cit_oid = item.cit_oid ";
 
-	/**
-	 * Возвращает объект по его идентификатору
-	 * @param id идентификатор объекта
-	 * @return объект
-	 */
-	public ConfigurationItem read(Long id) {
-		MapSqlParameterSource params = new MapSqlParameterSource();
-		params.addValue("id", id);
-		try {
-			ConfigurationItem item = namedJdbc.queryForObject(
-					MessageFormat.format(SELECT_ALL_SQL, " WHERE item.cit_oid = :id"),
-					params, mapper);
-			return item;
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
+	@Override
+	protected List<ConfigurationItem> executeQuery(String sql, SqlParameterSource params) {
+		return namedJdbc.query(sql, params, mapper.asRowMapper());
 	}
 
-	public List<ConfigurationItem> list(Map<String, String> filter) {
-		MapSqlParameterSource params = new MapSqlParameterSource();
-		StringBuilder queryPart = new StringBuilder();
-		filterUtils.createFilter(queryPart, params, filter, ConfigurationItem.class);
-
-		try {
-			List<ConfigurationItem> items = namedJdbc.query(
-					MessageFormat.format(SELECT_ALL_SQL, queryPart),
-					params, ((ResultSetExtractor<List<ConfigurationItem>>) mapper));
-			return items;
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
+	@Override
+	protected StringBuilder getBaseSql() {
+		return new StringBuilder(BASE_SQL);
 	}
 
-
-	/**
-	 * Возвращает все объекты
-	 * @return лист объектов
-	 */
-	public List<ConfigurationItem> findAll() {
-		try {
-			return namedJdbc.query(SELECT_ALL_SQL, ((ResultSetExtractor<List<ConfigurationItem>>) null));
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
-	}
 }

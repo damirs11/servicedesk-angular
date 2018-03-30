@@ -17,7 +17,7 @@ public class EntityClassification extends BaseCode {
 		switch (entityType) {
 			case CHANGE:
 				return 165879L;
-			case CALL:
+			case SERVICECALL:
 				return 1103560728L;
             case PROBLEM:
                 return 1103560717L;

@@ -17,7 +17,7 @@ public class EntityClosureCode extends BaseCode {
 		switch (entityType) {
 			case CHANGE:
 				return 166000L;
-			case CALL:
+			case SERVICECALL:
 				return 75240L;
             case PROBLEM:
                 return 75232L;

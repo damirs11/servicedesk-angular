@@ -19,11 +19,11 @@ public class EntityStatus extends BaseCode {
 		switch (entityType) {
 			case CHANGE:
 				return 724041777L; // rep
-			case CALL:
+			case SERVICECALL:
 				return 606535725L; // rep
 			case WORKORDER:
 				return 854589446L; // rep
-			case ITEM:
+			case CONFIGURATIONITEM:
 				return 801767480L; // rep
 			case WORKGROUP:
 				return 670761017L; // rep

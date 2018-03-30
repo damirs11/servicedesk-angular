@@ -293,3 +293,8 @@ CREATE TABLE rep_template_access (
   tac_tem_oid DECIMAL(18),
   tac_rol_oid DECIMAL(18)
 );
+
+CREATE TABLE itsm_locations (
+  loc_oid DECIMAL(18),
+  loc_searchcode VARCHAR(255)
+);

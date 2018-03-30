@@ -12,7 +12,7 @@ import java.io.Serializable;
  * Created by MYXOMOPX on 013 13.06.17.
  */
 @ClassMeta(tableName = "itsm_locations")
-public class Location implements Code, Serializable {
+public class Location implements HasId, Serializable {
 
 	private static final long serialVersionUID = -7239340747261669079L;
 
@@ -25,7 +25,7 @@ public class Location implements Code, Serializable {
 	 * Название
 	 */
 	@FieldMeta(columnName = "loc_searchcode")
-	private String name;
+	private String searchcode;
 
 	@Override
 	public Long getId() {
@@ -37,24 +37,12 @@ public class Location implements Code, Serializable {
 		this.id = id;
 	}
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
+	public String getSearchcode() {
+		return searchcode;
 	}
 
-	@Override
-	public Integer getOrder() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void setOrder(Integer order) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getName() {
-		return name;
+	public void setSearchcode(String searchcode) {
+		this.searchcode = searchcode;
 	}
 
 	@Override

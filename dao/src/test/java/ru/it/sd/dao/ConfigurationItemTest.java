@@ -27,8 +27,6 @@ public class ConfigurationItemTest extends AbstractDaoTest {
 		assertNotNull(item);
 		assertEquals(item.getId().longValue(), 20001L);
 		assertEquals(item.getNo().longValue(), 2001L);
-		assertEquals(item.getSearchCode(), "CIT №1");
-		assertEquals(item.getName(), "Some item");
 		assertEquals(item.getPrice(),8.50);
 		LOG.info(item.toString());
 	}

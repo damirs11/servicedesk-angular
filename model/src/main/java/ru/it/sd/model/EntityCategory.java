@@ -19,11 +19,11 @@ public class EntityCategory extends BaseCode {
 		switch (entityType) {
 			case CHANGE:
 				return 673513486L;
-			case CALL:
+			case SERVICECALL:
 				return 673513478L;
 			case WORKORDER:
 				return 878116890L;
-			case ITEM:
+			case CONFIGURATIONITEM:
                 return 801767456L;
             case PROBLEM:
                 return 717488183L;
