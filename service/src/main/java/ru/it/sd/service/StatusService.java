@@ -50,8 +50,8 @@ public class StatusService extends ReadService<EntityStatus> {
 		Long subType = EntityStatus.getTypeId(EntityType.get(Long.parseLong(entityTypeId)));
 		Map<String, String> subFilter = new HashMap<>();
 		subFilter.put("subtype", subType.toString());
-		if (filter.get("disabled") != null) {
-			subFilter.put("disabled", filter.get("disabled"));
+		if (filter.get("disabled") == null) {
+			subFilter.put("disabled", "0");
 		}
 		List<BaseCode> codes = codeDao.list(subFilter);
 		List<EntityStatus> result = new ArrayList<>();

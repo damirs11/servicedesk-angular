@@ -491,17 +491,13 @@ public class FilterUtils {
         queryPart.append("\n\tAND (1 = 2");
 		Map<String, FieldMetaData> fieldMetaDataList = MetaUtils.getFieldsMetaData(clazz);
 		for (FieldMetaData fmd : fieldMetaDataList.values()) {
-			if(fmd.isAnnotation()) {
-				String prefix = getPrefix(clazz, fmd);
-				//todo расширить полнотекстовую фильтрацию лоя всех типов полей
-				if (fmd.getType().equals(String.class)) {
-				    String[] values = new String[1];
-				    values[0] = fulltext;
-                    if(checkParams(fmd,params, values, Comparison.LIKE)) {
-                        likeComparison(queryPart, fmd, params, fulltext, prefix, false);
-                    }
+            if(fmd.isAnnotation()) {
+                String prefix = getPrefix(clazz, fmd);
+                //todo расширить полнотекстовую фильтрацию лоя всех типов полей
+                if (fmd.getType().equals(String.class)) {
+                    likeComparison(queryPart, fmd, params, fulltext, prefix, false);
                 }
-			}
+            }
 		}
         queryPart.append(")");
 	}
