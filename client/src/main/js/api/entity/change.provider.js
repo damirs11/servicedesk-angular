@@ -3,6 +3,7 @@ import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
 import {serializeId} from "./decorator/serialize-utils";
 import {Mixin} from "./mixin/mixin.decorator";
+import {TYPEID_CHANGE} from "./entity-type-list";
 
 
 ChangeProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable", "AttachmentsHolder","Accessible"];
@@ -19,7 +20,7 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
      */
     @Mixin(Historyable, Approvable, AttachmentsHolder, Accessible)
     class Change extends EditableEntity {
-        static $entityTypeId = 724041768;
+        static $entityTypeId = TYPEID_CHANGE;
         /**
          * Номер
          * @property

@@ -2,6 +2,7 @@ import {Parse} from "./decorator/parse.decorator";
 import {Instantiate, Nullable} from "./decorator/parse-utils";
 import {Serialize} from "./decorator/serialize.decorator";
 import {serializeId} from "./decorator/serialize-utils";
+import {TYPEID_APPROVAL} from "./entity-type-list";
 
 ApprovalProvider.$inject = ["EditableEntity", "SD"];
 function ApprovalProvider(EditableEntity, SD) {
@@ -14,7 +15,7 @@ function ApprovalProvider(EditableEntity, SD) {
      * @see ENTITY_MIXIN.Approvable
      */
     return class Approval extends EditableEntity {
-        static $entityTypeId = 281478244794382;
+        static $entityTypeId = TYPEID_APPROVAL;
         /**
          * ID сущности
          * @property
