@@ -94,6 +94,18 @@ class ChangeCardApprovalController{
         return result;
     }
 
+    /**
+     * Возвращает число, указывающее какие статусы доступны для выбора
+     * Необходимо для компонента sd-dropdown по статусу. При измекении числа - он делает fetch
+     * Просто массив туда передать нельзя из-за infinite-digest
+     * @return {*}
+     */
+    get availableStatusesCode(){
+        return this.isStatusPreparingAvailable
+            + this.isStatusBeginAvailable*2
+            + this.isStatusCompleteAvailable*4
+    }
+
     get isStatusPreparingAvailable() {
         return true;
     }

@@ -9,7 +9,7 @@
             {{ctrl.display($select.selected)}}
         </ui-select-match>
         <ui-select-choices repeat="$value in ctrl.getFilteredValues($select.search) track by $index"
-                           refresh="ctrl.fetchValues($select.search)"
+                           refresh="ctrl.fetchFromUI($select.search)"
                            refresh-delay="ctrl.debounceTime"
         >
             <div ng-bind-html="ctrl.display($value) | highlight: $select.search"></div>

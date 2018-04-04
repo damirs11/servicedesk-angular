@@ -13,7 +13,20 @@ class SDDropdownComponentController{
         this.selectedValue = this.target;
         this.$scope.$watch("ctrl.editing", () => {
             this.selectedValue = this.target;
+        });
+        let firstFetch = true;
+        this.$scope.$watch("ctrl.fetchOnChange", () => {
+            if (firstFetch) {
+                firstFetch = false;
+                return;
+            }
+            this.fetch(this.lastFetchRequest)
         })
+    }
+
+    get isIgnoringSameText() {
+        if (this.ignoreSameText === undefined) return true;
+        return this.ignoreSameText;
     }
 
     get isEnabled() {
@@ -32,16 +45,20 @@ class SDDropdownComponentController{
 
     values = null;
     lastFetchRequest = null;
-    async fetchValues(text){
+    async fetchFromUI(text){
         if (this.cache && this.values) return;
-        if (this.lastFetchRequest == text) return;
+        if (this.isIgnoringSameText && this.lastFetchRequest == text) return;
+        this.fetch(text);
+        this.lastFetchRequest = text
+    }
+
+    async fetch(text) {
         this.values = null;
         try {
             let array = await this.fetchData({$text:text});
             if (!array) array = [];
             array.splice(MAX_DISPLAY_VALUES,array.length);
             this.values = array;
-            this.lastFetchRequest = text
         } catch (e) {
             throw e;
         }

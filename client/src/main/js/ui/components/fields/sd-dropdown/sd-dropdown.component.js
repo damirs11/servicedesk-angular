@@ -16,6 +16,8 @@ import {controller} from "./sd-dropdown.ctrl"
  * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
  * editing {Boolean} - состояние компонента. Режим редактирования (true) или режим просмотра (false).
  * disabled {Boolean} - состояние в режиме редактирования. true - поле будет серым и недоступным.
+ * ignoreSameText {Boolean} [true] - не запускать fetch, если текст в поисковой строке не изменился
+ * fetchOnChange {*} - запускает fetch, когда меняется значение. (работает через $scope.$watch)
  */
 const SDDropdownComponent = {
     template: template,
@@ -35,6 +37,8 @@ const SDDropdownComponent = {
         emptyValue: "@",
         validate: "&",
         editing: "<",
+        ignoreSameText: "<",
+        fetchOnChange: "<",
     }
 };
 
