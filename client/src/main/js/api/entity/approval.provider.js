@@ -2,10 +2,11 @@ import {Parse} from "./decorator/parse.decorator";
 import {Instantiate, Nullable} from "./decorator/parse-utils";
 import {Serialize} from "./decorator/serialize.decorator";
 import {serializeId} from "./decorator/serialize-utils";
-import {TYPEID_APPROVAL} from "./entity-type-list";
+import {TYPEID_APPROVAL} from "./util/entity-type-list";
+import {Mixin} from "./mixin/mixin.decorator";
 
-ApprovalProvider.$inject = ["EditableEntity", "SD"];
-function ApprovalProvider(EditableEntity, SD) {
+ApprovalProvider.$inject = ["EditableEntity", "SD", "Accessible"];
+function ApprovalProvider(EditableEntity, SD, Accessible) {
     /**
      * Голосование
      * @class
@@ -14,7 +15,8 @@ function ApprovalProvider(EditableEntity, SD) {
      * Имеет миксин, который внедряет в сущности методы для согласований
      * @see ENTITY_MIXIN.Approvable
      */
-    return class Approval extends EditableEntity {
+    @Mixin(Accessible)
+    class Approval extends EditableEntity {
         static $entityTypeId = TYPEID_APPROVAL;
         /**
          * ID сущности
@@ -105,7 +107,8 @@ function ApprovalProvider(EditableEntity, SD) {
             return this.name
         }
 
-    };
+    }
+    return Approval
 }
 
 export {ApprovalProvider};

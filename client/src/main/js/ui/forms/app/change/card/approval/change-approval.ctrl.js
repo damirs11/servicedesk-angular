@@ -1,12 +1,13 @@
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
-import {TYPEID_APPROVAL} from "../../../../../../api/entity/entity-type-list";
+import {TYPEID_APPROVAL} from "../../../../../../api/entity/util/entity-type-list";
+import {
+    APPROVAL_BEGIN_STATUS, APPROVAL_COMPLETE_STATUS,
+    APPROVAL_PREPARING_STATUS
+} from "../../../../../../api/entity/util/status-list";
 
 const ERROR_APPROVAL_READ_DISALLOWED = Symbol("ERROR_APPROVAL_READ_DISALLOWED");
 
-const APPROVAL_PREPARING_STATUS_ID = 281478256721931;
-const APPROVAL_BEGIN_STATUS_ID = 281478256721929;
-const APPROVAL_COMPLETE_STATUS_ID = 281478256721933;
-const CHANGE_APPROVAL_COMPLETE_STATUS_ID = 3095134328;
+
 
 @NGInjectClass()
 class ChangeCardApprovalController{
@@ -15,6 +16,7 @@ class ChangeCardApprovalController{
     @NGInject() changeId;
     @NGInject() $grid;
     @NGInject() $pageLock;
+    @NGInject() $injector;
     /**
      * Пустое значение
      * @type {string}
@@ -28,6 +30,14 @@ class ChangeCardApprovalController{
      * Ошибка, возникшая в стейте
      */
     stateError;
+    /**
+     * Права доступа согласования
+     */
+    accessRules;
+    /**
+     * согласование
+     */
+    approval;
 
     // Статус стейта, редактирование/просмотр
     editing = false;
@@ -78,9 +88,9 @@ class ChangeCardApprovalController{
     async _loadStatuses(){
         await this.SD.EntityStatus.list({entityTypeId:TYPEID_APPROVAL});
         // Т.к строкой выше мы их всех подгрузили, то мы можем просто создавать их по ID. Все данные уже есть.
-        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_PREPARING_STATUS_ID));
-        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_BEGIN_STATUS_ID));
-        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_COMPLETE_STATUS_ID));
+        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_PREPARING_STATUS));
+        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_BEGIN_STATUS));
+        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_COMPLETE_STATUS));
     }
 
     async getAllowedStatuses(){
@@ -111,19 +121,19 @@ class ChangeCardApprovalController{
     }
     get isStatusBeginAvailable() {
         const approval = this.approval;
-        if (approval.status.id == APPROVAL_PREPARING_STATUS_ID) {
+        if (approval.status.id == APPROVAL_PREPARING_STATUS) {
             if (!approval.subject || !approval.deadline || !approval.numberOfApproversRequired) return false;
             return true;
-        } else if (approval.status.id == APPROVAL_BEGIN_STATUS_ID) {
+        } else if (approval.status.id == APPROVAL_BEGIN_STATUS) {
             return true
-        } else if (approval.status.id == APPROVAL_COMPLETE_STATUS_ID) {
+        } else if (approval.status.id == APPROVAL_COMPLETE_STATUS) {
             return false;
         }
         return true;
     }
     get isStatusCompleteAvailable() {
         const approval = this.approval;
-        if (approval.status.id == APPROVAL_BEGIN_STATUS_ID) return true;
+        if (approval.status.id == APPROVAL_BEGIN_STATUS) return true;
         return false;
     }
 }

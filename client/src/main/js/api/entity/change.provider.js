@@ -3,7 +3,7 @@ import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
 import {serializeId} from "./decorator/serialize-utils";
 import {Mixin} from "./mixin/mixin.decorator";
-import {TYPEID_CHANGE} from "./entity-type-list";
+import {TYPEID_CHANGE} from "./util/entity-type-list";
 
 
 ChangeProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable", "AttachmentsHolder","Accessible"];
