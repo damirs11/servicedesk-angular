@@ -72,7 +72,7 @@ class WorkorderListController {
         filters.push(new UIEntityFilter({divider: true}));
 
         const personId = this.Session.user.person.id;
-        const groups = await this.SD.Workgroup.list({person:personId});
+        const groups = await this.SD.Workgroup.list({personId:personId});
         if (groups && groups.length) {
             const uiGroups = groups.map(g => new UIEntityFilter(g.name,`group_${g.id}`));
             const groupFilter = new UIEntityFilter({name: "Назначенные группе", childs: uiGroups});

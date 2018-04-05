@@ -41,7 +41,7 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
 	@FieldMeta(columnName = "chi_information", tableAlias = "ci",  attribute = 738983997L)
 	private String description;
 	/** Решение*/
-	@FieldMeta(columnName = "cha_solution")
+	@FieldMeta(columnName = "cha_solution", attribute = 724041772L)
 	private String solution;
 	/** Статус */
 	@FieldMeta(columnName = "cha_sta_oid", attribute = 724041782L)
@@ -59,7 +59,7 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
 	private EntityClassification classification;
 
 	/** Дата создания */
-	@FieldMeta(columnName = "reg_created")
+	@FieldMeta(columnName = "reg_created", attribute = 555679750L)
 	private Date createdDate;
 	/** Крайний срок */
 	@FieldMeta(columnName = "cha_deadline", attribute = 556335111)
@@ -74,16 +74,16 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
 	@FieldMeta(columnName = "cha_latefinish", attribute = 70370)
 	private Date closureDate;
 	/** План начала*/
-	@FieldMeta(columnName = "cha_planstart")
+	@FieldMeta(columnName = "cha_planstart", attribute = 70371L)
 	private Date planStart;
 	/** План завершения*/
-	@FieldMeta(columnName = "cha_planfinish")
+	@FieldMeta(columnName = "cha_planfinish", attribute = 70372L)
 	private Date planFinish;
 	/** План продолжительность
 	 * columnName = cha_planduration - не стандартное поле(время приходит в double)
 	 * отдельно обрабатывается в ChangeExtractor
 	 */
-	@FieldMeta(columnName = "")
+	@FieldMeta(columnName = "", attribute = 689504406L)
 	private Date planDuration;
 
 	@FieldMeta(columnName = "", attribute = 665649208)
@@ -99,13 +99,13 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
 	@FieldMeta(columnName = "cha_closurecode", attribute = 166006L)
 	private EntityClosureCode closureCode;
 	/** Система*/
-	@FieldMeta(columnName = "ccu_changecode1")
+	@FieldMeta(columnName = "ccu_changecode1", attribute = 165964L)
 	private EntityCode1 system;
 
 	@FieldMeta(columnName = "cha_poo_oid", attribute = 1032388614L)
 	private Folder folder;
 
-	@FieldMeta(columnName = "cha_cit_oid")
+	@FieldMeta(columnName = "cha_cit_oid", attribute = 884867074L)
 	private ConfigurationItem configurationItem;
 
     //Поля для получения доступа к вкладкам(согласование, вложения, наряды, взаимосвязи)
@@ -121,7 +121,7 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
 	@FieldMeta(columnName = "", attribute = 166009L)
 	private long relations;
 
-	@FieldMeta(columnName = "cha_tem_oid")
+	@FieldMeta(columnName = "cha_tem_oid" )
 	private Template template;
 
 	@Override
