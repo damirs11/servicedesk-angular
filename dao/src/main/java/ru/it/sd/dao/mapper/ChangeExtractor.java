@@ -103,12 +103,12 @@ public class ChangeExtractor implements ResultSetExtractor<List<Change>> {
 				change.setSystem(code.convertTo(EntityCode1.class));
 			}
 
-			/* до реализцаии ConfigurationItem
+
 			Long configurationItemId = DBUtils.getLong(rs, "cha_cit_oid");
 			if(configurationItemId != null) {
 				ConfigurationItem configurationItem = configurationItemDao.read(configurationItemId);
 				change.setConfigurationItem(configurationItem);
-			}*/
+			}
 
 			list.add(change);
 		}

@@ -46,6 +46,14 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
         @Serialize(String) @Parse(Nullable(String)) description;
 
         /**
+         * Решение
+         * @property
+         * @name SD.Change#solution
+         * @type {string}
+         */
+        @Serialize(String) @Parse(Nullable(String)) solution;
+
+        /**
          * Статус
          * @property
          * @name SD.Change#status
@@ -118,6 +126,14 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @type {SD.EntityCategory}
          */
         @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
+
+        /**
+         * Объект обслуживания
+         * @property
+         * @name SD.Change#configurationItem
+         * @type {SD.ConfigurationItem}
+         */
+        @Serialize(serializeId) @Parse(data => SD.ConfigurationItem.parse(data)) configurationItem;
 
         /**
          * Сущность "назначено"

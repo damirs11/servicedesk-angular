@@ -24,7 +24,7 @@
 
     <div class="entity-container__content">
         <form class="form-inline">
-            <div class="form-group entity-text" style="width: 100%; height: 42px">
+            <div class="form-group entity-text" style="width: 100%; height: 42px" ng-if="ctrl.accessRules.canSee('subject')">
                 <label>Тема:</label>
                 <div class="entity-text__inline-field">
                     <sd-text target="ctrl.change.subject"
@@ -35,12 +35,23 @@
                 </div>
             </div>
 
-            <div class="form-group entity-text" style="width: 100%;">
+            <div class="form-group entity-text" style="width: 100%;" ng-if="ctrl.accessRules.canSee('description')">
                 <label>Подробная информация:</label>
                 <div class="entity-text__multiline-field">
                     <sd-textarea target="ctrl.change.description"
                                  editing="ctrl.editing"
                                  disabled="!ctrl.accessRules.canUpdate('description')"
+                    >
+                    </sd-textarea>
+                </div>
+            </div>
+
+            <div class="form-group entity-text" style="width: 100%;" ng-if="ctrl.accessRules.canSee('solution')">
+                <label>Решение:</label>
+                <div class="entity-text__multiline-field">
+                    <sd-textarea target="ctrl.change.solution"
+                                 editing="ctrl.editing"
+                                 disabled="!ctrl.accessRules.canUpdate('solution')"
                     >
                     </sd-textarea>
                 </div>
@@ -186,6 +197,19 @@
                              disabled="!ctrl.accessRules.canUpdate('classification')"
                 ></sd-dropdown>
             </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('configurationItem')">
+                <label>Объект обслуживания:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.configurationItem"
+                             fetch-data="ctrl.loadConfigurationItems($text)"
+                             display-value="$value.searchCode"
+                             cache="true"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('configurationItem')"
+                ></sd-dropdown>
+            </div>
+
         </form>
     </div>
 

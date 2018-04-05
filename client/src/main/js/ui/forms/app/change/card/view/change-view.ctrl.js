@@ -121,6 +121,14 @@ class ChangeCardViewController{
         return this.SD.EntityClassification.list(filter);
     }
 
+    async loadConfigurationItems(text) {
+        const filter = {};
+        if (text) filter.text = text;
+        const configurationItem = this.change.configurationItem;
+        if (configurationItem) filter.configurationItemId = configurationItem.id;
+        return this.SD.ConfigurationItem.list(filter);
+    }
+
 }
 
 export {ChangeCardViewController as controller}

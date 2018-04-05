@@ -155,6 +155,10 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
             iChange.getAssignment().setAssigneePerson(executor);
         }
+        if(fields.contains("configurationItem")) {
+            IConfigurationItem configurationItem = api.getSdClient().sd_session().getConfigurationItemHome().openConfigurationItem(entity.getConfigurationItem().getId());
+            iChange.setConfigurationItem(configurationItem);
+        }
         iChange.getAssignment().transfer();
         iChange.save();
 
