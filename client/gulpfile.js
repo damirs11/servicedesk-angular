@@ -210,7 +210,7 @@ gulp.task("copy:img", function copyStatic() {
  * Копирует все шрифты
  */
 gulp.task("copy:fonts", function copyStatic() {
-    return gulp.src(config.source.fonts+"*/**")
+    return gulp.src(config.source.fonts+"**")
         .pipe(gulp.dest(config.dist.fonts));
 });
 

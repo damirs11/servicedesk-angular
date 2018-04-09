@@ -23,17 +23,43 @@ class AppController {
         this.$state.go("app.login")
     }
 
+    /**
+     * Право на просмотр "Изменений"
+     * @returns {Boolean}
+     */
     get canSeeTabChanges() {
-        // return false;
-        return this.Session.getTypeAccessRules("Change").isReadEntityAllowed
+        return this.Session.getTypeAccessRules("Change") && this.Session.getTypeAccessRules("Change").isReadEntityAllowed;
     }
+    /**
+     * Право на просмотр "Заявок"
+     * @returns {Boolean}
+     */
+    get canSeeTabServiceCalls() {
+        return false; // не реализовано
+        // return this.Session.getTypeAccessRules("ServiceCall").isReadEntityAllowed
+    }
+    /**
+     * Право на просмотр "Нарядов"
+     * @returns {Boolean}
+     */
     get canSeeTabWorkorders() {
-        return true;
-        // return this.Session.getTypeAccessRules("Workorder").isReadEntityAllowed
+        return this.Session.getTypeAccessRules("Workorder") && this.Session.getTypeAccessRules("Workorder").isReadEntityAllowed;
     }
+    /**
+     * Право на просмотр "Персон"
+     * @returns {Boolean}
+     */
     get canSeeTabPersons() {
-        return true;
+        return false; // временно скроем
         // return this.Session.getTypeAccessRules("Person").isReadEntityAllowed
+    }
+    /**
+     * Право на просмотр "Объектов" (обслуживания)
+     * @returns {Boolean}
+     */
+    get canSeeTabConfigurationItems() {
+        return false; // временно скроем
+        // return this.Session.getTypeAccessRules("ConfigurationItem").isReadEntityAllowed
     }
 }
 

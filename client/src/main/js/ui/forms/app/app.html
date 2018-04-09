@@ -19,7 +19,7 @@
                         <span class="glyphicon glyphicon-cloud"></span> Изменения
                     </a>
                 </li>
-                <li>
+                <li ng-if="ctrl.canSeeTabServiceCalls">
                     <a data-ui-sref="app.servicecall.list">
                         <span class="glyphicon glyphicon-list"></span> Заявки
                     </a>
@@ -34,7 +34,7 @@
                         <span class="glyphicon glyphicon-user"></span> Персоны
                     </a>
                 </li>
-                <li>
+                <li ng-if="ctrl.canSeeTabConfigurationItems">
                     <a data-ui-sref="app.configurationItem.list">
                         <span class="glyphicon glyphicon-wrench"></span> Объекты
                     </a>

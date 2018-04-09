@@ -102,7 +102,7 @@ public class SecurityRestController extends AbstractController{
 			access.put("attributes",result.getRight());
 			return access;
 		} else{
-			throw new BadRequestException("Сущность не реализует интерфейс HasFolder");
+			throw new BadRequestException(ResourceMessages.getMessage("error.entity.grant.interface", entity));
 		}
 	}
 
@@ -120,7 +120,7 @@ public class SecurityRestController extends AbstractController{
 		if(HasFolder.class.isAssignableFrom(clazz)){
 			return accessService.getAccess(entityType);
 		} else{
-			throw new BadRequestException("Сущность не реализует интерфейс HasFolder");
+			throw new BadRequestException(ResourceMessages.getMessage("error.entity.grant.interface", entity));
 		}
 	}
 }

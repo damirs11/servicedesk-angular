@@ -42,7 +42,7 @@ class Session {
     }
 
     async _loadAccessData() {
-        const entityTypeList = ["Change"];
+        const entityTypeList = ["Change", 'Workorder', 'Person', 'Organization'];
         const accessDataArray = await Promise.all(
             entityTypeList.map(type => this.$sdAccess.loadTypeAccessRules(type))
         );
