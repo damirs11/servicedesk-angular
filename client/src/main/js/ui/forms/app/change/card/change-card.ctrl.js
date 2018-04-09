@@ -1,4 +1,5 @@
 import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
+import {CHANGE_STATUSES, APPROVAL_STATUSES} from "../../../../../api/entity/util/status-list";
 
 @NGInjectClass()
 class ChangeCardController {
@@ -30,13 +31,14 @@ class ChangeCardController {
         {name:'История',sref:'app.change.card.history',
             disabled:() => this.accessRules && !this.accessRules.isReadHistoryAllowed},
         {name:'Согласование',sref:'app.change.card.approval',
-            disabled:() => this.accessRules && !this.accessRules.isReadApprovalAllowed},
+            disabled:() => this.accessRules && !this.canSeeApprovalPage},
         {name:'Вложения',sref:'app.change.card.attachments',
             disabled:() => this.accessRules && !this.accessRules.isReadAttachmentsAllowed},
     ];
 
     @NGInject() SD;
     @NGInject() changeId;
+    @NGInject() Session;
 
     async $onInit(){
         this.loadingPromise = this.loadData();
@@ -48,10 +50,15 @@ class ChangeCardController {
         await this.$loadChange();
         await this.$loadAccess();
         await this.$loadStatuses();
+        await this.$loadApproval();
     }
 
     async $loadStatuses() {
         this.statusList = await this.SD.EntityStatus.list({entityTypeId:this.SD.Change.$entityTypeId});
+    }
+
+    async $loadApproval() {
+        this.approval = await this.change.getApproval()
     }
 
     get loading(){
@@ -94,6 +101,20 @@ class ChangeCardController {
             this.loadingError = error || true;
             throw error;
         }
+    }
+
+    get canSeeApprovalPage() {
+        return this.accessRules.isReadApprovalAllowed
+            && this.approval
+            && (
+                this.change.status.id == CHANGE_STATUSES.PREPARING && this.$isManager
+                || this.change.status.id == CHANGE_STATUSES.ON_APPROVE
+            )
+    }
+
+    get $isManager(){
+        return this.change.manager
+            && (this.change.manager.id == this.Session.user.person.id)
     }
 }
 
