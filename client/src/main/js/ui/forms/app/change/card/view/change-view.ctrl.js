@@ -71,19 +71,19 @@ class ChangeCardViewController{
 
     async loadInititators(text) {
         const filter = {};
-        if (text) filter.text = text;
+        if (text) filter.fulltext = text;
         return this.SD.Person.list(filter);
     }
 
     async loadManagers(text) {
         const filter = {};
-        if (text) filter.text = text;
+        if (text) filter.fulltext = text;
         return this.SD.Person.list(filter);
     }
 
     async loadExecutors(text){
         const filter = {};
-        if (text) filter.text = text;
+        if (text) filter.fulltext = text;
         const workgroup = this.change.assignment.workgroup;
         if (workgroup) filter.workgroupId = workgroup.id;
         return this.SD.Person.list(filter);
@@ -91,7 +91,7 @@ class ChangeCardViewController{
 
     async loadWorkgroups(text){
         const filter = {};
-        if (text) filter.text = text;
+        if (text) filter.fulltext = text;
         const executor = this.change.assignment.executor;
         if (executor) filter.personId = executor.id;
         return this.SD.Workgroup.list(filter);
@@ -99,31 +99,31 @@ class ChangeCardViewController{
 
     async loadStatuses(text) {
         const filter = {entityTypeId: this.SD.Change.$entityTypeId};
-        if (text) filter.text = text;
+        if (text) filter.fulltext = text;
         return this.SD.EntityStatus.list(filter);
     }
 
     async loadPriorities(text) {
         const filter = {entityTypeId: this.SD.Change.$entityTypeId};
-        if (text) filter.text = text;
+        if (text) filter.fulltext = text;
         return this.SD.EntityPriority.list(filter);
     }
 
     async loadCategories(text) {
         const filter = {entityTypeId: this.SD.Change.$entityTypeId};
-        if (text) filter.text = text;
+        if (text) filter.fulltext = text;
         return this.SD.EntityCategory.list(filter);
     }
 
     async loadClassifications(text) {
         const filter = {entityTypeId: this.SD.Change.$entityTypeId};
-        if (text) filter.text = text;
+        if (text) filter.fulltext = text;
         return this.SD.EntityClassification.list(filter);
     }
 
     async loadConfigurationItems(text) {
         const filter = {};
-        if (text) filter.text = text;
+        if (text) filter.fulltext = text;
         const configurationItem = this.change.configurationItem;
         if (configurationItem) filter.configurationItemId = configurationItem.id;
         return this.SD.ConfigurationItem.list(filter);

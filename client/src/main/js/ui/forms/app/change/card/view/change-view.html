@@ -96,6 +96,7 @@
                              display-value="$value.fullName"
                              editing="ctrl.editing"
                              allow-empty="true"
+                             fetch-on-change="ctrl.change.assignment.workgroup"
                              disabled="!ctrl.accessRules.canUpdate('assignment')"
                 ></sd-dropdown>
             </div>
@@ -108,6 +109,7 @@
                              placeholder="Введите название группы"
                              display-value="$value.name"
                              editing="ctrl.editing"
+                             fetch-on-change="ctrl.change.assignment.executor"
                              disabled="!ctrl.accessRules.canUpdate('assignment')"
                 ></sd-dropdown>
             </div>

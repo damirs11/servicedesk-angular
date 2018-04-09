@@ -11,11 +11,11 @@ class SDDropdownComponentController{
 
     $onInit(){
         this.selectedValue = this.target;
-        this.$scope.$watch("ctrl.editing", () => {
+        this.$scope.$watch(() => this.editing, () => {
             this.selectedValue = this.target;
         });
         let firstFetch = true;
-        this.$scope.$watch("ctrl.fetchOnChange", () => {
+        this.$scope.$watch(() => this.fetchOnChange, (val) => {
             if (firstFetch) {
                 firstFetch = false;
                 return;
