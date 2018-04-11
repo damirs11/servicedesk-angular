@@ -72,6 +72,22 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
         @Parse(data => SD.EntityPriority.parse(data)) priority;
 
         /**
+         * Категория
+         * @property
+         * @name SD.Change#category
+         * @type {SD.EntityCategory}
+         */
+        @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
+
+        /**
+         * Классификация
+         * @property
+         * @name SD.Change#classification
+         * @type {SD.EntityClassification}
+         */
+        @Serialize(serializeId) @Parse(data => SD.EntityClassification.parse(data)) classification;
+
+        /**
          * Дата создания
          * @property
          * @name SD.Change#createdDate
@@ -88,12 +104,52 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
         @Serialize(Number) @Parse( Nullable(Date,"new") ) deadline;
 
         /**
+         * Реально начато
+         * @property
+         * @name SD.Change#actualStart
+         * @type {Date}
+         */
+        @Serialize(Number) @Parse( Nullable(Date,"new") ) actualStart;
+
+        /**
          * Дата фактического выполнения
          * @property
          * @name SD.Change#resolvedDate
          * @type {Date}
          */
         @Serialize(Number) @Parse( Nullable(Date,"new") ) resolvedDate;
+
+        /**
+         * Дата закрытия
+         * @property
+         * @name SD.Change#closureDate
+         * @type {Date}
+         */
+        @Serialize(Number) @Parse( Nullable(Date,"new") ) closureDate;
+
+        /**
+         * План начала
+         * @property
+         * @name SD.Change#planStart
+         * @type {Date}
+         */
+        @Serialize(Number) @Parse( Nullable(Date,"new") ) planStart;
+
+        /**
+         * План окночания
+         * @property
+         * @name SD.Change#planFinish
+         * @type {Date}
+         */
+        @Serialize(Number) @Parse( Nullable(Date,"new") ) planFinish;
+
+        /**
+         * План продолжительно
+         * @property
+         * @name SD.Change#planDuration
+         * @type {Date}
+         */
+        @Serialize(Number) @Parse( Nullable(Date,"new") ) planDuration;
 
         /**
          * Инициатор
@@ -112,28 +168,12 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
         @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) manager;
 
         /**
-         * Классификация
-         * @property
-         * @name SD.Change#classification
-         * @type {SD.EntityClassification}
-         */
-        @Serialize(serializeId) @Parse(data => SD.EntityClassification.parse(data)) classification;
-
-        /**
-         * Категория
-         * @property
-         * @name SD.Change#category
-         * @type {SD.EntityCategory}
-         */
-        @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
-
-        /**
          * Объект обслуживания
          * @property
          * @name SD.Change#configurationItem
          * @type {SD.ConfigurationItem}
          */
-        @Serialize(serializeId) @Parse(data => SD.ConfigurationItem.parse(data)) configurationItem;
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.ConfigurationItem.parse(data)) configurationItem;
 
         /**
          * Сущность "назначено"
@@ -143,6 +183,22 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          */
         @Serialize("assignment",(ag) => ag.$serialize())
         @Parse("assignment", data => SD.EntityAssignment.parse(data)) assignment;
+
+        /**
+         * Кастомный код 1(Система)
+         * @property
+         * @name SD.Change#entityCode1
+         * @type {SD.EntityCode1}
+         */
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.EntityCode1.parse(data)) system;
+
+        /**
+         * Папка
+         * @property
+         * @name SD.Change#folder
+         * @type {SD.Folder}
+         */
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.Folder.parse(data)) folder;
 
         toString(){
             return String(this.no);

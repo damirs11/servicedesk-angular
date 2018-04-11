@@ -44,7 +44,6 @@ public class ConfigurationItemDao extends AbstractEntityDao<ConfigurationItem> {
 					"custom.ccf_citext1," +
 					"item.cit_poo_oid, " +
 					"item.cit_sta_oid, " +
-					"item.cit_poo_oid, " +
 					"item.cit_remark, " +
 					"item.cit_bra_oid, " +
 					"custom.ccf_cidate1, " +

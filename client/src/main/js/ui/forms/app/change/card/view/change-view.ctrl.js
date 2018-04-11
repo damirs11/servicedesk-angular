@@ -31,6 +31,7 @@ class ChangeCardViewController{
         this.change = new this.SD.Change(this.changeId);
         this.accessRules = await this.change.accessRules;
         this.registerLeaveEditListener();
+
     }
 
     // Статус стейта, редактирование/просмотр
@@ -121,11 +122,21 @@ class ChangeCardViewController{
         return this.SD.EntityClassification.list(filter);
     }
 
+    async loadSystems(text) {
+        const filter = {entityTypeId: this.SD.Change.$entityTypeId};
+        if (text) filter.fulltext = text;
+        return this.SD.EntityCode1.list(filter);
+    }
+
+    async loadFolders(text) {
+        const filter = {entityTypeId: this.SD.Change.$entityTypeId};
+        if (text) filter.fulltext = text;
+        return this.SD.Folder.list(filter);
+    }
+
     async loadConfigurationItems(text) {
         const filter = {};
-        if (text) filter.fulltext = text;
-        const configurationItem = this.change.configurationItem;
-        if (configurationItem) filter.configurationItemId = configurationItem.id;
+        if (text) filter.searchCode_like = text;
         return this.SD.ConfigurationItem.list(filter);
     }
 

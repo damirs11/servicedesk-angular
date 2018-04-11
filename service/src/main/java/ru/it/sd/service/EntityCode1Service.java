@@ -8,9 +8,8 @@ import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.CodeDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.BaseCode;
-import ru.it.sd.model.EntityPriority;
-import ru.it.sd.model.EntityType;
 import ru.it.sd.model.EntityCode1;
+import ru.it.sd.model.EntityType;
 import ru.it.sd.util.ResourceMessages;
 
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class EntityCode1Service extends ReadService<EntityCode1> {
         if (entityTypeId == null) {
             throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
         }
-        Long subType = EntityPriority.getTypeId(EntityType.get(Long.parseLong(entityTypeId)));
+        Long subType = EntityCode1.getTypeId(EntityType.get(Long.parseLong(entityTypeId)));
         Map<String, String> subFilter = new HashMap<>();
         subFilter.put("subtype", subType.toString());
         if (filter.get("disabled") == null) {

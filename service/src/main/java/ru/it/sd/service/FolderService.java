@@ -10,7 +10,6 @@ import ru.it.sd.model.BaseCode;
 import ru.it.sd.model.Folder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,12 +40,8 @@ public class FolderService extends ReadService<Folder> {
     @Override
     public List<Folder> list(Map<String, String> filter) {
         Long subType = Folder.getTypeId();
-        Map<String, String> subFilter = new HashMap<>();
-        subFilter.put("subtype", subType.toString());
-        if (filter.get("disabled") == null) {
-            subFilter.put("disabled", "0");
-        }
-        List<BaseCode> codes = codeDao.list(subFilter);
+        filter.put("subtype", subType.toString());
+        List<BaseCode> codes = codeDao.list(filter);
         List<Folder> result = new ArrayList<>();
         codes.forEach((code) ->
                 result.add(code.convertTo(Folder.class))
