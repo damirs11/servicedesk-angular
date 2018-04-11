@@ -29,7 +29,7 @@ function ConfigurationItemProvider(EditableEntity, SD) {
          * @name SD.ConfigurationItem#searchCode
          * @type {string}
          */
-        @Serialize(String) @Parse(Nullable(String)) searchCode;
+        @Serialize(String) @Parse(String) searchCode;
 
         /**
          * Название

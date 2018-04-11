@@ -46,7 +46,7 @@ public class IApprovalDao implements HpCrudDao<Approval, IApproval> {
         IApproval iApproval = iWorkflow.getApproval();
 
         if(fields.contains("status")){
-            IApprovalStatus iApprovalStatus = iApprovalStatusDao.read(entity.getStatus().getId());
+            IApprovalStatus iApprovalStatus = entity.getStatus() != null ? iApprovalStatusDao.read(entity.getStatus().getId()) : null;
             iApproval.setApprovalStatus(iApprovalStatus);
         }
         if(fields.contains("description")){

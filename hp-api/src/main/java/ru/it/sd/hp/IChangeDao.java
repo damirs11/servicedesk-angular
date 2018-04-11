@@ -130,7 +130,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             iChange.setPlanStart(DateUtils.toSDDate(entity.getPlanStart()));
         }
         if(fields.contains("planFinish")) {
-            iChange.setActualFinish(DateUtils.toSDDate(entity.getPlanFinish()));
+            iChange.setPlanFinish(DateUtils.toSDDate(entity.getPlanFinish()));
         }
         if(fields.contains("planDuration")) {
             iChange.setPlanDuration(Double.valueOf(entity.getPlanDuration().getTime())/1000/24/60/60);
@@ -156,8 +156,20 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             iChange.getAssignment().setAssigneePerson(executor);
         }
         if(fields.contains("configurationItem")) {
-            IConfigurationItem configurationItem = api.getSdClient().sd_session().getConfigurationItemHome().openConfigurationItem(entity.getConfigurationItem().getId());
+            IConfigurationItem configurationItem = entity.getConfigurationItem() != null ?
+                    api.getSdClient().sd_session().getConfigurationItemHome().openConfigurationItem(entity.getConfigurationItem().getId()):
+                    null;
             iChange.setConfigurationItem(configurationItem);
+        }
+        if(fields.contains("system")){
+            IChangeCode1 iChangeCode1 = api.getSdClient().sd_session().getChangeCode1Home().openChangeCode1(entity.getSystem().getId());
+            iChange.setChangeCode1(iChangeCode1);
+        }
+        if(fields.contains("folder")){
+            IFolder iFolder = entity.getFolder() != null ?
+                    api.getSdClient().sd_session().getFolderHome().openFolder(entity.getFolder().getId()):
+                    null;
+            iChange.setFolder(iFolder);
         }
         iChange.getAssignment().transfer();
         iChange.save();

@@ -84,6 +84,7 @@ public class CommonRestController {
      */
     @RequestMapping(value = "/{entity}", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
     public List list(@PathVariable String entity, @RequestParam Map<String, String> filter) {
+        if(filter.isEmpty() || filter == null) filter.put("paging", "1;10");
         return readServiceHolder.findFor(entity).list(filter);
     }
 

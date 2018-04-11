@@ -67,7 +67,7 @@
                 <label>Инициатор:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.initiator"
-                             fetch-data="ctrl.SD.Person.list()"
+                             fetch-data="ctrl.loadInititators($text)"
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
                              editing="ctrl.editing"
@@ -79,7 +79,7 @@
                 <label>Менеджер:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.manager"
-                             fetch-data="ctrl.SD.Person.list()"
+                             fetch-data="ctrl.loadManagers($text)"
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
                              editing="ctrl.editing"
@@ -118,6 +118,29 @@
 
     <div class="entity-container__content">
         <form class="form-inline entity-properties">
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('system')">
+                <label>Система:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.system"
+                             fetch-data="ctrl.loadSystems($text)"
+                             display-value="$value.name"
+                             cache="true"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('system')"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('folder')">
+                <label>Папка:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.folder"
+                             fetch-data="ctrl.loadFolders($text)"
+                             display-value="$value.name"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('folder')"
+                ></sd-dropdown>
+            </div>
 
             <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('createdDate')">
                 <label>Дата создания:</label>
@@ -206,8 +229,8 @@
                              target="ctrl.change.configurationItem"
                              fetch-data="ctrl.loadConfigurationItems($text)"
                              display-value="$value.searchCode"
-                             cache="true"
                              editing="ctrl.editing"
+                             allow-empty="true"
                              disabled="!ctrl.accessRules.canUpdate('configurationItem')"
                 ></sd-dropdown>
             </div>
@@ -215,6 +238,69 @@
         </form>
     </div>
 
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('planStart')">
+                <label>План. Начала:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.change.planStart"
+                        allow-empty="true"
+                        editing="ctrl.editing"
+                        disabled="!ctrl.accessRules.canUpdate('planStart')"
+                        allow-empty="true"
+                ></sd-datetime>
+            </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('planFinish')">
+                <label>План. Окончание:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.change.planFinish"
+                        allow-empty="true"
+                        editing="ctrl.editing"
+                        disabled="!ctrl.accessRules.canUpdate('planFinish')"
+                        allow-empty="true"
+                ></sd-datetime>
+            </div>
+
+            <!-- Необходимо отображение кол.часов кол.мин-->
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('planDuration')">
+                <label>План. Продолжительность:</label>
+                <sd-number
+                        class="input-group e-prop__value"
+                        target="ctrl.change.planDuration.getHours()"
+                        allow-empty="true"
+                        editing="ctrl.editing"
+                        disabled="!ctrl.accessRules.canUpdate('planDuration')"
+                        allow-empty="true"
+                ></sd-number>
+            </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('actualStart')">
+                <label>Реально начато:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.change.actualStart"
+                        allow-empty="false"
+                        editing="ctrl.editing"
+                        disabled="!ctrl.accessRules.canUpdate('actualStart')"
+                ></sd-datetime>
+            </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('closureDate')">
+                <label>Дата закрытия:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.change.closureDate"
+                        allow-empty="false"
+                        editing="ctrl.editing"
+                        disabled="!ctrl.accessRules.canUpdate('closureDate')"
+                ></sd-datetime>
+            </div>
+        </form>
+    </div>
 </div>
 
 <sd-entity-chat entity="ctrl.change" type-map="ctrl.msgTypes">
