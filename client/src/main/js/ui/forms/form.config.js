@@ -23,6 +23,8 @@ import {ChangeCardApprovalState} from "./app/change/card/approval/change-approva
 import {ChangeCardAttachmentsState} from "./app/change/card/attachments/change-attachments.state";
 import {ChangePasswordState} from "./app/change-password/change-password.state";
 import {LeavePageModal} from "./app/leave-page/leave-page.modal";
+import {ChangeCreateState} from "./app/change/create/change-create.state";
+import {ChangeCreateCommonState} from "./app/change/create/common/change-create-common.state";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -42,6 +44,8 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(PersonState)
         .state(ChangeState)
         .state(ChangeListState)
+        .state(ChangeCreateState)
+        .state(ChangeCreateCommonState)
         .state(ChangeCardState)
         .state(ChangeCardViewState)
         .state(ChangeCardHistoryState)
