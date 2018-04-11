@@ -145,7 +145,7 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
         @Parse("assignment", data => SD.EntityAssignment.parse(data)) assignment;
 
         toString(){
-            return this.no;
+            return String(this.no);
         }
 
     }

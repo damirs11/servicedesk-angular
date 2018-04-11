@@ -1,13 +1,11 @@
+import {NGInject, NGInjectClass} from "../../../../common/decorator/ng-inject.decorator";
 const MAX_DISPLAY_VALUES = 20;
 
+@NGInjectClass()
 class SDDropdownComponentController{
 
-    static $inject = ["$attrs","$scope"];
-
-    constructor($attrs,$scope){
-        this.$attrs = $attrs;
-        this.$scope = $scope;
-    }
+    @NGInject() $attrs;
+    @NGInject() $scope;
 
     $onInit(){
         this.selectedValue = this.target;
@@ -44,7 +42,15 @@ class SDDropdownComponentController{
     }
 
     values = null;
+    /**
+     * Последний текстовый фильтр
+     */
     lastFetchRequest = null;
+    /**
+     * Вывзвается из UI. Отделена от обычной функции fetch,
+     * т.к. есть некоторые условия, при которых fetch не вызывается
+     * @param text - текстовый фильтр поиска
+     */
     async fetchFromUI(text){
         if (this.cache && this.values) return;
         if (this.isIgnoringSameText && this.lastFetchRequest == text) return;
@@ -52,6 +58,10 @@ class SDDropdownComponentController{
         this.lastFetchRequest = text
     }
 
+    /**
+     * Получает значения
+     * @param text - текстовый фильтр для поиска
+     */
     async fetch(text) {
         this.values = null;
         try {
@@ -64,6 +74,11 @@ class SDDropdownComponentController{
         }
     }
 
+    /**
+     * Фильтрует значения по тексту.
+     * Если есть <sd-dropdown filter=...>, выполняется функция filter
+     * Иначе text ищется в toString() без учета регистра
+     */
     getFilteredValues(text){
         if (!this.cache) return this.values;
         if (!this.values) return;
@@ -80,6 +95,9 @@ class SDDropdownComponentController{
         })
     }
 
+    /**
+     * Выполняется при выборе элемента из списка
+     */
     onSelect($item){
         if (this.$attrs.validate) {
             const validationError = this.validate({
@@ -94,6 +112,9 @@ class SDDropdownComponentController{
         this.target = $item
     }
 
+    /**
+     * Разрешено ли пустое значение
+     */
     get isAllowClear(){
         if (this.allowEmpty === undefined) return false;
         return this.allowEmpty;

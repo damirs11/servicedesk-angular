@@ -116,7 +116,7 @@ function ConfigurationItemProvider(EditableEntity, SD) {
         @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
 
         toString(){
-            return this.no;
+            return this.searchCode;
         }
 
     }

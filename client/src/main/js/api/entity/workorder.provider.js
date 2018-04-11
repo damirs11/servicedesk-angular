@@ -154,7 +154,7 @@ function WorkorderProvider(EditableEntity, SD, Historyable) {
         @Serialize(serializeId) @Parse(data => SD.Change.parse(data)) change;
 
         toString(){
-            return this.no;
+            return String(this.no);
         }
 
     }
