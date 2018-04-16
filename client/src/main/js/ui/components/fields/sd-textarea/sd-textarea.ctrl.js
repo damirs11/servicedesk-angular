@@ -1,4 +1,4 @@
-const COMMIT_DEBOUNCE = 250;
+const COMMIT_DEBOUNCE = 200;
 
 class SDTextareaController{
 
@@ -44,6 +44,7 @@ class SDTextareaController{
 
 
     commit(val){
+        if (val == "") val = null;
         if (this.$attrs.validate) {
             const validationError = this.validate({
                 $newValue:val,

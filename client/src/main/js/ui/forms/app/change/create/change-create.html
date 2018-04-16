@@ -7,7 +7,9 @@
     </div>
     <div class="entity-container__header">
         <button class="btn btn-success"
-                ng-click="ctrl.create()">
+                ng-click="ctrl.create()"
+                ng-disabled="!ctrl.isRequiredFieldsFilled"
+        >
             Создать
         </button>
         <button class="btn btn-default"

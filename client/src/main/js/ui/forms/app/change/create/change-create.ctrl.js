@@ -7,16 +7,16 @@ class ChangeCreateController{
     @NGInject() SD;
     @NGInject() $state;
     @NGInject() $pageLock;
+    @NGInject() change; // Новое изменение - внедряется зависимостью.
 
     headerTabs = [
-        {name:'Общее',sref:'app.change.create.common'},
-        {name:'Вложения',sref:'app.change.create.attachments'},
+        {name:'Общее',sref:'app.change.create.common'}
     ];
 
-    async $onInit() {
-        this.change = new this.SD.Change();
-        // this.registerLeaveEditListener();
-    }
+    requiredFields = [
+        "category","classification","deadline","subject","description",
+        "manager","initiator","priority","assignment.workgroup","assignment.executor"
+    ];
 
 
     registerLeaveEditListener() {
@@ -31,6 +31,20 @@ class ChangeCreateController{
                 return true;
             }).addAction("Отмена", () => false)
             .lock();
+    }
+
+    get isRequiredFieldsFilled() {
+        for(const fieldName of this.requiredFields) {
+            const subnames = fieldName.split("."); // Сложное имя поля (пр. assignment.executor)
+            let obj = this.change;
+            for (let i = 0; i < subnames.length; i++) {
+                const subname = subnames[i];
+                const value = obj[subname];
+                if (value == null) return false;
+                obj = obj[subname]
+            }
+        }
+        return true;
     }
 
 

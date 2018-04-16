@@ -42,6 +42,7 @@ class SDTextController{
     }
 
     commit(val){
+        if (val == "") val = null;
         if (this.$attrs.validate) {
             const validationError = this.validate({
                 $newValue:val,
