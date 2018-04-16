@@ -181,7 +181,7 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @name SD.Change#assignment
          * @type {SD.EntityAssignment}
          */
-        @Serialize("assignment",(ag) => ag.$serialize())
+        @Serialize("assignment",(ag,name,mode) => mode == "FULL" ? ag.$serialize() : ag.$modifiedData)
         @Parse("assignment", data => SD.EntityAssignment.parse(data)) assignment;
 
         /**

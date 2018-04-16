@@ -1,6 +1,15 @@
 import {PARSE_MAP} from "./decorator/parse.decorator";
 import {SERIALIZE_MAP} from "./decorator/serialize.decorator";
 
+/**
+ * Ключи для того, чтобы функции сериализации могли различить в каком режиме их вызвали
+ * FULL - режим полной сериализации, попадают все поля.
+ * MODIFIED - только те, что изменились
+ * Необходимо для сериализации вложенных объектов.
+ */
+const SERIALIZE_MODE_FULL = "FULL";
+const SERIALIZE_MODE_MODIFIED = "MODIFIED";
+
 EntityProvider.$inject = ["cache"];
 function EntityProvider(cache) {
     /**
@@ -158,7 +167,7 @@ function EntityProvider(cache) {
                 let result = null;
                 // Если значение поля null, то на него не срабатывает функция сериализации
                 if (this[key] !== null) {
-                    result = serialize(value,serializedName);
+                    result = serialize(value,serializedName,SERIALIZE_MODE_FULL);
                     if (result === undefined) continue;
                 }
                 // Сериализация для сложных ключей. Например assignment.status.oid
@@ -192,6 +201,11 @@ function EntityProvider(cache) {
             }
             const json = Object.create(null);
             const fields = Object.keys(this);
+
+            for (let key in this.$data) {
+                let val = this.$data[key];
+                if ("$modifiedData" in Object(val) && val.checkModified()) fields.push(key);
+            }
             for (let i = 0; i < fields.length; i++) {
                 const key = fields[i];
                 const value = this[key];
@@ -199,7 +213,7 @@ function EntityProvider(cache) {
                 if (!serializeDescriptor) continue;
                 const serialize = serializeDescriptor.serialize;
                 const serializedName = serializeDescriptor.serializedName;
-                const result = serialize(value,serializedName);
+                const result = serialize(value,serializedName,SERIALIZE_MODE_MODIFIED);
                 if (result === undefined) continue;
                 const parts = serializedName.split(".");
                 let obj = json;
@@ -221,7 +235,16 @@ function EntityProvider(cache) {
          */
         checkModified(field){
             if (!field) {
-                return Object.keys(this).length > 0
+                const keys = Object.keys(this);
+                const serializers = this[SERIALIZE_MAP];
+                if (!serializers) return false;
+                const serializeKeys = Object.keys(this[SERIALIZE_MAP]);
+                for (let i = 0; i < keys.length; i++) {
+                    let key = keys[i];
+                    let serializeKey = serializeKeys.find((k) => k == key);
+                    if (serializeKey) return true;
+                }
+                return false;
             } else {
                 return Object.keys(this).indexOf(field) > 0
             }
@@ -242,4 +265,4 @@ function EntityProvider(cache) {
     }
 }
 
-export {EntityProvider};
+export {EntityProvider, SERIALIZE_MODE_FULL, SERIALIZE_MODE_MODIFIED};

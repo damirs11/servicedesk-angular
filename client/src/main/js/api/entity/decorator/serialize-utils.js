@@ -1,5 +1,5 @@
 function serializeId(entity) {
-    // return entity.$data;
+    if (entity == null) return null;
     return {id:entity.id};
 }
 
