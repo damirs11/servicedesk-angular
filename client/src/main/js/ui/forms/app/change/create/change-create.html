@@ -8,7 +8,7 @@
     <div class="entity-container__header">
         <button class="btn btn-success"
                 ng-click="ctrl.create()"
-                ng-disabled="!ctrl.isRequiredFieldsFilled"
+                ng-disabled="ctrl.createButtonDisabled"
         >
             Создать
         </button>
@@ -16,6 +16,7 @@
                 ng-click="ctrl.cancel()">
             Отмена
         </button>
+        <span ng-show="ctrl.errorCreating">Произошла ошибка при создании изменения. Попробуй позже.</span>
     </div>
     <div class="entity-container__header">
         <sd-entity-card-tabs tabs="ctrl.headerTabs">

@@ -8,6 +8,10 @@ class ChangeCreateController{
     @NGInject() $state;
     @NGInject() $pageLock;
     @NGInject() change; // Новое изменение - внедряется зависимостью.
+    // Контроллер занят асинхронными задачами
+    busy = false;
+    // Произошла ошибка при создании
+    errorCreating = false;
 
     headerTabs = [
         {name:'Общее',sref:'app.change.create.common'}
@@ -45,6 +49,26 @@ class ChangeCreateController{
             }
         }
         return true;
+    }
+
+    async create(){
+        if (this.busy) return;
+        this.busy = true;
+        this.errorCreating = false;
+        try {
+            await this.change.create();
+        } catch (e) {
+            this.errorCreating = true;
+        }
+        this.busy = false;
+    }
+
+    get createButtonDisabled(){
+        return this.busy || !this.isRequiredFieldsFilled
+    }
+
+    cancel(){
+        this.$state.go("app.change.list");
     }
 
 
