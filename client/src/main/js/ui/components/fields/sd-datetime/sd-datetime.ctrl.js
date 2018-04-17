@@ -1,4 +1,5 @@
 const DATE_FORMAT = "DD MMMM YYYY, hh:mm";
+const DEFAULT_PALCEHOLDER = "- нет -";
 // Временная мера. Необходимо для того, чтобы на 1 странице работало несколько <sd-datetime/>
 let freeDropdownId = 0;
 
@@ -82,8 +83,12 @@ class SDDateTimeComponent {
     }
 
     $formatDate($date){
-        if ($date == null) return this.emptyValue || "- нет -";
+        if ($date == null) return "";
         return moment($date).format(DATE_FORMAT)
+    }
+
+    getPlaceholder(){
+        return this.placeholder || DEFAULT_PALCEHOLDER;
     }
 }
 

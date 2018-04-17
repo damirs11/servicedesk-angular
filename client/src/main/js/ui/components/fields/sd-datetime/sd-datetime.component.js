@@ -11,6 +11,7 @@ import {controller} from "./sd-datetime.ctrl"
  * validate {expression} - функция-валидатор. Если Boolean(result)==true - выражение не закоммитится
  * editing {boolean} - режим редактирования
  * disabled {boolean} - состояние в режиме редактирования. true - поле будет серым и недоступным.
+ * placeholder {@string} - текст-подсказка
  */
 const SDDateTimeComponent = {
     template: template,
@@ -25,6 +26,7 @@ const SDDateTimeComponent = {
         maxDate: "<",
         validate: "&",
         editing: "<",
+        placeholder: "@",
     }
 };
 

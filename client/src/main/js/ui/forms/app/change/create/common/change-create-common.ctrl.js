@@ -65,6 +65,23 @@ class ChangeCreateCommonController{
         return this.SD.EntityClassification.list(filter);
     }
 
+    async loadSystems(text) {
+        const filter = {entityTypeId: this.SD.Change.$entityTypeId};
+        if (text) filter.fulltext = text;
+        return this.SD.EntityCode1.list(filter);
+    }
+
+    async loadFolders(text) {
+        const filter = {entityTypeId: this.SD.Change.$entityTypeId};
+        if (text) filter.fulltext = text;
+        return this.SD.Folder.list(filter);
+    }
+
+    async loadConfigurationItems(text) {
+        const filter = {};
+        if (text) filter.searchCode_like = text;
+        return this.SD.ConfigurationItem.list(filter);
+    }
 
 }
 

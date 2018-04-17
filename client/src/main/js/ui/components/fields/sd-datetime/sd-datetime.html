@@ -8,6 +8,7 @@
                    data-ng-model="ctrl.formattedDate"
                    data-ng-keydown="ctrl.onKeydown($event)"
                    data-ng-required="!ctrl.isAllowEmpty"
+                   placeholder="{{ctrl.getPlaceholder()}}"
             >
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>

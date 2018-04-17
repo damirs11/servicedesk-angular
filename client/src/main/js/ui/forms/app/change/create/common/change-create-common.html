@@ -6,6 +6,7 @@
                 <div class="entity-text__inline-field">
                     <sd-text target="ctrl.change.subject"
                              editing="true"
+                             placeholder="Укажите тему"
                     >
                     </sd-text>
                 </div>
@@ -16,6 +17,7 @@
                 <div class="entity-text__multiline-field">
                     <sd-textarea target="ctrl.change.description"
                                  editing="true"
+                                 placeholder="Укажите подробную информацию"
                     >
                     </sd-textarea>
                 </div>
@@ -26,7 +28,7 @@
     <div class="entity-container__content">
         <form class="form-inline entity-properties">
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop e-prop-required">
                 <label>Инициатор:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.initiator"
@@ -38,7 +40,7 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop e-prop-required">
                 <label>Менеджер:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.manager"
@@ -50,7 +52,7 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop e-prop-required">
                 <label>Исполнитель:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.assignment.executor"
@@ -63,7 +65,7 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop e-prop-required">
                 <label>Рабочая группа:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.assignment.workgroup"
@@ -82,6 +84,31 @@
         <form class="form-inline entity-properties">
 
             <div class="form-group e-prop">
+                <label>Система:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.system"
+                             fetch-data="ctrl.loadSystems($text)"
+                             display-value="$value.name"
+                             placeholder="Выберите систему"
+                             cache="true"
+                             editing="true"
+                             allow-empty="true"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Папка:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.folder"
+                             fetch-data="ctrl.loadFolders($text)"
+                             display-value="$value.name"
+                             placeholder="Выберите папку"
+                             editing="true"
+                             allow-empty="true"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
                 <label>Крайний срок:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
@@ -92,38 +119,116 @@
                 ></sd-datetime>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop e-prop-required">
                 <label>Приоритет:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.priority"
                              fetch-data="ctrl.loadPriorities($text)"
                              display-value="$value.fullName"
+                             placeholder="Выберите приоритет"
                              cache="true"
                              editing="true"
+                             allow-empty="true"
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop e-prop-required">
                 <label>Категория:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.category"
                              fetch-data="ctrl.loadCategories($text)"
                              display-value="$value.name"
+                             placeholder="Выберите категорию"
                              cache="true"
                              editing="true"
+                             allow-empty="true"
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop e-prop-required">
                 <label>Классифицкаия:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.classification"
                              fetch-data="ctrl.loadClassifications($text)"
                              display-value="$value.name"
+                             placeholder="Выберите классификацию"
                              cache="true"
                              editing="true"
+                             allow-empty="true"
                 ></sd-dropdown>
             </div>
+
+            <div class="form-group e-prop">
+                <label>Объект обслуживания:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.change.configurationItem"
+                             fetch-data="ctrl.loadConfigurationItems($text)"
+                             display-value="$value.searchCode"
+                             placeholder="Введите код объекта"
+                             editing="true"
+                             allow-empty="true"
+                ></sd-dropdown>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+
+            <div class="form-group e-prop">
+                <label>План. Начала:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.change.planStart"
+                        allow-empty="true"
+                        editing="true"
+                        allow-empty="true"
+                ></sd-datetime>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>План. Окончание:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.change.planFinish"
+                        allow-empty="true"
+                        editing="true"
+                        allow-empty="true"
+                ></sd-datetime>
+            </div>
+
+            <!-- Необходимо отображение кол.часов кол.мин-->
+            <div class="form-group e-prop">
+                <label>План. Продолжительность:</label>
+                <sd-number
+                        class="input-group e-prop__value"
+                        target="ctrl.change.planDuration.getHours()"
+                        allow-empty="true"
+                        editing="true"
+                        allow-empty="true"
+                ></sd-number>
+            </div>
+
+            <!--<div class="form-group e-prop">-->
+                <!--<label>Реально начато:</label>-->
+                <!--<sd-datetime-->
+                        <!--class="input-group e-prop__value"-->
+                        <!--target="ctrl.change.actualStart"-->
+                        <!--allow-empty="false"-->
+                        <!--editing="true"-->
+                <!--&gt;</sd-datetime>-->
+            <!--</div>-->
+
+            <!--<div class="form-group e-prop">-->
+                <!--<label>Дата закрытия:</label>-->
+                <!--<sd-datetime-->
+                        <!--class="input-group e-prop__value"-->
+                        <!--target="ctrl.change.closureDate"-->
+                        <!--allow-empty="false"-->
+                        <!--editing="true"-->
+                <!--&gt;</sd-datetime>-->
+            <!--</div>-->
         </form>
     </div>
 

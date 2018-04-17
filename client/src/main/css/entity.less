@@ -142,23 +142,15 @@
   font-size: @font-size;
   display: inline-block;
   width: @e-prop-width;
-  //margin: 0 0;
   position: relative;
   white-space: nowrap;
   height: 42px;
   margin-left: 20px;
-  //&:nth-of-type(2n-1) {
-  //  margin-right: 20px;
-  //  @media (max-width: @small-screen){
-  //    margin-right: 0;
-  //  }
-  //}
   @media (max-width: @small-screen){
     width: 100%;
     margin-right: 0;
     height: auto;
   }
-
 
   &>label {
     font-size: @font-size;
@@ -176,6 +168,11 @@
       height: auto;
       text-align: left;
     }
+  }
+  &-required>label:after{
+    content: " *";
+    color: red;
+    font-weight: bold;
   }
 
   &__value {
@@ -241,6 +238,7 @@
     display: inline-block;
     vertical-align: top;
     width: 500px;
+    margin-bottom: 10px;
   }
 
   & .sd-text {
