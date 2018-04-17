@@ -67,7 +67,6 @@ class ChangeCardApprovalController{
         this.approval = await this.loadingPromise;
         this.dummyApproval = new this.SD.Approval(this.approval.id);
         grid.fetchData();
-
         this.registerLeaveListener();
     }
 
@@ -104,10 +103,12 @@ class ChangeCardApprovalController{
         if (!this.sortedStatusList.length) {
             await this._loadStatuses();
         }
+
         const result = [];
         if (this.isStatusPreparingAvailable) result.push(this.sortedStatusList[0]);
         if (this.isStatusBeginAvailable) result.push(this.sortedStatusList[1]);
         if (this.isStatusCompleteAvailable) result.push(this.sortedStatusList[2]);
+        if ('GULP_REPLACE:DEBUG') console.warn(result);
         return result;
     }
 
@@ -140,8 +141,15 @@ class ChangeCardApprovalController{
     }
     get isStatusCompleteAvailable() {
         const approval = this.dummyApproval;
+        if (approval.status == null) return false;
         if (approval.status.id == APPROVAL_STATUSES.BEGIN) return true;
         return false;
+    }
+
+    get maxApproversRequired(){
+        if (this.approval.numberOfApprovers) return this.approval.numberOfApprovers;
+        return 0;
+
     }
 }
 
