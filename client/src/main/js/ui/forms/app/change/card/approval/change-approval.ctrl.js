@@ -60,7 +60,6 @@ class ChangeCardApprovalController{
         this.loadingPromise = this.change.getApproval();
         this.approval = await this.loadingPromise;
         grid.fetchData();
-
         this.registerLeaveListener();
     }
 
@@ -97,10 +96,12 @@ class ChangeCardApprovalController{
         if (!this.sortedStatusList.length) {
             await this._loadStatuses();
         }
+
         const result = [];
         if (this.isStatusPreparingAvailable) result.push(this.sortedStatusList[0]);
         if (this.isStatusBeginAvailable) result.push(this.sortedStatusList[1]);
         if (this.isStatusCompleteAvailable) result.push(this.sortedStatusList[2]);
+        if ('GULP_REPLACE:DEBUG') console.warn(result);
         return result;
     }
 
@@ -121,20 +122,28 @@ class ChangeCardApprovalController{
     }
     get isStatusBeginAvailable() {
         const approval = this.approval;
-        if (approval.status.id == APPROVAL_PREPARING_STATUS) {
+        if(approval.status == null) return false;
+        if (approval.status.id === APPROVAL_PREPARING_STATUS) {
             if (!approval.subject || !approval.deadline || !approval.numberOfApproversRequired) return false;
             return true;
-        } else if (approval.status.id == APPROVAL_BEGIN_STATUS) {
+        } else if (approval.status.id === APPROVAL_BEGIN_STATUS) {
             return true
-        } else if (approval.status.id == APPROVAL_COMPLETE_STATUS) {
+        } else if (approval.status.id === APPROVAL_COMPLETE_STATUS) {
             return false;
         }
         return true;
     }
     get isStatusCompleteAvailable() {
         const approval = this.approval;
-        if (approval.status.id == APPROVAL_BEGIN_STATUS) return true;
+        if(approval.status == null) return false;
+        if (approval.status.id === APPROVAL_BEGIN_STATUS) return true;
         return false;
+    }
+
+    maxApproversRequired(){
+        if(this.approval.numberOfApprovers) return this.approval.numberOfApprovers;
+        return 0;
+
     }
 }
 
