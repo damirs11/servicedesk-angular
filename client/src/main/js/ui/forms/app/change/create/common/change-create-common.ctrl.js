@@ -1,10 +1,14 @@
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
 
+const DEADLINE_OFFSET_MS = 1000*60*60; // 1 Hour
+
 @NGInjectClass()
 class ChangeCreateCommonController{
     // NG зависимости
     @NGInject() change;
     @NGInject() SD;
+
+    minDeadlineDate = new Date(Date.now() + DEADLINE_OFFSET_MS);
 
     async $onInit() {
     }

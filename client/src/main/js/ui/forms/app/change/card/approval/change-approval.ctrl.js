@@ -1,8 +1,7 @@
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
 import {TYPEID_APPROVAL} from "../../../../../../api/entity/util/entity-type-list";
 import {
-    APPROVAL_BEGIN_STATUS, APPROVAL_COMPLETE_STATUS,
-    APPROVAL_PREPARING_STATUS
+    APPROVAL_STATUSES
 } from "../../../../../../api/entity/util/status-list";
 
 const ERROR_APPROVAL_READ_DISALLOWED = Symbol("ERROR_APPROVAL_READ_DISALLOWED");
@@ -38,6 +37,13 @@ class ChangeCardApprovalController{
      * согласование
      */
     approval;
+    /**
+     * Согласование, в режиме редактирования
+     * Необходимо дял исключения проблем проверки прав
+     * при редактировании.
+     * Права проверяются на dummyApproval, редактируется approval
+     */
+    dummyApproval;
 
     // Статус стейта, редактирование/просмотр
     editing = false;
@@ -59,6 +65,7 @@ class ChangeCardApprovalController{
         const grid = this.grid = new this.$grid.ApproverVoteGrid(this.$scope,this.SD,change);
         this.loadingPromise = this.change.getApproval();
         this.approval = await this.loadingPromise;
+        this.dummyApproval = new this.SD.Approval(this.approval.id);
         grid.fetchData();
 
         this.registerLeaveListener();
@@ -88,9 +95,9 @@ class ChangeCardApprovalController{
     async _loadStatuses(){
         await this.SD.EntityStatus.list({entityTypeId:TYPEID_APPROVAL});
         // Т.к строкой выше мы их всех подгрузили, то мы можем просто создавать их по ID. Все данные уже есть.
-        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_PREPARING_STATUS));
-        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_BEGIN_STATUS));
-        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_COMPLETE_STATUS));
+        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_STATUSES.PREPARING));
+        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_STATUSES.BEGIN));
+        this.sortedStatusList.push(new this.SD.EntityStatus(APPROVAL_STATUSES.COMPLETE));
     }
 
     async getAllowedStatuses(){
@@ -120,20 +127,20 @@ class ChangeCardApprovalController{
         return true;
     }
     get isStatusBeginAvailable() {
-        const approval = this.approval;
-        if (approval.status.id == APPROVAL_PREPARING_STATUS) {
+        const approval = this.dummyApproval;
+        if (approval.status.id == APPROVAL_STATUSES.PREPARING) {
             if (!approval.subject || !approval.deadline || !approval.numberOfApproversRequired) return false;
             return true;
-        } else if (approval.status.id == APPROVAL_BEGIN_STATUS) {
+        } else if (approval.status.id == APPROVAL_STATUSES.BEGIN) {
             return true
-        } else if (approval.status.id == APPROVAL_COMPLETE_STATUS) {
+        } else if (approval.status.id == APPROVAL_STATUSES.COMPLETE) {
             return false;
         }
         return true;
     }
     get isStatusCompleteAvailable() {
-        const approval = this.approval;
-        if (approval.status.id == APPROVAL_BEGIN_STATUS) return true;
+        const approval = this.dummyApproval;
+        if (approval.status.id == APPROVAL_STATUSES.BEGIN) return true;
         return false;
     }
 }
