@@ -16,6 +16,7 @@ class ChangeCardApprovalController{
     @NGInject() $grid;
     @NGInject() $pageLock;
     @NGInject() $injector;
+    @NGInject() Session;
     /**
      * Пустое значение
      * @type {string}
@@ -52,6 +53,7 @@ class ChangeCardApprovalController{
     }
     async saveEditing(){
         await this.approval.save();
+        this.grid.fetchData();
         this.editing = false;
     }
     cancelEditing(){
@@ -108,7 +110,6 @@ class ChangeCardApprovalController{
         if (this.isStatusPreparingAvailable) result.push(this.sortedStatusList[0]);
         if (this.isStatusBeginAvailable) result.push(this.sortedStatusList[1]);
         if (this.isStatusCompleteAvailable) result.push(this.sortedStatusList[2]);
-        if ('GULP_REPLACE:DEBUG') console.warn(result);
         return result;
     }
 
@@ -129,8 +130,9 @@ class ChangeCardApprovalController{
     }
     get isStatusBeginAvailable() {
         const approval = this.dummyApproval;
+        if (approval.status == null) return false;
         if (approval.status.id == APPROVAL_STATUSES.PREPARING) {
-            if (!approval.subject || !approval.deadline || !approval.numberOfApproversRequired) return false;
+            if (!approval.numberOfApproversRequired) return false;
             return true;
         } else if (approval.status.id == APPROVAL_STATUSES.BEGIN) {
             return true
@@ -150,6 +152,36 @@ class ChangeCardApprovalController{
         if (this.approval.numberOfApprovers) return this.approval.numberOfApprovers;
         return 0;
 
+    }
+
+    isEditableField(){
+        if(this.editing && this.approval.status.id == APPROVAL_STATUSES.PREPARING) return true;
+        return false;
+    }
+
+    isEditAllow(){
+        if(this.change.accessRules.isUpdateApprovalAllowed && this.$isApprovalInitiator) return true;
+        return false;
+    }
+
+    get $isApprovalInitiator(){
+        //Если текущий пользователь является инициатором согласования
+        return this.approval.initiator
+            && (this.approval.initiator.id == this.Session.user.person.id)
+    }
+
+    get $approvalResult(){
+        if (this.approval.status != null){
+            if(this.approval.status.id == APPROVAL_STATUSES.COMPLETE && this.approval.numberOfApproversApproved == this.approval.numberOfApproversRequired) return "Согласовано";
+            if(this.approval.status.id == APPROVAL_STATUSES.COMPLETE && this.approval.numberOfApproversApproved != this.approval.numberOfApproversRequired) return "Не согласовано";
+            return "Не готово";
+        }
+    }
+
+    async loadWorkgroups(text){
+        const filter = {selectable:"1"};
+        if (text) filter.fulltext = text;
+        return this.SD.Workgroup.list(filter);
     }
 }
 

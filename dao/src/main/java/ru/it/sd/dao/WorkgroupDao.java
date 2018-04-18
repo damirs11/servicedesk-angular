@@ -49,6 +49,10 @@ public class WorkgroupDao extends AbstractEntityDao<Workgroup> {
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 		super.buildWhere(filter, sql, params);
 
+		if (Objects.nonNull(filter) && filter.containsKey("selectable")) {
+			params.addValue("selectable", filter.get("selectable").equals("0") ? 1 : 0);
+			sql.append(" AND wog_notselectable = :selectable");
+		}
 		// Фильтр по родителю, то есть получаем все дочерние группы
 		if (Objects.nonNull(filter) && filter.containsKey("parentId")) {
 			params.addValue("parentId", filter.get("parentId"));

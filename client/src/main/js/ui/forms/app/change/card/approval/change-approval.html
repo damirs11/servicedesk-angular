@@ -7,7 +7,14 @@
                     <div class="form-group entity-text" style="width: 100%; height: 42px">
                         <label>Тема:</label>
                         <div class="entity-text__inline-field">
-                            <sd-text target="ctrl.approval.subject" editing="ctrl.editing"></sd-text>
+                            <sd-text target="ctrl.approval.subject" editing="ctrl.isEditableField()"></sd-text>
+                        </div>
+                    </div>
+
+                    <div class="form-group entity-text" style="width: 100%; height: 42px" >
+                        <label>Результат:</label>
+                        <div class="entity-text__inline-field">
+                            <sd-text target="ctrl.$approvalResult" editing="0"></sd-text>
                         </div>
                     </div>
                 </form>
@@ -34,7 +41,7 @@
                                 class="input-group e-prop__value"
                                 target="ctrl.approval.deadline"
                                 allow-empty="false"
-                                editing="ctrl.editing"
+                                editing="ctrl.isEditableField()"
                         ></sd-datetime>
                     </div>
 
@@ -43,16 +50,27 @@
                         <sd-number
                                 class="input-group e-prop__value"
                                 target="ctrl.approval.numberOfApproversRequired"
-                                editing="ctrl.editing"
+                                editing="ctrl.isEditableField()"
                                 min="0"
                                 max="ctrl.maxApproversRequired"
                         ></sd-number>
+                    </div>
+
+                    <div class="form-group e-prop">
+                        <label>Рабочая группа:</label>
+                        <sd-dropdown class="input-group e-prop__value"
+                                     target="ctrl.approval.workgroup"
+                                     fetch-data="ctrl.loadWorkgroups($text)"
+                                     placeholder="Введите название группы"
+                                     display-value="$value.name"
+                                     editing="ctrl.isEditableField()"
+                        ></sd-dropdown>
                     </div>
                 </form>
             </div>
 
             <div class="entity-container__content">
-                <div style="display: inline-block" data-ng-if="ctrl.change.accessRules.isUpdateApprovalAllowed">
+                <div style="display: inline-block" data-ng-if="ctrl.isEditAllow()">
                     <button class="btn btn-default"
                             data-ng-if="!ctrl.editing"
                             data-ng-click="ctrl.startEditing()">

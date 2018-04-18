@@ -114,6 +114,10 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             IClassificationCha iClassificationCha = iClassificationChaDao.read(entity.getClassification().getId());
             iChange.setClassification(iClassificationCha);
         }
+        if(fields.contains("closureCode")){
+            IChangeClosureCode iChangeClosureCode = api.getSdClient().sd_session().getChangeClosureCodeHome().openChangeClosureCode(entity.getClosureCode().getId());
+            iChange.setClosureCode(iChangeClosureCode);
+        }
         if(fields.contains("deadline")) {
             iChange.setDeadline(DateUtils.toSDDate(entity.getDeadline()));
         }
@@ -127,13 +131,21 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             iChange.setLateFinish(DateUtils.toSDDate(entity.getClosureDate()));
         }
         if(fields.contains("planStart")) {
-            iChange.setPlanStart(DateUtils.toSDDate(entity.getPlanStart()));
+            iChange.setPlanStart(
+                    entity.getPlanStart() != null ? DateUtils.toSDDate(entity.getPlanStart()):null
+            );
         }
         if(fields.contains("planFinish")) {
-            iChange.setPlanFinish(DateUtils.toSDDate(entity.getPlanFinish()));
+            iChange.setPlanFinish(
+                    entity.getPlanFinish() != null?
+                    DateUtils.toSDDate(entity.getPlanFinish()): null
+            );
         }
         if(fields.contains("planDuration")) {
-            iChange.setPlanDuration(Double.valueOf(entity.getPlanDuration().getTime())/1000/24/60/60);
+            iChange.setPlanDuration(
+                    entity.getPlanDuration() != null ?
+                    Double.valueOf(entity.getPlanDuration().getTime())/1000/24/60/60:null
+            );
         }
         if(fields.contains("manager")){
             IPerson manager = iPersonDao.read(entity.getManager().getId());
@@ -147,13 +159,15 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             IImpact impact = iImpactDao.read(entity.getPriority().getId());
             iChange.setImpact(impact);
         }
-        if(fields.contains("workgroup")) {
-            IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
-            iChange.getAssignment().setAssWorkgroup(workgroup);
-        }
-        if(fields.contains("executor")) {
-            IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
-            iChange.getAssignment().setAssigneePerson(executor);
+        if(fields.contains("assignment")) {
+            if(entity.getAssignment().getWorkgroup() != null){
+                IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
+                iChange.getAssignment().setAssWorkgroup(workgroup);
+            }
+            if(entity.getAssignment().getExecutor() != null) {
+                IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
+                iChange.getAssignment().setAssigneePerson(executor);
+            }
         }
         if(fields.contains("configurationItem")) {
             IConfigurationItem configurationItem = entity.getConfigurationItem() != null ?
@@ -162,7 +176,9 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             iChange.setConfigurationItem(configurationItem);
         }
         if(fields.contains("system")){
-            IChangeCode1 iChangeCode1 = api.getSdClient().sd_session().getChangeCode1Home().openChangeCode1(entity.getSystem().getId());
+            IChangeCode1 iChangeCode1 = entity.getSystem() != null ?
+                    api.getSdClient().sd_session().getChangeCode1Home().openChangeCode1(entity.getSystem().getId()):
+                    null;
             iChange.setChangeCode1(iChangeCode1);
         }
         if(fields.contains("folder")){

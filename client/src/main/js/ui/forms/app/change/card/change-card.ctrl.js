@@ -106,10 +106,6 @@ class ChangeCardController {
     get canSeeApprovalPage() {
         return this.accessRules.isReadApprovalAllowed
             && this.approval
-            && (
-                this.change.status.id == CHANGE_STATUSES.PREPARING && this.$isManager
-                || this.change.status.id == CHANGE_STATUSES.ON_APPROVE
-            )
     }
 
     get $isManager(){

@@ -133,7 +133,7 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @name SD.Change#planStart
          * @type {Date}
          */
-        @Serialize(Number) @Parse( Nullable(Date,"new") ) planStart;
+        @Serialize(Nullable(Number)) @Parse( Nullable(Date,"new") ) planStart;
 
         /**
          * План окночания
@@ -141,7 +141,7 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @name SD.Change#planFinish
          * @type {Date}
          */
-        @Serialize(Number) @Parse( Nullable(Date,"new") ) planFinish;
+        @Serialize(Nullable(Number)) @Parse( Nullable(Date,"new") ) planFinish;
 
         /**
          * План продолжительно
@@ -149,7 +149,7 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @name SD.Change#planDuration
          * @type {Date}
          */
-        @Serialize(Number) @Parse( Nullable(Date,"new") ) planDuration;
+        @Serialize(Nullable(Number)) @Parse( Nullable(Date,"new") ) planDuration;
 
         /**
          * Инициатор
@@ -174,6 +174,14 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @type {SD.ConfigurationItem}
          */
         @Serialize(Nullable(serializeId)) @Parse(data => SD.ConfigurationItem.parse(data)) configurationItem;
+
+        /**
+         * Код завершения
+         * @property
+         * @name SD.Change#closureCode
+         * @type {SD.EntityClosureCode}
+         */
+        @Serialize(serializeId) @Parse(data => SD.EntityClosureCode.parse(data)) closureCode;
 
         /**
          * Сущность "назначено"

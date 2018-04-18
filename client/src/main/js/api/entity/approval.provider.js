@@ -92,6 +92,16 @@ function ApprovalProvider(EditableEntity, SD, Accessible) {
          */
         @Parse("entityType", (data) => data.id) ownerEntityType;
 
+
+        /**
+         * Инициатор согласования
+         * @property
+         * @name SD.Approval#initiator
+         * @type {SD.Person}
+         */
+        @Serialize(serializeId)
+        @Parse(data => SD.Person.parse(data) ) initiator;
+
         /**
          * @override
          * Переопределение, чтобы добавлять всегда поле entityType

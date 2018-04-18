@@ -91,7 +91,7 @@ class ChangeCardViewController{
     }
 
     async loadWorkgroups(text){
-        const filter = {};
+        const filter = {selectable:"1"};
         if (text) filter.fulltext = text;
         const executor = this.change.assignment.executor;
         if (executor) filter.personId = executor.id;
@@ -138,6 +138,12 @@ class ChangeCardViewController{
         const filter = {};
         if (text) filter.searchCode_like = text;
         return this.SD.ConfigurationItem.list(filter);
+    }
+
+    async loadClosureCode(text) {
+        const filter = {entityTypeId: this.SD.Change.$entityTypeId};
+        if (text) filter.name = text;
+        return this.SD.EntityClosureCode.list(filter);
     }
 
 }
