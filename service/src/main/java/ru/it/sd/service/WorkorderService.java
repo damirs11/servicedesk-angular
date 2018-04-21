@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.IWorkorderDao;
+import ru.it.sd.model.GrantRule;
 import ru.it.sd.model.Workorder;
 import ru.it.sd.service.utils.validation.Validator;
+import ru.it.sd.util.ResourceMessages;
 
 import java.util.List;
 import java.util.Map;
@@ -20,16 +22,22 @@ public class WorkorderService extends CrudService<Workorder>{
     private WorkorderDao dao;
     private IWorkorderDao hpDao;
     private SecurityService securityService;
-
-    public WorkorderService(WorkorderDao dao, IWorkorderDao hpDao, SecurityService securityService) {
+    private AccessService accessService;
+    public WorkorderService(WorkorderDao dao, IWorkorderDao hpDao, SecurityService securityService, AccessService accessService) {
         this.dao = dao;
         this.hpDao = hpDao;
         this.securityService = securityService;
+        this.accessService = accessService;
     }
 
     @Override
     public Workorder read(long id) {
-        return dao.read(id);
+        Workorder workorder = dao.read(id);
+        if(accessService.getEntityAccess(workorder).getLeft().getRead() != GrantRule.NONE){
+            return workorder;
+        }else {
+            throw new ServiceException(ResourceMessages.getMessage("error.service.access.denied"));
+        }
     }
 
     @Override

@@ -61,6 +61,15 @@ public class PersonDao extends AbstractEntityDao<Person> {
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 		super.buildWhere(filter, sql, params);
 
+		if (Objects.nonNull(filter) && filter.containsKey("selectable")) {
+			params.addValue("selectable", filter.get("selectable").equals("0") ? 1 : 0);
+			sql.append(" AND per_notselectable = :selectable");
+		}
+
+		if (Objects.nonNull(filter) && filter.containsKey("hasAccount")) {
+			sql.append(" AND per_acc_oid is not null");
+		}
+
 		// Фильтр по пользователю
 		if (Objects.nonNull(filter) && filter.containsKey("userId")) {
 			params.addValue("userId", filter.get("userId"));

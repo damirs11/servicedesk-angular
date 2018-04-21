@@ -181,7 +181,7 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
          * @name SD.Change#closureCode
          * @type {SD.EntityClosureCode}
          */
-        @Serialize(serializeId) @Parse(data => SD.EntityClosureCode.parse(data)) closureCode;
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.EntityClosureCode.parse(data)) closureCode;
 
         /**
          * Сущность "назначено"

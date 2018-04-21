@@ -14,19 +14,19 @@ class ChangeCreateCommonController{
     }
 
     async loadInititators(text) {
-        const filter = {};
+        const filter = {selectable:"1"};
         if (text) filter.fulltext = text;
         return this.SD.Person.list(filter);
     }
 
     async loadManagers(text) {
-        const filter = {};
+        const filter = {selectable:"1"};
         if (text) filter.fulltext = text;
         return this.SD.Person.list(filter);
     }
 
     async loadExecutors(text){
-        const filter = {};
+        const filter = {selectable:"1",hasAccount: ""};
         if (text) filter.fulltext = text;
         const workgroup = this.change.assignment.workgroup;
         if (workgroup) filter.workgroupId = workgroup.id;
@@ -34,7 +34,7 @@ class ChangeCreateCommonController{
     }
 
     async loadWorkgroups(text){
-        const filter = {};
+        const filter = {selectable:"1"};
         if (text) filter.fulltext = text;
         const executor = this.change.assignment.executor;
         if (executor) filter.personId = executor.id;

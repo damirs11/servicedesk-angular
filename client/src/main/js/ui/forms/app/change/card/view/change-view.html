@@ -141,6 +141,7 @@
                              display-value="$value.name"
                              editing="ctrl.editing"
                              disabled="!ctrl.accessRules.canUpdate('folder')"
+                             allow-empty="true"
                 ></sd-dropdown>
             </div>
 
@@ -161,9 +162,9 @@
                              target="ctrl.change.status"
                              fetch-data="ctrl.loadStatuses($text)"
                              display-value="$value.fullName"
-                             cache="true"
                              editing="ctrl.editing"
                              disabled="!ctrl.accessRules.canUpdate('status')"
+                             fetch-on-change="ctrl.change.status"
                 ></sd-dropdown>
             </div>
 
@@ -244,7 +245,7 @@
                              fetch-data="ctrl.loadClosureCode($text)"
                              display-value="$value.name"
                              editing="ctrl.editing"
-                             allow-empty="false"
+                             allow-empty="true"
                              disabled="!ctrl.accessRules.canUpdate('closureCode')"
                 ></sd-dropdown>
             </div>

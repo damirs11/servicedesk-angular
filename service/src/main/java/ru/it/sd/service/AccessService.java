@@ -5,13 +5,14 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.it.sd.dao.*;
-import ru.it.sd.exception.ServiceException;
+import ru.it.sd.dao.AttributeAccessDao;
+import ru.it.sd.dao.CodeDao;
+import ru.it.sd.dao.GrantDao;
+import ru.it.sd.dao.WorkgroupDao;
 import ru.it.sd.meta.FieldMetaData;
 import ru.it.sd.meta.MetaUtils;
 import ru.it.sd.model.*;
 import ru.it.sd.util.EntityUtils;
-import ru.it.sd.util.ResourceMessages;
 
 import java.util.*;
 
@@ -44,23 +45,30 @@ public class AccessService {
         Map<String, AttributeGrantRule> attributeEntitlement = new HashMap<>();
         Class clazz = EntityUtils.getEntityClass(grant.getEntityType().getAlias());
         Map<String, FieldMetaData> fieldMetaDataMap = MetaUtils.getFieldsMetaData(clazz);
+        List<String> attributes = new ArrayList<>();
+        for(FieldMetaData fmd: fieldMetaDataMap.values()){
+            if(!Objects.equals(fmd.getAttribute(),Long.MIN_VALUE)){
+                attributes.add(String.valueOf(fmd.getAttribute()));
+            }
+        }
+        String attr = String.join(";",attributes);
+        Map<String, String> filter = new HashMap<>();
+        filter.put("grantId",String.valueOf(grant.getId()));
+        filter.put("attributeId", attr);
+        List<AttributeAccess> attributeAccessList = attributeAccessDao.list(filter);
+
         for(FieldMetaData fmd: fieldMetaDataMap.values()){
             //Если записан id атрибута в моделе
             if(!Objects.equals(fmd.getAttribute(),Long.MIN_VALUE)){
                 //Если нет доступа на чтение, то записываем 0(спрятать)
-                if(grant.getRead() != GrantRule.NONE) {
-
-                    Map<String, String> filter = new HashMap<>();
-                    filter.put("grantId",String.valueOf(grant.getId()));
-                    filter.put("attributeId", String.valueOf(fmd.getAttribute()));
-                    List<AttributeAccess> attributeAccessList = attributeAccessDao.list(filter);
+                if(grant.getRead() == GrantRule.NONE) {
+                    attributeEntitlement.put(fmd.getName(), AttributeGrantRule.HIDE);
+                } else {
                     AttributeAccess attributeAccess;
-                    if(attributeAccessList.size() > 1) {
-                        throw new ServiceException(ResourceMessages.getMessage("error.too.many.result"));
-                    }else if(attributeAccessList.isEmpty()){
+                    if(isUpdate(attributeAccessList, fmd.getAttribute())){
                         attributeAccess = null;
                     }else {
-                        attributeAccess = attributeAccessList.get(0);
+                        attributeAccess = getAttributeAccess(attributeAccessList, fmd.getAttribute());
                     }
                     //Проверка прав для атрибутов
 
@@ -73,13 +81,29 @@ public class AccessService {
                     } else{
                         attributeEntitlement.put(fmd.getName(), AttributeGrantRule.HIDE);
                     }
-                } else {
-                    attributeEntitlement.put(fmd.getName(), AttributeGrantRule.HIDE);
                 }
 
             }
         }
         return attributeEntitlement;
+    }
+
+    private Boolean isUpdate(List<AttributeAccess> attributeAccesses, Long attributeId){
+        for(AttributeAccess attributeAccess: attributeAccesses){
+            if(attributeAccess.getAttributeId().equals(attributeId)){
+               return false;
+            }
+        }
+        return true;
+    }
+
+    private AttributeAccess getAttributeAccess(List<AttributeAccess> attributeAccesses, Long attributeId){
+        for(AttributeAccess attributeAccess: attributeAccesses){
+            if(attributeAccess.getAttributeId().equals(attributeId)){
+                return attributeAccess;
+            }
+        }
+        return null;
     }
 
     /**
