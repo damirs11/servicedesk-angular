@@ -7,7 +7,9 @@ import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.IChangeDao;
 import ru.it.sd.model.Change;
+import ru.it.sd.model.GrantRule;
 import ru.it.sd.service.utils.validation.Validator;
+import ru.it.sd.util.ResourceMessages;
 
 import java.util.List;
 import java.util.Map;
@@ -27,16 +29,21 @@ public class ChangeService extends CrudService<Change>{
 	private SecurityService securityService;
 	private IChangeDao iChangeDao;
 	private AccessService accessService;
-	public ChangeService(ChangeDao dao, SecurityService securityService, IChangeDao iChangeDao) {
+	public ChangeService(ChangeDao dao, SecurityService securityService, IChangeDao iChangeDao, AccessService accessService) {
 		this.dao = dao;
 		this.securityService = securityService;
 		this.iChangeDao = iChangeDao;
+		this.accessService = accessService;
 	}
 
 	@Override
 	public Change read(long id) {
-
-		return dao.read(id);
+		Change change = dao.read(id);
+		if(accessService.getEntityAccess(change).getLeft().getRead() != GrantRule.NONE){
+			return change;
+		}else {
+			throw new ServiceException(ResourceMessages.getMessage("error.service.access.denied"));
+		}
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 import {CHANGE_MESSAGE_TYPES} from "../../../../../components/widget/sd-entity-chat/chat-types";
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
+import {
+    CHANGE_STATUSES
+} from "../../../../../../api/entity/util/status-list";
 
 @NGInjectClass()
 class ChangeCardViewController{
@@ -71,19 +74,19 @@ class ChangeCardViewController{
     }
 
     async loadInititators(text) {
-        const filter = {};
+        const filter = {selectable:"1"};
         if (text) filter.fulltext = text;
         return this.SD.Person.list(filter);
     }
 
     async loadManagers(text) {
-        const filter = {};
+        const filter = {selectable:"1"};
         if (text) filter.fulltext = text;
         return this.SD.Person.list(filter);
     }
 
     async loadExecutors(text){
-        const filter = {};
+        const filter = {selectable:"1", hasAccount: ""};
         if (text) filter.fulltext = text;
         const workgroup = this.change.assignment.workgroup;
         if (workgroup) filter.workgroupId = workgroup.id;
@@ -101,6 +104,34 @@ class ChangeCardViewController{
     async loadStatuses(text) {
         const filter = {entityTypeId: this.SD.Change.$entityTypeId};
         if (text) filter.fulltext = text;
+        const status = this.change.status;
+        //Выборка статусов
+        let statuses = [];
+        //Если статус зарегистрировано, то доступен статус арегистрировано
+        if(status.id == CHANGE_STATUSES.REGISTERED) {
+            filter.id = CHANGE_STATUSES.REGISTERED;
+        }
+        else {
+            //Если статус не зарегистрировано, то доступны статусы Подготовка;На согласовании;Согласование завершено;Реализация;Решено;Закрыто;
+            filter.id =
+                CHANGE_STATUSES.PREPARING + ";" +
+                CHANGE_STATUSES.ON_APPROVE + ";" +
+                CHANGE_STATUSES.APPROVAL_COMPLETE + ";" +
+                CHANGE_STATUSES.EXECUTING + ";" +
+                CHANGE_STATUSES.RESOLVED + ";" +
+                CHANGE_STATUSES.CLOSED;
+        }
+        //Если статус закрыто, то доступен статус закрыто
+        if(status.id == CHANGE_STATUSES.CLOSED) filter.id = CHANGE_STATUSES.CLOSED;
+        //Если Подготовка || Реализация || Решено ,то доступны статусы Подготовка;На согласовании;Реализация;Решено;Закрыто;
+        if(status.id == CHANGE_STATUSES.PREPARING || status.id == CHANGE_STATUSES.EXECUTING || status.id == CHANGE_STATUSES.RESOLVED){
+            filter.id =
+                CHANGE_STATUSES.PREPARING + ";" +
+                CHANGE_STATUSES.ON_APPROVE + ";" +
+                CHANGE_STATUSES.EXECUTING + ";" +
+                CHANGE_STATUSES.RESOLVED + ";" +
+                CHANGE_STATUSES.CLOSED;
+        }
         return this.SD.EntityStatus.list(filter);
     }
 

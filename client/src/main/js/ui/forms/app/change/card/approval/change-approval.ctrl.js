@@ -54,6 +54,7 @@ class ChangeCardApprovalController{
     async saveEditing(){
         await this.approval.save();
         this.grid.fetchData();
+        this.change.load();
         this.editing = false;
     }
     cancelEditing(){
@@ -154,8 +155,10 @@ class ChangeCardApprovalController{
 
     }
 
-    isEditableField(){
-        if(this.editing && this.approval.status.id == APPROVAL_STATUSES.PREPARING) return true;
+    isEditableField() {
+        if (this.approval.status) {
+            if (this.editing && this.approval.status.id == APPROVAL_STATUSES.PREPARING) return true;
+        }
         return false;
     }
 

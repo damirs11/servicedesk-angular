@@ -13,7 +13,6 @@ import ru.it.sd.model.EntityType;
 import ru.it.sd.util.ResourceMessages;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,12 +47,11 @@ public class StatusService extends ReadService<EntityStatus> {
 			throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
 		}
 		Long subType = EntityStatus.getTypeId(EntityType.get(Long.parseLong(entityTypeId)));
-		Map<String, String> subFilter = new HashMap<>();
-		subFilter.put("subtype", subType.toString());
+		filter.put("subtype", subType.toString());
 		if (filter.get("disabled") == null) {
-			subFilter.put("disabled", "0");
+			filter.put("disabled", "0");
 		}
-		List<BaseCode> codes = codeDao.list(subFilter);
+		List<BaseCode> codes = codeDao.list(filter);
 		List<EntityStatus> result = new ArrayList<>();
 		codes.forEach((code) ->
 			result.add(code.convertTo(EntityStatus.class))

@@ -29,6 +29,17 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
     private IChangeCategoryDao iChangeCategoryDao;
     @Autowired
     private IClassificationChaDao iClassificationChaDao;
+    @Autowired
+    private IConfigurationItemDao iConfigurationItemDao;
+    @Autowired
+    private IChangeCode1Dao iChangeCode1Dao;
+    @Autowired
+    private IChangeClosureCodeDao iChangeClosureCodeDao;
+    @Autowired
+    private IStatusChangeDao iStatusChangeDao;
+    @Autowired
+    IFolderDao iFolderDao;
+
     @Override
     public long create(Change entity) {
         SdClientBean sdClientBean = api.getSdClient();
@@ -42,6 +53,12 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
         IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
         IImpact impact = iImpactDao.read(entity.getPriority().getId());
 
+        IConfigurationItem configurationItem = entity.getConfigurationItem() != null ? iConfigurationItemDao.read(entity.getConfigurationItem().getId()): null;
+        IChangeCode1 system = entity.getSystem() != null ? iChangeCode1Dao.read(entity.getSystem().getId()): null;
+        IChangeClosureCode closureCode = entity.getClosureCode() != null ? iChangeClosureCodeDao.read(entity.getClosureCode().getId()) : null;
+        IFolder folder = entity.getFolder() != null ? iFolderDao.read(entity.getFolder().getId()): null;
+
+        //обязательные поля
         iChange.setCategory(iChangeCategory);
         iChange.setClassification(iClassificationCha);
         iChange.setDeadline(DateUtils.toSDDate(entity.getDeadline()));
@@ -53,6 +70,12 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
         iChange.getAssignment().setAssWorkgroup(workgroup);
         iChange.getAssignment().setAssigneePerson(executor);
         iChange.getAssignment().transfer();
+
+        //необязательные
+        iChange.setConfigurationItem(configurationItem);
+        iChange.setChangeCode1(system);
+        iChange.setClosureCode(closureCode);
+        iChange.setFolder(folder);
         iChange.save();
 
         return iChange.getOID();
@@ -65,29 +88,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
 
     @Override
     public void update(Change entity) {
-        IChange iChange = read(entity.getId());
-
-        IChangeCategory iChangeCategory = iChangeCategoryDao.read(entity.getCategory().getId());
-        IClassificationCha iClassificationCha = iClassificationChaDao.read(entity.getClassification().getId());
-        IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
-        IPerson manager = iPersonDao.read(entity.getManager().getId());
-        IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
-        IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
-        IImpact impact = iImpactDao.read(entity.getPriority().getId());
-
-        iChange.setCategory(iChangeCategory);
-        iChange.setClassification(iClassificationCha);
-        iChange.setDeadline(DateUtils.toSDDate(entity.getDeadline()));
-        iChange.setDescription(entity.getSubject());
-        iChange.setInformation(entity.getDescription());
-        iChange.setManager(manager);
-        iChange.setRequestor(initiator);
-        iChange.setImpact(impact);
-        iChange.getAssignment().setAssWorkgroup(workgroup);
-        iChange.getAssignment().setAssigneePerson(executor);
-        iChange.getAssignment().transfer();
-        iChange.save();
-
+        throw new UnsupportedOperationException();
     }
 
     public void patch(Change entity, Set<String> fields) {
@@ -103,7 +104,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             iChange.setSolution(entity.getSolution());
         }
         if(fields.contains("status")){
-            IStatusChange iStatusChange = api.getSdClient().sd_session().getStatusChangeHome().openStatusChange(entity.getStatus().getId());
+            IStatusChange iStatusChange = iStatusChangeDao.read(entity.getStatus().getId());
             iChange.setStatus(iStatusChange);
         }
         if(fields.contains("category")){
@@ -115,8 +116,8 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             iChange.setClassification(iClassificationCha);
         }
         if(fields.contains("closureCode")){
-            IChangeClosureCode iChangeClosureCode = api.getSdClient().sd_session().getChangeClosureCodeHome().openChangeClosureCode(entity.getClosureCode().getId());
-            iChange.setClosureCode(iChangeClosureCode);
+            IChangeClosureCode closureCode = entity.getClosureCode() != null ? iChangeClosureCodeDao.read(entity.getClosureCode().getId()) : null;
+            iChange.setClosureCode(closureCode);
         }
         if(fields.contains("deadline")) {
             iChange.setDeadline(DateUtils.toSDDate(entity.getDeadline()));
@@ -170,20 +171,16 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
             }
         }
         if(fields.contains("configurationItem")) {
-            IConfigurationItem configurationItem = entity.getConfigurationItem() != null ?
-                    api.getSdClient().sd_session().getConfigurationItemHome().openConfigurationItem(entity.getConfigurationItem().getId()):
-                    null;
+            IConfigurationItem configurationItem = entity.getConfigurationItem() != null ? iConfigurationItemDao.read(entity.getConfigurationItem().getId()): null;
             iChange.setConfigurationItem(configurationItem);
         }
         if(fields.contains("system")){
-            IChangeCode1 iChangeCode1 = entity.getSystem() != null ?
-                    api.getSdClient().sd_session().getChangeCode1Home().openChangeCode1(entity.getSystem().getId()):
-                    null;
-            iChange.setChangeCode1(iChangeCode1);
+            IChangeCode1 system = entity.getSystem() != null ? iChangeCode1Dao.read(entity.getSystem().getId()): null;
+            iChange.setChangeCode1(system);
         }
         if(fields.contains("folder")){
             IFolder iFolder = entity.getFolder() != null ?
-                    api.getSdClient().sd_session().getFolderHome().openFolder(entity.getFolder().getId()):
+                    iFolderDao.read(entity.getFolder().getId()):
                     null;
             iChange.setFolder(iFolder);
         }
