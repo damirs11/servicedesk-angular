@@ -171,11 +171,14 @@ class ChangeCardApprovalController{
     }
 
     get $approvalResult(){
-        if (this.approval.status != null){
-            if(this.approval.status.id == APPROVAL_STATUSES.COMPLETE && this.approval.numberOfApproversApproved == this.approval.numberOfApproversRequired) return "Согласовано";
-            if(this.approval.status.id == APPROVAL_STATUSES.COMPLETE && this.approval.numberOfApproversApproved != this.approval.numberOfApproversRequired) return "Не согласовано";
-            return "Не готово";
+        if (!this.approval.status) return;
+        const approved = this.approval.numberOfApproversApproved;
+        const required = this.approval.numberOfApproversRequired;
+        if (this.approval.status.id == APPROVAL_STATUSES.COMPLETE ) {
+            if (approved == required) return "Согласовано";
+            return "Не согласовано"
         }
+        return "Не готово";
     }
 
     async loadWorkgroups(text){

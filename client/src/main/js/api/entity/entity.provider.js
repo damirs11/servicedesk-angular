@@ -251,14 +251,19 @@ function EntityProvider(cache) {
         }
 
 
+        $reseting = false;
         /**
          * Возвращает объект к состоянию, в котором находится кэш
          * @chain
          */
         reset(){
-            Object.keys(this)
-                .forEach(key => delete this[key])
-            ;
+            this.$reseting= true;
+            for (const key in this) {
+                const value = this[key];
+                if ("reset" in Object(value) && !value.$reseting) value.reset();
+            }
+            Object.keys(this).forEach(key => delete this[key]);
+            this.$reseting = false;
             return this
         }
 
