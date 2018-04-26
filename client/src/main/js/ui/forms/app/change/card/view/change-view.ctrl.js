@@ -6,11 +6,6 @@ import {
 
 @NGInjectClass()
 class ChangeCardViewController{
-    /**
-     * Пустое значение
-     * @type {string}
-     */
-    emptyValue = "- нет -";
     // NG зависимости
     @NGInject() $scope;
     @NGInject() SD;
@@ -19,20 +14,24 @@ class ChangeCardViewController{
     @NGInject() $state;
     @NGInject() $transitions;
     @NGInject() $pageLock;
-
     /**
      * Дублирование change.entityAccess
      * для краткости в html
      */
     entityAccess;
-
-    constructor(){
-        this.msgTypes = CHANGE_MESSAGE_TYPES;
-    }
+    /**
+     * Изменение
+     */
+    change;
+    /**
+     * Режим редактирования
+     */
+    editing;
 
     async $onInit() {
+        this.msgTypes = CHANGE_MESSAGE_TYPES;
         this.change = new this.SD.Change(this.changeId);
-        this.accessRules = await this.change.accessRules;
+        this.accessRules = this.change.accessRules;
         this.registerLeaveEditListener();
 
     }
@@ -55,14 +54,16 @@ class ChangeCardViewController{
         this.$pageLock(this.$scope)
             .setTitle("Несохраненные изменения")
             .setText("Внимание! В сущность были внесены изменение, сохранить их перед уходом?")
-            .setCondition(() => this.change.checkModified())
+            .setCondition(() => this.editing && this.change.checkModified())
             .addAction("Да",async () => {
-                await this.change.save();
+                await this.saveEditing();
                 return true;
-            }).addAction("Нет", () => {
+            })
+            .addAction("Нет", () => {
                 this.change.reset();
                 return true;
-            }).addAction("Отмена", () => false)
+            })
+            .addAction("Отмена", () => false)
             .lock();
     }
 

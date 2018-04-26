@@ -1,32 +1,75 @@
-<div data-ng-if="ctrl.loading" style="padding-top: 200px; text-align: center">
-    <div>Загрузка</div>
-</div>
+<div sd-loading="ctrl.loadingPromise" style="height: 100%">
 
-<div class="container" data-ng-if="ctrl.loadingError" style="padding-top: 200px; text-align: center">
-    <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsNotFound">
-        <div class="panel-heading">
-            <h3 class="panel-title">
+    <content style="display: block; height: 100%">
+        <!-- Card header -->
+        <div class="entity-container" style="width: 100%">
+            <div class="entity-container__header">
+                <a data-ui-sref="app.workorder.list" style="margin-right: 10px">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </a>
+                <span>Наряд №{{ctrl.workorder.no}}:
+                    <span style="font-weight: bold">{{ctrl.workorder.subject}}</span>
+                </span>
+            </div>
+            <div class="entity-container__header">
+                <sd-status-bar target="ctrl.workorder"
+                               status-list="ctrl.statusList"
+                ></sd-status-bar>
+            </div>
+            <div class="entity-container__header">
+                <sd-entity-card-tabs tabs="ctrl.headerTabs">
+
+                </sd-entity-card-tabs>
+            </div>
+        </div>
+        <!-- Body of view / history / approval / etc.-->
+        <ui-view></ui-view>
+    </content>
+
+    <error>
+
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsNotFound">
+            <header class="head entity-error__header__text">
                 <span class="glyphicon glyphicon-ban-circle"></span>
                 Наряд не найден
-            </h3>
-        </div>
-        <div class="panel-body">
-            Перейдите ко
-            <a data-ui-sref="app.workorder.list">списку нарядов</a>,
-            чтобы найти нужный наряд
-        </div>
-    </div>
-    <div class="panel panel-danger" data-ng-if="ctrl.loadingErrorIsCustom">
-        <div class="panel-heading">
-            <h3 class="panel-title">
+            </header>
+            <message class="body entity-error__body__text">
+                Перейдите к
+                <a data-ui-sref="app.workorder.list">списку нарядов</a>,
+                чтобы найти нужный наряд
+            </message>
+        </sd-entity-error>
+
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsReadDisallowed">
+            <header class="head entity-error__header__text">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Ошибка доступа
+            </header>
+            <message class="body entity-error__body__text">
+                У вас нет прав на просмотр данного наряда
+            </message>
+        </sd-entity-error>
+
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsServerOffline">
+            <header class="head entity-error__header__text">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                Сервер недоступен.
+            </header>
+            <message class="body entity-error__body__text">
+                Нет соединения с сервером. Попробуйте повторить попытку позже.
+            </message>
+        </sd-entity-error>
+
+        <sd-entity-error data-ng-if="ctrl.loadingErrorIsCustom">
+            <header class="head entity-error__header__text">
                 <span class="glyphicon glyphicon-ban-circle"></span>
                 Возникла непредвиденная ошибка
-            </h3>
-        </div>
-        <div class="panel-body">
-            <span data-ng-bind="ctrl.loadingError"></span>
-        </div>
-    </div>
-</div>
+            </header>
+            <message class="body entity-error__body__text">
+                <span data-ng-bind="ctrl.loadingError"></span>
+            </message>
+        </sd-entity-error>
 
-<ui-view ng-if="!ctrl.loading && !ctrl.loadingError"></ui-view>
+    </error>
+
+</div>

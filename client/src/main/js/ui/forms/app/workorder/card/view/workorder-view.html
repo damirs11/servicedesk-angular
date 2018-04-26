@@ -1,155 +1,228 @@
 <div class="entity-container" data-ng-if="!ctrl.loading && !ctrl.loadingError">
-
-    <div class="entity-container__content entity-container__header">
-        <a data-ui-sref="app.workorder.list" title="Вернуться к списку">Наряды</a>
-        <span> \ </span>
-        <span style="font-weight: bold">
-                    №{{ctrl.workorder.no}}: {{ctrl.workorder.subject || ctrl.emptyValue}}
-        </span>
-    </div>
-
-    <div class="entity-container__content">
-        <sd-status-bar target="ctrl.workorder"
-                    status-list="ctrl.statusList"
-        ></sd-status-bar>
-    </div>
-
     <!--Кнопки в верхнем меню-->
     <div class="entity-container__content">
-        <a class="btn btn-default" data-ui-sref="app.workorder.card.edit">Редактировать</a>
-        <a class="btn btn-default" data-ui-sref="app.workorder.card.history">История</a>
-    </div>
-
-    <div class="entity-container__content entity-properties">
-        <div class="entity-property-col">
-            <div class="entity-property-name">
-                <span>Подробная информация:</span>
-            </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.workorder.description || ctrl.emptyValue"></span>
-            </div>
-        </div>
-        <div class="entity-property-col">
-            <div class="entity-property-name">
-                <span>Вложения:</span>
-            </div>
-            <div class="entity-property-value">
-                - Нет -
-            </div>
+        <!-- Кнопки для редактирования -->
+        <div style="display: inline-block" data-ng-show="ctrl.accessRules.isUpdateEntityAllowed">
+            <button class="btn btn-default"
+                    ng-if="!ctrl.editing"
+                    ng-click="ctrl.startEditing()">
+                Редактировать
+            </button>
+            <button class="btn btn-success"
+                    ng-if="ctrl.editing"
+                    ng-disabled="!ctrl.checkUnsavedModifies()"
+                    ng-click="ctrl.saveEditing()">
+                Сохранить
+            </button>
+            <button class="btn btn-default"
+                    ng-if="ctrl.editing"
+                    ng-click="ctrl.cancelEditing()">
+                Отмена
+            </button>
         </div>
     </div>
 
-    <div class="entity-container__content entity-properties">
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Инициатор:</span>
+    <div class="entity-container__content">
+        <form class="form-inline">
+            <div class="form-group entity-text" style="width: 100%; height: 42px" ng-if="ctrl.accessRules.canSee('subject')">
+                <label>Тема:</label>
+                <div class="entity-text__inline-field">
+                    <sd-text target="ctrl.workorder.subject"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('subject')"
+                    >
+                    </sd-text>
+                </div>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.workorder.initiator || ctrl.emptyValue"></span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Исполнитель:</span>
+            <div class="form-group entity-text" style="width: 100%;" ng-if="ctrl.accessRules.canSee('description')">
+                <label>Подробная информация:</label>
+                <div class="entity-text__multiline-field">
+                    <sd-textarea target="ctrl.workorder.description"
+                                 editing="ctrl.editing"
+                                 disabled="!ctrl.accessRules.canUpdate('description')"
+                    >
+                    </sd-textarea>
+                </div>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.workorder.assigneePerson || ctrl.emptyValue"></span>
+
+            <div class="form-group entity-text" style="width: 100%;" ng-if="ctrl.accessRules.canSee('solution')">
+                <label>Решение:</label>
+                <div class="entity-text__multiline-field">
+                    <sd-textarea target="ctrl.workorder.solution"
+                                 editing="ctrl.editing"
+                                 disabled="!ctrl.accessRules.canUpdate('solution')"
+                    >
+                    </sd-textarea>
+                </div>
             </div>
-        </div>
+
+        </form>
     </div>
 
-    <div class="entity-container__content entity-properties">
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Дата создания:</span>
-            </div>
-            <div class="entity-property-value">
-                <span>
-                    {{(ctrl.workorder.createdDate | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
-                </span>
-            </div>
-        </div>
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Статус:</span>
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('initiator')">
+                <label>Инициатор:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.initiator"
+                             fetch-data="ctrl.loadInititators($text)"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('initiator')"
+                ></sd-dropdown>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.workorder.status || ctrl.emptyValue"></span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Крайний срок:</span>
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('assignment')">
+                <label>Исполнитель:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.assignment.executor"
+                             fetch-data="ctrl.loadExecutors($text)"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="ctrl.editing"
+                             allow-empty="true"
+                             fetch-on-change="ctrl.workorder.assignment.workgroup"
+                             disabled="!ctrl.accessRules.canUpdate('assignment')"
+                ></sd-dropdown>
             </div>
-            <div class="entity-property-value">
-                <span>
-                    {{(ctrl.workorder.deadline | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
-                </span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Приоритет:</span>
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('assignment')">
+                <label>Рабочая группа:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.assignment.workgroup"
+                             fetch-data="ctrl.loadWorkgroups($text)"
+                             placeholder="Введите название группы"
+                             display-value="$value.name"
+                             editing="ctrl.editing"
+                             allow-empty="true"
+                             fetch-on-change="ctrl.workorder.assignment.executor"
+                             disabled="!ctrl.accessRules.canUpdate('assignment')"
+                ></sd-dropdown>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.workorder.priority || ctrl.emptyValue"></span>
-            </div>
-        </div>
+        </form>
+    </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Фатически выполнено:</span>
-            </div>
-            <div class="entity-property-value">
-                <span>
-                    {{(ctrl.workorder.resolvedDate | amDateFormat:'MM.DD.YYYY HH:mm:ss') || ctrl.emptyValue}}
-                </span>
-            </div>
-        </div>
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Категория:</span>
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('createdDate')">
+                <label>Дата создания:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.workorder.createdDate"
+                        allow-empty="false"
+                        editing="ctrl.editing"
+                        disabled="!ctrl.accessRules.canUpdate('createdDate')"
+                ></sd-datetime>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.workorder.category || ctrl.emptyValue"></span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Рабочая группа:</span>
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('status')">
+                <label>Статус:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.status"
+                             fetch-data="ctrl.loadStatuses($text)"
+                             display-value="$value.fullName"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('status')"
+                             fetch-on-change="ctrl.workorder.status"
+                ></sd-dropdown>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.workorder.workgroup || ctrl.emptyValue"></span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Код завершения:</span>
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('deadline')">
+                <label>Крайний срок:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.workorder.deadline"
+                        allow-empty="false"
+                        editing="ctrl.editing"
+                        disabled="!ctrl.accessRules.canUpdate('deadline')"
+                ></sd-datetime>
             </div>
-            <div class="entity-property-value">
-                <span ng-bind="ctrl.workorder.closureCode || ctrl.emptyValue"></span>
-            </div>
-        </div>
 
-        <div class="entity-inline-property">
-            <div class="entity-property-name">
-                <span>Изменение:</span>
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('priority')">
+                <label>Приоритет:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.priority"
+                             fetch-data="ctrl.loadPriorities($text)"
+                             display-value="$value.fullName"
+                             cache="true"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('priority')"
+                ></sd-dropdown>
             </div>
-            <div class="entity-property-value">
-                <a data-ng-show="ctrl.workorder.change"
-                   data-ui-sref="app.change.card.view({changeId:ctrl.workorder.change.id})">
-                    №{{ctrl.workorder.change.no}}
-                </a>
-                <span ng-bind="ctrl.emptyValue" data-ng-hide="ctrl.workorder.change"></span>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('resolvedDate')">
+                <label>Фактически выполнено:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.workorder.resolvedDate"
+                        allow-empty="false"
+                        editing="ctrl.editing"
+                        disabled="!ctrl.accessRules.canUpdate('resolvedDate')"
+                ></sd-datetime>
             </div>
-        </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('category')">
+                <label>Категория:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.category"
+                             fetch-data="ctrl.loadCategories($text)"
+                             display-value="$value.name"
+                             cache="true"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('category')"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('modifyDate')">
+                <label>Дата изменения:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.workorder.modifyDate"
+                        allow-empty="false"
+                        editing="ctrl.editing"
+                        disabled="!ctrl.accessRules.canUpdate('modifyDate')"
+                ></sd-datetime>
+            </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('closureCode')">
+                <label>Код завершения:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.closureCode"
+                             fetch-data="ctrl.loadClosureCode($text)"
+                             display-value="$value.name"
+                             editing="ctrl.editing"
+                             allow-empty="true"
+                             disabled="!ctrl.accessRules.canUpdate('closureCode')"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('folder')">
+                <label>Папка:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.folder"
+                             fetch-data="ctrl.loadFolders($text)"
+                             display-value="$value.name"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('folder')"
+                             allow-empty="true"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('change')">
+                <label>Изменение:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.change"
+                             display-value="'№'+$value.no"
+                             editing="ctrl.editing"
+                             disabled="true"
+                ></sd-dropdown>
+            </div>
+
+        </form>
     </div>
 
 </div>
@@ -157,6 +230,3 @@
 <sd-entity-chat entity="ctrl.workorder" type-map="ctrl.msgTypes">
 
 </sd-entity-chat>
-
-
-<button class="btn btn-default" data-ng-click="ctrl.createTestWorkorder();">Создать тестовый наряд</button>

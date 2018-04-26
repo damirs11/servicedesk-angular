@@ -3,20 +3,22 @@ import {Serialize} from "./decorator/serialize.decorator";
 import {Instantiate, Nullable} from "./decorator/parse-utils";
 import {serializeId} from "./decorator/serialize-utils";
 import {Mixin} from "./mixin/mixin.decorator";
+import {TYPEID_WORKORDER} from "./util/entity-type-list";
 
 
-WorkorderProvider.$inject = ["EditableEntity", "SD", "Historyable"];
-function WorkorderProvider(EditableEntity, SD, Historyable) {
+WorkorderProvider.$inject = ["EditableEntity", "SD", "Historyable", "Accessible"];
+function WorkorderProvider(EditableEntity, SD, Historyable, Accessible) {
     /**
      * Персона
      * @class
      * @name SD.Workorder
      * @mixes ENTITY_MIXIN.Historyable
+     * @mixes ENTITY_MIXIN.Accessible
      * @extends SD.EditableEntity
      */
-    @Mixin(Historyable)
+    @Mixin(Historyable, Accessible)
     class Workorder extends EditableEntity {
-        static $entityTypeId = 556859410;
+        static $entityTypeId = TYPEID_WORKORDER;
         /**
          * Номер
          * @property
@@ -47,7 +49,7 @@ function WorkorderProvider(EditableEntity, SD, Historyable) {
          * @name SD.Workorder#labor
          * @type {Number}
          */
-        @Serialize(Number) @Parse(Number) labor;
+        @Serialize(Nullable(Number)) @Parse(Nullable(Number)) labor;
 
         /**
          * Решение
@@ -55,7 +57,7 @@ function WorkorderProvider(EditableEntity, SD, Historyable) {
          * @name SD.Workorder#solution
          * @type {String}
          */
-        @Serialize(String) @Parse(String) solution;
+        @Serialize(Nullable(String)) @Parse(Nullable(String)) solution;
 
         /**
          * Статус
@@ -122,6 +124,14 @@ function WorkorderProvider(EditableEntity, SD, Historyable) {
         @Serialize(Boolean) @Parse(Nullable(Boolean)) expired;
 
         /**
+         * Папка
+         * @property
+         * @name SD.Workorder#folder
+         * @type {SD.Folder}
+         */
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.Folder.parse(data)) folder;
+
+        /**
          * Инициатор
          * @property
          * @name SD.Workorder#initiator
@@ -130,20 +140,12 @@ function WorkorderProvider(EditableEntity, SD, Historyable) {
         @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) initiator;
 
         /**
-         * Исполнитель
+         * Объект "Назначено"
          * @property
-         * @name SD.Workorder#assigneePerson
-         * @type {SD.Person}
+         * @name SD.Workorder#assignment
+         * @type {SD.EntityAssignment}
          */
-        @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) assigneePerson;
-
-        /**
-         * Рабочая группа
-         * @property
-         * @name SD.Workorder#workgroup
-         * @type {SD.Workgroup}
-         */
-        @Serialize("assWorkgroup",serializeId) @Parse("assWorkgroup",data => SD.Workgroup.parse(data)) workgroup;
+        @Serialize(serializeId) @Parse(data => SD.EntityAssignment.parse(data)) assignment;
 
         /**
          * Изменение

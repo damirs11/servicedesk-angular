@@ -257,10 +257,10 @@ function EntityProvider(cache) {
          * @chain
          */
         reset(){
-            this.$reseting= true;
+            this.$data.$reseting= true;
             for (const key in this) {
                 const value = this[key];
-                if ("reset" in Object(value) && !value.$reseting) value.reset();
+                if ("reset" in Object(value) && !value.$data.$reseting) value.reset();
             }
             Object.keys(this).forEach(key => delete this[key]);
             this.$reseting = false;

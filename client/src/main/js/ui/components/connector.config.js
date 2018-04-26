@@ -10,7 +10,8 @@ function ConnectorConfig($connectorProvider) {
             $state.go("app.login", {returnUrl}, {reload: true});
             return;
         } else if (error.status === -1) {
-            alert('Сервер недоступен');
+            console.log("Server unreachable")
+            // alert('Сервер недоступен');
         }
         throw error;
     };

@@ -1,3 +1,6 @@
+import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
+import {TYPEID_WORKORDER} from "../../../../../api/entity/util/entity-type-list";
+@NGInjectClass()
 class WorkorderViewController {
     /**
      * Занят ли контроллер. Будет отображат анимацию загрузки
@@ -6,23 +9,48 @@ class WorkorderViewController {
     busy = null;
     /**
      * Ошибка при загрузке
-     * @type {Error|null}
+     * @type {Error}
      */
-    loadingError = null;
+    loadingError;
     /**
      * Изменение
-     * @type {SD.Workorder|null}
+     * @type {SD.Workorder}
      */
-    workorder = null;
+    workorder;
+    /**
+     * Права доступа;
+     * @type {SDAccessRules}
+     */
+    accessRules;
+    /**
+     * Промис загрузки изменения
+     */
+    loadingPromise;
+    /**
+     * Вкладки в хидере карточки
+     */
+    headerTabs = [
+        {name:'Просмотр',sref:'app.workorder.card.view'},
+        {name:'История',sref:'app.workorder.card.history',
+            disabled:() => this.accessRules && !this.accessRules.isReadHistoryAllowed},
+        {name:'Вложения',sref:'app.workorder.card.attachments',
+            disabled:() => this.accessRules && !this.accessRules.isReadAttachmentsAllowed},
+    ];
 
-    static $inject = ["SD","workorderId"];
-    constructor(SD,workorderId){
-        this.SD = SD;
-        this.workorderId = workorderId;
+    @NGInject() SD;
+    @NGInject() workorderId;
+    @NGInject() Session;
+
+    async $onInit() {
+        this.loadingPromise = this.loadData();
+        await this.loadingPromise;
+        this.accessRules = this.workorder.accessRules;
     }
 
-    $onInit(){
-        this.$loadWorkorder();
+    async loadData(){
+        await this.$loadWorkorder();
+        await this.$loadAccess();
+        await this.$loadStatuses();
     }
 
     get loading(){
@@ -43,15 +71,27 @@ class WorkorderViewController {
             ;
     }
 
+
+    async $loadStatuses() {
+        this.statusList = await this.SD.EntityStatus.list({entityTypeId:TYPEID_WORKORDER});
+    }
+
+    async $loadAccess() {
+        await this.workorder.updateAccessRules();
+
+        if (!this.workorder.accessRules.isReadEntityAllowed) {
+            this.loadingError = {reason: "readDisallowed"};
+            throw this.loadingError
+        }
+    }
+
     async $loadWorkorder(){
-        if (this.busy) throw new Error("Controller is busy " + this.busy);
         try {
             this.busy = "loading";
             this.workorder = await new this.SD.Workorder(this.workorderId).load();
         } catch (error) {
             this.loadingError = error || true;
-        } finally {
-            this.busy = null;
+            throw error;
         }
     }
 }

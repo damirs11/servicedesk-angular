@@ -1,44 +1,68 @@
 import {WORKORDER_MESSAGE_TYPES} from "../../../../../components/widget/sd-entity-chat/chat-types";
+import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
 
+
+@NGInjectClass()
 class WorkorderCardViewController{
-    /**
-     * Пустое значение
-     * @type {string}
-     */
-    emptyValue = "- нет -";
+    @NGInject() $scope;
+    @NGInject() SD;
+    @NGInject() workorderId;
+    @NGInject() ModalAction;
+    @NGInject() $state;
+    @NGInject() $transitions;
+    @NGInject() $pageLock;
 
-    static $inject = ["$scope","SD","workorderId"];
-    constructor($scope,SD,workorderId){
-        this.$scope = $scope;
-        this.SD = SD;
-        this.workorderId = workorderId;
-        this.msgTypes = WORKORDER_MESSAGE_TYPES;
-    }
+    /**
+     * Дублирование workorder.entityAccess
+     * для краткости в html
+     */
+    entityAccess;
+    /**
+     * Наряд
+     */
+    workorder;
+    /**
+     * Режим редактирования
+     */
+    editing;
+
 
     $onInit() {
-        this.workorder = new this.SD.Workorder(this.workorderId); // В кэше он уже лежит, т.к. подгружен стейтом-родителем.
-        this.loadStatuses();
+        this.msgTypes = WORKORDER_MESSAGE_TYPES;
+        this.workorder = new this.SD.Workorder(this.workorderId);
+        this.accessRules = this.workorder.accessRules;
+        this.registerLeaveEditListener();
     }
 
-    async loadStatuses() {
-        this.statusList = await this.SD.EntityStatus.list({entityType:this.SD.Workorder.$entityTypeId});
-
+    // Статус стейта, редактирование/просмотр
+    editing = false;
+    startEditing(){
+        this.editing = true;
+    }
+    async saveEditing(){
+        await this.workorder.save();
+        this.editing = false;
+    }
+    cancelEditing(){
+        this.workorder.reset();
+        this.editing = false;
     }
 
-    async createTestWorkorder() {
-        const parent = this.workorder;
-        const testEntity = new this.SD.Workorder();
-        testEntity.description = "Проверка создания нарядов";
-        testEntity.subject = "Тестовый наряд";
-        testEntity.labor = 12000;
-        testEntity.category = parent.category;
-        testEntity.status = parent.status;
-        testEntity.deadline = new Date(Date.now()+2*60*60*1000);
-        testEntity.initiator = parent.initiator;
-        testEntity.assigneePerson = parent.assigneePerson;
-        testEntity.workgroup = parent.workgroup;
-        testEntity.solution = "Решения еще нет.";
-        await testEntity.create();
+    registerLeaveEditListener() {
+        this.$pageLock(this.$scope)
+            .setTitle("Несохраненные изменения")
+            .setText("Внимание! В сущность были внесены изменение, сохранить их перед уходом?")
+            .setCondition(() => this.editing && this.workorder.checkModified())
+            .addAction("Да",async () => {
+                await this.saveEditing();
+                return true;
+            })
+            .addAction("Нет", () => {
+                this.workorder.reset();
+                return true;
+            })
+            .addAction("Отмена", () => false)
+            .lock();
     }
 }
 

@@ -20,6 +20,11 @@ class ChangeCardController {
      */
     change;
     /**
+     * Права доступа;
+     * @type {SDAccessRules}
+     */
+    accessRules;
+    /**
      * Промис загрузки изменения
      */
     loadingPromise;

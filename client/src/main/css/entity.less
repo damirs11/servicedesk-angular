@@ -226,6 +226,12 @@
     text-align: left;
     vertical-align: top;
   }
+  &-required label:after{
+    position: absolute;
+    content: " *";
+    color: red;
+    font-weight: bold;
+  }
 
   &__inline-field {
     display: inline-block;
