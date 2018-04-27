@@ -2,12 +2,14 @@ import template from "./workorder-create.html"
 import {controller} from "./workorder-create.ctrl"
 import {SDResolver} from "../../sd.resolver";
 import {NewWorkorderResolver} from "./new-workorder-resolver";
+import {PassedParamsResolver} from "./passed-arguments-resolver";
 
 const WorkorderCreateState = {
     name: "app.workorder.create",
     url: "/create?changeId",
     controller: controller,
     template: template,
+    reloadOnSearch: false,
     controllerAs: "ctrl",
     abstract: true,
     data: {
@@ -15,7 +17,8 @@ const WorkorderCreateState = {
     },
     resolve: {
         SD: SDResolver,
-        workorder: NewWorkorderResolver
+        workorder: NewWorkorderResolver,
+        passedParams: PassedParamsResolver
     }
 };
 

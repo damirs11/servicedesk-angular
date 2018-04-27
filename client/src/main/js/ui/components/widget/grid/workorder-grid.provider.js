@@ -11,10 +11,12 @@ function WorkorderGridProvider(AbstractGrid) {
      */
     return class WorkorderGrid extends AbstractGrid {
 
-        constructor($scope,SD) {
+        constructor($scope,SD,options) {
             super($scope, SD.Workorder);
+            if (options) {
+                if (options.gridName) this.gridName = options.gridName;
+            }
             this.columnDefs = [
-                { field: 'priority', name: "Приоритет", type: 'string', width: 100, cellTemplate: 'template.grid.cell.priority'},
                 { field: 'no', name: "Номер", width: 100, cellClass: "text-right"},
                 { field: 'status', name: "Статус", width: 100, cellClass: "text-center"},
                 { field: 'expired', name: "Просрочен", width: 100, cellTemplate: 'template.grid.cell.expired'},

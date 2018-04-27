@@ -18,6 +18,7 @@ import {controller} from "./sd-dropdown.ctrl"
  * disabled {Boolean} - состояние в режиме редактирования. true - поле будет серым и недоступным.
  * ignoreSameText {Boolean} [true] - не запускать fetch, если текст в поисковой строке не изменился
  * fetchOnChange {*} - запускает fetch, когда меняется значение. (работает через $scope.$watch)
+ * disableAutoFetch {boolean} - разрешает/запрещает компоненту запрашивать данные до первого клика
  */
 const SDDropdownComponent = {
     template: template,
@@ -39,6 +40,7 @@ const SDDropdownComponent = {
         editing: "<",
         ignoreSameText: "<",
         fetchOnChange: "<",
+        disableAutoFetch: "<"
     }
 };
 

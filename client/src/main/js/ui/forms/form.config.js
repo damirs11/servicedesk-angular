@@ -26,6 +26,7 @@ import {ChangeCreateState} from "./app/change/create/change-create.state";
 import {ChangeCreateCommonState} from "./app/change/create/common/change-create-common.state";
 import {WorkorderCreateState} from "./app/workorder/create/workorder-create.state";
 import {WorkorderCreateCommonState} from "./app/workorder/create/common/workorder-create-common.state";
+import {ChangeCardWorkordersState} from "./app/change/card/workorders/change-card-workorders.state";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -52,6 +53,7 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(ChangeCardHistoryState)
         .state(ChangeCardApprovalState)
         .state(ChangeCardAttachmentsState)
+        .state(ChangeCardWorkordersState)
         .state(WorkorderState)
         .state(WorkorderListState)
         .state(WorkorderCreateState)

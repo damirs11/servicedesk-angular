@@ -4,10 +4,12 @@ import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject
 class WorkorderCreateController{
     // NG зависимости
     @NGInject() $scope;
+    @NGInject() $location;
     @NGInject() SD;
     @NGInject() $state;
     @NGInject() $pageLock;
     @NGInject() workorder; // Новый наряд
+    @NGInject() passedParams; // Переданные параметры
 
     busy = false;
     // Произошла ошибка при создании
@@ -18,10 +20,34 @@ class WorkorderCreateController{
     ];
 
     requiredFields = [
-        "category","classification","deadline","subject","description",
-        "manager","initiator","priority","assignment.workgroup","assignment.executor"
+        "status","subject","description","category",
+        "assignment.workgroup","assignment.executor",
     ];
 
+
+    async $onInit() {
+        this.busy = "Initializing";
+        this.loadingPromise = this.$initializeData();
+        await this.loadingPromise;
+        this.busy = false;
+    }
+
+    /**
+     * Подгурзка всех данных будет в этом методе
+     */
+    async $initializeData(){
+        await this.$loadPassedChange();
+    }
+
+    async $loadPassedChange(){
+        try {
+            const change = await new this.SD.Change(this.passedParams.changeId).load();
+            this.workorder.change = change;
+        } catch (e) { // Не удалось загрузить такое изменение - удаляем его из переданных параметров
+            this.passedParams.changeId = null;
+            this.$location.search(this.passedParams)
+        }
+    }
 
     registerLeaveEditListener() {
         this.$pageLock(this.$scope)
@@ -53,7 +79,7 @@ class WorkorderCreateController{
 
     async create(){
         if (this.busy) return;
-        this.busy = true;
+        this.busy = "Saving";
         this.errorCreating = false;
         try {
             await this.workorder.create();

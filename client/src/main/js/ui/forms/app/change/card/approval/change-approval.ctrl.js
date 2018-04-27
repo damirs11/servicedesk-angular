@@ -54,7 +54,7 @@ class ChangeCardApprovalController{
     async saveEditing(){
         await this.approval.save();
         this.grid.fetchData();
-        this.change.load();
+        this.change.load(); // ToDo пересмотреть необходимость вызывать load здесь
         this.editing = false;
     }
     cancelEditing(){

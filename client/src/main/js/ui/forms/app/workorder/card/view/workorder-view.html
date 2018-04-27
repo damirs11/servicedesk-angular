@@ -142,18 +142,6 @@
                 ></sd-datetime>
             </div>
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('priority')">
-                <label>Приоритет:</label>
-                <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.workorder.priority"
-                             fetch-data="ctrl.loadPriorities($text)"
-                             display-value="$value.fullName"
-                             cache="true"
-                             editing="ctrl.editing"
-                             disabled="!ctrl.accessRules.canUpdate('priority')"
-                ></sd-dropdown>
-            </div>
-
             <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('resolvedDate')">
                 <label>Фактически выполнено:</label>
                 <sd-datetime

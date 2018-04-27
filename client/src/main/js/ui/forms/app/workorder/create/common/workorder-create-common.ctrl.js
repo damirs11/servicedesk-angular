@@ -8,22 +8,13 @@ class WorkorderCreateCommonController{
     // NG зависимости
     @NGInject() workorder;
     @NGInject() SD;
-    @NGInject() passedChangeId;
+    @NGInject() passedParams; // Переданные параметры
 
     minDeadlineDate = new Date(Date.now() + DEADLINE_OFFSET_MS);
 
-    async $onInit() {
-        if (this.passedChangeId) {
-            this.workorder.change = await new this.SD.Change(this.passedChangeId);
-            console.log("Change passed!",this.workorder.change);
-            await this.workorder.change.load();
-        }
-    }
-
     get isChangePassed() {
-        return Boolean(this.passedChangeId)
+        return Boolean(this.passedParams.changeId)
     }
-
     // Методы подгрузки данных
 
     async loadInititators(text) {
@@ -64,6 +55,12 @@ class WorkorderCreateCommonController{
         const filter = {entityTypeId: TYPEID_WORKORDER};
         if (text) filter.fulltext = text;
         return this.SD.Folder.list(filter);
+    }
+
+    async loadStatuses(text) {
+        const filter = {entityTypeId: TYPEID_WORKORDER};
+        if (text) filter.fulltext = text;
+        return this.SD.EntityStatus.list(filter);
     }
 
     async loadChanges(text) {

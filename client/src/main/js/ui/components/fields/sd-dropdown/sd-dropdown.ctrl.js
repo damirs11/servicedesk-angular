@@ -58,11 +58,16 @@ class SDDropdownComponentController{
         this.lastFetchRequest = text
     }
 
+    $firstFetch = true;
     /**
      * Получает значения
      * @param text - текстовый фильтр для поиска
      */
     async fetch(text) {
+        if (this.disableAutoFetch && this.$firstFetch) {
+            this.$firstFetch = false;
+            return;
+        }
         this.values = null;
         try {
             let array = await this.fetchData({$text:text});

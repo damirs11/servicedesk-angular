@@ -39,6 +39,7 @@ class ChangeCardController {
             disabled:() => this.accessRules && !this.canSeeApprovalPage},
         {name:'Вложения',sref:'app.change.card.attachments',
             disabled:() => this.accessRules && !this.accessRules.isReadAttachmentsAllowed},
+        {name:'Наряды',sref:'app.change.card.workorders'},
     ];
 
     @NGInject() SD;

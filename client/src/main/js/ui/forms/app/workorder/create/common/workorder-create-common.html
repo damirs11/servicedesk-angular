@@ -28,7 +28,7 @@
     <div class="entity-container__content">
         <form class="form-inline entity-properties">
 
-            <div class="form-group e-prop e-prop-required">
+            <div class="form-group e-prop">
                 <label>Инициатор:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.workorder.initiator"
@@ -71,6 +71,18 @@
     <div class="entity-container__content">
         <form class="form-inline entity-properties">
 
+            <div class="form-group e-prop e-prop-required">
+                <label>Статус:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.status"
+                             fetch-data="ctrl.loadStatuses($text)"
+                             display-value="$value.fullName"
+                             cache="true"
+                             editing="true"
+                             allow-empty="true"
+                ></sd-dropdown>
+            </div>
+
             <div class="form-group e-prop">
                 <label>Крайний срок:</label>
                 <sd-datetime
@@ -93,7 +105,7 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop">
+            <div class="form-group e-prop e-prop-required">
                 <label>Категория:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.workorder.category"
@@ -113,19 +125,20 @@
                              display-value="$value.name"
                              editing="true"
                              allow-empty="true"
+                             disable-auto-fetch="true"
                 ></sd-dropdown>
             </div>
 
             <div class="form-group e-prop">
                 <label>Изменение:</label>
-                <!--ToDo поправить fetch-data-->
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.workorder.change"
-                             display-value="'№'+$value.no"
-                             fetch-data="ctrl.isChangeEditable && ctrl.loadChanges($text)"
+                             display-value="'№'+$value.no+' '+$value.subject"
+                             fetch-data="ctrl.loadChanges($text)"
                              editing="true"
                              disabled="ctrl.isChangePassed"
                              allow-empty="true"
+                             disable-auto-fetch="true"
                 ></sd-dropdown>
             </div>
 
