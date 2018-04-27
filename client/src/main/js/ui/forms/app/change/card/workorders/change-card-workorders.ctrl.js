@@ -21,7 +21,6 @@ class ChangeCardWorkordersController{
     }
 
     $onTableFetch(ignored,event) {
-        console.log("test");
         if (this.fetchPromise != null) return;
         this.fetchPromise = event.fetchPromise
     }
