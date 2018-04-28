@@ -115,6 +115,10 @@ class WorkorderListController {
         const row = rows[0];
         this.$state.go("app.workorder.card.view", {workorderId: row.id});
     }
+
+    clickNewWorkorder() {
+        this.$state.go("app.workorder.create.common");
+    }
 }
 
 export {WorkorderListController as controller};
