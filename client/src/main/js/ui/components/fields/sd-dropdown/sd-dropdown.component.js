@@ -4,6 +4,7 @@ import {controller} from "./sd-dropdown.ctrl"
 
 /**
  * Компонент для выбора из списка
+ * название {тип_данных} [стандартное значение]
  * target {*} - редактируемое поле объекта / переменная.
  * fetch-data {expr} - функция поиска данных. Переменные: $text
  * debounce {Number} - debounce для строки поиска в миллисекундах(default: 1000)
@@ -18,7 +19,7 @@ import {controller} from "./sd-dropdown.ctrl"
  * disabled {Boolean} - состояние в режиме редактирования. true - поле будет серым и недоступным.
  * ignoreSameText {Boolean} [true] - не запускать fetch, если текст в поисковой строке не изменился
  * fetchOnChange {*} - запускает fetch, когда меняется значение. (работает через $scope.$watch)
- * disableAutoFetch {boolean} - разрешает/запрещает компоненту запрашивать данные до первого клика
+ * minCharsFetch {number} [3] - компонент будет запускать fetch только при наличии в текстовом поле n символов
  */
 const SDDropdownComponent = {
     template: template,
@@ -40,7 +41,7 @@ const SDDropdownComponent = {
         editing: "<",
         ignoreSameText: "<",
         fetchOnChange: "<",
-        disableAutoFetch: "<"
+        minSymbolsFetch: "<"
     }
 };
 

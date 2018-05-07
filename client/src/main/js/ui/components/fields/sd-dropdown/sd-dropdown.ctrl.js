@@ -12,19 +12,25 @@ class SDDropdownComponentController{
         this.$scope.$watch(() => this.editing, () => {
             this.selectedValue = this.target;
         });
-        let firstFetch = true;
+        // Игнорируем первый watch, т.к. он срабатывает при инициализации
+        let firstFetchOnChange = true;
         this.$scope.$watch(() => this.fetchOnChange, (val) => {
-            if (firstFetch) {
-                firstFetch = false;
+            if (firstFetchOnChange) {
+                firstFetchOnChange = false;
                 return;
             }
             this.fetch(this.lastFetchRequest)
-        })
+        });
+        if (this.cache) this.fetch();
     }
 
     get isIgnoringSameText() {
         if (this.ignoreSameText === undefined) return true;
         return this.ignoreSameText;
+    }
+
+    get minSymbolsToFetch(){
+        return this.minSymbolsFetch === undefined ? 3 : this.minSymbolsToFetch;
     }
 
     get isEnabled() {
@@ -33,7 +39,7 @@ class SDDropdownComponentController{
     }
 
     get debounceTime() {
-        return this.debounce || 1000;
+        return this.debounce || 500;
     }
 
     display(value){
@@ -53,21 +59,17 @@ class SDDropdownComponentController{
      */
     async fetchFromUI(text){
         if (this.cache && this.values) return;
+        if (text.length < this.minSymbolsToFetch) return;
         if (this.isIgnoringSameText && this.lastFetchRequest == text) return;
         this.fetch(text);
         this.lastFetchRequest = text
     }
 
-    $firstFetch = true;
     /**
      * Получает значения
      * @param text - текстовый фильтр для поиска
      */
     async fetch(text) {
-        if (this.disableAutoFetch && this.$firstFetch) {
-            this.$firstFetch = false;
-            return;
-        }
         this.values = null;
         try {
             let array = await this.fetchData({$text:text});
