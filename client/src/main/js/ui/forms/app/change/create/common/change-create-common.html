@@ -7,6 +7,7 @@
                     <sd-text target="ctrl.change.subject"
                              editing="true"
                              placeholder="Укажите тему"
+                             disabled="ctrl.isParentBusy"
                     >
                     </sd-text>
                 </div>
@@ -18,6 +19,7 @@
                     <sd-textarea target="ctrl.change.description"
                                  editing="true"
                                  placeholder="Укажите подробную информацию"
+                                 disabled="ctrl.isParentBusy"
                     >
                     </sd-textarea>
                 </div>
@@ -37,6 +39,7 @@
                              display-value="$value.fullName"
                              editing="true"
                              allow-empty="true"
+                             disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
 
@@ -49,6 +52,7 @@
                              display-value="$value.fullName"
                              editing="true"
                              allow-empty="true"
+                             disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
 
@@ -62,6 +66,7 @@
                              editing="true"
                              allow-empty="true"
                              fetch-on-change="ctrl.change.assignment.workgroup"
+                             disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
 
@@ -75,6 +80,7 @@
                              editing="true"
                              fetch-on-change="ctrl.change.assignment.executor"
                              allow-empty="true"
+                             disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
         </form>
@@ -93,6 +99,7 @@
                              cache="true"
                              editing="true"
                              allow-empty="true"
+                             disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
 
@@ -105,6 +112,7 @@
                              placeholder="Выберите папку"
                              editing="true"
                              allow-empty="true"
+                             disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
 
@@ -116,6 +124,7 @@
                         min-date="ctrl.minDeadlineDate"
                         allow-empty="false"
                         editing="true"
+                        disabled="ctrl.isParentBusy"
                 ></sd-datetime>
             </div>
 
@@ -129,6 +138,7 @@
                              cache="true"
                              editing="true"
                              allow-empty="true"
+                             disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
 
@@ -142,6 +152,7 @@
                              cache="true"
                              editing="true"
                              allow-empty="true"
+                             disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
 
@@ -155,6 +166,7 @@
                              cache="true"
                              editing="true"
                              allow-empty="true"
+                             disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
 
@@ -167,6 +179,7 @@
                              placeholder="Введите код объекта"
                              editing="true"
                              allow-empty="true"
+                             disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
         </form>
@@ -184,6 +197,7 @@
                         allow-empty="true"
                         editing="true"
                         allow-empty="true"
+                        disabled="ctrl.isParentBusy"
                 ></sd-datetime>
             </div>
 
@@ -195,6 +209,7 @@
                         allow-empty="true"
                         editing="true"
                         allow-empty="true"
+                        disabled="ctrl.isParentBusy"
                 ></sd-datetime>
             </div>
 
@@ -207,6 +222,7 @@
                         allow-empty="true"
                         editing="true"
                         allow-empty="true"
+                        disabled="ctrl.isParentBusy"
                 ></sd-number>
             </div>
 

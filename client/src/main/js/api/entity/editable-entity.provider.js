@@ -15,12 +15,14 @@ function EditableEntityProvider(RESTEntity, $connector) {
          *   Если передать data - отправит этот объект запросом сохранения.
          *   Если не передавать - соберет значения измененых полей через $modifiedData
          * @link $modifiedData
+         * @return {SD.EditableEntity}
          */
         async save(data){
             const jsonData = data || this.$modifiedData;
             const respData = await $connector.patch(`rest/entity/${this.constructor.$entityType}/${this.id}`,null,jsonData);
             this.reset();
-            this.$update(respData)
+            this.$update(respData);
+            return this;
         }
 
         /**

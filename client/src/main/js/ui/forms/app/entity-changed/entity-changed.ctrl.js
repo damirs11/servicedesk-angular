@@ -1,5 +1,5 @@
-// Коды выхода
 import {NGInject, NGInjectClass} from "../../../../common/decorator/ng-inject.decorator";
+// Коды выхода
 const DIALOG_SAVE = 0;
 const DIALOG_EXIT = 1;
 const DIALOG_CANCEL = 2;
@@ -9,12 +9,7 @@ class EntityChangedModalController {
 
     @NGInject() $modalState;
 
-    constructor() {
-        console.log("On construct modal",this.$modalState);
-    }
-
     $onInit(){
-        console.log("On init modal",this.$modalState);
         this.$modalState.onCancel = ::this.cancel;
     }
 

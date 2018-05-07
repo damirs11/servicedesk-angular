@@ -7,6 +7,7 @@ class ChangeCreateController{
     @NGInject() SD;
     @NGInject() $state;
     @NGInject() $pageLock;
+    @NGInject() ModalAction;
     @NGInject() change; // Новое изменение - внедряется зависимостью.
     // Контроллер занят асинхронными задачами
     busy = false;
@@ -56,9 +57,20 @@ class ChangeCreateController{
         this.busy = true;
         this.errorCreating = false;
         try {
-            await this.change.create();
+            const createdChange = await this.change.create();
+            const openChange = await this.ModalAction.changeCreated(this.$scope,{change:createdChange});
+            if (openChange) {
+                this.$state.go("app.change.card.view",{changeId: createdChange.id})
+            } else {
+                this.$state.go("app.change.list")
+            }
         } catch (e) {
             this.errorCreating = true;
+            this.ModalAction.alert(this.$scope, {
+                header: "Ошибка!",
+                msg: "Не удалось создать изменение. Попробуйте позже.",
+                style: "dialog-header-error",
+            })
         }
         this.busy = false;
     }

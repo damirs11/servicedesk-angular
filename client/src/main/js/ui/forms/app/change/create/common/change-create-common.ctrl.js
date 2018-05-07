@@ -7,10 +7,12 @@ class ChangeCreateCommonController{
     // NG зависимости
     @NGInject() change;
     @NGInject() SD;
+    @NGInject() $scope;
 
     minDeadlineDate = new Date(Date.now() + DEADLINE_OFFSET_MS);
 
-    async $onInit() {
+    get isParentBusy(){
+        return this.$scope.$parent.ctrl.busy
     }
 
     async loadInititators(text) {
