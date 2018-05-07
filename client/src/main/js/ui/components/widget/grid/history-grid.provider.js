@@ -1,6 +1,6 @@
 import rowTemplate from "./row.html";
 
-const SHORT_DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
+const SHORT_DATE_FORMAT = "DD.MM.YYYY (HH:mm)";
 
 HistoryGridProvider.$inject = ["AbstractGrid"];
 function HistoryGridProvider(AbstractGrid) {

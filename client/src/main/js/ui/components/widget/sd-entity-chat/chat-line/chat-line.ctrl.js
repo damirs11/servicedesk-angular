@@ -1,6 +1,6 @@
 class ChatLineController {
 
-    DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
+    DATE_FORMAT = "DD.MM.YYYY (HH:mm)";
 
     getSideClasses($line){
         if (this.isLeft()) return {"left-message":true};

@@ -1,6 +1,6 @@
 class EntityChatController {
 
-    DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
+    DATE_FORMAT = "DD.MM.YYYY (HH:mm)";
 
     constructor(){
     }

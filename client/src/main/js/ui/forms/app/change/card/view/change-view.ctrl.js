@@ -177,7 +177,6 @@ class ChangeCardViewController{
         if (text) filter.name = text;
         return this.SD.EntityClosureCode.list(filter);
     }
-
 }
 
 export {ChangeCardViewController as controller}

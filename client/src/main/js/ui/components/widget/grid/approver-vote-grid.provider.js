@@ -1,7 +1,5 @@
 import rowTemplate from "./row.html";
 
-const SHORT_DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
-
 ApproverVoteGridProvider.$inject = ["AbstractGrid"];
 function ApproverVoteGridProvider(AbstractGrid) {
     /**

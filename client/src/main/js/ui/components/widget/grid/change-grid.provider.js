@@ -1,4 +1,4 @@
-const SHORT_DATE_FORMAT = "DD.MM.YYYY (hh:mm)";
+const SHORT_DATE_FORMAT = "DD.MM.YYYY (HH:mm)";
 
 
 ChangeGridProvider.$inject = ["AbstractGrid"];
