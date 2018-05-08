@@ -3,6 +3,7 @@ package ru.it.sd.dao.mapper;
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.dao.CodeDao;
+import ru.it.sd.dao.OrganizationDao;
 import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.*;
@@ -20,12 +21,14 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 	private final ChangeDao changeDao;
     private final CodeDao codeDao;
     private final AssignmentMapper assignmentMapper;
+    private final OrganizationDao organizationDao;
 
-    public WorkorderMapper(PersonDao personDao, ChangeDao changeDao, CodeDao codeDao, AssignmentMapper assignmentMapper) {
+    public WorkorderMapper(PersonDao personDao, ChangeDao changeDao, CodeDao codeDao, AssignmentMapper assignmentMapper, OrganizationDao organizationDao) {
 	    this.personDao = personDao;
 	    this.changeDao = changeDao;
 	    this.codeDao = codeDao;
 	    this.assignmentMapper = assignmentMapper;
+	    this.organizationDao = organizationDao;
     }
 
 	@Override
@@ -67,6 +70,12 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 			BaseCode code = codeDao.read(folderId);
 			workorder.setFolder(code.convertTo(Folder.class));
 		}
+
+        Long orgId = DBUtils.getLong(rs, "wcf_org1_oid");
+        if(orgId != null){
+            Organization organization = organizationDao.read(orgId);
+            workorder.setOrganization(organization);
+        }
 
 		return workorder;
 	}

@@ -24,52 +24,61 @@ public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Se
 	@FieldMeta(columnName = "wor_id")
 	private Long no;
 	/** Тема */
-	@FieldMeta(columnName = "wor_description", required = true, maxLength = 80)
+	@FieldMeta(columnName = "wor_description", attribute = 556335107L)
 	private String subject;
 	/** Описание */
-	@FieldMeta(columnName = "woi_information", required = true, maxLength = 4000, tableAlias = "winfo")
+	@FieldMeta(columnName = "woi_information", tableAlias = "winfo", attribute = 738983997L)
 	private String description;
 	/** Трудозатраты */
 	@FieldMeta(columnName = "wcf_duration1", tableAlias = "wcustom")
 	private Double labor;
 	/** Решение */
-	@FieldMeta(columnName = "wo1_4k1", maxLength = 4000, tableAlias = "wor4k1")
+	@FieldMeta(columnName = "wo1_4k1", tableAlias = "wor4k1", attribute = 281479977894277L)
 	private String solution;
 
 	/** Статус */
-	@FieldMeta(columnName = "wor_sta_oid", required = true)
+	@FieldMeta(columnName = "wor_sta_oid", attribute = 854589449L)
 	private EntityStatus status;
 	/** Категория */
-	@FieldMeta(columnName = "wor_cat_oid")
+	@FieldMeta(columnName = "wor_cat_oid", attribute = 878116895L)
 	private EntityCategory category;
 	/** Код завершения */
-	@FieldMeta(columnName = "wor_clo_oid")
+	@FieldMeta(columnName = "wor_clo_oid", attribute = 75253L)
 	private EntityClosureCode closureCode;
 
 	/** Дата создания */
-	@FieldMeta(columnName = "reg_created")
+	@FieldMeta(columnName = "reg_created", attribute = 555679750L)
 	private Date createdDate;
 	/** Крайний срок */
-	@FieldMeta(columnName = "wor_deadline")
+	@FieldMeta(columnName = "wor_deadline", attribute = 556335111L)
 	private Date deadline;
-	/** Фактически выполнено */
-	@FieldMeta(columnName = "wor_actualfinish")
+	/** Выполнено(Дата)*/
+	@FieldMeta(columnName = "wor_actualfinish", attribute = 1082392624L)
 	private Date resolvedDate;
+    /** Закрыто(Дата)*/
+    @FieldMeta(columnName = "wor_latefinish", attribute = 70370L)
+    private Date closureDate;
 	/** Дата изменения */
-	@FieldMeta(columnName = "reg_modified")
+	@FieldMeta(columnName = "reg_modified", attribute = 555679750L)
 	private Date modifyDate;
 	/** Наряд просрочен */
-	@FieldMeta(columnName = "wcf_boolean2", tableAlias = "wcustom")
+	@FieldMeta(columnName = "wcf_boolean2", tableAlias = "wcustom", attribute = 281479977042622L)
 	private Boolean expired;
+    /** Кем просрочено */
+    @FieldMeta(columnName = "wcf_worshorttext3", tableAlias = "wcustom", attribute = 4067360801L)
+    private String expiredBy;
+    /** Организация*/
+    @FieldMeta(columnName = "wcf_org1_oid", tableAlias = "wcustom", attribute = 281479132938284L)
+    private Organization organization;
 
-	@FieldMeta(columnName = "wor_poo_oid")
+	@FieldMeta(columnName = "wor_poo_oid", attribute = 1032388614L)
 	private Folder folder;
 	/** Инициатор */
-	@FieldMeta(columnName = "wor_requestor_per_oid")
+	@FieldMeta(columnName = "wor_requestor_per_oid", attribute = 281478256590859L)
 	private Person initiator;
 
 	/** Изменение */
-	@FieldMeta(columnName = "wor_cha_oid")
+	@FieldMeta(columnName = "wor_cha_oid", attribute = 724041792L)
 	private Change change;
 
 	@FieldMeta(columnName = "", attribute = 665649208)
@@ -211,8 +220,31 @@ public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Se
 	}
 
 
+    public String getExpiredBy() {
+        return expiredBy;
+    }
 
-	@Override
+    public void setExpiredBy(String expiredBy) {
+        this.expiredBy = expiredBy;
+    }
+
+    public Date getClosureDate() {
+        return closureDate;
+    }
+
+    public void setClosureDate(Date closureDate) {
+        this.closureDate = closureDate;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    @Override
 	public Assignment getAssignment() {
 		return assignment;
 	}

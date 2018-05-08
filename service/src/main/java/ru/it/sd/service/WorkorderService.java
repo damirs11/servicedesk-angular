@@ -56,14 +56,8 @@ public class WorkorderService extends CrudService<Workorder>{
 
     @Override
     public Workorder create(Workorder entity) {
-        Validator.validate(entity);
-
-        try {
             long id = hpDao.create(entity);
             return dao.read(id);
-        } catch (Exception e){
-            throw new ServiceException("Возникли проблемы при создании наряда. " + e.getMessage(), e);
-        }
     }
 
     @Override

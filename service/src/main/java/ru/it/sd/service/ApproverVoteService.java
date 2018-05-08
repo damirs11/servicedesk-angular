@@ -7,8 +7,8 @@ import ru.it.sd.dao.ApproverVoteDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.IApproverVoteDao;
 import ru.it.sd.model.ApproverVote;
-import ru.it.sd.service.utils.validation.Validator;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,10 +50,14 @@ public class ApproverVoteService extends CrudService<ApproverVote>{
 
 	@Override
 	public ApproverVote create(ApproverVote entity) {
-		Validator.validate(entity);
+	    Map<String, String> filter = new HashMap<>();
+	    filter.put("entityId", entity.getEntityId().toString());
+	    filter.put("approver", entity.getApprover().getId().toString());
+	    List<ApproverVote> approverVotes = list(filter);
+	    if(approverVotes.size()>0) throw new ServiceException("Персона уже добавлена в список согласующих");
 		try{
-			hpDao.create(entity);
-			return dao.read(entity.getId());
+			Long id = hpDao.create(entity);
+			return dao.read(id);
 		}catch (Exception e){
 			throw new ServiceException("Возникли проблемы при создании мнения. " + e.getMessage(), e);
 		}

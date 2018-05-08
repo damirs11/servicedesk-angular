@@ -1,21 +1,24 @@
 import {Parse} from "./decorator/parse.decorator";
 import {Nullable} from "./decorator/parse-utils";
+import {Serialize} from "./decorator/serialize.decorator";
+import {serializeId} from "./decorator/serialize-utils";
 
-ApproverVoteProvider.$inject = ["RESTEntity", "SD"];
-function ApproverVoteProvider(RESTEntity, SD) {
+ApproverVoteProvider.$inject = ["EditableEntity", "SD"];
+function ApproverVoteProvider(EditableEntity, SD) {
     /**
      * Голосование
      * @class
      * @extends SD.RESTEntity
      * @name SD.ApproverVote
      */
-    return class ApproverVote extends RESTEntity {
+    return class ApproverVote extends EditableEntity {
         /**
          * ID сущности, к которой привязаны голосо
          * @property
          * @name SD.ApproverVote#entityId
          * @type {Number}
          */
+        @Serialize()
         @Parse( Number ) entityId;
 
         /**
@@ -24,6 +27,7 @@ function ApproverVoteProvider(RESTEntity, SD) {
          * @name SD.ApproverVote#approved
          * @type {Number}
          */
+        @Serialize()
         @Parse( Number ) approved;
 
         /**
@@ -32,6 +36,7 @@ function ApproverVoteProvider(RESTEntity, SD) {
          * @name SD.ApproverVote#approver
          * @type {SD.Person}
          */
+        @Serialize(serializeId)
         @Parse( data => SD.Person.parse(data) ) approver;
 
         /**
@@ -40,7 +45,8 @@ function ApproverVoteProvider(RESTEntity, SD) {
          * @name SD.ApproverVote#reason
          * @type {String}
          */
-        @Parse( Nullable(String) ) reason;
+        @Serialize("reason")
+        @Parse("reason", Nullable(String) ) reason;
 
         /**
          * Тип сущности
@@ -48,8 +54,8 @@ function ApproverVoteProvider(RESTEntity, SD) {
          * @name SD.ApproverVote#reason
          * @type {String}
          */
+        @Serialize()
         @Parse( Nullable(String) ) entityType;
-
         toString(){
             return this.name
         }

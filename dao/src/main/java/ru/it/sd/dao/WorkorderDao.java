@@ -31,11 +31,13 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> {
 			"   w.wor_deadline, " +
 			"   w.reg_modified, " +
 			"   w.wor_actualfinish, " +
+            "   w.wor_latefinish, " +
 			"   w.wor_description, " +
 			"   winfo.woi_information, " +
 			"   w.wor_sta_oid, " +
 			"   w.wor_cat_oid, " +
 			"   w.wor_clo_oid, " +
+            "   wcustom.wcf_worshorttext3, " +
 			"   w.wor_poo_oid, " +
 			"   wcustom.wcf_boolean2, " +
 			"   w.wor_requestor_per_oid, " +

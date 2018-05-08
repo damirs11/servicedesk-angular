@@ -84,6 +84,7 @@ CREATE TABLE itsm_workorders (
   wor_deadline TIMESTAMP,
   reg_modified TIMESTAMP,
   wor_actualfinish TIMESTAMP,
+  wor_latefinish TIMESTAMP,
   wor_description VARCHAR (80),
   wor_sta_oid DECIMAL(18),
   wor_cat_oid DECIMAL(18),
@@ -115,7 +116,8 @@ CREATE TABLE itsm_wor_custom_fields (
   wcf_wor_oid DECIMAL(18),
   wcf_org1_oid DECIMAL(18),
   wcf_duration1 FLOAT,
-  wcf_boolean2 DECIMAL(1)
+  wcf_boolean2 DECIMAL(1),
+  wcf_worshorttext3 VARCHAR(80)
 );
 
 CREATE TABLE itsm_wor_4k1 (

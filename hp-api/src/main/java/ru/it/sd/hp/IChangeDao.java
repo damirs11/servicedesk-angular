@@ -38,7 +38,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
     @Autowired
     private IStatusChangeDao iStatusChangeDao;
     @Autowired
-    IFolderDao iFolderDao;
+    private IFolderDao iFolderDao;
 
     @Override
     public long create(Change entity) {
@@ -169,6 +169,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
                 IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
                 iChange.getAssignment().setAssigneePerson(executor);
             }
+            iChange.getAssignment().transfer();
         }
         if(fields.contains("configurationItem")) {
             IConfigurationItem configurationItem = entity.getConfigurationItem() != null ? iConfigurationItemDao.read(entity.getConfigurationItem().getId()): null;
@@ -184,9 +185,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
                     null;
             iChange.setFolder(iFolder);
         }
-        iChange.getAssignment().transfer();
         iChange.save();
-
     }
 
     @Override

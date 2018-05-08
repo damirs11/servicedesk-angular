@@ -204,9 +204,10 @@
                 <label>Изменение:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.workorder.change"
+                             fetch-data="ctrl.loadChanges($text)"
                              display-value="'№'+$value.no"
                              editing="ctrl.editing"
-                             disabled="true"
+                             disabled="!ctrl.accessRules.canUpdate('change')"
                 ></sd-dropdown>
             </div>
 

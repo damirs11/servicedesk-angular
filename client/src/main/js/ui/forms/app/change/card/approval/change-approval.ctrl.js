@@ -45,6 +45,10 @@ class ChangeCardApprovalController{
      * Права проверяются на dummyApproval, редактируется approval
      */
     dummyApproval;
+    /**
+     * согласующий
+     */
+    approverVote;
 
     // Статус стейта, редактирование/просмотр
     editing = false;
@@ -56,6 +60,19 @@ class ChangeCardApprovalController{
         this.grid.fetchData();
         this.change.load(); // ToDo пересмотреть необходимость вызывать load здесь
         this.editing = false;
+    }
+    async addApprover(){
+        this.approverVote.entityId = this.changeId;
+        this.approverVote.entityType = {id:this.approval.ownerEntityType};
+        await this.approverVote.create();
+        this.grid.fetchData();
+    }
+
+    async removeApprover(){
+        this.grid.gridApi.selection.getSelectedRows().forEach(function(vote){
+            //todo удалить мнение
+        });
+        this.grid.fetchData();
     }
     cancelEditing(){
         this.approval.reset();
@@ -69,6 +86,7 @@ class ChangeCardApprovalController{
         this.loadingPromise = this.change.getApproval();
         this.approval = await this.loadingPromise;
         this.dummyApproval = new this.SD.Approval(this.approval.id);
+        this.approverVote = new this.SD.ApproverVote();
         grid.fetchData();
         this.registerLeaveListener();
     }
@@ -162,6 +180,13 @@ class ChangeCardApprovalController{
         return false;
     }
 
+    isApproversEditable() {
+        if (this.approval.status) {
+            if (this.approval.status.id == APPROVAL_STATUSES.PREPARING && this.$isApprovalInitiator) return true;
+        }
+        return false;
+    }
+
     isEditAllow(){
         if(this.change.accessRules.isUpdateApprovalAllowed && this.$isApprovalInitiator) return true;
         return false;
@@ -188,6 +213,12 @@ class ChangeCardApprovalController{
         const filter = {selectable:"1"};
         if (text) filter.fulltext = text;
         return this.SD.Workgroup.list(filter);
+    }
+
+    async loadApprovers(text){
+        const filter = {selectable:"1"};
+        if (text) filter.fulltext = text;
+        return this.SD.Person.list(filter);
     }
 }
 

@@ -136,7 +136,9 @@ public class FileService extends CrudService<FileInfo>{
     public FileInfo create(FileInfo entity) {
         try{
             String tmpFileName = FILE_PREFIX + entity.getFileId() + FILE_SUFFIX;
-            FileUtils.copyFileToDirectory(new File(System.getProperty("java.io.tmpdir") + tmpFileName) ,new File(webserverDir));
+            String tmpPath = System.getProperty("java.io.tmpdir");
+            if(!tmpPath.substring(tmpPath.length()-1).equals("\\")) tmpPath+= "\\";
+            FileUtils.copyFileToDirectory(new File(tmpPath + tmpFileName) ,new File(webserverDir));
             entity.setPath(appserverDir + tmpFileName);
             long id = iAttachedItemDao.create(entity);
             FileUtils.forceDelete(new File(webserverDir + tmpFileName));

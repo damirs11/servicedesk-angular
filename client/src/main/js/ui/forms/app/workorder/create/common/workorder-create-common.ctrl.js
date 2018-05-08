@@ -64,7 +64,7 @@ class WorkorderCreateCommonController{
     }
 
     async loadChanges(text) {
-        const filter = {selectable: "1"};
+        const filter = {};
         if (text) filter.fulltext = text;
         return this.SD.Change.list(filter);
     }
