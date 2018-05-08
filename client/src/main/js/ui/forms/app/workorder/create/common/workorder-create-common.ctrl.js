@@ -9,6 +9,7 @@ class WorkorderCreateCommonController{
     @NGInject() workorder;
     @NGInject() SD;
     @NGInject() passedParams; // Переданные параметры
+    @NGInject() $scope;
 
     minDeadlineDate = new Date(Date.now() + DEADLINE_OFFSET_MS);
 
@@ -16,6 +17,10 @@ class WorkorderCreateCommonController{
         return Boolean(this.passedParams.changeId)
     }
     // Методы подгрузки данных
+
+    get isParentBusy(){
+        return this.$scope.$parent.ctrl.busy
+    }
 
     async loadInititators(text) {
         const filter = {selectable:"1"};

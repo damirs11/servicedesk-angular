@@ -1,18 +1,18 @@
-import template from "./change-created.html"
-import {controller} from "./change-created.ctrl"
+import template from "./workorder-created.html"
+import {controller} from "./workorder-created.ctrl"
 
 /**
  * Описание:
  * Окно-оповщение о создании новой сущности.
  *
  * Параметры:
- * change - изменение
+ * workorder - наряд
  *
  * Возвращает:
  * boolean - true = открыть, false - к списку
  */
-export const ChangeCreatedModal = {
-    name: "changeCreated",
+export const WorkorderCreatedModal = {
+    name: "workorderCreated",
     template: template,
     controller: controller,
     controllerAs: "ctrl"

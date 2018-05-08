@@ -1,10 +1,10 @@
 import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
 
 @NGInjectClass()
-class ChangeCreatedModalController {
+class WorkorderCreatedModalController {
 
     @NGInject() $modalState;
-    @NGInject() change;
+    @NGInject() workorder;
 
     $onInit(){
         this.$modalState.onCancel = undefined
@@ -20,4 +20,4 @@ class ChangeCreatedModalController {
 
 }
 
-export {ChangeCreatedModalController as controller}
+export {WorkorderCreatedModalController as controller}
