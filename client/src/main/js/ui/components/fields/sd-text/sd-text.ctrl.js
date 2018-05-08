@@ -38,6 +38,7 @@ class SDTextController{
 
     get displayValue(){
         if (this.value == null) return this.emptyValue || "- нет -";
+        if (!this.editing) return this.target; // Во view-mode возвращаем значение из target
         return this.value
     }
 

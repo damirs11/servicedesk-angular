@@ -145,7 +145,8 @@ function WorkorderProvider(EditableEntity, SD, Historyable, Accessible) {
          * @name SD.Workorder#assignment
          * @type {SD.EntityAssignment}
          */
-        @Serialize(serializeId) @Parse(data => SD.EntityAssignment.parse(data)) assignment;
+        @Serialize((ag,name,mode) => mode == "FULL" ? ag.$serialize() : ag.$modifiedData)
+        @Parse(data => SD.EntityAssignment.parse(data)) assignment;
 
         /**
          * Изменение

@@ -7,6 +7,7 @@ class WorkorderCreateController{
     @NGInject() $location;
     @NGInject() SD;
     @NGInject() $state;
+    @NGInject() ModalAction;
     @NGInject() $pageLock;
     @NGInject() workorder; // Новый наряд
     @NGInject() passedParams; // Переданные параметры
@@ -20,7 +21,7 @@ class WorkorderCreateController{
     ];
 
     requiredFields = [
-        "status","subject","description","category",
+        "status","subject","description","category","initiator",
         "assignment.workgroup","assignment.executor",
     ];
 
@@ -36,7 +37,7 @@ class WorkorderCreateController{
      * Подгурзка всех данных будет в этом методе
      */
     async $initializeData(){
-        await this.$loadPassedChange();
+        if (this.passedParams.changeId) await this.$loadPassedChange();
     }
 
     async $loadPassedChange(){
@@ -82,9 +83,20 @@ class WorkorderCreateController{
         this.busy = "Saving";
         this.errorCreating = false;
         try {
-            await this.workorder.create();
+            const createdWor = await this.workorder.create();
+            const openWor = await this.ModalAction.workorderCreated(this.$scope,{workorder:createdWor});
+            if (openWor) {
+                this.$state.go("app.workorder.card.view",{workorderId: createdWor.id})
+            } else {
+                this.$state.go("app.workorder.list")
+            }
         } catch (e) {
             this.errorCreating = true;
+            this.ModalAction.alert(this.$scope, {
+                header: "Ошибка!",
+                msg: "Не удалось создать Наряд. Попробуйте позже.",
+                style: "dialog-header-error",
+            })
         }
         this.busy = false;
     }

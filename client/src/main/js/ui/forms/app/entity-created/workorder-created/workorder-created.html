@@ -1,0 +1,21 @@
+<div class="modal-content modal-400">
+    <div class="modal-header dialog-header-success">
+        <i class="fa fa-check-circle-o fa-lg"></i>
+        <span class="modal-title">
+            Наряд создан
+        </span>
+    </div>
+    <div class="modal-body">
+        <span>
+            Наряд с номером
+            <span style="font-weight: bold">
+                №<span ng-bind="ctrl.change.no"></span>
+            </span>
+            успешно создан!
+        </span>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-ng-click="ctrl.openEntity()">Открыть</button>
+        <button type="button" class="btn btn-default" data-ng-click="ctrl.backToList()">Назад к списку</button>
+    </div>
+</div>

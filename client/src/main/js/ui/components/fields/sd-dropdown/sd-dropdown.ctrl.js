@@ -29,8 +29,8 @@ class SDDropdownComponentController{
         return this.ignoreSameText;
     }
 
-    get minSymbolsToFetch(){
-        return this.minSymbolsFetch === undefined ? 3 : this.minSymbolsToFetch;
+    getMinSymbolsToFetch(){
+        return this.minSymbolsFetch === undefined ? 3 : this.minSymbolsFetch;
     }
 
     get isEnabled() {
@@ -59,7 +59,7 @@ class SDDropdownComponentController{
      */
     async fetchFromUI(text){
         if (this.cache && this.values) return;
-        if (text.length < this.minSymbolsToFetch) return;
+        if (text.length < this.getMinSymbolsToFetch()) return;
         if (this.isIgnoringSameText && this.lastFetchRequest == text) return;
         this.fetch(text);
         this.lastFetchRequest = text
