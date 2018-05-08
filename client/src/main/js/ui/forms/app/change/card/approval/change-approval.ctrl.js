@@ -39,7 +39,7 @@ class ChangeCardApprovalController{
      */
     approval;
     /**
-     * Согласование, в режиме редактирования
+     * Согласование, которое не изменяется клиентом
      * Необходимо дял исключения проблем проверки прав
      * при редактировании.
      * Права проверяются на dummyApproval, редактируется approval
@@ -169,15 +169,15 @@ class ChangeCardApprovalController{
 
     get $isApprovalInitiator(){
         //Если текущий пользователь является инициатором согласования
-        return this.approval.initiator
-            && (this.approval.initiator.id == this.Session.user.person.id)
+        return this.dummyApproval.initiator
+            && (this.dummyApproval.initiator.id == this.Session.user.person.id)
     }
 
     get $approvalResult(){
-        if (!this.approval.status) return;
+        if (!this.dummyApproval.status) return;
         const approved = this.approval.numberOfApproversApproved;
         const required = this.approval.numberOfApproversRequired;
-        if (this.approval.status.id == APPROVAL_STATUSES.COMPLETE ) {
+        if (this.dummyApproval.status.id == APPROVAL_STATUSES.COMPLETE ) {
             if (approved == required) return "Согласовано";
             return "Не согласовано"
         }

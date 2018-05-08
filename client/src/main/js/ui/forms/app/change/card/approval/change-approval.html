@@ -32,6 +32,7 @@
                                      allow-empty="false"
                                      editing="ctrl.editing"
                                      fetch-on-change="ctrl.availableStatusesCode"
+                                     min-symbols-fetch="0"
                         ></sd-dropdown>
                     </div>
 
@@ -63,6 +64,7 @@
                                      fetch-data="ctrl.loadWorkgroups($text)"
                                      placeholder="Введите название группы"
                                      display-value="$value.name"
+                                     allow-empty="true"
                                      editing="ctrl.isEditableField()"
                         ></sd-dropdown>
                     </div>
