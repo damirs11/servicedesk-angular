@@ -21,7 +21,7 @@ class WorkorderCreateController{
     ];
 
     requiredFields = [
-        "status","subject","description","category",
+        "status","subject","description","category","initiator",
         "assignment.workgroup","assignment.executor",
     ];
 
@@ -37,7 +37,7 @@ class WorkorderCreateController{
      * Подгурзка всех данных будет в этом методе
      */
     async $initializeData(){
-        await this.$loadPassedChange();
+        if (this.passedParams.changeId) await this.$loadPassedChange();
     }
 
     async $loadPassedChange(){
