@@ -1,7 +1,7 @@
 class ChatInputController {
 
-    onDefaultButton(text) {
-        this.send({$text: text,$type:"doer"});
+    onSendButton() {
+        this.send({$text: this.input});
     }
 
     get sendActive() {

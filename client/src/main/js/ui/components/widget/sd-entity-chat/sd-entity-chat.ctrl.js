@@ -13,8 +13,8 @@ class EntityChatController {
         this.chatLines = await this.entity.getChat()
     }
 
-    send(text, senderType){
-        this.entity.sendMessage(text,senderType);
+    send(text){
+        this.entity.sendChatMessage(text);
     }
 
     getType($line){

@@ -50,14 +50,19 @@ function HistoryableProvider($connector, SD) {
             return this.getHistoryCount(params);
         }
 
-        async sendMessage(text,type) {
-            if( !this.$messageFields ) throw "Entity haven't declared fields for message sending.";
-            const field = this.$messageFields[type];
-            if (!field) throw `Entity ${this.constructor} haven't field for message sending with type ${type}`;
-            const jsonData = {id: entity.id};
+        /**
+         * Отправляет сообщение в чат сущности.
+         * @param text {String} - текст сообщения
+         * @return {Promise.<void>}
+         */
+        async sendChatMessage(text) {
+            const jsonData = {
+                entityId: this.id,
+                entityType: this.constructor.$entityTypeId,
+                message: text
+            };
             jsonData[field] = text;
-            const data = await $connector.patch(`rest/entity/${this.$entityType}/${this.id}`,null,jsonData);
-            this.$update(data);
+            await $connector.post(`rest/service/history`,null,jsonData);
         }
     };
 }
