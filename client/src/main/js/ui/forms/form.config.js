@@ -29,6 +29,7 @@ import {WorkorderCreateCommonState} from "./app/workorder/create/common/workorde
 import {ChangeCardWorkordersState} from "./app/change/card/workorders/change-card-workorders.state";
 import {ChangeCreatedModal} from "./app/entity-created/change-created/change-created.modal";
 import {WorkorderCreatedModal} from "./app/entity-created/workorder-created/workorder-created.modal";
+import {MakeVoteModal} from "./app/make-vote/make-vote.modal";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -37,7 +38,8 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .modal(EntityChangedModal)
         .modal(ChangeCreatedModal)
         .modal(WorkorderCreatedModal)
-        .modal(LeavePageModal);
+        .modal(LeavePageModal)
+        .modal(MakeVoteModal);
     $stateProvider
         .state(AppState)
         .state(MainState)

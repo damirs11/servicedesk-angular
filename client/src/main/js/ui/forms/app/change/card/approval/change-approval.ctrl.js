@@ -15,8 +15,8 @@ class ChangeCardApprovalController{
     @NGInject() changeId;
     @NGInject() $grid;
     @NGInject() $pageLock;
-    @NGInject() $injector;
     @NGInject() Session;
+    @NGInject() ModalAction;
     /**
      * Пустое значение
      * @type {string}
