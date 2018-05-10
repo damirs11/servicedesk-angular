@@ -27,13 +27,22 @@ function EditableEntityProvider(RESTEntity, $connector) {
 
         /**
          * Создает новую сущность
-         * Создается новый объект по образцу текущего.
+         * Возвращает новую сущность, созданную по данным
+         * пришедшим с сервера. Текущий объект не обновляется
          * @return {SD.EditableEntity}
          */
         async create(){
             const jsonData = this.$serialize();
             const data = await $connector.post(`rest/entity/${this.constructor.$entityType}`,null,jsonData);
             return this.constructor.parse(data);
+        }
+
+        /**
+         * Удаляет сущность
+         * @return {void}
+         */
+        async delete(){
+            await $connector.delete(`rest/entity/${this.constructor.$entityType}/${this.id}`);
         }
     }
     return EditableEntity;

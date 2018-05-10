@@ -1,5 +1,5 @@
 class Connector {
-
+    // ToDo переделать @NGInjectClass
     static $inject = ["$http", "$state", "$injector", "errorHandler"];
     constructor($http, $state, $injector, errorHandler) {
         this.errorHandler = errorHandler;
@@ -86,6 +86,25 @@ class Connector {
     async patch(path, params, data, timeout) {
         try {
             const response = await this.$http.patch(path, data, {params, timeout});
+            return response.data;
+        } catch (error) {
+            if (this.errorHandler) {
+                this.$injector.invoke(this.errorHandler,this,{error});
+            } else {
+                throw error
+            }
+        }
+    }
+
+    /**
+     * Отправляет DELETE запрос к серверу.
+     * @param path - относительный путь
+     * @param params - параметры для get запроса
+     * @param timeout - время ожидания ответа
+     */
+    async delete(path, params, timeout) {
+        try {
+            const response = await this.$http.delete(path, {params, timeout});
             return response.data;
         } catch (error) {
             if (this.errorHandler) {
