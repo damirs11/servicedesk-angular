@@ -28,7 +28,7 @@ function ApproverVoteProvider(EditableEntity, SD) {
          * @type {Number}
          */
         @Serialize()
-        @Parse( Number ) approved;
+        @Parse( Nullable(Boolean) ) approved;
 
         /**
          * Согласующий

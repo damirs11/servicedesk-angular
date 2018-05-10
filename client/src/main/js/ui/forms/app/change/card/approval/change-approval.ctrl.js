@@ -46,6 +46,11 @@ class ChangeCardApprovalController{
      */
     dummyApproval;
     /**
+     * Наш "голос"
+     * @type {SD.ApproverVote}
+     */
+    ownVote;
+    /**
      * согласующий
      */
     approverVote;
@@ -59,6 +64,7 @@ class ChangeCardApprovalController{
         await this.approval.save();
         this.grid.fetchData();
         this.change.load(); // ToDo пересмотреть необходимость вызывать load здесь
+        this.loadOwnVote();
         this.editing = false;
     }
     async addApprover(){
@@ -79,6 +85,17 @@ class ChangeCardApprovalController{
         return this.grid.getSelectedRows().length == 0;
     }
 
+    async makeVote(){
+        if (!this.ownVote) return;
+        const newVote = await this.ModalAction.makeVote(this.$scope, {vote: this.ownVote});
+        await newVote.save();
+        this.grid.fetchData();
+    }
+    get isMakeVoteButtonVisible(){
+        return this.ownVote != null
+            && this.approval.status.id == APPROVAL_STATUSES.BEGIN;
+    }
+
     cancelEditing(){
         this.approval.reset();
         this.editing = false;
@@ -91,11 +108,22 @@ class ChangeCardApprovalController{
         this.loadingPromise = this.change.getApproval();
         this.approval = await this.loadingPromise;
         this.dummyApproval = new this.SD.Approval(this.approval.id);
+        // ToDo добавить в стэк загрузок (loadPromise)
+        this.loadOwnVote();
+
+        this.dummyApproval = new this.SD.Approval(this.approval.id);
         this.approverVote = new this.SD.ApproverVote();
         grid.fetchData();
         this.registerLeaveListener();
     }
 
+    async loadOwnVote() {
+        const votes = await this.SD.ApproverVote.list({
+            entityId: this.approval.id,
+            approver:this.Session.user.person.id,
+        });
+        this.ownVote = votes && votes.length ? votes[0] : null;
+    }
 
     registerLeaveListener(){
         this.$pageLock(this.$scope)

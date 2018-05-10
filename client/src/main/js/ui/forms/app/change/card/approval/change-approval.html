@@ -3,6 +3,33 @@
         <div class="entity-container" style="height: 100%; font-size: 12px">
 
             <div class="entity-container__content">
+                <div style="display: inline-block" data-ng-if="ctrl.isEditAllow()">
+                    <button class="btn btn-default"
+                            data-ng-if="!ctrl.editing"
+                            data-ng-click="ctrl.startEditing()">
+                        Редактировать
+                    </button>
+                    <button class="btn btn-success"
+                            data-ng-if="ctrl.editing"
+                            data-ng-disabled="!ctrl.approval.checkModified()"
+                            data-ng-click="ctrl.saveEditing()">
+                        Сохранить
+                    </button>
+                    <button class="btn btn-default"
+                            data-ng-if="ctrl.editing"
+                            data-ng-click="ctrl.cancelEditing()">
+                        Отмена
+                    </button>
+                    <button class="btn btn-default"
+                            data-ng-if="!ctrl.editing"
+                            data-ng-click="ctrl.makeVote()"
+                            ng-show="ctrl.isMakeVoteButtonVisible">
+                        Согласовать
+                    </button>
+                </div>
+            </div>
+
+            <div class="entity-container__content">
                 <form class="form-inline">
                     <div class="form-group entity-text" style="width: 100%; height: 42px">
                         <label>Тема:</label>
@@ -69,27 +96,6 @@
                         ></sd-dropdown>
                     </div>
                 </form>
-            </div>
-
-            <div class="entity-container__content">
-                <div style="display: inline-block" data-ng-if="ctrl.isEditAllow()">
-                    <button class="btn btn-default"
-                            data-ng-if="!ctrl.editing"
-                            data-ng-click="ctrl.startEditing()">
-                        Редактировать
-                    </button>
-                    <button class="btn btn-success"
-                            data-ng-if="ctrl.editing"
-                            data-ng-disabled="!ctrl.approval.checkModified()"
-                            data-ng-click="ctrl.saveEditing()">
-                        Сохранить
-                    </button>
-                    <button class="btn btn-default"
-                            data-ng-if="ctrl.editing"
-                            data-ng-click="ctrl.cancelEditing()">
-                        Отмена
-                    </button>
-                </div>
             </div>
 
             <div class="entity-container__content sd-approval-grid">
