@@ -65,15 +65,20 @@ class ChangeCardApprovalController{
         this.approverVote.entityId = this.changeId;
         this.approverVote.entityType = {id:this.approval.ownerEntityType};
         await this.approverVote.create();
+        delete this.approverVote["approver"]; // Очищаем поле
         this.grid.fetchData();
     }
 
     async removeApprover(){
-        this.grid.gridApi.selection.getSelectedRows().forEach(function(vote){
-            //todo удалить мнение
-        });
+        const deletePromises = this.grid.getSelectedRows().map(vote => vote.delete());
+        await Promise.all(deletePromises);
         this.grid.fetchData();
     }
+
+    get isRemoveApproverButtonDisabled(){
+        return this.grid.getSelectedRows().length == 0;
+    }
+
     cancelEditing(){
         this.approval.reset();
         this.editing = false;

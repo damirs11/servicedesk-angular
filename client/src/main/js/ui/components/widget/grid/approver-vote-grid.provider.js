@@ -25,8 +25,8 @@ function ApproverVoteGridProvider(AbstractGrid) {
                 { field: 'reason', name: "Причина", type: 'string', cellTooltip: true, minWidth: 260, enableHiding: false},
             ];
 
-            this.enableHorizontalScrollbar = 2; // скороллбар в бок
-            this.enableVerticalScrollbar = 2; // ставим скроллбар наверз "WHEN_NEEDED"
+            this.enableHorizontalScrollbar = 0; // скороллбар в бок
+            this.enableVerticalScrollbar = 2; // ставим скроллбар наверх "WHEN_NEEDED"
 
             this.enableRowSelection = false; // Дополнительный столбец для выбора строк таблицы
             this.enableSorting = false; // Выключаем сортировку
@@ -40,6 +40,10 @@ function ApproverVoteGridProvider(AbstractGrid) {
         onRegisterApi(gridApi) {
             this.gridApi = gridApi;
             this.grid = gridApi.grid;
+        }
+
+        getSelectedRows(){
+            return this.gridApi.selection.getSelectedRows();
         }
 
         /**

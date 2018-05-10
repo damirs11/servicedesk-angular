@@ -115,7 +115,8 @@
                             Добавить
                         </button>
                         <button class="btn btn-default"
-                                data-ng-click="ctrl.removeApprover()">
+                                data-ng-click="ctrl.removeApprover()"
+                                ng-disabled="ctrl.isRemoveApproverButtonDisabled">
                             Удалить
                         </button>
                     </div>

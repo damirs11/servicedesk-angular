@@ -9,7 +9,11 @@ class SDDropdownComponentController{
 
     $onInit(){
         this.selectedValue = this.target;
+        // ToDo оптимизировать эти 2 watch
         this.$scope.$watch(() => this.editing, () => {
+            this.selectedValue = this.target;
+        });
+        this.$scope.$watch(() => this.target, () => {
             this.selectedValue = this.target;
         });
         // Игнорируем первый watch, т.к. он срабатывает при инициализации
