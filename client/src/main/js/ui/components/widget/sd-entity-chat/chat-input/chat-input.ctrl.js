@@ -1,6 +1,7 @@
 class ChatInputController {
 
     onSendButton() {
+        console.log("SEnd");
         this.send({$text: this.input});
     }
 

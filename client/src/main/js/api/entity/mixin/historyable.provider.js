@@ -61,7 +61,6 @@ function HistoryableProvider($connector, SD) {
                 entityType: this.constructor.$entityTypeId,
                 message: text
             };
-            jsonData[field] = text;
             await $connector.post(`rest/service/history`,null,jsonData);
         }
     };
