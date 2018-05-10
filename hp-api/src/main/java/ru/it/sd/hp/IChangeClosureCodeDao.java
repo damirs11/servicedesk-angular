@@ -26,7 +26,7 @@ public class IChangeClosureCodeDao implements HpCrudDao<EntityClosureCode, IChan
         try{
             return api.getSdClient().sd_session().getChangeClosureCodeHome().openChangeClosureCode(id);
         }catch (Exception e){
-            throw new ServiceException("Не найден", e);
+            throw new ServiceException("РќРµ РЅР°Р№РґРµРЅ ", e);
         }
     }
 
