@@ -3,9 +3,9 @@
         <div class="entity-container" style="height: 100%; font-size: 12px">
 
             <div class="entity-container__content">
-                <div style="display: inline-block" data-ng-if="ctrl.isEditAllow()">
+                <div style="display: inline-block">
                     <button class="btn btn-default"
-                            data-ng-if="!ctrl.editing"
+                            data-ng-if="!ctrl.editing&&ctrl.isEditAllow()"
                             data-ng-click="ctrl.startEditing()">
                         Редактировать
                     </button>
@@ -23,7 +23,7 @@
                     <button class="btn btn-default"
                             data-ng-if="!ctrl.editing"
                             data-ng-click="ctrl.makeVote()"
-                            ng-show="ctrl.isMakeVoteButtonVisible">
+                            ng-show="true">
                         Согласовать
                     </button>
                 </div>
