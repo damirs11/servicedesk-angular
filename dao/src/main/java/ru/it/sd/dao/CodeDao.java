@@ -86,7 +86,7 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 	@Override
 	protected void buildOrderBy(Map<String, String> filter, StringBuilder sql, int insertPos) {
 		if (!filter.containsKey(SORTING_PARAM_NAME)) {
-			filter.put(SORTING_PARAM_NAME, "ordering-asc");
+			filter.put(SORTING_PARAM_NAME, "order-asc");
 		}
 		super.buildOrderBy(filter, sql, insertPos);
 	}
