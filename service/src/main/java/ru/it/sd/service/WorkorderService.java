@@ -6,7 +6,6 @@ import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.IWorkorderDao;
 import ru.it.sd.model.GrantRule;
 import ru.it.sd.model.Workorder;
-import ru.it.sd.service.utils.validation.Validator;
 import ru.it.sd.util.ResourceMessages;
 
 import java.util.List;
@@ -62,24 +61,21 @@ public class WorkorderService extends CrudService<Workorder>{
 
     @Override
     public Workorder update(Workorder entity) {
-        Validator.validate(entity);
-
-        try {
-            hpDao.update(entity);
-            return dao.read(entity.getId());
-        } catch (Exception e){
-            throw new ServiceException("Возникли проблемы при редактировании наряда. " + e.getMessage(), e);
-        }
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void delete(long id) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Workorder patch(Workorder entity, Set<String> fields) {
-        return null;
+        try {
+            hpDao.patch(entity, fields);
+            return dao.read(entity.getId());
+        } catch (Exception e){
+            throw new ServiceException("Возникли проблемы при редактировании наряда. " + e.getMessage(), e);
+        }
     }
 }

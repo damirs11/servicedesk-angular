@@ -114,4 +114,12 @@ public class ChangeDaoTest extends AbstractDaoTest {
 		assertEquals(202020L, change.getConfigurationItem().getId().longValue());
 		assertEquals(2001L, change.getConfigurationItem().getNo().longValue());
 	}
+
+	@Test
+    private void testChangeComments(){
+	    Change change = dao.read(111222333L);
+	    assertEquals(change.getCommentToInitiator(),"INITIATOR");
+        assertEquals(change.getCommentToManager(),"MANAGER");
+        assertEquals(change.getCommentToExecutor(),"EXECUTOR");
+    }
 }

@@ -51,15 +51,14 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 			"   ch.cha_tem_oid, " +
 			"   ch.cha_cla_oid, " +
 			"   ch.cha_cit_oid, " +
-			"   ccu.ccu_changecode1\n" +
+			"   ccu.ccu_changecode1, " +
+            "   ccu.ccu_changetext1, " +
+            "   ccu.ccu_changetext7, " +
+            "   ch.cha_workaround \n" +
 			" FROM\n" +
 			"   itsm_changes ch\n" +
 			"   LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n" +
-			"   LEFT JOIN itsm_cha_custom_fields ccu ON ccu.ccu_cha_oid = ch.cha_oid\n" +
-			"   LEFT JOIN itsm_workgroups wg1 ON wg1.wog_oid = ch.ass_wog_oid\n" +
-			"   LEFT JOIN itsm_workgroups wg2 ON wg2.wog_oid = wg1.wog_parent\n" +
-			"   LEFT JOIN itsm_workgroups wg3 ON wg3.wog_oid = wg2.wog_parent\n" +
-			"   LEFT JOIN itsm_workgroups wg4 ON wg4.wog_oid = wg3.wog_parent\n"; // смотрим четыре уровня групп
+			"   LEFT JOIN itsm_cha_custom_fields ccu ON ccu.ccu_cha_oid = ch.cha_oid\n";
 
 	public ChangeDao(ChangeExtractor extractor) {
 		this.extractor = extractor;
@@ -120,10 +119,7 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 			String s = StringUtils.split(condition, '_')[1];
 			long groupId = Long.valueOf(s);
 			params.addValue("groupId", groupId);
-			sql.append(" AND (:groupId = wg1.wog_oid OR " +
-							 ":groupId = wg2.wog_oid OR " +
-					         ":groupId = wg3.wog_oid OR " +
-					         ":groupId = wg4.wog_oid)");
+			sql.append(" AND (ch.ass_wog_oid in (SELECT id FROM SdGetWorkGroups(:groupId, 0)))");
 		}
 	}
 }

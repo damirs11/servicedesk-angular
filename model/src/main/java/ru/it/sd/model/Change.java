@@ -124,6 +124,15 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
 	@FieldMeta(columnName = "cha_tem_oid" )
 	private Template template;
 
+	@FieldMeta(columnName = "ccu_changetext1", tableAlias = "ccu")
+    private String commentToExecutor;
+
+    @FieldMeta(columnName = "ccu_changetext7", tableAlias = "ccu")
+    private String commentToManager;
+
+    @FieldMeta(columnName = "cha_workaround")
+    private String commentToInitiator;
+
 	@Override
 	public Long getId() {
 		return id;
@@ -344,7 +353,31 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
 		this.configurationItem = configurationItem;
 	}
 
-	@Override
+    public String getCommentToExecutor() {
+        return commentToExecutor;
+    }
+
+    public void setCommentToExecutor(String commentToExecutor) {
+        this.commentToExecutor = commentToExecutor;
+    }
+
+    public String getCommentToManager() {
+        return commentToManager;
+    }
+
+    public void setCommentToManager(String commentToManager) {
+        this.commentToManager = commentToManager;
+    }
+
+    public String getCommentToInitiator() {
+        return commentToInitiator;
+    }
+
+    public void setCommentToInitiator(String commentToInitiator) {
+        this.commentToInitiator = commentToInitiator;
+    }
+
+    @Override
 	public Assignment getAssignment() {
 		return assignment;
 	}
