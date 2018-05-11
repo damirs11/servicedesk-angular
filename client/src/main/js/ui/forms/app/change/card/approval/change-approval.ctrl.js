@@ -201,7 +201,7 @@ class ChangeCardApprovalController{
     }
 
     get maxApproversRequired(){
-        if (this.approval.numberOfApprovers) return this.approval.numberOfApprovers;
+        if (this.dummyApproval.numberOfApprovers) return this.dummyApproval.numberOfApprovers;
         return 0;
 
     }
@@ -214,8 +214,8 @@ class ChangeCardApprovalController{
     }
 
     isApproversEditable() {
-        if (this.approval.status) {
-            if (this.approval.status.id == APPROVAL_STATUSES.PREPARING && this.$isApprovalInitiator) return true;
+        if (this.dummyApproval.status) {
+            if (this.dummyApproval.status.id == APPROVAL_STATUSES.PREPARING && this.$isApprovalInitiator) return true;
         }
         return false;
     }
