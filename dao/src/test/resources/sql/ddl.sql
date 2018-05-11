@@ -6,6 +6,7 @@ CREATE TABLE itsm_persons (
   per_firstname VARCHAR(50),
   per_lastname VARCHAR(50),
   per_middlename VARCHAR(50),
+  per_name VARCHAR(100),
   per_org_oid DECIMAL(18),
   per_acc_oid DECIMAL(18),
   per_poo_oid DECIMAL(18)

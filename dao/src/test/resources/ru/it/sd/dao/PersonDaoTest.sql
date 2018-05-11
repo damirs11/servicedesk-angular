@@ -21,6 +21,12 @@ INSERT INTO itsm_persons (per_oid, per_gender, per_email, per_jobtitle, per_firs
   (3, 0, NULL, 'Секретарь', 'Ольга', 'Сергеева', 'Петровна', 2);
 INSERT INTO itsm_persons (per_oid, per_gender, per_email, per_jobtitle, per_firstname, per_lastname, per_middlename, per_org_oid) VALUES
   (4, NULL, NULL, 'Сантехник', 'Марио', 'Сегов', 'Куябович', 2);
+INSERT INTO itsm_persons (per_oid, per_name) VALUES
+  (5, 'Имя Фамилия Андреевич');
+INSERT INTO itsm_persons (per_oid, per_name) VALUES
+  (6, 'Имя Фамилия Александрович');
+INSERT INTO itsm_persons (per_oid, per_name) VALUES
+  (7, 'Имя Фамилия Денисовна');
 
 INSERT INTO itsm_members (mem_oid, mem_wog_oid, mem_per_oid) VALUES
   (1, 20001, 1);

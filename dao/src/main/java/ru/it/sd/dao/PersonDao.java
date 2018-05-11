@@ -37,6 +37,7 @@ public class PersonDao extends AbstractEntityDao<Person> {
 			"	p.per_firstname, " +
 			"	p.per_lastname, " +
 			"	p.per_middlename, " +
+            "   p.per_name, " +
             "	org_name1, " +
             "	org_oid, " +
             "	org_email, " +
@@ -62,7 +63,7 @@ public class PersonDao extends AbstractEntityDao<Person> {
 		super.buildWhere(filter, sql, params);
 
 		if (Objects.nonNull(filter) && filter.containsKey("selectable")) {
-			params.addValue("selectable", filter.get("selectable").equals("0") ? 1 : 0);
+			params.addValue("selectable", filter.get("selectable").equals("0") ? 1 : 0);//Инверсия non-selectable->selectable
 			sql.append(" AND per_notselectable = :selectable");
 		}
 
@@ -83,7 +84,6 @@ public class PersonDao extends AbstractEntityDao<Person> {
 					"SELECT mem_per_oid FROM itsm_members " +
 					"WHERE mem_wog_oid = :workgroupId)");
 		}
-
 	}
 
 	/**

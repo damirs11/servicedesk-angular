@@ -42,6 +42,9 @@ public class Person implements HasId, HasFolder, Serializable {
 	/** Отчество */
 	@FieldMeta(columnName = "per_middlename")
 	private String middleName;
+
+	@FieldMeta(columnName = "per_name")
+    private String fullname;
 	/** Организация */
 	@FieldMeta(columnName = "per_org_oid")
 	private Organization organization;
@@ -115,7 +118,15 @@ public class Person implements HasId, HasFolder, Serializable {
 		this.organization = organization;
 	}
 
-	public String getShortName() {
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getShortName() {
 		return (lastName != null ? lastName : "-") +
 				(firstName != null && firstName.length() > 1 ? " " + firstName.charAt(0) + '.' : "") +
 				(middleName != null && middleName.length() > 1 ? " " + middleName.charAt(0) + '.' : "");

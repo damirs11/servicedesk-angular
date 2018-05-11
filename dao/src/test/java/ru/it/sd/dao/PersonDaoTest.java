@@ -37,7 +37,7 @@ public class PersonDaoTest extends AbstractDaoTest {
 	@Test
 	private void testList() {
 		List<Person> list = dao.list(null);
-		assertEquals(list.size(), 4);
+		assertEquals(list.size(), 7);
 		LOG.debug(list.toString());
 	}
 
@@ -65,9 +65,9 @@ public class PersonDaoTest extends AbstractDaoTest {
 		filter.put(SortingInfo.SORTING_PARAM_NAME, "id-desc");
 
 		List<Person> list = dao.list(filter);
-		assertEquals(list.size(),4);
-		assertEquals(list.get(0).getId(), Long.valueOf(4));
-		assertEquals(list.get(1).getId(), Long.valueOf(3));
+		assertEquals(list.size(),7);
+		assertEquals(list.get(0).getId(), Long.valueOf(7));
+		assertEquals(list.get(1).getId(), Long.valueOf(6));
 	}
 	@Test
 	private void testWorkgroupFilter(){
@@ -79,7 +79,15 @@ public class PersonDaoTest extends AbstractDaoTest {
 		filter.clear();
 		filter.put(FilterUtils.FULLTEXT_FILTER_NAME, "ич");
 		list = dao.list(filter);
-		assertEquals(list.size(), 3);
+		assertEquals(list.size(), 5);
 	}
+
+	@Test
+    private void testFullnameLike(){
+        Map<String, String> filter = new HashMap<>();
+        filter.put("fullname_like", "ич");
+        List<Person> list = dao.list(filter);
+        assertEquals(list.size(), 2);
+    }
 
 }
