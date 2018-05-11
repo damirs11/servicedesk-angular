@@ -81,7 +81,7 @@ function WorkorderProvider(EditableEntity, SD, Historyable, Accessible) {
          * @name SD.Workorder#closureCode
          * @type {SD.EntityClosureCode}
          */
-        @Serialize(serializeId) @Parse(data => SD.EntityClosureCode.parse(data)) closureCode;
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.EntityClosureCode.parse(data)) closureCode;
 
         /**
          * Дата создания
@@ -154,7 +154,7 @@ function WorkorderProvider(EditableEntity, SD, Historyable, Accessible) {
          * @name SD.Workorder#change
          * @type {SD.Change}
          */
-        @Serialize(serializeId) @Parse(data => SD.Change.parse(data)) change;
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.Change.parse(data)) change;
 
         toString(){
             return String(this.no);
