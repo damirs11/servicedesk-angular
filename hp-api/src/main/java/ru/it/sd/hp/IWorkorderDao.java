@@ -139,6 +139,9 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
             IChange iChange = entity.getChange() != null ? iChangeDao.read(entity.getChange().getId()) : null;
             iWorkorder.setChange(iChange);
         }
+        if(fields.contains("commentForExecutor")){
+            iWorkorder.setWorkorderText1(entity.getCommentForExecutor());
+        }
         iWorkorder.save();
     }
 }

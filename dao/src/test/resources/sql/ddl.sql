@@ -117,7 +117,8 @@ CREATE TABLE itsm_wor_custom_fields (
   wcf_org1_oid DECIMAL(18),
   wcf_duration1 FLOAT,
   wcf_boolean2 DECIMAL(1),
-  wcf_worshorttext3 VARCHAR(80)
+  wcf_worshorttext3 VARCHAR(80),
+  wcf_workordertext1 VARCHAR(255)
 );
 
 CREATE TABLE itsm_wor_4k1 (

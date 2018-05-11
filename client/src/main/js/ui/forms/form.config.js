@@ -18,6 +18,7 @@ import {WorkorderListState} from "./app/workorder/list/workorder-list.state";
 import {WorkorderCardState} from "./app/workorder/card/workorder-card.state";
 import {WorkorderCardViewState} from "./app/workorder/card/view/workorder-view.state";
 import {WorkorderCardHistoryState} from "./app/workorder/card/history/workorder-history.state";
+import {WorkorderCardAttachmentsState} from "./app/workorder/card/attachments/workorder-attachments.state";
 import {ChangeCardApprovalState} from "./app/change/card/approval/change-approval.state";
 import {ChangeCardAttachmentsState} from "./app/change/card/attachments/change-attachments.state";
 import {ChangePasswordState} from "./app/change-password/change-password.state";
@@ -67,6 +68,7 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(WorkorderCardState)
         .state(WorkorderCardViewState)
         .state(WorkorderCardHistoryState)
+        .state(WorkorderCardAttachmentsState)
         .state(TestState)
 
 }

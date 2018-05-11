@@ -49,6 +49,7 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> {
 			"   wor4k1.wo1_4k1, " +
 			"   w.wor_ser_oid, " +
 			"   w.wor_cha_oid, " +
+            "   wcustom.wcf_workordertext1, " +
 			"   wcustom.wcf_org1_oid\n" +
 			" FROM\n" +
 			"   itsm_workorders AS w " +
