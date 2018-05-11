@@ -66,6 +66,10 @@ class WorkorderCardViewController{
             .lock();
     }
 
+    checkUnsavedModifies(){
+        return this.workorder.checkModified();
+    }
+
     async loadInititators(text) {
         const filter = {selectable:"1"};
         if (text) filter.fulltext = text;
