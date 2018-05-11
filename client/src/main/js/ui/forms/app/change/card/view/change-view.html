@@ -10,7 +10,7 @@
             </button>
             <button class="btn btn-success"
                     ng-if="ctrl.editing"
-                    ng-disabled="!ctrl.checkUnsavedModifies()"
+                    ng-disabled="!ctrl.checkUnsavedModifies()||!ctrl.isRequiredFieldsFilled"
                     ng-click="ctrl.saveEditing()">
                 Сохранить
             </button>
@@ -24,7 +24,7 @@
 
     <div class="entity-container__content">
         <form class="form-inline">
-            <div class="form-group entity-text" style="width: 100%; height: 42px" ng-if="ctrl.accessRules.canSee('subject')">
+            <div class="form-group entity-text entity-text-required" style="width: 100%; height: 42px" ng-if="ctrl.accessRules.canSee('subject')">
                 <label>Тема:</label>
                 <div class="entity-text__inline-field">
                     <sd-text target="ctrl.change.subject"
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="form-group entity-text" style="width: 100%;" ng-if="ctrl.accessRules.canSee('description')">
+            <div class="form-group entity-text entity-text-required" style="width: 100%;" ng-if="ctrl.accessRules.canSee('description')">
                 <label>Подробная информация:</label>
                 <div class="entity-text__multiline-field">
                     <sd-textarea target="ctrl.change.description"
@@ -63,7 +63,7 @@
     <div class="entity-container__content">
         <form class="form-inline entity-properties">
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('initiator')">
+            <div class="form-group e-prop e-prop-required" ng-if="ctrl.accessRules.canSee('initiator')">
                 <label>Инициатор:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.initiator"
@@ -75,7 +75,7 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('manager')">
+            <div class="form-group e-prop e-prop-required" ng-if="ctrl.accessRules.canSee('manager')">
                 <label>Менеджер:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.manager"
@@ -87,7 +87,7 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('assignment')">
+            <div class="form-group e-prop e-prop-required" ng-if="ctrl.accessRules.canSee('assignment')">
                 <label>Исполнитель:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.assignment.executor"
@@ -101,7 +101,7 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('assignment')">
+            <div class="form-group e-prop e-prop-required" ng-if="ctrl.accessRules.canSee('assignment')">
                 <label>Рабочая группа:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.assignment.workgroup"
@@ -157,7 +157,7 @@
                 ></sd-datetime>
             </div>
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('status')">
+            <div class="form-group e-prop e-prop-required" ng-if="ctrl.accessRules.canSee('status')">
                 <label>Статус:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.status"
@@ -170,7 +170,7 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('deadline')">
+            <div class="form-group e-prop e-prop-required" ng-if="ctrl.accessRules.canSee('deadline')">
                 <label>Крайний срок:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
@@ -181,7 +181,7 @@
                 ></sd-datetime>
             </div>
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('priority')">
+            <div class="form-group e-prop e-prop-required" ng-if="ctrl.accessRules.canSee('priority')">
                 <label>Приоритет:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.priority"
@@ -204,7 +204,7 @@
                 ></sd-datetime>
             </div>
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('category')">
+            <div class="form-group e-prop e-prop-required" ng-if="ctrl.accessRules.canSee('category')">
                 <label>Категория:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.category"
@@ -216,7 +216,7 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('classification')">
+            <div class="form-group e-prop e-prop-required" ng-if="ctrl.accessRules.canSee('classification')">
                 <label>Классифицкаия:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.change.classification"
