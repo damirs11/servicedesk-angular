@@ -100,6 +100,12 @@ class WorkorderCardViewController{
         return this.SD.EntityCategory.list(filter);
     }
 
+    async loadClosureCode(text) {
+        const filter = {entityTypeId: TYPEID_WORKORDER};
+        if (text) filter.fulltext = text;
+        return this.SD.EntityClosureCode.list(filter);
+    }
+
     async loadFolders(text) {
         const filter = {entityTypeId: TYPEID_WORKORDER};
         if (text) filter.fulltext = text;
