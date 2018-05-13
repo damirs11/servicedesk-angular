@@ -66,6 +66,7 @@ public class WorkorderHistoryDao extends AbstractHistoryDao<WorkorderHistory> {
 				}
 
 				sql.append("IN ").append("(281479977894277, 1082392634) ");
+				sql.append(" AND hwk.hwk_newvalue is not null");
 			}
 		}
 	}

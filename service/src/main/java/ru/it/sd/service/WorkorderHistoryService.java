@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.WorkorderHistoryDao;
 import ru.it.sd.model.HistoryType;
+import ru.it.sd.model.User;
 import ru.it.sd.model.Workorder;
 import ru.it.sd.model.WorkorderHistory;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Сервис записей в истории для изменений
@@ -20,8 +23,16 @@ public class WorkorderHistoryService extends History<Workorder, WorkorderHistory
 
 	private static final Logger LOG = LoggerFactory.getLogger(WorkorderHistoryService.class);
 
+	private final WorkorderHistoryDao dao;
+	private final SecurityService securityService;
+	private final WorkorderService workorderService;
+
 	@Autowired
-	private WorkorderHistoryDao dao;
+	public WorkorderHistoryService(WorkorderHistoryDao dao, SecurityService securityService, WorkorderService workorderService) {
+		this.dao = dao;
+		this.securityService = securityService;
+		this.workorderService = workorderService;
+	}
 
 	@Override
 	public WorkorderHistory read(long id) {
@@ -30,7 +41,17 @@ public class WorkorderHistoryService extends History<Workorder, WorkorderHistory
 
 	@Override
 	public List<WorkorderHistory> list(Map<String, String> filter) {
-		return dao.list(filter);
+		List<WorkorderHistory> list = dao.list(filter);
+		User user  = securityService.getCurrentUser();
+		for(WorkorderHistory history: list){
+			//Проставление значения isOwner(является ли user владельцем сообщения)
+			if (history.getAccount().getId() == user.getId()){
+				history.setIsOwner(true);
+			} else {
+				history.setIsOwner(false);
+			}
+		}
+		return list;
 	}
 
 	@Override
@@ -40,6 +61,20 @@ public class WorkorderHistoryService extends History<Workorder, WorkorderHistory
 
 	@Override
 	public void talkToChat(long entityId, String message, HistoryType historyType) {
-		//todo
+		Set<String> fields = new HashSet<>();
+		Workorder workorder = workorderService.read(entityId);
+		switch (historyType){
+			case WORKORDER_EXECUTOR:{
+				fields.add("commentToExecutor");
+				workorder.setCommentToExecutor(message);
+			}break;
+			case WORKORDER_INITIATOR:{
+				fields.add("solution");
+				workorder.setSolution(message);
+			}break;
+		}
+		if(!fields.isEmpty()){
+			workorderService.patch(workorder, fields);
+		}
 	}
 }

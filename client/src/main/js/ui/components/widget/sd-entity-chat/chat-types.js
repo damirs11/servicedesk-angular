@@ -13,16 +13,14 @@ class MessageType {
 }
 
 const CHANGE_MESSAGE_TYPES = {
-    MANAGER: new MessageType("MANAGER","Комментарий менеджеру", "commentToManager"),
-    INITIATOR: new MessageType("INITIATOR", "Комментарий инициатору", "commentToInitiator"),
-    EXECUTOR: new MessageType("EXECUTOR", "Комментарий исполнителю", "commentToExecutor")
+    CHANGE_MANAGER: new MessageType("CHANGE_MANAGER", "Комментарий менеджеру", "commentToManager"),
+    CHANGE_INITIATOR: new MessageType("CHANGE_INITIATOR", "Комментарий инициатору", "commentToInitiator"),
+    CHANGE_EXECUTOR: new MessageType("CHANGE_EXECUTOR", "Комментарий исполнителю", "commentToExecutor")
 };
 
 const WORKORDER_MESSAGE_TYPES = {
-    DOER: new MessageType("Комментарий инициатору"),
-    INITIATOR: new MessageType("Комментарий исполнителю"),
-    DEADLINE_CHANGE: new MessageType("<b>Изменение крайнего срока</b>"),
-    DEADLINE_CHANGE_REASON: new MessageType("<b>Причина переноса крайнего срока</b>"),
+    WORKORDER_EXECUTOR: new MessageType("WORKORDER_EXECUTOR", "Комментарий исполнителю", "commentToExecutor"),
+    WORKORDER_INITIATOR: new MessageType("WORKORDER_INITIATOR", "Комментарий по выполнению", "solution")
 };
 
 

@@ -77,6 +77,5 @@ public class ChangeHistoryService extends History<Change, ChangeHistory> {
 		if(!fields.isEmpty()){
 			changeService.patch(change, fields);
 		}
-
 	}
 }

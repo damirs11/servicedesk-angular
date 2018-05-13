@@ -26,4 +26,5 @@ public class ServiceRelationDaoTest extends AbstractDaoTest {
         assertEquals(serviceRelationEntry.getProblem(), 0);
     }
 
+
 }

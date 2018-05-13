@@ -31,6 +31,8 @@ public class WorkorderHistory implements EntityHistory {
     @FieldMeta(columnName = "type")
     private HistoryType type;
 
+    private Boolean isOwner;
+
     public String getValue() {
         return value;
     }
@@ -86,4 +88,11 @@ public class WorkorderHistory implements EntityHistory {
         this.date = date;
     }
 
+    public Boolean getIsOwner() {
+        return isOwner;
+    }
+
+    public void setIsOwner(Boolean owner) {
+        isOwner = owner;
+    }
 }
