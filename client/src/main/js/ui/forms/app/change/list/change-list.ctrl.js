@@ -89,7 +89,7 @@ class ChangeListController {
             this.clearFulltextSearch();
             return;
         }
-        this.grid.searchParamsContainer.add({fulltext:text}); // set params & auto-fetch
+        this.grid.searchParamsContainer.add({no:text}); // set params & auto-fetch
     }
     /**
      * При нажатии на кнопку "Сбросить"

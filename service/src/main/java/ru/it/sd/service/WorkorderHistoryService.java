@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.WorkorderHistoryDao;
+import ru.it.sd.model.HistoryType;
 import ru.it.sd.model.Workorder;
 import ru.it.sd.model.WorkorderHistory;
 
@@ -38,7 +39,7 @@ public class WorkorderHistoryService extends History<Workorder, WorkorderHistory
 	}
 
 	@Override
-	public void talkToChat(long entityId, String message) {
+	public void talkToChat(long entityId, String message, HistoryType historyType) {
 		//todo
 	}
 }

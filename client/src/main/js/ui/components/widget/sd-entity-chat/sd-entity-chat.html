@@ -5,7 +5,7 @@
                data-ng-repeat="$line in ctrl.chatLines track by $line.id">
     </chat-line>
 
-    <chat-input send="ctrl.send($text)">
+    <chat-input send="ctrl.send($text, $type)" types="ctrl.typeMap" access-rules="ctrl.entity.accessRules">
 
     </chat-input>
 

@@ -10,6 +10,7 @@ import java.util.Objects;
 public enum HistoryType {
     CHANGE_INITIATOR("INITIATOR",724041771L),
     CHANGE_MANAGER("MANAGER",281484032738115L),
+    CHANGE_EXECUTOR("EXECUTOR", 165993L),
 
     WORKORDER_INITIATOR("INITIATOR",1082392634L),
     WORKORDER_DOER("DOER",281479977894277L);
@@ -46,6 +47,17 @@ public enum HistoryType {
         }
         for (HistoryType value : values()) {
             if ( id.equals( value.getFieldId() ) ) {
+                return value;
+            }
+        }
+        return null;
+    }
+    public static HistoryType getByName(String name) {
+        if (Objects.isNull(name)) {
+            return null;
+        }
+        for (HistoryType value : values()) {
+            if ( name.equals( value.getName() ) ) {
                 return value;
             }
         }

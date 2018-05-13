@@ -124,13 +124,13 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
 	@FieldMeta(columnName = "cha_tem_oid" )
 	private Template template;
 
-	@FieldMeta(columnName = "ccu_changetext1", tableAlias = "ccu")
+	@FieldMeta(columnName = "ccu_changetext1", tableAlias = "ccu", attribute = 165993L)
     private String commentToExecutor;
 
-    @FieldMeta(columnName = "ccu_changetext7", tableAlias = "ccu")
+    @FieldMeta(columnName = "ccu_changetext7", tableAlias = "ccu", attribute = 281484032738115L)
     private String commentToManager;
 
-    @FieldMeta(columnName = "cha_workaround")
+    @FieldMeta(columnName = "cha_workaround", attribute = 724041771L)
     private String commentToInitiator;
 
 	@Override
