@@ -7,6 +7,7 @@ class ChangeCardWorkordersController{
     @NGInject() changeId;
     @NGInject() $state;
     @NGInject() $grid;
+    @NGInject() ModalAction
     /**
      * Промис загрузки данных
      */
@@ -29,6 +30,10 @@ class ChangeCardWorkordersController{
         return this.grid.searchParamsContainer
     }
 
+    async clickAttach(){
+        await this.ModalAction.attachWorkorder(this.$scope, {changeId: this.changeId});
+        this.grid.fetchData();
+    }
     clickOpen(){
         const rows = this.grid.getSelectedRows();
         if (rows.length != 1) return;
