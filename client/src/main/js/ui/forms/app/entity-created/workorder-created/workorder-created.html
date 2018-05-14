@@ -9,13 +9,12 @@
         <span>
             Наряд с номером
             <span style="font-weight: bold">
-                №<span ng-bind="ctrl.change.no"></span>
+                №<span ng-bind="ctrl.workorder.no"></span>
             </span>
             успешно создан!
         </span>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-ng-click="ctrl.openEntity()">Открыть</button>
-        <button type="button" class="btn btn-default" data-ng-click="ctrl.backToList()">Назад к списку</button>
+        <button type="button" class="btn btn-default" data-ng-click="ctrl.close()">Ок</button>
     </div>
 </div>

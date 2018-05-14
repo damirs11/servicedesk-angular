@@ -58,12 +58,8 @@ class ChangeCreateController{
         this.errorCreating = false;
         try {
             const createdChange = await this.change.create();
-            const openChange = await this.ModalAction.changeCreated(this.$scope,{change:createdChange});
-            if (openChange) {
-                this.$state.go("app.change.card.view",{changeId: createdChange.id})
-            } else {
-                this.$state.go("app.change.list")
-            }
+            await this.ModalAction.changeCreated(this.$scope,{change:createdChange});
+            this.$state.go("app.change.card.view",{changeId: createdChange.id})
         } catch (e) {
             this.errorCreating = true;
             this.ModalAction.alert(this.$scope, {

@@ -7,17 +7,12 @@ class ChangeCreatedModalController {
     @NGInject() change;
 
     $onInit(){
-        this.$modalState.onCancel = undefined
+        this.$modalState.onCancel = this::close
     }
 
-    backToList() {
-        this.$modalState.resolve(false)
+    close() {
+        this.$modalState.resolve()
     }
-
-    openEntity() {
-        this.$modalState.resolve(true);
-    }
-
 }
 
 export {ChangeCreatedModalController as controller}

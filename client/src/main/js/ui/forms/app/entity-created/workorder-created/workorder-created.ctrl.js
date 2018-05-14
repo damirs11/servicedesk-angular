@@ -7,15 +7,11 @@ class WorkorderCreatedModalController {
     @NGInject() workorder;
 
     $onInit(){
-        this.$modalState.onCancel = undefined
+        this.$modalState.onCancel = this::close
     }
 
-    backToList() {
-        this.$modalState.resolve(false)
-    }
-
-    openEntity() {
-        this.$modalState.resolve(true);
+    close() {
+        this.$modalState.resolve()
     }
 
 }

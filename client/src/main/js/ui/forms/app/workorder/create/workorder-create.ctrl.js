@@ -22,7 +22,7 @@ class WorkorderCreateController{
 
     requiredFields = [
         "status","subject","description","category","initiator",
-        "assignment.workgroup","assignment.executor",
+        "assignment.workgroup","assignment.executor", "deadline",
     ];
 
 
@@ -84,12 +84,8 @@ class WorkorderCreateController{
         this.errorCreating = false;
         try {
             const createdWor = await this.workorder.create();
-            const openWor = await this.ModalAction.workorderCreated(this.$scope,{workorder:createdWor});
-            if (openWor) {
-                this.$state.go("app.workorder.card.view",{workorderId: createdWor.id})
-            } else {
-                this.$state.go("app.workorder.list")
-            }
+            await this.ModalAction.workorderCreated(this.$scope,{workorder:createdWor});
+            this.$state.go("app.workorder.card.view",{workorderId: createdWor.id})
         } catch (e) {
             this.errorCreating = true;
             this.ModalAction.alert(this.$scope, {
