@@ -24,9 +24,9 @@ function WorkorderGridProvider(AbstractGrid) {
                     cellTemplate: '<a data-ui-sref="app.workorder.card.view({workorderId: row.entity.id})"><span class="ui-grid-cell-contents" style="display: block; width: 100%">{{grid.getCellValue(row, col)}}</span></a>'},
                 { field: 'createdDate', name: "Дата создания", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center"},
                 { field: 'deadline', name: "Крайний срок", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center"},
-                { field: 'resolveDate', name: "Фактически выполнено", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 170, cellClass: "text-center"},
+                { field: 'resolvedDate', name: "Фактически выполнено", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 170, cellClass: "text-center"},
                 { field: 'initiator', name: "Инициатор", type: 'string', cellTemplate: 'template.grid.cell.person', width: 150},
-                { field: 'assigneePerson', name: "Исполнитель", type: 'string', cellTemplate: 'template.grid.cell.person', width: 150}
+                { field: 'assignment.executor', name: "Исполнитель", type: 'string', cellTemplate: 'template.grid.cell.person', width: 150}
             ];
         }
 
