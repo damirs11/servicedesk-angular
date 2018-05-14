@@ -23,7 +23,7 @@
             <!-- Список действий, которые будут скрываться в кнопке -->
             <div class="collapse overlay-collapse navbar-collapse" id="changes-filter-nav">
                 <form name="search" class="navbar-form" role="search"
-                      ng-submit="ctrl.searchSubmit(search.text)" style="margin-bottom: 0">
+                      ng-submit="ctrl.searchSubmit(search.text, search.no)" style="margin-bottom: 0">
                     <div class="form-group btn-group">
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle"
@@ -55,7 +55,10 @@
                             </ul>
                         </div>
                     </div>
-
+                    <div class="form-group input-group" style="margin-left: 10px">
+                        <input ng-model="search.no" type="text" class="form-control"
+                               placeholder="Введите номер">
+                    </div>
                     <div class="form-group input-group" style="margin-left: 10px">
                         <input ng-model="search.text" type="text" class="form-control"
                                placeholder="Введите строку поиска">
