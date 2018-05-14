@@ -42,11 +42,13 @@ public class ChangeHistoryService extends History<Change, ChangeHistory> {
 		User user  = securityService.getCurrentUser();
 		for(ChangeHistory changeHistory: list){
 			//Проставление значения isOwner(является ли user владельцем сообщения)
-			if (changeHistory.getAccount().getId() == user.getId()){
-				changeHistory.setIsOwner(true);
-			} else {
-				changeHistory.setIsOwner(false);
-			}
+            if(changeHistory.getAccount() != null){
+                if (changeHistory.getAccount().getId() == user.getId()){
+                    changeHistory.setIsOwner(true);
+                } else {
+                    changeHistory.setIsOwner(false);
+                }
+	        }
 		}
 		return list;
 	}

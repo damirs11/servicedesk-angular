@@ -45,11 +45,13 @@ public class WorkorderHistoryService extends History<Workorder, WorkorderHistory
 		User user  = securityService.getCurrentUser();
 		for(WorkorderHistory history: list){
 			//Проставление значения isOwner(является ли user владельцем сообщения)
-			if (history.getAccount().getId() == user.getId()){
-				history.setIsOwner(true);
-			} else {
-				history.setIsOwner(false);
-			}
+            if(history.getAccount() != null) {
+                if (history.getAccount().getId() == user.getId()) {
+                    history.setIsOwner(true);
+                } else {
+                    history.setIsOwner(false);
+                }
+            }
 		}
 		return list;
 	}
