@@ -71,7 +71,7 @@ public class WorkorderHistoryService extends History<Workorder, WorkorderHistory
 				workorder.setCommentToExecutor(message);
 			}break;
 			case WORKORDER_INITIATOR:{
-				fields.add("solution");
+				fields.add("commentToInitiator");
 				workorder.setSolution(message);
 			}break;
 		}

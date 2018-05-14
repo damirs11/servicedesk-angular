@@ -19,8 +19,8 @@ const CHANGE_MESSAGE_TYPES = {
 };
 
 const WORKORDER_MESSAGE_TYPES = {
-    WORKORDER_EXECUTOR: new MessageType("WORKORDER_EXECUTOR", "Комментарий исполнителю", "commentToExecutor"),
-    WORKORDER_INITIATOR: new MessageType("WORKORDER_INITIATOR", "Комментарий по выполнению", "solution")
+    WORKORDER_INITIATOR: new MessageType("WORKORDER_INITIATOR", "Комментарий по инициатору", "commentToInitiator"),
+    WORKORDER_EXECUTOR: new MessageType("WORKORDER_EXECUTOR", "Комментарий исполнителю", "commentToExecutor")
 };
 
 

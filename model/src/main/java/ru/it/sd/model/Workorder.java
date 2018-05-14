@@ -90,6 +90,9 @@ public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Se
 	@FieldMeta(columnName = "wcf_workordertext1", tableAlias = "wcustom", attribute = 1082392634L)
     private String commentToExecutor;
 
+    @FieldMeta(columnName = "wcf_workordertext2", tableAlias = "wcustom", attribute = 1082392635L)
+    private String commentToInitiator;
+
 	@Override
 	public Long getId() {
 		return id;
@@ -264,6 +267,14 @@ public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Se
 
     public void setAttachment(long attachment) {
         this.attachment = attachment;
+    }
+
+    public String getCommentToInitiator() {
+        return commentToInitiator;
+    }
+
+    public void setCommentToInitiator(String commentToInitiator) {
+        this.commentToInitiator = commentToInitiator;
     }
 
     @Override
