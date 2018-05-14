@@ -185,6 +185,15 @@ public class IChangeDao implements HpCrudDao<Change, IChange>{
                     null;
             iChange.setFolder(iFolder);
         }
+        if(fields.contains("commentToExecutor")){
+            iChange.setChangeText1(entity.getCommentToExecutor());
+        }
+        if(fields.contains("commentToManager")){
+            iChange.setChangeText7(entity.getCommentToManager());
+        }
+        if(fields.contains("commentToInitiator")){
+            iChange.setWorkaround(entity.getCommentToInitiator());
+        }
         iChange.save();
     }
 

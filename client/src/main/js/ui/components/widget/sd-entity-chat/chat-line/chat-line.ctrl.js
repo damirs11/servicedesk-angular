@@ -2,6 +2,7 @@ class ChatLineController {
 
     DATE_FORMAT = "DD.MM.YYYY (HH:mm)";
 
+    line;
     getSideClasses($line){
         if (this.isLeft()) return {"left-message":true};
         if (this.isRight()) return {"right-message":true};
@@ -12,16 +13,12 @@ class ChatLineController {
         return this.type["title"];
     }
 
-    getRole(){
-        return this.type["role"];
-    }
-
     isLeft(){
-        return this.type.isLeft
+        return !this.line.isOwner
     }
 
     isRight(){
-        return this.type.isRight
+        return this.line.isOwner
     }
 }
 

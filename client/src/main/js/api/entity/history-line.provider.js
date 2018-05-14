@@ -50,6 +50,8 @@ function HistoryLineProvider(Entity,SD) {
          */
         @Parse( Nullable(String) ) type;
 
+        @Parse(Boolean) isOwner;
+
         get isChat(){
             return this.type != null;
         }

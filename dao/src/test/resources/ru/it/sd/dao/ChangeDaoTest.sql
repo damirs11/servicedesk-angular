@@ -109,6 +109,12 @@ INSERT INTO itsm_changes (cha_oid, cha_id, cha_requestor_per_oid, cha_per_man_oi
 INSERT INTO itsm_changes (cha_oid, cha_id, cha_requestor_per_oid, cha_per_man_oid, cha_closurecode) VALUES
   (823344, 20, 2, 2, 281485277602005);
 
+INSERT INTO itsm_cha_custom_fields (ccu_cha_oid, ccu_changetext1, ccu_changetext7) VALUES (
+  111222333, 'EXECUTOR', 'MANAGER'
+);
+INSERT INTO itsm_changes (cha_oid, cha_workaround) VALUES
+  (111222333, 'INITIATOR');
+
 INSERT INTO itsm_approver_votes (apv_oid, apv_apt_oid, apv_per_oid, apv_approved, apv_reason) VALUES
   (8183, 266633, 4, 1, 'одобряю');
 INSERT INTO itsm_approver_votes (apv_oid, apv_apt_oid, apv_per_oid, apv_approved, apv_reason) VALUES

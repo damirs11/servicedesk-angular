@@ -11,14 +11,18 @@
                       rows="3"
                       placeholder="Введите текст комментария"
                       ng-model="ctrl.input"
+                      maxlength="255"
             >
             </textarea>
-            <button class="btn btn-default entity-chat-input-body__send"
-                    data-ng-click="ctrl.onSendButton()"
-                    data-ng-disabled="!ctrl.sendActive"
-            >
-                Отправить
-            </button>
+            <div data-ng-repeat="$Type in ctrl.types">
+                <button class="btn btn-default entity-chat-input-body__send"
+                        data-ng-click="ctrl.onSendButton($Type)"
+                        data-ng-disabled="!ctrl.sendActive($Type)"
+                >
+                    {{$Type.title}}
+                </button>
+            </div>
+
         </td>
 
         <td class="entity-chat-info-right"></td>

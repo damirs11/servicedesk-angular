@@ -8,11 +8,12 @@ import java.util.Objects;
  * Created by MYXOMOPX on 029 29.08.17.
  */
 public enum HistoryType {
-    CHANGE_INITIATOR("INITIATOR",724041771L),
-    CHANGE_MANAGER("MANAGER",281484032738115L),
+    CHANGE_INITIATOR("CHANGE_INITIATOR",724041771L),
+    CHANGE_MANAGER("CHANGE_MANAGER",281484032738115L),
+    CHANGE_EXECUTOR("CHANGE_EXECUTOR", 165993L),
 
-    WORKORDER_INITIATOR("INITIATOR",1082392634L),
-    WORKORDER_DOER("DOER",281479977894277L);
+    WORKORDER_INITIATOR("WORKORDER_INITIATOR", 1082392635L),
+    WORKORDER_EXECUTOR("WORKORDER_EXECUTOR", 1082392634L);
 
     String name;
     Long fieldId;
@@ -46,6 +47,17 @@ public enum HistoryType {
         }
         for (HistoryType value : values()) {
             if ( id.equals( value.getFieldId() ) ) {
+                return value;
+            }
+        }
+        return null;
+    }
+    public static HistoryType getByName(String name) {
+        if (Objects.isNull(name)) {
+            return null;
+        }
+        for (HistoryType value : values()) {
+            if ( name.equals( value.getName() ) ) {
                 return value;
             }
         }

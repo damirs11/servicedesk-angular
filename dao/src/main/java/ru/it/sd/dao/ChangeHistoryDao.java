@@ -68,7 +68,8 @@ public class ChangeHistoryDao extends AbstractHistoryDao<ChangeHistory> {
 					sql.append("NOT ");
 				}
 				// todo заменить магические числа
-				sql.append("IN ").append("(724041771, 281484032738115) ");
+				sql.append("IN ").append("(724041771, 281484032738115, 165993) ");
+				sql.append(" AND hch.hch_newvalue is not null");
 			}
 		}
 	}

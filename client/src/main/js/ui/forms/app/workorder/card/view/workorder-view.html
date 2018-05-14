@@ -126,6 +126,7 @@
                              fetch-data="ctrl.loadStatuses($text)"
                              display-value="$value.fullName"
                              editing="ctrl.editing"
+                             cache="true"
                              disabled="!ctrl.accessRules.canUpdate('status')"
                              fetch-on-change="ctrl.workorder.status"
                 ></sd-dropdown>
@@ -183,6 +184,7 @@
                              fetch-data="ctrl.loadClosureCode($text)"
                              display-value="$value.name"
                              editing="ctrl.editing"
+                             cache="true"
                              allow-empty="true"
                              disabled="!ctrl.accessRules.canUpdate('closureCode')"
                 ></sd-dropdown>
@@ -197,6 +199,7 @@
                              editing="ctrl.editing"
                              disabled="!ctrl.accessRules.canUpdate('folder')"
                              allow-empty="true"
+                             min-symbols-fetch="2"
                 ></sd-dropdown>
             </div>
 
@@ -206,8 +209,10 @@
                              target="ctrl.workorder.change"
                              fetch-data="ctrl.loadChanges($text)"
                              display-value="'№'+$value.no"
+                             allow-empty="true"
                              editing="ctrl.editing"
                              disabled="!ctrl.accessRules.canUpdate('change')"
+                             min-symbols-fetch="1"
                 ></sd-dropdown>
             </div>
 

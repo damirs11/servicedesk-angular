@@ -18,6 +18,7 @@ import {WorkorderListState} from "./app/workorder/list/workorder-list.state";
 import {WorkorderCardState} from "./app/workorder/card/workorder-card.state";
 import {WorkorderCardViewState} from "./app/workorder/card/view/workorder-view.state";
 import {WorkorderCardHistoryState} from "./app/workorder/card/history/workorder-history.state";
+import {WorkorderCardAttachmentsState} from "./app/workorder/card/attachments/workorder-attachments.state";
 import {ChangeCardApprovalState} from "./app/change/card/approval/change-approval.state";
 import {ChangeCardAttachmentsState} from "./app/change/card/attachments/change-attachments.state";
 import {ChangePasswordState} from "./app/change-password/change-password.state";
@@ -30,6 +31,7 @@ import {ChangeCardWorkordersState} from "./app/change/card/workorders/change-car
 import {ChangeCreatedModal} from "./app/entity-created/change-created/change-created.modal";
 import {WorkorderCreatedModal} from "./app/entity-created/workorder-created/workorder-created.modal";
 import {MakeVoteModal} from "./app/make-vote/make-vote.modal";
+import {AttachWorkorderModal} from "./app/change/card/workorders/attach-workorder/attach-workorder.modal";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -39,7 +41,8 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .modal(ChangeCreatedModal)
         .modal(WorkorderCreatedModal)
         .modal(LeavePageModal)
-        .modal(MakeVoteModal);
+        .modal(MakeVoteModal)
+        .modal(AttachWorkorderModal);
     $stateProvider
         .state(AppState)
         .state(MainState)
@@ -67,6 +70,7 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(WorkorderCardState)
         .state(WorkorderCardViewState)
         .state(WorkorderCardHistoryState)
+        .state(WorkorderCardAttachmentsState)
         .state(TestState)
 
 }

@@ -4,36 +4,23 @@
  * @desc описание типа сообщения
  */
 class MessageType {
-    constructor(side,title,role){
-        this.side = side; // Сторона. 0-2 <=> лево/центр/право
+    constructor(name, title, fieldName){
+        this.name = name; // имя типа для определения на сервере, совпадает с HistoryType.name
         this.title = title; // Заголовок сообщения
-        this.role = role; // Роль. Отображается под иконкой персоны
+        this.fieldName = fieldName; //название поля сущности для определения прав доступа
     }
 
-    get isLeft() {
-        return this.side == 0
-    }
-
-    get isMiddle() {
-        return this.side == 1
-    }
-
-    get isRight() {
-        return this.side == 2
-    }
 }
 
 const CHANGE_MESSAGE_TYPES = {
-    MANAGER: new MessageType(2, "Комментарий инициатору", "Менеджер"),
-    INITIATOR: new MessageType(0, "Комментарий исполнителю", "Инициатор"),
-    DEADLINE_CHANGE: new MessageType(1, "<b>Изменение крайнего срока</b>")
+    CHANGE_MANAGER: new MessageType("CHANGE_MANAGER", "Комментарий менеджеру", "commentToManager"),
+    CHANGE_INITIATOR: new MessageType("CHANGE_INITIATOR", "Комментарий инициатору", "commentToInitiator"),
+    CHANGE_EXECUTOR: new MessageType("CHANGE_EXECUTOR", "Комментарий исполнителю", "commentToExecutor")
 };
 
 const WORKORDER_MESSAGE_TYPES = {
-    DOER: new MessageType(2, "Комментарий инициатору", "Исполнитель"),
-    INITIATOR: new MessageType(0, "Комментарий исполнителю", "Инициатор"),
-    DEADLINE_CHANGE: new MessageType(1, "<b>Изменение крайнего срока</b>"),
-    DEADLINE_CHANGE_REASON: new MessageType(2, "<b>Причина переноса крайнего срока</b>","Исполнитель"),
+    WORKORDER_INITIATOR: new MessageType("WORKORDER_INITIATOR", "Комментарий по инициатору", "commentToInitiator"),
+    WORKORDER_EXECUTOR: new MessageType("WORKORDER_EXECUTOR", "Комментарий исполнителю", "commentToExecutor")
 };
 
 

@@ -28,6 +28,11 @@ class ChangeCardViewController{
      */
     editing;
 
+    requiredFields = [
+        "category","classification","deadline","subject","description",
+        "manager","initiator","priority","assignment.workgroup","assignment.executor"
+    ];
+
     async $onInit() {
         this.msgTypes = CHANGE_MESSAGE_TYPES;
         this.change = new this.SD.Change(this.changeId);
@@ -50,6 +55,22 @@ class ChangeCardViewController{
         this.editing = false;
     }
 
+    get isRequiredFieldsFilled() {
+        if(this.change.status.id == CHANGE_STATUSES.RESOLVED){
+            this.requiredFields.push("solution, closureCode");
+        }
+        for(const fieldName of this.requiredFields) {
+            const subnames = fieldName.split("."); // Сложное имя поля (пр. assignment.executor)
+            let obj = this.change;
+            for (let i = 0; i < subnames.length; i++) {
+                const subname = subnames[i];
+                const value = obj[subname];
+                if (value == null) return false;
+                obj = obj[subname]
+            }
+        }
+        return true;
+    }
     registerLeaveEditListener() {
         this.$pageLock(this.$scope)
             .setTitle("Несохраненные изменения")
@@ -76,19 +97,19 @@ class ChangeCardViewController{
 
     async loadInititators(text) {
         const filter = {selectable:"1"};
-        if (text) filter.fulltext = text;
+        if (text) filter.fullname_like = text;
         return this.SD.Person.list(filter);
     }
 
     async loadManagers(text) {
         const filter = {selectable:"1"};
-        if (text) filter.fulltext = text;
+        if (text) filter.fullname_like = text;
         return this.SD.Person.list(filter);
     }
 
     async loadExecutors(text){
         const filter = {selectable:"1", hasAccount: ""};
-        if (text) filter.fulltext = text;
+        if (text) filter.fullname_like = text;
         const workgroup = this.change.assignment.workgroup;
         if (workgroup) filter.workgroupId = workgroup.id;
         return this.SD.Person.list(filter);
@@ -96,7 +117,7 @@ class ChangeCardViewController{
 
     async loadWorkgroups(text){
         const filter = {selectable:"1"};
-        if (text) filter.fulltext = text;
+        if (text) filter.name_like = text;
         const executor = this.change.assignment.executor;
         if (executor) filter.personId = executor.id;
         return this.SD.Workgroup.list(filter);

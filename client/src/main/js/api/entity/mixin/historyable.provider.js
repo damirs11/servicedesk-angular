@@ -38,6 +38,7 @@ function HistoryableProvider($connector, SD) {
         async getChat(params){
             params = typeof params == "object" ? params : {};
             params.chat = true;
+            params.sort="date-asc";
             return this.getHistory(params);
         }
 
@@ -55,13 +56,8 @@ function HistoryableProvider($connector, SD) {
          * @param text {String} - текст сообщения
          * @return {Promise.<void>}
          */
-        async sendChatMessage(text) {
-            const jsonData = {
-                entityId: this.id,
-                entityType: this.constructor.$entityTypeId,
-                message: text
-            };
-            await $connector.post(`rest/service/history`,null,jsonData);
+        async sendChatMessage(text, type) {
+            await $connector.post(`rest/service/history`,{entityType: this.constructor.$entityType, entityId: this.id, historyType: type.name}, text);
         }
     };
 }

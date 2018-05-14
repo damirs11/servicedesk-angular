@@ -10,7 +10,9 @@ const ChatInputComponent = {
     controller: controller,
     controllerAs: "ctrl",
     bindings: {
-        send: "&"
+        send: "&",
+        types: "<",
+        accessRules: "<"
     }
 };
 

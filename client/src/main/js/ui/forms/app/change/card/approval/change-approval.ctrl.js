@@ -181,29 +181,27 @@ class ChangeCardApprovalController{
         return true;
     }
     get isStatusBeginAvailable() {
-        const approval = this.approval;
-        const dummyApproval = this.dummyApproval;
-        if (dummyApproval.status == null) return false;
-        if (dummyApproval.status.id == APPROVAL_STATUSES.PREPARING) {
+        const approval = this.dummyApproval;
+        if (approval.status == null) return false;
+        if (approval.status.id == APPROVAL_STATUSES.PREPARING) {
             if (!approval.numberOfApproversRequired) return false;
             return true;
-        } else if (dummyApproval.status.id == APPROVAL_STATUSES.BEGIN) {
+        } else if (approval.status.id == APPROVAL_STATUSES.BEGIN) {
             return true
-        } else if (dummyApproval.status.id == APPROVAL_STATUSES.COMPLETE) {
+        } else if (approval.status.id == APPROVAL_STATUSES.COMPLETE) {
             return false;
         }
         return true;
     }
     get isStatusCompleteAvailable() {
-        const approval = this.approval;
-        const dummyApproval = this.dummyApproval;
-        if (dummyApproval.status == null) return false;
-        if (dummyApproval.status.id == APPROVAL_STATUSES.BEGIN) return true;
+        const approval = this.dummyApproval;
+        if (approval.status == null) return false;
+        if (approval.status.id == APPROVAL_STATUSES.BEGIN) return true;
         return false;
     }
 
     get maxApproversRequired(){
-        if (this.approval.numberOfApprovers) return this.approval.numberOfApprovers;
+        if (this.dummyApproval.numberOfApprovers) return this.dummyApproval.numberOfApprovers;
         return 0;
 
     }
@@ -216,8 +214,8 @@ class ChangeCardApprovalController{
     }
 
     isApproversEditable() {
-        if (this.approval.status) {
-            if (this.approval.status.id == APPROVAL_STATUSES.PREPARING && this.$isApprovalInitiator) return true;
+        if (this.dummyApproval.status) {
+            if (this.dummyApproval.status.id == APPROVAL_STATUSES.PREPARING && this.$isApprovalInitiator) return true;
         }
         return false;
     }

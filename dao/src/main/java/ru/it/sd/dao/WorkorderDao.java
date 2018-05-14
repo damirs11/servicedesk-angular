@@ -49,6 +49,8 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> {
 			"   wor4k1.wo1_4k1, " +
 			"   w.wor_ser_oid, " +
 			"   w.wor_cha_oid, " +
+            "   wcustom.wcf_workordertext1, " +
+            "   wcustom.wcf_workordertext2, " +
 			"   wcustom.wcf_org1_oid\n" +
 			" FROM\n" +
 			"   itsm_workorders AS w " +
@@ -102,18 +104,11 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> {
 					sql.append(" AND w.wor_requestor_per_oid = :personId");
 					break;
 				}
-				default: {
-					// Добавляем все условия через OR
-					sql.append(" AND (");
-					sql.append(" w.ass_per_to_oid = :personId");
-
-					sql.append(" OR :personId IN (SELECT apv_per_oid FROM " +
-							" itsm_approver_votes WHERE apv_apt_oid = w.wor_oid)");
-
-					sql.append(" OR w.wor_requestor_per_oid = :personId");
-
-					sql.append(')');
-				}
+                //todo добавить проверку прав доступа (чтение по папкам)
+                // алгоритм:
+                // по всем ролям пользователя найти список папок, где есть право на чтение типа сущности
+                // ищем цепочку папок изменения
+                // находим общую цепочку (пересечение), пересекаются минимум в одной "папке" - корне
 			}
 		}
 

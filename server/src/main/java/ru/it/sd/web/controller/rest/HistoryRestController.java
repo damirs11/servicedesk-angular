@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import ru.it.sd.model.EntityHistory;
 import ru.it.sd.model.HasId;
+import ru.it.sd.model.HistoryType;
 import ru.it.sd.model.PagingRange;
 import ru.it.sd.service.History;
 import ru.it.sd.service.holder.HistoryServiceHolder;
@@ -63,8 +64,9 @@ public class HistoryRestController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public void talkToChat(@RequestParam String entityType, @RequestParam long entityId,
-	        @RequestBody String message) throws IOException {
+						   @RequestBody String message, @RequestParam String historyType) throws IOException {
 		History historyService = historyServiceHolder.findFor(entityType);
-		historyService.talkToChat(entityId, message);
+		HistoryType type = HistoryType.getByName(historyType);
+		historyService.talkToChat(entityId, message, type);
 	}
 }

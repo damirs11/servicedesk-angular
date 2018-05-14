@@ -1,6 +1,7 @@
 package ru.it.sd.service;
 
 import ru.it.sd.model.EntityHistory;
+import ru.it.sd.model.HistoryType;
 
 /**
  * Интерфейс для классов, которые предоставляют информацию об истории сущности <br>
@@ -17,5 +18,5 @@ public abstract class History<EntityClass, HistoryEntityClass extends EntityHist
 	 * @param entityId идентификатор сущности
 	 * @param message текст комментария
 	 */
-	public abstract void talkToChat(long entityId, String message);
+	public abstract void talkToChat(long entityId, String message, HistoryType historyType);
 }

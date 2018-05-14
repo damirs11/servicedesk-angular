@@ -6,17 +6,18 @@ import {Mixin} from "./mixin/mixin.decorator";
 import {TYPEID_WORKORDER} from "./util/entity-type-list";
 
 
-WorkorderProvider.$inject = ["EditableEntity", "SD", "Historyable", "Accessible"];
-function WorkorderProvider(EditableEntity, SD, Historyable, Accessible) {
+WorkorderProvider.$inject = ["EditableEntity", "SD", "Historyable", "Accessible", "AttachmentsHolder"];
+function WorkorderProvider(EditableEntity, SD, Historyable, Accessible, AttachmentsHolder) {
     /**
      * Персона
      * @class
      * @name SD.Workorder
      * @mixes ENTITY_MIXIN.Historyable
      * @mixes ENTITY_MIXIN.Accessible
+     * @mixes ENTITY_MIXIN.AttachmentsHolder
      * @extends SD.EditableEntity
      */
-    @Mixin(Historyable, Accessible)
+    @Mixin(Historyable, Accessible, AttachmentsHolder)
     class Workorder extends EditableEntity {
         static $entityTypeId = TYPEID_WORKORDER;
         /**
@@ -81,7 +82,7 @@ function WorkorderProvider(EditableEntity, SD, Historyable, Accessible) {
          * @name SD.Workorder#closureCode
          * @type {SD.EntityClosureCode}
          */
-        @Serialize(serializeId) @Parse(data => SD.EntityClosureCode.parse(data)) closureCode;
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.EntityClosureCode.parse(data)) closureCode;
 
         /**
          * Дата создания
@@ -154,7 +155,7 @@ function WorkorderProvider(EditableEntity, SD, Historyable, Accessible) {
          * @name SD.Workorder#change
          * @type {SD.Change}
          */
-        @Serialize(serializeId) @Parse(data => SD.Change.parse(data)) change;
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.Change.parse(data)) change;
 
         toString(){
             return String(this.no);

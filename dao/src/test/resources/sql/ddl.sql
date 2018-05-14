@@ -6,6 +6,7 @@ CREATE TABLE itsm_persons (
   per_firstname VARCHAR(50),
   per_lastname VARCHAR(50),
   per_middlename VARCHAR(50),
+  per_name VARCHAR(100),
   per_org_oid DECIMAL(18),
   per_acc_oid DECIMAL(18),
   per_poo_oid DECIMAL(18)
@@ -64,12 +65,15 @@ CREATE TABLE itsm_changes (
   cha_tem_oid DECIMAL(18),
   cha_assign_status DECIMAL(18),
 	cha_assign_priority DECIMAL(18),
-	cha_cit_oid DECIMAL(18)
+	cha_cit_oid DECIMAL(18),
+  cha_workaround VARCHAR(100)
 );
 
 CREATE TABLE itsm_cha_custom_fields(
   ccu_cha_oid DECIMAL(18),
-  ccu_changecode1 DECIMAL(18)
+  ccu_changecode1 DECIMAL(18),
+  ccu_changetext1 VARCHAR(100),
+  ccu_changetext7 VARCHAR(100)
 );
 
 CREATE TABLE itsm_cha_information (
@@ -117,7 +121,9 @@ CREATE TABLE itsm_wor_custom_fields (
   wcf_org1_oid DECIMAL(18),
   wcf_duration1 FLOAT,
   wcf_boolean2 DECIMAL(1),
-  wcf_worshorttext3 VARCHAR(80)
+  wcf_worshorttext3 VARCHAR(80),
+  wcf_workordertext1 VARCHAR(255),
+  wcf_workordertext2 VARCHAR(255)
 );
 
 CREATE TABLE itsm_wor_4k1 (
