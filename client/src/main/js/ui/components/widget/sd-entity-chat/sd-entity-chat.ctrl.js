@@ -1,5 +1,7 @@
 class EntityChatController {
 
+    busy = false;
+
     DATE_FORMAT = "DD.MM.YYYY (HH:mm)";
 
     constructor(){
@@ -13,9 +15,11 @@ class EntityChatController {
         this.chatLines = await this.entity.getChat()
     }
 
-    send(text, type){
-        this.entity.sendChatMessage(text, type);
-        this.fetchChat();
+    async send(text, type){
+        this.busy = true;
+        await this.entity.sendChatMessage(text, type);
+        await this.fetchChat();
+        this.busy = false;
     }
 
     getType($line){
