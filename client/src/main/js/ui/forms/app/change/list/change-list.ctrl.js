@@ -13,7 +13,7 @@ class ChangeListController {
         this.$state = $state;
         this.Session = Session;
         this.$location = $location;
-
+        console.log(searchParams);
         this.urlSearchParams = searchParams;
     }
 
@@ -24,6 +24,8 @@ class ChangeListController {
         this._setFilter();
         // если мы перешли по ссылке с fulltext=... - ставим этот текст в поле поиска
         if (this.urlSearchParams.fulltext) this.$scope.search.text = this.urlSearchParams.fulltext;
+        if (this.urlSearchParams.no) this.$scope.search.no = this.urlSearchParams.no;
+
         this.grid.initializeSearchParams(this.urlSearchParams);
         // При изменении критериев поиска в таблице -  меняем URL
         this.gridSearchParams.on("change", (params) => {
@@ -84,20 +86,21 @@ class ChangeListController {
     /**
      * При нажатии на кнопку "Найти"
      */
-    searchSubmit(text) {
-        if (text == null || text == "") {
+    searchSubmit(text, no) {
+        if ((text == null || text == "") && (no == null || no == "")) {
             this.clearFulltextSearch();
             return;
         }
-        this.grid.searchParamsContainer.add({no:text}); // set params & auto-fetch
+        this.grid.searchParamsContainer.add({fulltext:text, no:no}); // set params & auto-fetch
     }
     /**
      * При нажатии на кнопку "Сбросить"
      */
     clearFulltextSearch() {
         this.$scope.search.text = null; // Сбрасываем само текстовое поле.
-        if (this.gridSearchParams.fulltext == undefined) return;
-        this.gridSearchParams.add({fulltext:undefined}); // set params & auto-fetch
+        this.$scope.search.no = null;
+        if (this.gridSearchParams.fulltext == undefined && this.gridSearchParams.no == undefined) return;
+        this.gridSearchParams.add({fulltext:undefined, no:undefined}); // set params & auto-fetch
     }
 
     currentFilter = undefined;

@@ -4,7 +4,7 @@ import {SearchParamsResolver} from "./search-params.resolver";
 
 let ChangeListState = {
     name: "app.change.list",
-    url: "?sort&fulltext&filter&paging",
+    url: "?sort&fulltext&no&filter&paging",
     reloadOnSearch: false,
     controller: controller,
     template: template,

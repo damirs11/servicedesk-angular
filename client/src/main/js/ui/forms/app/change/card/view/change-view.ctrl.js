@@ -56,9 +56,6 @@ class ChangeCardViewController{
     }
 
     get isRequiredFieldsFilled() {
-        if(this.change.status.id == CHANGE_STATUSES.RESOLVED){
-            this.requiredFields.push("solution, closureCode");
-        }
         for(const fieldName of this.requiredFields) {
             const subnames = fieldName.split("."); // Сложное имя поля (пр. assignment.executor)
             let obj = this.change;
