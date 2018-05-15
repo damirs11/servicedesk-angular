@@ -23,6 +23,7 @@ class WorkorderCreateController{
     requiredFields = [
         "status","subject","description","category","initiator",
         "assignment.workgroup","assignment.executor", "deadline",
+        "priority",
     ];
 
 
