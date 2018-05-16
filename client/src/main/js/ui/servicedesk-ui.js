@@ -55,6 +55,7 @@ import {AutoHeightDirective} from "./components/directives/auto-height.directive
 import {PageLockFactory} from "./components/page-lock.factory";
 import {SDEntityErrorDirective} from "./components/widget/sd-entity-error/sd-entity-error.directive";
 import {SDEntityCardTabsComponent} from "./components/widget/sd-entity-card-tabs/sd-entity-card-tabs.component";
+import {SDIconFilter} from "./components/filters/sd-icon-filter";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -83,6 +84,8 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .config(ConnectorConfig)
     .config(uiSelectConfig)
     .config(UiGridConfig)
+
+    .filter("sdIcon",SDIconFilter)
 
     .factory("$grid",$gridFactory)
     .factory("SDValidator",SDValidatorFactory)

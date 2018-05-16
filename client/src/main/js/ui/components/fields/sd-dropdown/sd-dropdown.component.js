@@ -41,7 +41,8 @@ const SDDropdownComponent = {
         editing: "<",
         ignoreSameText: "<",
         fetchOnChange: "<",
-        minSymbolsFetch: "<"
+        minSymbolsFetch: "<",
+        iconClass: "&",
     }
 };
 

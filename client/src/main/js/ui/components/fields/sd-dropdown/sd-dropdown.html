@@ -1,4 +1,4 @@
-<!--Режим редактирования-->
+<!--Режим редактирования активный-->
 <div data-ng-if="ctrl.editing && !ctrl.disabled" class="sd-dropdown">
     <ui-select
                ng-model="ctrl.selectedValue"
@@ -12,12 +12,15 @@
                            refresh="ctrl.fetchFromUI($select.search)"
                            refresh-delay="ctrl.debounceTime"
         >
-            <div ng-bind-html="ctrl.display($value) | highlight: $select.search"></div>
+            <div style="display: inline-block; width: 10px; text-align: center" ng-if="ctrl.hasIcons">
+                <i ng-if="ctrl.hasIcons" ng-class="ctrl.getIconFor($value)"></i>
+            </div>
+            <span ng-bind-html="ctrl.display($value) | highlight: $select.search"></span>
         </ui-select-choices>
     </ui-select>
 </div>
 
-<!--Режим редактирования-->
+<!--Режим редактирования заблокированный-->
 <div data-ng-if="ctrl.editing && ctrl.disabled" class="sd-dropdown">
 
     <div class="ui-select-container ui-select-bootstrap" disabled="disabled">

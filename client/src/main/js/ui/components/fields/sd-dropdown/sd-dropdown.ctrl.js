@@ -7,6 +7,9 @@ class SDDropdownComponentController{
     @NGInject() $attrs;
     @NGInject() $scope;
 
+    iconClassFuncPassed = false;
+    filterFuncPassed = false;
+
     $onInit(){
         this.selectedValue = this.target;
         // ToDo оптимизировать эти 2 watch
@@ -26,6 +29,12 @@ class SDDropdownComponentController{
             this.fetch(this.lastFetchRequest)
         });
         if (this.cache) this.fetch();
+        this.checkPassedFunctions()
+    }
+
+    checkPassedFunctions() {
+        this.iconClassFuncPassed = Boolean(this.$attrs["iconClass"]);
+        this.filterFuncPassed = Boolean(this.$attrs["filter"]);
     }
 
     get isIgnoringSameText() {
@@ -44,6 +53,14 @@ class SDDropdownComponentController{
 
     get debounceTime() {
         return this.debounce || 500;
+    }
+
+    get hasIcons(){
+        return this.iconClassFuncPassed
+    }
+
+    getIconFor(value) {
+        return this.iconClass({$value:value})
     }
 
     display(value){
@@ -95,7 +112,7 @@ class SDDropdownComponentController{
         if (!this.values) return;
         if (!text) return this.values;
 
-        if (this.$attrs["filter"]) {
+        if (this.filterFuncPassed) {
             return this.values.filter(val => this.filter({$value:val,$text:text}));
         }
 
