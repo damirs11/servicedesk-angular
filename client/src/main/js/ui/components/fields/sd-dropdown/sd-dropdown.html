@@ -27,6 +27,7 @@
     <div class="ui-select-container ui-select-bootstrap" disabled="disabled">
         <div class="ui-select-match ng-scope" disabled="disabled">
             <span tabindex="-1" class="form-control ui-select-toggle" style="outline: 0;" disabled="true">
+                <i ng-if="ctrl.hasIcons" ng-class="ctrl.getIconFor(ctrl.selectedValue)"></i>
                 <span class="ui-select-placeholder text-muted" ng-bind="ctrl.display(ctrl.selectedValue)"></span>
                 <i class="caret pull-right"></i>
             </span>
@@ -37,5 +38,6 @@
 
 <!--Режим просмотра-->
 <div data-ng-if="!ctrl.editing" class="sd-dropdown-view">
+    <i ng-if="ctrl.hasIcons" ng-class="ctrl.getIconFor(ctrl.selectedValue)"></i>
     <span ng-bind="ctrl.display(ctrl.selectedValue)"></span>
 </div>
