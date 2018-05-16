@@ -1,9 +1,10 @@
 const SDIconFilter = () => (entity) => {
-  switch (entity.constructor.name) {
-      case "EntityPriority":
-        return getEntityPriorityIcon(entity);
-        break;
-  }
+    if (entity == null) return "sd-icon_unknown";
+    switch (entity.constructor.name) {
+        case "EntityPriority":
+            return getEntityPriorityIcon(entity);
+            break;
+    }
 };
 
 const getEntityPriorityIcon = (priority) => {

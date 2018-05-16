@@ -6,6 +6,7 @@
                search-enabled="ctrl.searchEnabled"
     >
         <ui-select-match allow-clear="{{ctrl.isAllowClear}}" placeholder="{{ctrl.placeholder}}">
+            <i ng-if="ctrl.hasIcons" ng-class="ctrl.getIconFor($select.selected)"></i>
             {{ctrl.display($select.selected)}}
         </ui-select-match>
         <ui-select-choices repeat="$value in ctrl.getFilteredValues($select.search) track by $index"
