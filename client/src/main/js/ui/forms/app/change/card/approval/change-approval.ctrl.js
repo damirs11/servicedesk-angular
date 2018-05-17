@@ -50,10 +50,6 @@ class ChangeCardApprovalController{
      * @type {SD.ApproverVote}
      */
     ownVote;
-    /**
-     * согласующий
-     */
-    approverVote;
 
     // Статус стейта, редактирование/просмотр
     editing = false;
@@ -67,11 +63,15 @@ class ChangeCardApprovalController{
         this.loadOwnVote();
         this.editing = false;
     }
+
+    selectedApprover = null;
     async addApprover(){
-        this.approverVote.entityId = this.changeId;
-        this.approverVote.entityType = {id:this.approval.ownerEntityType};
-        await this.approverVote.create();
-        delete this.approverVote["approver"]; // Очищаем поле
+        const approverVote = new this.SD.ApproverVote();
+        approverVote.approver = this.selectedApprover;
+        approverVote.entityId = this.changeId;
+        approverVote.entityType = {id:this.approval.ownerEntityType};
+        await approverVote.create();
+        this.selectedApprover = null; // Очищаем поле
         this.grid.fetchData();
     }
 
@@ -112,7 +112,6 @@ class ChangeCardApprovalController{
         this.loadOwnVote();
 
         this.dummyApproval = new this.SD.Approval(this.approval.id);
-        this.approverVote = new this.SD.ApproverVote();
         grid.fetchData();
         this.registerLeaveListener();
     }

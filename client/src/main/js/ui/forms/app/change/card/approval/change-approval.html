@@ -84,6 +84,12 @@
                         ></sd-number>
                     </div>
 
+                </form>
+            </div>
+
+            <div class="entity-container__content">
+
+                <form class="form-inline entity-properties" data-ng-if="ctrl.isApproversEditable() && ctrl.editing">
                     <div class="form-group e-prop">
                         <label>Рабочая группа:</label>
                         <sd-dropdown class="input-group e-prop__value"
@@ -95,22 +101,10 @@
                                      editing="ctrl.isEditableField()"
                         ></sd-dropdown>
                     </div>
-                </form>
-            </div>
-
-            <div class="entity-container__content sd-approval-grid">
-                <div data-ui-grid="ctrl.grid" class="grid"
-                     data-ui-grid-resize-columns
-                     data-ui-grid-autoResize
-                     data-ui-grid-selection>
-                </div>
-            </div>
-            <div class="entity-container__content">
-                <form class="form-inline entity-properties" data-ng-if="ctrl.isApproversEditable()">
                     <div class="form-group e-prop">
                         <label>Согласующий:</label>
                         <sd-dropdown class="input-group e-prop__value"
-                                     target="ctrl.approverVote.approver"
+                                     target="ctrl.selectedApprover"
                                      fetch-data="ctrl.loadApprovers($text)"
                                      placeholder="Введите имя персоны"
                                      display-value="$value.name"
@@ -129,6 +123,15 @@
                     </div>
                 </form>
             </div>
+
+            <div class="entity-container__content sd-approval-grid">
+                <div data-ui-grid="ctrl.grid" class="grid"
+                     data-ui-grid-resize-columns
+                     data-ui-grid-autoResize
+                     data-ui-grid-selection>
+                </div>
+            </div>
+
         </div>
     </content>
 </div>
