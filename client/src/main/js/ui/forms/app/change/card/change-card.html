@@ -40,16 +40,6 @@
             </message>
         </sd-entity-error>
 
-        <sd-entity-error data-ng-if="ctrl.loadingErrorIsReadDisallowed">
-            <header class="head entity-error__header__text">
-                <span class="glyphicon glyphicon-ban-circle"></span>
-                Ошибка доступа
-            </header>
-            <message class="body entity-error__body__text">
-                У вас нет прав на просмотр данного изменения
-            </message>
-        </sd-entity-error>
-
         <sd-entity-error data-ng-if="ctrl.loadingErrorIsServerOffline">
             <header class="head entity-error__header__text">
                 <span class="glyphicon glyphicon-ban-circle"></span>
@@ -66,7 +56,7 @@
                 Возникла непредвиденная ошибка
             </header>
             <message class="body entity-error__body__text">
-                <span data-ng-bind="ctrl.loadingError"></span>
+                <span data-ng-bind="ctrl.customErrorText"></span>
             </message>
         </sd-entity-error>
 

@@ -79,24 +79,18 @@ class ChangeCardController {
         return this.loadingError && this.loadingError.status === -1;
     }
 
-    get loadingErrorIsReadDisallowed(){
-        return this.loadingError && this.loadingError.reason == "readDisallowed"
-    }
-
     get loadingErrorIsCustom(){
         return !this.loadingErrorIsNotFound &&
-            !this.loadingErrorIsServerOffline &&
-            !this.loadingErrorIsReadDisallowed
+            !this.loadingErrorIsServerOffline
         ;
+    }
+    get customErrorText() {
+        if (this.loadingError && this.loadingError.data.text) return this.loadingError.data.text;
+        return this.loadingError.toString();
     }
 
     async $loadAccess() {
         await this.change.updateAccessRules();
-
-        if (!this.change.accessRules.isReadEntityAllowed) {
-            this.loadingError = {reason: "readDisallowed"};
-            throw this.loadingError
-        }
     }
 
     async $loadChange(){

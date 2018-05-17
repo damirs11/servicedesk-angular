@@ -71,6 +71,10 @@ class WorkorderViewController {
             ;
     }
 
+    get customErrorText() {
+        if (this.loadingError && this.loadingError.data.text) return this.loadingError.data.text;
+        return this.loadingError.toString();
+    }
 
     async $loadStatuses() {
         this.statusList = await this.SD.EntityStatus.list({entityTypeId:TYPEID_WORKORDER});
@@ -78,11 +82,6 @@ class WorkorderViewController {
 
     async $loadAccess() {
         await this.workorder.updateAccessRules();
-
-        if (!this.workorder.accessRules.isReadEntityAllowed) {
-            this.loadingError = {reason: "readDisallowed"};
-            throw this.loadingError
-        }
     }
 
     async $loadWorkorder(){
