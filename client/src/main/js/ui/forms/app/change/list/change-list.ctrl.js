@@ -35,6 +35,15 @@ class ChangeListController {
         this.$scope.$on("grid:double-click",::this._gridDoubleClick);
     }
 
+    get isCreateAllowed(){
+        return this.Session.getTypeAccessRules("Change").isCreateEntityAllowed;
+    }
+
+    clickCreateNew(){
+        if (!this.isCreateAllowed) return;
+        this.$state.go("app.change.create.common");
+    }
+
     get gridSearchParams(){
         return this.grid.searchParamsContainer
     }

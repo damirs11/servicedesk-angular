@@ -82,7 +82,7 @@
                 Открыть
             </a>
 
-            <a class="btn btn-default navbar-btn" data-ng-click="ctrl.clickNewWorkorder()">
+            <a class="btn btn-default navbar-btn" ng-disabled="!ctrl.isCreateAllowed" ng-click="ctrl.clickCreateNew()">
                 <span class="fa fa-plus"></span>
                 Новое
             </a>

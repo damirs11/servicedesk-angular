@@ -34,6 +34,15 @@ class WorkorderListController {
         this.$scope.$on("grid:double-click",::this._gridDoubleClick);
     }
 
+    get isCreateAllowed(){
+        return this.Session.getTypeAccessRules("Workorder").isCreateEntityAllowed;
+    }
+
+    clickCreateNew(){
+        if (!this.isCreateAllowed) return;
+        this.$state.go("app.workorder.create.common");
+    }
+
     get gridSearchParams(){
         return this.grid.searchParamsContainer
     }
@@ -96,7 +105,7 @@ class WorkorderListController {
      */
     clearFulltextSearch() {
         this.$scope.search.text = null; // Сбрасываем само текстовое поле.
-        this.$scope.search.no = null
+        this.$scope.search.no = null;
         if (this.gridSearchParams.fulltext == undefined && this.gridSearchParams.no == undefined) return;
         this.gridSearchParams.add({fulltext:undefined, no:undefined}); // set params & auto-fetch
     }
@@ -116,10 +125,6 @@ class WorkorderListController {
         if (rows.length != 1) return;
         const row = rows[0];
         this.$state.go("app.workorder.card.view", {workorderId: row.id});
-    }
-
-    clickNewWorkorder() {
-        this.$state.go("app.workorder.create.common");
     }
 }
 
