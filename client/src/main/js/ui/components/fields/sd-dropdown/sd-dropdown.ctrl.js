@@ -9,6 +9,7 @@ class SDDropdownComponentController{
 
     iconClassFuncPassed = false;
     filterFuncPassed = false;
+    linkFuncPassed = false;
 
     $onInit(){
         this.selectedValue = this.target;
@@ -35,6 +36,7 @@ class SDDropdownComponentController{
     checkPassedFunctions() {
         this.iconClassFuncPassed = Boolean(this.$attrs["iconClass"]);
         this.filterFuncPassed = Boolean(this.$attrs["filter"]);
+        this.linkFuncPassed = Boolean(this.$attrs["link"]);
     }
 
     get isIgnoringSameText() {
@@ -61,6 +63,14 @@ class SDDropdownComponentController{
 
     getIconFor(value) {
         return this.iconClass({$value:value})
+    }
+
+    get hasLinks() {
+        return this.linkFuncPassed
+    }
+
+    getLinkFor(value) {
+        return this.link({$value: value})
     }
 
     display(value){

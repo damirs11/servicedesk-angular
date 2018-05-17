@@ -208,11 +208,12 @@
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.workorder.change"
                              fetch-data="ctrl.loadChanges($text)"
-                             display-value="'№'+$value.no"
+                             display-value="'№'+$value.no+': '+$value.subject"
                              allow-empty="true"
                              editing="ctrl.editing"
                              disabled="!ctrl.accessRules.canUpdate('change')"
                              min-symbols-fetch="1"
+                             link="$value | sdPageLink"
                 ></sd-dropdown>
             </div>
 
