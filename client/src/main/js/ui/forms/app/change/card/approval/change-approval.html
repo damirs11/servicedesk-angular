@@ -6,7 +6,8 @@
                 <div style="display: inline-block">
                     <button class="btn btn-default"
                             data-ng-if="!ctrl.editing&&ctrl.isEditAllow()"
-                            data-ng-click="ctrl.startEditing()">
+                            data-ng-click="ctrl.startEditing()"
+                            style="vertical-align: top">
                         Редактировать
                     </button>
                     <button class="btn btn-success"
@@ -20,12 +21,17 @@
                             data-ng-click="ctrl.cancelEditing()">
                         Отмена
                     </button>
-                    <button class="btn btn-default"
-                            data-ng-if="!ctrl.editing"
-                            data-ng-click="ctrl.makeVote()"
-                            ng-show="ctrl.isMakeVoteButtonVisible">
-                        Согласовать
-                    </button>
+                    <sd-vote style="display: inline-block; margin-left: 20px"
+                             ng-if="!ctrl.editing && ctrl.isMakeVoteButtonVisible"
+                             vote="ctrl.ownVote"
+                             on-vote="ctrl.grid.fetchData()">
+                    </sd-vote>
+                    <!--<button class="btn btn-default"-->
+                            <!--data-ng-if="!ctrl.editing"-->
+                            <!--data-ng-click="ctrl.makeVote()"-->
+                            <!--ng-show="ctrl.isMakeVoteButtonVisible">-->
+                        <!--Согласовать-->
+                    <!--</button>-->
                 </div>
             </div>
 

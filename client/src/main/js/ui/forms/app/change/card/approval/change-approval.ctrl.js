@@ -85,12 +85,7 @@ class ChangeCardApprovalController{
         return this.grid.getSelectedRows().length == 0;
     }
 
-    async makeVote(){
-        if (!this.ownVote) return;
-        const newVote = await this.ModalAction.makeVote(this.$scope, {vote: this.ownVote});
-        await newVote.save();
-        this.grid.fetchData();
-    }
+
     get isMakeVoteButtonVisible(){
         return this.ownVote != null
             && this.approval.status.id == APPROVAL_STATUSES.BEGIN;

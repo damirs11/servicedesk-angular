@@ -57,6 +57,7 @@ import {SDEntityErrorDirective} from "./components/widget/sd-entity-error/sd-ent
 import {SDEntityCardTabsComponent} from "./components/widget/sd-entity-card-tabs/sd-entity-card-tabs.component";
 import {SDIconFilter} from "./components/filters/sd-icon.filter";
 import {SDPageLinkFilter} from "./components/filters/sd-page-link.filter";
+import {SDVoteComponent} from "./components/widget/sd-vote/sd-vote.component";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -111,6 +112,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .component("sdEntityCardTabs",SDEntityCardTabsComponent)
     .component("sdStatusBar",SDStatusBarComponent)
     .component("sdAvatar",SDAvatarComponent)
+    .component("sdVote",SDVoteComponent)
     /** Компоненты для чата */
     .component("chatLine",ChatLineComponent)
     .component("chatInfoBlock",ChatInfoBlockComponent)

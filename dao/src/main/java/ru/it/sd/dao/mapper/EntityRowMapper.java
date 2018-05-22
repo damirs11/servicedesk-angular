@@ -71,6 +71,7 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 						long value = rs.getLong(columnName);
 						ReflectionUtils.setField(field, result, rs.wasNull() ? null : value);
 					}
+					break;
 					case "long": {
 						ReflectionUtils.setField(field, result, rs.getLong(columnName));
 					}
@@ -79,6 +80,7 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 						int value = rs.getInt(columnName);
 						ReflectionUtils.setField(field, result, rs.wasNull() ? null : value);
 					}
+					break;
 					case "int": {
 						ReflectionUtils.setField(field, result, rs.getInt(columnName));
 					}
@@ -91,6 +93,7 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 						boolean value = rs.getBoolean(columnName);
 						ReflectionUtils.setField(field, result, rs.wasNull() ? null : value);
 					}
+					break;
 					case "boolean": {
 						ReflectionUtils.setField(field, result, rs.getBoolean(columnName));
 					}
@@ -103,6 +106,7 @@ public class EntityRowMapper<T> implements ResultSetExtractor<List<T>>, RowMappe
 						double value = rs.getDouble(columnName);
 						ReflectionUtils.setField(field, result, rs.wasNull() ? null : value);
 					}
+					break;
 					case "double":{
 						ReflectionUtils.setField(field, result, rs.getDouble(columnName));
 					}
