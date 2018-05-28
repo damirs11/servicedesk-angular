@@ -100,9 +100,9 @@ function PersonProvider(EditableEntity, SD, AttachmentsHolder) {
             if (this.avatarAttachment === undefined && !this.$loadingAvatar) this.$loadAvatarAttachment();
 
             if (this.sex) {
-                return "img/male-avatar.png";
-            } else if (this.sex === false) {
                 return "img/female-avatar.png";
+            } else if (this.sex === false) {
+                return "img/male-avatar.png";
             } else {
                 return "img/default-avatar.png";
             }
