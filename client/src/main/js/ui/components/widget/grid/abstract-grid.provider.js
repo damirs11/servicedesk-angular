@@ -116,6 +116,7 @@ function AbstractGridProvider($parse, $timeout) {
         }
 
         getSelectedRows(){
+            if (!this.gridApi || !this.gridApi.selection) return [];
             return this.gridApi.selection.getSelectedRows();
         }
 
