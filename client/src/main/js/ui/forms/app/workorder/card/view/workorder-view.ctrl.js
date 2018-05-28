@@ -13,11 +13,12 @@ class WorkorderCardViewController{
     @NGInject() $transitions;
     @NGInject() $pageLock;
 
-    /**
-     * Дублирование workorder.entityAccess
-     * для краткости в html
-     */
-    entityAccess;
+    requiredFields = [
+        "status","subject","description","category","initiator",
+        "assignment.workgroup","assignment.executor", "deadline",
+        "priority",
+    ];
+
     /**
      * Наряд
      */
@@ -70,6 +71,25 @@ class WorkorderCardViewController{
         return this.workorder.checkModified() || this.workorder.assignment.checkModified();
     }
 
+    get saveButtonTitle(){
+        if (!this.checkUnsavedModifies()) return "Нет изменений для сохранения";
+        if (!this.isRequiredFieldsFilled) return "Не заполнены обязательные поля";
+    }
+
+    get isRequiredFieldsFilled() {
+        for(const fieldName of this.requiredFields) {
+            const subnames = fieldName.split("."); // Сложное имя поля (пр. assignment.executor)
+            let obj = this.workorder;
+            for (let i = 0; i < subnames.length; i++) {
+                const subname = subnames[i];
+                const value = obj[subname];
+                if (value == null) return false;
+                obj = obj[subname]
+            }
+        }
+        return true;
+    }
+
     async loadInititators(text) {
         const filter = {selectable:"1"};
         if (text) filter.fullname_like = text;
@@ -96,6 +116,12 @@ class WorkorderCardViewController{
         const filter = {entityTypeId: TYPEID_WORKORDER};
         if (text) filter.fulltext = text;
         return this.SD.EntityStatus.list(filter);
+    }
+
+    async loadPriorities(text) {
+        const filter = {entityTypeId: this.SD.Workorder.$entityTypeId};
+        if (text) filter.fulltext = text;
+        return this.SD.EntityPriority.list(filter);
     }
 
     async loadCategories(text) {

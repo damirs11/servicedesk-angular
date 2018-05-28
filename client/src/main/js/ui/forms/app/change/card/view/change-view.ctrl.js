@@ -68,6 +68,12 @@ class ChangeCardViewController{
         }
         return true;
     }
+
+    get saveButtonTitle(){
+        if (!this.checkUnsavedModifies()) return "Нет изменений для сохранения";
+        if (!this.isRequiredFieldsFilled) return "Не заполнены обязательные поля";
+    }
+
     registerLeaveEditListener() {
         this.$pageLock(this.$scope)
             .setTitle("Несохраненные изменения")

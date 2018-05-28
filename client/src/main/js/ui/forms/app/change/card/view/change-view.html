@@ -10,8 +10,9 @@
             </button>
             <button class="btn btn-success"
                     ng-if="ctrl.editing"
-                    ng-disabled="!ctrl.checkUnsavedModifies()||!ctrl.isRequiredFieldsFilled"
-                    ng-click="ctrl.saveEditing()">
+                    ng-disabled="!ctrl.checkUnsavedModifies() || !ctrl.isRequiredFieldsFilled"
+                    ng-click="ctrl.saveEditing()"
+                    title="{{ctrl.saveButtonTitle}}">
                 Сохранить
             </button>
             <button class="btn btn-default"
