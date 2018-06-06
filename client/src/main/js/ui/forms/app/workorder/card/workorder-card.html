@@ -28,35 +28,14 @@
 
     <error>
 
-        <sd-entity-error data-ng-if="ctrl.loadingErrorIsNotFound">
+        <sd-entity-error>
             <header class="head entity-error__header__text">
                 <span class="glyphicon glyphicon-ban-circle"></span>
-                Наряд не найден
+                Возникла ошибка
             </header>
             <message class="body entity-error__body__text">
-                Перейдите к
-                <a data-ui-sref="app.workorder.list">списку нарядов</a>,
-                чтобы найти нужный наряд
-            </message>
-        </sd-entity-error>
-
-        <sd-entity-error data-ng-if="ctrl.loadingErrorIsServerOffline">
-            <header class="head entity-error__header__text">
-                <span class="glyphicon glyphicon-ban-circle"></span>
-                Сервер недоступен.
-            </header>
-            <message class="body entity-error__body__text">
-                Нет соединения с сервером. Попробуйте повторить попытку позже.
-            </message>
-        </sd-entity-error>
-
-        <sd-entity-error data-ng-if="ctrl.loadingErrorIsCustom">
-            <header class="head entity-error__header__text">
-                <span class="glyphicon glyphicon-ban-circle"></span>
-                Возникла непредвиденная ошибка
-            </header>
-            <message class="body entity-error__body__text">
-                <span data-ng-bind="ctrl.customErrorText"></span>
+                Не удалось отобразить наряд. Вы можете вернуться
+                <a data-ui-sref="app.workorder.list">к списку нарядов</a>,
             </message>
         </sd-entity-error>
 

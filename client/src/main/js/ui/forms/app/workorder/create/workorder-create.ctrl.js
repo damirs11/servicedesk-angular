@@ -89,11 +89,8 @@ class WorkorderCreateController{
             this.$state.go("app.workorder.card.view",{workorderId: createdWor.id})
         } catch (e) {
             this.errorCreating = true;
-            this.ModalAction.alert(this.$scope, {
-                header: "Ошибка!",
-                msg: "Не удалось создать Наряд. Попробуйте позже.",
-                style: "dialog-header-error",
-            })
+            this.busy = false;
+            throw e;
         }
         this.busy = false;
     }

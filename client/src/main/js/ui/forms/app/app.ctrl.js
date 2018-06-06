@@ -1,4 +1,5 @@
 import {NGInject, NGInjectClass} from "../../../common/decorator/ng-inject.decorator";
+import {UIDisplayedError} from "../../utils/ui-displayed-error";
 
 @NGInjectClass()
 class AppController {

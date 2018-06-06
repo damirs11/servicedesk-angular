@@ -28,35 +28,14 @@
 
     <error>
 
-        <sd-entity-error data-ng-if="ctrl.loadingErrorIsNotFound">
+        <sd-entity-error>
             <header class="head entity-error__header__text">
                 <span class="glyphicon glyphicon-ban-circle"></span>
-                Изменение не найдено
+                Возникла ошибка
             </header>
             <message class="body entity-error__body__text">
-                Перейдите к
-                <a data-ui-sref="app.change.list">списку изменений</a>,
-                чтобы найти нужное изменение
-            </message>
-        </sd-entity-error>
-
-        <sd-entity-error data-ng-if="ctrl.loadingErrorIsServerOffline">
-            <header class="head entity-error__header__text">
-                <span class="glyphicon glyphicon-ban-circle"></span>
-                Сервер недоступен.
-            </header>
-            <message class="body entity-error__body__text">
-                Нет соединения с сервером. Попробуйте повторить попытку позже.
-            </message>
-        </sd-entity-error>
-
-        <sd-entity-error data-ng-if="ctrl.loadingErrorIsCustom">
-            <header class="head entity-error__header__text">
-                <span class="glyphicon glyphicon-ban-circle"></span>
-                Возникла непредвиденная ошибка
-            </header>
-            <message class="body entity-error__body__text">
-                <span data-ng-bind="ctrl.customErrorText"></span>
+                Не удалось отобразить изменение. Вы можете вернуться
+                <a data-ui-sref="app.change.list">к списку изменений</a>,
             </message>
         </sd-entity-error>
 

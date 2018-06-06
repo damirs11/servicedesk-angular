@@ -1,7 +1,8 @@
-ConnectorConfig.$inject = ["$connectorProvider"];
+import {ConnectorRespError} from "./connector-rejection";
+
 function ConnectorConfig($connectorProvider) {
 
-    const errorHandler = (error,Session,$state,$q) => {
+    const errorHandler = (error,Session,$state,$injector) => {
         if (error.status === 401) {
             if ('GULP_REPLACE:DEBUG') console.error("Got 401 response code.",error.toString());
             Session.user = null;
@@ -13,11 +14,17 @@ function ConnectorConfig($connectorProvider) {
             console.log("Server unreachable")
             // alert('Сервер недоступен');
         }
-        throw error;
+        throw new ConnectorRespError("Не удалось выполнить запрос к серверу",error.data,error.status);
     };
-    errorHandler.$inject = ["error","Session","$state","$q"];
+    errorHandler.$inject = ["error","Session","$state","$injector"];
 
     $connectorProvider.setErrorHandler(errorHandler)
+}
+ConnectorConfig.$inject = ["$connectorProvider"];
+
+// Обрабатывает промисы, которые никто не обработал
+function HandlePromiseRejection() {
+
 }
 
 export {ConnectorConfig}

@@ -62,11 +62,8 @@ class ChangeCreateController{
             this.$state.go("app.change.card.view",{changeId: createdChange.id})
         } catch (e) {
             this.errorCreating = true;
-            this.ModalAction.alert(this.$scope, {
-                header: "Ошибка!",
-                msg: "Не удалось создать изменение. Попробуйте позже.",
-                style: "dialog-header-error",
-            })
+            this.busy = false;
+            throw e;
         }
         this.busy = false;
     }

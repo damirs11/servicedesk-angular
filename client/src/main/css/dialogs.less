@@ -128,5 +128,23 @@
 
   }
 
+}
 
+.dialog-server-error {
+  &__details {
+    transition: max-height 0.2s ease-out, visibility 0.2s linear;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: #d6d3d3 dashed 1px;
+    &.details-hidden {
+      max-height: 0;
+      visibility: hidden;
+      overflow: hidden;
+      margin: 0;
+      //display: none;
+    }
+  }
 }

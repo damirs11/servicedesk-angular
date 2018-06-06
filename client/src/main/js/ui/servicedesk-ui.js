@@ -27,11 +27,11 @@ import {default as ModalAction} from "./components/modal-action/modal-action";
 import {EqualsTo} from "./components/validators/equals-to";
 import {DifferentFrom} from "./components/validators/different-from";
 import {FormConfig} from "./forms/form.config";
-import {ConnectorConfig} from "./components/connector.config";
+import {ConnectorConfig} from "./components/config/connector/connector.config";
 import {IndexController} from "./index.ctrl";
 import {SDFocusDirective} from "./components/directives/sd-focus.directive";
 import {SDOnInteractOutDirective} from "./components/directives/sd-on-interact-out";
-import {uiSelectConfig} from "./components/uiSelect.config";
+import {uiSelectConfig} from "./components/config/uiSelect.config";
 import {SDTextComponent} from "./components/fields/sd-text/sd-text.component";
 import {SDDropdownComponent} from "./components/fields/sd-dropdown/sd-dropdown.component";
 import {SDDateTimeComponent} from "./components/fields/sd-datetime/sd-datetime.component";
@@ -58,6 +58,7 @@ import {SDEntityCardTabsComponent} from "./components/widget/sd-entity-card-tabs
 import {SDIconFilter} from "./components/filters/sd-icon.filter";
 import {SDPageLinkFilter} from "./components/filters/sd-page-link.filter";
 import {SDVoteComponent} from "./components/widget/sd-vote/sd-vote.component";
+import {SDExceptionHandler} from "./components/config/sd-exception-handler";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -90,6 +91,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .filter("sdIcon",SDIconFilter)
     .filter("sdPageLink",SDPageLinkFilter)
 
+    .factory("$exceptionHandler", SDExceptionHandler)
     .factory("$grid",$gridFactory)
     .factory("SDValidator",SDValidatorFactory)
     .factory("$pageLock",PageLockFactory)

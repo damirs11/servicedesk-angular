@@ -32,6 +32,8 @@ import {ChangeCreatedModal} from "./app/entity-created/change-created/change-cre
 import {WorkorderCreatedModal} from "./app/entity-created/workorder-created/workorder-created.modal";
 import {MakeVoteModal} from "./app/make-vote/make-vote.modal";
 import {AttachWorkorderModal} from "./app/change/card/workorders/attach-workorder/attach-workorder.modal";
+import {ConnectorErrorModal} from "./app/errors/connector-error/connector-error.modal";
+import {UIDisplayedErrorModal} from "./app/errors/ui-displayed-error/ui-displayed-error.modal";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -42,7 +44,9 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .modal(WorkorderCreatedModal)
         .modal(LeavePageModal)
         .modal(MakeVoteModal)
-        .modal(AttachWorkorderModal);
+        .modal(AttachWorkorderModal)
+        .modal(ConnectorErrorModal)
+        .modal(UIDisplayedErrorModal);
     $stateProvider
         .state(AppState)
         .state(MainState)
