@@ -30,7 +30,7 @@ function ApproverVoteGridProvider(AbstractGrid) {
 
             this.enableRowSelection = false; // Дополнительный столбец для выбора строк таблицы
             this.enableSorting = false; // Выключаем сортировку
-            this.enableSelectAll = false; // Галочка в заголовке дополнительного столбца
+            this.enableSelectAll = true; // Галочка в заголовке дополнительного столбца
             this.rowHeight = 25;
             this.rowTemplate = rowTemplate;
 
