@@ -320,6 +320,20 @@ class GridPropertyContainer {
     @Enumerable(false)
     eventHandlers = {};
 
+    clear() {
+        const keys = Object.keys(this);
+        for (let key of keys) {
+            delete this[key];
+            this._notifyPropertyChange(key,this[key],undefined);
+        }
+        this._notifyPropertyChange()
+    }
+
+    quietClear() {
+        const keys = Object.keys(this);
+        for (let key of keys) delete this[key];
+    }
+
     /**
      * Задает поля в объект и кидает эвенты об обновлении.
      * Для того, чтобы задать поле и не кидать эвент

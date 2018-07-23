@@ -5,6 +5,7 @@ class ChangeListController {
 
     /** Критерии поиска, находящиеся в ссылке */
     urlSearchParams = {};
+    defaultSearchFilter = new UIEntityFilter({value:undefined,name:"Не выбран"});
 
     constructor(SD, $scope, $grid, $state, Session, $location, searchParams) {
         this.SD = SD;
@@ -50,7 +51,7 @@ class ChangeListController {
 
     _setFilter(){
         if (!this.urlSearchParams.filter) {
-            this.currentFilter = this.filters[0];
+            this.currentFilter = this.defaultSearchFilter;
             return;
         }
         const filterName = this.urlSearchParams.filter;
@@ -76,6 +77,7 @@ class ChangeListController {
 
     async configFilter() {
         const filters = this.filters = [];
+        filters.push(this.defaultSearchFilter);
         filters.push(new UIEntityFilter("Назначенные мне","executor"));
 
         const personId = this.Session.user.person.id;

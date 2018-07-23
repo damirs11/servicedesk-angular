@@ -28,7 +28,7 @@
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle"
                                     data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" id="filterMenuButton">
-                                {{ctrl.currentFilter.name}}
+                                {{ctrl.currentFilter.name || 'Выберите фильтр'}}
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="filterMenuButton">
@@ -64,7 +64,7 @@
                                placeholder="Введите строку поиска">
                         <div class="input-group-btn input-group-btn-each-border">
                             <button type="submit" class="btn btn-default">Найти</button>
-                            <button class="btn btn-default" data-ng-click="ctrl.clearFulltextSearch()">Сбросить</button>
+                            <button class="btn btn-default" data-ng-click="ctrl.clearSearchParams()">Сбросить</button>
                         </div>
                     </div>
                 </form>

@@ -5,6 +5,8 @@ class WorkorderListController {
 
     /** Критерии поиска, находящиеся в ссылке */
     urlSearchParams = {};
+    /** Фильтр по умолчанию**/
+    defaultSearchFilter = new UIEntityFilter({value:undefined,name:"Не выбран"});
 
     constructor(SD, $scope, $grid, $state, Session, $location,  searchParams) {
         this.SD = SD;
@@ -49,7 +51,7 @@ class WorkorderListController {
 
     _setFilter(){
         if (!this.urlSearchParams.filter) {
-            this.currentFilter = this.filters[0];
+            this.currentFilter = this.defaultSearchFilter;
             return;
         }
         const filterName = this.urlSearchParams.filter;
@@ -75,6 +77,7 @@ class WorkorderListController {
 
     async configFilter() {
         const filters = this.filters = [];
+        filters.push(this.defaultSearchFilter);
         filters.push(new UIEntityFilter("Назначенные мне","executor"));
         filters.push(new UIEntityFilter("Созданные мной","creator"));
         filters.push(new UIEntityFilter({divider: true}));
@@ -99,6 +102,13 @@ class WorkorderListController {
             return;
         }
         this.grid.searchParamsContainer.add({fulltext:text, no:no}); // set params & auto-fetch
+    }
+
+    clearSearchParams() {
+        this.gridSearchParams.clear();
+        this.$scope.search.text = null; // Сбрасываем само текстовое поле.
+        this.$scope.search.no = null;
+        this.currentFilter = this.defaultSearchFilter;
     }
     /**
      * При нажатии на кнопку "Сбросить"

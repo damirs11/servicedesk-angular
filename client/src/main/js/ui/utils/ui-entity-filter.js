@@ -47,7 +47,7 @@ class UIEntityFilter {
     header;
 
     get clickable(){
-        return this.value && !this.childs && !this.divider
+        return this.value || !this.childs && !this.divider
     }
 
     get hasChilds(){
