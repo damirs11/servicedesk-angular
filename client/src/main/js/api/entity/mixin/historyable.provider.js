@@ -54,6 +54,7 @@ function HistoryableProvider($connector, SD) {
         /**
          * Отправляет сообщение в чат сущности.
          * @param text {String} - текст сообщения
+         * @param type {String} - тип сообщения (инициатору, исполнителю и т.п.)
          * @return {Promise.<void>}
          */
         async sendChatMessage(text, type) {

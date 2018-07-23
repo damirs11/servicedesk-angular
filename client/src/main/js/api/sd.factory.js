@@ -28,6 +28,7 @@ import {EntityAssignmentProvider} from "./entity/entity-assignment.provider";
 import {ConfigurationItemProvider} from "./entity/configuration-item.provider";
 import {EntityCode1Provider} from "./entity/entity-code1.provider";
 import {FolderProvider} from "./entity/folder.provider";
+import {ProblemProvider} from "./entity/problem";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -80,6 +81,7 @@ const SDConstructor = function SD($injector,cache) {
     this.Attachment = $injector.instantiate(AttachmentProvider,locals);
     this.FileInfo = $injector.instantiate(FileInfoProvider,locals);
     this.ConfigurationItem = $injector.instantiate(ConfigurationItemProvider, locals);
+    this.Problem = $injector.instantiate(ProblemProvider, locals);
     /** другие-сущности */
     this.EntityStatus = $injector.instantiate(StatusProvider,locals);
     this.EntityAssignment = $injector.instantiate(EntityAssignmentProvider,locals);
