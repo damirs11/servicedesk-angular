@@ -62,6 +62,13 @@ class AppController {
         return false; // временно скроем
         // return this.Session.getTypeAccessRules("ConfigurationItem").isReadEntityAllowed
     }
+    /**
+     * Право на просмотр "Изменений"
+     * @returns {Boolean}
+     */
+    get canSeeTabProblems() {
+        return true; // Не реализован доступ к правам
+    }
 }
 
 export {AppController}
