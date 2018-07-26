@@ -28,7 +28,7 @@ import {EntityAssignmentProvider} from "./entity/entity-assignment.provider";
 import {ConfigurationItemProvider} from "./entity/configuration-item.provider";
 import {EntityCode1Provider} from "./entity/entity-code1.provider";
 import {FolderProvider} from "./entity/folder.provider";
-import {ProblemProvider} from "./entity/problem";
+import {ProblemProvider} from "./entity/problem.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {

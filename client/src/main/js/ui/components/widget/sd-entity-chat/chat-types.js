@@ -18,6 +18,11 @@ const CHANGE_MESSAGE_TYPES = {
     CHANGE_EXECUTOR: new MessageType("CHANGE_EXECUTOR", "Комментарий исполнителю", "commentToExecutor")
 };
 
+const PROBLEM_MESSAGE_TYPES = {
+    PROBLEM_EXECUTOR: new MessageType("PROBLEM_MANAGER", "Комментарий исполнитель", "commentToExecutor"),
+    PROBLEM_INITIATOR: new MessageType("PROBLEM_INITIATOR", "Комментарий инициатору", "commentToInitiator"),
+};
+
 const WORKORDER_MESSAGE_TYPES = {
     WORKORDER_INITIATOR: new MessageType("WORKORDER_INITIATOR", "Комментарий по инициатору", "commentToInitiator"),
     WORKORDER_EXECUTOR: new MessageType("WORKORDER_EXECUTOR", "Комментарий исполнителю", "commentToExecutor")

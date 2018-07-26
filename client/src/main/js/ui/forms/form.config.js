@@ -36,6 +36,8 @@ import {ConnectorErrorModal} from "./app/errors/connector-error/connector-error.
 import {UIDisplayedErrorModal} from "./app/errors/ui-displayed-error/ui-displayed-error.modal";
 import {ProblemState} from "./app/problem/problem.state";
 import {ProblemListState} from "./app/problem/list/problem-list.state";
+import {ProblemCardState} from "./app/problem/card/problem-card.state";
+import {ProblemCardViewState} from "./app/problem/card/view/problem-view.state";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -79,6 +81,8 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(WorkorderCardAttachmentsState)
         .state(ProblemState)
         .state(ProblemListState)
+        .state(ProblemCardState)
+        .state(ProblemCardViewState)
         .state(TestState)
 
 }

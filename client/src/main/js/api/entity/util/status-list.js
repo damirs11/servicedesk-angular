@@ -13,3 +13,7 @@ export const CHANGE_STATUSES = {
     RESOLVED: 3095134330,
     CLOSED: 3095134331,
 };
+
+export const PROBLEM_STATUSES = {
+    // ToDo записать список статусов
+};

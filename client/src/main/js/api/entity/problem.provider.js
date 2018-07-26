@@ -9,7 +9,7 @@ import {TYPEID_PROBLEM} from "./util/entity-type-list";
 ProblemProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable", "AttachmentsHolder","Accessible"];
 function ProblemProvider(EditableEntity, SD, Historyable, Approvable, AttachmentsHolder, Accessible) {
     /**
-     * Персона
+     * Сущность - "Проблема"
      * @class
      * @name SD.Problem
      * @mixes ENTITY_MIXIN.Historyable
