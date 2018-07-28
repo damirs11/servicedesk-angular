@@ -6,100 +6,100 @@ import ru.it.sd.meta.FieldMeta;
 import java.util.Date;
 
 /**
- * Модельный класс для "Проблем"
+ * РњРѕРґРµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ РґР»СЏ "РџСЂРѕР±Р»РµРј"
  * @author nsychev
  * @since 05.06.2018
  */
 @ClassMeta(tableName = "itsm_problems", tableAlias = "pro")
 public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
     /** ID */
-    @FieldMeta(columnName = "pro_oid")
+    @FieldMeta(columnName = "pro_oid", key = true)
     private Long id;
-    /** Номер */
+    /** РќРѕРјРµСЂ */
     @FieldMeta(columnName = "pro_id")
     private Long no;
-    /** Статус */
+    /** РЎС‚Р°С‚СѓСЃ */
     @FieldMeta(columnName = "pro_sta_oid")
     private EntityStatus status;
-    /** Инициатор */
+    /** РРЅРёС†РёР°С‚РѕСЂ */
     @FieldMeta(columnName = "pro_requestor_per_oid")
     private Person initiator;
-    /** Объект обслуживания */
+    /** РћР±СЉРµРєС‚ РѕР±СЃР»СѓР¶РёРІР°РЅРёСЏ */
     @FieldMeta(columnName = "pro_cit_oid")
     private ConfigurationItem configurationItem;
-    /** Система */
+    /** РЎРёСЃС‚РµРјР° */
     //todo EntityCode4
-    /** Тема */
+    /** РўРµРјР° */
     @FieldMeta(columnName = "pro_description")
     private String subject;
-    /** Информация */
-    @FieldMeta(columnName = "pri_information")
+    /** РРЅС„РѕСЂРјР°С†РёСЏ */
+    @FieldMeta(columnName = "pri_information", tableAlias = "pri")
     private String description;
-    /** Ссылки на лог-файлы */
-    @FieldMeta(columnName = "pcf_problemtext4")
+    /** РЎСЃС‹Р»РєРё РЅР° Р»РѕРі-С„Р°Р№Р»С‹ */
+    @FieldMeta(columnName = "pcf_problemtext4", tableAlias = "pcf")
     private String logLinks;
-    /** Ссылка в jira */
-    @FieldMeta(columnName = "pcf_problemtext1")
+    /** РЎСЃС‹Р»РєР° РІ jira */
+    @FieldMeta(columnName = "pcf_problemtext1", tableAlias = "pcf")
     private String jiraLink;
-    /** Номер/дата обращения к вендору */
-    @FieldMeta(columnName = "pcf_problemtext3")
+    /** РќРѕРјРµСЂ/РґР°С‚Р° РѕР±СЂР°С‰РµРЅРёСЏ Рє РІРµРЅРґРѕСЂСѓ */
+    @FieldMeta(columnName = "pcf_problemtext3", tableAlias = "pcf")
     private String toVendor;
-    /** Обходное решение */
+    /** РћР±С…РѕРґРЅРѕРµ СЂРµС€РµРЅРёРµ */
     @FieldMeta(columnName = "pr2_4k2")
     private String workaround;
-    /** Решение */
+    /** Р РµС€РµРЅРёРµ */
     @FieldMeta(columnName = "prs_solution")
     private String solution;
-    /** Комментарий инициатору */
+    /** РљРѕРјРјРµРЅС‚Р°СЂРёР№ РёРЅРёС†РёР°С‚РѕСЂСѓ */
     @FieldMeta(columnName = "pro_workaround")
     private String commentToInitiator;
-    /** Приоритет */
+    /** РџСЂРёРѕСЂРёС‚РµС‚ */
     @FieldMeta(columnName = "pro_imp_oid")
     private EntityPriority entityPriority;
-    /** Крайний срок */
+    /** РљСЂР°Р№РЅРёР№ СЃСЂРѕРє */
     @FieldMeta(columnName = "pro_deadline")
     private Date deadline;
-    /** Выполнено(дата) */
+    /** Р’С‹РїРѕР»РЅРµРЅРѕ(РґР°С‚Р°) */
     @FieldMeta(columnName = "pro_actualfinish")
     private Date resolvedDate;
-    /** Закрыто(дата) */
+    /** Р—Р°РєСЂС‹С‚Рѕ(РґР°С‚Р°) */
     @FieldMeta(columnName = "pro_latefinish")
     private Date closureDate;
-    /** Просрочена*/
+    /** РџСЂРѕСЃСЂРѕС‡РµРЅР°*/
     @FieldMeta(columnName = "pcf_boolean12")
     private Boolean isOverdue;
-    /** Кем просрочена*/
+    /** РљРµРј РїСЂРѕСЃСЂРѕС‡РµРЅР°*/
     @FieldMeta(columnName = "pcf_boolean12")
     private Person whoOverdue;
-    /** План завершения*/
+    /** РџР»Р°РЅ Р·Р°РІРµСЂС€РµРЅРёСЏ*/
     @FieldMeta(columnName = "pro_planfinish")
     private Date planFinish;
-    /** Причина переноса крайнего срока*/
+    /** РџСЂРёС‡РёРЅР° РїРµСЂРµРЅРѕСЃР° РєСЂР°Р№РЅРµРіРѕ СЃСЂРѕРєР°*/
     @FieldMeta(columnName = "pcf_problemtext2")
     private String deferralReason;
-    /** Назначено */ //todo Реализовать назначено в дао Assignment
+    /** РќР°Р·РЅР°С‡РµРЅРѕ */ //todo Р РµР°Р»РёР·РѕРІР°С‚СЊ РЅР°Р·РЅР°С‡РµРЅРѕ РІ РґР°Рѕ Assignment
     private Assignment assignment;
     @FieldMeta(columnName = "pro_cat_oid")
     private EntityCategory category;
     @FieldMeta(columnName = "pro_cla_oid")
     private EntityClassification classification;
 
-    //todo функционал
+    //todo С„СѓРЅРєС†РёРѕРЅР°Р»
     @FieldMeta(columnName = "pro_clo_oid")
     private EntityClosureCode closureCode;
-    /** Папка */
+    /** РџР°РїРєР° */
     @FieldMeta(columnName = "pro_poo_oid")
     private Folder folder;
-    /** Не включать в отчет Заказчику*/
+    /** РќРµ РІРєР»СЋС‡Р°С‚СЊ РІ РѕС‚С‡РµС‚ Р—Р°РєР°Р·С‡РёРєСѓ*/
     @FieldMeta(columnName = "pcf_boolean1")
     private Boolean notAttachInReport;
 
-    //todo проявляется в версии
-    //todo решено в версии
-    /** Дата выпуска версии*/
+    //todo РїСЂРѕСЏРІР»СЏРµС‚СЃСЏ РІ РІРµСЂСЃРёРё
+    //todo СЂРµС€РµРЅРѕ РІ РІРµСЂСЃРёРё
+    /** Р”Р°С‚Р° РІС‹РїСѓСЃРєР° РІРµСЂСЃРёРё*/
     @FieldMeta(columnName = "pcf_problemdate2")
     private Date versionDate;
-    /** Комментарий исполнителю*/
+    /** РљРѕРјРјРµРЅС‚Р°СЂРёР№ РёСЃРїРѕР»РЅРёС‚РµР»СЋ*/
     @FieldMeta(columnName = "pr1_4k1")
     private String commentToExecutor;
 

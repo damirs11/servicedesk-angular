@@ -306,3 +306,53 @@ CREATE TABLE itsm_locations (
   loc_oid DECIMAL(18),
   loc_searchcode VARCHAR(255)
 );
+
+CREATE TABLE itsm_problems (
+  pro_oid DECIMAL(18),
+  pro_id DECIMAL(18),
+  pro_sta_oid DECIMAL(18),
+  pro_requestor_per_oid DECIMAL(18),
+  pro_cit_oid DECIMAL(18),
+  pro_description VARCHAR (255),
+  pro_workaround VARCHAR(100),
+  pro_imp_oid DECIMAL(18),
+  pro_deadline DATETIME,
+  pro_actualfinish DATETIME,
+  pro_latefinish DATETIME,
+  pro_planfinish DATETIME,
+  pro_cat_oid DECIMAL(18),
+  pro_cla_oid DECIMAL(18),
+  pro_clo_oid DECIMAL(18),
+  pro_poo_oid DECIMAL(18)
+);
+
+CREATE TABLE itsm_pro_information (
+  pri_pro_oid DECIMAL(18),
+  pri_information VARCHAR(4000)
+);
+
+CREATE TABLE itsm_pro_custom_fields (
+  pcf_pro_oid DECIMAL(18),
+  pcf_problemtext1 VARCHAR (255),
+  pcf_problemtext2 VARCHAR (255),
+  pcf_problemtext3 VARCHAR (255),
+  pcf_problemtext4 VARCHAR (255),
+  pcf_boolean1 DECIMAL (1),
+  pcf_boolean12 DECIMAL (1),
+  pcf_problemdate2 DATETIME
+);
+
+CREATE TABLE itsm_pro_4k1 (
+  pr1_pro_oid DECIMAL(18),
+  pr1_4k1 VARCHAR(4000)
+);
+
+CREATE TABLE itsm_pro_4k2 (
+  pr2_pro_oid DECIMAL(18),
+  pr2_4k2 VARCHAR(4000)
+);
+
+CREATE TABLE itsm_pro_solution (
+  prs_pro_oid DECIMAL(18),
+  prs_solution VARCHAR(4000)
+);

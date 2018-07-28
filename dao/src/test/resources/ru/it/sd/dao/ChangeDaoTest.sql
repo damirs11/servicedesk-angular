@@ -86,7 +86,7 @@ INSERT INTO itsm_cha_custom_fields (ccu_cha_oid, ccu_changecode1) VALUES (
   111222, 11111111
 );
 
-INSERT INTO ITSM_CONFIGURATION_ITEMS (CIT_OID, CIT_ID, CIT_SEARCHCODE, CIT_NAME1, CIT_PRICE, CIT_PURCHASEDATE) VALUES (
+INSERT INTO itsm_configuration_items (CIT_OID, CIT_ID, CIT_SEARCHCODE, CIT_NAME1, CIT_PRICE, CIT_PURCHASEDATE) VALUES (
   202020, 2001, 'CIT №1', 'Some item', 8.50, '2013-08-08 12:00:00'
 );
 ---------------------------------CHANGES-------------------------------------------------------------

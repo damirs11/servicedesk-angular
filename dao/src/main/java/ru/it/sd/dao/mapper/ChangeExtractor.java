@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * Маппер персон
+ * Маппер изменений
  *
  * @author quadrix
  * @since 03.05.2017

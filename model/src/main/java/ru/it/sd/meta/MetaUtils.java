@@ -125,7 +125,7 @@ public class MetaUtils {
 	 * Возвращает список уникальных полей (первичный ключ) класса
 	 */
 	public static Map<String, FieldMetaData> getKeyProperties(Class clazz){
-		Map<String, FieldMetaData> result = new HashMap();
+		Map<String, FieldMetaData> result = new HashMap<>();
 		for (FieldMetaData meta : getFieldsMetaData(clazz).values()) {
 			if (meta.isKey()) {
 				result.put(meta.getName(), meta);

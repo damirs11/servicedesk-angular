@@ -11,6 +11,8 @@ import ru.it.sd.util.ResourceMessages;
  */
 public class EntityClosureCode extends BaseCode {
 
+	private static final long serialVersionUID = 5774642512114754719L;
+
 	public EntityClosureCode(){}
 
 	public static Long getTypeId(EntityType entityType) {
