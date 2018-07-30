@@ -10,6 +10,8 @@ import ru.it.sd.model.Problem;
 import java.util.Collections;
 import java.util.List;
 
+import static org.testng.Assert.assertEquals;
+
 /**
  * @author quadrix
  * @since 05.05.2017
@@ -26,6 +28,13 @@ public class ProblemDaoTest extends AbstractDaoTest {
 	private void testList() {
 		List<Problem> problems = dao.list(Collections.emptyMap());
 		LOG.info(problems.toString());
+		assertEquals(problems.size(), 1);
+	}
+
+	@Test
+	private void testRead() {
+		Problem problem = dao.read(101L);
+		assertEquals(problem.getNo().intValue(), 43);
 	}
 
 }

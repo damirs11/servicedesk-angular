@@ -35,11 +35,11 @@ public class ProblemService extends CrudService<Problem>{
 
 	@Override
 	public Problem read(long id) {
-		Problem change = dao.read(id);
-		if(accessService.getEntityAccess(change).getLeft().getRead() != GrantRule.NONE){
-			return change;
+		Problem problem = dao.read(id);
+		if(accessService.getEntityAccess(problem).getLeft().getRead() != GrantRule.NONE){
+			return problem;
 		}else {
-			throw new ServiceException(ResourceMessages.getMessage("error.service.access.denied"));
+			throw new SecurityException(ResourceMessages.getMessage("error.service.access.denied"));
 		}
 	}
 
