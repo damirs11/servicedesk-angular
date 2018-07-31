@@ -2,7 +2,7 @@ import template from "./problem-history.html"
 import {controller} from "./problem-history.ctrl"
 import {SDResolver} from "../../../sd.resolver";
 
-const HistoryCardHistoryState = {
+const ProblemCardHistoryState = {
     name: "app.problem.card.history",
     url: "/history",
     controller: controller,
@@ -16,4 +16,4 @@ const HistoryCardHistoryState = {
     }
 };
 
-export {HistoryCardHistoryState}
+export {ProblemCardHistoryState}

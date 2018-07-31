@@ -6,7 +6,7 @@ const ERROR_HISTORY_READ_DISALLOWED = Symbol("ERROR_HISTORY_READ_DISALLOWED");
 class ProblemCardHistoryController{
     @NGInject() $scope;
     @NGInject() SD;
-    @NGInject() changeId;
+    @NGInject() problemId;
     @NGInject() $grid;
     /**
      * Пустое значение
@@ -20,10 +20,10 @@ class ProblemCardHistoryController{
 
 
     async $onInit() {
-        const history = this.history = new this.SD.Problem(this.historyId);
-        this.accessRules = history.accessRules;
+        const problem = this.problem = new this.SD.Problem(this.problemId);
+        this.accessRules = problem.accessRules;
         if (!this.accessRules.isReadHistoryAllowed) return;
-        const grid = this.grid = new this.$grid.HistoryGrid(this.$scope,this.SD,history);
+        const grid = this.grid = new this.$grid.HistoryGrid(this.$scope,this.SD,problem);
         this.$scope.$on("grid:fetch",::this.$onTableFetch);
         grid.fetchData();
     }
