@@ -35,7 +35,7 @@ public class WorkorderService extends CrudService<Workorder>{
         if(accessService.getEntityAccess(workorder).getLeft().getRead() != GrantRule.NONE){
             return workorder;
         }else {
-            throw new ServiceException(ResourceMessages.getMessage("error.service.access.denied"));
+            throw new SecurityException(ResourceMessages.getMessage("error.service.access.denied"));
         }
     }
 
