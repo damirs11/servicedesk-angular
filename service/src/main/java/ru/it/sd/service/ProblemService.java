@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ProblemDao;
 import ru.it.sd.exception.ServiceException;
+import ru.it.sd.hp.problem.IProblemDao;
 import ru.it.sd.model.GrantRule;
 import ru.it.sd.model.Problem;
 import ru.it.sd.util.ResourceMessages;
