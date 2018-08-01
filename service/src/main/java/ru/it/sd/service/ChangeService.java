@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.exception.ServiceException;
-import ru.it.sd.hp.IChangeDao;
+import ru.it.sd.hp.change.IChangeDao;
 import ru.it.sd.model.Change;
 import ru.it.sd.model.GrantRule;
 import ru.it.sd.service.utils.validation.Validator;

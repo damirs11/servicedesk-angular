@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ProblemDao;
 import ru.it.sd.exception.ServiceException;
+import ru.it.sd.hp.problem.IProblemDao;
 import ru.it.sd.model.GrantRule;
 import ru.it.sd.model.Problem;
-import ru.it.sd.service.utils.validation.Validator;
 import ru.it.sd.util.ResourceMessages;
 
 import java.util.List;
@@ -27,17 +27,19 @@ public class ProblemService extends CrudService<Problem>{
 	private ProblemDao dao;
 	private SecurityService securityService;
 	private AccessService accessService;
-	public ProblemService(ProblemDao dao, SecurityService securityService, AccessService accessService) {
+	private IProblemDao iProblemDao;
+	public ProblemService(ProblemDao dao, IProblemDao iProblemDao, SecurityService securityService, AccessService accessService) {
 		this.dao = dao;
 		this.securityService = securityService;
 		this.accessService = accessService;
+		this.iProblemDao = iProblemDao;
 	}
 
 	@Override
 	public Problem read(long id) {
-		Problem change = dao.read(id);
-		if(accessService.getEntityAccess(change).getLeft().getRead() != GrantRule.NONE){
-			return change;
+		Problem entity = dao.read(id);
+		if(accessService.getEntityAccess(entity).getLeft().getRead() != GrantRule.NONE){
+			return entity;
 		}else {
 			throw new ServiceException(ResourceMessages.getMessage("error.service.access.denied"));
 		}
@@ -60,8 +62,8 @@ public class ProblemService extends CrudService<Problem>{
 	@Override
 	public Problem create(Problem entity) {
         try {
-            //todo
-	        throw new UnsupportedOperationException();
+            iProblemDao.create(entity);
+            return dao.read(entity.getId());
         } catch (Exception e){
             throw new ServiceException("Возникли проблемы при создании проблемы. " + e.getMessage(), e);
         }
@@ -69,25 +71,23 @@ public class ProblemService extends CrudService<Problem>{
 
 	@Override
 	public Problem update(Problem entity) {
-		Validator.validate(entity);
-		try{
-			//todo
-			throw new UnsupportedOperationException();
-        }catch (Exception e){
-            throw new ServiceException("Возникли проблемы при редактировании проблемы. " + e.getMessage(), e);
-        }
-
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void delete(long id) {
-		//todo
+		iProblemDao.delete(id);
 	}
 
 	@Override
 	public Problem patch(Problem entity, Set<String> fields) {
-		//todo
-		throw new UnsupportedOperationException();
+		try{
+			//todo подумать о необходимости Set<String> fields
+			iProblemDao.update(entity);
+			return dao.read(entity.getId());
+		}catch (Exception e){
+			throw new ServiceException("Возникли проблемы при редактировании проблемы. " + e.getMessage(), e);
+		}
 	}
 
 }

@@ -323,7 +323,11 @@ CREATE TABLE itsm_problems (
   pro_cat_oid DECIMAL(18),
   pro_cla_oid DECIMAL(18),
   pro_clo_oid DECIMAL(18),
-  pro_poo_oid DECIMAL(18)
+  pro_poo_oid DECIMAL(18),
+  pro_assign_status DECIMAL(18),
+  pro_assign_priority DECIMAL(18),
+  ass_per_to_oid DECIMAL(18),
+  ass_wog_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_pro_information (
@@ -339,7 +343,8 @@ CREATE TABLE itsm_pro_custom_fields (
   pcf_problemtext4 VARCHAR (255),
   pcf_boolean1 DECIMAL (1),
   pcf_boolean12 DECIMAL (1),
-  pcf_problemdate2 DATETIME
+  pcf_problemdate2 DATETIME,
+  pcf_proshorttext2 VARCHAR (255)
 );
 
 CREATE TABLE itsm_pro_4k1 (

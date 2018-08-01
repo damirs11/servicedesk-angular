@@ -3,7 +3,7 @@ package ru.it.sd.service;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.exception.ServiceException;
-import ru.it.sd.hp.IWorkorderDao;
+import ru.it.sd.hp.workorder.IWorkorderDao;
 import ru.it.sd.model.GrantRule;
 import ru.it.sd.model.Workorder;
 import ru.it.sd.util.ResourceMessages;

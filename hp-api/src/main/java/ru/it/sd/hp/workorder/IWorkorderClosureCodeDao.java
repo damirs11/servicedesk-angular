@@ -1,10 +1,11 @@
-package ru.it.sd.hp;
+package ru.it.sd.hp.workorder;
 
-import com.hp.itsm.api.interfaces.IChangeClosureCode;
 import com.hp.itsm.api.interfaces.IWorkorderClosureCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
+import ru.it.sd.hp.HpApi;
+import ru.it.sd.hp.HpCrudDao;
 import ru.it.sd.model.EntityClosureCode;
 
 /**

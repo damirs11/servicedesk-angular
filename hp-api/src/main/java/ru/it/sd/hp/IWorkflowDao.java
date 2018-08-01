@@ -3,6 +3,8 @@ package ru.it.sd.hp;
 import com.hp.itsm.api.interfaces.IWorkflow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.it.sd.hp.change.IChangeDao;
+import ru.it.sd.hp.workorder.IWorkorderDao;
 import ru.it.sd.model.EntityType;
 
 /**

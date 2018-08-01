@@ -1,10 +1,17 @@
-package ru.it.sd.hp;
+package ru.it.sd.hp.workorder;
 
 import com.hp.itsm.api.interfaces.*;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.hp.Utils.DateUtils;
+import ru.it.sd.hp.HpApi;
+import ru.it.sd.hp.HpCrudDao;
+import ru.it.sd.hp.IFolderDao;
+import ru.it.sd.hp.IOrganizationDao;
+import ru.it.sd.hp.IPersonDao;
+import ru.it.sd.hp.IWorkgroupDao;
+import ru.it.sd.hp.utils.DateUtils;
+import ru.it.sd.hp.change.IChangeDao;
 import ru.it.sd.model.Workorder;
 
 import java.util.Set;

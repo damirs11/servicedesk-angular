@@ -55,7 +55,7 @@ public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
     private String commentToInitiator;
     /** Приоритет */
     @FieldMeta(columnName = "pro_imp_oid")
-    private EntityPriority entityPriority;
+    private EntityPriority priority;
     /** Крайний срок */
     @FieldMeta(columnName = "pro_deadline")
     private Date deadline;
@@ -69,8 +69,8 @@ public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
     @FieldMeta(columnName = "pcf_boolean12")
     private Boolean isOverdue;
     /** Кем просрочена*/
-    @FieldMeta(columnName = "pcf_boolean12")
-    private Person whoOverdue;
+    @FieldMeta(columnName = "pcf_proshorttext2")
+    private String whoOverdue;
     /** План завершения*/
     @FieldMeta(columnName = "pro_planfinish")
     private Date planFinish;
@@ -151,11 +151,11 @@ public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
         this.no = no;
     }
 
-    public Person getPerson() {
+    public Person getInitiator() {
         return initiator;
     }
 
-    public void setPerson(Person initiator) {
+    public void setInitiator(Person initiator) {
         this.initiator = initiator;
     }
 
@@ -231,12 +231,12 @@ public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
         this.commentToInitiator = commentToInitiator;
     }
 
-    public EntityPriority getEntityPriority() {
-        return entityPriority;
+    public EntityPriority getPriority() {
+        return priority;
     }
 
-    public void setEntityPriority(EntityPriority entityPriority) {
-        this.entityPriority = entityPriority;
+    public void setPriority(EntityPriority priority) {
+        this.priority = priority;
     }
 
     public Date getDeadline() {
@@ -271,11 +271,11 @@ public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
         isOverdue = overdue;
     }
 
-    public Person getWhoOverdue() {
+    public String getWhoOverdue() {
         return whoOverdue;
     }
 
-    public void setWhoOverdue(Person whoOverdue) {
+    public void setWhoOverdue(String whoOverdue) {
         this.whoOverdue = whoOverdue;
     }
 

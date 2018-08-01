@@ -1,9 +1,11 @@
-package ru.it.sd.hp;
+package ru.it.sd.hp.change;
 
 import com.hp.itsm.api.interfaces.IStatusChange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
+import ru.it.sd.hp.HpApi;
+import ru.it.sd.hp.HpCrudDao;
 import ru.it.sd.model.EntityStatus;
 
 /**

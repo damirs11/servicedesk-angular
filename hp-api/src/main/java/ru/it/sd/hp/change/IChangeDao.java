@@ -1,4 +1,4 @@
-package ru.it.sd.hp;
+package ru.it.sd.hp.change;
 
 import com.hp.itsm.api.interfaces.*;
 import com.hp.itsm.ssp.beans.SdClientBean;
@@ -6,13 +6,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.hp.Utils.DateUtils;
+import ru.it.sd.hp.HpApi;
+import ru.it.sd.hp.HpCrudDao;
+import ru.it.sd.hp.IConfigurationItemDao;
+import ru.it.sd.hp.IFolderDao;
+import ru.it.sd.hp.IImpactDao;
+import ru.it.sd.hp.IPersonDao;
+import ru.it.sd.hp.IWorkgroupDao;
+import ru.it.sd.hp.utils.DateUtils;
 import ru.it.sd.model.Change;
 
 import java.util.Set;
 
 @Repository
-public class IChangeDao implements HpCrudDao<Change, IChange>{
+public class IChangeDao implements HpCrudDao<Change, IChange> {
 
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(IChangeDao.class);

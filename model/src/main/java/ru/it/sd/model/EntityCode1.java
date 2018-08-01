@@ -20,6 +20,8 @@ public class EntityCode1 extends BaseCode {
 		switch(entityType){
 			case CHANGE:
 				return 165944L;
+			case PROBLEM:
+				return 1079902227L;
 			default:
 				throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
 		}

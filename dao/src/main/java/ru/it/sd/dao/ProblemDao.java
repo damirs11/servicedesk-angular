@@ -42,6 +42,7 @@ public class ProblemDao extends AbstractEntityDao<Problem> {
 				"pro_actualfinish, \n" +
 				"pro_latefinish, \n" +
 				"pcf.pcf_boolean12, \n" +
+				"pcf.pcf_proshorttext2, \n" +
 				"pro_planfinish, \n" +
 				"pcf.pcf_problemtext2, \n" +
 				"pro_cat_oid, \n" +
@@ -50,7 +51,11 @@ public class ProblemDao extends AbstractEntityDao<Problem> {
 				"pro_poo_oid, \n" +
 				"pcf.pcf_boolean1, \n" +
 				"pcf.pcf_problemdate2, \n" +
-				"pr1.pr1_4k1 \n" +
+				"pr1.pr1_4k1, \n" +
+				"pro_assign_status ass_status, \n" +
+				"pro_assign_priority ass_priority, \n" +
+				"ass_per_to_oid ass_person_to, \n" +
+				"ass_wog_oid ass_workgroup_to \n" +
 			"FROM itsm_problems pro \n" +
 				"LEFT JOIN itsm_pro_information pri on pri.pri_pro_oid = pro.pro_oid \n" +
 				"LEFT JOIN itsm_pro_custom_fields pcf ON (pcf.pcf_pro_oid = pro.pro_oid) \n" +

@@ -16,7 +16,7 @@ import ru.it.sd.util.ResourceMessages;
 public enum EntityType implements Code {
 
 	CHANGE("Изменение", Change.class.getSimpleName(), 724041768L),
-	PROBLEM("Проблема", null, 717488173L),
+	PROBLEM("Проблема", Problem.class.getSimpleName(), 717488173L),
 	SERVICECALL("Обращение", null, 563019801L),
 	WORKORDER("Наряд", Workorder.class.getSimpleName(), 556859410L),
 	CONFIGURATIONITEM("Объект", ConfigurationItem.class.getSimpleName(), 796000260L),

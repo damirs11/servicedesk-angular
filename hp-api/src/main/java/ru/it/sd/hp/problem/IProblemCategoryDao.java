@@ -1,16 +1,18 @@
-package ru.it.sd.hp;
+package ru.it.sd.hp.problem;
 
-import com.hp.itsm.api.interfaces.IChangeCategory;
+import com.hp.itsm.api.interfaces.IProblemCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
+import ru.it.sd.hp.HpApi;
+import ru.it.sd.hp.HpCrudDao;
 import ru.it.sd.model.EntityCategory;
 
 /**
  * Created by nsyhev 29.09.2017
  */
 @Repository
-public class IChangeCategoryDao implements HpCrudDao<EntityCategory, IChangeCategory> {
+public class IProblemCategoryDao implements HpCrudDao<EntityCategory, IProblemCategory> {
 
     @Autowired
     private HpApi api;
@@ -21,11 +23,11 @@ public class IChangeCategoryDao implements HpCrudDao<EntityCategory, IChangeCate
     }
 
     @Override
-    public IChangeCategory read(long id) {
+    public IProblemCategory read(long id) {
         try{
-            return api.getSdClient().sd_session().getChangeCategoryHome().openChangeCategory(id);
+            return api.getSdClient().sd_session().getProblemCategoryHome().openProblemCategory(id);
         }catch (Exception e){
-            throw new ServiceException("Не найдена категория изменения. "+e.getMessage(),e);
+            throw new ServiceException("Не найдена категория изменения. " + e.getMessage(), e);
         }
 
     }

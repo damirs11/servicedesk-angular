@@ -5,7 +5,7 @@ import com.hp.itsm.api.interfaces.IApprovalStatus;
 import com.hp.itsm.api.interfaces.IWorkflow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.hp.Utils.DateUtils;
+import ru.it.sd.hp.utils.DateUtils;
 import ru.it.sd.model.Approval;
 
 import java.util.Set;

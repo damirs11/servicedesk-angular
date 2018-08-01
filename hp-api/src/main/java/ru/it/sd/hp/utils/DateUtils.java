@@ -1,4 +1,4 @@
-package ru.it.sd.hp.Utils;
+package ru.it.sd.hp.utils;
 
 import com.hp.itsm.ssp.beans.SdClientBean;
 
