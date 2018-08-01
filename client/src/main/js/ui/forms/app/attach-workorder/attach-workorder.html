@@ -12,7 +12,8 @@
             <sd-dropdown class="input-group e-prop__value" style="margin-left: 0px;"
                          target="ctrl.workorder"
                          fetch-data="ctrl.loadWorkorders($text)"
-                         display-value="'№'+$value.no"
+                         display-value="'№'+$value.no+' '+$value.subject"
+                         placeholder="Введите номер наряда"
                          allow-empty="true"
                          editing="1"
                          disabled="false"
@@ -21,7 +22,16 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-success" ng-disabled="!ctrl.isAttachButtonEnable" data-ng-click="ctrl.attachWorkorder()">Прикрепить</button>
-        <button type="button" class="btn btn-danger" data-ng-click="ctrl.cancel()">Отмена</button>
+        <button type="button"
+                class="btn btn-success"
+                ng-disabled="ctrl.isAttachButtonDisabled"
+                data-ng-click="ctrl.attachWorkorder()"
+                title="{{ctrl.attachButtonTitle}}"
+        >Прикрепить</button>
+        <button type="button"
+                class="btn btn-danger"
+                data-ng-click="ctrl.cancel()"
+                ng-disabled="!ctrl.canCloseDialog"
+        >Отмена</button>
     </div>
 </div>

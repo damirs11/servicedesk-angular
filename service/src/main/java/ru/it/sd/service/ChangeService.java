@@ -42,7 +42,7 @@ public class ChangeService extends CrudService<Change>{
 		if(accessService.getEntityAccess(change).getLeft().getRead() != GrantRule.NONE){
 			return change;
 		}else {
-			throw new ServiceException(ResourceMessages.getMessage("error.service.access.denied"));
+			throw new SecurityException(ResourceMessages.getMessage("error.service.access.denied"));
 		}
 	}
 

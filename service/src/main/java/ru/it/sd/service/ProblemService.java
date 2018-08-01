@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ProblemDao;
 import ru.it.sd.exception.ServiceException;
-import ru.it.sd.hp.problem.IProblemDao;
 import ru.it.sd.model.GrantRule;
 import ru.it.sd.model.Problem;
 import ru.it.sd.util.ResourceMessages;
@@ -37,11 +36,11 @@ public class ProblemService extends CrudService<Problem>{
 
 	@Override
 	public Problem read(long id) {
-		Problem entity = dao.read(id);
-		if(accessService.getEntityAccess(entity).getLeft().getRead() != GrantRule.NONE){
-			return entity;
+		Problem problem = dao.read(id);
+		if(accessService.getEntityAccess(problem).getLeft().getRead() != GrantRule.NONE){
+			return problem;
 		}else {
-			throw new ServiceException(ResourceMessages.getMessage("error.service.access.denied"));
+			throw new SecurityException(ResourceMessages.getMessage("error.service.access.denied"));
 		}
 	}
 

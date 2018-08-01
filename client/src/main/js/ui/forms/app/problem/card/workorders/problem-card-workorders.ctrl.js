@@ -1,10 +1,10 @@
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
 
 @NGInjectClass()
-class ChangeCardWorkordersController{
+class ProblemCardWorkordersController{
     @NGInject() $scope;
     @NGInject() SD;
-    @NGInject() changeId;
+    @NGInject() problemId;
     @NGInject() $state;
     @NGInject() $grid;
     @NGInject() ModalAction;
@@ -14,9 +14,9 @@ class ChangeCardWorkordersController{
     fetchPromise;
 
     $onInit(){
-        this.change = new this.SD.Change(this.changeId);
-        this.grid = new this.$grid.WorkorderGrid(this.$scope,this.SD,"grid.workorders.attachedToChange");
-        this.gridSearchParams.add({"change":this.change.id});
+        this.problem = new this.SD.Problem(this.problemId);
+        this.grid = new this.$grid.WorkorderGrid(this.$scope,this.SD,"grid.workorders.attachedToProblem");
+        this.gridSearchParams.add({"problem":this.change.id});
         this.$scope.$on("grid:fetch",::this.$onTableFetch);
         this.grid.fetchData();
     }
@@ -31,7 +31,7 @@ class ChangeCardWorkordersController{
     }
 
     async clickAttach(){
-        await this.ModalAction.attachWorkorder(this.$scope, {entity: this.change, workorderField: "change"});
+        await this.ModalAction.attachWorkorder(this.$scope, {entity: this.problem, workorderField: "problem"});
         this.grid.fetchData();
     }
 
@@ -47,8 +47,8 @@ class ChangeCardWorkordersController{
     }
 
     clickCreateWorkorder(){
-        this.$state.go("app.workorder.create.common", {changeId: this.changeId});
+        this.$state.go("app.workorder.create.common", {problemId: this.problemId});
     }
 }
 
-export {ChangeCardWorkordersController as controller}
+export {ProblemCardWorkordersController as controller}
