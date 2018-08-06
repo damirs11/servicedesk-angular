@@ -39,6 +39,7 @@ class WorkorderCreateController{
      */
     async $initializeData(){
         if (this.passedParams.changeId) await this.$loadPassedChange();
+        if (this.passedParams.problemId) await this.$loadPassedProblem();
     }
 
     async $loadPassedChange(){
@@ -47,6 +48,16 @@ class WorkorderCreateController{
             this.workorder.change = change;
         } catch (e) { // Не удалось загрузить такое изменение - удаляем его из переданных параметров
             this.passedParams.changeId = null;
+            this.$location.search(this.passedParams)
+        }
+    }
+
+    async $loadPassedProblem(){
+        try {
+            const problem = await new this.SD.Problem(this.passedParams.problemId).load();
+            this.workorder.problem = problem;
+        } catch (e) { // Не удалось загрузить такое изменение - удаляем его из переданных параметров
+            this.passedParams.problemId = null;
             this.$location.search(this.passedParams)
         }
     }

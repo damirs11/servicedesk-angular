@@ -6,7 +6,7 @@ import {PassedParamsResolver} from "./passed-arguments-resolver";
 
 const WorkorderCreateState = {
     name: "app.workorder.create",
-    url: "/create?changeId",
+    url: "/create?changeId?problemId",
     controller: controller,
     template: template,
     reloadOnSearch: false,

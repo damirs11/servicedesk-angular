@@ -15,6 +15,8 @@ public enum HistoryType {
     WORKORDER_INITIATOR("WORKORDER_INITIATOR", 1082392635L),
     WORKORDER_EXECUTOR("WORKORDER_EXECUTOR", 1082392634L);
 
+    //todo добавить для проблем
+
     String name;
     Long fieldId;
 

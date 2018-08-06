@@ -34,13 +34,13 @@ class ProblemCardController {
      */
     headerTabs = [
         {name:'Просмотр',sref:'app.problem.card.view'},
-        // {name:'История',sref:'app.problem.card.history',
-        //     disabled:() => this.accessRules && !this.accessRules.isReadHistoryAllowed},
+        {name:'История',sref:'app.problem.card.history',
+            disabled:() => this.accessRules && !this.accessRules.isReadHistoryAllowed},
         // {name:'Согласование',sref:'app.problem.card.approval',
         //     disabled:() => this.accessRules && !this.canSeeApprovalPage},
         // {name:'Вложения',sref:'app.problem.card.attachments',
         //     disabled:() => this.accessRules && !this.accessRules.isReadAttachmentsAllowed},
-        // {name:'Наряды',sref:'app.problem.card.workorders'},
+        {name:'Наряды',sref:'app.problem.card.workorders'},
     ];
 
     @NGInject() SD;

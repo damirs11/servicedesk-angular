@@ -7,24 +7,24 @@ import ru.it.sd.util.AppToStringStyle;
 
 import java.util.Date;
 
-@ClassMeta(tableName = "itsm_historylines_change", tableAlias ="hch")
-public class ChangeHistory implements EntityHistory {
+@ClassMeta(tableName = "itsm_historylines_problem", tableAlias ="hpr")
+public class ProblemHistory implements EntityHistory {
 
     private static final long serialVersionUID = 1769190659807231967L;
 
-    @FieldMeta(columnName = "hch_oid", key = true)
+    @FieldMeta(columnName = "hpr_oid", key = true)
     private Long id;
 
-    @FieldMeta(columnName = "hch_subject")
+    @FieldMeta(columnName = "hpr_subject")
     private String subject;
 
     @FieldMeta(columnName = "reg_created_by_oid")
     private User account;
 
-    @FieldMeta(columnName = "reg_created")
+    @FieldMeta(columnName = "hpr_created")
     private Date date;
 
-    @FieldMeta(columnName = "hch_newvalue")
+    @FieldMeta(columnName = "hpr_newvalue")
     private String value;
 
     @FieldMeta(columnName = "type")

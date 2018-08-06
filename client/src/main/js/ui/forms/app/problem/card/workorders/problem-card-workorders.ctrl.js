@@ -16,7 +16,7 @@ class ProblemCardWorkordersController{
     $onInit(){
         this.problem = new this.SD.Problem(this.problemId);
         this.grid = new this.$grid.WorkorderGrid(this.$scope,this.SD,"grid.workorders.attachedToProblem");
-        this.gridSearchParams.add({"problem":this.change.id});
+        this.gridSearchParams.add({"problem":this.problem.id});
         this.$scope.$on("grid:fetch",::this.$onTableFetch);
         this.grid.fetchData();
     }
