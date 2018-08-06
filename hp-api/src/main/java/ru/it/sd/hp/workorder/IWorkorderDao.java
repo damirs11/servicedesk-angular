@@ -86,16 +86,12 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
     }
 
     @Override
-    public void update(Workorder entity) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void delete(long id) {
         throw new UnsupportedOperationException();
     }
 
-    public void patch(Workorder entity, Set<String> fields) {
+    @Override
+    public void update(Workorder entity, Set<String> fields) {
         IWorkorder iWorkorder = read(entity.getId());
         if(fields.contains("status")) {
             IWorkorderStatus iStatus = iWorkorderStatusDao.read(entity.getStatus().getId());

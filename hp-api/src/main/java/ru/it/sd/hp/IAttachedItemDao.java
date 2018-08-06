@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.model.FileInfo;
 
+import java.util.Set;
+
 @Repository
 public class IAttachedItemDao implements HpCrudDao<FileInfo, IAttachedItem>{
     @Autowired
@@ -44,7 +46,7 @@ public class IAttachedItemDao implements HpCrudDao<FileInfo, IAttachedItem>{
     }
 
     @Override
-    public void update(FileInfo entity) {
+    public void update(FileInfo entity, Set<String> fields) {
         throw new UnsupportedOperationException();
     }
 

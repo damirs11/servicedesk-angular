@@ -8,6 +8,8 @@ import ru.it.sd.hp.HpApi;
 import ru.it.sd.hp.HpCrudDao;
 import ru.it.sd.model.EntityCode1;
 
+import java.util.Set;
+
 /**
  * Created by nsyhev 29.09.2017
  */
@@ -33,7 +35,7 @@ public class IChangeCode1Dao implements HpCrudDao<EntityCode1, IChangeCode1> {
     }
 
     @Override
-    public void update(EntityCode1 entity) {
+    public void update(EntityCode1 entity, Set<String> fields) {
         throw new UnsupportedOperationException();
     }
 

@@ -2,6 +2,8 @@ package ru.it.sd.hp;
 
 import ru.it.sd.model.HasId;
 
+import java.util.Set;
+
 /**
  * Базовый интерфейс для работы с сущностями HP API
  *
@@ -30,7 +32,7 @@ public interface HpCrudDao<T extends HasId, K> {
 	 *
 	 * @param entity объект из которого получаем значения полей
 	 */
-	void update(T entity);
+	void update(T entity, Set<String> fields);
 
 	/**
 	 * Удаляем hp-сущность по её идентификтору

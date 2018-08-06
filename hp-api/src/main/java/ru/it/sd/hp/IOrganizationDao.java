@@ -1,11 +1,12 @@
 package ru.it.sd.hp;
 
 import com.hp.itsm.api.interfaces.IOrganization;
-import com.hp.itsm.ssp.beans.SdClientBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.Organization;
+
+import java.util.Set;
 
 /**
  * Сервис для редактирования подразделений
@@ -34,7 +35,7 @@ public class IOrganizationDao implements HpCrudDao<Organization, IOrganization> 
     }
 
     @Override
-    public void update(Organization entity) {
+    public void update(Organization entity, Set<String> fields) {
         throw new UnsupportedOperationException();
     }
 

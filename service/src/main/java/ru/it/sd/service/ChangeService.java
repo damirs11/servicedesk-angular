@@ -8,7 +8,6 @@ import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.change.IChangeDao;
 import ru.it.sd.model.Change;
 import ru.it.sd.model.GrantRule;
-import ru.it.sd.service.utils.validation.Validator;
 import ru.it.sd.util.ResourceMessages;
 
 import java.util.List;
@@ -72,25 +71,17 @@ public class ChangeService extends CrudService<Change>{
 
 	@Override
 	public Change update(Change entity) {
-		Validator.validate(entity);
-		try{
-		    iChangeDao.update(entity);
-            return dao.read(entity.getId());
-        }catch (Exception e){
-            throw new ServiceException("Возникли проблемы при редактировании изменения. " + e.getMessage(), e);
-        }
-
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void delete(long id) {
-		//todo
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Change patch(Change entity, Set<String> fields) {
-		iChangeDao.patch(entity, fields);
+		iChangeDao.update(entity, fields);
 		return dao.read(entity.getId());
 	}
-
 }

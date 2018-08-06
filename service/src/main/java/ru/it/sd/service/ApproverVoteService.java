@@ -65,12 +65,7 @@ public class ApproverVoteService extends CrudService<ApproverVote>{
 
 	@Override
 	public ApproverVote update(ApproverVote entity) {
-		try{
-			hpDao.update(entity);
-			return dao.read(entity.getId());
-		} catch(Exception e){
-			throw new ServiceException("Возникли проблемы при редактировании мнения. " + e.getMessage(), e);
-		}
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -84,7 +79,7 @@ public class ApproverVoteService extends CrudService<ApproverVote>{
 
 	@Override
 	public ApproverVote patch(ApproverVote entity, Set<String> fields) {
-		hpDao.patch(entity, fields);
+		hpDao.update(entity, fields);
 		return dao.read(entity.getId());
 	}
 

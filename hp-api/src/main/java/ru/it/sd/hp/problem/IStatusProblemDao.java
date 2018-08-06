@@ -8,6 +8,8 @@ import ru.it.sd.hp.HpApi;
 import ru.it.sd.hp.HpCrudDao;
 import ru.it.sd.model.EntityStatus;
 
+import java.util.Set;
+
 /**
  * Created by nsyhev 01.08.2018
  */
@@ -33,7 +35,7 @@ public class IStatusProblemDao implements HpCrudDao<EntityStatus, IStatusProblem
     }
 
     @Override
-    public void update(EntityStatus entity) {
+    public void update(EntityStatus entity, Set<String> fields) {
         throw new UnsupportedOperationException();
     }
 

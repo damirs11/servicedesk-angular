@@ -25,6 +25,8 @@ import ru.it.sd.hp.IWorkgroupDao;
 import ru.it.sd.hp.utils.DateUtils;
 import ru.it.sd.model.Problem;
 
+import java.util.Set;
+
 @Repository
 public class IProblemDao implements HpCrudDao<Problem, IProblem> {
 
@@ -55,35 +57,8 @@ public class IProblemDao implements HpCrudDao<Problem, IProblem> {
     @Override
     public long create(Problem entity) {
         SdClientBean sdClientBean = api.getSdClient();
+        //todo создавать по шаблону
         IProblem iProblem = sdClientBean.sd_session().getProblemHome().openNewProblem();
-        convertToApiModel(entity, iProblem);
-        iProblem.save();
-        return iProblem.getOID();
-    }
-
-    @Override
-    public IProblem read(long id) {
-        return api.getSdClient().sd_session().getProblemHome().openProblem(Long.valueOf(id));
-    }
-
-    @Override
-    public void update(Problem entity) {
-        IProblem iProblem = read(entity.getId());
-        convertToApiModel(entity, iProblem);
-        iProblem.save();
-    }
-
-    @Override
-    public void delete(long id) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Перевод модели в Api модель
-     * @param entity сущность с клиента
-     * @param iProblem сущность api
-     */
-    private void convertToApiModel(Problem entity, IProblem iProblem) {
         if (entity.getStatus() != null) {
             IStatusProblem iStatusProblem = iStatusProblemDao.read(entity.getStatus().getId());
             iProblem.setStatus(iStatusProblem);
@@ -181,5 +156,121 @@ public class IProblemDao implements HpCrudDao<Problem, IProblem> {
         if (entity.getCommentToExecutor() != null) {
             iProblem.setPro4k1(entity.getCommentToExecutor());
         }
+        iProblem.save();
+        return iProblem.getOID();
     }
+
+    @Override
+    public IProblem read(long id) {
+        return api.getSdClient().sd_session().getProblemHome().openProblem(Long.valueOf(id));
+    }
+
+    @Override
+    public void update(Problem entity, Set<String> fields) {
+        IProblem iProblem = read(entity.getId());
+        if (fields.contains("status")) {
+            IStatusProblem iStatusProblem = iStatusProblemDao.read(entity.getStatus().getId());
+            iProblem.setStatus(iStatusProblem);
+        }
+        if (fields.contains("initiator")) {
+            IPerson initiator = iPersonDao.read(entity.getInitiator().getId());
+            iProblem.setRequestor(initiator);
+        }
+        if (fields.contains("configurationItem")) {
+            IConfigurationItem iConfigurationItem = iConfigurationItemDao.read(entity.getConfigurationItem().getId());
+            iProblem.setConfigurationItem(iConfigurationItem);
+        }
+        if (fields.contains("subject")) {
+            iProblem.setDescription(entity.getSubject());
+        }
+        if (fields.contains("description")) {
+            iProblem.setInformation(entity.getDescription());
+        }
+        if (fields.contains("logLinks")) {
+            iProblem.setProblemText4(entity.getLogLinks());
+        }
+        if (fields.contains("jiraLink")) {
+            iProblem.setProblemText1(entity.getJiraLink());
+        }
+        if (fields.contains("toVendor")) {
+            iProblem.setProblemText3(entity.getToVendor());
+        }
+        if (fields.contains("workaround")) {
+            iProblem.setPro4k2(entity.getWorkaround());
+        }
+        if (fields.contains("solution")) {
+            iProblem.setSolution(entity.getSolution());
+        }
+        if (fields.contains("commentToInitiator")) {
+            iProblem.setWorkaround(entity.getCommentToInitiator());
+        }
+        if (fields.contains("priority")) {
+            IImpact iImpact = iImpactDao.read(entity.getPriority().getId());
+            iProblem.setImpact(iImpact);
+        }
+        if (fields.contains("deadline")) {
+            iProblem.setDeadline(DateUtils.toSDDate(entity.getDeadline()));
+        }
+        if (fields.contains("resolvedDate")) {
+            iProblem.setActualFinish(DateUtils.toSDDate(entity.getResolvedDate()));
+        }
+        if (fields.contains("closureDate")) {
+            iProblem.setLateFinish(DateUtils.toSDDate(entity.getClosureDate()));
+        }
+        if (fields.contains("isOverdue")) {
+            iProblem.setProBoolean12(entity.getOverdue());
+        }
+        if (fields.contains("whoOverdue")) {
+            iProblem.setProShorttext2(entity.getWhoOverdue());
+        }
+        if (fields.contains("planFinish")) {
+            iProblem.setPlanFinish(DateUtils.toSDDate(entity.getPlanFinish()));
+        }
+        if (fields.contains("deferralReason")) {
+            iProblem.setProblemText2(entity.getDeferralReason());
+        }
+        if (fields.contains("assignment")) {
+            if (entity.getAssignment().getWorkgroup() != null) {
+                IWorkgroup iWorkgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
+                iProblem.getAssignment().setAssWorkgroup(iWorkgroup);
+            }
+            if (entity.getAssignment().getExecutor() != null) {
+                IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
+                iProblem.getAssignment().setAssigneePerson(executor);
+            }
+            iProblem.getAssignment().transfer();
+        }
+        if (fields.contains("category")) {
+            IProblemCategory iProblemCategory = iProblemCategoryDao.read(entity.getCategory().getId());
+            iProblem.setCategory(iProblemCategory);
+        }
+        if (fields.contains("classification")) {
+            IClassProblem iClassProblem = iClassProblemDao.read(entity.getClassification().getId());
+            iProblem.setClassification(iClassProblem);
+        }
+        if (fields.contains("closureCode")) {
+            IProblemClosureCode iProblemClosureCode = iProblemClosureCodeDao.read(entity.getClosureCode().getId());
+            iProblem.setClosureCode(iProblemClosureCode);
+        }
+        if (fields.contains("folder")) {
+            IFolder iFolder = iFolderDao.read(entity.getFolder().getId());
+            iProblem.setFolder(iFolder);
+        }
+        if (fields.contains("notAttachInReport")) {
+            iProblem.setProBoolean1(entity.getNotAttachInReport());
+        }
+        if (fields.contains("versionDate")) {
+            iProblem.setProblemDate2(DateUtils.toSDDate(entity.getVersionDate()));
+        }
+        if (fields.contains("commentToExecutor")) {
+            iProblem.setPro4k1(entity.getCommentToExecutor());
+        }
+        iProblem.save();
+    }
+
+    @Override
+    public void delete(long id) {
+        throw new UnsupportedOperationException();
+    }
+
 }

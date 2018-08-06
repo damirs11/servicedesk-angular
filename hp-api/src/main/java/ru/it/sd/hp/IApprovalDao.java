@@ -28,20 +28,7 @@ public class IApprovalDao implements HpCrudDao<Approval, IApproval> {
     private IApprovalStatusDao iApprovalStatusDao;
 
     @Override
-    public void update(Approval entity) {
-        //все поля
-        IWorkflow iWorkflow = iWorkflowDao.read(entity.getId(),entity.getEntityType());
-        IApproval iApproval = iWorkflow.getApproval();
-        iApproval.setApprovalStatus(iApprovalStatusDao.read(entity.getStatus().getId()));
-        iApproval.setDescription(entity.getDescription());
-        iApproval.setApprovalDeadline(DateUtils.toSDDate(entity.getDeadline()));
-        iApproval.setWorkGroup(iWorkgroupDao.read(entity.getApprovalWorkgroup().getId()));
-        iApproval.setNrOfApproversRequired(entity.getNumberOfApproversRequired());
-        iApproval.transfer();
-        iWorkflow.save();
-    }
-
-    public void patch(Approval entity, Set<String> fields) {
+    public void update(Approval entity, Set<String> fields) {
         IWorkflow iWorkflow = iWorkflowDao.read(entity.getId(),entity.getEntityType());
         IApproval iApproval = iWorkflow.getApproval();
 

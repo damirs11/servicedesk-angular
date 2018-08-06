@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.EntityPriority;
 
+import java.util.Set;
+
 /**
  * Created by nsyhev 29.09.2017
  */
@@ -31,7 +33,7 @@ public class IImpactDao implements HpCrudDao<EntityPriority, IImpact> {
     }
 
     @Override
-    public void update(EntityPriority entity) {
+    public void update(EntityPriority entity, Set<String> fields) {
         throw new UnsupportedOperationException();
     }
 

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.Workgroup;
 
+import java.util.Set;
+
 /**
  * Created by user on 27.07.2017.
  */
@@ -30,7 +32,7 @@ public class IWorkgroupDao implements HpCrudDao<Workgroup, IWorkgroup> {
     }
 
     @Override
-    public void update(Workgroup entity) {
+    public void update(Workgroup entity, Set<String> fields) {
         throw new UnsupportedOperationException();
     }
 

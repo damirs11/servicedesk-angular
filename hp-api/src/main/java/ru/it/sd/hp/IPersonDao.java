@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.Person;
 
+import java.util.Set;
+
 /**
  * Сервис для работы с персонами
  *
@@ -33,7 +35,7 @@ public class IPersonDao implements HpCrudDao<Person, IPerson> {
     }
 
     @Override
-    public void update(Person entity) {
+    public void update(Person entity, Set<String> fields) {
         throw new UnsupportedOperationException();
     }
 

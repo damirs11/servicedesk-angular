@@ -94,11 +94,7 @@ public class IChangeDao implements HpCrudDao<Change, IChange> {
     }
 
     @Override
-    public void update(Change entity) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void patch(Change entity, Set<String> fields) {
+    public void update(Change entity, Set<String> fields) {
         IChange iChange = read(entity.getId());
 
         if(fields.contains("subject")) {

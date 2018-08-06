@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.HpApi;
 
+import java.util.Set;
+
 /**
  * Created by user on 27.07.2017.
  */
@@ -29,7 +31,7 @@ public class IWorkorderCategoryDao {
         }
     }
 
-    public void update(WorkorderCategory entity) {
+    public void update(WorkorderCategory entity, Set<String> fields) {
         throw new UnsupportedOperationException();
     }
 

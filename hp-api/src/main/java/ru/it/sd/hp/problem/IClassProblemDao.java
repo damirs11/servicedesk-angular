@@ -8,6 +8,8 @@ import ru.it.sd.hp.HpApi;
 import ru.it.sd.hp.HpCrudDao;
 import ru.it.sd.model.EntityClassification;
 
+import java.util.Set;
+
 /**
  * Created by nsyhev 29.09.2017
  */
@@ -32,7 +34,7 @@ public class IClassProblemDao implements HpCrudDao<EntityClassification, IClassP
     }
 
     @Override
-    public void update(EntityClassification entity) {
+    public void update(EntityClassification entity, Set<String> fields) {
         throw new UnsupportedOperationException();
     }
 

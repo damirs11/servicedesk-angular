@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.ConfigurationItem;
 
+import java.util.Set;
+
 /**
  * Created by nsyhev 29.09.2017
  */
@@ -31,7 +33,7 @@ public class IConfigurationItemDao implements HpCrudDao<ConfigurationItem, IConf
     }
 
     @Override
-    public void update(ConfigurationItem entity) {
+    public void update(ConfigurationItem entity, Set<String> fields) {
         throw new UnsupportedOperationException();
     }
 

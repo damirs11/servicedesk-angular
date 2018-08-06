@@ -77,7 +77,7 @@ public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
     /** Причина переноса крайнего срока*/
     @FieldMeta(columnName = "pcf_problemtext2")
     private String deferralReason;
-    /** Назначено */ //todo Реализовать назначено в дао Assignment
+    /** Назначено */
     private Assignment assignment;
     @FieldMeta(columnName = "pro_cat_oid")
     private EntityCategory category;

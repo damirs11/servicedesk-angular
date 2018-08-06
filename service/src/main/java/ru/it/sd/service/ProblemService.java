@@ -83,7 +83,7 @@ public class ProblemService extends CrudService<Problem>{
 	public Problem patch(Problem entity, Set<String> fields) {
 		try{
 			//todo подумать о необходимости Set<String> fields
-			iProblemDao.update(entity);
+			iProblemDao.update(entity, fields);
 			return dao.read(entity.getId());
 		}catch (Exception e){
 			throw new ServiceException("Возникли проблемы при редактировании проблемы. " + e.getMessage(), e);

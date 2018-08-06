@@ -34,13 +34,12 @@ public class ApprovalService extends CrudService<Approval> {
 
     @Override
     public Approval update(Approval entity) {
-        iApprovalDao.update(entity);
-        return read(entity.getId());
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Approval patch(Approval entity, Set<String> fields) {
-        iApprovalDao.patch(entity,fields);
+        iApprovalDao.update(entity,fields);
         return read(entity.getId());
     }
 

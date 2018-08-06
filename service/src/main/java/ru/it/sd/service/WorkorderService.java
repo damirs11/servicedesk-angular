@@ -72,7 +72,7 @@ public class WorkorderService extends CrudService<Workorder>{
     @Override
     public Workorder patch(Workorder entity, Set<String> fields) {
         try {
-            hpDao.patch(entity, fields);
+            hpDao.update(entity, fields);
             return dao.read(entity.getId());
         } catch (Exception e){
             throw new ServiceException("Возникли проблемы при редактировании наряда. " + e.getMessage(), e);
