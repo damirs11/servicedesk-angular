@@ -1,6 +1,7 @@
-import template from "./change-history.html"
-import {controller} from "./change-history.ctrl"
+import template from "../../../entity-pages/card/history/entity-history.html"
+import {controller} from "../../../entity-pages/card/history/entity-history.ctrl"
 import {SDResolver} from "../../../sd.resolver";
+import {ChangeClassResolver, ChangeIdResolver} from "../change.resolver";
 
 const ChangeCardHistoryState = {
     name: "app.change.card.history",
@@ -12,7 +13,9 @@ const ChangeCardHistoryState = {
         needAuthorize: true
     },
     resolve: {
-        SD: SDResolver
+        SD: SDResolver,
+        entityId: ChangeIdResolver,
+        entityClass: ChangeClassResolver
     }
 };
 

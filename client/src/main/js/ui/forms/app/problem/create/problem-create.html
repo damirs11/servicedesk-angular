@@ -1,0 +1,28 @@
+<div class="entity-container" style="width: 100%">
+    <div class="entity-container__header">
+        <a data-ui-sref="app.problem.list" style="margin-right: 10px">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </a>
+        <span>Создание проблемы</span>
+    </div>
+    <div class="entity-container__header">
+        <button class="btn btn-success"
+                ng-click="ctrl.create()"
+                ng-disabled="ctrl.createButtonDisabled"
+        >
+            Создать
+        </button>
+        <button class="btn btn-default"
+                ng-click="ctrl.cancel()">
+            Отмена
+        </button>
+        <span ng-show="ctrl.errorCreating">Произошла ошибка при создании проблемы. Попробуй позже.</span>
+    </div>
+    <div class="entity-container__header">
+        <sd-entity-card-tabs tabs="ctrl.headerTabs">
+
+        </sd-entity-card-tabs>
+    </div>
+</div>
+<!-- Body of view / history / approval / etc.-->
+<ui-view></ui-view>

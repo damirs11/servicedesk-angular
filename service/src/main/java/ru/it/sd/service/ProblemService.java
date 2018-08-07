@@ -62,8 +62,8 @@ public class ProblemService extends CrudService<Problem>{
 	@Override
 	public Problem create(Problem entity) {
         try {
-            iProblemDao.create(entity);
-            return dao.read(entity.getId());
+			long id = iProblemDao.create(entity);
+            return dao.read(id);
         } catch (Exception e){
             throw new ServiceException("Возникли проблемы при создании проблемы. " + e.getMessage(), e);
         }

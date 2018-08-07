@@ -1,6 +1,7 @@
-import template from "./problem-history.html"
-import {controller} from "./problem-history.ctrl"
+import template from "../../../entity-pages/card/history/entity-history.html"
+import {controller} from "../../../entity-pages/card/history/entity-history.ctrl"
 import {SDResolver} from "../../../sd.resolver";
+import {ProblemClassResolver, ProblemIdResolver} from "../problem.resolver";
 
 const ProblemCardHistoryState = {
     name: "app.problem.card.history",
@@ -12,7 +13,9 @@ const ProblemCardHistoryState = {
         needAuthorize: true
     },
     resolve: {
-        SD: SDResolver
+        SD: SDResolver,
+        entityId: ProblemIdResolver,
+        entityClass: ProblemClassResolver
     }
 };
 

@@ -3,10 +3,11 @@ import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inj
 const ERROR_HISTORY_READ_DISALLOWED = Symbol("ERROR_HISTORY_READ_DISALLOWED");
 
 @NGInjectClass()
-class ProblemCardHistoryController{
+class EntityCardHistoryController{
     @NGInject() $scope;
     @NGInject() SD;
-    @NGInject() problemId;
+    @NGInject() entityId;
+    @NGInject() entityClass;
     @NGInject() $grid;
     /**
      * Пустое значение
@@ -20,10 +21,10 @@ class ProblemCardHistoryController{
 
 
     async $onInit() {
-        const problem = this.problem = new this.SD.Problem(this.problemId);
-        this.accessRules = problem.accessRules;
+        this.entity = new this.entityClass(this.entityId);
+        this.accessRules = this.entity.accessRules;
         if (!this.accessRules.isReadHistoryAllowed) return;
-        const grid = this.grid = new this.$grid.HistoryGrid(this.$scope,this.SD,problem);
+        const grid = this.grid = new this.$grid.HistoryGrid(this.$scope,this.SD,this.entity);
         this.$scope.$on("grid:fetch",::this.$onTableFetch);
         grid.fetchData();
     }
@@ -35,4 +36,4 @@ class ProblemCardHistoryController{
     }
 }
 
-export {ProblemCardHistoryController as controller}
+export {EntityCardHistoryController as controller}

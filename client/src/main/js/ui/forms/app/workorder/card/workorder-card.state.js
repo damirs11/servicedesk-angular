@@ -4,7 +4,7 @@
 import {SDResolver} from "../../sd.resolver";
 import {controller} from "./workorder-card.ctrl"
 import template from "./workorder-card.html"
-import {WorkorderIdResolver} from "./workorder-id.resolver";
+import {WorkorderIdResolver} from "./workorder.resolver";
 
 let WorkorderCardState = {
     name: "app.workorder.card",

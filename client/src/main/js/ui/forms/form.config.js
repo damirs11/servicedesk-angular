@@ -41,6 +41,9 @@ import {ProblemCardViewState} from "./app/problem/card/view/problem-view.state";
 import {AttachWorkorderModal} from "./app/attach-workorder/attach-workorder.modal";
 import {ProblemCardWorkordersState} from "./app/problem/card/workorders/problem-card-workorders.state";
 import {ProblemCardHistoryState} from "./app/problem/card/history/problem-history.state";
+import {ProblemCreateState} from "./app/problem/create/problem-create.state";
+import {ProblemCreateCommonState} from "./app/problem/create/common/problem-create-common.state";
+import {ProblemCreatedModal} from "./app/entity-created/problem-created/problem-created.modal";
 
 FormConfig.$inject = ["$stateProvider", "$urlRouterProvider", "ModalActionProvider"];
 function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
@@ -49,6 +52,7 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .modal(EntityChangedModal)
         .modal(ChangeCreatedModal)
         .modal(WorkorderCreatedModal)
+        .modal(ProblemCreatedModal)
         .modal(LeavePageModal)
         .modal(MakeVoteModal)
         .modal(AttachWorkorderModal)
@@ -88,6 +92,8 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(ProblemCardViewState)
         .state(ProblemCardHistoryState)
         .state(ProblemCardWorkordersState)
+        .state(ProblemCreateState)
+        .state(ProblemCreateCommonState)
         .state(TestState)
 
 }

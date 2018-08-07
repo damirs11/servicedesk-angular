@@ -12,7 +12,7 @@ const ChangeCardViewState = {
         needAuthorize: true
     },
     resolve: {
-        SD: SDResolver
+        SD: SDResolver,
     }
 };
 

@@ -1,6 +1,7 @@
-import template from "./workorder-history.html"
-import {controller} from "./workorder-history.ctrl"
+import template from "../../../entity-pages/card/history/entity-history.html"
+import {controller} from "../../../entity-pages/card/history/entity-history.ctrl"
 import {SDResolver} from "../../../sd.resolver";
+import {WorkorderClassResolver, WorkorderIdResolver} from "../workorder.resolver";
 
 const WorkorderCardHistoryState = {
     name: "app.workorder.card.history",
@@ -12,7 +13,9 @@ const WorkorderCardHistoryState = {
         needAuthorize: true
     },
     resolve: {
-        SD: SDResolver
+        SD: SDResolver,
+        entityId: WorkorderIdResolver,
+        entityClass: WorkorderClassResolver
     }
 };
 

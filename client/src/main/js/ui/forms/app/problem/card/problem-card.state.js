@@ -4,7 +4,7 @@
 import {SDResolver} from "../../sd.resolver";
 import {controller} from "./problem-card.ctrl"
 import template from "./problem-card.html"
-import {ProblemIdResolver} from "./problem-id.resolver";
+import {ProblemIdResolver} from "./problem.resolver";
 
 let ProblemCardState = {
     name: "app.problem.card",

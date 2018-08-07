@@ -29,10 +29,10 @@ class ProblemCardViewController{
      */
     editing;
 
-    // requiredFields = [
-    //     "category","classification","deadline","subject","description",
-    //     "manager","initiator","priority","assignment.workgroup","assignment.executor"
-    // ];
+    requiredFields = [
+        // "category","classification","deadline","subject","description",
+        // "manager","initiator","priority","assignment.workgroup","assignment.executor"
+    ];
 
     async $onInit() {
         this.msgTypes = PROBLEM_MESSAGE_TYPES;
