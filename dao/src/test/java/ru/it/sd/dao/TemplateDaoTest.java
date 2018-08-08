@@ -13,8 +13,8 @@ import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 /**
- * @author quadrix
- * @since 21.11.2017
+ * @author nsychev
+ * @since 19.02.2018
  */
 @Sql("TemplateDaoTest.sql")
 public class TemplateDaoTest extends AbstractDaoTest {

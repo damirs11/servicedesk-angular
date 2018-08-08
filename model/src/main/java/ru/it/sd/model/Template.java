@@ -8,7 +8,9 @@ import ru.it.sd.util.AppToStringStyle;
 import java.io.Serializable;
 
 /**
- * Created by user on 22.07.2017.
+ * Модель шаблонов
+ * @author nsychev
+ * @since 19.02.2018
  */
 @ClassMeta(tableName = "rep_templates", tableAlias = "tem")
 public class Template implements HasId,HasFolder, Serializable {
