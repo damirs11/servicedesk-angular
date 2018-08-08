@@ -5,6 +5,7 @@ import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.OrganizationDao;
 import ru.it.sd.dao.PersonDao;
+import ru.it.sd.dao.ProblemDao;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.*;
 
@@ -19,13 +20,15 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 
 	private final PersonDao personDao;
 	private final ChangeDao changeDao;
+	private final ProblemDao problemDao;
     private final CodeDao codeDao;
     private final AssignmentMapper assignmentMapper;
     private final OrganizationDao organizationDao;
 
-    public WorkorderMapper(PersonDao personDao, ChangeDao changeDao, CodeDao codeDao, AssignmentMapper assignmentMapper, OrganizationDao organizationDao) {
+    public WorkorderMapper(PersonDao personDao, ChangeDao changeDao, ProblemDao problemDao, CodeDao codeDao, AssignmentMapper assignmentMapper, OrganizationDao organizationDao) {
 	    this.personDao = personDao;
 	    this.changeDao = changeDao;
+	    this.problemDao = problemDao;
 	    this.codeDao = codeDao;
 	    this.assignmentMapper = assignmentMapper;
 	    this.organizationDao = organizationDao;
@@ -64,7 +67,11 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 			Change change = changeDao.read(changeId);
 			workorder.setChange(change);
 		}
-
+		Long problemId = DBUtils.getLong(rs,"wor_pro_oid");
+		if (problemId != null){
+			Problem problem = problemDao.read(problemId);
+			workorder.setProblem(problem);
+		}
 		Long folderId = DBUtils.getLong(rs, "wor_poo_oid");
 		if(folderId != null){
 			BaseCode code = codeDao.read(folderId);

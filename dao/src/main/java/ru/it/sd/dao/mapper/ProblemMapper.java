@@ -21,7 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Маппер "Проблем"
+ * РњР°РїРїРµСЂ "РџСЂРѕР±Р»РµРј"
  */
 @Component
 public class ProblemMapper extends EntityRowMapper<Problem> {
