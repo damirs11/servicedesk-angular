@@ -3,9 +3,9 @@ function WorkorderIdResolver($stateParams){
     return $stateParams["workorderId"];
 }
 
-WorkorderClassResolver.$inject = ["SD"];
-function WorkorderClassResolver(SD){
-    return SD.Workorder;
+WorkorderGetterResolver.$inject = ["workorderId","SD"];
+function WorkorderGetterResolver(workorderId, SD){
+    return () => new SD.Workorder(workorderId);
 }
 
-export {WorkorderIdResolver, WorkorderClassResolver}
+export {WorkorderIdResolver, WorkorderGetterResolver}

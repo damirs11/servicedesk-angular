@@ -1,19 +1,19 @@
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
-
 const ERROR_HISTORY_READ_DISALLOWED = Symbol("ERROR_HISTORY_READ_DISALLOWED");
+
+/**
+ * Страница истории для сущности.
+ * Обязательные resolve параметры:
+ * @param getEntity {function} - функция, которая венрнет сущность.
+ */
 
 @NGInjectClass()
 class EntityCardHistoryController{
     @NGInject() $scope;
     @NGInject() SD;
-    @NGInject() entityId;
-    @NGInject() entityClass;
+    @NGInject() getEntity;
     @NGInject() $grid;
-    /**
-     * Пустое значение
-     * @type {string}
-     */
-    emptyValue = "- нет -";
+
     /**
      * Промис загрузки данных
      */
@@ -21,7 +21,7 @@ class EntityCardHistoryController{
 
 
     async $onInit() {
-        this.entity = new this.entityClass(this.entityId);
+        this.entity = this.getEntity();
         this.accessRules = this.entity.accessRules;
         if (!this.accessRules.isReadHistoryAllowed) return;
         const grid = this.grid = new this.$grid.HistoryGrid(this.$scope,this.SD,this.entity);

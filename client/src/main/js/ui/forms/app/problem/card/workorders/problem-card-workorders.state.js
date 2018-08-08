@@ -1,6 +1,7 @@
-import template from "./problem-card-workorders.html"
-import {controller} from "./problem-card-workorders.ctrl"
+import template from "../../../entity-pages/card/workorders/entity-workorders.html"
+import {controller} from "../../../entity-pages/card/workorders/entity-workorders.ctrl"
 import {SDResolver} from "../../../sd.resolver";
+import {ProblemGetterResolver} from "../problem.resolver";
 
 const ProblemCardWorkordersState = {
     name: "app.problem.card.workorders",
@@ -9,10 +10,14 @@ const ProblemCardWorkordersState = {
     template: template,
     controllerAs: "ctrl",
     data: {
-        needAuthorize: true
+        needAuthorize: true,
+        entityProps: {
+            common: "problem"
+        }
     },
     resolve: {
-        SD: SDResolver
+        SD: SDResolver,
+        getEntity: ProblemGetterResolver,
     }
 };
 

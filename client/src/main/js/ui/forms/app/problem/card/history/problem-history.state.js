@@ -1,7 +1,7 @@
 import template from "../../../entity-pages/card/history/entity-history.html"
 import {controller} from "../../../entity-pages/card/history/entity-history.ctrl"
 import {SDResolver} from "../../../sd.resolver";
-import {ProblemClassResolver, ProblemIdResolver} from "../problem.resolver";
+import {ProblemGetterResolver} from "../problem.resolver";
 
 const ProblemCardHistoryState = {
     name: "app.problem.card.history",
@@ -14,8 +14,7 @@ const ProblemCardHistoryState = {
     },
     resolve: {
         SD: SDResolver,
-        entityId: ProblemIdResolver,
-        entityClass: ProblemClassResolver
+        getEntity: ProblemGetterResolver,
     }
 };
 

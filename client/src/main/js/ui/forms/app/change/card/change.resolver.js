@@ -3,9 +3,11 @@ function ChangeIdResolver($stateParams){
     return $stateParams["changeId"];
 }
 
-ChangeClassResolver.$inject = ["SD"];
-function ChangeClassResolver(SD){
-    return SD.Change;
+ChangeGetterResolver.$inject = ["changeId","SD"];
+function ChangeGetterResolver(changeId,SD){
+    return () => {
+        return new SD.Change(changeId)
+    }
 }
 
-export {ChangeIdResolver,ChangeClassResolver}
+export {ChangeIdResolver,ChangeGetterResolver}

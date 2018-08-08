@@ -1,6 +1,7 @@
-import template from "./workorder-attachments.html"
-import {controller} from "./workorder-attachments.ctrl"
+import template from "../../../entity-pages/card/attachments/entity-attachments.html"
+import {controller} from "../../../entity-pages/card/attachments/entity-attachments.ctrl"
 import {SDResolver} from "../../../sd.resolver";
+import {WorkorderGetterResolver} from "../workorder.resolver";
 
 const WorkorderCardAttachmentsState = {
     name: "app.workorder.card.attachments",
@@ -12,7 +13,8 @@ const WorkorderCardAttachmentsState = {
         needAuthorize: true
     },
     resolve: {
-        SD: SDResolver
+        SD: SDResolver,
+        getEntity: WorkorderGetterResolver,
     }
 };
 

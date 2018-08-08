@@ -3,9 +3,9 @@ function ProblemIdResolver($stateParams){
     return $stateParams["problemId"];
 }
 
-ProblemClassResolver.$inject = ["SD"];
-function ProblemClassResolver(SD){
-    return SD.Problem;
+ProblemGetterResolver.$inject = ["problemId","SD"];
+function ProblemGetterResolver(problemId,SD){
+    return () => new SD.Problem(problemId);
 }
 
-export {ProblemIdResolver, ProblemClassResolver}
+export {ProblemIdResolver, ProblemGetterResolver}
