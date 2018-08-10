@@ -249,6 +249,20 @@
                 ></sd-dropdown>
             </div>
 
+            <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('problem')">
+                <label>Проблема:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.workorder.problem"
+                             fetch-data="ctrl.loadProblems($text)"
+                             display-value="'№'+$value.no+': '+$value.subject"
+                             allow-empty="true"
+                             editing="ctrl.editing"
+                             disabled="!ctrl.accessRules.canUpdate('problem')"
+                             min-symbols-fetch="1"
+                             link="$value | sdPageLink"
+                ></sd-dropdown>
+            </div>
+
         </form>
     </div>
 

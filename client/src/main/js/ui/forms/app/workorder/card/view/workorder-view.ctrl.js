@@ -146,6 +146,11 @@ class WorkorderCardViewController{
         if (text) filter.no = text;
         return this.SD.Change.list(filter);
     }
+    async loadProblems(text) {
+        const filter = {};
+        if (text) filter.no = text;
+        return this.SD.Problem.list(filter);
+    }
 }
 
 export {WorkorderCardViewController as controller}

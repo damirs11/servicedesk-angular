@@ -157,6 +157,14 @@ function WorkorderProvider(EditableEntity, SD, Historyable, Accessible, Attachme
          */
         @Serialize(Nullable(serializeId)) @Parse(data => SD.Change.parse(data)) change;
 
+        /**
+         * Проблема
+         * @property
+         * @name SD.Workorder#problem
+         * @type {SD.Problem}
+         */
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.Problem.parse(data)) problem;
+
         toString(){
             return String(this.no);
         }
