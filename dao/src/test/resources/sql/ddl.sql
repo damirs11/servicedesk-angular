@@ -98,6 +98,7 @@ CREATE TABLE itsm_workorders (
   ass_per_to_oid DECIMAL(18),
   wor_ser_oid DECIMAL(18),
   wor_cha_oid DECIMAL(18),
+  wor_pro_oid DECIMAL(18),
   wor_apt_status DECIMAL(18),
   wor_apt_description VARCHAR(80),
   wor_apt_deadline DATETIME,

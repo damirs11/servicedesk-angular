@@ -12,9 +12,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Сервис для работы с согласованием
+ * Сервис для работы с шаблонами
  * @author nsychev
- * @since 07.10.2017
+ * @since 09.02.2018
  */
 @Service
 public class TemplateService extends CrudService<Template> {

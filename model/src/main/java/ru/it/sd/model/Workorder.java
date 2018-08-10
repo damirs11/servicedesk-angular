@@ -81,6 +81,10 @@ public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Se
 	@FieldMeta(columnName = "wor_cha_oid", attribute = 724041792L)
 	private Change change;
 
+	/** сущность проблема */
+	@FieldMeta(columnName = "wor_pro_oid", attribute = 717488192L)
+	private Problem problem;
+
 	@FieldMeta(columnName = "", attribute = 665649208)
 	private Assignment assignment;
 
@@ -295,5 +299,13 @@ public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Se
 	@Override
 	public void setFolder(Folder folder) {
 		this.folder = folder;
+	}
+
+	public Problem getProblem() {
+		return problem;
+	}
+
+	public void setProblem(Problem problem) {
+		this.problem = problem;
 	}
 }

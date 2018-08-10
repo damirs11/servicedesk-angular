@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Интерфейс для поиска кодов.
+ * Дао для работы с шаблонами
+ * @author nsychev
+ * @since 19.02.2018
  */
 @Repository
 public class TemplateDao extends AbstractEntityDao<Template>{
