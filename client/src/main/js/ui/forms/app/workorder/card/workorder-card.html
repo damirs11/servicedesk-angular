@@ -1,8 +1,8 @@
 <div sd-loading="ctrl.loadingPromise" style="height: 100%">
 
-    <content style="display: block; height: 100%">
+    <content class="grid-page">
         <!-- Card header -->
-        <div class="entity-container" style="width: 100%">
+        <div class="entity-container grid-page__content">
             <div class="entity-container__header">
                 <a data-ui-sref="app.workorder.list" style="margin-right: 10px">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -23,7 +23,7 @@
             </div>
         </div>
         <!-- Body of view / history / approval / etc.-->
-        <ui-view></ui-view>
+        <ui-view class="grid-page__grid-container"></ui-view>
     </content>
 
     <error>

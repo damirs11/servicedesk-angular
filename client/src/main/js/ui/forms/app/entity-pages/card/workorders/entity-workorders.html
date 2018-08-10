@@ -1,7 +1,7 @@
-<div sd-loading="ctrl.fetchPromise">
+<div sd-loading="ctrl.fetchPromise" style="height: 99%">
 
-    <content style="display: block; height: 563px" >
-        <nav class="grid-page__content narrow-panel navbar navbar-absolute navbar-default">
+    <content class="grid-page" >
+        <nav class="grid-page__content  narrow-panel navbar navbar-absolute navbar-default">
             <div style="padding-left: 15px">
                 <a class="btn btn-default navbar-btn"
                    data-ng-disabled="ctrl.isButtonOpenDisabled"
@@ -20,18 +20,16 @@
                 </a>
             </div>
         </nav>
-        <div class="entity-container" style="font-size: 12px" >
-            <div class="entity-container__content" style="padding: 0; min-width: 100%">
-                <div style="height: 1440px; padding-top: 0">
-                    <div data-ui-grid="ctrl.grid" class="grid"
-                         data-ui-grid-selection
-                         data-ui-grid-resize-columns
-                         data-ui-grid-pagination
-                         data-ui-grid-exporter
-                         data-ui-grid-autoResize
-                         data-ui-grid-save-state
-                    ></div>
-                </div>
+        <div class="entity-container grid-page__grid-container" style="font-size: 12px" >
+            <div class="entity-container__content" style="padding: 0; min-width: 100%; height: 100%">
+                <div data-ui-grid="ctrl.grid" style="height: 100%"
+                     data-ui-grid-selection
+                     data-ui-grid-resize-columns
+                     data-ui-grid-pagination
+                     data-ui-grid-exporter
+                     data-ui-grid-autoResize
+                     data-ui-grid-save-state
+                ></div>
             </div>
         </div>
     </content>
