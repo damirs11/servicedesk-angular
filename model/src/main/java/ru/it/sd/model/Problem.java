@@ -19,7 +19,7 @@ public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
     @FieldMeta(columnName = "pro_id")
     private Long no;
     /** Статус */
-    @FieldMeta(columnName = "pro_sta_oid")
+    @FieldMeta(columnName = "pro_sta_oid", attribute = 717488236)
     private EntityStatus status;
     /** Инициатор */
     @FieldMeta(columnName = "pro_requestor_per_oid")
@@ -28,7 +28,7 @@ public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
     @FieldMeta(columnName = "pro_cit_oid")
     private ConfigurationItem configurationItem;
     /** Система */
-    //todo EntityCode4
+    //todo EntityCode4 1079902236
     /** Тема */
     @FieldMeta(columnName = "pro_description")
     private String subject;
@@ -51,25 +51,25 @@ public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
     @FieldMeta(columnName = "prs_solution")
     private String solution;
     /** Комментарий инициатору */
-    @FieldMeta(columnName = "pro_workaround")
+    @FieldMeta(columnName = "pro_workaround", attribute = 717488178)
     private String commentToInitiator;
     /** Приоритет */
-    @FieldMeta(columnName = "pro_imp_oid")
+    @FieldMeta(columnName = "pro_imp_oid", attribute = 281478616973395L)
     private EntityPriority priority;
     /** Крайний срок */
     @FieldMeta(columnName = "pro_deadline")
     private Date deadline;
     /** Выполнено(дата) */
-    @FieldMeta(columnName = "pro_actualfinish")
+    @FieldMeta(columnName = "pro_actualfinish", attribute = 556335112L)
     private Date resolvedDate;
     /** Закрыто(дата) */
-    @FieldMeta(columnName = "pro_latefinish")
+    @FieldMeta(columnName = "pro_latefinish", attribute = 70370L)
     private Date closureDate;
     /** Просрочена*/
-    @FieldMeta(columnName = "pcf_boolean12")
+    @FieldMeta(columnName = "pcf_boolean12", attribute = 281478373572707L)
     private Boolean isOverdue;
     /** Кем просрочена*/
-    @FieldMeta(columnName = "pcf_proshorttext2")
+    @FieldMeta(columnName = "pcf_proshorttext2", attribute = 4067360790L)
     private String whoOverdue;
     /** План завершения*/
     @FieldMeta(columnName = "pro_planfinish")
@@ -79,16 +79,16 @@ public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
     private String deferralReason;
     /** Назначено */
     private Assignment assignment;
-    @FieldMeta(columnName = "pro_cat_oid")
+    @FieldMeta(columnName = "pro_cat_oid", attribute = 717488183L)
     private EntityCategory category;
-    @FieldMeta(columnName = "pro_cla_oid")
+    @FieldMeta(columnName = "pro_cla_oid", attribute = 1103560717)
     private EntityClassification classification;
 
     //todo функционал
-    @FieldMeta(columnName = "pro_clo_oid")
+    @FieldMeta(columnName = "pro_clo_oid", attribute = 75232L)
     private EntityClosureCode closureCode;
     /** Папка */
-    @FieldMeta(columnName = "pro_poo_oid")
+    @FieldMeta(columnName = "pro_poo_oid", attribute = 1032388614L)
     private Folder folder;
     /** Не включать в отчет Заказчику*/
     @FieldMeta(columnName = "pcf_boolean1")
