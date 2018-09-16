@@ -1,6 +1,6 @@
 import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
 import {CHANGE_STATUSES, APPROVAL_STATUSES} from "../../../../../api/entity/util/status-list";
-import {TYPEID_PROBLEM} from "../../../../../api/entity/util/entity-type-list";
+import {TYPEID_PROBLEM} from "../../../../../api/entity/util/entity-types";
 
 @NGInjectClass()
 class ProblemCardController {

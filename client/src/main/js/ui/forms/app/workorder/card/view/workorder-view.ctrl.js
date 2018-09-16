@@ -1,6 +1,6 @@
 import {WORKORDER_MESSAGE_TYPES} from "../../../../../components/widget/sd-entity-chat/chat-types";
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
-import {TYPEID_WORKORDER} from "../../../../../../api/entity/util/entity-type-list";
+import {TYPEID_WORKORDER} from "../../../../../../api/entity/util/entity-types";
 
 
 @NGInjectClass()

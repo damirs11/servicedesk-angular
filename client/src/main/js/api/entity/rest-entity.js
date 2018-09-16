@@ -32,6 +32,17 @@ function RESTEntityProvider(Entity, $connector) {
             return await $connector.get(`rest/entity/${this.$entityType}/count`, params);
         }
 
+
+        /**
+         * Возвращает сущность по шаблону.
+         * @param template {SD.Template|number} - шаблон или id шаблона
+         * @return {Promise.<Entity>}
+         */
+        static async getTemplate(template){
+            const templateId = typeof template === "object" ? template.id : template;
+            const data = await $connector.get(`rest/entity/${this.$entityType}/template/${templateId}`);
+            return this.parse(data);
+        }
     };
 }
 

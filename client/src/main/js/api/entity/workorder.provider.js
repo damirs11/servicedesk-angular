@@ -3,7 +3,7 @@ import {Serialize} from "./decorator/serialize.decorator";
 import {Instantiate, Nullable} from "./decorator/parse-utils";
 import {serializeId} from "./decorator/serialize-utils";
 import {Mixin} from "./mixin/mixin.decorator";
-import {TYPEID_WORKORDER} from "./util/entity-type-list";
+import {TYPEID_WORKORDER} from "./util/entity-types";
 
 
 WorkorderProvider.$inject = ["EditableEntity", "SD", "Historyable", "Accessible", "AttachmentsHolder"];

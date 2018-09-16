@@ -1,7 +1,6 @@
 import {Parse} from "./decorator/parse.decorator";
 import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
-import {Enumerable} from "../../common/decorator/enumerable.decorator";
 import {Mixin} from "./mixin/mixin.decorator";
 
 

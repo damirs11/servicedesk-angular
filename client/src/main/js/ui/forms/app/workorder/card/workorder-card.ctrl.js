@@ -1,5 +1,5 @@
 import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
-import {TYPEID_WORKORDER} from "../../../../../api/entity/util/entity-type-list";
+import {TYPEID_WORKORDER} from "../../../../../api/entity/util/entity-types";
 @NGInjectClass()
 class WorkorderViewController {
     /**

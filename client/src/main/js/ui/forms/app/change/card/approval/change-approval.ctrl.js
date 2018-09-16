@@ -1,5 +1,5 @@
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
-import {TYPEID_APPROVAL} from "../../../../../../api/entity/util/entity-type-list";
+import {TYPEID_APPROVAL} from "../../../../../../api/entity/util/entity-types";
 import {
     APPROVAL_STATUSES
 } from "../../../../../../api/entity/util/status-list";

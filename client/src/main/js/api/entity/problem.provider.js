@@ -3,7 +3,7 @@ import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
 import {serializeId} from "./decorator/serialize-utils";
 import {Mixin} from "./mixin/mixin.decorator";
-import {TYPEID_PROBLEM} from "./util/entity-type-list";
+import {TYPEID_PROBLEM} from "./util/entity-types";
 
 
 ProblemProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable", "AttachmentsHolder","Accessible"];

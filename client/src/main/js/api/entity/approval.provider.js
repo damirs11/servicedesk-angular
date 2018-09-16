@@ -2,7 +2,7 @@ import {Parse} from "./decorator/parse.decorator";
 import {Instantiate, Nullable} from "./decorator/parse-utils";
 import {Serialize} from "./decorator/serialize.decorator";
 import {serializeId} from "./decorator/serialize-utils";
-import {TYPEID_APPROVAL} from "./util/entity-type-list";
+import {TYPEID_APPROVAL} from "./util/entity-types";
 import {Mixin} from "./mixin/mixin.decorator";
 
 ApprovalProvider.$inject = ["EditableEntity", "SD", "Accessible"];

@@ -3,7 +3,7 @@ import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inj
 import {
     PROBLEM_STATUSES
 } from "../../../../../../api/entity/util/status-list";
-import {TYPEID_PROBLEM} from "../../../../../../api/entity/util/entity-type-list";
+import {TYPEID_PROBLEM} from "../../../../../../api/entity/util/entity-types";
 
 @NGInjectClass()
 class ProblemCardViewController{

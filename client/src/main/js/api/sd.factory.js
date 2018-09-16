@@ -29,6 +29,7 @@ import {ConfigurationItemProvider} from "./entity/configuration-item.provider";
 import {EntityCode1Provider} from "./entity/entity-code1.provider";
 import {FolderProvider} from "./entity/folder.provider";
 import {ProblemProvider} from "./entity/problem.provider";
+import {TemplateProvider} from "./entity/template.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -91,6 +92,7 @@ const SDConstructor = function SD($injector,cache) {
     this.EntityClosureCode = $injector.instantiate(EntityClosureCodeProvider,locals);
     this.EntityCode1 = $injector.instantiate(EntityCode1Provider, locals);
     this.Folder = $injector.instantiate(FolderProvider, locals);
+    this.Template = $injector.instantiate(TemplateProvider, locals);
 
     // this.withCache = (newCache = Object.create(cache)) => {
     //     return $injector.instantiate(SD,{cache:newCache});
