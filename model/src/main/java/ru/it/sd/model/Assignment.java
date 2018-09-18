@@ -10,16 +10,16 @@ public class Assignment implements HasStatus, Serializable {
 
     private static final long serialVersionUID = 8997994525571656956L;
 
-    @FieldMeta(columnName = "ass_status")
+    @FieldMeta(columnName = "ass_status", attribute = 665649177L)
     private EntityStatus status;
 
-    @FieldMeta(columnName = "ass_priority")
+    @FieldMeta(columnName = "ass_priority", attribute = 77050L)
     private EntityPriority priority;
 
-    @FieldMeta(columnName = "ass_person_to")
+    @FieldMeta(columnName = "ass_person_to", attribute = 665649185L)
     private Person executor;
 
-    @FieldMeta(columnName = "ass_workgroup_to")
+    @FieldMeta(columnName = "ass_workgroup_to", attribute = 665649183L)
     private Workgroup workgroup;
 
     @Override
@@ -55,4 +55,5 @@ public class Assignment implements HasStatus, Serializable {
     public void setWorkgroup(Workgroup workgroup) {
         this.workgroup = workgroup;
     }
+
 }

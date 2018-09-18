@@ -74,7 +74,7 @@ public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Se
 	@FieldMeta(columnName = "wor_poo_oid", attribute = 1032388614L)
 	private Folder folder;
 	/** Инициатор */
-	@FieldMeta(columnName = "wor_requestor_per_oid", attribute = 281478256590859L)
+	@FieldMeta(columnName = "wor_requestor_per_oid", attribute = 281478292766727L)
 	private Person initiator;
 
 	/** Изменение */
@@ -307,5 +307,36 @@ public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Se
 
 	public void setProblem(Problem problem) {
 		this.problem = problem;
+	}
+
+	@Override
+	public String toString() {
+		return "Workorder{" +
+				"id=" + id +
+				", no=" + no +
+				", subject='" + subject + '\'' +
+				", description='" + description + '\'' +
+				", labor=" + labor +
+				", solution='" + solution + '\'' +
+				", status=" + status +
+				", category=" + category +
+				", closureCode=" + closureCode +
+				", createdDate=" + createdDate +
+				", deadline=" + deadline +
+				", resolvedDate=" + resolvedDate +
+				", closureDate=" + closureDate +
+				", modifyDate=" + modifyDate +
+				", expired=" + expired +
+				", expiredBy='" + expiredBy + '\'' +
+				", organization=" + organization +
+				", folder=" + folder +
+				", initiator=" + initiator +
+				", change=" + change +
+				", problem=" + problem +
+				", assignment=" + assignment +
+				", attachment=" + attachment +
+				", commentToExecutor='" + commentToExecutor + '\'' +
+				", commentToInitiator='" + commentToInitiator + '\'' +
+				'}';
 	}
 }

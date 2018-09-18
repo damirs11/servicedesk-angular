@@ -9,9 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.it.sd.exception.NotFoundException;
 import ru.it.sd.meta.MetaUtils;
+import ru.it.sd.model.EntityType;
 import ru.it.sd.model.HasId;
+import ru.it.sd.model.Template;
 import ru.it.sd.service.History;
 import ru.it.sd.service.holder.CrudServiceHolder;
+import ru.it.sd.service.holder.HasTemplateServiceHolder;
 import ru.it.sd.service.holder.HistoryServiceHolder;
 import ru.it.sd.service.holder.ReadServiceHolder;
 import ru.it.sd.util.EntityUtils;
@@ -41,12 +44,13 @@ public class CommonRestController {
     private final ReadServiceHolder readServiceHolder;
     private final CrudServiceHolder crudServiceHolder;
 	private final HistoryServiceHolder historyServiceHolder;
-
+	private final HasTemplateServiceHolder hasTemplateServiceHolder;
 	@Autowired
-	public CommonRestController(ReadServiceHolder readServiceHolder, CrudServiceHolder crudServiceHolder, HistoryServiceHolder historyServiceHolder) {
+	public CommonRestController(ReadServiceHolder readServiceHolder, CrudServiceHolder crudServiceHolder, HistoryServiceHolder historyServiceHolder, HasTemplateServiceHolder hasTemplateServiceHolder) {
 		this.readServiceHolder = readServiceHolder;
 		this.crudServiceHolder = crudServiceHolder;
 		this.historyServiceHolder = historyServiceHolder;
+		this.hasTemplateServiceHolder = hasTemplateServiceHolder;
 	}
 
     /**
@@ -183,5 +187,14 @@ public class CommonRestController {
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable String entity, @PathVariable long id) {
         crudServiceHolder.findFor(entity).delete(id);
+    }
+
+    @RequestMapping(value = "/{entity}/template/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Object getTemplate(@PathVariable String entity, @PathVariable long id) {
+        Template template = new Template();
+        template.setId(id);
+        template.setEntityType(EntityType.getByClass(EntityUtils.getEntityClass(entity)));
+        return hasTemplateServiceHolder.findFor(entity).getTemplate(template);
     }
 }

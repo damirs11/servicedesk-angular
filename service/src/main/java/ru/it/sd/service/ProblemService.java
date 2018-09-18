@@ -8,6 +8,7 @@ import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.problem.IProblemDao;
 import ru.it.sd.model.GrantRule;
 import ru.it.sd.model.Problem;
+import ru.it.sd.model.Template;
 import ru.it.sd.util.ResourceMessages;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.Set;
  * @since 28.07.2018
  */
 @Service
-public class ProblemService extends CrudService<Problem>{
+public class ProblemService extends CrudService<Problem> implements HasTemplateService<Problem>{
 
 	private static final Logger logger = LoggerFactory.getLogger(ProblemService.class);
 
@@ -88,6 +89,10 @@ public class ProblemService extends CrudService<Problem>{
 		}catch (Exception e){
 			throw new ServiceException("Возникли проблемы при редактировании проблемы. " + e.getMessage(), e);
 		}
+	}
+	@Override
+	public Problem getTemplate(Template template) {
+		return dao.getTemplate(template);
 	}
 
 }
