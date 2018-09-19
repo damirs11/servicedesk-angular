@@ -11,6 +11,10 @@ class TestController {
         })
     }
 
+    async testFetch(){
+        console.log("FETCH");
+        return [{name: "Темплейт 1",id:1},{"name": "Tpl 2", id:2},{name:"Транзневть 3",id:3}]
+    }
 
 }
 

@@ -59,6 +59,7 @@ import {SDIconFilter} from "./components/filters/sd-icon.filter";
 import {SDPageLinkFilter} from "./components/filters/sd-page-link.filter";
 import {SDVoteComponent} from "./components/widget/sd-vote/sd-vote.component";
 import {SDExceptionHandler} from "./components/config/sd-exception-handler";
+import {SDDropdownButtonComponent} from "./components/widget/sd-dropdown-button/sd-dropdown-button.component";
 
 export const servicedeskUI = angular.module("servicedesk-ui",
         [
@@ -115,6 +116,7 @@ export const servicedeskUI = angular.module("servicedesk-ui",
     .component("sdStatusBar",SDStatusBarComponent)
     .component("sdAvatar",SDAvatarComponent)
     .component("sdVote",SDVoteComponent)
+    .component("sdDropdownButton",SDDropdownButtonComponent)
     /** Компоненты для чата */
     .component("chatLine",ChatLineComponent)
     .component("chatInfoBlock",ChatInfoBlockComponent)
