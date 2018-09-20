@@ -58,7 +58,7 @@ public class ProblemDao extends AbstractEntityDao<Problem> implements Templated<
                     "pro_poo_oid, \n" +
                     "pcf.pcf_boolean1, \n" +
                     "pcf.pcf_problemdate2, \n" +
-                    "pr1.pr1_4k1, \nУтУ" +
+                    "pr1.pr1_4k1, \n" +
                     "pro_assign_status ass_status, \n" +
                     "pro_assign_priority ass_priority, \n" +
                     "ass_per_to_oid ass_person_to, \n" +
