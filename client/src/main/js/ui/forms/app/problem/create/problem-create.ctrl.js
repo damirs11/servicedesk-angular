@@ -8,6 +8,7 @@ class ProblemCreateController{
     @NGInject() $state;
     @NGInject() $pageLock;
     @NGInject() ModalAction;
+    @NGInject() passedParams;
     @NGInject() problem; // Новое изменение - внедряется зависимостью.
     // Контроллер занят асинхронными задачами
     busy = false;
@@ -23,19 +24,9 @@ class ProblemCreateController{
         "manager","initiator","priority","assignment.workgroup","assignment.executor"
     ];
 
-
-    registerLeaveEditListener() {
-        this.$pageLock(this.$scope)
-            .setTitle("Несохраненные изменения")
-            .setText("Внимание! Изменение не было сохранено, сохранить их перед уходом?")
-            .setCondition(() => this.problem.checkModified())
-            .addAction("Да",async () => {
-                await this.problem.create();
-                return true;
-            }).addAction("Нет", () => {
-                return true;
-            }).addAction("Отмена", () => false)
-            .lock();
+    async $onInit(){
+        const templateId = this.passedParams.templateId;
+        if (templateId) await this.problem.fillWithTemplate(templateId)
     }
 
     get isRequiredFieldsFilled() {

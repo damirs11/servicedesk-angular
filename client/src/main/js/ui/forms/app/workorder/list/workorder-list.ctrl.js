@@ -1,4 +1,5 @@
 import {UIEntityFilter} from "../../../../utils/ui-entity-filter";
+import {EntityTypes} from "../../../../../api/entity/util/entity-types";
 
 class WorkorderListController {
     static $inject = ['SD', '$scope', '$grid', '$state','Session', '$location', 'searchParams'];
@@ -40,9 +41,15 @@ class WorkorderListController {
         return this.Session.getTypeAccessRules("Workorder").isCreateEntityAllowed;
     }
 
-    clickCreateNew(){
+    clickCreateNew(template){
         if (!this.isCreateAllowed) return;
-        this.$state.go("app.workorder.create.common");
+        const stateOptions = template ? {templateId: template.id} : undefined;
+        this.$state.go("app.workorder.create.common",stateOptions);
+    }
+
+    async loadTemplates(text){
+        const entityId = EntityTypes.Workorder;
+        return this.SD.Template.list({entityId, fullText:text})
     }
 
     get gridSearchParams(){

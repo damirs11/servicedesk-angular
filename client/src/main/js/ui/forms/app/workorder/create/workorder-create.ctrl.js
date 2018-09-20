@@ -40,6 +40,7 @@ class WorkorderCreateController{
     async $initializeData(){
         if (this.passedParams.changeId) await this.$loadPassedChange();
         if (this.passedParams.problemId) await this.$loadPassedProblem();
+        if (this.passedParams.templateId) await this.workorder.fillWithTemplate(this.passedParams.templateId)
     }
 
     async $loadPassedChange(){

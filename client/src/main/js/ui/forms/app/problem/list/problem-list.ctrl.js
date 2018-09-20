@@ -1,22 +1,31 @@
 import {UIEntityFilter} from "../../../../utils/ui-entity-filter";
+import {EntityTypes} from "../../../../../api/entity/util/entity-types";
+import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
 
+@NGInjectClass()
 class ProblemListController {
-    static $inject = ['SD', '$scope', '$grid', '$state','Session','$location','searchParams'];
+
+    @NGInject() SD;
+    @NGInject() $scope;
+    @NGInject() $grid;
+    @NGInject() Session;
+    @NGInject() $location;
 
     /** Критерии поиска, находящиеся в ссылке */
-    urlSearchParams = {};
+    @NGInject("searchParams") urlSearchParams = {};
+
     defaultSearchFilter = new UIEntityFilter({value:undefined,name:"Не выбран"});
 
-    constructor(SD, $scope, $grid, $state, Session, $location, searchParams) {
-        this.SD = SD;
-        this.$scope = $scope;
-        this.$grid = $grid;
-        this.$state = $state;
-        this.Session = Session;
-        this.$location = $location;
-        console.log(searchParams);
-        this.urlSearchParams = searchParams;
-    }
+    // constructor(SD, $scope, $grid, $state, Session, $location, searchParams) {
+    //     this.SD = SD;
+    //     this.$scope = $scope;
+    //     this.$grid = $grid;
+    //     this.$state = $state;
+    //     this.Session = Session;
+    //     this.$location = $location;
+    //     console.log(searchParams);
+    //     this.urlSearchParams = searchParams;
+    // }
 
     async $onInit () {
         this.grid = new this.$grid.ProblemGrid(this.$scope,this.SD);
@@ -41,9 +50,15 @@ class ProblemListController {
         // return this.Session.getTypeAccessRules("Problem").isCreateEntityAllowed;
     }
 
-    clickCreateNew(){
+    clickCreateNew(template){
         if (!this.isCreateAllowed) return;
-        this.$state.go("app.problem.create.common");
+        const stateOptions = template ? {templateId: template.id} : undefined;
+        this.$state.go("app.problem.create.common",stateOptions);
+    }
+
+    async loadTemplates(text){
+        const entityId = EntityTypes.Problem;
+        return this.SD.Template.list({entityId, fullText:text})
     }
 
     get gridSearchParams(){

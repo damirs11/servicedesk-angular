@@ -30,20 +30,6 @@ class ChangeCreateController{
     }
 
 
-    registerLeaveEditListener() {
-        this.$pageLock(this.$scope)
-            .setTitle("Несохраненные изменения")
-            .setText("Внимание! Изменение не было сохранено, сохранить их перед уходом?")
-            .setCondition(() => this.change.checkModified())
-            .addAction("Да",async () => {
-                await this.change.create();
-                return true;
-            }).addAction("Нет", () => {
-                return true;
-            }).addAction("Отмена", () => false)
-            .lock();
-    }
-
     get isRequiredFieldsFilled() {
         for(const fieldName of this.requiredFields) {
             const subnames = fieldName.split("."); // Сложное имя поля (пр. assignment.executor)

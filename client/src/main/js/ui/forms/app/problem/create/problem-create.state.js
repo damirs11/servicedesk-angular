@@ -2,10 +2,11 @@ import template from "./problem-create.html"
 import {controller} from "./problem-create.ctrl"
 import {SDResolver} from "../../sd.resolver";
 import {NewProblemResolver} from "./new-problem-resolver";
+import {PassedParamsResolver} from "./passed-arguments-resolver";
 
 const ProblemCreateState = {
     name: "app.problem.create",
-    url: "/create",
+    url: "/create?templateId",
     controller: controller,
     template: template,
     controllerAs: "ctrl",
@@ -15,7 +16,8 @@ const ProblemCreateState = {
     },
     resolve: {
         SD: SDResolver,
-        problem: NewProblemResolver
+        problem: NewProblemResolver,
+        passedParams: PassedParamsResolver
     }
 };
 

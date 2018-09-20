@@ -82,10 +82,17 @@
                 Открыть
             </a>
 
-            <a class="btn btn-default navbar-btn" ng-disabled="!ctrl.isCreateAllowed" ng-click="ctrl.clickCreateNew()">
+            <sd-dropdown-button
+                    fetch-data="ctrl.loadTemplates($text)"
+                    display-value="$value.name"
+                    button-class="btn btn-default"
+                    disabled="!ctrl.isCreateAllowed"
+                    on-click="ctrl.clickCreateNew(null)"
+                    on-click-item="ctrl.clickCreateNew($item)"
+            >
                 <span class="fa fa-plus"></span>
-                Новое
-            </a>
+                Новый
+            </sd-dropdown-button>
         </div>
     </nav>
 
