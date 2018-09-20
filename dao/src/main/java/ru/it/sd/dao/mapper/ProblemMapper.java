@@ -44,8 +44,9 @@ public class ProblemMapper extends EntityRowMapper<Problem> {
     public Problem mapRow(ResultSet rs, int rowNum) throws SQLException {
         Problem problem = super.mapRow(rs, rowNum);
         Assignment assignment = assignmentMapper.mapRow(rs, rowNum);
-        problem.setAssignment(assignment);
-
+        if (assignment != null) {
+            problem.setAssignment(assignment);
+        }
         Long statusId = DBUtils.getLong(rs,"pro_sta_oid");
         if (statusId != null){
             BaseCode code = codeDao.read(statusId);

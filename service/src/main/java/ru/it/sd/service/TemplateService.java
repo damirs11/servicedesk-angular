@@ -1,5 +1,6 @@
 package ru.it.sd.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.TemplateDao;
@@ -53,7 +54,8 @@ public class TemplateService extends CrudService<Template> {
     }
 
     @Override
-    public Template update(Template entity) { throw new UnsupportedOperationException();
+    public Template update(Template entity) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -66,9 +68,4 @@ public class TemplateService extends CrudService<Template> {
         throw new UnsupportedOperationException();
     }
 
-    public Change fillFields(Template template){
-        Change change = new Change();
-
-        return change;
-    }
 }

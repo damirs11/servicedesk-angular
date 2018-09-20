@@ -5,8 +5,14 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.WorkorderMapper;
+import ru.it.sd.dao.utils.TemplateUtils;
+import ru.it.sd.model.Template;
+import ru.it.sd.model.TemplateValue;
 import ru.it.sd.model.Workorder;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -15,10 +21,10 @@ import java.util.Objects;
  * Дао для работы с данными нарядов
  */
 @Repository
-public class WorkorderDao extends AbstractEntityDao<Workorder> {
+public class WorkorderDao extends AbstractEntityDao<Workorder> implements Templated<Workorder>{
 
 	private WorkorderMapper mapper;
-
+	private TemplateValueDao templateValueDao;
 	/**
 	 * Общий запрос получения данных о наряде
 	 */
@@ -63,8 +69,9 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> {
 			"   LEFT JOIN itsm_workgroups wg3 ON wg3.wog_oid = wg2.wog_parent\n" +
 			"   LEFT JOIN itsm_workgroups wg4 ON wg4.wog_oid = wg3.wog_parent\n"; // смотрим четыре уровня групп
 
-	public WorkorderDao(WorkorderMapper mapper) {
+	public WorkorderDao(WorkorderMapper mapper, TemplateValueDao templateValueDao) {
 		this.mapper = mapper;
+		this.templateValueDao = templateValueDao;
 	}
 
 	@Override
@@ -122,6 +129,19 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> {
 					":groupId = wg2.wog_oid OR " +
 					":groupId = wg3.wog_oid OR " +
 					":groupId = wg4.wog_oid)");
+		}
+	}
+
+	@Override
+	public Workorder getTemplate(Template template) {
+		Map<String, String> filter = new HashMap<>();
+		filter.put("templateId", template.getId().toString());
+		List<TemplateValue> templateValues = templateValueDao.list(filter);
+		try {
+		    ResultSet resultSet = TemplateUtils.getResultSet(templateValues, template.getEntityType());
+			return mapper.mapRow(resultSet, 0);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException("Incorrect template :" + template, e);
 		}
 	}
 }

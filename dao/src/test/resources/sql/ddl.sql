@@ -362,3 +362,11 @@ CREATE TABLE itsm_pro_solution (
   prs_pro_oid DECIMAL(18),
   prs_solution VARCHAR(4000)
 );
+
+CREATE TABLE rep_template_values (
+  tva_oid DECIMAL(18),
+  tva_atr_oid DECIMAL(18),
+  tva_value VARCHAR(4000),
+  tva_tem_oid DECIMAL(18),
+  tva_atr_aggregation_oid DECIMAL(18)
+);

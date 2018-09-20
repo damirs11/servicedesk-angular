@@ -5,6 +5,7 @@ import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.workorder.IWorkorderDao;
 import ru.it.sd.model.GrantRule;
+import ru.it.sd.model.Template;
 import ru.it.sd.model.Workorder;
 import ru.it.sd.util.ResourceMessages;
 
@@ -16,7 +17,7 @@ import java.util.Set;
  * Created by user on 26.07.2017.
  */
 @Service
-public class WorkorderService extends CrudService<Workorder>{
+public class WorkorderService extends CrudService<Workorder> implements HasTemplateService<Workorder> {
 
     private WorkorderDao dao;
     private IWorkorderDao hpDao;
@@ -32,9 +33,9 @@ public class WorkorderService extends CrudService<Workorder>{
     @Override
     public Workorder read(long id) {
         Workorder workorder = dao.read(id);
-        if(accessService.getEntityAccess(workorder).getLeft().getRead() != GrantRule.NONE){
+        if (accessService.getEntityAccess(workorder).getLeft().getRead() != GrantRule.NONE) {
             return workorder;
-        }else {
+        } else {
             throw new SecurityException(ResourceMessages.getMessage("error.service.access.denied"));
         }
     }
@@ -55,8 +56,8 @@ public class WorkorderService extends CrudService<Workorder>{
 
     @Override
     public Workorder create(Workorder entity) {
-            long id = hpDao.create(entity);
-            return dao.read(id);
+        long id = hpDao.create(entity);
+        return dao.read(id);
     }
 
     @Override
@@ -74,8 +75,13 @@ public class WorkorderService extends CrudService<Workorder>{
         try {
             hpDao.update(entity, fields);
             return dao.read(entity.getId());
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new ServiceException("Возникли проблемы при редактировании наряда. " + e.getMessage(), e);
         }
+    }
+
+    @Override
+    public Workorder getTemplate(Template template) {
+        return dao.getTemplate(template);
     }
 }
