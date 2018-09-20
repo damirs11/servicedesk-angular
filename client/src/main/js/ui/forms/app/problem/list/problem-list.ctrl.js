@@ -8,9 +8,9 @@ class ProblemListController {
     @NGInject() SD;
     @NGInject() $scope;
     @NGInject() $grid;
+    @NGInject() $state;
     @NGInject() Session;
     @NGInject() $location;
-
     /** Критерии поиска, находящиеся в ссылке */
     @NGInject("searchParams") urlSearchParams = {};
 
