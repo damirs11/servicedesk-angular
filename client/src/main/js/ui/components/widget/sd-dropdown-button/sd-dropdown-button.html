@@ -1,6 +1,8 @@
-<div class="btn-group">
-    <button class="btn">New</button>
-    <button class="btn dropdown-toggle" data-toggle="dropdown">
+<div class="btn-group" ng-if="!ctrl.disabled">
+    <button ng-class="ctrl.buttonClasses" ng-click="ctrl.onClickPrimaryButton()">
+        <ng-transclude></ng-transclude>
+    </button>
+    <button class="dropdown-toggle" ng-class="ctrl.buttonClasses" data-toggle="dropdown">
         <span class="caret"></span>
     </button>
     <div class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
@@ -19,4 +21,13 @@
             </ui-select-choices>
         </ui-select>
     </div>
+</div>
+
+<div class="btn-group" ng-if="ctrl.disabled">
+    <button disabled ng-class="ctrl.buttonClasses">
+        <ng-transclude></ng-transclude>
+    </button>
+    <button class="dropdown-toggle" disabled ng-class="ctrl.buttonClasses">
+        <span class="caret"></span>
+    </button>
 </div>

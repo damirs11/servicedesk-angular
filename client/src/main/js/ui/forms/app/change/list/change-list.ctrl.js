@@ -1,4 +1,5 @@
 import {UIEntityFilter} from "../../../../utils/ui-entity-filter";
+import {EntityTypes} from "../../../../../api/entity/util/entity-types";
 
 class ChangeListController {
     static $inject = ['SD', '$scope', '$grid', '$state','Session','$location','searchParams'];
@@ -40,9 +41,15 @@ class ChangeListController {
         return this.Session.getTypeAccessRules("Change").isCreateEntityAllowed;
     }
 
-    clickCreateNew(){
+    clickCreateNew(template){
         if (!this.isCreateAllowed) return;
-        this.$state.go("app.change.create.common");
+        const stateOptions = template ? {templateId: template.id} : undefined;
+        this.$state.go("app.change.create.common",stateOptions);
+    }
+
+    async loadTemplates(text){
+        const entityId = EntityTypes.Change;
+        return this.SD.Template.list({entityId, fullText:text})
     }
 
     get gridSearchParams(){

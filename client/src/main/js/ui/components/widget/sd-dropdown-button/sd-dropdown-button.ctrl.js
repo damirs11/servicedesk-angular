@@ -28,6 +28,11 @@ class SDAvatarController {
         return this.displayValue({$value:value}) || value.toString();
     }
 
+    get buttonClasses(){
+        if (this.buttonClass) return this.buttonClass;
+        return "btn btn-default";
+    }
+
     get debounceTime() {
         return this.debounce || 500;
     }

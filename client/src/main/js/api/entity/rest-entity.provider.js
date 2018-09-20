@@ -34,14 +34,15 @@ function RESTEntityProvider(Entity, $connector) {
 
 
         /**
-         * Возвращает сущность по шаблону.
+         * Заполняет сущность по шаблону
          * @param template {SD.Template|number} - шаблон или id шаблона
          * @return {Promise.<Entity>}
          */
-        static async getTemplate(template){
+        async fillWithTemplate(template){
             const templateId = typeof template === "object" ? template.id : template;
-            const data = await $connector.get(`rest/entity/${this.$entityType}/template/${templateId}`);
-            return this.parse(data);
+            const data = await $connector.get(`rest/entity/${this.constructor.$entityType}/template/${templateId}`);
+            this.$update(data);
+            return this;
         }
     };
 }

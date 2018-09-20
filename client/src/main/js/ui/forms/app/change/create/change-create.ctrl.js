@@ -8,6 +8,7 @@ class ChangeCreateController{
     @NGInject() $state;
     @NGInject() $pageLock;
     @NGInject() ModalAction;
+    @NGInject() passedParams;
     @NGInject() change; // Новое изменение - внедряется зависимостью.
     // Контроллер занят асинхронными задачами
     busy = false;
@@ -22,6 +23,11 @@ class ChangeCreateController{
         "category","classification","deadline","subject","description",
         "manager","initiator","priority","assignment.workgroup","assignment.executor"
     ];
+
+    async $onInit(){
+        const templateId = this.passedParams.templateId;
+        if (templateId) await this.change.fillWithTemplate(templateId)
+    }
 
 
     registerLeaveEditListener() {

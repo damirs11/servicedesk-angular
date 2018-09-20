@@ -2,10 +2,11 @@ import template from "./change-create.html"
 import {controller} from "./change-create.ctrl"
 import {SDResolver} from "../../sd.resolver";
 import {NewChangeResolver} from "./new-change-resolver";
+import {PassedParamsResolver} from "./passed-arguments-resolver";
 
 const ChangeCreateState = {
     name: "app.change.create",
-    url: "/create",
+    url: "/create?templateId",
     controller: controller,
     template: template,
     controllerAs: "ctrl",
@@ -15,7 +16,8 @@ const ChangeCreateState = {
     },
     resolve: {
         SD: SDResolver,
-        change: NewChangeResolver
+        change: NewChangeResolver,
+        passedParams: PassedParamsResolver
     }
 };
 

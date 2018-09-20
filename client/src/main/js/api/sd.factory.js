@@ -11,7 +11,7 @@ import {PriorityProvider} from "./entity/entity-priority.provider";
 import {EditableEntityProvider} from "./entity/editable-entity.provider";
 import {WorkgroupProvider} from "./entity/workgroup.provider";
 import {HistoryLineProvider} from "./entity/history-line.provider";
-import {RESTEntityProvider} from "./entity/rest-entity";
+import {RESTEntityProvider} from "./entity/rest-entity.provider";
 import {EntityCategoryProvider} from "./entity/entity-category.provider";
 import {EntityClassificationProvider} from "./entity/entity-classification.provider";
 import {EntityClosureCodeProvider} from "./entity/entity-closure-code.provider";
