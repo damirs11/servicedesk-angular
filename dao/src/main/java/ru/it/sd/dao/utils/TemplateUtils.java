@@ -22,9 +22,10 @@ public class TemplateUtils {
         for (FieldMetaData fieldMetaData : fmds.values()) {
             for (TemplateValue templateValue : templateValues) {
                 //Если column пустое и атрибуты совпадают
-                if (StringUtils.isNotBlank(fieldMetaData.getColumnName()) && templateValue.getAttribute().equals(fieldMetaData.getAttribute())) {
+                if (StringUtils.isNotBlank(fieldMetaData.getColumnName())
+                        && templateValue.getAttribute().equals(fieldMetaData.getAttribute())
+                        && templateValue.getValue() != null) {
                     setParams(resultSet, fieldMetaData, templateValue);
-                    //todo ass_Status ass_priority
                 } else if (Long.valueOf(fieldMetaData.getAttribute()).equals(templateValue.getAggregationId()) && templateValue.getValue() != null) {
                     Map<String, FieldMetaData> subFmds = MetaUtils.getFieldsMetaData(fieldMetaData.getType());
                     for (FieldMetaData subFieldMetaData : subFmds.values()) {
@@ -70,12 +71,10 @@ public class TemplateUtils {
             }
             break;
             case "java.util.Date": {
-                //todo хардкод у нарядов deadline == 1 у заявок id объекта пока не понятно
-                if (fieldMetaData.getAttribute() == 556335111) {
-                    Float time = Float.valueOf((String)templateValue.getValue());
-                    Timestamp timestamp = new Timestamp(System.currentTimeMillis() + Math.round(time*24*60*60*1000));
-                    resultSet.updateTimestamp(fieldMetaData.getColumnName(), timestamp);
-                }
+                //todo расчет времени с учетом графика работы
+                Float time = Float.valueOf((String)templateValue.getValue());
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis() + Math.round(time*24*60*60*1000));
+                resultSet.updateTimestamp(fieldMetaData.getColumnName(), timestamp);
             }
             break;
             case "java.lang.Double": {
