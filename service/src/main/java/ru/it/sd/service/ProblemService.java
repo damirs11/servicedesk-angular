@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ProblemDao;
+import ru.it.sd.dao.TemplateDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.problem.IProblemDao;
 import ru.it.sd.model.GrantRule;
@@ -11,6 +12,7 @@ import ru.it.sd.model.Problem;
 import ru.it.sd.model.Template;
 import ru.it.sd.util.ResourceMessages;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,11 +31,13 @@ public class ProblemService extends CrudService<Problem> implements HasTemplateS
 	private SecurityService securityService;
 	private AccessService accessService;
 	private IProblemDao iProblemDao;
-	public ProblemService(ProblemDao dao, IProblemDao iProblemDao, SecurityService securityService, AccessService accessService) {
+	private TemplateDao templateDao;
+	public ProblemService(ProblemDao dao, IProblemDao iProblemDao, SecurityService securityService, AccessService accessService, TemplateDao templateDao) {
 		this.dao = dao;
 		this.securityService = securityService;
 		this.accessService = accessService;
 		this.iProblemDao = iProblemDao;
+		this.templateDao = templateDao;
 	}
 
 	@Override
@@ -92,7 +96,14 @@ public class ProblemService extends CrudService<Problem> implements HasTemplateS
 	}
 	@Override
 	public Problem getTemplate(Template template) {
-		return dao.getTemplate(template);
+		Map<String, String> filter = new HashMap<>();
+		filter.put("id", template.getId().toString());
+		filter.put("entityId", template.getEntityType().getId().toString());
+		List<Template> templates = templateDao.list(filter);
+		if (!templates.isEmpty()) {
+			return dao.getTemplate(template);
+		}
+		throw new ServiceException("Шаблон не найден");
 	}
 
 }

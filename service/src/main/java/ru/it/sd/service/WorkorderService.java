@@ -1,6 +1,7 @@
 package ru.it.sd.service;
 
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.TemplateDao;
 import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.workorder.IWorkorderDao;
@@ -9,6 +10,7 @@ import ru.it.sd.model.Template;
 import ru.it.sd.model.Workorder;
 import ru.it.sd.util.ResourceMessages;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,11 +25,13 @@ public class WorkorderService extends CrudService<Workorder> implements HasTempl
     private IWorkorderDao hpDao;
     private SecurityService securityService;
     private AccessService accessService;
-    public WorkorderService(WorkorderDao dao, IWorkorderDao hpDao, SecurityService securityService, AccessService accessService) {
+    private TemplateDao templateDao;
+    public WorkorderService(WorkorderDao dao, IWorkorderDao hpDao, SecurityService securityService, AccessService accessService, TemplateDao templateDao) {
         this.dao = dao;
         this.hpDao = hpDao;
         this.securityService = securityService;
         this.accessService = accessService;
+        this.templateDao = templateDao;
     }
 
     @Override
@@ -82,6 +86,13 @@ public class WorkorderService extends CrudService<Workorder> implements HasTempl
 
     @Override
     public Workorder getTemplate(Template template) {
-        return dao.getTemplate(template);
+        Map<String, String> filter = new HashMap<>();
+        filter.put("id", template.getId().toString());
+        filter.put("entityId", template.getEntityType().getId().toString());
+        List<Template> templates = templateDao.list(filter);
+        if (!templates.isEmpty()) {
+            return dao.getTemplate(template);
+        }
+        throw new ServiceException("Шаблон не найден");
     }
 }
