@@ -52,7 +52,7 @@ public class CommonRestControllerTest extends AbstractWebTest{
 	    when(crudService.update(isA(Change.class))).thenReturn(mockChange);
 
 	    CommonRestController commonRestController = new CommonRestController(
-			    readServiceHolder, crudServiceHolder, null
+			    readServiceHolder, crudServiceHolder, null, null
 	    );
         this.mockMvc = MockMvcBuilders
 		        .standaloneSetup(commonRestController)

@@ -24,7 +24,7 @@ public class Person implements HasId, HasFolder, Serializable {
 	/** Уникальный идентификатор */
 	@FieldMeta(columnName = "per_oid", key = true)
 	private Long id;
-	/** Пол: true(1) - мужской, false(0) - женский */
+	/** Пол: true(1) - женский, false(0) - мужской*/
 	@FieldMeta(columnName = "per_gender")
 	private Boolean sex;
 	/** Email */
