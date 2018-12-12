@@ -10,6 +10,7 @@ import ru.it.sd.hp.IFolderDao;
 import ru.it.sd.hp.IOrganizationDao;
 import ru.it.sd.hp.IPersonDao;
 import ru.it.sd.hp.IWorkgroupDao;
+import ru.it.sd.hp.problem.IProblemDao;
 import ru.it.sd.hp.utils.DateUtils;
 import ru.it.sd.hp.change.IChangeDao;
 import ru.it.sd.model.Workorder;
@@ -22,24 +23,39 @@ import java.util.Set;
 @Repository
 public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
 
+    private final HpApi api;
+    private final IChangeDao iChangeDao;
+    private final IPersonDao iPersonDao;
+    private final IWorkorderStatusDao iWorkorderStatusDao;
+    private final IWorkorderCategoryDao iWorkorderCategoryDao;
+    private final IWorkgroupDao iWorkgroupDao;
+    private final IOrganizationDao iOrganizationDao;
+    private final IWorkorderClosureCodeDao iWorkorderClosureCodeDao;
+    private final IFolderDao iFolderDao;
+    private final IProblemDao iProblemDao;
+
     @Autowired
-    private HpApi api;
-    @Autowired
-    private IChangeDao iChangeDao;
-    @Autowired
-    private IPersonDao iPersonDao;
-    @Autowired
-    private IWorkorderStatusDao iWorkorderStatusDao;
-    @Autowired
-    private IWorkorderCategoryDao iWorkorderCategoryDao;
-    @Autowired
-    private IWorkgroupDao iWorkgroupDao;
-    @Autowired
-    private IOrganizationDao iOrganizationDao;
-    @Autowired
-    private IWorkorderClosureCodeDao iWorkorderClosureCodeDao;
-    @Autowired
-    private IFolderDao iFolderDao;
+    public IWorkorderDao(HpApi api,
+                         IChangeDao iChangeDao,
+                         IPersonDao iPersonDao,
+                         IWorkorderStatusDao iWorkorderStatusDao,
+                         IWorkorderCategoryDao iWorkorderCategoryDao,
+                         IWorkgroupDao iWorkgroupDao,
+                         IOrganizationDao iOrganizationDao,
+                         IWorkorderClosureCodeDao iWorkorderClosureCodeDao,
+                         IFolderDao iFolderDao,
+                         IProblemDao iProblemDao) {
+        this.api = api;
+        this.iChangeDao = iChangeDao;
+        this.iPersonDao = iPersonDao;
+        this.iWorkorderStatusDao = iWorkorderStatusDao;
+        this.iWorkorderCategoryDao = iWorkorderCategoryDao;
+        this.iWorkgroupDao = iWorkgroupDao;
+        this.iOrganizationDao = iOrganizationDao;
+        this.iWorkorderClosureCodeDao = iWorkorderClosureCodeDao;
+        this.iFolderDao = iFolderDao;
+        this.iProblemDao = iProblemDao;
+    }
 
     @Override
     public long create(Workorder entity) {
@@ -141,6 +157,10 @@ public class IWorkorderDao implements HpCrudDao<Workorder, IWorkorder> {
         if(fields.contains("change")){
             IChange iChange = entity.getChange() != null ? iChangeDao.read(entity.getChange().getId()) : null;
             iWorkorder.setChange(iChange);
+        }
+        if (fields.contains("problem")) {
+            IProblem iProblem = entity.getProblem() != null ? iProblemDao.read(entity.getProblem().getId()) : null;
+            iWorkorder.setProblem(iProblem);
         }
         if(fields.contains("commentToExecutor")){
             iWorkorder.setWorkorderText1(entity.getCommentToExecutor());
