@@ -5,8 +5,14 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.ChangeExtractor;
+import ru.it.sd.dao.utils.TemplateUtils;
 import ru.it.sd.model.Change;
+import ru.it.sd.model.Template;
+import ru.it.sd.model.TemplateValue;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -18,9 +24,10 @@ import java.util.Objects;
  * @since 28.04.2017
  */
 @Repository
-public class ChangeDao extends AbstractEntityDao<Change> {
+public class ChangeDao extends AbstractEntityDao<Change> implements Templated<Change>{
 
 	private ChangeExtractor extractor;
+	private final TemplateValueDao templateValueDao;
 
 	private static final String BASE_SQL =
 			" SELECT\n" +
@@ -60,8 +67,9 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 			"   LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n" +
 			"   LEFT JOIN itsm_cha_custom_fields ccu ON ccu.ccu_cha_oid = ch.cha_oid\n";
 
-	public ChangeDao(ChangeExtractor extractor) {
+	public ChangeDao(ChangeExtractor extractor, TemplateValueDao templateValueDao) {
 		this.extractor = extractor;
+		this.templateValueDao = templateValueDao;
 	}
 
 	@Override
@@ -120,6 +128,20 @@ public class ChangeDao extends AbstractEntityDao<Change> {
 			long groupId = Long.valueOf(s);
 			params.addValue("groupId", groupId);
 			sql.append(" AND (ch.ass_wog_oid in (SELECT id FROM SdGetWorkGroups(:groupId, 0)))");
+		}
+	}
+
+	@Override
+	public Change getTemplate(Template template) {
+		Map<String, String> filter = new HashMap<>();
+		filter.put("templateId", template.getId().toString());
+		List<TemplateValue> templateValues = templateValueDao.list(filter);
+		try {
+			ResultSet resultSet = TemplateUtils.getResultSet(templateValues, template.getEntityType());
+			List<Change> changes = extractor.extractData(resultSet);
+			return changes != null ? changes.get(0) : null;
+		} catch (SQLException e) {
+			throw new IllegalArgumentException("Incorrect template :" + template, e);
 		}
 	}
 }

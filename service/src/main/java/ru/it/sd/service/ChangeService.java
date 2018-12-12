@@ -4,12 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ChangeDao;
+import ru.it.sd.dao.TemplateDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.change.IChangeDao;
 import ru.it.sd.model.Change;
 import ru.it.sd.model.GrantRule;
+import ru.it.sd.model.Template;
 import ru.it.sd.util.ResourceMessages;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +23,7 @@ import java.util.Set;
  * @since 13.05.2017
  */
 @Service
-public class ChangeService extends CrudService<Change>{
+public class ChangeService extends CrudService<Change> implements HasTemplateService<Change>{
 
 	private static final Logger logger = LoggerFactory.getLogger(ChangeService.class);
 
@@ -28,11 +31,13 @@ public class ChangeService extends CrudService<Change>{
 	private SecurityService securityService;
 	private IChangeDao iChangeDao;
 	private AccessService accessService;
-	public ChangeService(ChangeDao dao, SecurityService securityService, IChangeDao iChangeDao, AccessService accessService) {
+	private final TemplateDao templateDao;
+	public ChangeService(ChangeDao dao, SecurityService securityService, IChangeDao iChangeDao, AccessService accessService, TemplateDao templateDao) {
 		this.dao = dao;
 		this.securityService = securityService;
 		this.iChangeDao = iChangeDao;
 		this.accessService = accessService;
+		this.templateDao = templateDao;
 	}
 
 	@Override
@@ -84,5 +89,17 @@ public class ChangeService extends CrudService<Change>{
 	public Change patch(Change entity, Set<String> fields) {
 		iChangeDao.update(entity, fields);
 		return dao.read(entity.getId());
+	}
+
+	@Override
+	public Change getTemplate(Template template) {
+		Map<String, String> filter = new HashMap<>();
+		filter.put("id", template.getId().toString());
+		filter.put("entityId", template.getEntityType().getId().toString());
+		List<Template> templates = templateDao.list(filter);
+		if (!templates.isEmpty()) {
+			return dao.getTemplate(template);
+		}
+		throw new ServiceException("Шаблон не найден");
 	}
 }
