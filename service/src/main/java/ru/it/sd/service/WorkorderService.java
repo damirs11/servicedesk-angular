@@ -37,6 +37,7 @@ public class WorkorderService extends CrudService<Workorder> implements HasTempl
     @Override
     public Workorder read(long id) {
         Workorder workorder = dao.read(id);
+        if (workorder == null) return null;
         if (accessService.getEntityAccess(workorder).getLeft().getRead() != GrantRule.NONE) {
             return workorder;
         } else {

@@ -43,6 +43,7 @@ public class ProblemService extends CrudService<Problem> implements HasTemplateS
 	@Override
 	public Problem read(long id) {
 		Problem problem = dao.read(id);
+		if (problem == null) return null;
 		if(accessService.getEntityAccess(problem).getLeft().getRead() != GrantRule.NONE){
 			return problem;
 		}else {

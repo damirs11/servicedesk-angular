@@ -38,6 +38,7 @@ public class ChangeService extends CrudService<Change>{
 	@Override
 	public Change read(long id) {
 		Change change = dao.read(id);
+		if (change == null) return null;
 		if(accessService.getEntityAccess(change).getLeft().getRead() != GrantRule.NONE){
 			return change;
 		}else {
