@@ -96,7 +96,7 @@ public class ServiceCallMapper extends EntityRowMapper<ServiceCall> {
             Organization organization = organizationDao.read(organizationId);
             serviceCall.setOrganization(organization);
         }
-        Long configurationItemId = DBUtils.getLong(rs, "sci_cit_oid");
+        Long configurationItemId = DBUtils.getLong(rs, "ser_cit_oid");
         if(configurationItemId != null){
             ConfigurationItem configurationItem = configurationItemDao.read(configurationItemId);
             serviceCall.setConfigurationItem(configurationItem);

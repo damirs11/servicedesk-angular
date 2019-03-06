@@ -370,3 +370,68 @@ CREATE TABLE rep_template_values (
   tva_tem_oid DECIMAL(18),
   tva_atr_aggregation_oid DECIMAL(18)
 );
+
+CREATE TABLE itsm_servicecalls (
+  ser_oid DECIMAL(18),
+  ser_id DECIMAL(18),
+  ser_poo_oid DECIMAL(18),
+  ser_sta_oid DECIMAL(18),
+  ser_cat_oid DECIMAL(18),
+  ser_cla_oid DECIMAL(18),
+  ser_clo_oid DECIMAL(18),
+  ser_tem_oid DECIMAL(18),
+  ser_requestor_per_oid DECIMAL(18),
+  ser_caller_per DECIMAL(18),
+  ser_caller_org DECIMAL(18),
+  ser_sla_oid DECIMAL(18),
+  ser_description VARCHAR(4000),
+  ser_imp_oid DECIMAL(18),
+  ser_pri_oid DECIMAL(18),
+  ser_deadline TIMESTAMP,
+  ser_actualfinish TIMESTAMP,
+  ser_latefinish TIMESTAMP,
+  ser_assignstatus DECIMAL(18),
+  ser_assignpriority DECIMAL(18),
+  ser_ass_per_to_oid DECIMAL(18),
+  ser_ass_wog_oid DECIMAL(18),
+  ser_cit_oid DECIMAL(18)
+);
+
+CREATE TABLE itsm_ser_solution (
+  scs_ser_oid DECIMAL(18), --todo fk
+  scs_solution VARCHAR(255)
+);
+
+CREATE TABLE itsm_service_level_agreements (
+  sla_oid DECIMAL(18),--todo
+  sla_srv_oid DECIMAL(18),
+  sla_sel_oid DECIMAL(18)
+);
+
+CREATE TABLE itsm_ser_information (
+  sei_ser_oid DECIMAL(18),--todo fk
+  sei_information VARCHAR(255)
+);
+
+CREATE TABLE itsm_ser_custom_fields (
+  scf_ser_oid DECIMAL(18),--todo fk
+  scf_sershorttext10 VARCHAR(255),
+  scf_boolean1 BOOLEAN,
+  scf_sershorttext4 VARCHAR(255),
+  scf_scdate1 TIMESTAMP,
+  scf_sctext11 VARCHAR(255),
+  scf_per1_oid DECIMAL(18),
+  scf_boolean10 BOOLEAN,
+  scf_boolean12 BOOLEAN,
+  scf_cod1_oid DECIMAL(18)
+);
+
+CREATE TABLE itsm_ser_workaround (
+  scw_ser_oid DECIMAL(18),--todo fk
+  scw_workaround VARCHAR(255)
+);
+
+CREATE TABLE itsm_ser_4k1 (
+  se1_ser_oid DECIMAL(18),--todo fk
+  se1_4k1 VARCHAR(4000)
+);

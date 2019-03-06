@@ -98,7 +98,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     /**
      * Объект обслуживания
      */
-    @FieldMeta(columnName = "sci_cit_oid", tableAlias = "sci")
+    @FieldMeta(columnName = "ser_cit_oid")
     private ConfigurationItem configurationItem;
     /**
      * Тема

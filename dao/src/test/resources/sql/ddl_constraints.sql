@@ -73,3 +73,22 @@ ALTER TABLE itsm_pro_4k2 ADD CONSTRAINT fk_pro_4k2_pro FOREIGN KEY (pr2_pro_oid)
 -------------------------------------------------------------------------------------
 ALTER TABLE itsm_pro_solution ADD CONSTRAINT pk_pro_solution PRIMARY KEY (prs_pro_oid);
 ALTER TABLE itsm_pro_solution ADD CONSTRAINT fk_pro_sol_pro FOREIGN KEY (prs_pro_oid) REFERENCES itsm_problems (pro_oid);
+-------------------------------------------------------------------------------------
+ALTER TABLE itsm_servicecalls ADD CONSTRAINT pk_ser_id PRIMARY KEY (ser_oid);
+-------------------------------------------------------------------------------------
+ALTER TABLE itsm_ser_solution ADD CONSTRAINT pk_ser_sol_id PRIMARY KEY (scs_ser_oid);
+ALTER TABLE itsm_ser_solution ADD CONSTRAINT fk_ser_solution FOREIGN KEY (scs_ser_oid) REFERENCES itsm_servicecalls (ser_oid);
+-------------------------------------------------------------------------------------
+ALTER TABLE itsm_ser_information ADD CONSTRAINT pk_ser_inf_id PRIMARY KEY (sei_ser_oid);
+ALTER TABLE itsm_ser_information ADD CONSTRAINT fk_ser_sei FOREIGN KEY (sei_ser_oid) REFERENCES itsm_servicecalls (ser_oid);
+-------------------------------------------------------------------------------------
+ALTER TABLE itsm_ser_custom_fields ADD CONSTRAINT pk_ser_scf_id PRIMARY KEY (scf_ser_oid);
+ALTER TABLE itsm_ser_custom_fields ADD CONSTRAINT fk_ser_scf FOREIGN KEY (scf_ser_oid) REFERENCES itsm_servicecalls (ser_oid);
+-------------------------------------------------------------------------------------
+ALTER TABLE itsm_ser_workaround ADD CONSTRAINT pk_ser_workaround_id PRIMARY KEY (scw_ser_oid);
+ALTER TABLE itsm_ser_workaround ADD CONSTRAINT fk_ser_workaround FOREIGN KEY (scw_ser_oid) REFERENCES itsm_servicecalls (ser_oid);
+-------------------------------------------------------------------------------------
+ALTER TABLE itsm_ser_4k1 ADD CONSTRAINT pk_ser_4k1_id PRIMARY KEY (se1_ser_oid);
+ALTER TABLE itsm_ser_4k1 ADD CONSTRAINT fk_ser_cis FOREIGN KEY (se1_ser_oid) REFERENCES itsm_servicecalls (ser_oid);
+-------------------------------------------------------------------------------------
+ALTER TABLE itsm_service_level_agreements ADD CONSTRAINT pk_sla_id PRIMARY KEY (sla_oid);

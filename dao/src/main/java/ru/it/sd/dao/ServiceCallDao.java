@@ -31,7 +31,7 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
             "    sla.sla_srv_oid, " +
             "    sla.sla_sel_oid, " +
             "    scf.scf_sershorttext10, " +
-            "    sci.sci_cit_oid, " +
+            "    s.ser_cit_oid, " +
             "    s.ser_description, " +
             "    sei.sei_information, " +
             "    s.ser_imp_oid, " +
@@ -52,12 +52,11 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
             "    s.ser_assignstatus ass_status, " +
             "    s.ser_assignpriority ass_priority, " +
             "    s.ser_ass_per_to_oid ass_person_to, " +
-            "    s.ser_ass_wog_oid ass_workgroup_to" +
+            "    s.ser_ass_wog_oid ass_workgroup_to\n" +
             "FROM\n" +
-            "    itsm_servicecalls s" +
+            "    itsm_servicecalls s " +
             "LEFT JOIN itsm_ser_solution scs ON scs.scs_ser_oid = s.ser_oid " +
-            "LEFT JOIN itsm_ser_cis sci ON sci.sci_srv_oid = s.ser_oid " +
-            "LEFT JOIN itsm_service_level_agreements sla ON sla.sla_ser_oid = s.ser_oid " +
+            "LEFT JOIN itsm_service_level_agreements sla ON sla.sla_oid = s.ser_sla_oid " +
             "LEFT JOIN itsm_ser_information sei ON sei.sei_ser_oid = s.ser_oid " +
             "LEFT JOIN itsm_ser_custom_fields scf ON scf.scf_ser_oid = s.ser_oid " +
             "LEFT JOIN itsm_ser_workaround scw ON scw.scw_ser_oid = s.ser_oid " +
