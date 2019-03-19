@@ -22,6 +22,8 @@ public class EntityCode1 extends BaseCode {
 				return 165944L;
 			case PROBLEM:
 				return 1079902227L;
+			case SERVICECALL:
+				return 1079902209L;
 			default:
 				throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
 		}

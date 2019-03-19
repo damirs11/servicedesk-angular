@@ -16,62 +16,62 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     @FieldMeta(columnName = "ser_oid", key = true)
     private Long id;
     /**
-     * Номер
+     * РќРѕРјРµСЂ
      */
     @FieldMeta(columnName = "ser_id")
     private Long no;
     /**
-     * Назначение
+     * РќР°Р·РЅР°С‡РµРЅРёРµ
      */
     @FieldMeta(columnName = "", attribute = 665649208)
     private Assignment assignment;
     /**
-     * Папка
+     * РџР°РїРєР°
      */
     @FieldMeta(columnName = "ser_poo_oid", attribute = 1032388614)
     private Folder folder;
     /**
-     * Статус
+     * РЎС‚Р°С‚СѓСЃ
      */
     @FieldMeta(columnName = "ser_sta_oid", attribute = 662896684)//281483984437250 status(ServiceCall today)
     private EntityStatus status;
     /**
-     * Категория
+     * РљР°С‚РµРіРѕСЂРёСЏ
      */
     @FieldMeta(columnName = "ser_cat_oid")
     private EntityCategory category;
     /**
-     * Классификатор
+     * РљР»Р°СЃСЃРёС„РёРєР°С‚РѕСЂ
      */
     @FieldMeta(columnName = "ser_cla_oid")
     private EntityClassification classification;
     /**
-     * Код завершения
+     * РљРѕРґ Р·Р°РІРµСЂС€РµРЅРёСЏ
      */
     @FieldMeta(columnName = "ser_clo_oid", attribute = 75251)
     private EntityClosureCode closureCode;
     /**
-     * Шаблон
+     * РЁР°Р±Р»РѕРЅ
      */
     @FieldMeta(columnName = "ser_tem_oid")
     private Template template;
     /**
-     * Решение
+     * Р РµС€РµРЅРёРµ
      */
     @FieldMeta(columnName = "scs_solution", tableAlias = "scs")
     private String solution;
     /**
-     * Инициатор
+     * РРЅРёС†РёР°С‚РѕСЂ
      */
     @FieldMeta(columnName = "ser_requestor_per_oid")
     private Person initiator;
     /**
-     * Заявитель
+     * Р—Р°СЏРІРёС‚РµР»СЊ
      */
     @FieldMeta(columnName = "ser_caller_per")
     private Person caller;
     /**
-     * Организация заявителя
+     * РћСЂРіР°РЅРёР·Р°С†РёСЏ Р·Р°СЏРІРёС‚РµР»СЏ
      */
     @FieldMeta(columnName = "ser_caller_org")
     private Organization organization;
@@ -81,12 +81,12 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     @FieldMeta(columnName = "ser_sla_oid")
     private Long agreement;//todo
     /**
-     * Сервис/Услуга
+     * РЎРµСЂРІРёСЃ/РЈСЃР»СѓРіР°
      */
     @FieldMeta(columnName = "sla_srv_oid", tableAlias = "sla")
     private Long serviceLevelAgreement;//todo
     /**
-     * Условия предоставления
+     * РЈСЃР»РѕРІРёСЏ РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРёСЏ
      */
     @FieldMeta(columnName = "sla_sel_oid", tableAlias = "sla")
     private Long agreementCondition;//todo
@@ -96,92 +96,92 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     @FieldMeta(columnName = "scf_sershorttext10", tableAlias = "scf")
     private String extId;
     /**
-     * Объект обслуживания
+     * РћР±СЉРµРєС‚ РѕР±СЃР»СѓР¶РёРІР°РЅРёСЏ
      */
     @FieldMeta(columnName = "ser_cit_oid")
     private ConfigurationItem configurationItem;
     /**
-     * Тема
+     * РўРµРјР°
      */
     @FieldMeta(columnName = "ser_description")
     private String subject;
     /**
-     * Информация
+     * РРЅС„РѕСЂРјР°С†РёСЏ
      */
     @FieldMeta(columnName = "sei_information", tableAlias = "sei")
     private String description;
     /**
-     * Приоритет
+     * РџСЂРёРѕСЂРёС‚РµС‚
      */
     @FieldMeta(columnName = "ser_imp_oid")
     private EntityPriority priority;
     /**
-     * Условия приоритета
+     * РЈСЃР»РѕРІРёСЏ РїСЂРёРѕСЂРёС‚РµС‚Р°
      */
     @FieldMeta(columnName = "ser_pri_oid")
     private Long priorityCondition;//todo
     /**
-     * Крайний срок
+     * РљСЂР°Р№РЅРёР№ СЃСЂРѕРє
      */
     @FieldMeta(columnName = "ser_deadline")
     private Date deadline;
     /**
-     * Выполнено(дата)
+     * Р’С‹РїРѕР»РЅРµРЅРѕ(РґР°С‚Р°)
      */
     @FieldMeta(columnName = "ser_actualfinish")
     private Date resolvedDate;
     /**
-     * Закрыто(дата)
+     * Р—Р°РєСЂС‹С‚Рѕ(РґР°С‚Р°)
      */
     @FieldMeta(columnName = "ser_latefinish")
     private Date closureDate;
     /**
-     * Заявка просрочена
+     * Р—Р°СЏРІРєР° РїСЂРѕСЃСЂРѕС‡РµРЅР°
      */
     @FieldMeta(columnName = "scf_boolean1", tableAlias = "scf")
     private Boolean expired;
     /**
-     * Кем просрочена
+     * РљРµРј РїСЂРѕСЃСЂРѕС‡РµРЅР°
      */
     @FieldMeta(columnName = "scf_sershorttext4", tableAlias = "scf")
     private String expiredBy;
     /**
-     * Новый крайний срок
+     * РќРѕРІС‹Р№ РєСЂР°Р№РЅРёР№ СЃСЂРѕРє
      */
     @FieldMeta(columnName = "scf_scdate1", tableAlias = "scf")
     private Date newDeadline;
     /**
-     * Причина переноса крайнего срока
+     * РџСЂРёС‡РёРЅР° РїРµСЂРµРЅРѕСЃР° РєСЂР°Р№РЅРµРіРѕ СЃСЂРѕРєР°
      */
     @FieldMeta(columnName = "scf_sctext11", tableAlias = "scf")
     private String newDeadlineReason;
     /**
-     * Руководитель исполнителя
+     * Р СѓРєРѕРІРѕРґРёС‚РµР»СЊ РёСЃРїРѕР»РЅРёС‚РµР»СЏ
      */
     @FieldMeta(columnName = "scf_per1_oid", tableAlias = "scf")
     private Person executorHead;
     /**
-     * Ошибка при обработке заявки
+     * РћС€РёР±РєР° РїСЂРё РѕР±СЂР°Р±РѕС‚РєРµ Р·Р°СЏРІРєРё
      */
     @FieldMeta(columnName = "scf_boolean10", tableAlias = "scf")
     private Boolean errorHandling;
     /**
-     * Функциональная эскалация
+     * Р¤СѓРЅРєС†РёРѕРЅР°Р»СЊРЅР°СЏ СЌСЃРєР°Р»Р°С†РёСЏ
      */
     @FieldMeta(columnName = "scf_boolean12", tableAlias = "scf")
     private Boolean functionalEscalation;
     /**
-     * Оценка
+     * РћС†РµРЅРєР°
      */
     @FieldMeta(columnName = "scf_cod1_oid", tableAlias = "scf")
     private EntityCode1 mark;
     /**
-     * Комментарий инициатору
+     * РљРѕРјРјРµРЅС‚Р°СЂРёР№ РёРЅРёС†РёР°С‚РѕСЂСѓ
      */
     @FieldMeta(columnName = "scw_workaround", tableAlias = "scw")
     private String commentToInitiator;
     /**
-     * Комментарий исполнителю
+     * РљРѕРјРјРµРЅС‚Р°СЂРёР№ РёСЃРїРѕР»РЅРёС‚РµР»СЋ
      */
     @FieldMeta(columnName = "se1_4k1", tableAlias = "se1")
     private String commentToExecutor;
