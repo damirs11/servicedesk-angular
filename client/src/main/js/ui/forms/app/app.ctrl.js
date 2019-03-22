@@ -17,11 +17,11 @@ class AppController {
 
     async logout() {
         await this.Session.logout();
-        this.$state.go("app.main")
+        this.$state.go("app.main");
     }
 
     loginClick(){
-        this.$state.go("app.login")
+        this.$state.go("app.login");
     }
 
     /**
@@ -36,8 +36,7 @@ class AppController {
      * @returns {Boolean}
      */
     get canSeeTabServiceCalls() {
-        return false; // не реализовано
-        // return this.Session.getTypeAccessRules("ServiceCall").isReadEntityAllowed
+        return this.Session.getTypeAccessRules("ServiceCall").isReadEntityAllowed;
     }
     /**
      * Право на просмотр "Нарядов"

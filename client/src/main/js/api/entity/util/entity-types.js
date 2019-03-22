@@ -12,16 +12,16 @@ const EntityTypes = {
     Problem: 717488173,
     Workorder: 556859410,
     Approval: 281478244794382,
+    ServiceCall: 563019801,
 
     @Enumerable(false)
     getNameById(typeId) {
         const keys = Object.keys(this);
         for (let key in keys) {
-            if (this[key] == typeId) return key;
+            if (this[key] === typeId) return key;
         }
         return null;
     }
-
 };
 
 export {EntityTypes};

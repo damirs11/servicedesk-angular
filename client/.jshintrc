@@ -1,0 +1,7 @@
+{
+  "esversion": 6,
+  "experimental": {
+    "expnt": true,
+    "async": true
+  }
+}

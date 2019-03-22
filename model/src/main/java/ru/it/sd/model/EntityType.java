@@ -17,7 +17,7 @@ public enum EntityType implements Code {
 
 	CHANGE("Изменение", Change.class.getSimpleName(), 724041768L),
 	PROBLEM("Проблема", Problem.class.getSimpleName(), 717488173L),
-	SERVICECALL("Обращение", null, 563019801L),
+	SERVICECALL("Обращение", ServiceCall.class.getSimpleName(), 563019801L),
 	WORKORDER("Наряд", Workorder.class.getSimpleName(), 556859410L),
 	CONFIGURATIONITEM("Объект", ConfigurationItem.class.getSimpleName(), 796000260L),
 	WORKGROUP("Рабочая группа", Workgroup.class.getSimpleName(), 555679840L),

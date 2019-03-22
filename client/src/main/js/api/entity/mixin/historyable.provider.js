@@ -1,4 +1,3 @@
-
 HistoryableProvider.$inject = ["$connector","SD"];
 function HistoryableProvider($connector, SD) {
     /**
@@ -13,7 +12,7 @@ function HistoryableProvider($connector, SD) {
          * @return {SD.HistoryLine[]}
          */
         async getHistory(params){
-            params = typeof params == "object" ? params : {};
+            params = typeof params === "object" ? params : {};
             params.entityType = this.constructor.$entityType;
             params.entityId = this.id;
             const linesData = await $connector.get(`rest/service/history`, params);
@@ -27,7 +26,7 @@ function HistoryableProvider($connector, SD) {
         // из Header-параметра "Content-Range". Формат "from-to/amount". Например: "26-50/456"
         // означает, чтобы были возвращены данные с 26 по 50 запись включительно, всего записей 456
         async getHistoryCount(params){
-            params = typeof params == "object" ? params : {};
+            params = typeof params === "object" ? params : {};
             return await $connector.get(`rest/entity/${this.constructor.$entityType}/${this.id}/history/count`,params);
         }
 
@@ -36,7 +35,7 @@ function HistoryableProvider($connector, SD) {
          * @return {SD.HistoryLine[]}
          */
         async getChat(params){
-            params = typeof params == "object" ? params : {};
+            params = typeof params === "object" ? params : {};
             params.chat = true;
             params.sort="date-asc";
             return this.getHistory(params);
@@ -46,7 +45,7 @@ function HistoryableProvider($connector, SD) {
          * Возвращает количество сообщений в чате
          */
         async getChatCount(params){
-            params = typeof params == "object" ? params : {};
+            params = typeof params === "object" ? params : {};
             params.chat = true;
             return this.getHistoryCount(params);
         }

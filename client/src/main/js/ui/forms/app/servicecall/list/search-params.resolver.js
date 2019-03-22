@@ -1,7 +1,10 @@
+/**
+ * Считывает значения параметров из адресной строки
+ */
 SearchParamsResolver.$inject = ["$stateParams"];
 function SearchParamsResolver($stateParams){
     const params = {};
-    const searchParams = ["sort","fulltext","no","filter"];
+    const searchParams = ["sort", "fulltext", "no", "filter"];
     searchParams.forEach(name => {
         if($stateParams[name] !== undefined) params[name] = $stateParams[name];
     });

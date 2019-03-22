@@ -65,14 +65,14 @@ class SDAccess {
     }
 
     /**
-     * Подгружает права на конкрутную сущность
+     * Подгружает права на конкретную сущность
      * @param entityOrType {SD.Entity|string} - тип сущности строкой или сама сущность
      * @param id {number} - необходим, если entity передан строкой
      * @return {Promise.<SDAccessRules>}
      */
     async loadAccessRules(entityOrType,id) {
         let entityType, entityId;
-        if (typeof entityOrType == "string") {
+        if (typeof entityOrType === "string") {
             entityType = entityOrType;
             entityId = id;
         } else {

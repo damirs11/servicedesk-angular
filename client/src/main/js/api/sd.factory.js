@@ -7,6 +7,7 @@ import {PersonProvider} from "./entity/person.provider";
 import {OrganizationProvider} from "./entity/organization.provider";
 import {StatusProvider} from "./entity/entity-status.provider";
 import {ChangeProvider} from "./entity/change.provider";
+import {ServiceCallProvider} from "./entity/servicecall.provider";
 import {PriorityProvider} from "./entity/entity-priority.provider";
 import {EditableEntityProvider} from "./entity/editable-entity.provider";
 import {WorkgroupProvider} from "./entity/workgroup.provider";
@@ -45,8 +46,8 @@ function SDFactory($injector) {
 }
 
 /**
- * Переменная объявленна, чтобы JSDoc не показывал ошибку на ENTITY_MIXIN.*
- * Все микисины хранятся в SD и доступны только при создании классов для SD.
+ * Переменная объявлена, чтобы JSDoc не показывал ошибку на ENTITY_MIXIN.*
+ * Все миксины хранятся в SD и доступны только при создании классов для SD.
  */
 const ENTITY_MIXIN = null;
 /**
@@ -60,7 +61,7 @@ const SDConstructor = function SD($injector,cache) {
     const Entity = $injector.instantiate(EntityProvider,{cache});
     const RESTEntity = $injector.instantiate(RESTEntityProvider,{Entity,SD:this});
     const EditableEntity = $injector.instantiate(EditableEntityProvider,{Entity,RESTEntity,SD:this});
-    /** Пробосится в зависимости для классов сущностей */
+    /** Пробросится в зависимости для классов сущностей */
     const locals = {SD:this, Entity, RESTEntity, EditableEntity};
 
     /** Миксины */
@@ -74,6 +75,7 @@ const SDConstructor = function SD($injector,cache) {
     this.Person = $injector.instantiate(PersonProvider,locals);
     this.Organization = $injector.instantiate(OrganizationProvider,locals);
     this.Change = $injector.instantiate(ChangeProvider,locals);
+    this.ServiceCall = $injector.instantiate(ServiceCallProvider,locals);
     this.Workorder = $injector.instantiate(WorkorderProvider,locals);
     this.Workgroup = $injector.instantiate(WorkgroupProvider,locals);
     this.HistoryLine = $injector.instantiate(HistoryLineProvider,locals);

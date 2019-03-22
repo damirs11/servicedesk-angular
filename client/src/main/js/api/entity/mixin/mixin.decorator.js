@@ -12,7 +12,7 @@ function Mixin(...classes) {
         classes.map(x => x.prototype).forEach(c => {
             // Получаем все поля, кроме конструктора
             const keys = Object.getOwnPropertyNames(c)
-                    .filter(propName => propName != "constructor");
+                    .filter(propName => propName !== "constructor");
             for (let i = 0; i < keys.length; i++) {
                 const key = keys[i];
                 origin.prototype[key] = c[key]

@@ -8,11 +8,11 @@ function AttachmentsHolderProvider($connector, SD) {
     return class AttachmentsHolder {
 
         /**
-         * Возвращает список голосов персон
+         * Возвращает список вложений
          * @return {SD.Attachment[]}
          */
         async getAttachments(params){
-            params = typeof params == "object" ? params : {};
+            params = typeof params === "object" ? params : {};
             const data = await $connector.get(`rest/entity/${SD.Attachment.$entityType}?entityId=${this.id}`, params);
             return data.map(::SD.Attachment.parse)
         }
@@ -22,7 +22,7 @@ function AttachmentsHolderProvider($connector, SD) {
          * @return {Number}
          */
         async getAttachmentsCount(params){
-            params = typeof params == "object" ? params : {};
+            params = typeof params === "object" ? params : {};
             return await $connector.get(`rest/entity/${SD.Attachment.$entityType}/count?entityId=${this.id}`,params);
         }
 

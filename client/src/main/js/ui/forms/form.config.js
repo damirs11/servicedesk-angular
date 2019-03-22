@@ -3,7 +3,7 @@ import {MainState} from "./app/main/main.state";
 import {LoginState} from "./app/login/login.state";
 import {TestState} from "./app/test/test.state";
 import {PersonState} from "./app/person/person.state";
-import {ServicecallsState} from "./app/servicecalls/servicecalls.state";
+import {ServicecallsState} from "./app/servicecall/servicecall.state";
 import {PersonsState} from "./app/persons/persons.state";
 import {ConfigurationItemsState} from "./app/configurationItems/configurationItems.state";
 import {QuestionsState} from "./app/questions/questions.state";
@@ -31,6 +31,8 @@ import {ChangeCardWorkordersState} from "./app/change/card/workorders/change-car
 import {ChangeCreatedModal} from "./app/entity-created/change-created/change-created.modal";
 import {WorkorderCreatedModal} from "./app/entity-created/workorder-created/workorder-created.modal";
 import {MakeVoteModal} from "./app/make-vote/make-vote.modal";
+import {ServiceCallState} from "./app/servicecall/servicecall.state";
+import {ServiceCallListState} from "./app/servicecall/list/servicecall-list.state";
 
 import {ConnectorErrorModal} from "./app/errors/connector-error/connector-error.modal";
 import {UIDisplayedErrorModal} from "./app/errors/ui-displayed-error/ui-displayed-error.modal";
@@ -94,8 +96,9 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(ProblemCardWorkordersState)
         .state(ProblemCreateState)
         .state(ProblemCreateCommonState)
-        .state(TestState)
-
+        .state(ServiceCallState)
+        .state(ServiceCallListState)
+        .state(TestState);
 }
 
 export {FormConfig};

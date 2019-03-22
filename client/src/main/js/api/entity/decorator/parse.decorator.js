@@ -1,6 +1,5 @@
 const PARSE_MAP = Symbol("Parse:PARSE_MAP");
 
-
 /**
  * Аннотация. Используется у SD.Entity для внесения данных из json внутрь объекта
  * ` @Parse() field = defaultValue
@@ -18,8 +17,11 @@ function Parse(...parseParams) {
 
     return function decorateParse(prototype, propertyName, descriptor) {
         const name = dataName || propertyName;
+        
+        // карта используется для сопоставления полей json с полями класса
         const map = prototype[PARSE_MAP] = prototype[PARSE_MAP] || Object.create(null);
         map[name] = {propertyName, parse};
+
         const initializer = descriptor.initializer;
         descriptor.value = initializer ? initializer.call(prototype) : undefined;
         delete descriptor.initializer;

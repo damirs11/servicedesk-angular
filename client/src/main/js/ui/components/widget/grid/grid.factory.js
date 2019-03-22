@@ -4,6 +4,7 @@ import {HistoryGridProvider} from "./history-grid.provider";
 import {WorkorderGridProvider} from "./workorder-grid.provider";
 import {ApproverVoteGridProvider} from "./approver-vote-grid.provider";
 import {ProblemGridProvider} from "./problem-grid.provider";
+import {ServiceCallGridProvider} from "./servicecall-grid.provider";
 
 $gridFactory.$inject = ["$injector"];
 function $gridFactory($injector) {
@@ -14,7 +15,7 @@ function $gridFactory($injector) {
     const $grid = $injector.instantiate($gridConstructor);
     Object.freeze($grid);
 
-    return $grid
+    return $grid;
 }
 
 /**
@@ -32,8 +33,8 @@ const $gridConstructor = function ($injector) {
     this.HistoryGrid = $injector.instantiate(HistoryGridProvider,locales);
     this.ApproverVoteGrid = $injector.instantiate(ApproverVoteGridProvider,locales);
     this.ProblemGrid = $injector.instantiate(ProblemGridProvider,locales);
-
+    this.ServiceCallGrid = $injector.instantiate(ServiceCallGridProvider,locales);
 };
 $gridConstructor.$inject = ["$injector"];
 
-export {$gridFactory}
+export {$gridFactory};
