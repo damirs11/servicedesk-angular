@@ -28,6 +28,10 @@ public class ServiceCallDaoTest extends AbstractDaoTest {
 	private void testRead(){
 		ServiceCall serviceCall = dao.read(1L);
 		assertEquals(serviceCall.getId().longValue(), 1L);
+		serviceCall = dao.read(3L);
+		assertEquals(serviceCall.getId(), Long.valueOf(3L));
+		assertEquals(serviceCall.getServiceLevelAgreement().getId(), Long.valueOf(1L));
+		assertEquals(serviceCall.getServiceLevelAgreement().getService().getId(), Long.valueOf(1L));
 	}
 	@Test
 	private void testList(){

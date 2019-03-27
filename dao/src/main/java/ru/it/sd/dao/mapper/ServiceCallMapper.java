@@ -6,6 +6,7 @@ import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.ConfigurationItemDao;
 import ru.it.sd.dao.OrganizationDao;
 import ru.it.sd.dao.PersonDao;
+import ru.it.sd.dao.ServiceLevelAgreementDao;
 import ru.it.sd.dao.TemplateDao;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.Assignment;
@@ -21,6 +22,7 @@ import ru.it.sd.model.Folder;
 import ru.it.sd.model.Organization;
 import ru.it.sd.model.Person;
 import ru.it.sd.model.ServiceCall;
+import ru.it.sd.model.ServiceLevelAgreement;
 import ru.it.sd.model.Template;
 
 import java.sql.ResultSet;
@@ -35,14 +37,16 @@ public class ServiceCallMapper extends EntityRowMapper<ServiceCall> {
     private final PersonDao personDao;
     private final OrganizationDao organizationDao;
     private final ConfigurationItemDao configurationItemDao;
+    private final ServiceLevelAgreementDao serviceLevelAgreementDao;
     @Autowired
-    public ServiceCallMapper(AssignmentMapper assignmentMapper, CodeDao codeDao, TemplateDao templateDao, PersonDao personDao, OrganizationDao organizationDao, ConfigurationItemDao configurationItemDao) {
+    public ServiceCallMapper(AssignmentMapper assignmentMapper, CodeDao codeDao, TemplateDao templateDao, PersonDao personDao, OrganizationDao organizationDao, ConfigurationItemDao configurationItemDao, ServiceLevelAgreementDao serviceLevelAgreementDao) {
         this.assignmentMapper = assignmentMapper;
         this.codeDao = codeDao;
         this.templateDao = templateDao;
         this.personDao = personDao;
         this.organizationDao = organizationDao;
         this.configurationItemDao = configurationItemDao;
+        this.serviceLevelAgreementDao = serviceLevelAgreementDao;
     }
 
     @Override
@@ -115,6 +119,11 @@ public class ServiceCallMapper extends EntityRowMapper<ServiceCall> {
         if(markId != null){
             BaseCode code = codeDao.read(markId);
             serviceCall.setMark(code.convertTo(EntityCode1.class));
+        }
+        Long sla = DBUtils.getLong(rs, "ser_sla_oid");
+        if (sla != null) {
+            ServiceLevelAgreement serviceLevelAgreement = serviceLevelAgreementDao.read(sla);
+            serviceCall.setServiceLevelAgreement(serviceLevelAgreement);
         }
         return serviceCall;
     }

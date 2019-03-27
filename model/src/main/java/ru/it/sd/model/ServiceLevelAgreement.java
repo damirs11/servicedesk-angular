@@ -17,7 +17,7 @@ public class ServiceLevelAgreement implements HasId, HasFolder {
      * Сервис
      */
     @FieldMeta(columnName = "sla_srv_oid")
-    private Long service;
+    private Service service;
 
     /**
      * Условие предоставления
@@ -59,11 +59,11 @@ public class ServiceLevelAgreement implements HasId, HasFolder {
         this.name = name;
     }
 
-    public Long getService() {
+    public Service getService() {
         return service;
     }
 
-    public void setService(Long service) {
+    public void setService(Service service) {
         this.service = service;
     }
 

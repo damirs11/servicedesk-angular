@@ -79,17 +79,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
      * SLA
      */
     @FieldMeta(columnName = "ser_sla_oid")
-    private Long agreement;//todo
-    /**
-     * Сервис/Услуга
-     */
-    @FieldMeta(columnName = "sla_srv_oid", tableAlias = "sla")
-    private Long serviceLevelAgreement;//todo
-    /**
-     * Условия предоставления
-     */
-    @FieldMeta(columnName = "sla_sel_oid", tableAlias = "sla")
-    private Long agreementCondition;//todo
+    private ServiceLevelAgreement serviceLevelAgreement;
     /**
      * Ext ID
      */
@@ -302,28 +292,12 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
         this.organization = organization;
     }
 
-    public Long getAgreement() {
-        return agreement;
-    }
-
-    public void setAgreement(Long agreement) {
-        this.agreement = agreement;
-    }
-
-    public Long getServiceLevelAgreement() {
+    public ServiceLevelAgreement getServiceLevelAgreement() {
         return serviceLevelAgreement;
     }
 
-    public void setServiceLevelAgreement(Long serviceLevelAgreement) {
+    public void setServiceLevelAgreement(ServiceLevelAgreement serviceLevelAgreement) {
         this.serviceLevelAgreement = serviceLevelAgreement;
-    }
-
-    public Long getAgreementCondition() {
-        return agreementCondition;
-    }
-
-    public void setAgreementCondition(Long agreementCondition) {
-        this.agreementCondition = agreementCondition;
     }
 
     public String getExtId() {

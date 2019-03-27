@@ -32,10 +32,16 @@ INSERT INTO itsm_persons (per_oid, per_gender, per_email, per_jobtitle, per_firs
 --Организация
 INSERT INTO itsm_organizations (org_oid, org_name1, org_email) VALUES
   (1, 'Плаза', 'hello@plaza.com');
+--Service--
+INSERT INTO itsm_services(srv_oid, srv_name) VALUES
+  (1, 'Service1');
+--SLA--
+INSERT INTO itsm_service_level_agreements(sla_oid, sla_srv_oid, sla_name) VALUES
+  (1, 1, 'SLA1');
 --ЗАявка--
-INSERT INTO itsm_servicecalls (ser_oid, ser_poo_oid, ser_sta_oid, ser_cat_oid, ser_cla_oid, ser_clo_oid, ser_requestor_per_oid, ser_caller_per, ser_caller_org) VALUES(
-  1, 1, 2, 3, 4, 5, 1, 2, 1
-);
-INSERT INTO itsm_servicecalls (ser_oid, ser_poo_oid, ser_sta_oid, ser_cat_oid, ser_cla_oid, ser_clo_oid, ser_requestor_per_oid, ser_caller_per, ser_caller_org) VALUES(
-  2, 1, 2, 3, 4, 5, 1, 2, 1
-);
+INSERT INTO itsm_servicecalls (ser_oid, ser_poo_oid, ser_sta_oid, ser_cat_oid, ser_cla_oid, ser_clo_oid, ser_requestor_per_oid, ser_caller_per, ser_caller_org) VALUES
+  (1, 1, 2, 3, 4, 5, 1, 2, 1);
+INSERT INTO itsm_servicecalls (ser_oid, ser_poo_oid, ser_sta_oid, ser_cat_oid, ser_cla_oid, ser_clo_oid, ser_requestor_per_oid, ser_caller_per, ser_caller_org) VALUES
+  (2, 1, 2, 3, 4, 5, 1, 2, 1);
+INSERT INTO itsm_servicecalls (ser_oid, ser_sla_oid) VALUES
+  (3, 1);
