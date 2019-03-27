@@ -409,6 +409,11 @@ CREATE TABLE itsm_service_level_agreements (
   sla_name VARCHAR(255),
   sla_pool_cod_oid DECIMAL(18)
 );
+CREATE TABLE itsm_services (
+  srv_oid DECIMAL(18),
+  srv_name VARCHAR(255),
+  srv_pool_cod_oid DECIMAL(18)
+);
 
 CREATE TABLE itsm_ser_information (
   sei_ser_oid DECIMAL(18),--todo fk

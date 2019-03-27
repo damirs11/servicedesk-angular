@@ -3,6 +3,10 @@ package ru.it.sd.model;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 
+/**
+ * Модель для SLA
+ * @author nsychev
+ */
 @ClassMeta(tableName = "itsm_service_level_agreements", tableAlias = "sla")
 public class ServiceLevelAgreement implements HasId, HasFolder {
 
