@@ -92,3 +92,5 @@ ALTER TABLE itsm_ser_4k1 ADD CONSTRAINT pk_ser_4k1_id PRIMARY KEY (se1_ser_oid);
 ALTER TABLE itsm_ser_4k1 ADD CONSTRAINT fk_ser_cis FOREIGN KEY (se1_ser_oid) REFERENCES itsm_servicecalls (ser_oid);
 -------------------------------------------------------------------------------------
 ALTER TABLE itsm_service_level_agreements ADD CONSTRAINT pk_sla_id PRIMARY KEY (sla_oid);
+-------------------------------------------------------------------------------------
+ALTER TABLE itsm_services ADD CONSTRAINT pk_srv_id PRIMARY KEY (srv_oid);
