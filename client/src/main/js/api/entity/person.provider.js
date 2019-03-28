@@ -3,7 +3,6 @@ import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
 import {Mixin} from "./mixin/mixin.decorator";
 
-
 PersonProvider.$inject = ["EditableEntity", "SD", "AttachmentsHolder"];
 function PersonProvider(EditableEntity, SD, AttachmentsHolder) {
     /**
@@ -15,7 +14,7 @@ function PersonProvider(EditableEntity, SD, AttachmentsHolder) {
     @Mixin(AttachmentsHolder)
     class Person extends EditableEntity {
         /**
-         * Пол персоны: false - женский, true - мужской
+         * Пол персоны: true(1) - женский, false(0) - мужской
          * @property
          * @name SD.Person#sex
          * @type {boolean}
@@ -87,7 +86,7 @@ function PersonProvider(EditableEntity, SD, AttachmentsHolder) {
         }
 
         toString(){
-            return this.fullName
+            return this.fullName;
         }
 
         $avatarAttachment;

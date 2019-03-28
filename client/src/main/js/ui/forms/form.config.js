@@ -3,7 +3,6 @@ import {MainState} from "./app/main/main.state";
 import {LoginState} from "./app/login/login.state";
 import {TestState} from "./app/test/test.state";
 import {PersonState} from "./app/person/person.state";
-import {ServicecallsState} from "./app/servicecall/servicecall.state";
 import {PersonsState} from "./app/persons/persons.state";
 import {ConfigurationItemsState} from "./app/configurationItems/configurationItems.state";
 import {QuestionsState} from "./app/questions/questions.state";
@@ -65,7 +64,6 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(MainState)
         .state(LoginState)
         .state(ChangePasswordState)
-        .state(ServicecallsState)
         .state(PersonsState)
         .state(ConfigurationItemsState)
         .state(QuestionsState)

@@ -138,7 +138,7 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible) {
         }
 
     }
-    return ServiceCall
+    return ServiceCall;
 }
 
 export {ServiceCallProvider};

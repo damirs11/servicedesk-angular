@@ -29,9 +29,7 @@ const autoprefixer = require('gulp-autoprefixer');
 const connect = require('gulp-connect');
 const modrewrite = require('connect-modrewrite');
 
-
-const util = require('gulp-util');
-const env = util.env;
+const env = process.env;
 
 /**
  * Обработка env переменных
@@ -40,9 +38,10 @@ const env = util.env;
 if (env.DEBUG === undefined) env.DEBUG = false;
 if (env.SOURCE_MAPS === undefined) env.SOURCE_MAPS = false;
 if (env.API_ADDRESS === undefined) env.API_ADDRESS = "https://localhost:8443";
-
 if (env.WEB_CONTEXT === undefined) env.WEB_CONTEXT = null;
 
+console.info(`env.API_ADDRESS= "${env.API_ADDRESS}"`);
+console.info(`env.WEB_CONTEXT= "${env.WEB_CONTEXT}"`);
 
 /**
  * Конфиг для сборки.
@@ -98,7 +97,7 @@ const serverConfig = {
  * Без этого gulp-replace при попытке подменить что-либо на undefined ставит запятую, и код ломается
  */
 for (const key in config.replace) {
-    if (config.replace[key] === undefined) config.replace[key] = "undefined"
+    if (config.replace[key] === undefined) config.replace[key] = "undefined";
 }
 
 /**
@@ -253,7 +252,7 @@ gulp.task('watch:js',function doWatchJs(){
  * Такси вебсервера
  */
 gulp.task('webserver:start', function () {
-    return connect.server(serverConfig)
+    return connect.server(serverConfig);
 });
 
 gulp.task('webserver:reload', function () {

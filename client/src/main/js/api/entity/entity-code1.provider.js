@@ -21,7 +21,7 @@ function EntityCode1Provider(RESTEntity) {
         @Parse( String ) entityType;
 
         toString(){
-            return this.name
+            return this.name;
         }
     };
 }

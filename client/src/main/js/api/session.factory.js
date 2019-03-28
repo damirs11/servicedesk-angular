@@ -42,7 +42,7 @@ class Session {
     }
 
     async _loadAccessData() {
-        const entityTypeList = ["Change", 'Workorder', 'Person', 'Organization'];
+        const entityTypeList = ["Change", 'Workorder', 'Person', 'Organization', 'ServiceCall'];
         const accessDataArray = await Promise.all(
             entityTypeList.map(type => this.$sdAccess.loadTypeAccessRules(type))
         );
@@ -83,7 +83,7 @@ class Session {
     }
 
     getTypeAccessRules(type){
-        return typeAccessRules[type]
+        return typeAccessRules[type];
     }
 
     get user() {
@@ -95,7 +95,7 @@ class Session {
     }
 
     get authorized() {
-        return Boolean(user)
+        return Boolean(user);
     }
 }
 

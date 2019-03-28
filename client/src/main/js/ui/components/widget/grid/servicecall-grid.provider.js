@@ -1,6 +1,5 @@
 const SHORT_DATE_FORMAT = "DD.MM.YYYY (HH:mm)";
 
-
 ServiceCallGridProvider.$inject = ["AbstractGrid"];
 function ServiceCallGridProvider(AbstractGrid) {
     /**
@@ -28,7 +27,6 @@ function ServiceCallGridProvider(AbstractGrid) {
         gridName = "grid.servicecalls";
         enableSaving = true;
     }
-
 };
 
-export {ServiceCallGridProvider}
+export {ServiceCallGridProvider};

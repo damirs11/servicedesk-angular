@@ -5,11 +5,10 @@ import {serializeId} from "./decorator/serialize-utils";
 import {Mixin} from "./mixin/mixin.decorator";
 import {TYPEID_CHANGE} from "./util/entity-types";
 
-
 ChangeProvider.$inject = ["EditableEntity", "SD", "Historyable", "Approvable", "AttachmentsHolder","Accessible"];
 function ChangeProvider(EditableEntity, SD, Historyable, Approvable, AttachmentsHolder, Accessible) {
     /**
-     * Персона
+     * Изменение
      * @class
      * @name SD.Change
      * @mixes ENTITY_MIXIN.Historyable
@@ -213,7 +212,7 @@ function ChangeProvider(EditableEntity, SD, Historyable, Approvable, Attachments
         }
 
     }
-    return Change
+    return Change;
 }
 
 export {ChangeProvider};
