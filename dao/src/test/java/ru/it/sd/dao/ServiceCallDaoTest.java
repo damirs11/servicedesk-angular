@@ -36,7 +36,7 @@ public class ServiceCallDaoTest extends AbstractDaoTest {
 	@Test
 	private void testList(){
 		List<ServiceCall> list = dao.list(new HashMap<>());
-		assertEquals(list.size(), 2);
+		assertEquals(list.size(), 3);
 	}
 
 }
