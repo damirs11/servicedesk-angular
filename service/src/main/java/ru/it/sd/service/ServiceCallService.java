@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ServiceCallDao;
+import ru.it.sd.exception.ServiceException;
+import ru.it.sd.hp.servicecall.IServicecallDao;
 import ru.it.sd.model.ServiceCall;
 import ru.it.sd.model.Template;
 
@@ -22,12 +24,17 @@ public class ServiceCallService extends CrudService<ServiceCall> implements HasT
 
 	private static final Logger logger = LoggerFactory.getLogger(ServiceCallService.class);
 
+	private final ServiceCallDao dao;
+	private final SecurityService securityService;
+	private final AccessService accessService;
+	private final IServicecallDao iServicecallDao;
 	@Autowired
-	private ServiceCallDao dao;
-	@Autowired
-	private SecurityService securityService;
-	@Autowired
-	private AccessService accessService;
+	public ServiceCallService(ServiceCallDao dao, SecurityService securityService, AccessService accessService, IServicecallDao iServicecallDao) {
+		this.dao = dao;
+		this.securityService = securityService;
+		this.accessService = accessService;
+		this.iServicecallDao = iServicecallDao;
+	}
 
 	@Override
 	public ServiceCall read(long id) {
@@ -57,13 +64,12 @@ public class ServiceCallService extends CrudService<ServiceCall> implements HasT
 
 	@Override
 	public ServiceCall create(ServiceCall entity) {
-        /*try {
-            long id = iChangeDao.create(entity);
+        try {
+            long id = iServicecallDao.create(entity);
             return dao.read(id);
         } catch (Exception e){
-            throw new ServiceException("Возникли проблемы при создании изменения. " + e.getMessage(), e);
-        }*/
-        return null;
+            throw new ServiceException("Возникли проблемы при создании заявки. " + e.getMessage(), e);
+        }
 	}
 
 	@Override
@@ -78,9 +84,8 @@ public class ServiceCallService extends CrudService<ServiceCall> implements HasT
 
 	@Override
 	public ServiceCall patch(ServiceCall entity, Set<String> fields) {
-		/*iChangeDao.update(entity, fields);
-		return dao.read(entity.getId());*/
-		return null;
+		iServicecallDao.update(entity, fields);
+		return dao.read(entity.getId());
 	}
 
 	@Override

@@ -81,6 +81,11 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     @FieldMeta(columnName = "ser_sla_oid")
     private ServiceLevelAgreement serviceLevelAgreement;
     /**
+     * Сервис\услуга
+     */
+    @FieldMeta(columnName = "ser_srv_oid")
+    private Service service;
+    /**
      * Ext ID
      */
     @FieldMeta(columnName = "scf_sershorttext10", tableAlias = "scf")
@@ -450,5 +455,13 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
 
     public void setCommentToExecutor(String commentToExecutor) {
         this.commentToExecutor = commentToExecutor;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
     }
 }

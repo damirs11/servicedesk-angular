@@ -384,6 +384,7 @@ CREATE TABLE itsm_servicecalls (
   ser_caller_per DECIMAL(18),
   ser_caller_org DECIMAL(18),
   ser_sla_oid DECIMAL(18),
+  ser_srv_oid DECIMAL(18),
   ser_description VARCHAR(4000),
   ser_imp_oid DECIMAL(18),
   ser_pri_oid DECIMAL(18),
