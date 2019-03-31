@@ -443,3 +443,13 @@ CREATE TABLE itsm_ser_4k1 (
   se1_ser_oid DECIMAL(18),--todo fk
   se1_4k1 VARCHAR(4000)
 );
+
+CREATE TABLE  itsm_historylines_servicecall (
+  hsc_oid DECIMAL(18),
+  hsc_ser_oid DECIMAL(18),
+  hsc_subject VARCHAR(255),
+  reg_createdby_oid DECIMAL(18),
+  hsc_created TIMESTAMP,
+  hsc_newvalue VARCHAR(255),
+  hsc_valueatr_oid DECIMAL(18)
+);

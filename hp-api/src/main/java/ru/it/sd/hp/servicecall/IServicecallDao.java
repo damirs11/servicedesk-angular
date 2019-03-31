@@ -125,7 +125,7 @@ public class IServicecallDao implements HpCrudDao<ServiceCall, IServicecall> {
 
     @Override
     public IServicecall read(long id) {
-       return api.getSdClient().sd_session().getServicecallHome().openServicecall(id);
+       return api.getSdClient().sd_session().getServicecallHome().openServicecall(Long.valueOf(id));
     }
 
     @Override
@@ -239,6 +239,7 @@ public class IServicecallDao implements HpCrudDao<ServiceCall, IServicecall> {
         if (fields.contains("commentToExecutor")){
             servicecall.setSer4k1(entity.getCommentToExecutor());
         }
+        servicecall.save();
     }
 
     @Override
