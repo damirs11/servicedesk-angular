@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 /**
  * @author quadrix
@@ -32,11 +33,14 @@ public class ServiceCallDaoTest extends AbstractDaoTest {
 		assertEquals(serviceCall.getId(), Long.valueOf(3L));
 		assertEquals(serviceCall.getServiceLevelAgreement().getId(), Long.valueOf(1L));
 		assertEquals(serviceCall.getServiceLevelAgreement().getService().getId(), Long.valueOf(1L));
+		serviceCall = dao.read(4L);
+		assertNotNull(serviceCall.getService());
+		assertEquals(serviceCall.getService().getId(), Long.valueOf(1L));
 	}
 	@Test
 	private void testList(){
 		List<ServiceCall> list = dao.list(new HashMap<>());
-		assertEquals(list.size(), 2);
+		assertEquals(list.size(), 4);
 	}
 
 }

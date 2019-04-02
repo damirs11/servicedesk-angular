@@ -384,6 +384,7 @@ CREATE TABLE itsm_servicecalls (
   ser_caller_per DECIMAL(18),
   ser_caller_org DECIMAL(18),
   ser_sla_oid DECIMAL(18),
+  ser_srv_oid DECIMAL(18),
   ser_description VARCHAR(4000),
   ser_imp_oid DECIMAL(18),
   ser_pri_oid DECIMAL(18),
@@ -441,4 +442,14 @@ CREATE TABLE itsm_ser_workaround (
 CREATE TABLE itsm_ser_4k1 (
   se1_ser_oid DECIMAL(18),--todo fk
   se1_4k1 VARCHAR(4000)
+);
+
+CREATE TABLE  itsm_historylines_servicecall (
+  hsc_oid DECIMAL(18),
+  hsc_ser_oid DECIMAL(18),
+  hsc_subject VARCHAR(255),
+  reg_createdby_oid DECIMAL(18),
+  hsc_created TIMESTAMP,
+  hsc_newvalue VARCHAR(255),
+  hsc_valueatr_oid DECIMAL(18)
 );

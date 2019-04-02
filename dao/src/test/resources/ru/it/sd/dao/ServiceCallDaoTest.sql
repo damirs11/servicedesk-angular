@@ -45,3 +45,5 @@ INSERT INTO itsm_servicecalls (ser_oid, ser_poo_oid, ser_sta_oid, ser_cat_oid, s
   (2, 1, 2, 3, 4, 5, 1, 2, 1);
 INSERT INTO itsm_servicecalls (ser_oid, ser_sla_oid) VALUES
   (3, 1);
+INSERT INTO itsm_servicecalls (ser_oid, ser_srv_oid) VALUES
+  (4, 1);

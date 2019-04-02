@@ -10,8 +10,8 @@ import com.hp.itsm.api.interfaces.IPerson;
 import com.hp.itsm.api.interfaces.IScClosureCode;
 import com.hp.itsm.api.interfaces.IService;
 import com.hp.itsm.api.interfaces.IServiceCallCategory;
-import com.hp.itsm.api.interfaces.IServiceLevelAgreement;
 import com.hp.itsm.api.interfaces.IServicecall;
+import com.hp.itsm.api.interfaces.IServicecallCode1;
 import com.hp.itsm.api.interfaces.IStatusServicecall;
 import com.hp.itsm.api.interfaces.IWorkgroup;
 import org.slf4j.Logger;
@@ -52,6 +52,7 @@ public class IServicecallDao implements HpCrudDao<ServiceCall, IServicecall> {
     private final IServiceDao iServiceDao;
     private final IClassificationServicecallDao iClassificationServicecallDao;
     private final IScClosureCodeDao iScClosureCodeDao;
+    private final IServicecallCode1Dao iServicecallCode1Dao;
     @Autowired
     public IServicecallDao(HpApi api,
                            IPersonDao iPersonDao,
@@ -60,7 +61,7 @@ public class IServicecallDao implements HpCrudDao<ServiceCall, IServicecall> {
                            IConfigurationItemDao iConfigurationItemDao,
                            IFolderDao iFolderDao,
                            IStatusServicecallDao iStatusServicecallDao,
-                           IServicecallCategoryDao iServicecallCategoryDao, IOrganizationDao iOrganizationDao, IServiceLevelAgreementDao iServiceLevelAgreementDao, IServiceDao iServiceDao, IClassificationServicecallDao iClassificationServicecallDao, IScClosureCodeDao iScClosureCodeDao) {
+                           IServicecallCategoryDao iServicecallCategoryDao, IOrganizationDao iOrganizationDao, IServiceLevelAgreementDao iServiceLevelAgreementDao, IServiceDao iServiceDao, IClassificationServicecallDao iClassificationServicecallDao, IScClosureCodeDao iScClosureCodeDao, IServicecallCode1Dao iServicecallCode1Dao) {
         this.api = api;
         this.iPersonDao = iPersonDao;
         this.iWorkgroupDao = iWorkgroupDao;
@@ -74,24 +75,28 @@ public class IServicecallDao implements HpCrudDao<ServiceCall, IServicecall> {
         this.iServiceDao = iServiceDao;
         this.iClassificationServicecallDao = iClassificationServicecallDao;
         this.iScClosureCodeDao = iScClosureCodeDao;
+        this.iServicecallCode1Dao = iServicecallCode1Dao;
     }
 
     @Override
     public long create(ServiceCall entity) {
         IServicecall servicecall = api.getSdClient().sd_session().getServicecallHome().openNewServicecall();
-        IStatusServicecall status = iStatusServicecallDao.read(entity.getStatus().getId());
-        IImpact priority = iImpactDao.read(entity.getPriority().getId());
-        IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
-        IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
-        IServiceCallCategory category = iServicecallCategoryDao.read(entity.getCategory().getId());
-        IClassificationSer iClassificationSer = iClassificationServicecallDao.read(entity.getClassification().getId());
-        IPerson caller = iPersonDao.read(entity.getCaller().getId());
-        IOrganization iOrganization = iOrganizationDao.read(entity.getCaller().getOrganization().getId());
-        IPerson requestor = iPersonDao.read(entity.getInitiator().getId());
-        IServiceLevelAgreement iServiceLevelAgreement = iServiceLevelAgreementDao.read(entity.getServiceLevelAgreement().getId());
-        IService iService = iServiceDao.read(entity.getServiceLevelAgreement().getService().getId());
+        IStatusServicecall status = entity.getStatus() != null ? iStatusServicecallDao.read(entity.getStatus().getId()) : null;
+        IImpact priority = entity.getPriority() != null ? iImpactDao.read(entity.getPriority().getId()) : null;
+        IWorkgroup workgroup = null;
+        IPerson executor = null;
+        if (entity.getAssignment() != null) {
+            workgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
+            executor = entity.getAssignment().getExecutor() != null ? iPersonDao.read(entity.getAssignment().getExecutor().getId()) : null;
+        }
+        IServiceCallCategory category = entity.getCategory() != null ? iServicecallCategoryDao.read(entity.getCategory().getId()) : null;
+        IClassificationSer iClassificationSer = entity.getClassification() != null ? iClassificationServicecallDao.read(entity.getClassification().getId()) : null;
+        IPerson caller = entity.getCaller() != null ? iPersonDao.read(entity.getCaller().getId()) : null;
+        IOrganization iOrganization = entity.getOrganization() != null ? iOrganizationDao.read(entity.getOrganization().getId()): null;
+        IPerson requestor = entity.getInitiator() != null ? iPersonDao.read(entity.getInitiator().getId()) : null;
+        IService iService = entity.getService() != null ? iServiceDao.read(entity.getService().getId()) : null;
         IConfigurationItem iConfigurationItem = entity.getConfigurationItem() != null ? iConfigurationItemDao.read(entity.getConfigurationItem().getId()) : null;
-        IImpact iImpact = iImpactDao.read(entity.getPriority().getId());
+        IImpact iImpact = entity.getPriority() != null ? iImpactDao.read(entity.getPriority().getId()) : null;
         IFolder iFolder = entity.getFolder() != null ? iFolderDao.read(entity.getFolder().getId()) : null;
         IScClosureCode iScClosureCode = entity.getClosureCode() != null ? iScClosureCodeDao.read(entity.getClosureCode().getId()) : null;
         //Заявитель
@@ -110,23 +115,131 @@ public class IServicecallDao implements HpCrudDao<ServiceCall, IServicecall> {
         servicecall.setCategory(category);
         servicecall.setClassification(iClassificationSer);
         servicecall.setService(iService);
-        servicecall.setSLA(iServiceLevelAgreement);
         servicecall.setImpact(iImpact);
         servicecall.setFolder(iFolder);
         servicecall.setClosureCode(iScClosureCode);
         servicecall.setConfigurationItem(iConfigurationItem);
         servicecall.save();
-        return servicecall.getID();
+        return servicecall.getOID();
     }
 
     @Override
     public IServicecall read(long id) {
-       return api.getSdClient().sd_session().getServicecallHome().openServicecall(id);
+       return api.getSdClient().sd_session().getServicecallHome().openServicecall(Long.valueOf(id));
     }
 
     @Override
     public void update(ServiceCall entity, Set<String> fields) {
-
+        IServicecall servicecall = read(entity.getId());
+        if (fields.contains("assignment")) {
+            if(entity.getAssignment().getWorkgroup() != null){
+                IWorkgroup workgroup = iWorkgroupDao.read(entity.getAssignment().getWorkgroup().getId());
+                servicecall.getAssignment().setAssWorkgroup(workgroup);
+            }
+            if(entity.getAssignment().getExecutor() != null) {
+                IPerson executor = iPersonDao.read(entity.getAssignment().getExecutor().getId());
+                servicecall.getAssignment().setAssigneePerson(executor);
+            }
+            servicecall.getAssignment().transfer();
+        }
+        if (fields.contains("folder")){
+            IFolder iFolder = iFolderDao.read(entity.getFolder().getId());
+            servicecall.setFolder(iFolder);
+        }
+        if (fields.contains("status")){
+            IStatusServicecall status = iStatusServicecallDao.read(entity.getStatus().getId());
+            servicecall.setStatus(status);
+        }
+        if (fields.contains("category")){
+            IServiceCallCategory category = iServicecallCategoryDao.read(entity.getCategory().getId());
+            servicecall.setCategory(category);
+        }
+        if (fields.contains("classification")){
+            IClassificationSer iClassificationSer = iClassificationServicecallDao.read(entity.getClassification().getId());
+            servicecall.setClassification(iClassificationSer);
+        }
+        if (fields.contains("closureCode")){
+            IScClosureCode iScClosureCode = iScClosureCodeDao.read(entity.getClosureCode().getId());
+            servicecall.setClosureCode(iScClosureCode);
+        }
+        if (fields.contains("solution")){
+            servicecall.setSolution(entity.getSolution());
+        }
+        if (fields.contains("initiator")){
+            IPerson requestor = iPersonDao.read(entity.getInitiator().getId());
+            servicecall.setRequestor(requestor);
+        }
+        if (fields.contains("caller")){
+            IPerson caller = iPersonDao.read(entity.getCaller().getId());
+            servicecall.setCaller(caller);
+        }
+        if (fields.contains("organization")){
+            IOrganization iOrganization = iOrganizationDao.read(entity.getOrganization().getId());
+            servicecall.setCallerOrganization(iOrganization);
+        }
+        if (fields.contains("serviceLevelAgreement")){
+            //todo уточнить
+        }
+        if (fields.contains("extId")){
+            servicecall.setSerShorttext10(entity.getExtId());
+        }
+        if (fields.contains("configurationItem")){
+            IConfigurationItem configurationItem = iConfigurationItemDao.read(entity.getConfigurationItem().getId());
+            servicecall.setConfigurationItem(configurationItem);
+        }
+        if (fields.contains("subject")){
+            servicecall.setInformation(entity.getSubject());
+        }
+        if (fields.contains("description")){
+            servicecall.setDescription(entity.getDescription());
+        }
+        if (fields.contains("priority")){
+            IImpact impact = iImpactDao.read(entity.getPriority().getId());
+            servicecall.setImpact(impact);
+        }
+        if (fields.contains("deadline")){
+            servicecall.setDeadline(DateUtils.toSDDate(entity.getDeadline()));
+        }
+        if (fields.contains("resolvedDate")){
+            servicecall.setActualFinish(DateUtils.toSDDate(entity.getResolvedDate()));
+        }
+        if (fields.contains("closureDate")){
+            IScClosureCode closureCode = iScClosureCodeDao.read(entity.getClosureCode().getId());
+            servicecall.setClosureCode(closureCode);
+        }
+        if (fields.contains("expired")){
+            servicecall.setSerBoolean1(entity.getExpired());
+        }
+        if (fields.contains("expiredBy")){
+            servicecall.setSerShorttext4(entity.getExpiredBy());
+        }
+        if (fields.contains("newDeadline")){
+            servicecall.setServicecallDate1(DateUtils.toSDDate(entity.getNewDeadline()));
+        }
+        if (fields.contains("newDeadlineReason")){
+            servicecall.setServicecallText11(entity.getNewDeadlineReason());
+        }
+        if (fields.contains("executorHead")){
+            IPerson person = iPersonDao.read(entity.getExecutorHead().getId());
+            servicecall.setScPerson1(person);
+        }
+        if (fields.contains("errorHandling")){
+            servicecall.setSerBoolean10(entity.getErrorHandling());
+        }
+        if (fields.contains("functionalEscalation")){
+            servicecall.setSerBoolean12(entity.getFunctionalEscalation());
+        }
+        if (fields.contains("mark")){
+            IServicecallCode1 servicecallCode1 = iServicecallCode1Dao.read(entity.getMark().getId());
+            servicecall.setServicecallCode1(servicecallCode1);
+        }
+        if (fields.contains("commentToInitiator")){
+            servicecall.setWorkaround(entity.getCommentToInitiator());
+        }
+        if (fields.contains("commentToExecutor")){
+            servicecall.setSer4k1(entity.getCommentToExecutor());
+        }
+        servicecall.save();
     }
 
     @Override

@@ -25,7 +25,7 @@ public class IServiceDao implements HpCrudDao<Service, IService> {
     @Override
     public IService read(long id) {
         try {
-            return api.getSdClient().sd_session().getServiceHome().openService(id);
+            return api.getSdClient().sd_session().getServiceHome().openService(Long.valueOf(id));
         } catch (Exception e){
             throw new ServiceException("Сущность не найдена "+e.getMessage(),e);
         }
