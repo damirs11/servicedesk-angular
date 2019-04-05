@@ -5,17 +5,18 @@ import {serializeId} from "./decorator/serialize-utils";
 import {Mixin} from "./mixin/mixin.decorator";
 import {EntityTypes} from "./util/entity-types";
 
-ServiceCallProvider.$inject = ["EditableEntity", "SD", "Historyable", "Accessible"];
-function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible) {
+ServiceCallProvider.$inject = ["EditableEntity", "SD", "Historyable", "Accessible", "AttachmentsHolder"];
+function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible, AttachmentsHolder) {
     /**
      * Заявка
      * @class
      * @name SD.ServiceCall
      * @mixes ENTITY_MIXIN.Historyable
      * @mixes ENTITY_MIXIN.Accessible
+     * * @mixes ENTITY_MIXIN.AttachmentsHolder
      * @extends SD.EditableEntity
      */
-    @Mixin(Historyable, Accessible)
+    @Mixin(Historyable, Accessible, AttachmentsHolder)
     class ServiceCall extends EditableEntity {
         static $entityTypeId = EntityTypes.ServiceCall;
         /**
@@ -33,6 +34,14 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible) {
          * @type {string}
          */
         @Serialize(String) @Parse(Nullable(String)) subject;
+
+        /**
+         * Описание
+         * @property
+         * @name SD.Change#description
+         * @type {string}
+         */
+        @Serialize(String) @Parse(Nullable(String)) description;
 
         /**
          * Решение
@@ -124,6 +133,14 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible) {
          */
         @Serialize(Nullable(serializeId)) @Parse(data => SD.EntityClosureCode.parse(data)) closureCode;
 
+        /**
+         * Папка
+         * @property
+         * @name SD.Change#folder
+         * @type {SD.Folder}
+         */
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.Folder.parse(data)) folder;
+        
         /**
          * Сущность "назначено"
          * @property

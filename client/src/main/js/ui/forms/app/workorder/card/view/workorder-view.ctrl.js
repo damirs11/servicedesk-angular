@@ -53,7 +53,7 @@ class WorkorderCardViewController{
     registerLeaveEditListener() {
         this.$pageLock(this.$scope)
             .setTitle("Несохраненные изменения")
-            .setText("Внимание! В сущность были внесены изменение, сохранить их перед уходом?")
+            .setText("Внимание! В сущность были внесены изменения, сохранить их перед уходом?")
             .setCondition(() => this.editing && this.workorder.checkModified())
             .addAction("Да",async () => {
                 await this.saveEditing();

@@ -32,6 +32,11 @@ import {WorkorderCreatedModal} from "./app/entity-created/workorder-created/work
 import {MakeVoteModal} from "./app/make-vote/make-vote.modal";
 import {ServiceCallState} from "./app/servicecall/servicecall.state";
 import {ServiceCallListState} from "./app/servicecall/list/servicecall-list.state";
+import {ServiceCallCardState} from "./app/servicecall/card/servicecall-card.state";
+import {ServiceCallCardViewState} from "./app/servicecall/card/view/servicecall-view.state";
+import {ServiceCallCardHistoryState} from "./app/servicecall/card/history/servicecall-history.state";
+import {ServiceCallCardAttachmentsState} from "./app/servicecall/card/attachments/servicecall-attachments.state";
+import {ServiceCallCardWorkordersState} from "./app/servicecall/card/workorders/servicecall-workorders.state";
 
 import {ConnectorErrorModal} from "./app/errors/connector-error/connector-error.modal";
 import {UIDisplayedErrorModal} from "./app/errors/ui-displayed-error/ui-displayed-error.modal";
@@ -96,6 +101,11 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(ProblemCreateCommonState)
         .state(ServiceCallState)
         .state(ServiceCallListState)
+        .state(ServiceCallCardState)
+        .state(ServiceCallCardViewState)
+        .state(ServiceCallCardHistoryState)
+        .state(ServiceCallCardAttachmentsState)
+        .state(ServiceCallCardWorkordersState)
         .state(TestState);
 }
 

@@ -21,7 +21,7 @@ function FolderProvider(RESTEntity) {
         @Parse( String ) entityType;
 
         toString(){
-            return this.name
+            return this.name;
         }
     };
 }

@@ -36,7 +36,7 @@ class AppController {
      * @returns {Boolean}
      */
     get canSeeTabServiceCalls() {
-        return this.Session.getTypeAccessRules("ServiceCall").isReadEntityAllowed;
+        return this.Session.getTypeAccessRules("ServiceCall") && this.Session.getTypeAccessRules("ServiceCall").isReadEntityAllowed;
     }
     /**
      * Право на просмотр "Нарядов"

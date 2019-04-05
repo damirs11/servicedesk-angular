@@ -28,6 +28,9 @@ const WORKORDER_MESSAGE_TYPES = {
     WORKORDER_EXECUTOR: new MessageType("WORKORDER_EXECUTOR", "Комментарий исполнителю", "commentToExecutor")
 };
 
+const SERVICECALL_MESSAGE_TYPES = {
+    SERVICECALL_INITIATOR: new MessageType("SERVICECALL_INITIATOR", "Комментарий инициатору", "commentToInitiator"),
+    SERVICECALL_EXECUTOR: new MessageType("SERVICECALL_EXECUTOR", "Комментарий исполнителю", "commentToExecutor")
+};
 
-
-export {CHANGE_MESSAGE_TYPES, WORKORDER_MESSAGE_TYPES}
+export {CHANGE_MESSAGE_TYPES, WORKORDER_MESSAGE_TYPES, SERVICECALL_MESSAGE_TYPES};

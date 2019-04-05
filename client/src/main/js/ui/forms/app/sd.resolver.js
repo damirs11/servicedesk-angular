@@ -5,7 +5,7 @@ SDResolver.$inject = ["SD"];
  * @param SD {SD}
  */
 function SDResolver(SD) {
-    return SD.withCache()
+    return SD.withCache();
 }
 
-export {SDResolver}
+export {SDResolver};

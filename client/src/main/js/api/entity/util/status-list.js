@@ -11,9 +11,17 @@ export const CHANGE_STATUSES = {
     APPROVAL_COMPLETE: 3095134328,
     EXECUTING: 3095134329,
     RESOLVED: 3095134330,
-    CLOSED: 3095134331,
+    CLOSED: 3095134331
 };
 
 export const PROBLEM_STATUSES = {
     // ToDo записать список статусов
+};
+
+export const SERVICECALL_STATUSES = {
+    REGISTERED: 3094610092, // Зарегистрировано
+    TO_ENGINEER: 281478327763609, // Направлено инженеру
+    EXECUTING: 281478336938148, // В работе инженер
+    RESOLVED: 3094610094, // Решено
+    CLOSED: 3094610096 // Закрыто
 };

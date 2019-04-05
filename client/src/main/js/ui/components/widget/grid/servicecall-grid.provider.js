@@ -11,13 +11,13 @@ function ServiceCallGridProvider(AbstractGrid) {
     return class ServiceCall extends AbstractGrid {
 
         constructor($scope,SD) {
-            super($scope, SD.Change);
+            super($scope, SD.ServiceCall);
             this.columnDefs = [
                 { field: 'priority', name: "Приоритет", type: 'string', width: 100, cellTemplate: 'template.grid.cell.priority'},
                 { field: 'no', name: "Номер", width: 100, cellClass: "text-right"},
                 { field: 'status', name: "Статус", width: 100, cellClass: "text-center"},
                 { field: 'subject', name: "Тема", cellTooltip: true, minWidth: 300,
-                    cellTemplate: '<a data-ui-sref="app.servicecall.card.view({changeId: row.entity.id})"><span class="ui-grid-cell-contents" style="display: block; width: 100%">{{grid.getCellValue(row, col)}}</span></a>'},
+                    cellTemplate: '<a data-ui-sref="app.servicecall.card.view({serviceCallId: row.entity.id})"><span class="ui-grid-cell-contents" style="display: block; width: 100%">{{grid.getCellValue(row, col)}}</span></a>'},
                 { field: 'deadline', name: "Крайний срок", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 150, cellClass: "text-center"},
                 { field: 'resolvedDate', name: "Фактически выполнено", type: 'date', cellFilter: `amDateFormat:"${SHORT_DATE_FORMAT}"`, width: 170, cellClass: "text-center"},
                 { field: 'initiator', name: "Инициатор", type: 'string', cellTemplate: 'template.grid.cell.person', width: 150}

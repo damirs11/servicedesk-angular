@@ -38,7 +38,7 @@ const env = process.env;
 if (env.DEBUG === undefined) env.DEBUG = false;
 if (env.SOURCE_MAPS === undefined) env.SOURCE_MAPS = false;
 if (env.API_ADDRESS === undefined) env.API_ADDRESS = "https://localhost:8443";
-if (env.WEB_CONTEXT === undefined) env.WEB_CONTEXT = null;
+if (env.WEB_CONTEXT === undefined) env.WEB_CONTEXT = 'sd';
 
 console.info(`env.API_ADDRESS= "${env.API_ADDRESS}"`);
 console.info(`env.WEB_CONTEXT= "${env.WEB_CONTEXT}"`);
@@ -117,7 +117,7 @@ gulp.task('build:js', function buildJS() {
         .pipe(source('app.min.js'))
         .pipe(buffer());
 
-    // Заеняем в коде все слова из списка config.replace
+    // Заменяем в коде все слова из списка config.replace
     for (let name in config.replace) {
         let replaceName = "'GULP_REPLACE:"+name+"'";
         const value = config.replace[name];

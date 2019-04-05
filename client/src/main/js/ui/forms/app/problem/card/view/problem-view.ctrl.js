@@ -78,7 +78,7 @@ class ProblemCardViewController{
     registerLeaveEditListener() {
         this.$pageLock(this.$scope)
             .setTitle("Несохраненные изменения")
-            .setText("Внимание! В сущность были внесены изменение, сохранить их перед уходом?")
+            .setText("Внимание! В сущность были внесены изменения, сохранить их перед уходом?")
             .setCondition(() => this.editing && this.problem.checkModified())
             .addAction("Да",async () => {
                 await this.saveEditing();

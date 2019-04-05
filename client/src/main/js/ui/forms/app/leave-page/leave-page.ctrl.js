@@ -18,9 +18,9 @@ class LeavePageModalController {
     }
 
     click(value){
-        this.$modalState.resolve(value)
+        this.$modalState.resolve(value);
     }
 
 }
 
-export {LeavePageModalController as controller}
+export {LeavePageModalController as controller};

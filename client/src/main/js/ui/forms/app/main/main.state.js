@@ -1,5 +1,5 @@
 import {MainController as controller} from "./main.ctrl.js";
-import template from "./main.tpl.html";
+import template from "./main.html";
 
 let MainState = {
     name:"app.main",
