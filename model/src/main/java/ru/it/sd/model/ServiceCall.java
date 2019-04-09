@@ -480,4 +480,36 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     public void setService(Service service) {
         this.service = service;
     }
+
+    public long getApproval() {
+        return approval;
+    }
+
+    public void setApproval(long approval) {
+        this.approval = approval;
+    }
+
+    public long getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(long attachment) {
+        this.attachment = attachment;
+    }
+
+    public long getWorkorders() {
+        return workorders;
+    }
+
+    public void setWorkorders(long workorders) {
+        this.workorders = workorders;
+    }
+
+    public long getRelations() {
+        return relations;
+    }
+
+    public void setRelations(long relations) {
+        this.relations = relations;
+    }
 }
