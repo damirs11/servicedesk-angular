@@ -1,0 +1,162 @@
+<div class="entity-container">
+    <div class="entity-container__content">
+        <form class="form-inline">
+            <div class="form-group entity-text entity-text-required" style="width: 100%; height: 42px">
+                <label>Тема:</label>
+                <div class="entity-text__inline-field">
+                    <sd-text target="ctrl.serviceCall.subject"
+                             editing="true"
+                             placeholder="Укажите тему"
+                             disabled="ctrl.isParentBusy"
+                    >
+                    </sd-text>
+                </div>
+            </div>
+
+            <div class="form-group entity-text entity-text-required" style="width: 100%;">
+                <label>Подробная информация:</label>
+                <div class="entity-text__multiline-field">
+                    <sd-textarea target="ctrl.serviceCall.description"
+                                 editing="true"
+                                 placeholder="Укажите подробную информацию"
+                                 disabled="ctrl.isParentBusy"
+                    >
+                    </sd-textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Инициатор:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.initiator"
+                             fetch-data="ctrl.loadInititators($text)"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Исполнитель:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.assignment.executor"
+                             fetch-data="ctrl.loadExecutors($text)"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="true"
+                             allow-empty="true"
+                             fetch-on-change="ctrl.serviceCall.assignment.workgroup"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Рабочая группа:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.assignment.workgroup"
+                             fetch-data="ctrl.loadWorkgroups($text)"
+                             placeholder="Введите название группы"
+                             display-value="$value.name"
+                             editing="true"
+                             fetch-on-change="ctrl.serviceCall.assignment.executor"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+        </form>
+    </div>
+
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+
+
+            <div class="form-group e-prop">
+                <label>Папка:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.folder"
+                             fetch-data="ctrl.loadFolders($text)"
+                             display-value="$value.name"
+                             placeholder="Выберите папку"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Крайний срок:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.serviceCall.deadline"
+                        min-date="ctrl.minDeadlineDate"
+                        allow-empty="false"
+                        editing="true"
+                        disabled="ctrl.isParentBusy"
+                ></sd-datetime>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Приоритет:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.priority"
+                             fetch-data="ctrl.loadPriorities($text)"
+                             display-value="$value.fullName"
+                             placeholder="Выберите приоритет"
+                             cache="true"
+                             editing="true"
+                             icon-class="$value | sdIcon"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Категория:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.category"
+                             fetch-data="ctrl.loadCategories($text)"
+                             display-value="$value.name"
+                             placeholder="Выберите категорию"
+                             cache="true"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Классификация:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.classification"
+                             fetch-data="ctrl.loadClassifications($text)"
+                             display-value="$value.name"
+                             placeholder="Выберите классификацию"
+                             cache="true"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Объект обслуживания:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.configurationItem"
+                             fetch-data="ctrl.loadConfigurationItems($text)"
+                             display-value="$value.searchCode"
+                             placeholder="Введите код объекта"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+        </form>
+    </div>
+</div>

@@ -37,7 +37,9 @@ import {ServiceCallCardViewState} from "./app/servicecall/card/view/servicecall-
 import {ServiceCallCardHistoryState} from "./app/servicecall/card/history/servicecall-history.state";
 import {ServiceCallCardAttachmentsState} from "./app/servicecall/card/attachments/servicecall-attachments.state";
 import {ServiceCallCardWorkordersState} from "./app/servicecall/card/workorders/servicecall-workorders.state";
-
+import {ServiceCallCreateState} from "./app/servicecall/create/servicecall-create.state";
+import {ServiceCallCreateCommonState} from "./app/servicecall/create/common/servicecall-create-common.state";
+import {ServiceCallCreatedModal} from "./app/entity-created/servicecall-created/servicecall-created.modal";
 import {ConnectorErrorModal} from "./app/errors/connector-error/connector-error.modal";
 import {UIDisplayedErrorModal} from "./app/errors/ui-displayed-error/ui-displayed-error.modal";
 import {ProblemState} from "./app/problem/problem.state";
@@ -59,6 +61,7 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .modal(ChangeCreatedModal)
         .modal(WorkorderCreatedModal)
         .modal(ProblemCreatedModal)
+        .modal(ServiceCallCreatedModal)
         .modal(LeavePageModal)
         .modal(MakeVoteModal)
         .modal(AttachWorkorderModal)
@@ -106,6 +109,8 @@ function FormConfig($stateProvider, $urlRouterProvider, ModalActionProvider) {
         .state(ServiceCallCardHistoryState)
         .state(ServiceCallCardAttachmentsState)
         .state(ServiceCallCardWorkordersState)
+        .state(ServiceCallCreateState)
+        .state(ServiceCallCreateCommonState)
         .state(TestState);
 }
 

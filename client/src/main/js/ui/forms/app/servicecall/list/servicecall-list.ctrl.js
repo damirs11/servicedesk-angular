@@ -41,11 +41,10 @@ class ServiceCallListController {
         return this.Session.getTypeAccessRules("ServiceCall").isCreateEntityAllowed;
     }
 
-    //todo
     clickCreateNew(template){
         if (!this.isCreateAllowed) return;
         const stateOptions = template ? {templateId: template.id} : undefined;
-        this.$state.go("app.servicecall.create.common",stateOptions);
+        this.$state.go("app.servicecall.create.common", stateOptions);
     }
 
     async loadTemplates(text){
@@ -97,7 +96,7 @@ class ServiceCallListController {
         if (groups && groups.length) {
             const uiGroups = groups.map(g => new UIEntityFilter(g.name,`group_${g.id}`));
             const groupFilter = new UIEntityFilter({name: "Назначенные группе", childs: uiGroups});
-            filters.push(groupFilter)
+            filters.push(groupFilter);
         }
     }
 
