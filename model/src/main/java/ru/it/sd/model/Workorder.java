@@ -80,6 +80,9 @@ public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Se
 	/** Изменение */
 	@FieldMeta(columnName = "wor_cha_oid", attribute = 724041792L)
 	private Change change;
+	/** Заявка */
+	@FieldMeta(columnName = "wor_ser_oid", attribute = 724041792L)
+	private ServiceCall servicecall;
 
 	/** сущность проблема */
 	@FieldMeta(columnName = "wor_pro_oid", attribute = 717488192L)
@@ -307,6 +310,14 @@ public class Workorder implements HasId, HasStatus, HasAssignment, HasFolder, Se
 
 	public void setProblem(Problem problem) {
 		this.problem = problem;
+	}
+
+	public ServiceCall getServicecall() {
+		return servicecall;
+	}
+
+	public void setServicecall(ServiceCall servicecall) {
+		this.servicecall = servicecall;
 	}
 
 	@Override

@@ -6,8 +6,20 @@ import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.OrganizationDao;
 import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.ProblemDao;
+import ru.it.sd.dao.ServiceCallDao;
 import ru.it.sd.dao.utils.DBUtils;
-import ru.it.sd.model.*;
+import ru.it.sd.model.Assignment;
+import ru.it.sd.model.BaseCode;
+import ru.it.sd.model.Change;
+import ru.it.sd.model.EntityCategory;
+import ru.it.sd.model.EntityClosureCode;
+import ru.it.sd.model.EntityStatus;
+import ru.it.sd.model.Folder;
+import ru.it.sd.model.Organization;
+import ru.it.sd.model.Person;
+import ru.it.sd.model.Problem;
+import ru.it.sd.model.ServiceCall;
+import ru.it.sd.model.Workorder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,15 +36,22 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
     private final CodeDao codeDao;
     private final AssignmentMapper assignmentMapper;
     private final OrganizationDao organizationDao;
-
-    public WorkorderMapper(PersonDao personDao, ChangeDao changeDao, ProblemDao problemDao, CodeDao codeDao, AssignmentMapper assignmentMapper, OrganizationDao organizationDao) {
+	private final ServiceCallDao serviceCallDao;
+    public WorkorderMapper(PersonDao personDao,
+						   ChangeDao changeDao,
+						   ProblemDao problemDao,
+						   CodeDao codeDao,
+						   AssignmentMapper assignmentMapper,
+						   OrganizationDao organizationDao,
+						   ServiceCallDao serviceCallDao) {
 	    this.personDao = personDao;
 	    this.changeDao = changeDao;
 	    this.problemDao = problemDao;
 	    this.codeDao = codeDao;
 	    this.assignmentMapper = assignmentMapper;
 	    this.organizationDao = organizationDao;
-    }
+		this.serviceCallDao = serviceCallDao;
+	}
 
 	@Override
 	public Workorder mapRow(ResultSet rs, int rowNumber) throws SQLException {
@@ -66,6 +85,11 @@ public class WorkorderMapper extends EntityRowMapper<Workorder> {
 		if (changeId != null){
 			Change change = changeDao.read(changeId);
 			workorder.setChange(change);
+		}
+		Long servicecallId = DBUtils.getLong(rs,"wor_ser_oid");
+		if (servicecallId != null){
+			ServiceCall serviceCall = serviceCallDao.read(servicecallId);
+			workorder.setServicecall(serviceCall);
 		}
 		Long problemId = DBUtils.getLong(rs,"wor_pro_oid");
 		if (problemId != null){
