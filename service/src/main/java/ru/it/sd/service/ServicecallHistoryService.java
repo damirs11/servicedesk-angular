@@ -66,11 +66,11 @@ public class ServicecallHistoryService extends History<ServiceCall, ServicecallH
 		Set<String> fields = new HashSet<>();
 		ServiceCall entity = service.read(entityId);
 		switch (historyType){
-			case SERVICECALL_INITIATOR:{
+			case SERVICECALL_EXECUTOR:{
 				fields.add("commentToInitiator");
 				entity.setCommentToInitiator(message);
 			}break;
-			case CHANGE_EXECUTOR:{
+			case SERVICECALL_INITIATOR:{
 				fields.add("commentToExecutor");
 				entity.setCommentToExecutor(message);
 			}break;
