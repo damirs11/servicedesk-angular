@@ -6,9 +6,6 @@
 
 @disabled-text-color: #b0bcc7;
 
-
-
-
 .entity-container {
   display: block;
   font-size: @font-size;
@@ -23,6 +20,12 @@
     background-color: #f1f1f1;
     font-size: 14px;
     padding: 7px;
+    &.title-bar  {
+      margin-right: 10px;
+    }
+    &.tab-bar  {
+      display: none;
+    }
   }
 
   &__content {
@@ -41,6 +44,9 @@
     border-bottom: none;
   }
 
+  &.creation-view {
+    width: 100%;
+  }
 }
 
 .entity-properties {
