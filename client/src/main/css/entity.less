@@ -20,12 +20,6 @@
     background-color: #f1f1f1;
     font-size: 14px;
     padding: 7px;
-    &.title-bar  {
-      margin-right: 10px;
-    }
-    &.tab-bar  {
-      display: none;
-    }
   }
 
   &__content {
@@ -46,6 +40,15 @@
 
   &.creation-view {
     width: 100%;
+    
+    & .entity-container__header {
+      &.title-bar {
+        margin-right: 10px;
+      }
+      &.tab-bar {
+        display: none;
+      }
+    }
   }
 }
 

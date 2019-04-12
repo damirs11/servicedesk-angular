@@ -1,10 +1,5 @@
 package ru.it.sd.service;
 
-import ru.it.sd.dao.UserDao;
-import ru.it.sd.exception.ServiceException;
-import ru.it.sd.model.DynamicAuthentication;
-import ru.it.sd.model.User;
-import ru.it.sd.util.ResourceMessages;
 import com.hp.itsm.ssp.beans.SdClientBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +9,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.UserDao;
+import ru.it.sd.exception.ServiceException;
+import ru.it.sd.model.DynamicAuthentication;
+import ru.it.sd.model.User;
+import ru.it.sd.util.ResourceMessages;
 
 import java.util.Map;
 import java.util.Objects;
@@ -45,7 +45,8 @@ public class SecurityService {
 	 * @return информация о пользователе, может вернуть null, если пользователь не найден
 	 */
 	public User findUserByLogin(String login) {
-		return userDao.readByLogin(login);
+        LOG.debug("Try to found  user \"{}\" from database", login);
+        return userDao.readByLogin(login);
 	}
 
 	/**
