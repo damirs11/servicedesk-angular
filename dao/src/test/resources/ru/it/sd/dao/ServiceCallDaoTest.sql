@@ -47,3 +47,12 @@ INSERT INTO itsm_servicecalls (ser_oid, ser_sla_oid) VALUES
   (3, 1);
 INSERT INTO itsm_servicecalls (ser_oid, ser_srv_oid) VALUES
   (4, 1);
+
+INSERT INTO rep_codes (rcd_oid, rcd_subtype, rcd_rcd_oid) VALUES
+  (111, 281481741664799, null);
+INSERT INTO rep_codes_text (rct_rcd_oid, rct_name, rct_lng_oid) VALUES
+  (111, 'Причина приостановления', 1049);
+INSERT INTO itsm_servicecalls (ser_oid) VALUES
+  (111);
+INSERT INTO itsm_ser_custom_fields(scf_ser_oid, scf_scdate8, scf_sctext5, scf_cod7_oid) VALUES
+  (111, '2011-10-28 06:59:11.000', 'text', 111);

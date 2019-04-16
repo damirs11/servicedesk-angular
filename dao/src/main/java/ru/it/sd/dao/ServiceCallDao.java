@@ -41,11 +41,14 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
             "    scf.scf_boolean1, " +
             "    scf.scf_sershorttext4, " +
             "    scf.scf_scdate1, " +
+            "    scf.scf_scdate8, " +
             "    scf.scf_sctext11, " +
+            "    scf.scf_sctext5, " +
             "    scf.scf_per1_oid, " +
             "    scf.scf_boolean10, " +
             "    scf.scf_boolean12, " +
             "    scf.scf_cod1_oid, " +
+            "    scf.scf_cod7_oid, " +
             "    scw.scw_workaround, " +
             "    se1.se1_4k1, " +
             "    s.ser_assignstatus ass_status, " +

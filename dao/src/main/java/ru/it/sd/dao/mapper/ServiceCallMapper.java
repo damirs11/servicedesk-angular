@@ -17,6 +17,7 @@ import ru.it.sd.model.EntityCategory;
 import ru.it.sd.model.EntityClassification;
 import ru.it.sd.model.EntityClosureCode;
 import ru.it.sd.model.EntityCode1;
+import ru.it.sd.model.EntityCode7;
 import ru.it.sd.model.EntityPriority;
 import ru.it.sd.model.EntityStatus;
 import ru.it.sd.model.Folder;
@@ -133,6 +134,11 @@ public class ServiceCallMapper extends EntityRowMapper<ServiceCall> {
         if (serviceId != null) {
             Service service = serviceDao.read(serviceId);
             serviceCall.setService(service);
+        }
+        Long renewalReasonId = DBUtils.getLong(rs, "scf_cod7_oid");
+        if (renewalReasonId != null) {
+            BaseCode code = codeDao.read(renewalReasonId);
+            serviceCall.setRenewalReason(code.convertTo(EntityCode7.class));
         }
         return serviceCall;
     }

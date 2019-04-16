@@ -181,6 +181,13 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     @FieldMeta(columnName = "se1_4k1", tableAlias = "se1", attribute = 281479977894237L)
     private String commentToExecutor;
 
+    @FieldMeta(columnName = "scf_scdate8", tableAlias = "scf")
+    private Date renewalDate;
+    @FieldMeta(columnName = "scf_sctext5", tableAlias = "scf")
+    private String renewalComment;
+    @FieldMeta(columnName = "scf_cod7_oid", tableAlias = "scf")
+    private EntityCode7 renewalReason;
+
     /**
      * Поля для получения доступа к вкладкам
      */
@@ -511,5 +518,29 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
 
     public void setRelations(long relations) {
         this.relations = relations;
+    }
+
+    public Date getRenewalDate() {
+        return renewalDate;
+    }
+
+    public void setRenewalDate(Date renewalDate) {
+        this.renewalDate = renewalDate;
+    }
+
+    public String getRenewalComment() {
+        return renewalComment;
+    }
+
+    public void setRenewalComment(String renewalComment) {
+        this.renewalComment = renewalComment;
+    }
+
+    public EntityCode7 getRenewalReason() {
+        return renewalReason;
+    }
+
+    public void setRenewalReason(EntityCode7 renewalReason) {
+        this.renewalReason = renewalReason;
     }
 }

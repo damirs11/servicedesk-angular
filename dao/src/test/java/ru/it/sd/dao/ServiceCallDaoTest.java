@@ -37,10 +37,18 @@ public class ServiceCallDaoTest extends AbstractDaoTest {
 		assertNotNull(serviceCall.getService());
 		assertEquals(serviceCall.getService().getId(), Long.valueOf(1L));
 	}
+
+	@Test
+	public void renewalTest() {
+		ServiceCall serviceCall = dao.read(111L);
+		assertNotNull(serviceCall);
+		assertEquals(serviceCall.getId(), Long.valueOf(111L));
+	}
+
 	@Test
 	private void testList(){
 		List<ServiceCall> list = dao.list(new HashMap<>());
-		assertEquals(list.size(), 4);
+		assertEquals(list.size(), 5);
 	}
 
 }

@@ -5,37 +5,30 @@ import ru.it.sd.util.ResourceMessages;
 
 /**
  * Система
- * (Кастомное поле) 1
+ * (Кастомное поле) 7
  * @author NSychev
  * @since 22.12.2017
  */
-public class EntityCode1 extends BaseCode {
+public class EntityCode7 extends BaseCode {
 
 	private static final long serialVersionUID = 4889770089180475611L;
 
-	public EntityCode1(){}
+	public EntityCode7(){}
 
 	public static Long getTypeId(EntityType entityType) {
 
 		switch(entityType){
-			case CHANGE:
-				return 165944L;
 			case CONFIGURATIONITEM:
-				return 1079902257L;
-			//Incident 1065680941
-			//Maintenance?? 1080164392
-			case ORGANIZATION:
-				return 1080164377L;
-			case PERSON:
-				return 1080164362L;
-			case PROBLEM:
-				return 1079902227L;
-			case SERVICECALL:
-				return 1079902209L;
+				return 281481741664789L;
 			case WORKORDER:
-				return 1079902242L;
-			case WORKGROUP:
-				return 281478354436219L;
+				return 281481741664794L;
+			case SERVICECALL:
+				return 281481741664799L;
+			case CHANGE:
+				return 281484034900702L;
+			case PERSON:
+				return 281484034900711L;
+			//case INCIDENT: return 281484034900706
 			default:
 				throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
 		}

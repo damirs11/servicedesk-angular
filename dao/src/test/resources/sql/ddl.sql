@@ -410,7 +410,10 @@ CREATE TABLE itsm_service_level_agreements (
   sla_sel_oid DECIMAL(18),
   sla_name VARCHAR(255),
   sla_pool_cod_oid DECIMAL(18),
-  sla_pro_org_oid DECIMAL(18)
+  sla_pro_org_oid DECIMAL(18),
+  sla_status_cod_oid DECIMAL(18),
+  sla_actualstart TIMESTAMP,
+  sla_actualfinish TIMESTAMP
 );
 CREATE TABLE itsm_services (
   srv_oid DECIMAL(18),
@@ -434,7 +437,10 @@ CREATE TABLE itsm_ser_custom_fields (
   scf_per1_oid DECIMAL(18),
   scf_boolean10 BOOLEAN,
   scf_boolean12 BOOLEAN,
-  scf_cod1_oid DECIMAL(18)
+  scf_cod1_oid DECIMAL(18),
+  scf_scdate8 TIMESTAMP,
+  scf_sctext5 VARCHAR(255),
+  scf_cod7_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_ser_workaround (
