@@ -8,6 +8,8 @@ import {OrganizationProvider} from "./entity/organization.provider";
 import {StatusProvider} from "./entity/entity-status.provider";
 import {ChangeProvider} from "./entity/change.provider";
 import {ServiceCallProvider} from "./entity/servicecall.provider";
+import {ServiceProvider} from "./entity/service.provider";
+import {SLAProvider} from "./entity/sla.provider";
 import {PriorityProvider} from "./entity/entity-priority.provider";
 import {EditableEntityProvider} from "./entity/editable-entity.provider";
 import {WorkgroupProvider} from "./entity/workgroup.provider";
@@ -28,6 +30,7 @@ import {AccessibleProvider} from "./entity/mixin/accessible";
 import {EntityAssignmentProvider} from "./entity/entity-assignment.provider";
 import {ConfigurationItemProvider} from "./entity/configuration-item.provider";
 import {EntityCode1Provider} from "./entity/entity-code1.provider";
+import {EntityCode7Provider} from "./entity/entity-code7.provider";
 import {FolderProvider} from "./entity/folder.provider";
 import {ProblemProvider} from "./entity/problem.provider";
 import {TemplateProvider} from "./entity/template.provider";
@@ -76,6 +79,8 @@ const SDConstructor = function SD($injector,cache) {
     this.Organization = $injector.instantiate(OrganizationProvider,locals);
     this.Change = $injector.instantiate(ChangeProvider,locals);
     this.ServiceCall = $injector.instantiate(ServiceCallProvider,locals);
+    this.Service = $injector.instantiate(ServiceProvider,locals);
+    this.ServiceLevelAgreement = $injector.instantiate(SLAProvider,locals);
     this.Workorder = $injector.instantiate(WorkorderProvider,locals);
     this.Workgroup = $injector.instantiate(WorkgroupProvider,locals);
     this.HistoryLine = $injector.instantiate(HistoryLineProvider,locals);
@@ -93,6 +98,7 @@ const SDConstructor = function SD($injector,cache) {
     this.EntityClassification = $injector.instantiate(EntityClassificationProvider,locals);
     this.EntityClosureCode = $injector.instantiate(EntityClosureCodeProvider,locals);
     this.EntityCode1 = $injector.instantiate(EntityCode1Provider, locals);
+    this.EntityCode7 = $injector.instantiate(EntityCode7Provider, locals);
     this.Folder = $injector.instantiate(FolderProvider, locals);
     this.Template = $injector.instantiate(TemplateProvider, locals);
 
@@ -114,7 +120,7 @@ const SDConstructor = function SD($injector,cache) {
         }
     });
 
-    return Object.freeze(this)
+    return Object.freeze(this);
 };
 SDConstructor.$inject = ["$injector","cache"];
 

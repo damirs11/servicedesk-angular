@@ -13,7 +13,7 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible, Attach
      * @name SD.ServiceCall
      * @mixes ENTITY_MIXIN.Historyable
      * @mixes ENTITY_MIXIN.Accessible
-     * * @mixes ENTITY_MIXIN.AttachmentsHolder
+     * @mixes ENTITY_MIXIN.AttachmentsHolder
      * @extends SD.EditableEntity
      */
     @Mixin(Historyable, Accessible, AttachmentsHolder)
@@ -118,6 +118,38 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible, Attach
         @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) initiator;
 
         /**
+         * Заявитель
+         * @property
+         * @name SD.ServiceCall#caller
+         * @type {SD.Person}
+         */
+        @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) caller;
+
+        /**
+         * Организация
+         * @property
+         * @name SD.ServiceCall#organization
+         * @type {SD.Organization}
+         */
+        @Serialize(org => org.id) @Parse(data => SD.Organization.parse(data)) organization;
+
+        /**
+         * SLA
+         * @property
+         * @name SD.ServiceCall#serviceLevelAgreement
+         * @type {SD.ServiceLevelAgreement}
+         */
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.ServiceLevelAgreement.parse(data)) serviceLevelAgreement;
+
+        /**
+         * Сервис/услуга
+         * @property
+         * @name SD.ServiceCall#service
+         * @type {SD.Service}
+         */
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.Service.parse(data)) service;
+
+        /**
          * Объект обслуживания
          * @property
          * @name SD.ServiceCall#configurationItem
@@ -136,7 +168,7 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible, Attach
         /**
          * Папка
          * @property
-         * @name SD.Change#folder
+         * @name SD.ServiceCall#folder
          * @type {SD.Folder}
          */
         @Serialize(Nullable(serializeId)) @Parse(data => SD.Folder.parse(data)) folder;
@@ -149,6 +181,30 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible, Attach
          */
         @Serialize((ag,name,mode) => mode === "FULL" ? ag.$serialize() : ag.$modifiedData)
         @Parse(data => SD.EntityAssignment.parse(data)) assignment;
+
+        /**
+         * Дата возобновления
+         * @property
+         * @name SD.ServiceCall#renewalDate
+         * @type {Date}
+         */
+        @Serialize(Number) @Parse( Nullable(Date,"new") ) renewalDate;
+
+        /**
+         * Комментарий по приостановке
+         * @property
+         * @name SD.ServiceCall#renewalReason
+         * @type {string}
+         */
+        @Parse(String) renewalComment;
+
+        /**
+         * Причина приостановки
+         * @property
+         * @name SD.ServiceCall#renewalReason
+         * @type {SD.EntityCode7}
+         */
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.EntityCode7.parse(data)) renewalReason;
 
         toString(){
             return String(this.no);

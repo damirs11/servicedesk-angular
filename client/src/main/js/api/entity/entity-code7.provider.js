@@ -1,19 +1,19 @@
 import {Parse} from "./decorator/parse.decorator";
 
-StatusProvider.$inject = ["RESTEntity"];
-function StatusProvider(RESTEntity) {
+EntityCode7Provider.$inject = ["RESTEntity"];
+function EntityCode7Provider(RESTEntity) {
     /**
-     * Статус
+     * Кастомный код 7
      * @class
-     * @name SD.EntityStatus
+     * @name SD.EntityCode1
      * @extends SD.RESTEntity
      */
-    return class EntityStatus extends RESTEntity {
+    return class EntityCode1 extends RESTEntity {
 
         /**
          * Название
          * @property
-         * @name SD.EntityStatus#name
+         * @name SD.EntityCode1#name
          * @type {string}
          */
         @Parse( String ) name;
@@ -26,4 +26,4 @@ function StatusProvider(RESTEntity) {
     };
 }
 
-export {StatusProvider};
+export {EntityCode7Provider};

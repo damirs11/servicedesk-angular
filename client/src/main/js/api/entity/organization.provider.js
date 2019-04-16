@@ -26,7 +26,7 @@ function OrganizationProvider(RESTEntity) {
         @Parse( Nullable(String) ) email;
 
         toString(){
-            return this.name
+            return this.name;
         }
     };
 }
