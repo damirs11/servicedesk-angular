@@ -8,8 +8,11 @@ INSERT INTO rep_codes_text (rct_rcd_oid, rct_name, rct_lng_oid) VALUES
 INSERT INTO itsm_services (srv_oid, srv_name, srv_pool_cod_oid) VALUES
   (1, '义耱 SLA 1', 1);
 INSERT INTO itsm_services (srv_oid, srv_name, srv_pool_cod_oid) VALUES
-  (2, '义耱 SLA 1', 1);
+  (2, '义耱 SLA 2', 1);
 INSERT INTO itsm_services (srv_oid, srv_name, srv_pool_cod_oid) VALUES
-  (3, '义耱 SLA 1', 1);
+  (3, '义耱 SLA 3', 1);
 INSERT INTO itsm_services (srv_oid, srv_name, srv_pool_cod_oid) VALUES
-  (4, '义耱 SLA 1', 1);
+  (4, '义耱 SLA 4', 1);
+INSERT INTO itsm_services (srv_oid, srv_name, srv_pool_cod_oid) VALUES
+  (5, '义耱 SLA 5', 1);
+

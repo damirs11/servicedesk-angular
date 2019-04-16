@@ -19,6 +19,9 @@ public class Service implements HasId, HasFolder {
     @FieldMeta(columnName = "srv_pool_cod_oid")
     private Folder folder;
 
+    @FieldMeta(columnName = "srv_status_cod_oid")
+    private EntityStatus status;
+
     @Override
     public Long getId() {
         return id;
@@ -47,4 +50,11 @@ public class Service implements HasId, HasFolder {
         this.name = name;
     }
 
+    public EntityStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EntityStatus status) {
+        this.status = status;
+    }
 }

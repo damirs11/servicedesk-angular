@@ -16,7 +16,8 @@ CREATE TABLE itsm_organizations (
   org_oid DECIMAL(18),
   org_name1 VARCHAR(255),
   org_email VARCHAR(50),
-  org_poo_oid DECIMAL(18)
+  org_poo_oid DECIMAL(18),
+  org_parent DECIMAL(18)
 );
 
 CREATE TABLE rep_accounts (
@@ -408,12 +409,14 @@ CREATE TABLE itsm_service_level_agreements (
   sla_srv_oid DECIMAL(18),
   sla_sel_oid DECIMAL(18),
   sla_name VARCHAR(255),
-  sla_pool_cod_oid DECIMAL(18)
+  sla_pool_cod_oid DECIMAL(18),
+  sla_pro_org_oid DECIMAL(18)
 );
 CREATE TABLE itsm_services (
   srv_oid DECIMAL(18),
   srv_name VARCHAR(255),
-  srv_pool_cod_oid DECIMAL(18)
+  srv_pool_cod_oid DECIMAL(18),
+  srv_status_cod_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_ser_information (
@@ -452,4 +455,12 @@ CREATE TABLE  itsm_historylines_servicecall (
   hsc_created TIMESTAMP,
   hsc_newvalue VARCHAR(255),
   hsc_valueatr_oid DECIMAL(18)
+);
+CREATE TABLE itsm_sc_rec_organizations (
+  sro_sla_oid DECIMAL(18),
+  sro_org_oid DECIMAL(18)
+);
+CREATE TABLE itsm_sc_rec_persons (
+  srp_sla_oid DECIMAL(18),
+  srp_per_oid DECIMAL(18)
 );

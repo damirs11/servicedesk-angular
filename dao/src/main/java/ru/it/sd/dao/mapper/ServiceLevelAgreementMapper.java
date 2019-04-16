@@ -6,6 +6,7 @@ import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.ServiceDao;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.BaseCode;
+import ru.it.sd.model.EntityStatus;
 import ru.it.sd.model.Folder;
 import ru.it.sd.model.Service;
 import ru.it.sd.model.ServiceLevelAgreement;
@@ -32,6 +33,11 @@ public class ServiceLevelAgreementMapper extends EntityRowMapper<ServiceLevelAgr
         if (folderId != null) {
             BaseCode code = codeDao.read(folderId);
             serviceLevelAgreement.setFolder(code.convertTo(Folder.class));
+        }
+        Long statusId = DBUtils.getLong(rs, "sla_status_cod_oid");
+        if (statusId != null) {
+            BaseCode code = codeDao.read(statusId);
+            serviceLevelAgreement.setStatus(code.convertTo(EntityStatus.class));
         }
         Long serviceId = DBUtils.getLong(rs, "sla_srv_oid");
         if (serviceId != null) {

@@ -33,6 +33,10 @@ public class EntityStatus extends BaseCode {
 				return 625803273L;
 			case PROBLEM:
 				return 717488236L;
+			case SERVICE:
+				return 281478201016461L;//todo check
+			case SERVICE_LEVEL_AGREEMENT:
+				return 281478453133466L;//todo check
 			default:
 				throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
 		}

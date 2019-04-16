@@ -102,3 +102,29 @@ INSERT INTO @Hierarchy SELECT id FROM node;
 RETURN
 END;
 
+-- =============================================
+-- Author:    NSychev
+-- Create date: 10.04.2019
+-- Description:  Функция возвращает список организаций по иерархии, начиная с указанной.
+-- Arguments:
+--            @NodeId  - идентификатор стартовой организации
+--            @Direction - направление обхода иерархии. 1 - вверх, 0 -вниз
+-- Returns:
+--            Таблица (id DECIMAL(18), parent_id DECIMAL(18))
+-- =============================================
+CREATE FUNCTION dbo.SdGetOrganizations (@NodeId DECIMAL(18), @Direction DECIMAL(1))
+  RETURNS @Hierarchy TABLE (id DECIMAL(18), parent_id DECIMAL(18))
+AS
+BEGIN
+WITH node(id, parent_id) AS (
+  SELECT org.org_oid, org.org_parent
+  FROM itsm_organizations org
+  WHERE org.org_oid = @NodeId
+  UNION ALL
+  SELECT org.org_oid, org.org_parent
+  FROM itsm_organizations org JOIN node ON
+                                      ((node.parent_id = org.org_oid AND @Direction <> 0) OR (node.id = org.org_parent AND @Direction = 0))
+)
+INSERT INTO @Hierarchy SELECT id, parent_id FROM node
+                                                 RETURN
+END;

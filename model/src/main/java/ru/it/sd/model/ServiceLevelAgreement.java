@@ -3,12 +3,14 @@ package ru.it.sd.model;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 
+import java.util.Date;
+
 /**
  * Модель для SLA
  * @author nsychev
  */
 @ClassMeta(tableName = "itsm_service_level_agreements", tableAlias = "sla")
-public class ServiceLevelAgreement implements HasId, HasFolder {
+public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus {
 
     @FieldMeta(columnName = "sla_oid", key = true)
     private Long id;
@@ -22,6 +24,9 @@ public class ServiceLevelAgreement implements HasId, HasFolder {
     /**
      * Условие предоставления
      */
+
+    @FieldMeta(columnName = "sla_status_cod_oid")
+    private EntityStatus status;
     @FieldMeta(columnName = "sla_sel_oid")
     private Long agreementCondition;
 
@@ -30,6 +35,12 @@ public class ServiceLevelAgreement implements HasId, HasFolder {
 
     @FieldMeta(columnName = "sla_pool_cod_oid")
     private Folder folder;
+
+    @FieldMeta(columnName = "sla_actualstart")
+    private Date validFrom;
+
+    @FieldMeta(columnName = "sla_actualfinish")
+    private Date validTo;
 
     @Override
     public Long getId() {
@@ -73,5 +84,31 @@ public class ServiceLevelAgreement implements HasId, HasFolder {
 
     public void setAgreementCondition(Long agreementCondition) {
         this.agreementCondition = agreementCondition;
+    }
+
+    public Date getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(Date validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public Date getValidTo() {
+        return validTo;
+    }
+
+    public void setValidTo(Date validTo) {
+        this.validTo = validTo;
+    }
+
+    @Override
+    public EntityStatus getStatus() {
+        return status;
+    }
+
+    @Override
+    public void setStatus(EntityStatus status) {
+        this.status = status;
     }
 }

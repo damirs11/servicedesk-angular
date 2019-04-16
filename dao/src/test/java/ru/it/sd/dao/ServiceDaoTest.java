@@ -32,7 +32,7 @@ public class ServiceDaoTest extends AbstractDaoTest {
 	@Test
 	private void testList(){
 		List<Service> list = dao.list(null);
-		assertEquals(list.size(), 4);
+		assertEquals(list.size(), 5);
 	}
 
 }
