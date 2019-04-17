@@ -23,6 +23,7 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
             "    s.ser_cla_oid, " +
             "    s.ser_clo_oid, " +
             "    s.ser_tem_oid, " +
+            "    s.ser_med_oid, " +
             "    scs.scs_solution, " +
             "    s.ser_requestor_per_oid, " +
             "    s.ser_caller_per, " +

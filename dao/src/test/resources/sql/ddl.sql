@@ -396,7 +396,8 @@ CREATE TABLE itsm_servicecalls (
   ser_assignpriority DECIMAL(18),
   ser_ass_per_to_oid DECIMAL(18),
   ser_ass_wog_oid DECIMAL(18),
-  ser_cit_oid DECIMAL(18)
+  ser_cit_oid DECIMAL(18),
+  ser_med_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_ser_solution (

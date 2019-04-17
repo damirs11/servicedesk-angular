@@ -257,16 +257,20 @@ public class AccessService {
             case EXECUTOR:{
                 if (entity instanceof HasAssignment){
                     HasAssignment hasAssignment = (HasAssignment) entity;
-                    if (Objects.equals(user.getPerson().getId(), (hasAssignment.getAssignment().getExecutor().getId()))) {
-                        entityAccess.setRead(GrantRule.EXECUTOR);
+                    if (hasAssignment.getAssignment() != null && hasAssignment.getAssignment().getExecutor() != null) {
+                        if (Objects.equals(user.getPerson().getId(), (hasAssignment.getAssignment().getExecutor().getId()))) {
+                            entityAccess.setRead(GrantRule.EXECUTOR);
+                        }
                     }
                 }
             }break;
             case WORKGROUP:{
                 if (entity instanceof HasAssignment) {
                     HasAssignment hasAssignment = (HasAssignment) entity;
-                    if (isMember(hasAssignment.getAssignment().getWorkgroup(), user.getPerson())) {
-                        entityAccess.setRead(GrantRule.WORKGROUP);
+                    if (hasAssignment.getAssignment() != null && hasAssignment.getAssignment().getWorkgroup() != null) {
+                        if (isMember(hasAssignment.getAssignment().getWorkgroup(), user.getPerson())) {
+                            entityAccess.setRead(GrantRule.WORKGROUP);
+                        }
                     }
                 }
             }break;

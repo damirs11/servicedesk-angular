@@ -26,6 +26,7 @@ import ru.it.sd.model.Person;
 import ru.it.sd.model.Service;
 import ru.it.sd.model.ServiceCall;
 import ru.it.sd.model.ServiceLevelAgreement;
+import ru.it.sd.model.Source;
 import ru.it.sd.model.Template;
 
 import java.sql.ResultSet;
@@ -139,6 +140,11 @@ public class ServiceCallMapper extends EntityRowMapper<ServiceCall> {
         if (renewalReasonId != null) {
             BaseCode code = codeDao.read(renewalReasonId);
             serviceCall.setRenewalReason(code.convertTo(EntityCode7.class));
+        }
+        Long sourceId = DBUtils.getLong(rs, "ser_med_oid");
+        if (sourceId != null) {
+            BaseCode code = codeDao.read(sourceId);
+            serviceCall.setSource(code.convertTo(Source.class));
         }
         return serviceCall;
     }

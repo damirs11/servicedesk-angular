@@ -16,8 +16,8 @@ public class ServiceLevelAgreementDao extends AbstractEntityDao<ServiceLevelAgre
     private final ServiceLevelAgreementMapper serviceLevelAgreementMapper;
 
     private static final String BASE_SQL =
-            "SELECT DISTINCT\n" +
-            "   sla.sla_oid, " +
+            "SELECT \n" +
+            "   DISTINCT(sla.sla_oid), " +
             "   sla.sla_name, " +
             "   sla.sla_srv_oid, " +
             "   sla.sla_actualstart, " +

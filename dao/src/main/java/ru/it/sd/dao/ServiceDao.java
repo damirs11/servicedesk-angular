@@ -16,7 +16,7 @@ public class ServiceDao extends AbstractEntityDao<Service> {
     private final ServiceMapper serviceMapper;
 
     private static final String BASE_SQL =
-            "SELECT DISTINCT\n" +
+            "SELECT \n" +
             "   srv.srv_oid, " +
             "   srv.srv_name, " +
             "   srv.srv_status_cod_oid, " +

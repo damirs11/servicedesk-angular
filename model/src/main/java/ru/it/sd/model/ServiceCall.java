@@ -35,6 +35,10 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
      */
     @FieldMeta(columnName = "ser_sta_oid", attribute = 662896684L)//281483984437250 status(ServiceCall today)
     private EntityStatus status;
+
+    @FieldMeta(columnName = "ser_med_oid")
+    private Source source;
+
     /**
      * Категория
      */
@@ -185,7 +189,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     private Date renewalDate;
     @FieldMeta(columnName = "scf_sctext5", tableAlias = "scf")
     private String renewalComment;
-    @FieldMeta(columnName = "scf_cod7_oid", tableAlias = "scf")
+    @FieldMeta(columnName = "scf_cod7_oid", tableAlias = "scf", attribute = 281481741664815L)
     private EntityCode7 renewalReason;
 
     /**
@@ -542,5 +546,13 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
 
     public void setRenewalReason(EntityCode7 renewalReason) {
         this.renewalReason = renewalReason;
+    }
+
+    public Source getSource() {
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
     }
 }
