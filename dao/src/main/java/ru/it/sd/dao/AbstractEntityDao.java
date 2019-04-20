@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import ru.it.sd.dao.utils.DBUtils;
+import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.dao.utils.FilterUtils;
 import ru.it.sd.meta.FieldMetaData;
 import ru.it.sd.meta.MetaUtils;
@@ -84,9 +85,18 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 		if (filter == null) {
 			return null;
 		}
-		filter.remove(PagingRange.PAGING_PARAM_NAME);
-		filter.remove(SortingInfo.SORTING_PARAM_NAME);
-		return filter;
+		if (filter instanceof FilterMap) {
+			FilterMap filterMap = new FilterMap();
+			filterMap.putAll(filter);
+			filterMap.getAccessFilter().addAll(((FilterMap) filter).getAccessFilter());
+			filterMap.remove(PagingRange.PAGING_PARAM_NAME);
+			filterMap.remove(SortingInfo.SORTING_PARAM_NAME);
+			return filterMap;
+		}
+		Map<String, String> clearFilter = new HashMap<>(filter);
+		clearFilter.remove(PagingRange.PAGING_PARAM_NAME);
+		clearFilter.remove(SortingInfo.SORTING_PARAM_NAME);
+		return clearFilter;
 	}
 
 	/**
