@@ -1,13 +1,22 @@
 package ru.it.sd.dao.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.it.sd.dao.AttributeAccessDao;
 import ru.it.sd.dao.CodeDao;
-import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.RoleDao;
-import ru.it.sd.model.*;
+import ru.it.sd.dao.utils.DBUtils;
+import ru.it.sd.model.BaseCode;
+import ru.it.sd.model.EntityStatus;
+import ru.it.sd.model.EntityType;
+import ru.it.sd.model.Folder;
+import ru.it.sd.model.Grant;
+import ru.it.sd.model.GrantRule;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Component
@@ -15,10 +24,13 @@ public class GrantMapper extends EntityRowMapper<Grant> {
 
 	private RoleDao roleDao;
 	private final CodeDao codeDao;
+	private final AttributeAccessDao attributeAccessDao;
 
-	public GrantMapper(RoleDao roleDao, CodeDao codeDao) {
+	@Autowired
+	public GrantMapper(RoleDao roleDao, CodeDao codeDao, AttributeAccessDao attributeAccessDao) {
 		this.roleDao = roleDao;
 		this.codeDao = codeDao;
+		this.attributeAccessDao = attributeAccessDao;
 	}
 
 	@Override
@@ -29,7 +41,9 @@ public class GrantMapper extends EntityRowMapper<Grant> {
 			grant.setRole(roleDao.read(id));
 		}
 		if (Objects.nonNull(id = DBUtils.getLong(rs, "ena_ent_oid"))) {
-			grant.setEntityType(EntityType.get(id));
+			try {
+				grant.setEntityType(EntityType.get(id));
+			} catch (Exception ok) {}
 		}
 		grant.setCreate(GrantRule.get(
 				rs.getBoolean("ena_new"),
@@ -66,6 +80,9 @@ public class GrantMapper extends EntityRowMapper<Grant> {
             grant.setFolder(code.convertTo(Folder.class));
         }
 
+		Map<String, String> filter = new HashMap<>();
+        filter.put("grantId", grant.getId().toString());
+		grant.setAttributeAccessList(attributeAccessDao.list(filter));
 		// Права доступа на историю сущности
 		grant.setHistoryCreate(GrantRule.get(
 				rs.getBoolean("ena_historynew"),

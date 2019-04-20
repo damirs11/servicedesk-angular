@@ -5,6 +5,8 @@ import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Описывает права доступа роли на совершение операций над экземплярами
@@ -71,6 +73,8 @@ public class Grant implements HasId, Serializable {
 	/** Удаление записи из истории */
 	@FieldMeta(columnName = "ena_historydelete") //ena_historydeletecreateduser, ena_historydeletecreatedwg
 	private GrantRule historyDelete;
+
+	private List<AttributeAccess> attributeAccessList = new ArrayList<>();
 
 	@Override
 	public Long getId() {
@@ -185,4 +189,16 @@ public class Grant implements HasId, Serializable {
     public void setFolder(Folder folder) {
         this.folder = folder;
     }
+
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
+	public List<AttributeAccess> getAttributeAccessList() {
+		return attributeAccessList;
+	}
+
+	public void setAttributeAccessList(List<AttributeAccess> attributeAccessList) {
+		this.attributeAccessList = attributeAccessList;
+	}
 }

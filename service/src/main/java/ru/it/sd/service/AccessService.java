@@ -4,11 +4,15 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.AttributeAccessDao;
 import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.GrantDao;
+import ru.it.sd.dao.RoleDao;
 import ru.it.sd.dao.WorkgroupDao;
+import ru.it.sd.dao.utils.AccessFilterEntity;
+import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.meta.FieldMetaData;
 import ru.it.sd.meta.MetaUtils;
 import ru.it.sd.model.AttributeAccess;
@@ -23,6 +27,7 @@ import ru.it.sd.model.HasAssignment;
 import ru.it.sd.model.HasFolder;
 import ru.it.sd.model.HasStatus;
 import ru.it.sd.model.Person;
+import ru.it.sd.model.Role;
 import ru.it.sd.model.User;
 import ru.it.sd.model.Workgroup;
 import ru.it.sd.util.EntityUtils;
@@ -32,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class AccessService {
@@ -44,12 +50,35 @@ public class AccessService {
     private CodeDao codeDao;
     private WorkgroupDao workgroupDao;
 
-    public AccessService(AttributeAccessDao attributeAccessDao, GrantDao grantDao, SecurityService securityService, WorkgroupDao workgroupDao, CodeDao codeDao){
+    private final RoleDao roleDao;
+
+    public AccessService(AttributeAccessDao attributeAccessDao, GrantDao grantDao, SecurityService securityService, WorkgroupDao workgroupDao, CodeDao codeDao, RoleDao roleDao){
         this.attributeAccessDao = attributeAccessDao;
         this.grantDao = grantDao;
         this.securityService = securityService;
         this.workgroupDao = workgroupDao;
         this.codeDao = codeDao;
+        this.roleDao = roleDao;
+    }
+
+    @Cacheable(cacheNames = "access")
+    public List<Grant> getList() {
+        return grantDao.list(new HashMap<>());
+    }
+
+    /**
+     * Список отфильтрованных прав доступа
+     * @param user
+     * @param entityType
+     * @return
+     */
+    private List<Grant> getList(User user, EntityType entityType) {
+        Map<String, String> userFilter = new HashMap<>();
+        userFilter.put("accountId", String.valueOf(user.getId()));
+        List<Long> roles = roleDao.list(userFilter).stream().map(Role::getId).collect(Collectors.toList());
+        return getList().stream()
+                .filter(grant -> grant.getEntityType() == entityType && roles.contains(grant.getRole().getId()))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -62,17 +91,7 @@ public class AccessService {
         Map<String, AttributeGrantRule> attributeEntitlement = new HashMap<>();
         Class clazz = EntityUtils.getEntityClass(grant.getEntityType().getAlias());
         Map<String, FieldMetaData> fieldMetaDataMap = MetaUtils.getFieldsMetaData(clazz);
-        List<String> attributes = new ArrayList<>();
-        for(FieldMetaData fmd: fieldMetaDataMap.values()){
-            if(!Objects.equals(fmd.getAttribute(),Long.MIN_VALUE)){
-                attributes.add(String.valueOf(fmd.getAttribute()));
-            }
-        }
-        String attr = String.join(";",attributes);
-        Map<String, String> filter = new HashMap<>();
-        filter.put("grantId",String.valueOf(grant.getId()));
-        filter.put("attributeId", attr);
-        List<AttributeAccess> attributeAccessList = attributeAccessDao.list(filter);
+        List<AttributeAccess> attributeAccessList = grant.getAttributeAccessList();
 
         for(FieldMetaData fmd: fieldMetaDataMap.values()){
             //Если записан id атрибута в моделе
@@ -130,11 +149,9 @@ public class AccessService {
      */
     public Pair<Grant, Map<String, AttributeGrantRule>> getEntityAccess(HasFolder entity){
         User user = securityService.getCurrentUser();
-        Long accountId = user.getId();
-        Map<String, String> filter = new HashMap<>();
-        filter.put("accountId", accountId.toString());
-        filter.put("entityId", EntityType.getByClass(entity.getClass()).getId().toString());
-        List<Grant> grantList = grantDao.list(filter);
+        EntityType entityType = EntityType.getByClass(entity.getClass());
+        List<Grant> grantList = getList(user, entityType);
+
         //Результат проверки прав доступа
         Grant entityAccess = new Grant();
         //Значение по умолчанию
@@ -149,16 +166,18 @@ public class AccessService {
 
         List<BaseCode> parentFolders = new ArrayList<>();
         if(entity.getFolder() != null){
+            Map<String, String> filter = new HashMap<>();
             filter.put("codeId", entity.getFolder().getId().toString());
             parentFolders = codeDao.list(filter);
         }
-
         //Результат проверки прав доступа атрибутов
         Map<String, AttributeGrantRule> attributeAccessMap = new HashMap<>();
         //Цикл по всем правам доступа к сущности(ena)
         for(Grant grant: grantList){
+            //Если тип не определен, то пропускаем
+            if (grant.getEntityType() == null || grant.getEntityType() != entityType) continue;
             //Необходимость проверки условий
-            Boolean folder = true;
+            boolean folder = true;
             //Проверка папки
             if(grant.getFolder() != null){
                 //Если папка сущности == null или папка прав достпа не является родительской, то условие папки не выполняется
@@ -218,6 +237,72 @@ public class AccessService {
         result.setLeft(entityAccess);
         result.setRight(attributeAccessMap);
         return result;
+    }
+
+
+    public void applyReadFilter(FilterMap filter, Class<? extends HasFolder> clazz) {
+        List<Workgroup> workgroups = new ArrayList<>();
+        final User user = securityService.getCurrentUser();
+        final Person person = user.getPerson();
+        EntityType entityType = EntityType.getByClass(clazz);
+        List<Grant> grantList = getList(user, entityType);
+        grantList = grantList.parallelStream().filter(grant -> grant.getRead() != GrantRule.NONE).collect(Collectors.toList());
+        //Если нет прав доступа, то проставляем флаг
+        if (grantList.isEmpty()) {
+            AccessFilterEntity filterEntity = new AccessFilterEntity();
+            filterEntity.setNoAccess(true);
+            filter.getAccessFilter().add(filterEntity);
+        }
+        List<Grant> grantsWithoutFolder = grantList.stream().filter(grant -> grant.getFolder() == null).collect(Collectors.toList());
+        for (Grant grant : grantsWithoutFolder) {
+            AccessFilterEntity filterEntity = new AccessFilterEntity();
+            switch (grant.getRead()) {
+                case ALWAYS:
+                    return;
+                case EXECUTOR:
+                    filterEntity.setExecutor(person.getId());
+                    filter.getAccessFilter().add(filterEntity);
+                    return;
+                case WORKGROUP:
+                    addWorkgroups(workgroups, filterEntity, person);
+                    filter.getAccessFilter().add(filterEntity);
+                    return;
+            }
+        }
+
+        List<Grant> grantsWithFolder = grantList.stream().filter(grant -> grant.getFolder() != null).collect(Collectors.toList());
+        for (Grant grant : grantsWithFolder) {
+            AccessFilterEntity filterEntity = new AccessFilterEntity();
+            addFolders(grant.getFolder().getId(), filterEntity);
+            if (grant.getRead() == GrantRule.EXECUTOR) {
+                filterEntity.setExecutor(person.getId());
+            } else if (grant.getRead() == GrantRule.WORKGROUP) {
+                 addWorkgroups(workgroups, filterEntity, person);
+            }
+            filter.getAccessFilter().add(filterEntity);
+        }
+    }
+
+    private void addWorkgroups(List<Workgroup> workgroups, AccessFilterEntity filterEntity, Person person) {
+        if (workgroups.isEmpty()) {
+            Map<String, String> wgFilter = new HashMap<>();
+            wgFilter.put("personId", person.getId().toString());
+            workgroups.addAll(workgroupDao.list(wgFilter));
+        }
+        //todo оптимизировать
+        for (Workgroup workgroup : workgroups) {
+            Map<String, String> wgFilter = new HashMap<>();
+            wgFilter.put("workgroupId", workgroup.getId().toString());
+            List<Long> ids = workgroupDao.list(wgFilter).stream().map(Workgroup::getId).collect(Collectors.toList());
+            filterEntity.getWorkgroups().addAll(ids);
+        }
+    }
+    private void addFolders(Long folder, AccessFilterEntity filterEntity) {
+        //todo оптимизировать
+        Map<String, String> filter = new HashMap<>();
+        filter.put("codeId", folder.toString());
+        filter.put("child", null);
+        filterEntity.getFolders().addAll(codeDao.list(filter).stream().map(BaseCode::getId).collect(Collectors.toList()));
     }
 
     /**
@@ -346,7 +431,7 @@ public class AccessService {
      */
     private Boolean isMember(Workgroup entityWorkgroup, Person executor){
         Map<String, String> filter = new HashMap<>();
-        filter.put("person", executor.getId().toString());
+        filter.put("personId", executor.getId().toString());
         List<Workgroup> workgroups = workgroupDao.list(filter);
         for(Workgroup workgroup: workgroups){
             if(Objects.equals(workgroup.getId(), entityWorkgroup.getId())){

@@ -84,10 +84,9 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 		if (filter == null) {
 			return null;
 		}
-		Map<String, String> result = new HashMap<>(filter);
-		result.remove(PagingRange.PAGING_PARAM_NAME);
-		result.remove(SortingInfo.SORTING_PARAM_NAME);
-		return result;
+		filter.remove(PagingRange.PAGING_PARAM_NAME);
+		filter.remove(SortingInfo.SORTING_PARAM_NAME);
+		return filter;
 	}
 
 	/**

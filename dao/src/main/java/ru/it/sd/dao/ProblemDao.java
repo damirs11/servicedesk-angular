@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.ProblemMapper;
+import ru.it.sd.dao.utils.AccessFilterEntity;
+import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.dao.utils.TemplateUtils;
 import ru.it.sd.model.Problem;
 import ru.it.sd.model.Template;
@@ -59,10 +61,10 @@ public class ProblemDao extends AbstractEntityDao<Problem> implements Templated<
                     "pcf.pcf_boolean1, \n" +
                     "pcf.pcf_problemdate2, \n" +
                     "pr1.pr1_4k1, \n" +
-                    "pro_assign_status ass_status, \n" +
-                    "pro_assign_priority ass_priority, \n" +
-                    "ass_per_to_oid ass_person_to, \n" +
-                    "ass_wog_oid ass_workgroup_to \n" +
+                    "pro.pro_assign_status ass_status, \n" +
+                    "pro.pro_assign_priority ass_priority, \n" +
+                    "pro.ass_per_to_oid ass_person_to, \n" +
+                    "pro.ass_wog_oid ass_workgroup_to \n" +
                     "FROM itsm_problems pro \n" +
                     "LEFT JOIN itsm_pro_information pri on pri.pri_pro_oid = pro.pro_oid \n" +
                     "LEFT JOIN itsm_pro_custom_fields pcf ON (pcf.pcf_pro_oid = pro.pro_oid) \n" +
@@ -91,6 +93,32 @@ public class ProblemDao extends AbstractEntityDao<Problem> implements Templated<
             return;
         }
         super.buildWhere(filter, sql, params);
+        if (filter instanceof FilterMap) {
+            List<AccessFilterEntity> accessFilter = ((FilterMap) filter).getAccessFilter();
+            if (!accessFilter.isEmpty()) {
+                sql.append(" AND ( ");
+                if (accessFilter.size() == 1 && accessFilter.get(0).getNoAccess()) {
+                    sql.append("1=0");
+                } else {
+                    boolean isFirst = true;
+                    for (AccessFilterEntity filterEntity : accessFilter) {
+                        sql.append(isFirst ? " ( 1=1 " : " OR ( 1=1");
+                        if (!filterEntity.getFolders().isEmpty()) {
+                            sql.append(" AND pro.pro_poo_oid in (").append(filterEntity.getFoldersString()).append(")");
+                        }
+                        if (filterEntity.getExecutor() != null) {
+                            sql.append(" AND pro.ass_per_to_oid = ").append(filterEntity.getExecutor().toString()).append(" ");
+                        }
+                        if (!filterEntity.getWorkgroups().isEmpty()) {
+                            sql.append(" AND pro.ass_wog_oid in (").append(filterEntity.getWorkgroupsString()).append(") ");
+                        }
+                        sql.append(" ) ");
+                        isFirst = false;
+                    }
+                }
+                sql.append(" ) ");
+            }
+        }
     }
 
     @Override

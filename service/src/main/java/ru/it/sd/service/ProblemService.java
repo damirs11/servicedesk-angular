@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ProblemDao;
 import ru.it.sd.dao.TemplateDao;
+import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.problem.IProblemDao;
 import ru.it.sd.model.GrantRule;
@@ -55,14 +56,21 @@ public class ProblemService extends CrudService<Problem> implements HasTemplateS
 	public List<Problem> list(Map<String, String> filter) {
 		// todo проверить, что в фильтре не указаны "левые" группы, к которым пользователь не имеет доступа
 		securityService.addCurrentUserToFilter(filter);
-		return dao.list(filter);
+
+		FilterMap filterMap = new FilterMap();
+		filterMap.putAll(filter);
+		accessService.applyReadFilter(filterMap, Problem.class);
+		return dao.list(filterMap);
 	}
 
 	@Override
 	public int count(Map<String, String> filter) {
 		// todo проверить, что в фильтре не указаны "левые" группы, к которым пользователь не имеет доступа
 		securityService.addCurrentUserToFilter(filter);
-		return dao.count(filter);
+		FilterMap filterMap = new FilterMap();
+		filterMap.putAll(filter);
+		accessService.applyReadFilter(filterMap, Problem.class);
+		return dao.count(filterMap);
 	}
 
 	@Override

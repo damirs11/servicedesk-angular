@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.ServiceCallDao;
+import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.servicecall.IServicecallDao;
 import ru.it.sd.model.ServiceCall;
@@ -52,14 +53,20 @@ public class ServiceCallService extends CrudService<ServiceCall> implements HasT
 	public List<ServiceCall> list(Map<String, String> filter) {
 		// todo проверить, что в фильтре не указаны "левые" группы, к которым пользователь не имеет доступа
 		securityService.addCurrentUserToFilter(filter);
-		return dao.list(filter);
+		FilterMap filterMap = new FilterMap();
+		filterMap.putAll(filter);
+		accessService.applyReadFilter(filterMap, ServiceCall.class);
+		return dao.list(filterMap);
 	}
 
 	@Override
 	public int count(Map<String, String> filter) {
 		// todo проверить, что в фильтре не указаны "левые" группы, к которым пользователь не имеет доступа
 		securityService.addCurrentUserToFilter(filter);
-		return dao.count(filter);
+		FilterMap filterMap = new FilterMap();
+		filterMap.putAll(filter);
+		accessService.applyReadFilter(filterMap, ServiceCall.class);
+		return dao.count(filterMap);
 	}
 
 	@Override

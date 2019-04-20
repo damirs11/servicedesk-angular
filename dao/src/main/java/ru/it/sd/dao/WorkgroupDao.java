@@ -53,17 +53,27 @@ public class WorkgroupDao extends AbstractEntityDao<Workgroup> {
 			params.addValue("selectable", filter.get("selectable").equals("0") ? 1 : 0);
 			sql.append(" AND wog_notselectable = :selectable");
 		}
-		// Фильтр по родителю, то есть получаем все дочерние группы
+		/*// Фильтр по родителю, то есть получаем все дочерние группы
 		if (Objects.nonNull(filter) && filter.containsKey("parentId")) {
 			params.addValue("parentId", filter.get("parentId"));
 			sql.append(" AND wog_parent = :parentId");
-		}
+		}*/
 
 		if (Objects.nonNull(filter) && filter.containsKey("personId")) {
 			params.addValue("personId", filter.get("personId"));
 			sql.append(" AND wg.wog_oid IN (" +
 					"SELECT mem_wog_oid FROM itsm_members " +
 					"WHERE mem_per_oid = :personId)");
+		}
+
+		if (Objects.nonNull(filter) && filter.containsKey("workgroupId")) {
+			params.addValue("workgroupId", filter.get("workgroupId"));
+			if (filter.containsKey("child")) {
+				params.addValue("forward", 0);
+			} else {
+				params.addValue("forward", 1);
+			}
+			sql.append(" AND wg.wog_oid in (SELECT id FROM SdGetWorkGroups(:workgroupId, :forward))");
 		}
 	}
 }

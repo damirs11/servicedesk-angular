@@ -9,15 +9,25 @@
 
     <!-- Документация http://www.ehcache.org/generated/2.10.2/html/ehc-all -->
     <!-- http://www.ehcache.org/ehcache.xml -->
-    <cache name="entity"
+    <cache name="access"
            maxBytesLocalHeap="100M"
            eternal="false"
-           timeToIdleSeconds="15"
-           timeToLiveSeconds="30"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
            memoryStoreEvictionPolicy="LFU"
            copyOnRead="true"
            copyOnWrite="true">
         <persistence strategy="none" />
     </cache>
 
+    <cache name="entity"
+           maxBytesLocalHeap="100M"
+           eternal="false"
+           timeToIdleSeconds="30"
+           timeToLiveSeconds="999"
+           memoryStoreEvictionPolicy="LFU"
+           copyOnRead="true"
+           copyOnWrite="true">
+        <persistence strategy="none" />
+    </cache>
 </ehcache>

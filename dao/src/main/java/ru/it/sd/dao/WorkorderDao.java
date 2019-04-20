@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.WorkorderMapper;
+import ru.it.sd.dao.utils.AccessFilterEntity;
+import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.dao.utils.TemplateUtils;
 import ru.it.sd.model.Template;
 import ru.it.sd.model.TemplateValue;
@@ -129,6 +131,33 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> implements Templa
 					":groupId = wg2.wog_oid OR " +
 					":groupId = wg3.wog_oid OR " +
 					":groupId = wg4.wog_oid)");
+		}
+
+		if (filter instanceof FilterMap) {
+			List<AccessFilterEntity> accessFilter = ((FilterMap) filter).getAccessFilter();
+			if (!accessFilter.isEmpty()) {
+				sql.append(" AND ( ");
+				if (accessFilter.size() == 1 && accessFilter.get(0).getNoAccess()) {
+					sql.append("1=0");
+				} else {
+					boolean isFirst = true;
+					for (AccessFilterEntity filterEntity : accessFilter) {
+						sql.append(isFirst ? " ( 1=1 " : " OR ( 1=1");
+						if (!filterEntity.getFolders().isEmpty()) {
+							sql.append(" AND w.wor_poo_oid in (").append(filterEntity.getFoldersString()).append(")");
+						}
+						if (filterEntity.getExecutor() != null) {
+							sql.append(" AND w.ass_per_to_oid = ").append(filterEntity.getExecutor().toString()).append(" ");
+						}
+						if (!filterEntity.getWorkgroups().isEmpty()) {
+							sql.append(" AND w.ass_workgroup in (").append(filterEntity.getWorkgroupsString()).append(") ");
+						}
+						sql.append(" ) ");
+						isFirst = false;
+					}
+				}
+				sql.append(" ) ");
+			}
 		}
 	}
 

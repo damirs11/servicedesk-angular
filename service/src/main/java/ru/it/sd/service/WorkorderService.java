@@ -3,6 +3,7 @@ package ru.it.sd.service;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.TemplateDao;
 import ru.it.sd.dao.WorkorderDao;
+import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.workorder.IWorkorderDao;
 import ru.it.sd.model.GrantRule;
@@ -47,16 +48,20 @@ public class WorkorderService extends CrudService<Workorder> implements HasTempl
 
     @Override
     public List<Workorder> list(Map<String, String> filter) {
-        // todo проверить, что в фильтре не указаны "левые" группы, к которым пользователь не имеет доступа
         securityService.addCurrentUserToFilter(filter);
-        return dao.list(filter);
+		FilterMap filterMap = new FilterMap();
+		filterMap.putAll(filter);
+		accessService.applyReadFilter(filterMap, Workorder.class);
+        return dao.list(filterMap);
     }
 
     @Override
     public int count(Map<String, String> filter) {
-        // todo проверить, что в фильтре не указаны "левые" группы, к которым пользователь не имеет доступа
         securityService.addCurrentUserToFilter(filter);
-        return dao.count(filter);
+        FilterMap filterMap = new FilterMap();
+        filterMap.putAll(filter);
+        accessService.applyReadFilter(filterMap, Workorder.class);
+        return dao.count(filterMap);
     }
 
     @Override

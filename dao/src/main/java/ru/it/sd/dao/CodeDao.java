@@ -78,8 +78,13 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 		}
 		//Получение списка родительских кодов + codeId
 		if (filter.containsKey("codeId")) {
+			if (filter.containsKey("child")) {
+				params.addValue("forward", 0);
+			} else {
+				params.addValue("forward", 1);
+			}
 			params.addValue("codeId", filter.get("codeId"));
-			sql.append(" AND code.id in (select id from SdGetRepCodes(:codeId, 1))");
+			sql.append(" AND code.id in (select id from SdGetRepCodes(:codeId, :forward))");
 		}
 	}
 

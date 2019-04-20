@@ -1,12 +1,16 @@
 package ru.it.sd.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import ru.it.sd.dao.mapper.ServiceCallMapper;
+import ru.it.sd.dao.utils.AccessFilterEntity;
+import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.model.ServiceCall;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
@@ -77,5 +81,36 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
     @Override
     protected List<ServiceCall> executeQuery(String sql, SqlParameterSource params) {
         return namedJdbc.query(sql, params, serviceCallMapper.asRowMapper());
+    }
+
+    @Override
+    protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
+        super.buildWhere(filter, sql, params);
+        if (filter instanceof FilterMap) {
+            List<AccessFilterEntity> accessFilter = ((FilterMap) filter).getAccessFilter();
+            if (!accessFilter.isEmpty()) {
+                sql.append(" AND ( ");
+                if (accessFilter.size() == 1 && accessFilter.get(0).getNoAccess()) {
+                    sql.append("1=0");
+                } else {
+                    boolean isFirst = true;
+                    for (AccessFilterEntity filterEntity : accessFilter) {
+                        sql.append(isFirst ? " ( 1=1 " : " OR ( 1=1");
+                        if (!filterEntity.getFolders().isEmpty()) {
+                            sql.append(" AND s.ser_poo_oid in (").append(filterEntity.getFoldersString()).append(")");
+                        }
+                        if (filterEntity.getExecutor() != null) {
+                            sql.append(" AND s.ser_ass_per_to_oid = ").append(filterEntity.getExecutor().toString()).append(" ");
+                        }
+                        if (!filterEntity.getWorkgroups().isEmpty()) {
+                            sql.append(" AND s.ser_ass_wog_oid in (").append(filterEntity.getWorkgroupsString()).append(") ");
+                        }
+                        sql.append(" ) ");
+                        isFirst = false;
+                    }
+                }
+                sql.append(" ) ");
+            }
+        }
     }
 }
