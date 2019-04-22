@@ -11,7 +11,15 @@ import java.util.Date;
  * @since 05.06.2018
  */
 @ClassMeta(tableName = "itsm_problems", tableAlias = "pro")
-public class Problem implements HasId, HasStatus, HasFolder, HasAssignment{
+public class Problem implements HasId, HasStatus, HasFolder, HasAssignment {
+
+    public Problem() {
+    }
+
+    public Problem(Long id) {
+        this.id = id;
+    }
+
     /** ID */
     @FieldMeta(columnName = "pro_oid", key = true)
     private Long id;

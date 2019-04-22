@@ -12,6 +12,13 @@ import java.util.Date;
 @ClassMeta(tableName = "itsm_service_level_agreements", tableAlias = "sla")
 public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus {
 
+    public ServiceLevelAgreement() {
+    }
+
+    public ServiceLevelAgreement(Long id) {
+        this.id = id;
+    }
+
     @FieldMeta(columnName = "sla_oid", key = true)
     private Long id;
 

@@ -16,6 +16,13 @@ import java.io.Serializable;
 @ClassMeta(tableName = "itsm_organizations", tableAlias = "o")
 public class Organization implements Code, HasFolder, Serializable {
 
+	public Organization() {
+	}
+
+	public Organization(Long id) {
+		this.id = id;
+	}
+
 	private static final long serialVersionUID = -1146630780979985820L;
 
 	/**

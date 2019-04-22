@@ -3,6 +3,7 @@ package ru.it.sd.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.ProblemDao;
 import ru.it.sd.dao.TemplateDao;
 import ru.it.sd.dao.utils.FilterMap;
@@ -60,7 +61,7 @@ public class ProblemService extends CrudService<Problem> implements HasTemplateS
 		FilterMap filterMap = new FilterMap();
 		filterMap.putAll(filter);
 		accessService.applyReadFilter(filterMap, Problem.class);
-		return dao.list(filterMap);
+		return dao.list(filterMap, AbstractEntityDao.MapperMode.LIST);
 	}
 
 	@Override

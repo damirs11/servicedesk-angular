@@ -3,6 +3,7 @@ package ru.it.sd.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.ChangeDao;
 import ru.it.sd.dao.TemplateDao;
 import ru.it.sd.exception.ServiceException;
@@ -59,7 +60,7 @@ public class ChangeService extends CrudService<Change> implements HasTemplateSer
 		FilterMap filterMap = new FilterMap();
 		filterMap.putAll(filter);
 		accessService.applyReadFilter(filterMap, Change.class);
-		return dao.list(filterMap);
+		return dao.list(filterMap, AbstractEntityDao.MapperMode.LIST);
 	}
 
 	@Override

@@ -1,11 +1,13 @@
 package ru.it.sd.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.WorkgroupMapper;
+import ru.it.sd.dao.mapper.EntityRowMapper;
+import ru.it.sd.dao.mapper.workgroup.WorkgroupListMapper;
+import ru.it.sd.dao.mapper.workgroup.WorkgroupMapper;
+import ru.it.sd.dao.mapper.workgroup.WorkgroupSimpleMapper;
 import ru.it.sd.model.Workgroup;
 
 import java.util.List;
@@ -18,8 +20,9 @@ import java.util.Objects;
 @Repository
 public class WorkgroupDao extends AbstractEntityDao<Workgroup> {
 
-	@Autowired
-	private WorkgroupMapper mapper;
+	private final WorkgroupMapper mapper;
+	private final WorkgroupListMapper workgroupListMapper;
+	private final WorkgroupSimpleMapper workgroupSimpleMapper;
 
 	/**
 	 * Общий запрос получения данных о группе
@@ -35,6 +38,12 @@ public class WorkgroupDao extends AbstractEntityDao<Workgroup> {
 		"FROM " +
 			"itsm_workgroups AS wg";
 
+	public WorkgroupDao(WorkgroupMapper mapper, WorkgroupListMapper workgroupListMapper, WorkgroupSimpleMapper workgroupSimpleMapper) {
+		this.mapper = mapper;
+		this.workgroupListMapper = workgroupListMapper;
+		this.workgroupSimpleMapper = workgroupSimpleMapper;
+	}
+
 	@Override
 	protected StringBuilder getBaseSql() {
 		return new StringBuilder(BASE_SQL);
@@ -43,6 +52,24 @@ public class WorkgroupDao extends AbstractEntityDao<Workgroup> {
 	@Override
 	protected List<Workgroup> executeQuery(String sql, SqlParameterSource params) {
 		return namedJdbc.query(sql, params, (RowMapper<Workgroup>) mapper);
+	}
+
+	@Override
+	protected List<Workgroup> executeQuery(String sql, SqlParameterSource params, MapperMode mode) {
+		EntityRowMapper<Workgroup> entityRowMapper;
+		switch (mode) {
+			case SIMPLEST:
+				entityRowMapper = workgroupSimpleMapper;
+				break;
+			case LIST:
+				entityRowMapper = workgroupListMapper;
+				break;
+			case FULL:
+			default:
+				entityRowMapper = mapper;
+				break;
+		}
+		return namedJdbc.query(sql, params, entityRowMapper.asRowMapper());
 	}
 
 	@Override

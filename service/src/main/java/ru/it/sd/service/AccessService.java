@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.AttributeAccessDao;
 import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.GrantDao;
@@ -75,7 +76,7 @@ public class AccessService {
     private List<Grant> getList(User user, EntityType entityType) {
         Map<String, String> userFilter = new HashMap<>();
         userFilter.put("accountId", String.valueOf(user.getId()));
-        List<Long> roles = roleDao.list(userFilter).stream().map(Role::getId).collect(Collectors.toList());
+        List<Long> roles = roleDao.list(userFilter, AbstractEntityDao.MapperMode.SIMPLEST).stream().map(Role::getId).collect(Collectors.toList());
         return getList().stream()
                 .filter(grant -> grant.getEntityType() == entityType && roles.contains(grant.getRole().getId()))
                 .collect(Collectors.toList());
@@ -168,12 +169,13 @@ public class AccessService {
         if(entity.getFolder() != null){
             Map<String, String> filter = new HashMap<>();
             filter.put("codeId", entity.getFolder().getId().toString());
-            parentFolders = codeDao.list(filter);
+            parentFolders = codeDao.list(filter, AbstractEntityDao.MapperMode.SIMPLEST);
         }
         //Результат проверки прав доступа атрибутов
         Map<String, AttributeGrantRule> attributeAccessMap = new HashMap<>();
         //Цикл по всем правам доступа к сущности(ena)
         for(Grant grant: grantList){
+            if (grant.getRead() == GrantRule.NONE) continue;
             //Если тип не определен, то пропускаем
             if (grant.getEntityType() == null || grant.getEntityType() != entityType) continue;
             //Необходимость проверки условий
@@ -287,13 +289,16 @@ public class AccessService {
         if (workgroups.isEmpty()) {
             Map<String, String> wgFilter = new HashMap<>();
             wgFilter.put("personId", person.getId().toString());
-            workgroups.addAll(workgroupDao.list(wgFilter));
+            workgroups.addAll(workgroupDao.list(wgFilter, AbstractEntityDao.MapperMode.SIMPLEST));
         }
         //todo оптимизировать
         for (Workgroup workgroup : workgroups) {
             Map<String, String> wgFilter = new HashMap<>();
             wgFilter.put("workgroupId", workgroup.getId().toString());
-            List<Long> ids = workgroupDao.list(wgFilter).stream().map(Workgroup::getId).collect(Collectors.toList());
+            List<Long> ids = workgroupDao.list(wgFilter, AbstractEntityDao.MapperMode.SIMPLEST)
+                    .stream()
+                    .map(Workgroup::getId)
+                    .collect(Collectors.toList());
             filterEntity.getWorkgroups().addAll(ids);
         }
     }
@@ -302,7 +307,7 @@ public class AccessService {
         Map<String, String> filter = new HashMap<>();
         filter.put("codeId", folder.toString());
         filter.put("child", null);
-        filterEntity.getFolders().addAll(codeDao.list(filter).stream().map(BaseCode::getId).collect(Collectors.toList()));
+        filterEntity.getFolders().addAll(codeDao.list(filter, AbstractEntityDao.MapperMode.SIMPLEST).stream().map(BaseCode::getId).collect(Collectors.toList()));
     }
 
     /**
@@ -432,7 +437,7 @@ public class AccessService {
     private Boolean isMember(Workgroup entityWorkgroup, Person executor){
         Map<String, String> filter = new HashMap<>();
         filter.put("personId", executor.getId().toString());
-        List<Workgroup> workgroups = workgroupDao.list(filter);
+        List<Workgroup> workgroups = workgroupDao.list(filter, AbstractEntityDao.MapperMode.SIMPLEST);
         for(Workgroup workgroup: workgroups){
             if(Objects.equals(workgroup.getId(), entityWorkgroup.getId())){
                 return true;

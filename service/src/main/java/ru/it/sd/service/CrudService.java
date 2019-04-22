@@ -1,7 +1,5 @@
 package ru.it.sd.service;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import ru.it.sd.model.HasId;
 
 import java.util.Set;
@@ -21,7 +19,7 @@ public abstract class CrudService<T extends HasId> extends ReadService<T> {
      * @param entity сущность
      * @return идентификатор созданной сущности
      */
-    @CachePut(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #entity.getId()")
+    //@CachePut(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #entity.getId()")
     public abstract T create(T entity);
 
     /**
@@ -29,7 +27,7 @@ public abstract class CrudService<T extends HasId> extends ReadService<T> {
      *
      * @param entity сущность
      */
-    @CachePut(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #entity.getId()")
+    //@CachePut(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #entity.getId()")
     public abstract T update(T entity);
 
     /**
@@ -37,7 +35,7 @@ public abstract class CrudService<T extends HasId> extends ReadService<T> {
      *
      * @param id        идентификатор сущности
      */
-    @CacheEvict(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #id")
+    //@CacheEvict(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #id")
     public abstract void delete(long id);
 
     /**
@@ -45,6 +43,6 @@ public abstract class CrudService<T extends HasId> extends ReadService<T> {
      *
      * @param entity сущность
      */
-    @CachePut(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #entity.getId()")
+    //@CachePut(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #entity.getId()")
     public abstract T patch(T entity, Set<String> fields);
 }

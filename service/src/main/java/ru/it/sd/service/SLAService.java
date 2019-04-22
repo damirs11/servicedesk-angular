@@ -2,6 +2,7 @@ package ru.it.sd.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.ServiceLevelAgreementDao;
 import ru.it.sd.model.ServiceLevelAgreement;
 
@@ -30,7 +31,7 @@ public class SLAService extends CrudService<ServiceLevelAgreement> {
 
     @Override
     public List<ServiceLevelAgreement> list(Map<String, String> filter) {
-        return serviceLevelAgreementDao.list(filter);
+        return serviceLevelAgreementDao.list(filter, AbstractEntityDao.MapperMode.LIST);
     }
 
     @Override

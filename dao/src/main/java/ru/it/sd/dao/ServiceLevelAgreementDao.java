@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.ServiceLevelAgreementMapper;
+import ru.it.sd.dao.mapper.EntityRowMapper;
+import ru.it.sd.dao.mapper.sla.ServiceLevelAgreementListMapper;
+import ru.it.sd.dao.mapper.sla.ServiceLevelAgreementMapper;
+import ru.it.sd.dao.mapper.sla.ServiceLevelAgreementSimpleMapper;
 import ru.it.sd.model.ServiceLevelAgreement;
 
 import java.util.List;
@@ -14,7 +17,8 @@ import java.util.Map;
 public class ServiceLevelAgreementDao extends AbstractEntityDao<ServiceLevelAgreement> {
 
     private final ServiceLevelAgreementMapper serviceLevelAgreementMapper;
-
+    private final ServiceLevelAgreementListMapper serviceLevelAgreementListMapper;
+    private final ServiceLevelAgreementSimpleMapper serviceLevelAgreementSimpleMapper;
     private static final String BASE_SQL =
             "SELECT \n" +
             "   DISTINCT(sla.sla_oid), " +
@@ -30,8 +34,10 @@ public class ServiceLevelAgreementDao extends AbstractEntityDao<ServiceLevelAgre
             "LEFT JOIN itsm_sc_rec_persons srp ON srp.srp_sla_oid = sla.sla_oid\n";
 
     @Autowired
-    public ServiceLevelAgreementDao(ServiceLevelAgreementMapper serviceLevelAgreementMapper) {
+    public ServiceLevelAgreementDao(ServiceLevelAgreementMapper serviceLevelAgreementMapper, ServiceLevelAgreementListMapper serviceLevelAgreementListMapper, ServiceLevelAgreementSimpleMapper serviceLevelAgreementSimpleMapper) {
         this.serviceLevelAgreementMapper = serviceLevelAgreementMapper;
+        this.serviceLevelAgreementListMapper = serviceLevelAgreementListMapper;
+        this.serviceLevelAgreementSimpleMapper = serviceLevelAgreementSimpleMapper;
     }
 
     @Override
@@ -42,6 +48,24 @@ public class ServiceLevelAgreementDao extends AbstractEntityDao<ServiceLevelAgre
     @Override
     protected List<ServiceLevelAgreement> executeQuery(String sql, SqlParameterSource params) {
         return namedJdbc.query(sql, params, serviceLevelAgreementMapper.asRowMapper());
+    }
+
+    @Override
+    protected List<ServiceLevelAgreement> executeQuery(String sql, SqlParameterSource params, MapperMode mode) {
+        EntityRowMapper<ServiceLevelAgreement> entityRowMapper;
+        switch (mode) {
+            case SIMPLEST:
+                entityRowMapper = serviceLevelAgreementSimpleMapper;
+                break;
+            case LIST:
+                entityRowMapper = serviceLevelAgreementListMapper;
+                break;
+            case FULL:
+            default:
+                entityRowMapper = serviceLevelAgreementMapper;
+                break;
+        }
+        return namedJdbc.query(sql, params, entityRowMapper.asRowMapper());
     }
 
     @Override

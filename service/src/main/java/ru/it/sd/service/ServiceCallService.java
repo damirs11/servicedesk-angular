@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.ServiceCallDao;
 import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.exception.ServiceException;
@@ -56,7 +57,7 @@ public class ServiceCallService extends CrudService<ServiceCall> implements HasT
 		FilterMap filterMap = new FilterMap();
 		filterMap.putAll(filter);
 		accessService.applyReadFilter(filterMap, ServiceCall.class);
-		return dao.list(filterMap);
+		return dao.list(filterMap, AbstractEntityDao.MapperMode.LIST);
 	}
 
 	@Override

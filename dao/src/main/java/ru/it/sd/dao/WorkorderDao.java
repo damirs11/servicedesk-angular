@@ -4,7 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.WorkorderMapper;
+import ru.it.sd.dao.mapper.EntityRowMapper;
+import ru.it.sd.dao.mapper.workorder.WorkorderListMapper;
+import ru.it.sd.dao.mapper.workorder.WorkorderMapper;
+import ru.it.sd.dao.mapper.workorder.WorkorderSimplestMapper;
 import ru.it.sd.dao.utils.AccessFilterEntity;
 import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.dao.utils.TemplateUtils;
@@ -27,6 +30,8 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> implements Templa
 
 	private WorkorderMapper mapper;
 	private TemplateValueDao templateValueDao;
+	private final WorkorderSimplestMapper workorderSimplestMapper;
+	private final WorkorderListMapper workorderListMapper;
 	/**
 	 * Общий запрос получения данных о наряде
 	 */
@@ -65,15 +70,13 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> implements Templa
 			"   itsm_workorders AS w " +
 			"   LEFT JOIN itsm_wor_information AS winfo ON winfo.woi_wor_oid = w.wor_oid\n" +
 			"   LEFT JOIN itsm_wor_custom_fields AS wcustom ON wcustom.wcf_wor_oid = w.wor_oid\n" +
-			"   LEFT JOIN itsm_wor_4k1 AS wor4k1 ON wor4k1.wo1_wor_oid = w.wor_oid\n" +
-			"   LEFT JOIN itsm_workgroups wg1 ON wg1.wog_oid = w.ass_workgroup\n" +
-			"   LEFT JOIN itsm_workgroups wg2 ON wg2.wog_oid = wg1.wog_parent\n" +
-			"   LEFT JOIN itsm_workgroups wg3 ON wg3.wog_oid = wg2.wog_parent\n" +
-			"   LEFT JOIN itsm_workgroups wg4 ON wg4.wog_oid = wg3.wog_parent\n"; // смотрим четыре уровня групп
+			"   LEFT JOIN itsm_wor_4k1 AS wor4k1 ON wor4k1.wo1_wor_oid = w.wor_oid\n";
 
-	public WorkorderDao(WorkorderMapper mapper, TemplateValueDao templateValueDao) {
+	public WorkorderDao(WorkorderMapper mapper, TemplateValueDao templateValueDao, WorkorderSimplestMapper workorderSimplestMapper, WorkorderListMapper workorderListMapper) {
 		this.mapper = mapper;
 		this.templateValueDao = templateValueDao;
+		this.workorderSimplestMapper = workorderSimplestMapper;
+		this.workorderListMapper = workorderListMapper;
 	}
 
 	@Override
@@ -84,6 +87,24 @@ public class WorkorderDao extends AbstractEntityDao<Workorder> implements Templa
 	@Override
 	protected List<Workorder> executeQuery(String sql, SqlParameterSource params) {
 		return namedJdbc.query(sql, params, mapper.asRowMapper());
+	}
+
+	@Override
+	protected List<Workorder> executeQuery(String sql, SqlParameterSource params, MapperMode mode) {
+		EntityRowMapper<Workorder> entityRowMapper;
+		switch (mode) {
+			case SIMPLEST:
+				entityRowMapper = workorderSimplestMapper;
+				break;
+			case LIST:
+				entityRowMapper = workorderListMapper;
+				break;
+			case FULL:
+			default:
+				entityRowMapper = mapper;
+				break;
+		}
+		return namedJdbc.query(sql, params, entityRowMapper.asRowsExtractor());
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package ru.it.sd.service;
 
+import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.PersonDao;
 import ru.it.sd.model.Person;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class PersonService extends ReadService<Person> {
 
 	@Override
 	public List<Person> list(Map<String, String> filter) {
-		return dao.list(filter);
+		return dao.list(filter, AbstractEntityDao.MapperMode.LIST);
 	}
 
 	@Override

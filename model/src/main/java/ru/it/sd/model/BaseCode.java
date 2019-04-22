@@ -19,6 +19,14 @@ import java.io.Serializable;
 public class BaseCode implements Code, Serializable {
 
 	private static final long serialVersionUID = -5516364159201226727L;
+
+	public BaseCode() {
+	}
+
+	public BaseCode(Long id) {
+		this.id = id;
+	}
+
 	/**
 	 * Идентификатор
 	 */

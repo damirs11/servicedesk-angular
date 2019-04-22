@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.WorkgroupDao;
 import ru.it.sd.model.Workgroup;
 
@@ -26,7 +27,7 @@ public class WorkgroupService extends ReadService<Workgroup> {
 
 	@Override
 	public Workgroup read(long id) {
-		return dao.read(id);
+		return dao.read(id, AbstractEntityDao.MapperMode.LIST);
 	}
 
 	@Override

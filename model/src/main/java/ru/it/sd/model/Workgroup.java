@@ -15,6 +15,13 @@ public class Workgroup implements HasId, HasStatus, HasFolder, Serializable {
 
     private static final long serialVersionUID = -1010139758781532358L;
 
+    public Workgroup() {
+    }
+
+    public Workgroup(Long id) {
+        this.id = id;
+    }
+
     @FieldMeta(columnName = "wog_oid", key = true)
     private Long id;
 
@@ -32,6 +39,7 @@ public class Workgroup implements HasId, HasStatus, HasFolder, Serializable {
 
     @FieldMeta(columnName = "wog_poo_oid")
     private Folder folder;
+
     @Override
     public EntityStatus getStatus() {
         return status;

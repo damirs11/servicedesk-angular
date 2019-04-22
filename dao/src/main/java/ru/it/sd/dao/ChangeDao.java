@@ -4,7 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.ChangeExtractor;
+import ru.it.sd.dao.mapper.change.ChangeListMapper;
+import ru.it.sd.dao.mapper.change.ChangeMapper;
+import ru.it.sd.dao.mapper.change.ChangeSimpleMapper;
+import ru.it.sd.dao.mapper.EntityRowMapper;
 import ru.it.sd.dao.utils.AccessFilterEntity;
 import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.dao.utils.TemplateUtils;
@@ -28,9 +31,10 @@ import java.util.Objects;
 @Repository
 public class ChangeDao extends AbstractEntityDao<Change> implements Templated<Change>{
 
-	private ChangeExtractor extractor;
+	private ChangeMapper mapper;
 	private final TemplateValueDao templateValueDao;
-
+	private final ChangeListMapper changeListMapper;
+	private final ChangeSimpleMapper changeSimpleMapper;
 	private static final String BASE_SQL =
 			" SELECT\n" +
 			"   ch.cha_oid, " +
@@ -69,9 +73,11 @@ public class ChangeDao extends AbstractEntityDao<Change> implements Templated<Ch
 			"   LEFT JOIN itsm_cha_information ci ON ci.chi_cha_oid = ch.cha_oid\n" +
 			"   LEFT JOIN itsm_cha_custom_fields ccu ON ccu.ccu_cha_oid = ch.cha_oid\n";
 
-	public ChangeDao(ChangeExtractor extractor, TemplateValueDao templateValueDao) {
-		this.extractor = extractor;
+	public ChangeDao(ChangeMapper mapper, TemplateValueDao templateValueDao, ChangeListMapper changeListMapper, ChangeSimpleMapper changeSimpleMapper) {
+		this.mapper = mapper;
 		this.templateValueDao = templateValueDao;
+		this.changeListMapper = changeListMapper;
+		this.changeSimpleMapper = changeSimpleMapper;
 	}
 
 	@Override
@@ -81,7 +87,25 @@ public class ChangeDao extends AbstractEntityDao<Change> implements Templated<Ch
 
 	@Override
 	protected List<Change> executeQuery(String sql, SqlParameterSource params) {
-		return namedJdbc.query(sql, params, extractor);
+		return namedJdbc.query(sql, params, mapper.asRowMapper());
+	}
+
+	@Override
+	protected List<Change> executeQuery(String sql, SqlParameterSource params, MapperMode mode) {
+		EntityRowMapper<Change> entityRowMapper;
+		switch (mode) {
+			case SIMPLEST:
+				entityRowMapper = changeSimpleMapper;
+				break;
+			case LIST:
+				entityRowMapper = changeListMapper;
+				break;
+			case FULL:
+			default:
+				entityRowMapper = mapper;
+				break;
+		}
+		return namedJdbc.query(sql, params, entityRowMapper.asRowMapper());
 	}
 
 	@Override
@@ -166,7 +190,7 @@ public class ChangeDao extends AbstractEntityDao<Change> implements Templated<Ch
 		List<TemplateValue> templateValues = templateValueDao.list(filter);
 		try {
 			ResultSet resultSet = TemplateUtils.getResultSet(templateValues, template.getEntityType());
-			List<Change> changes = extractor.extractData(resultSet);
+			List<Change> changes = mapper.extractData(resultSet);
 			return changes != null ? changes.get(0) : null;
 		} catch (SQLException e) {
 			throw new IllegalArgumentException("Incorrect template :" + template, e);

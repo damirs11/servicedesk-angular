@@ -1,6 +1,9 @@
 package ru.it.sd.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.TemplateDao;
 import ru.it.sd.dao.WorkorderDao;
 import ru.it.sd.dao.utils.FilterMap;
@@ -21,6 +24,8 @@ import java.util.Set;
  */
 @Service
 public class WorkorderService extends CrudService<Workorder> implements HasTemplateService<Workorder> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WorkorderService.class);
 
     private WorkorderDao dao;
     private IWorkorderDao hpDao;
@@ -49,10 +54,11 @@ public class WorkorderService extends CrudService<Workorder> implements HasTempl
     @Override
     public List<Workorder> list(Map<String, String> filter) {
         securityService.addCurrentUserToFilter(filter);
-		FilterMap filterMap = new FilterMap();
-		filterMap.putAll(filter);
-		accessService.applyReadFilter(filterMap, Workorder.class);
-        return dao.list(filterMap);
+        FilterMap filterMap = new FilterMap();
+        filterMap.putAll(filter);
+        accessService.applyReadFilter(filterMap, Workorder.class);
+        List<Workorder> list = dao.list(filterMap, AbstractEntityDao.MapperMode.LIST);
+        return list;
     }
 
     @Override

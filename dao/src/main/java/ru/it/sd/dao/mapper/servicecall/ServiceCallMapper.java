@@ -1,4 +1,4 @@
-package ru.it.sd.dao.mapper;
+package ru.it.sd.dao.mapper.servicecall;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,6 +9,8 @@ import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.ServiceDao;
 import ru.it.sd.dao.ServiceLevelAgreementDao;
 import ru.it.sd.dao.TemplateDao;
+import ru.it.sd.dao.mapper.EntityRowMapper;
+import ru.it.sd.dao.mapper.assignment.AssignmentMapper;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.Assignment;
 import ru.it.sd.model.BaseCode;
@@ -43,8 +45,16 @@ public class ServiceCallMapper extends EntityRowMapper<ServiceCall> {
     private final ConfigurationItemDao configurationItemDao;
     private final ServiceLevelAgreementDao serviceLevelAgreementDao;
     private final ServiceDao serviceDao;
+
     @Autowired
-    public ServiceCallMapper(AssignmentMapper assignmentMapper, CodeDao codeDao, TemplateDao templateDao, PersonDao personDao, OrganizationDao organizationDao, ConfigurationItemDao configurationItemDao, ServiceLevelAgreementDao serviceLevelAgreementDao, ServiceDao serviceDao) {
+    public ServiceCallMapper(AssignmentMapper assignmentMapper,
+                             CodeDao codeDao,
+                             TemplateDao templateDao,
+                             PersonDao personDao,
+                             OrganizationDao organizationDao,
+                             ConfigurationItemDao configurationItemDao,
+                             ServiceLevelAgreementDao serviceLevelAgreementDao,
+                             ServiceDao serviceDao) {
         this.assignmentMapper = assignmentMapper;
         this.codeDao = codeDao;
         this.templateDao = templateDao;
@@ -62,67 +72,67 @@ public class ServiceCallMapper extends EntityRowMapper<ServiceCall> {
         serviceCall.setAssignment(assignment);
 
         Long folderId = DBUtils.getLong(rs, "ser_poo_oid");
-        if(folderId != null){
+        if (folderId != null) {
             BaseCode code = codeDao.read(folderId);
             serviceCall.setFolder(code.convertTo(Folder.class));
         }
         Long statusId = DBUtils.getLong(rs, "ser_sta_oid");
-        if(statusId != null){
+        if (statusId != null) {
             BaseCode code = codeDao.read(statusId);
             serviceCall.setStatus(code.convertTo(EntityStatus.class));
         }
         Long categoryId = DBUtils.getLong(rs, "ser_cat_oid");
-        if(categoryId != null){
+        if (categoryId != null) {
             BaseCode code = codeDao.read(categoryId);
             serviceCall.setCategory(code.convertTo(EntityCategory.class));
         }
         Long classificationId = DBUtils.getLong(rs, "ser_cla_oid");
-        if(classificationId != null){
+        if (classificationId != null) {
             BaseCode code = codeDao.read(classificationId);
             serviceCall.setClassification(code.convertTo(EntityClassification.class));
         }
         Long closureCodeId = DBUtils.getLong(rs, "ser_clo_oid");
-        if(closureCodeId != null){
+        if (closureCodeId != null) {
             BaseCode code = codeDao.read(closureCodeId);
             serviceCall.setClosureCode(code.convertTo(EntityClosureCode.class));
         }
         Long templateId = DBUtils.getLong(rs, "ser_tem_oid");
-        if(templateId != null){
+        if (templateId != null) {
             Template template = templateDao.read(templateId);
             serviceCall.setTemplate(template);
         }
         Long initiatorId = DBUtils.getLong(rs, "ser_requestor_per_oid");
-        if(initiatorId != null){
+        if (initiatorId != null) {
             Person person = personDao.read(initiatorId);
             serviceCall.setInitiator(person);
         }
         Long callerId = DBUtils.getLong(rs, "ser_caller_per");
-        if(callerId != null){
+        if (callerId != null) {
             Person person = personDao.read(callerId);
             serviceCall.setCaller(person);
         }
         Long organizationId = DBUtils.getLong(rs, "ser_caller_org");
-        if(organizationId != null){
+        if (organizationId != null) {
             Organization organization = organizationDao.read(organizationId);
             serviceCall.setOrganization(organization);
         }
         Long configurationItemId = DBUtils.getLong(rs, "ser_cit_oid");
-        if(configurationItemId != null){
+        if (configurationItemId != null) {
             ConfigurationItem configurationItem = configurationItemDao.read(configurationItemId);
             serviceCall.setConfigurationItem(configurationItem);
         }
         Long priorityId = DBUtils.getLong(rs, "ser_imp_oid");
-        if(priorityId != null){
+        if (priorityId != null) {
             BaseCode code = codeDao.read(priorityId);
             serviceCall.setPriority(code.convertTo(EntityPriority.class));
         }
         Long executorHeadId = DBUtils.getLong(rs, "scf_per1_oid");
-        if(executorHeadId != null){
+        if (executorHeadId != null) {
             Person person = personDao.read(executorHeadId);
             serviceCall.setExecutorHead(person);
         }
         Long markId = DBUtils.getLong(rs, "scf_cod1_oid");
-        if(markId != null){
+        if (markId != null) {
             BaseCode code = codeDao.read(markId);
             serviceCall.setMark(code.convertTo(EntityCode1.class));
         }
