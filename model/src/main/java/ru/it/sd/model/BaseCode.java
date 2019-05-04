@@ -8,6 +8,7 @@ import ru.it.sd.util.AppToStringStyle;
 import ru.it.sd.util.ResourceMessages;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Базовый класс для кодов
@@ -42,6 +43,9 @@ public class BaseCode implements Code, Serializable {
     @FieldMeta(columnName = "ordering")
     private Integer order;
 
+    @FieldMeta(columnName = "parentCode")
+	private BaseCode parent;
+
 	@Override
 	public Long getId() {
 		return this.id;
@@ -66,26 +70,48 @@ public class BaseCode implements Code, Serializable {
     public Integer getOrder() {
         return order;
     }
+
 	@Override
 	public void setOrder(Integer order) {
 		this.order = order;
 	}
 
+	public BaseCode getParent() {
+		return parent;
+	}
 
-    @Override
+	public void setParent(BaseCode parent) {
+		this.parent = parent;
+	}
+
+	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, AppToStringStyle.getInstance());
 	}
 
-	public <T extends Code> T convertTo(Class<T> toClass){
+	public <T extends BaseCode> T convertTo(Class<T> toClass){
 		try {
 			T to = toClass.newInstance();
 			to.setId(id);
 			to.setName(name);
 			to.setOrder(order);
+			to.setParent(parent);
 			return to;
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new ServiceException(ResourceMessages.getMessage("error.instantiation", toClass.getName()));
 		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof BaseCode)) return false;
+		BaseCode baseCode = (BaseCode) o;
+		return Objects.equals(id, baseCode.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, order, parent);
 	}
 }

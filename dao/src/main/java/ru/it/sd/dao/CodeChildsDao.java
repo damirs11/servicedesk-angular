@@ -3,7 +3,7 @@ package ru.it.sd.dao;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.CodeMapper;
+import ru.it.sd.dao.mapper.code.CodeMapper;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.BaseCode;
@@ -16,6 +16,7 @@ import java.util.Map;
  * Интерфейс для поиска кодов.
  */
 @Repository
+@Deprecated
 public class CodeChildsDao extends AbstractEntityDao<BaseCode>{
 
 	private CodeMapper mapper;

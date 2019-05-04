@@ -3,7 +3,10 @@ package ru.it.sd.dao;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.CodeMapper;
+import ru.it.sd.dao.mapper.EntityRowMapper;
+import ru.it.sd.dao.mapper.code.CodeListMapper;
+import ru.it.sd.dao.mapper.code.CodeMapper;
+import ru.it.sd.dao.mapper.code.CodeSimpleMapper;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.BaseCode;
@@ -21,20 +24,25 @@ import static ru.it.sd.model.SortingInfo.SORTING_PARAM_NAME;
 public class CodeDao extends AbstractEntityDao<BaseCode>{
 
 	private CodeMapper mapper;
+	private final CodeSimpleMapper codeSimpleMapper;
+	private final CodeListMapper codeListMapper;
 	private DBUtils dbUtils;
 
-	public CodeDao(CodeMapper mapper, DBUtils dbUtils) {
+	public CodeDao(CodeMapper mapper, DBUtils dbUtils, CodeSimpleMapper codeSimpleMapper, CodeListMapper codeListMapper) {
 		this.mapper = mapper;
 		this.dbUtils = dbUtils;
+		this.codeSimpleMapper = codeSimpleMapper;
+		this.codeListMapper = codeListMapper;
 	}
 
 	String BASE_SQL =
-		"SELECT id, name, ordering FROM\n" +
+		"SELECT id, name, parentCode, ordering FROM\n" +
 		"(SELECT\n" +
 		"	cod.cod_oid id,\n" +
 		"	cdl.cdl_name name,\n" +
 		"	cod.cod_subtype subtype,\n" +
 		"	cod.cod_disabled disabled,\n" +
+		"	cod.cod_cod_oid parentCode,\n" +
 		"	cod.cod_ordering ordering\n" +
 		"FROM\n" +
 		"	itsm_codes cod\n" +
@@ -45,6 +53,7 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 		"	rct.rct_name name,\n" +
 		"	rcd.rcd_subtype subtype,\n" +
 		"	rcd.rcd_codedisabled disabled,\n" +
+		"	rcd.rcd_rcd_oid parentCode,\n" +
 		"	rcd.rcd_ordering ordering\n" +
 		"FROM\n" +
 		"	rep_codes rcd\n" +
@@ -59,6 +68,24 @@ public class CodeDao extends AbstractEntityDao<BaseCode>{
 	@Override
 	protected List<BaseCode> executeQuery(String sql, SqlParameterSource params) {
 		return namedJdbc.query(sql, params, mapper.asRowMapper());
+	}
+
+	@Override
+	protected List<BaseCode> executeQuery(String sql, SqlParameterSource params, MapperMode mode) {
+		EntityRowMapper<BaseCode> entityRowMapper;
+		switch (mode) {
+			case SIMPLEST:
+				entityRowMapper = codeSimpleMapper;
+				break;
+			case LIST:
+				entityRowMapper = codeListMapper;
+				break;
+			case FULL:
+			default:
+				entityRowMapper = mapper;
+				break;
+		}
+		return namedJdbc.query(sql, params, entityRowMapper.asRowMapper());
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 
+import java.util.Objects;
+
 /**
  * @author quadrix
  * @since 25.09.2017
@@ -62,5 +64,20 @@ public class Role implements Code, GrantedAuthority {
 	@Override
 	public String getAuthority() {
 		return "ROLE_" + name;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Role)) return false;
+		Role role = (Role) o;
+		return Objects.equals(id, role.id) &&
+				Objects.equals(name, role.name) &&
+				Objects.equals(editor, role.editor);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, editor);
 	}
 }

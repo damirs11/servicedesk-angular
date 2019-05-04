@@ -9,13 +9,20 @@ package ru.it.sd.model;
 public enum GrantRule implements HasId{
 
 	/** Действие запрещено (не указано) */
-	NONE,
+	NONE(-1),
 	/** Правило действует на все экземпляры сущности */
-	ALWAYS,
-	/** Правило действует только на экземпляры, где пользователь указан как исполнитель */
-	EXECUTOR,
+	ALWAYS(2),
 	/** Правило действует только на экземпляры, где указана группа пользователя в качестве исполнителя*/
-	WORKGROUP;
+	WORKGROUP(1),
+	/** Правило действует только на экземпляры, где пользователь указан как исполнитель */
+	EXECUTOR(0);
+
+	GrantRule() {
+	}
+
+	GrantRule(int order) {
+		this.order = order;
+	}
 
 	/**
 	 * Возвращает правило в зависимости от указанных параметров. В БД данные флаги
@@ -32,6 +39,11 @@ public enum GrantRule implements HasId{
 			return ALWAYS;
 		}
 		return NONE;
+	}
+	private int order = Integer.MIN_VALUE;
+
+	public int getOrder() {
+		return order;
 	}
 
 	@Override
