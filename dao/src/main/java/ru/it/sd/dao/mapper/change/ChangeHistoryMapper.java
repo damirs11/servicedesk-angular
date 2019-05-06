@@ -1,7 +1,8 @@
-package ru.it.sd.dao.mapper;
+package ru.it.sd.dao.mapper.change;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.it.sd.dao.mapper.EntityRowMapper;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.dao.UserDao;
 import ru.it.sd.model.*;

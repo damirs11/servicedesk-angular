@@ -1,4 +1,4 @@
-package ru.it.sd.dao.mapper;
+package ru.it.sd.dao.mapper.workorder;
 
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.ChangeDao;
@@ -7,6 +7,8 @@ import ru.it.sd.dao.OrganizationDao;
 import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.ProblemDao;
 import ru.it.sd.dao.ServiceCallDao;
+import ru.it.sd.dao.mapper.EntityRowMapper;
+import ru.it.sd.dao.mapper.assignment.AssignmentMapper;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.Assignment;
 import ru.it.sd.model.BaseCode;

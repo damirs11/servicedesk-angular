@@ -10,6 +10,13 @@ import ru.it.sd.meta.FieldMeta;
 @ClassMeta(tableName = "itsm_services", tableAlias = "srv")
 public class Service implements HasId, HasFolder {
 
+    public Service() {
+    }
+
+    public Service(Long id) {
+        this.id = id;
+    }
+
     @FieldMeta(columnName = "srv_oid", key = true)
     private Long id;
 

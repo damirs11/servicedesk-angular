@@ -5,10 +5,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.ChangeHistoryMapper;
-import ru.it.sd.dao.mapper.ProblemHistoryMapper;
+import ru.it.sd.dao.mapper.problem.ProblemHistoryMapper;
 import ru.it.sd.dao.utils.FilterUtils;
-import ru.it.sd.model.ChangeHistory;
 import ru.it.sd.model.ProblemHistory;
 
 import java.util.List;

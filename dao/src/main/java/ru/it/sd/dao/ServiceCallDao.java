@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.ServiceCallMapper;
+import ru.it.sd.dao.mapper.EntityRowMapper;
+import ru.it.sd.dao.mapper.servicecall.ServiceCallListMapper;
+import ru.it.sd.dao.mapper.servicecall.ServiceCallMapper;
+import ru.it.sd.dao.mapper.servicecall.ServiceCallSimpleMapper;
 import ru.it.sd.dao.utils.AccessFilterEntity;
 import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.model.ServiceCall;
@@ -16,6 +19,8 @@ import java.util.Map;
 public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
 
     private final ServiceCallMapper serviceCallMapper;
+    private final ServiceCallListMapper serviceCallListMapper;
+    private final ServiceCallSimpleMapper serviceCallSimpleMapper;
 
     private static final String BASE_SQL =
             "SELECT\n" +
@@ -69,8 +74,10 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
             "LEFT JOIN itsm_ser_4k1 se1 ON se1.se1_ser_oid = s.ser_oid ";
 
     @Autowired
-    public ServiceCallDao(ServiceCallMapper serviceCallMapper) {
+    public ServiceCallDao(ServiceCallMapper serviceCallMapper, ServiceCallListMapper serviceCallListMapper, ServiceCallSimpleMapper serviceCallSimpleMapper) {
         this.serviceCallMapper = serviceCallMapper;
+        this.serviceCallListMapper = serviceCallListMapper;
+        this.serviceCallSimpleMapper = serviceCallSimpleMapper;
     }
 
     @Override
@@ -81,6 +88,24 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
     @Override
     protected List<ServiceCall> executeQuery(String sql, SqlParameterSource params) {
         return namedJdbc.query(sql, params, serviceCallMapper.asRowMapper());
+    }
+
+    @Override
+    protected List<ServiceCall> executeQuery(String sql, SqlParameterSource params, MapperMode mode) {
+        EntityRowMapper<ServiceCall> entityRowMapper;
+        switch (mode) {
+            case SIMPLEST:
+                entityRowMapper = serviceCallSimpleMapper;
+                break;
+            case LIST:
+                entityRowMapper = serviceCallListMapper;
+                break;
+            case FULL:
+            default:
+                entityRowMapper = serviceCallMapper;
+                break;
+        }
+        return namedJdbc.query(sql, params, entityRowMapper.asRowsExtractor());
     }
 
     @Override

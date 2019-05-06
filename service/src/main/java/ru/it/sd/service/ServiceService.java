@@ -1,6 +1,7 @@
 package ru.it.sd.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.ServiceDao;
 import ru.it.sd.model.Service;
 
@@ -28,7 +29,7 @@ public class ServiceService extends CrudService<Service> {
 
     @Override
     public List<Service> list(Map<String, String> filter) {
-        return serviceDao.list(filter);
+        return serviceDao.list(filter, AbstractEntityDao.MapperMode.LIST);
     }
 
     @Override

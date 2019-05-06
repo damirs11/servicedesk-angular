@@ -2,7 +2,6 @@ package ru.it.sd.dao;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import ru.it.sd.dao.utils.DBUtils;
@@ -45,12 +44,26 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 	protected abstract StringBuilder getBaseSql();
 
 	/**
+	 * Режимы маппера
+	 */
+	public enum MapperMode {SIMPLEST, LIST, FULL}
+	/**
 	 * Возвращает список сущностей по фильтру
 	 *
 	 * @param filter условия отбора записей
 	 * @return список сущностей
 	 */
 	public List<EntityClass> list(Map<String, String> filter) {
+		return list(filter, MapperMode.FULL);
+	}
+	/**
+	 * Возвращает список сущностей по фильтру и режиму маппеиа
+	 *
+	 * @param filter условия отбора записей
+	 * @param mode режим маппера
+	 * @return список сущностей
+	 */
+	public List<EntityClass> list(Map<String, String> filter, MapperMode mode) {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		StringBuilder sql = getBaseSql();
 		if (filter != null) {
@@ -58,7 +71,7 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 			buildOrderBy(filter, sql, "SELECT ".length());
 			buildPaging(filter, sql, params);
 		}
-		return executeQuery(sql.toString(), params);
+		return executeQuery(sql.toString(), params, mode);
 	}
 
 	/**
@@ -105,8 +118,12 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 	 * @param id идентификатор сущности. Может быть null
 	 * @return сущность. Если идентификатор не задан, либо искомой сущности в бд нет, то вернется null
 	 */
-	@Cacheable(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #id")
+	//@Cacheable(cacheNames = "entity", key = "#root.targetClass.getSimpleName() + #id")
 	public EntityClass read(Long id) {
+		return read(id, MapperMode.FULL);
+	}
+
+	public EntityClass read(Long id, MapperMode mode) {
 		if (id == null) {
 			return null;
 		}
@@ -114,7 +131,7 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 		Map<String, String> filter = new HashMap<>();
 		filter.put("id", id.toString()); // Предполагаем, что ключевой столбец один
 		// Выполняем запрос в базу данных
-		List<EntityClass> list = list(filter);
+		List<EntityClass> list = list(filter, mode);
 		if (list.size() > 1) {
 			throw new IllegalArgumentException(ResourceMessages.getMessage("error.too.many.result"));
 		}
@@ -129,6 +146,18 @@ public abstract class AbstractEntityDao<EntityClass extends HasId> extends Abstr
 	 * @return список полученный из БД сущностей
 	 */
 	protected abstract List<EntityClass> executeQuery(String sql, SqlParameterSource params);
+
+	/**
+	 * Выполняет sql-запрос с параметрами в зависимости от режима.
+	 * Как обрабатывается режим определяется в конкретной реализации, по дефолоту выполняется {@link AbstractEntityDao#executeQuery(String, SqlParameterSource)}
+	 * @param sql екст sql-запроса
+	 * @param params значения параметров запроса
+	 * @param mode режим
+	 * @return список полученный из БД сущностей
+	 */
+	protected List<EntityClass> executeQuery(String sql, SqlParameterSource params, MapperMode mode) {
+		return executeQuery(sql, params);
+	}
 
 	protected void buildWhere(Map<String, String> filter, StringBuilder sql, MapSqlParameterSource params) {
 		filterUtils.createFilter(sql, params, filter, entityClass);

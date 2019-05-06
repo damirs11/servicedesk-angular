@@ -1,11 +1,17 @@
-package ru.it.sd.dao.mapper;
+package ru.it.sd.dao.mapper.assignment;
 
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.CodeDao;
 import ru.it.sd.dao.PersonDao;
 import ru.it.sd.dao.WorkgroupDao;
+import ru.it.sd.dao.mapper.EntityRowMapper;
 import ru.it.sd.dao.utils.DBUtils;
-import ru.it.sd.model.*;
+import ru.it.sd.model.Assignment;
+import ru.it.sd.model.BaseCode;
+import ru.it.sd.model.EntityPriority;
+import ru.it.sd.model.EntityStatus;
+import ru.it.sd.model.Person;
+import ru.it.sd.model.Workgroup;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

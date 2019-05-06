@@ -14,9 +14,14 @@ import java.io.Serializable;
  */
 @ClassMeta(tableName = "rep_templates", tableAlias = "tem")
 public class Template implements HasId,HasFolder, Serializable {
-
-
     private static final long serialVersionUID = -2169656457023869007L;
+
+    public Template() {
+    }
+
+    public Template(Long id) {
+        this.id = id;
+    }
 
     @FieldMeta(columnName = "tem_oid", key = true)
     private Long id;

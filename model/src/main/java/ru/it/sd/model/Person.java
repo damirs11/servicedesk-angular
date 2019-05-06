@@ -21,6 +21,13 @@ public class Person implements HasId, HasFolder, Serializable {
 	private static final long serialVersionUID = 6269144031555905094L;
 	private static final Logger LOG = LoggerFactory.getLogger(Person.class);
 
+	public Person() {
+	}
+
+	public Person(Long id) {
+		this.id = id;
+	}
+
 	/** Уникальный идентификатор */
 	@FieldMeta(columnName = "per_oid", key = true)
 	private Long id;

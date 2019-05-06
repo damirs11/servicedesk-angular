@@ -1,7 +1,9 @@
-package ru.it.sd.dao.mapper;
+package ru.it.sd.dao.mapper.person;
 
 import org.springframework.stereotype.Component;
 import ru.it.sd.dao.CodeDao;
+import ru.it.sd.dao.mapper.EntityRowMapper;
+import ru.it.sd.dao.mapper.OrganizationMapper;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.BaseCode;
 import ru.it.sd.model.Folder;

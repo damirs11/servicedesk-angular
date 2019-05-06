@@ -16,7 +16,7 @@ import java.util.List;
  * @since 10.10.2017
  */
 @ClassMeta(tableName = "rep_entity_access")
-public class Grant implements HasId, Serializable {
+public class Grant implements HasId, Serializable, Cloneable {
 
 
 	private static final long serialVersionUID = 5153521957582945220L;
@@ -36,16 +36,16 @@ public class Grant implements HasId, Serializable {
 
 	/** Создание нового */
 	@FieldMeta(columnName = "ena_new")
-	private GrantRule create;
+	private GrantRule create = GrantRule.NONE;
 	/** Просмотр */
 	@FieldMeta(columnName = "ena_view") //ena_viewasnuser, ena_viewasnwg
-	private GrantRule read;
+	private GrantRule read = GrantRule.NONE;
 	/** Редактирование */
 	@FieldMeta(columnName = "ena_modify") //ena_modifyasnuser, ena_modifyasnwg
-	private GrantRule update;
+	private GrantRule update = GrantRule.NONE;
 	/** Удаление */
 	@FieldMeta(columnName = "ena_delete")
-	private GrantRule delete;
+	private GrantRule delete = GrantRule.NONE;
 	/** Статус, начиная с которого можно редактировать экземпляр, но только, если
 	 * выставлено разрешение в поле {@link #update} */
 	@JsonIgnore
@@ -63,18 +63,27 @@ public class Grant implements HasId, Serializable {
 
 	/** Создание записи в истории */
 	@FieldMeta(columnName = "ena_historynew")
-	private GrantRule historyCreate;
+	private GrantRule historyCreate = GrantRule.NONE;
 	/** Просмотр истории */
 	@FieldMeta(columnName = "ena_historyview")
-	private GrantRule historyRead;
+	private GrantRule historyRead = GrantRule.NONE;
 	/** Редактирование истории */
 	@FieldMeta(columnName = "ena_historymodify") //ena_historymodifycreateduser, ena_historymodifycreatedwg
-	private GrantRule historyUpdate;
+	private GrantRule historyUpdate = GrantRule.NONE;
 	/** Удаление записи из истории */
 	@FieldMeta(columnName = "ena_historydelete") //ena_historydeletecreateduser, ena_historydeletecreatedwg
-	private GrantRule historyDelete;
+	private GrantRule historyDelete = GrantRule.NONE;
 
 	private List<AttributeAccess> attributeAccessList = new ArrayList<>();
+
+	@Override
+	public Grant clone() {
+		try {
+			return (Grant) super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new UnsupportedOperationException();
+		}
+	}
 
 	@Override
 	public Long getId() {

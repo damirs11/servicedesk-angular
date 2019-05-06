@@ -133,6 +133,13 @@ public class Change implements HasId, HasStatus, HasFolder, HasAssignment, Seria
     @FieldMeta(columnName = "cha_workaround", attribute = 724041771L)
     private String commentToInitiator;
 
+	public Change(Long id) {
+		this.id = id;
+	}
+
+	public Change() {
+	}
+
 	@Override
 	public Long getId() {
 		return id;

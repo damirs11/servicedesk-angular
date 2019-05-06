@@ -19,6 +19,13 @@ public class ConfigurationItem implements HasId, HasStatus, Serializable {
 
 	private static final long serialVersionUID = -2060076890778426823L;
 
+	public ConfigurationItem() {
+	}
+
+	public ConfigurationItem(Long id) {
+		this.id = id;
+	}
+
 	/** Уникальный идентификатор */
 	@FieldMeta(columnName = "cit_oid", key = true)
 	private Long id;

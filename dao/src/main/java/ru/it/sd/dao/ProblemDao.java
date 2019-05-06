@@ -4,7 +4,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import ru.it.sd.dao.mapper.ProblemMapper;
+import ru.it.sd.dao.mapper.EntityRowMapper;
+import ru.it.sd.dao.mapper.problem.ProblemListMapper;
+import ru.it.sd.dao.mapper.problem.ProblemMapper;
+import ru.it.sd.dao.mapper.problem.ProblemSimpleMapper;
 import ru.it.sd.dao.utils.AccessFilterEntity;
 import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.dao.utils.TemplateUtils;
@@ -30,6 +33,8 @@ public class ProblemDao extends AbstractEntityDao<Problem> implements Templated<
 
     private ProblemMapper mapper;
     private TemplateValueDao templateValueDao;
+    private final ProblemSimpleMapper problemSimpleMapper;
+    private final ProblemListMapper problemListMapper;
 
     private static final String BASE_SQL =
             "SELECT \n" +
@@ -72,9 +77,11 @@ public class ProblemDao extends AbstractEntityDao<Problem> implements Templated<
                     "LEFT JOIN itsm_pro_4k1 pr1 ON (pr1.pr1_pro_oid = pro.pro_oid) \n" +
                     "LEFT JOIN itsm_pro_solution prs ON (prs.prs_pro_oid = pro.pro_oid)";
 
-    public ProblemDao(ProblemMapper mapper, TemplateValueDao templateValueDao) {
+    public ProblemDao(ProblemMapper mapper, TemplateValueDao templateValueDao, ProblemSimpleMapper problemSimpleMapper, ProblemListMapper problemListMapper) {
         this.mapper = mapper;
         this.templateValueDao = templateValueDao;
+        this.problemSimpleMapper = problemSimpleMapper;
+        this.problemListMapper = problemListMapper;
     }
 
     @Override
@@ -85,6 +92,24 @@ public class ProblemDao extends AbstractEntityDao<Problem> implements Templated<
     @Override
     protected List<Problem> executeQuery(String sql, SqlParameterSource params) {
         return namedJdbc.query(sql, params, (RowMapper<Problem>) mapper);
+    }
+
+    @Override
+    protected List<Problem> executeQuery(String sql, SqlParameterSource params, MapperMode mode) {
+        EntityRowMapper<Problem> entityRowMapper;
+        switch (mode) {
+            case SIMPLEST:
+                entityRowMapper = problemSimpleMapper;
+                break;
+            case LIST:
+                entityRowMapper = problemListMapper;
+                break;
+            case FULL:
+            default:
+                entityRowMapper = mapper;
+                break;
+        }
+        return namedJdbc.query(sql, params, entityRowMapper.asRowMapper());
     }
 
     @Override

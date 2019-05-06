@@ -10,6 +10,13 @@ import java.util.Date;
 public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, Serializable {
     private static final long serialVersionUID = -4734718359033452525L;
 
+    public ServiceCall() {
+    }
+
+    public ServiceCall(Long id) {
+        this.id = id;
+    }
+
     /**
      * OID
      */
