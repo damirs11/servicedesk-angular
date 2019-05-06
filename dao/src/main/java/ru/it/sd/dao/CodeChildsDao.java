@@ -27,8 +27,6 @@ public class CodeChildsDao extends AbstractEntityDao<BaseCode>{
 		this.dbUtils = dbUtils;
 	}
 
-
-
 	String BASE_SQL =
 			"with %s folder(id) as(\n" +
 			"	SELECT rcd.rcd_rcd_oid FROM rep_codes rcd WHERE rcd.rcd_oid = :folderId\n" +
@@ -40,6 +38,7 @@ public class CodeChildsDao extends AbstractEntityDao<BaseCode>{
 					"rcd.rcd_oid id," +
 					"rct.rct_name name, " +
 					"rcd.rcd_subtype subtype, " +
+                    "rcd.rcd_rcd_oid parentCode, " +
 					"rcd.rcd_ordering ordering " +
 			"FROM rep_codes rcd\n" +
 			"LEFT JOIN rep_codes_text rct ON rct.rct_rcd_oid = rcd.rcd_oid\n" +

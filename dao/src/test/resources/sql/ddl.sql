@@ -169,6 +169,7 @@ CREATE TABLE itsm_cit_custom_fields (
 
 CREATE TABLE itsm_codes (
   cod_oid DECIMAL (18),
+  cod_cod_oid DECIMAL (18),
   cod_subtype DECIMAL(18),
   cod_ordering DECIMAL(9),
   cod_disabled DECIMAL(1) DEFAULT 0
