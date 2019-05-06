@@ -27,10 +27,10 @@ class SDDropdownComponentController{
                 firstFetchOnChange = false;
                 return;
             }
-            this.fetch(this.lastFetchRequest)
+            this.fetch(this.lastFetchRequest);
         });
         if (this.cache) this.fetch();
-        this.checkPassedFunctions()
+        this.checkPassedFunctions();
     }
 
     checkPassedFunctions() {
@@ -58,19 +58,19 @@ class SDDropdownComponentController{
     }
 
     get hasIcons(){
-        return this.iconClassFuncPassed
+        return this.iconClassFuncPassed;
     }
 
     getIconFor(value) {
-        return this.iconClass({$value:value})
+        return this.iconClass({$value:value});
     }
 
     get hasLinks() {
-        return this.linkFuncPassed
+        return this.linkFuncPassed;
     }
 
     getLinkFor(value) {
-        return this.link({$value: value})
+        return this.link({$value: value});
     }
 
     display(value){
@@ -84,26 +84,27 @@ class SDDropdownComponentController{
      */
     lastFetchRequest = null;
     /**
-     * Вывзвается из UI. Отделена от обычной функции fetch,
+     * Вызывается из UI. Отделена от обычной функции fetch,
      * т.к. есть некоторые условия, при которых fetch не вызывается
      * @param text - текстовый фильтр поиска
      */
     async fetchFromUI(text){
         if (this.cache && this.values) return;
         if (text.length < this.getMinSymbolsToFetch()) return;
-        if (this.isIgnoringSameText && this.lastFetchRequest == text) return;
-        this.fetch(text);
-        this.lastFetchRequest = text
+        if (this.isIgnoringSameText && this.lastFetchRequest === text) return;
+        this.fetch(text, true);
+        this.lastFetchRequest = text;
     }
 
     /**
      * Получает значения
      * @param text - текстовый фильтр для поиска
+     * @param fromUI - признак того, что функция вызывается из UI а не, например, по условию fetchOnChange
      */
-    async fetch(text) {
+    async fetch(text, fromUI) {
         this.values = null;
         try {
-            let array = await this.fetchData({$text:text});
+            let array = await this.fetchData({$text:text, $fromUI:fromUI});
             if (!array) array = [];
             array.splice(MAX_DISPLAY_VALUES,array.length);
             this.values = array;
@@ -129,8 +130,8 @@ class SDDropdownComponentController{
         return this.values.filter(val => {
             return val.toString()
                 .toLowerCase()
-                .indexOf(text.toLowerCase()) >= 0
-        })
+                .indexOf(text.toLowerCase()) >= 0;
+        });
     }
 
     /**
@@ -144,10 +145,10 @@ class SDDropdownComponentController{
             });
             if (validationError) {
                 this.validationError = validationError;
-                return
+                return;
             }
         }
-        this.target = $item
+        this.target = $item;
     }
 
     /**

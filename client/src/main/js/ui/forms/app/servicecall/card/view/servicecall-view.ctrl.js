@@ -94,6 +94,47 @@ class ServiceCallCardViewController{
         return this.serviceCall.checkModified() || this.serviceCall.assignment.checkModified();
     }
 
+    async loadOrganizations(text) {
+        if (text) {
+            const filter = {selectable:"1"};
+            filter.name_like = text;
+            return this.SD.Organization.list(filter);
+        }
+        const caller = this.serviceCall.caller;
+        if (!text && caller && caller.organization) { // если задан заявитель, то должна отображаться его организация
+            this.serviceCall.organization = caller.organization;
+            return [caller.organization];
+        }
+    }
+
+    async loadCallers(text) {
+        const filter = {selectable:"1"};
+        if (text) {
+            filter.name_like = text;
+        }
+        const organization = this.serviceCall.organization;
+        if (organization) {
+            if (!text) {
+                this.serviceCall.caller = null;
+            }
+            filter.organization = organization.id; // ищем только среди сотрудников организации
+        }
+        return this.SD.Person.list(filter);
+    }
+
+    async loadServices(text) {
+        const organization = this.serviceCall.organization;
+        if (organization) {
+            const filter = {selectable:"1"};
+            if (text) {
+                filter.name_like = text;
+            }
+            filter.organization = organization.id;
+            return this.SD.Service.list(filter);
+        }
+        return [];
+    }
+
     async loadInititators(text) {
         const filter = {selectable:"1"};
         if (text) filter.fullname_like = text;

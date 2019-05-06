@@ -10,7 +10,7 @@ function SLAProvider(SD, RESTEntity) {
      * @class
      * @name SD.SLA
      */
-    class SLA extends RESTEntity {
+    class ServiceLevelAgreement extends RESTEntity {
 
         /**
          * Сервис/услуга
@@ -74,7 +74,7 @@ function SLAProvider(SD, RESTEntity) {
         }
 
     }
-    return SLA;
+    return ServiceLevelAgreement;
 }
 
 export {SLAProvider};

@@ -131,7 +131,7 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible, Attach
          * @name SD.ServiceCall#organization
          * @type {SD.Organization}
          */
-        @Serialize(org => org.id) @Parse(data => SD.Organization.parse(data)) organization;
+        @Serialize(serializeId) @Parse(data => SD.Organization.parse(data)) organization;
 
         /**
          * SLA

@@ -67,6 +67,55 @@
         <form class="form-inline entity-properties">
 
             <div class="form-group e-prop" ng-class="{'e-prop-required':ctrl.editing}"
+                 ng-if="ctrl.accessRules.canSee('organization')">
+                <label>Организация:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.organization"
+                             fetch-data="ctrl.loadOrganizations($text)"
+                             placeholder="Введите название организации"
+                             display-value="$value.name"
+                             editing="ctrl.editing"
+                             fetch-on-change="ctrl.serviceCall.caller"
+                             disabled="!ctrl.accessRules.canUpdate('organization')"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop"
+                 ng-if="ctrl.accessRules.canSee('caller')">
+                <label>Заявитель:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.caller"
+                             fetch-data="ctrl.loadCallers($text)"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="ctrl.editing"
+                             allow-empty="true"
+                             fetch-on-change="ctrl.serviceCall.organization"
+                             disabled="!ctrl.accessRules.canUpdate('caller')"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop" ng-class="{'e-prop-required':ctrl.editing}"
+                 ng-if="ctrl.accessRules.canSee('service')">
+                <label>Услуга:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.service"
+                             fetch-data="ctrl.loadServices($text)"
+                             placeholder="Введите название услуги"
+                             display-value="$value.name"
+                             editing="ctrl.editing"
+                             allow-empty="true"
+                             fetch-on-change="ctrl.serviceCall.organization"
+                             disabled="!ctrl.accessRules.canUpdate('assignment')"
+                ></sd-dropdown>
+            </div>
+        </form>
+    </div>
+
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+
+            <div class="form-group e-prop" ng-class="{'e-prop-required':ctrl.editing}"
                  ng-if="ctrl.accessRules.canSee('initiator')">
                 <label>Инициатор:</label>
                 <sd-dropdown class="input-group e-prop__value"

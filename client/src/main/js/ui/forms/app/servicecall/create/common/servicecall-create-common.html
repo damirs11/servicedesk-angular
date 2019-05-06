@@ -31,6 +31,64 @@
         <form class="form-inline entity-properties">
 
             <div class="form-group e-prop e-prop-required">
+                <label>Организация:</label>
+                <sd-dropdown class="input-group e-prop__value e-prop-required"
+                             target="ctrl.serviceCall.organization"
+                             fetch-data="ctrl.loadOrganizations($text)"
+                             placeholder="Введите название организации"
+                             display-value="$value.name"
+                             editing="true"
+                             allow-empty="true"
+                             ignore-same-text="false"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Заявитель:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.caller"
+                             fetch-data="ctrl.loadCallers($text)"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="true"
+                             allow-empty="true"
+                             ignore-same-text="false"
+                             fetch-on-change="ctrl.serviceCall.organization"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Услуга:</label>
+                <sd-dropdown class="input-group e-prop__value e-prop-required"
+                             target="ctrl.serviceCall.service"
+                             fetch-data="ctrl.loadServices($text)"
+                             placeholder="Введите название услуги"
+                             display-value="$value.name"
+                             editing="true"
+                             allow-empty="true"
+                             fetch-on-change="ctrl.serviceCall.organization"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>SLA:</label>
+                <div class="entity-text__inline-field">
+                    <sd-text target="ctrl.serviceCall.slaName"
+                             editing="true"
+                             disabled="ctrl.isParentBusy"
+                    </sd-text>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+
+            <div class="form-group e-prop e-prop-required">
                 <label>Инициатор:</label>
                 <sd-dropdown class="input-group e-prop__value"
                              target="ctrl.serviceCall.initiator"
@@ -90,7 +148,7 @@
                 ></sd-dropdown>
             </div>
 
-            <div class="form-group e-prop e-prop-required">
+            <!--<div class="form-group e-prop">
                 <label>Крайний срок:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
@@ -100,7 +158,7 @@
                         editing="true"
                         disabled="ctrl.isParentBusy"
                 ></sd-datetime>
-            </div>
+            </div>-->
 
             <div class="form-group e-prop e-prop-required">
                 <label>Приоритет:</label>

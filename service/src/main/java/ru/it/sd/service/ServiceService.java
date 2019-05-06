@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Сервис\услуга
+ * РЎРµСЂРІРёСЃ\СѓСЃР»СѓРіР°
  */
 @org.springframework.stereotype.Service
 public class ServiceService extends CrudService<Service> {

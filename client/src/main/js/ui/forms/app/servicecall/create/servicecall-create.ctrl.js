@@ -20,8 +20,16 @@ class ServiceCallCreateController{
     ];
 
     requiredFields = [
-        "category","classification","deadline","subject","description",
-        "initiator","priority","assignment.workgroup","assignment.executor"
+        "category",
+        "classification",
+        "subject",
+        "description",
+        "organization",
+        "service",
+        "initiator",
+        "priority",
+        "assignment.workgroup",
+        "assignment.executor"
     ];
 
     async $onInit(){
