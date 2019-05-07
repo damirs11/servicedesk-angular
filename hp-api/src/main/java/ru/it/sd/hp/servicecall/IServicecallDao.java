@@ -188,10 +188,10 @@ public class IServicecallDao implements HpCrudDao<ServiceCall, IServicecall> {
             servicecall.setConfigurationItem(configurationItem);
         }
         if (fields.contains("subject")){
-            servicecall.setInformation(entity.getSubject());
+            servicecall.setDescription(entity.getSubject());
         }
         if (fields.contains("description")){
-            servicecall.setDescription(entity.getDescription());
+            servicecall.setInformation(entity.getDescription());
         }
         if (fields.contains("priority")){
             IImpact impact = iImpactDao.read(entity.getPriority().getId());
