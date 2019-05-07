@@ -53,7 +53,7 @@ public class StatusService extends ReadService<EntityStatus> {
 		}
 		List<BaseCode> codes = codeDao.list(filter);
 		List<EntityStatus> result = new ArrayList<>();
-		codes.forEach((code) ->
+		codes.forEach(code ->
 			result.add(code.convertTo(EntityStatus.class))
 		);
 		return result;

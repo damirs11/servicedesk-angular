@@ -108,7 +108,7 @@ public class IServicecallDao implements HpCrudDao<ServiceCall, IServicecall> {
         servicecall.setInformation(entity.getSubject());
         servicecall.setDescription(entity.getDescription());
         servicecall.setImpact(priority);
-        servicecall.setDeadline(DateUtils.toSDDate(entity.getDeadline()));
+        //servicecall.setDeadline(entity.getDeadline() != null ? DateUtils.toSDDate(entity.getDeadline()) : null);
         servicecall.getAssignment().setAssWorkgroup(workgroup);
         servicecall.getAssignment().setAssigneePerson(executor);
         servicecall.getAssignment().transfer();

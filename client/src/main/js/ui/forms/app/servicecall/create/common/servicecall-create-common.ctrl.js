@@ -1,4 +1,5 @@
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
+import {SERVICECALL_STATUSES} from "../../../../../../api/entity/util/status-list";
 
 const DEADLINE_OFFSET_MS = 1000*60*60; // 1 Hour
 
@@ -8,12 +9,14 @@ class ServiceCallCreateCommonController{
     @NGInject() serviceCall;
     @NGInject() SD;
     @NGInject() $scope;
+    @NGInject() Session;
 
     minDeadlineDate = new Date(Date.now() + DEADLINE_OFFSET_MS);
 
     $onInit() {
         this.serviceCall.slaName = null;
-        this.serviceCall.initiator = SD.user.person;
+        this.serviceCall.initiator = this.Session.user.person;
+        this.serviceCall.status = {id: SERVICECALL_STATUSES.REGISTERED};
         
         this.enableWatch = {}; // объект для хранения флагов игнорирования наблюдения за значениями
         this.$scope.$watch("ctrl.serviceCall.organization", () => {

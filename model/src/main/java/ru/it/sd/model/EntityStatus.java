@@ -34,7 +34,8 @@ public class EntityStatus extends BaseCode {
 			case PROBLEM:
 				return 717488236L;
 			case SERVICE:
-				return 281478201016461L;//todo check
+				//return 281478201016461L;//todo check
+				return 606535725L; // // rep
 			case SERVICE_LEVEL_AGREEMENT:
 				return 281478453133466L;//todo check
 			default:

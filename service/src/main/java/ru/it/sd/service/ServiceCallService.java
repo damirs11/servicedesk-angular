@@ -11,6 +11,7 @@ import ru.it.sd.exception.ServiceException;
 import ru.it.sd.hp.servicecall.IServicecallDao;
 import ru.it.sd.model.ServiceCall;
 import ru.it.sd.model.Template;
+import ru.it.sd.util.ResourceMessages;
 
 import java.util.List;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class ServiceCallService extends CrudService<ServiceCall> implements HasT
             long id = iServicecallDao.create(entity);
             return dao.read(id);
         } catch (Exception e){
-            throw new ServiceException("Возникли проблемы при создании заявки. " + e.getMessage(), e);
+            throw new ServiceException(ResourceMessages.getMessage("error.servicecall.create", e.getMessage()), e);
         }
 	}
 

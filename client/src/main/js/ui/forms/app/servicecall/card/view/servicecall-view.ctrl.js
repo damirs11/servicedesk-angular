@@ -160,23 +160,38 @@ class ServiceCallCardViewController{
     async loadStatuses(text) {
         const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
         if (text) filter.fulltext = text;
-        const status = this.serviceCall.status;
         //Выборка статусов
-        filter.id =
-            SERVICECALL_STATUSES.REGISTERED + ";" +
-            SERVICECALL_STATUSES.TO_ENGINEER + ";" +
-            SERVICECALL_STATUSES.EXECUTING + ";" +
-            SERVICECALL_STATUSES.RESOLVED + ";" +
-            SERVICECALL_STATUSES.CLOSED;
-
-        if(status.id === SERVICECALL_STATUSES.REGISTERED) filter.id = SERVICECALL_STATUSES.REGISTERED;
-        if(status.id === SERVICECALL_STATUSES.TO_ENGINEER) filter.id = SERVICECALL_STATUSES.TO_ENGINEER;
-        if(status.id === SERVICECALL_STATUSES.CLOSED) filter.id = SERVICECALL_STATUSES.CLOSED;
-        if(status.id === SERVICECALL_STATUSES.EXECUTING || status.id === SERVICECALL_STATUSES.RESOLVED){
-            filter.id =
-                SERVICECALL_STATUSES.RESOLVED + ";" +
-                SERVICECALL_STATUSES.CLOSED;
+        const status = this.serviceCall.status;
+        switch (status.id) {
+            case SERVICECALL_STATUSES.REGISTERED:
+                filter.id =
+                    SERVICECALL_STATUSES.REGISTERED + ';' +
+                    SERVICECALL_STATUSES.TO_ENGINEER;
+                break;
+            case SERVICECALL_STATUSES.TO_ENGINEER:
+                filter.id =
+                    SERVICECALL_STATUSES.TO_ENGINEER + ';' +
+                    SERVICECALL_STATUSES.CLOSED;
+                break;
+            case SERVICECALL_STATUSES.EXECUTING:
+                filter.id =
+                    SERVICECALL_STATUSES.PAUSED + ';' +
+                    SERVICECALL_STATUSES.EXECUTING + ';' +
+                    SERVICECALL_STATUSES.RESOLVED + ';' +
+                    SERVICECALL_STATUSES.CLOSED;
+                break;
+            case SERVICECALL_STATUSES.RESOLVED:
+                filter.id =
+                    SERVICECALL_STATUSES.TO_ENGINEER + ';' +
+                    SERVICECALL_STATUSES.CLOSED;
+                break;
+            case SERVICECALL_STATUSES.CLOSED:
+                filter.id =
+                    SERVICECALL_STATUSES.CLOSED;
+                break;
         }
+
+
         return this.SD.EntityStatus.list(filter);
     }
 
