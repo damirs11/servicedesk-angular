@@ -125,7 +125,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
      * Условия приоритета
      */
     @FieldMeta(columnName = "ser_pri_oid", attribute = 281478616973395L)//todo check
-    private Long priorityCondition;
+    private ServiceLevelPriority serviceLevelPriority;
     /**
      * Крайний срок
      */
@@ -379,12 +379,12 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
         this.priority = priority;
     }
 
-    public Long getPriorityCondition() {
-        return priorityCondition;
+    public ServiceLevelPriority getServiceLevelPriority() {
+        return serviceLevelPriority;
     }
 
-    public void setPriorityCondition(Long priorityCondition) {
-        this.priorityCondition = priorityCondition;
+    public void setServiceLevelPriority(ServiceLevelPriority serviceLevelPriority) {
+        this.serviceLevelPriority = serviceLevelPriority;
     }
 
     public Date getDeadline() {

@@ -3,12 +3,16 @@ package ru.it.sd.model;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 
+import java.io.Serializable;
+
 /**
  * Услуга
  * @author nsychev
  */
 @ClassMeta(tableName = "itsm_services", tableAlias = "srv")
-public class Service implements HasId, HasFolder {
+public class Service implements HasId, HasFolder, Serializable {
+
+    private static final long serialVersionUID = -2272801813169493242L;
 
     public Service() {
     }

@@ -3,6 +3,7 @@ package ru.it.sd.model;
 import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,9 @@ import java.util.Date;
  * @author nsychev
  */
 @ClassMeta(tableName = "itsm_service_level_agreements", tableAlias = "sla")
-public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus {
+public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus, Serializable {
+
+    private static final long serialVersionUID = 3931138494906330923L;
 
     public ServiceLevelAgreement() {
     }
@@ -31,11 +34,10 @@ public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus {
     /**
      * Условие предоставления
      */
-
+    @FieldMeta(columnName = "sla_sel_oid")
+    private ServiceLevel serviceLevel;
     @FieldMeta(columnName = "sla_status_cod_oid")
     private EntityStatus status;
-    @FieldMeta(columnName = "sla_sel_oid")
-    private Long agreementCondition;
 
     @FieldMeta(columnName = "sla_name")
     private String name;
@@ -48,7 +50,10 @@ public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus {
 
     @FieldMeta(columnName = "sla_actualfinish")
     private Date validTo;
-
+    @FieldMeta(columnName = "sla_per_oid")
+    private Person person;
+    @FieldMeta(columnName = "sla_wog_oid")
+    private Workgroup workgroup;
     @Override
     public Long getId() {
         return id;
@@ -85,14 +90,6 @@ public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus {
         this.service = service;
     }
 
-    public Long getAgreementCondition() {
-        return agreementCondition;
-    }
-
-    public void setAgreementCondition(Long agreementCondition) {
-        this.agreementCondition = agreementCondition;
-    }
-
     public Date getValidFrom() {
         return validFrom;
     }
@@ -117,5 +114,29 @@ public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus {
     @Override
     public void setStatus(EntityStatus status) {
         this.status = status;
+    }
+
+    public ServiceLevel getServiceLevel() {
+        return serviceLevel;
+    }
+
+    public void setServiceLevel(ServiceLevel serviceLevel) {
+        this.serviceLevel = serviceLevel;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public Workgroup getWorkgroup() {
+        return workgroup;
+    }
+
+    public void setWorkgroup(Workgroup workgroup) {
+        this.workgroup = workgroup;
     }
 }

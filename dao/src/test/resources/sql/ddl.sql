@@ -410,6 +410,8 @@ CREATE TABLE itsm_service_level_agreements (
   sla_oid DECIMAL(18),
   sla_srv_oid DECIMAL(18),
   sla_sel_oid DECIMAL(18),
+  sla_wog_oid DECIMAL(18),
+  sla_per_oid DECIMAL(18),
   sla_name VARCHAR(255),
   sla_pool_cod_oid DECIMAL(18),
   sla_pro_org_oid DECIMAL(18),
@@ -471,4 +473,19 @@ CREATE TABLE itsm_sc_rec_organizations (
 CREATE TABLE itsm_sc_rec_persons (
   srp_sla_oid DECIMAL(18),
   srp_per_oid DECIMAL(18)
+);
+
+CREATE TABLE itsm_service_level (
+  sel_oid DECIMAL(18),
+  sel_name VARCHAR(255),
+  sel_description VARCHAR(255),
+  sel_default DECIMAL(1, 0),
+  sel_blocked DECIMAL(1, 0)
+);
+
+CREATE TABLE itsm_priorityimpactsettings (
+  pis_oid DECIMAL(18),
+  pis_pri_oid DECIMAL(18),
+  pis_imp_oid DECIMAL(18),
+  pis_sel_oid DECIMAL(18)
 );

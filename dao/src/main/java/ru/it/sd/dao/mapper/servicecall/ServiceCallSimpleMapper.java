@@ -21,6 +21,7 @@ import ru.it.sd.model.Person;
 import ru.it.sd.model.Service;
 import ru.it.sd.model.ServiceCall;
 import ru.it.sd.model.ServiceLevelAgreement;
+import ru.it.sd.model.ServiceLevelPriority;
 import ru.it.sd.model.Source;
 import ru.it.sd.model.Template;
 
@@ -97,6 +98,11 @@ public class ServiceCallSimpleMapper extends EntityRowMapper<ServiceCall> {
         if (priorityId != null) {
             BaseCode code = new BaseCode(priorityId);
             serviceCall.setPriority(code.convertTo(EntityPriority.class));
+        }
+        Long serviceLevelPriority = DBUtils.getLong(rs, "ser_pri_oid");
+        if (serviceLevelPriority != null) {
+            BaseCode code = new BaseCode(serviceLevelPriority);
+            serviceCall.setServiceLevelPriority(code.convertTo(ServiceLevelPriority.class));
         }
         Long executorHeadId = DBUtils.getLong(rs, "scf_per1_oid");
         if (executorHeadId != null) {

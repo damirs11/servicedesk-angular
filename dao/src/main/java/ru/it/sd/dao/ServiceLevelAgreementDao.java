@@ -28,6 +28,8 @@ public class ServiceLevelAgreementDao extends AbstractEntityDao<ServiceLevelAgre
             "   sla.sla_actualfinish, " +
             "   sla.sla_status_cod_oid, " +
             "   sla.sla_sel_oid, " +
+            "   sla.sla_wog_oid, " +
+            "   sla.sla_per_oid, " +
             "   sla.sla_pool_cod_oid\n" +
             "FROM itsm_service_level_agreements sla\n" +
             "LEFT JOIN itsm_sc_rec_organizations sro ON sro.sro_sla_oid = sla.sla_oid\n" +
