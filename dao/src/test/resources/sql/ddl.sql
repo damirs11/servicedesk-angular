@@ -489,3 +489,10 @@ CREATE TABLE itsm_priorityimpactsettings (
   pis_imp_oid DECIMAL(18),
   pis_sel_oid DECIMAL(18)
 );
+
+CREATE TABLE itsm_prioritydurationsettings (
+  pds_oid DECIMAL(18),
+  pds_maximumduration FLOAT,
+  pds_priority DECIMAL(18),
+  pds_entity DECIMAL(18)
+);
