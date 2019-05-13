@@ -101,7 +101,7 @@ class ServiceCallCreateCommonController{
                 validFrom_before: now,
                 status: 281478725107716 // статус "В работе"
             };
-            filter.organization = organization.id;
+            filter.organizationId = organization.id;
             const caller = this.serviceCall.caller;
             if (caller) {
                 filter.personId = caller.id;
