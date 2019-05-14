@@ -13,6 +13,7 @@ import ru.it.sd.model.EntityType;
 import ru.it.sd.model.HasId;
 import ru.it.sd.model.Template;
 import ru.it.sd.service.History;
+import ru.it.sd.service.RequiredFieldService;
 import ru.it.sd.service.holder.CrudServiceHolder;
 import ru.it.sd.service.holder.HasTemplateServiceHolder;
 import ru.it.sd.service.holder.HistoryServiceHolder;
@@ -45,13 +46,15 @@ public class CommonRestController {
     private final CrudServiceHolder crudServiceHolder;
 	private final HistoryServiceHolder historyServiceHolder;
 	private final HasTemplateServiceHolder hasTemplateServiceHolder;
+	private final RequiredFieldService requiredFieldService;
 	@Autowired
-	public CommonRestController(ReadServiceHolder readServiceHolder, CrudServiceHolder crudServiceHolder, HistoryServiceHolder historyServiceHolder, HasTemplateServiceHolder hasTemplateServiceHolder) {
+	public CommonRestController(ReadServiceHolder readServiceHolder, CrudServiceHolder crudServiceHolder, HistoryServiceHolder historyServiceHolder, HasTemplateServiceHolder hasTemplateServiceHolder, RequiredFieldService requiredFieldService) {
 		this.readServiceHolder = readServiceHolder;
 		this.crudServiceHolder = crudServiceHolder;
 		this.historyServiceHolder = historyServiceHolder;
 		this.hasTemplateServiceHolder = hasTemplateServiceHolder;
-	}
+        this.requiredFieldService = requiredFieldService;
+    }
 
     /**
      * Получить информацию о сущности по её идентификатору
@@ -196,5 +199,19 @@ public class CommonRestController {
         template.setId(id);
         template.setEntityType(EntityType.getByClass(EntityUtils.getEntityClass(entity)));
         return hasTemplateServiceHolder.findFor(entity).getTemplate(template);
+    }
+
+    /**
+     * Получение обязательных полей
+     * @param entity тип сущности
+     * @param id идентификатор сущности
+     * @param statusId идентификатор статуса(необязательный параметр)
+     * @return список названий обязательных полей
+     */
+    @RequestMapping(value = "/{entity}/{id}/requiredFields", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getRequiredFields(@PathVariable String entity, @PathVariable long id, @RequestParam(name = "statusId", required = false) Long statusId) {
+        EntityType entityType = EntityType.getByClass(EntityUtils.getEntityClass(entity));
+        return requiredFieldService.getRequiredFields(id, entityType, statusId);
     }
 }

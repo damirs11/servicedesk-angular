@@ -496,3 +496,18 @@ CREATE TABLE itsm_prioritydurationsettings (
   pds_priority DECIMAL(18),
   pds_entity DECIMAL(18)
 );
+
+CREATE TABLE ifc_attributes (
+  atr_oid DECIMAL(18),
+  atr_alwaysrequired DECIMAL(1, 0)
+);
+CREATE TABLE rep_attr_prop_per_entity (
+  ape_atr_oid DECIMAL(18),
+  ape_ent_oid DECIMAL(18),
+  ape_required DECIMAL(1, 0)
+);
+CREATE TABLE rep_attr_per_status (
+  aps_oid DECIMAL(18),
+  aps_atr_oid DECIMAL(18),
+  aps_cod_oid DECIMAL(18)
+);
