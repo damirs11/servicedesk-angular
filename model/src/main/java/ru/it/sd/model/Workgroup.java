@@ -40,6 +40,12 @@ public class Workgroup implements HasId, HasStatus, HasFolder, Serializable {
     @FieldMeta(columnName = "wog_poo_oid")
     private Folder folder;
 
+    /**
+     * Ответственный по группе
+     */
+    @FieldMeta(columnName = "wgc_per1_oid", tableAlias = "wgc")
+    private Person groupManager;
+
     @Override
     public EntityStatus getStatus() {
         return status;
@@ -97,5 +103,13 @@ public class Workgroup implements HasId, HasStatus, HasFolder, Serializable {
     @Override
     public void setFolder(Folder folder) {
         this.folder = folder;
+    }
+
+    public Person getGroupManager() {
+        return groupManager;
+    }
+
+    public void setGroupManager(Person groupManager) {
+        this.groupManager = groupManager;
     }
 }

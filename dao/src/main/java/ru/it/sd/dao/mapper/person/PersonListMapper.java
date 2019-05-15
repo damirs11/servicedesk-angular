@@ -7,6 +7,7 @@ import ru.it.sd.dao.OrganizationDao;
 import ru.it.sd.dao.mapper.EntityRowMapper;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.BaseCode;
+import ru.it.sd.model.EntityCategory;
 import ru.it.sd.model.Folder;
 import ru.it.sd.model.Organization;
 import ru.it.sd.model.Person;
@@ -44,6 +45,11 @@ public class PersonListMapper extends EntityRowMapper<Person> {
 		if(folderId != null){
 			BaseCode code = codeDao.read(folderId, AbstractEntityDao.MapperMode.SIMPLEST);
 			person.setFolder(code.convertTo(Folder.class));
+		}
+		Long categoryId = DBUtils.getLong(rs, "per_cat_oid");
+		if(categoryId != null){
+			BaseCode code = codeDao.read(categoryId, AbstractEntityDao.MapperMode.SIMPLEST);
+			person.setCategory(code.convertTo(EntityCategory.class));
 		}
 		return person;
 	}

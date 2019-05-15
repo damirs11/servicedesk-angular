@@ -5,25 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.it.sd.dao.mapper.EntityRowMapper;
 import ru.it.sd.dao.mapper.assignment.AssignmentSimpleMapper;
 import ru.it.sd.dao.utils.DBUtils;
-import ru.it.sd.model.Assignment;
-import ru.it.sd.model.BaseCode;
-import ru.it.sd.model.ConfigurationItem;
-import ru.it.sd.model.EntityCategory;
-import ru.it.sd.model.EntityClassification;
-import ru.it.sd.model.EntityClosureCode;
-import ru.it.sd.model.EntityCode1;
-import ru.it.sd.model.EntityCode7;
-import ru.it.sd.model.EntityPriority;
-import ru.it.sd.model.EntityStatus;
-import ru.it.sd.model.Folder;
-import ru.it.sd.model.Organization;
-import ru.it.sd.model.Person;
-import ru.it.sd.model.Service;
-import ru.it.sd.model.ServiceCall;
-import ru.it.sd.model.ServiceLevelAgreement;
-import ru.it.sd.model.ServiceLevelPriority;
-import ru.it.sd.model.Source;
-import ru.it.sd.model.Template;
+import ru.it.sd.model.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -133,6 +115,26 @@ public class ServiceCallSimpleMapper extends EntityRowMapper<ServiceCall> {
         if (sourceId != null) {
             BaseCode code = new BaseCode(sourceId);
             serviceCall.setSource(code.convertTo(Source.class));
+        }
+        Long faqId = DBUtils.getLong(rs, "ser_faq_oid");
+        if (faqId != null) {
+            BaseCode code = new BaseCode(faqId);
+            serviceCall.setFaq(code.convertTo(FAQ.class));
+        }
+        Long functionalId = DBUtils.getLong(rs, "scf_cod2_oid");
+        if (functionalId != null) {
+            BaseCode code = new BaseCode(functionalId);
+            serviceCall.setFunctional(code.convertTo(Functional.class));
+        }
+        Long notificationId = DBUtils.getLong(rs, "scf_cod4_oid");
+        if (notificationId != null) {
+            BaseCode code = new BaseCode(notificationId);
+            serviceCall.setNotification(code.convertTo(Notification.class));
+        }
+        Long responsibilityAreaId = DBUtils.getLong(rs, "scf_cod5_oid");
+        if (responsibilityAreaId != null) {
+            BaseCode code = new BaseCode(responsibilityAreaId);
+            serviceCall.setResponsibilityArea(code.convertTo(ResponsibilityArea.class));
         }
         return serviceCall;
     }

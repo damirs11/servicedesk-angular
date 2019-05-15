@@ -24,6 +24,11 @@ public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus, Seria
 
     @FieldMeta(columnName = "sla_oid", key = true)
     private Long id;
+    /**
+     * Номер
+     */
+    @FieldMeta(columnName = "sla_id")
+    private Long no;
 
     /**
      * Сервис
@@ -54,6 +59,17 @@ public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus, Seria
     private Person person;
     @FieldMeta(columnName = "sla_wog_oid")
     private Workgroup workgroup;
+    /**
+     * Классификация заявок обязательна
+     */
+    @FieldMeta(columnName = "slc_boolean1", tableAlias = "slc")
+    private Boolean classificationRequired;
+    /**
+     * Трудозатраты обязательны
+     */
+    @FieldMeta(columnName = "slc_boolean2", tableAlias = "slc")
+    private Boolean laborCostsRequired;
+
     @Override
     public Long getId() {
         return id;
@@ -138,5 +154,29 @@ public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus, Seria
 
     public void setWorkgroup(Workgroup workgroup) {
         this.workgroup = workgroup;
+    }
+
+    public Boolean getClassificationRequired() {
+        return classificationRequired;
+    }
+
+    public void setClassificationRequired(Boolean classificationRequired) {
+        this.classificationRequired = classificationRequired;
+    }
+
+    public Boolean getLaborCostsRequired() {
+        return laborCostsRequired;
+    }
+
+    public void setLaborCostsRequired(Boolean laborCostsRequired) {
+        this.laborCostsRequired = laborCostsRequired;
+    }
+
+    public Long getNo() {
+        return no;
+    }
+
+    public void setNo(Long no) {
+        this.no = no;
     }
 }

@@ -25,6 +25,8 @@ public class EntityCategory extends BaseCode {
 				return 878116890L;
 			case CONFIGURATIONITEM:
                 return 801767456L;
+			case PERSON:
+				return 680722453L;
             case PROBLEM:
                 return 717488183L;
 			default:

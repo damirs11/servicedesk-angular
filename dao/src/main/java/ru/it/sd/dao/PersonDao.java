@@ -45,11 +45,12 @@ public class PersonDao extends AbstractEntityDao<Person> {
 			"	p.per_lastname, " +
 			"	p.per_middlename, " +
             "   p.per_name, " +
-            "	org_name1, " +
-            "	org_oid, " +
-            "	org_email, " +
-            "	org_poo_oid, " +
+            "	o.org_name1, " +
+            "	o.org_oid, " +
+            "	o.org_email, " +
+            "	o.org_poo_oid, " +
 			"	p.per_org_oid, " +
+			"	p.per_cat_oid, " +
 			"	p.per_poo_oid\n " +
 			"FROM\n" +
 			"itsm_persons p\n" +

@@ -58,6 +58,11 @@ public class Person implements HasId, HasFolder, Serializable {
 
 	@FieldMeta(columnName = "per_poo_oid")
 	private Folder folder;
+	/**
+	 * Категория
+	 */
+	@FieldMeta(columnName = "per_cat_oid")
+	private EntityCategory category;
 
 	@Override
 	public Long getId() {
@@ -133,7 +138,19 @@ public class Person implements HasId, HasFolder, Serializable {
         this.fullname = fullname;
     }
 
-    public String getShortName() {
+	public Boolean getSex() {
+		return sex;
+	}
+
+	public EntityCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(EntityCategory category) {
+		this.category = category;
+	}
+
+	public String getShortName() {
 		return (lastName != null ? lastName : "-") +
 				(firstName != null && firstName.length() > 1 ? " " + firstName.charAt(0) + '.' : "") +
 				(middleName != null && middleName.length() > 1 ? " " + middleName.charAt(0) + '.' : "");

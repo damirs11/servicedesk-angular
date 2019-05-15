@@ -9,7 +9,8 @@ CREATE TABLE itsm_persons (
   per_name VARCHAR(100),
   per_org_oid DECIMAL(18),
   per_acc_oid DECIMAL(18),
-  per_poo_oid DECIMAL(18)
+  per_poo_oid DECIMAL(18),
+  per_cat_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_organizations (
@@ -202,6 +203,11 @@ CREATE TABLE itsm_workgroups (
   wog_sta_oid DECIMAL (18),
   wog_parent DECIMAL (18),
   wog_poo_oid DECIMAL(18)
+);
+
+CREATE TABLE itsm_wog_custom_fields (
+  wgc_wog_oid DECIMAL(18),
+  wgc_per1_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_members (
@@ -398,7 +404,9 @@ CREATE TABLE itsm_servicecalls (
   ser_ass_per_to_oid DECIMAL(18),
   ser_ass_wog_oid DECIMAL(18),
   ser_cit_oid DECIMAL(18),
-  ser_med_oid DECIMAL(18)
+  ser_med_oid DECIMAL(18),
+  ser_faq_oid DECIMAL(18),
+  ser_frequentlyaskedquestion BOOLEAN
 );
 
 CREATE TABLE itsm_ser_solution (
@@ -408,6 +416,7 @@ CREATE TABLE itsm_ser_solution (
 
 CREATE TABLE itsm_service_level_agreements (
   sla_oid DECIMAL(18),
+  sla_id DECIMAL(18),
   sla_srv_oid DECIMAL(18),
   sla_sel_oid DECIMAL(18),
   sla_wog_oid DECIMAL(18),
@@ -419,6 +428,13 @@ CREATE TABLE itsm_service_level_agreements (
   sla_actualstart TIMESTAMP,
   sla_actualfinish TIMESTAMP
 );
+
+CREATE TABLE itsm_sla_custom_fields (
+  slc_sla_oid DECIMAL(18),
+  slc_boolean1 BOOLEAN,
+  slc_boolean2 BOOLEAN
+);
+
 CREATE TABLE itsm_services (
   srv_oid DECIMAL(18),
   srv_name VARCHAR(255),
@@ -437,14 +453,20 @@ CREATE TABLE itsm_ser_custom_fields (
   scf_boolean1 BOOLEAN,
   scf_sershorttext4 VARCHAR(255),
   scf_scdate1 TIMESTAMP,
+  scf_scdate5 TIMESTAMP,
   scf_sctext11 VARCHAR(255),
   scf_per1_oid DECIMAL(18),
   scf_boolean10 BOOLEAN,
   scf_boolean12 BOOLEAN,
+  scf_boolean15 BOOLEAN,
   scf_cod1_oid DECIMAL(18),
   scf_scdate8 TIMESTAMP,
   scf_sctext5 VARCHAR(255),
-  scf_cod7_oid DECIMAL(18)
+  scf_cod7_oid DECIMAL(18),
+  scf_cod2_oid DECIMAL(18),
+  scf_cod4_oid DECIMAL(18),
+  scf_cod5_oid DECIMAL(18),
+  scf_duration1 FLOAT
 );
 
 CREATE TABLE itsm_ser_workaround (
@@ -453,8 +475,12 @@ CREATE TABLE itsm_ser_workaround (
 );
 
 CREATE TABLE itsm_ser_4k1 (
-  se1_ser_oid DECIMAL(18),--todo fk
+  se1_ser_oid DECIMAL(18),
   se1_4k1 VARCHAR(4000)
+);
+CREATE TABLE itsm_ser_4k2 (
+  se2_ser_oid DECIMAL(18),
+  se2_4k2 VARCHAR(4000)
 );
 
 CREATE TABLE  itsm_historylines_servicecall (

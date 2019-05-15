@@ -43,8 +43,16 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     @FieldMeta(columnName = "ser_sta_oid", attribute = 662896684L)//281483984437250 status(ServiceCall today)
     private EntityStatus status;
 
+    /**
+     * Источник
+     */
     @FieldMeta(columnName = "ser_med_oid")
     private Source source;
+    /**
+     * Время e-mail
+     */
+    @FieldMeta(columnName = "scf_scdate5", tableAlias = "scf")
+    private Date emailDate;
 
     /**
      * Категория
@@ -177,6 +185,11 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     @FieldMeta(columnName = "scf_boolean12", tableAlias = "scf", attribute = 281478373900387L)
     private Boolean functionalEscalation;
     /**
+     * Нарушение регистрации
+     */
+    @FieldMeta(columnName = "scf_boolean15", tableAlias = "scf")
+    private Boolean registrationError;
+    /**
      * Оценка
      */
     @FieldMeta(columnName = "scf_cod1_oid", tableAlias = "scf", attribute = 281481727837053L)
@@ -191,14 +204,56 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
      */
     @FieldMeta(columnName = "se1_4k1", tableAlias = "se1", attribute = 281479977894237L)
     private String commentToExecutor;
-
+    /**
+     * Трудозатраты
+     * Продолжительность обрабатывается отдельно в маппере
+     * столбец scf_duration1
+     */
+    @FieldMeta(columnName = "")
+    private Long laborCosts;
+    /**
+     * Функционал
+     */
+    @FieldMeta(columnName = "scf_cod2_oid", tableAlias = "scf")
+    private Functional functional;
+    /**
+     * Дата возобновления
+     */
     @FieldMeta(columnName = "scf_scdate8", tableAlias = "scf")
     private Date renewalDate;
+    /**
+     * Комментарий по приостановке
+     */
     @FieldMeta(columnName = "scf_sctext5", tableAlias = "scf")
     private String renewalComment;
+    /**
+     * Причина приостановки
+     */
     @FieldMeta(columnName = "scf_cod7_oid", tableAlias = "scf", attribute = 281481741664815L)
     private EntityCode7 renewalReason;
+    /**
+     * Часто задаваемые вопросы
+     */
+    @FieldMeta(columnName = "ser_frequentlyaskedquestion")
+    private Boolean frequentlyAskedQuestion;
 
+    @FieldMeta(columnName = "ser_faq_oid")
+    private FAQ faq;
+    /**
+     * Меры по предотвращению
+     */
+    @FieldMeta(columnName = "se2_4k2", tableAlias = "se2")
+    private String preventionMeasures;
+    /**
+     * Уведомление
+     */
+    @FieldMeta(columnName = "scf_cod4_oid", tableAlias = "scf")
+    private Notification notification;
+    /**
+     * Зона ответственности
+     */
+    @FieldMeta(columnName = "scf_cod5_oid", tableAlias = "scf")
+    private ResponsibilityArea responsibilityArea;
     /**
      * Поля для получения доступа к вкладкам
      */
@@ -561,5 +616,77 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
 
     public void setSource(Source source) {
         this.source = source;
+    }
+
+    public Date getEmailDate() {
+        return emailDate;
+    }
+
+    public void setEmailDate(Date emailDate) {
+        this.emailDate = emailDate;
+    }
+
+    public Boolean getRegistrationError() {
+        return registrationError;
+    }
+
+    public void setRegistrationError(Boolean registrationError) {
+        this.registrationError = registrationError;
+    }
+
+    public Boolean getFrequentlyAskedQuestion() {
+        return frequentlyAskedQuestion;
+    }
+
+    public void setFrequentlyAskedQuestion(Boolean frequentlyAskedQuestion) {
+        this.frequentlyAskedQuestion = frequentlyAskedQuestion;
+    }
+
+    public Functional getFunctional() {
+        return functional;
+    }
+
+    public void setFunctional(Functional functional) {
+        this.functional = functional;
+    }
+
+    public FAQ getFaq() {
+        return faq;
+    }
+
+    public void setFaq(FAQ faq) {
+        this.faq = faq;
+    }
+
+    public Long getLaborCosts() {
+        return laborCosts;
+    }
+
+    public void setLaborCosts(Long laborCosts) {
+        this.laborCosts = laborCosts;
+    }
+
+    public String getPreventionMeasures() {
+        return preventionMeasures;
+    }
+
+    public void setPreventionMeasures(String preventionMeasures) {
+        this.preventionMeasures = preventionMeasures;
+    }
+
+    public Notification getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Notification notification) {
+        this.notification = notification;
+    }
+
+    public ResponsibilityArea getResponsibilityArea() {
+        return responsibilityArea;
+    }
+
+    public void setResponsibilityArea(ResponsibilityArea responsibilityArea) {
+        this.responsibilityArea = responsibilityArea;
     }
 }

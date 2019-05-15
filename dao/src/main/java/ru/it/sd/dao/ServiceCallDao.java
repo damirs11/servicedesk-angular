@@ -49,8 +49,10 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
             "    s.ser_actualfinish, " +
             "    s.ser_latefinish, " +
             "    scf.scf_boolean1, " +
+            "    scf.scf_boolean15, " +
             "    scf.scf_sershorttext4, " +
             "    scf.scf_scdate1, " +
+            "    scf.scf_scdate5, " +
             "    scf.scf_scdate8, " +
             "    scf.scf_sctext11, " +
             "    scf.scf_sctext5, " +
@@ -59,8 +61,15 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
             "    scf.scf_boolean12, " +
             "    scf.scf_cod1_oid, " +
             "    scf.scf_cod7_oid, " +
+            "    scf.scf_cod2_oid, " +
+            "    scf.scf_cod4_oid, " +
+            "    scf.scf_cod5_oid, " +
+            "    scf.scf_duration1, " +
             "    scw.scw_workaround, " +
             "    se1.se1_4k1, " +
+            "    se2.se2_4k2, " +
+            "    s.ser_frequentlyaskedquestion, " +
+            "    s.ser_faq_oid, " +
             "    s.ser_assignstatus ass_status, " +
             "    s.ser_assignpriority ass_priority, " +
             "    s.ser_ass_per_to_oid ass_person_to, " +
@@ -71,7 +80,8 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
             "LEFT JOIN itsm_ser_information sei ON sei.sei_ser_oid = s.ser_oid " +
             "LEFT JOIN itsm_ser_custom_fields scf ON scf.scf_ser_oid = s.ser_oid " +
             "LEFT JOIN itsm_ser_workaround scw ON scw.scw_ser_oid = s.ser_oid " +
-            "LEFT JOIN itsm_ser_4k1 se1 ON se1.se1_ser_oid = s.ser_oid ";
+            "LEFT JOIN itsm_ser_4k1 se1 ON se1.se1_ser_oid = s.ser_oid " +
+            "LEFT JOIN itsm_ser_4k2 se2 ON se2.se2_ser_oid = s.ser_oid ";
 
     @Autowired
     public ServiceCallDao(ServiceCallMapper serviceCallMapper, ServiceCallListMapper serviceCallListMapper, ServiceCallSimpleMapper serviceCallSimpleMapper) {

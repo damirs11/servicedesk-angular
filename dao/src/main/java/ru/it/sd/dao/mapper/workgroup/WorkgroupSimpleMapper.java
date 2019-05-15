@@ -6,6 +6,7 @@ import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.BaseCode;
 import ru.it.sd.model.EntityStatus;
 import ru.it.sd.model.Folder;
+import ru.it.sd.model.Person;
 import ru.it.sd.model.Workgroup;
 
 import java.sql.ResultSet;
@@ -37,6 +38,11 @@ public class WorkgroupSimpleMapper extends EntityRowMapper<Workgroup> {
         if (folderId != null) {
             BaseCode code = new BaseCode(folderId);
             workgroup.setFolder(code.convertTo(Folder.class));
+        }
+        Long groupManagerId = DBUtils.getLong(rs, "wgc_per1_oid");
+        if (groupManagerId != null) {
+            Person person = new Person(groupManagerId);
+            workgroup.setGroupManager(person);
         }
         return workgroup;
     }

@@ -34,9 +34,11 @@ public class WorkgroupDao extends AbstractEntityDao<Workgroup> {
 			"wg.wog_searchcode, " +
 			"wg.wog_sta_oid, " +
 			"wg.wog_parent, " +
-			"wg.wog_poo_oid " +
+			"wg.wog_poo_oid, " +
+			"wgc.wgc_per1_oid " +
 		"FROM " +
-			"itsm_workgroups AS wg";
+			"itsm_workgroups AS wg " +
+		"LEFT JOIN itsm_wog_custom_fields wgc ON wgc.wgc_wog_oid = wg.wog_oid\n";
 
 	public WorkgroupDao(WorkgroupMapper mapper, WorkgroupListMapper workgroupListMapper, WorkgroupSimpleMapper workgroupSimpleMapper) {
 		this.mapper = mapper;

@@ -23,6 +23,7 @@ public class ServiceLevelAgreementDao extends AbstractEntityDao<ServiceLevelAgre
             "SELECT \n" +
             "   DISTINCT(sla.sla_oid), " +
             "   sla.sla_name, " +
+            "   sla.sla_id, " +
             "   sla.sla_srv_oid, " +
             "   sla.sla_actualstart, " +
             "   sla.sla_actualfinish, " +
@@ -30,8 +31,11 @@ public class ServiceLevelAgreementDao extends AbstractEntityDao<ServiceLevelAgre
             "   sla.sla_sel_oid, " +
             "   sla.sla_wog_oid, " +
             "   sla.sla_per_oid, " +
+            "   slc.slc_boolean1, " +
+            "   slc.slc_boolean2, " +
             "   sla.sla_pool_cod_oid\n" +
             "FROM itsm_service_level_agreements sla\n" +
+            "LEFT JOIN itsm_sla_custom_fields slc ON slc.slc_sla_oid = sla.sla_oid\n" +
             "LEFT JOIN itsm_sc_rec_organizations sro ON sro.sro_sla_oid = sla.sla_oid\n" +
             "LEFT JOIN itsm_sc_rec_persons srp ON srp.srp_sla_oid = sla.sla_oid\n";
 

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.it.sd.dao.mapper.EntityRowMapper;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.BaseCode;
+import ru.it.sd.model.EntityCategory;
 import ru.it.sd.model.Folder;
 import ru.it.sd.model.Organization;
 import ru.it.sd.model.Person;
@@ -32,6 +33,11 @@ public class PersonSimpleMapper extends EntityRowMapper<Person> {
 		if(folderId != null){
 			BaseCode code = new BaseCode(folderId);
 			person.setFolder(code.convertTo(Folder.class));
+		}
+		Long categoryId = DBUtils.getLong(rs, "per_cat_oid");
+		if(categoryId != null){
+			BaseCode code = new BaseCode(categoryId);
+			person.setCategory(code.convertTo(EntityCategory.class));
 		}
 		return person;
 	}
