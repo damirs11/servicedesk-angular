@@ -14,7 +14,6 @@ EntityProvider.$inject = ["cache"];
 function EntityProvider(cache) {
     /**
      * Базовый класс для сущностей ServiceDesk
-     * Содержит служебную логику и методы load и list
      * @class
      * @name SD.Entity
      */
@@ -74,6 +73,17 @@ function EntityProvider(cache) {
          */
         constructor(tracker) {
             const trackerField = this.constructor.$tracker.ownField;
+            const data = Object.create(this.constructor.prototype);
+            Object.defineProperty(data, "$data", {value: data});
+            if (tracker) {
+                data[trackerField] = tracker;
+            }
+            return Object.create(data);
+        }
+
+        // старая версия с кэшем
+        /*constructor(tracker) {
+            const trackerField = this.constructor.$tracker.ownField;
             const entType = this.constructor.$entityType;
             if (tracker) {
                 if (!cache[entType]) cache[entType] = {};
@@ -88,7 +98,7 @@ function EntityProvider(cache) {
             const data = Object.create(this.constructor.prototype);
             Object.defineProperty(data, "$data", {value: data});
             return Object.create(data);
-        }
+        }*/
 
         /**
          * Обновить объект в кэше.
@@ -176,9 +186,9 @@ function EntityProvider(cache) {
                 let obj = json;
                 for (let i = 0 ; i < parts.length-1; i++) { // Создаем нужные объекты по цепочке
                     obj[parts[i]] = obj[parts[i]] || {};
-                    obj = obj[parts[i]]
+                    obj = obj[parts[i]];
                 }
-                obj[parts[parts.length-1]] = result // В финальный ключ заносим значение
+                obj[parts[parts.length-1]] = result; // В финальный ключ заносим значение
             }
             // Добавляем трекер в json.
             json[ this.constructor.$tracker.dataField ] = this[ this.constructor.$tracker.ownField ];
@@ -241,12 +251,12 @@ function EntityProvider(cache) {
                 const serializeKeys = Object.keys(this[SERIALIZE_MAP]);
                 for (let i = 0; i < keys.length; i++) {
                     let key = keys[i];
-                    let serializeKey = serializeKeys.find((k) => k == key);
+                    let serializeKey = serializeKeys.find(k => k == key);
                     if (serializeKey) return true;
                 }
                 return false;
             } else {
-                return Object.keys(this).indexOf(field) > 0
+                return Object.keys(this).indexOf(field) > 0;
             }
         }
 
@@ -264,10 +274,10 @@ function EntityProvider(cache) {
             }
             Object.keys(this).forEach(key => delete this[key]);
             this.$reseting = false;
-            return this
+            return this;
         }
 
-    }
+    };
 }
 
 export {EntityProvider, SERIALIZE_MODE_FULL, SERIALIZE_MODE_MODIFIED};

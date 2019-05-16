@@ -1,8 +1,7 @@
-
 RESTEntityProvider.$inject = ["Entity", "$connector"];
 function RESTEntityProvider(Entity, $connector) {
     /**
-     * редактируемая сущность.
+     * Содержит основные методы для чтения сущностей
      * @class
      * @classdesc Содержит служебную логику и методы load, list, etc.
      * @extends SD.Entity
