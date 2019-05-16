@@ -4,6 +4,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.AbstractEntityDao;
@@ -54,13 +55,15 @@ public class AccessService {
     private WorkgroupDao workgroupDao;
 
     private final RoleDao roleDao;
+    private final CacheManager cacheManager;
 
-    public AccessService(GrantDao grantDao, SecurityService securityService, WorkgroupDao workgroupDao, CodeDao codeDao, RoleDao roleDao) {
+    public AccessService(GrantDao grantDao, SecurityService securityService, WorkgroupDao workgroupDao, CodeDao codeDao, RoleDao roleDao, CacheManager cacheManager) {
         this.grantDao = grantDao;
         this.securityService = securityService;
         this.workgroupDao = workgroupDao;
         this.codeDao = codeDao;
         this.roleDao = roleDao;
+        this.cacheManager = cacheManager;
     }
 
     /**
@@ -69,8 +72,8 @@ public class AccessService {
      *
      * @return список всех грантов
      */
-    @Cacheable(cacheNames = "access")
-    public List<Grant> getList() {
+    @Cacheable(cacheNames = "access", sync = true)
+    public synchronized List<Grant> getList() {
         return grantDao.list(new HashMap<>());
     }
 

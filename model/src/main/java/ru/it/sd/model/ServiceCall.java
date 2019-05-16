@@ -60,7 +60,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     @FieldMeta(columnName = "ser_cat_oid", attribute = 681902252L)
     private EntityCategory category;
     /**
-     * Классификатор
+     * Классификация
      */
     @FieldMeta(columnName = "ser_cla_oid", attribute = 1104216100L)
     private EntityClassification classification;

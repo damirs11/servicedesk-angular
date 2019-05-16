@@ -1,10 +1,13 @@
 package ru.it.sd.spring;
 
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -67,4 +70,9 @@ public class SpringServiceTestConfig extends GlobalMethodSecurityConfiguration {
 		return expressionHandler;
 	}
 
+	@Bean
+	@Primary
+	public CacheManager cacheManager() {
+		return Mockito.mock(CacheManager.class);
+	}
 }

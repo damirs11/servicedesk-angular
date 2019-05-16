@@ -9,7 +9,7 @@ import java.util.Set;
  *
  * @author user on 27.07.2017.
  */
-public interface HpCrudDao<T extends HasId, K> {
+public interface HpCrudDao<T extends HasId, K> extends HpReadDao<T, K> {
 
 	/**
 	 * Создает новый экземпляр hp-сущности.
@@ -18,14 +18,6 @@ public interface HpCrudDao<T extends HasId, K> {
 	 * @return идентификатор новой сущности
 	 */
 	long create(T entity);
-
-	/**
-	 * Получает hp-сущность по её идентификатору
-	 *
-	 * @param id идентификатор запрашиваемого объекта
-	 * @return hp-сущность
-	 */
-	K read(long id);
 
 	/**
 	 * Обновляет значения hp-сущности.

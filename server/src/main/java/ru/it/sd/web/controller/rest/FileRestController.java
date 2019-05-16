@@ -5,7 +5,6 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +14,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.FileInfo;
 import ru.it.sd.service.FileService;
+import ru.it.sd.service.SDConfig;
 import ru.it.sd.service.utils.FileUtils;
 import ru.it.sd.util.ResourceMessages;
 
@@ -37,27 +37,15 @@ public class FileRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(FileRestController.class);
 
-    @Value("${sd_ftp_server}")
-    private String server;
-
-    @Value("${sd_ftp_port}")
-    private String port;
-
-    @Value("${sd_ftp_login}")
-    private String login;
-
-    @Value("${sd_ftp_password}")
-    private String password;
-
-    @Value("${sd_ftp_homepath}")
-    private String homepath;
-
 	private final FileService fileService;
 
+	private final SDConfig config;
+
 	@Autowired
-	public FileRestController(FileService fileService) {
+	public FileRestController(FileService fileService, SDConfig config) {
 		this.fileService = fileService;
-	}
+        this.config = config;
+    }
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public FileInfo upload(@RequestParam("uploaded-file") MultipartFile file, HttpServletRequest request) {
@@ -77,11 +65,11 @@ public class FileRestController {
 
         FTPClient ftpClient = new FTPClient();
         try {
-            ftpClient.connect(server, Integer.valueOf(port));
-            ftpClient.login(login, password);
+            ftpClient.connect(config.getFtpServer(), Integer.valueOf(config.getFtpPort()));
+            ftpClient.login(config.getFtpLogin(), config.getFtpPassword());
             ftpClient.enterLocalPassiveMode();
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            String path = homepath +fileInfo.getEntityType().getAlias() +"/"+ FileUtils.getFTPPathFromOid(fileInfo.getId(), fileInfo.getEntityId());
+            String path = config.getFtpHomePath() +fileInfo.getEntityType().getAlias() +"/"+ FileUtils.getFTPPathFromOid(fileInfo.getId(), fileInfo.getEntityId());
             //Записываем файл в поток
             if(!ftpClient.retrieveFile( path, response.getOutputStream()))
                 throw new ServiceException("Файл не найден");

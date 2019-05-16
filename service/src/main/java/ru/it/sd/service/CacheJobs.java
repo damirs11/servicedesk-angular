@@ -15,8 +15,8 @@ public class CacheJobs {
     @Autowired
     private AccessService accessService;
 
-    @Scheduled(fixedDelay = 300000, initialDelay = 2000)
-    @CacheEvict(value = "access", beforeInvocation = true)
+    @Scheduled(fixedDelayString = "${sd.job.access.cache.update.delay:30000}", initialDelayString = "${sd.job.access.cache.update.initdelay:2000}")
+    @CacheEvict(cacheNames = "access", beforeInvocation = true)
     public void accessUpdating() {
         LOGGER.info("Updating access cache");
         accessService.getList();

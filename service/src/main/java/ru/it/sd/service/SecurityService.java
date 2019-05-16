@@ -31,12 +31,14 @@ public class SecurityService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SecurityService.class);
 
+	private final SDConfig config;
 	private Environment env;
 	private UserDao userDao;
 
-	public SecurityService(Environment env, UserDao userDao) {
+	public SecurityService(Environment env, UserDao userDao, SDConfig config) {
 		this.env = env;
 		this.userDao = userDao;
+		this.config = config;
 	}
 
 	/**
@@ -106,7 +108,7 @@ public class SecurityService {
 		SdClientBean sdClient;
 		try {
 			// Проверяем текущий пароль
-			sdClient = new SdClientBean(env.getProperty("sd_application_server"), login, oldPassword);
+			sdClient = new SdClientBean(config.getSdApplicationServer(), login, oldPassword);
 		} catch (Exception e) {
 			throw new ServiceException(ResourceMessages.getMessage("password.change.invalid.old.password"), e);
 		}
@@ -127,7 +129,7 @@ public class SecurityService {
 				throw new BadCredentialsException(getMessage("authentication.incorrect"));
 			}
 			// Подключение через API к серверу SD под указанной учетной записью - проверка пароля
-			SdClientBean sdClient = new SdClientBean(env.getProperty("sd_application_server"), login, password);
+			SdClientBean sdClient = new SdClientBean(config.getSdApplicationServer(), login, password);
 			User user = findUserByLogin(login);
 			LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
 			return new DynamicAuthentication(user, true, sdClient, getWebAccount());
@@ -142,9 +144,9 @@ public class SecurityService {
 	 * Возвращает пользователя по умолчанию для ограниченных учетных записей
 	 */
 	private SdClientBean getWebAccount() {
-		String server = env.getProperty("sd_application_server");
-		String login = env.getProperty("sd_dummy_login");
-		String password = env.getProperty("sd_dummy_password");
+		String server = config.getSdApplicationServer();
+		String login = config.getDummyLogin();
+		String password = config.getDummyPassword();
 		return new SdClientBean(server, login, password);
 	}
 

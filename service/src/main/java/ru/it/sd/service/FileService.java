@@ -7,7 +7,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.FileInfoDao;
@@ -36,22 +35,20 @@ public class FileService extends CrudService<FileInfo>{
 
 	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
 
-	@Value("${sd_upload_webserver_dir}")
-    private String webserverDir;
-    @Value("${sd_upload_appserver_dir}")
-    private String appserverDir;
-
 	private static String FILE_PREFIX = "sd-dth";
 	private static String FILE_SUFFIX = ".tmp";
 
 	private final SecurityService securityService;
     private FileInfoDao fileInfoDao;
     private IAttachedItemDao iAttachedItemDao;
+    private final SDConfig config;
+
 	@Autowired
-	public FileService(SecurityService securityService, FileInfoDao fileInfoDao, IAttachedItemDao iAttachedItemDao) {
+	public FileService(SecurityService securityService, FileInfoDao fileInfoDao, IAttachedItemDao iAttachedItemDao, SDConfig config) {
 	    this.securityService = securityService;
 	    this.fileInfoDao = fileInfoDao;
 	    this.iAttachedItemDao = iAttachedItemDao;
+		this.config = config;
 	}
 
 	/**
@@ -138,10 +135,10 @@ public class FileService extends CrudService<FileInfo>{
             String tmpFileName = FILE_PREFIX + entity.getFileId() + FILE_SUFFIX;
             String tmpPath = System.getProperty("java.io.tmpdir");
             if(!tmpPath.substring(tmpPath.length()-1).equals("\\")) tmpPath+= "\\";
-            FileUtils.copyFileToDirectory(new File(tmpPath + tmpFileName) ,new File(webserverDir));
-            entity.setPath(appserverDir + tmpFileName);
+            FileUtils.copyFileToDirectory(new File(tmpPath + tmpFileName) ,new File(config.getUploadWebServerDir()));
+            entity.setPath(config.getUploadAppServerDir() + tmpFileName);
             long id = iAttachedItemDao.create(entity);
-            FileUtils.forceDelete(new File(webserverDir + tmpFileName));
+            FileUtils.forceDelete(new File(config.getUploadWebServerDir() + tmpFileName));
             return fileInfoDao.read(id);
         } catch (Exception e){
             throw new ServiceException("Возникли проблемы при создании вложения. " + e.getMessage(), e);
