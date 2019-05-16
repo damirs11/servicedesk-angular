@@ -4,7 +4,7 @@ import ru.it.sd.meta.ClassMeta;
 import ru.it.sd.meta.FieldMeta;
 
 /**
- * Модельный класс для настроек условия приоритета по отношению к приоритету сущности
+ * РњРѕРґРµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ РґР»СЏ РЅР°СЃС‚СЂРѕРµРє СѓСЃР»РѕРІРёСЏ РїСЂРёРѕСЂРёС‚РµС‚Р° РїРѕ РѕС‚РЅРѕС€РµРЅРёСЋ Рє РїСЂРёРѕСЂРёС‚РµС‚Сѓ СЃСѓС‰РЅРѕСЃС‚Рё
  * @author nsychev
  */
 @ClassMeta(tableName = "itsm_priorityimpactsettings", tableAlias = "pis")

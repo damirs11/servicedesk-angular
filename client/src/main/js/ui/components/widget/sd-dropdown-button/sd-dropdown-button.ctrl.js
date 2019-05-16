@@ -47,7 +47,7 @@ class SDAvatarController {
     }
 
     /**
-     * Вывзвается из UI. Отделена от обычной функции fetch,
+     * Вызывается из UI. Отделена от обычной функции fetch,
      * т.к. есть некоторые условия, при которых fetch не вызывается
      * @param text - текстовый фильтр поиска
      */
@@ -94,7 +94,7 @@ class SDAvatarController {
             return val.toString()
                     .toLowerCase()
                     .indexOf(text.toLowerCase()) >= 0
-        })
+        });
     }
 
     /**
@@ -109,4 +109,4 @@ class SDAvatarController {
     }
 }
 
-export {SDAvatarController as controller}
+export {SDAvatarController as controller};

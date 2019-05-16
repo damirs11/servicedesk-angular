@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Модельный класс для "Условия предоставления"
+ * РњРѕРґРµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ РґР»СЏ "РЈСЃР»РѕРІРёСЏ РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРёСЏ"
  * @author nsychev
  */
 @ClassMeta(tableName = "itsm_service_level", tableAlias = "sel")
@@ -26,22 +26,22 @@ public class ServiceLevel implements HasId, Serializable {
     @FieldMeta(columnName = "sel_oid", key = true)
     private Long id;
     /**
-     * Имя
+     * РРјСЏ
      */
     @FieldMeta(columnName = "sel_name")
     private String name;
     /**
-     * Описание
+     * РћРїРёСЃР°РЅРёРµ
      */
     @FieldMeta(columnName = "sel_description")
     private String description;
     /**
-     * Является условием предоствления по умолчанию (может быть только один среди всех условий)
+     * РЇРІР»СЏРµС‚СЃСЏ СѓСЃР»РѕРІРёРµРј РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (РјРѕР¶РµС‚ Р±С‹С‚СЊ С‚РѕР»СЊРєРѕ РѕРґРёРЅ СЃСЂРµРґРё РІСЃРµС… СѓСЃР»РѕРІРёР№)
      */
     @FieldMeta(columnName = "sel_default")
     private Boolean defaultValue;
     /**
-     * Заблокирован
+     * Р—Р°Р±Р»РѕРєРёСЂРѕРІР°РЅ
      */
     @FieldMeta(columnName = "sel_blocked")
     private Boolean blocked;
