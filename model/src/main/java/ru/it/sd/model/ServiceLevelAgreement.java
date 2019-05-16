@@ -8,6 +8,7 @@ import java.util.Date;
 
 /**
  * Модель для SLA
+ *
  * @author nsychev
  */
 @ClassMeta(tableName = "itsm_service_level_agreements", tableAlias = "sla")
@@ -69,6 +70,9 @@ public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus, Seria
      */
     @FieldMeta(columnName = "slc_boolean2", tableAlias = "slc")
     private Boolean laborCostsRequired;
+
+    @FieldMeta(columnName = "slc_cod1_oid", tableAlias = "slc")
+    private DefaultPriority defaultPriority;
 
     @Override
     public Long getId() {
@@ -178,5 +182,13 @@ public class ServiceLevelAgreement implements HasId, HasFolder, HasStatus, Seria
 
     public void setNo(Long no) {
         this.no = no;
+    }
+
+    public DefaultPriority getDefaultPriority() {
+        return defaultPriority;
+    }
+
+    public void setDefaultPriority(DefaultPriority defaultPriority) {
+        this.defaultPriority = defaultPriority;
     }
 }

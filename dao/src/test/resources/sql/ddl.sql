@@ -432,7 +432,8 @@ CREATE TABLE itsm_service_level_agreements (
 CREATE TABLE itsm_sla_custom_fields (
   slc_sla_oid DECIMAL(18),
   slc_boolean1 BOOLEAN,
-  slc_boolean2 BOOLEAN
+  slc_boolean2 BOOLEAN,
+  slc_cod1_oid DECIMAL(18)
 );
 
 CREATE TABLE itsm_services (

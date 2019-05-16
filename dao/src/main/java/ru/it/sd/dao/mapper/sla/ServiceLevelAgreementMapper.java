@@ -10,6 +10,7 @@ import ru.it.sd.dao.WorkgroupDao;
 import ru.it.sd.dao.mapper.EntityRowMapper;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.BaseCode;
+import ru.it.sd.model.DefaultPriority;
 import ru.it.sd.model.EntityStatus;
 import ru.it.sd.model.Folder;
 import ru.it.sd.model.Person;
@@ -72,6 +73,11 @@ public class ServiceLevelAgreementMapper extends EntityRowMapper<ServiceLevelAgr
         if (workgroupId != null) {
             Workgroup workgroup = workgroupDao.read(workgroupId);
             serviceLevelAgreement.setWorkgroup(workgroup);
+        }
+        Long defaultPriorityId = DBUtils.getLong(rs, "slc_cod1_oid");
+        if (defaultPriorityId != null) {
+            BaseCode defaultPriority = codeDao.read(defaultPriorityId);
+            serviceLevelAgreement.setDefaultPriority(defaultPriority.convertTo(DefaultPriority.class));
         }
         return serviceLevelAgreement;
     }
