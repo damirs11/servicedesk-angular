@@ -19,7 +19,6 @@ class EntityCardHistoryController{
      */
     fetchPromise;
 
-
     async $onInit() {
         this.entity = this.getEntity();
         this.accessRules = this.entity.accessRules;
@@ -28,7 +27,6 @@ class EntityCardHistoryController{
         this.$scope.$on("grid:fetch",::this.$onTableFetch);
         grid.fetchData();
     }
-
 
     $onTableFetch(ignored,event) {
         if (this.fetchPromise != null) return;

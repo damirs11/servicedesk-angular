@@ -7,12 +7,12 @@
                 <a data-ui-sref="app.servicecall.list" style="margin-right: 10px">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 </a>
-                <span>Заявка №{{ctrl.serviceCall.no}}:
-                    <span style="font-weight: bold">{{ctrl.serviceCall.subject}}</span>
+                <span>Заявка №{{ctrl.entity.no}}:
+                    <span style="font-weight: bold">{{ctrl.entity.subject}}</span>
                 </span>
             </div>
             <div class="entity-container__header">
-                <sd-status-bar target="ctrl.serviceCall"
+                <sd-status-bar target="ctrl.entity"
                                status-list="ctrl.statusList"
                 ></sd-status-bar>
             </div>

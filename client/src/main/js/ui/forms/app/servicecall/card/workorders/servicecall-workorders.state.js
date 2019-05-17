@@ -1,7 +1,6 @@
 import template from "../../../entity-pages/card/workorders/entity-workorders.html";
 import {controller} from "../../../entity-pages/card/workorders/entity-workorders.ctrl";
 import {SDResolver} from "../../../sd.resolver";
-import {ServiceCallGetterResolver} from "../servicecall.resolver";
 
 const ServiceCallCardWorkordersState = {
     name: "app.servicecall.card.workorders",
@@ -17,7 +16,7 @@ const ServiceCallCardWorkordersState = {
     },
     resolve: {
         SD: SDResolver,
-        getEntity: ServiceCallGetterResolver,
+        getEntity: ['entity', (entity) => () => entity] // инъектим entity по имени и отдаем функцию, возвращающую entity
     }
 };
 

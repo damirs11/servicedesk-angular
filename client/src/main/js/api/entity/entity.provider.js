@@ -82,7 +82,7 @@ function EntityProvider(cache) {
         }
 
         // старая версия с кэшем
-        /*constructor(tracker) {
+        /*constructor2(tracker) {
             const trackerField = this.constructor.$tracker.ownField;
             const entType = this.constructor.$entityType;
             if (tracker) {

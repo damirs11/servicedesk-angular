@@ -1,7 +1,6 @@
 import template from "../../../entity-pages/card/attachments/entity-attachments.html";
 import {controller} from "../../../entity-pages/card/attachments/entity-attachments.ctrl";
 import {SDResolver} from "../../../sd.resolver";
-import {ServiceCallGetterResolver} from "../servicecall.resolver";
 
 const ServiceCallCardAttachmentsState = {
     name: "app.servicecall.card.attachments",
@@ -14,7 +13,7 @@ const ServiceCallCardAttachmentsState = {
     },
     resolve: {
         SD: SDResolver,
-        getEntity: ServiceCallGetterResolver
+        getEntity: ['entity', (entity) => () => entity]
     }
 };
 

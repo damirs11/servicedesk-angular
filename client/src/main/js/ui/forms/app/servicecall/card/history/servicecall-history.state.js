@@ -1,7 +1,6 @@
 import template from "../../../entity-pages/card/history/entity-history.html";
 import {controller} from "../../../entity-pages/card/history/entity-history.ctrl";
 import {SDResolver} from "../../../sd.resolver";
-import {ServiceCallGetterResolver} from "../servicecall.resolver";
 
 const ServiceCallCardHistoryState = {
     name: "app.servicecall.card.history",
@@ -14,7 +13,7 @@ const ServiceCallCardHistoryState = {
     },
     resolve: {
         SD: SDResolver,
-        getEntity: ServiceCallGetterResolver
+        getEntity: ['entity', (entity) => () => entity]
     }
 };
 

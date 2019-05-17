@@ -7,16 +7,12 @@ class ServiceCallCardViewController{
     // NG зависимости
     @NGInject() $scope;
     @NGInject() SD;
-    @NGInject() serviceCallId;
     @NGInject() ModalAction;
     @NGInject() $state;
     @NGInject() $transitions;
     @NGInject() $pageLock;
-    /**
-     * Дублирование serviceCall.entityAccess
-     * для краткости в html
-     */
-    entityAccess;
+    @NGInject() entity;
+
     /**
      * Заявка
      */
@@ -32,11 +28,12 @@ class ServiceCallCardViewController{
     ];
 
     async $onInit() {
+        console.debug('servicecall view init');
+
         this.msgTypes = SERVICECALL_MESSAGE_TYPES;
-        this.serviceCall = new this.SD.ServiceCall(this.serviceCallId);
+        this.serviceCall = this.entity;
         this.accessRules = this.serviceCall.accessRules;
         this.registerLeaveEditListener();
-
     }
 
     startEditing(){

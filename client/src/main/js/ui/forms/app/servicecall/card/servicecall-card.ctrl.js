@@ -2,8 +2,12 @@ import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject
 
 @NGInjectClass()
 class ServiceCallCardController {
+    
+    @NGInject() SD;
+    @NGInject() entity;
+
     /**
-     * Занят ли контроллер. Будет отображат анимацию загрузки
+     * Занят ли контроллер. Будет отображать анимацию загрузки
      * @type {string}
      */
     busy;
@@ -14,16 +18,6 @@ class ServiceCallCardController {
      */
     loadingError;
     /**
-     * Заявка
-     * @type {SD.ServiceCall}
-     */
-    serviceCall;
-    /**
-     * Права доступа;
-     * @type {SDAccessRules}
-     */
-    accessRules;
-    /**
      * Промис загрузки изменения
      */
     loadingPromise;
@@ -33,43 +27,18 @@ class ServiceCallCardController {
     headerTabs = [
         {name:'Просмотр',sref:'app.servicecall.card.view'},
         {name:'История',sref:'app.servicecall.card.history',
-            disabled:() => this.accessRules && !this.accessRules.isReadHistoryAllowed},
+            disabled:() => this.entity.accessRules && !this.entity.accessRules.isReadHistoryAllowed},
         {name:'Вложения',sref:'app.servicecall.card.attachments',
-            disabled:() => this.accessRules && !this.accessRules.isReadAttachmentsAllowed},
+            disabled:() => this.entity.accessRules && !this.entity.accessRules.isReadAttachmentsAllowed},
         {name:'Наряды',sref:'app.servicecall.card.workorders'}
     ];
 
-    @NGInject() SD;
-    @NGInject() serviceCallId;
-    @NGInject() Session;
-
     async $onInit(){
-        this.loadingPromise = this.loadData();
-        await this.loadingPromise;
-        this.accessRules = this.serviceCall.accessRules;
+        console.debug('servicecall card init');
+        await (this.loadingPromise = this.loadData());
     }
 
     async loadData(){
-        await this.$loadServiceCall();
-        await this.$loadAccess();
-        await this.$loadStatuses();
-    }
-
-    async $loadServiceCall(){
-        try {
-            this.busy = "loading";
-            this.serviceCall = await new this.SD.ServiceCall(this.serviceCallId).load();
-        } catch (error) {
-            this.loadingError = error || true;
-            throw error;
-        }
-    }
-
-    async $loadAccess() {
-        await this.serviceCall.updateAccessRules();
-    }
-
-    async $loadStatuses() {
         this.statusList = await this.SD.EntityStatus.list({entityTypeId: this.SD.ServiceCall.$entityTypeId});
     }
 
