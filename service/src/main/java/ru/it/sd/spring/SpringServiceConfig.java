@@ -64,7 +64,7 @@ public class SpringServiceConfig extends GlobalMethodSecurityConfiguration imple
      */
     @Bean(destroyMethod = "close")
     public DataSource dataSource() {
-        LOG.info("Connecting to database: " + config.getDbUrl());
+        LOG.info("Connecting to database: {}", config.getDbUrl());
         BoneCPDataSource ds = new BoneCPDataSource();
         ds.setDriverClass("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         ds.setJdbcUrl(config.getDbUrl());

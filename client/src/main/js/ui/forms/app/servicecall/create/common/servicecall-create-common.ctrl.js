@@ -1,7 +1,6 @@
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
 import {SERVICECALL_STATUSES} from "../../../../../../api/entity/util/status-list";
-
-const DEADLINE_OFFSET_MS = 1000*60*60; // 1 Hour
+import {EntityTypes} from "../../../../../../api/entity/util/entity-types";
 
 @NGInjectClass()
 class ServiceCallCreateCommonController{
@@ -11,21 +10,25 @@ class ServiceCallCreateCommonController{
     @NGInject() $scope;
     @NGInject() Session;
 
-    minDeadlineDate = new Date(Date.now() + DEADLINE_OFFSET_MS);
-
     $onInit() {
-        this.serviceCall.slaName = null;
-        this.serviceCall.initiator = this.Session.user.person;
+        this.serviceCall.initiator = this.Session.user.person; // todo проверить категорию и только тогда выставить
         this.serviceCall.status = {id: SERVICECALL_STATUSES.REGISTERED};
-        
+        this.serviceCall.serviceLevel = {};
+        this.serviceCall.deadline = new Date();
+        this.initOnChangeHandlers();
+    }
+
+    /**
+     * Устанавливает обработики на изменение значений в полях
+     */
+    initOnChangeHandlers() {
         this.enableWatch = {}; // объект для хранения флагов игнорирования наблюдения за значениями
         this.$scope.$watch("ctrl.serviceCall.organization", () => {
             if (this.enableWatch.organization) {
                 console.debug('organization was changed');
-                this.enableWatch.caller = false;
-                this.serviceCall.caller = null;
-                this.checkOrgPersonService();
-
+                this.enableWatch.caller = this.enableWatch.service = false;
+                this.serviceCall.caller = null; // удаляем заявителя
+                this.checkOrgPersonService(); // проверяем значение в поле Сервис
             }
             this.enableWatch.organization = true;
         });
@@ -38,18 +41,26 @@ class ServiceCallCreateCommonController{
                     this.enableWatch.organization = false;
                     this.serviceCall.organization = caller.organization;
                 }
-                this.checkOrgPersonService();
+                this.checkOrgPersonService(); // проверяем значение в поле Сервис
             }
             this.enableWatch.caller = true;
         });
 
-        this.$scope.$watch("ctrl.serviceCall.service", () => {
+        this.$scope.$watch("ctrl.serviceCall.service", async () => {
             if (this.enableWatch.service) {
                 console.debug('service was changed');
-                const service = this.serviceCall.service;
-                this.serviceCall.slaName = service && service.sla ? service.sla.name : null; // обновляем наименование SLA
+                // todo определить приоритет по умолчанию
+                this.refreshDeadline();
             }
             this.enableWatch.service = true;
+        });
+
+        this.$scope.$watch("ctrl.serviceCall.priority", async () => {
+            if (this.enableWatch.priority) {
+                console.debug('priority was changed');
+                this.refreshDeadline();
+            }
+            this.enableWatch.priority = true;
         });
     }
 
@@ -74,7 +85,11 @@ class ServiceCallCreateCommonController{
         if (organization) {
             filter.organization = organization.id;
         }
-        return this.SD.Person.list(filter);
+        const callers = await this.SD.Person.list(filter);
+        callers.sort((a, b) => {
+            return(a && b && a.fullName && a.fullName.localeCompare(b.fullName));
+        });
+        return callers;
     }
 
     async loadServices(text) {
@@ -88,6 +103,8 @@ class ServiceCallCreateCommonController{
                 return service;
             }).filter((service, index, services) => {
                 return services.indexOf(service) === index; // фильтруем уникальные
+            }).sort((a, b) => {
+                return(a && b && a.name && a.name.localeCompare(b.name));
             });
         }
     }
@@ -110,9 +127,11 @@ class ServiceCallCreateCommonController{
         }
     }
 
+    /**
+     * Удаляем сервис, если он не соответствует новому значению организации. Иначе выбранный сервис остается.
+     */
     async checkOrgPersonService() {
-        const organization = this.serviceCall.organization;
-        if (!organization) {
+        if (!this.serviceCall.organization || !this.serviceCall.service) {
             this.serviceCall.service = null;
         } else {
             const services = await this.loadServices();
@@ -121,6 +140,39 @@ class ServiceCallCreateCommonController{
             }
         }
     }
+
+    /**
+     * Обновляет крайний срок в зависимости от приоритета и SLA
+     */
+    async refreshDeadline() {
+        const service = this.serviceCall.service;
+        const priority = this.serviceCall.priority;
+        if (service && priority && service.sla && service.sla.serviceLevel) {
+            this.serviceCall.serviceLevel = await new this.SD.ServiceLevel(service.sla.serviceLevel.id).load(); // todo нужно ли еще фильтровать по blocked = false?
+            const impactSetting = this.serviceCall.serviceLevel.impactSettingList.find((element, index, array) => {
+                return element.priority.id === priority.id;
+            });
+            if (impactSetting) {
+                const entityId = EntityTypes.ServiceCall;
+                this.serviceCall.serviceLevelPriority = impactSetting.serviceLevelPriority;
+                const durations = await this.SD.ServiceLevelPriorityDuration.list({
+                    entityId,
+                    serviceLevelPriority: impactSetting.serviceLevelPriority.id
+                });
+                if (Array.isArray(durations) && durations.length > 0) {
+                    const serviceLevelPriorityDuration = durations[0];
+                    const deadline = new Date(new Date().getTime() + serviceLevelPriorityDuration.maximumDuration);
+                    console.log("new deadline is " + deadline);
+                    this.serviceCall.deadline = deadline;
+                    return;
+                }
+            }
+        }
+        this.serviceCall.serviceLevel = null;
+        this.serviceCall.serviceLevelPriority = null;
+        this.serviceCall.deadline = null;
+    }
+
 
     async loadInititators(text) {
         const filter = {paging:"1;20"};

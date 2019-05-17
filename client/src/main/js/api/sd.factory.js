@@ -10,6 +10,9 @@ import {ChangeProvider} from "./entity/change.provider";
 import {ServiceCallProvider} from "./entity/servicecall.provider";
 import {ServiceProvider} from "./entity/service.provider";
 import {SLAProvider} from "./entity/sla.provider";
+import {ServiceLevelProvider} from "./entity/service-level.provider";
+import {ServiceLevelPriorityProvider} from "./entity/service-level-priority.provider";
+import {ServiceLevelPriorityDurationProvider} from "./entity/service-level-priority-duration.provider";
 import {PriorityProvider} from "./entity/entity-priority.provider";
 import {EditableEntityProvider} from "./entity/editable-entity.provider";
 import {WorkgroupProvider} from "./entity/workgroup.provider";
@@ -34,6 +37,7 @@ import {EntityCode7Provider} from "./entity/entity-code7.provider";
 import {FolderProvider} from "./entity/folder.provider";
 import {ProblemProvider} from "./entity/problem.provider";
 import {TemplateProvider} from "./entity/template.provider";
+import {ImpactSettingsProvider} from "./entity/impact-settings.provider.js";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -81,6 +85,10 @@ const SDConstructor = function SD($injector,cache) {
     this.ServiceCall = $injector.instantiate(ServiceCallProvider,locals);
     this.Service = $injector.instantiate(ServiceProvider,locals);
     this.ServiceLevelAgreement = $injector.instantiate(SLAProvider,locals);
+    this.ServiceLevel = $injector.instantiate(ServiceLevelProvider,locals);
+    this.ServiceLevelPriority = $injector.instantiate(ServiceLevelPriorityProvider,locals);
+    this.ServiceLevelPriorityDuration = $injector.instantiate(ServiceLevelPriorityDurationProvider,locals);
+    this.ImpactSettings = $injector.instantiate(ImpactSettingsProvider,locals);
     this.Workorder = $injector.instantiate(WorkorderProvider,locals);
     this.Workgroup = $injector.instantiate(WorkgroupProvider,locals);
     this.HistoryLine = $injector.instantiate(HistoryLineProvider,locals);

@@ -270,14 +270,13 @@
         <form class="form-inline entity-properties">
 
             <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('planStart')">
-                <label>План. Начала:</label>
+                <label>План. Начало:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
                         target="ctrl.change.planStart"
                         allow-empty="true"
                         editing="ctrl.editing"
                         disabled="!ctrl.accessRules.canUpdate('planStart')"
-                        allow-empty="true"
                 ></sd-datetime>
             </div>
 
@@ -289,7 +288,6 @@
                         allow-empty="true"
                         editing="ctrl.editing"
                         disabled="!ctrl.accessRules.canUpdate('planFinish')"
-                        allow-empty="true"
                 ></sd-datetime>
             </div>
 
@@ -302,7 +300,6 @@
                         allow-empty="true"
                         editing="ctrl.editing"
                         disabled="!ctrl.accessRules.canUpdate('planDuration')"
-                        allow-empty="true"
                 ></sd-number>
             </div>
 

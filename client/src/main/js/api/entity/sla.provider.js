@@ -8,14 +8,14 @@ function SLAProvider(SD, RESTEntity) {
     /**
      * SLA (условие предоставления услуги)
      * @class
-     * @name SD.SLA
+     * @name SD.ServiceLevelAgreement
      */
     class ServiceLevelAgreement extends RESTEntity {
 
         /**
          * Сервис/услуга
          * @property
-         * @name SD.SLA#service
+         * @name SD.ServiceLevelAgreement#service
          * @type {SD.Service}
          */
         @Serialize(Nullable(serializeId)) @Parse(data => SD.Service.parse(data)) service;
@@ -23,24 +23,16 @@ function SLAProvider(SD, RESTEntity) {
         /**
          * Статус
          * @property
-         * @name SD.SLA#status
+         * @name SD.ServiceLevelAgreement#status
          * @type {SD.EntityStatus}
          */
         @Serialize(serializeId)
         @Parse(data => SD.EntityStatus.parse(data)) status;
 
         /**
-         * ?
-         * @property
-         * @name SD.SLA#agreementCondition
-         * @type {number}
-         */
-        @Serialize(Number) @Parse(Number) agreementCondition;
-
-        /**
          * Название
          * @property
-         * @name SD.SLA#name
+         * @name SD.ServiceLevelAgreement#name
          * @type {string}
          */
         @Parse(String) name;
@@ -48,7 +40,7 @@ function SLAProvider(SD, RESTEntity) {
         /**
          * Папка
          * @property
-         * @name SD.SLA#folder
+         * @name SD.ServiceLevelAgreement#folder
          * @type {SD.Folder}
          */
         @Serialize(Nullable(serializeId)) @Parse(data => SD.Folder.parse(data)) folder;
@@ -56,7 +48,7 @@ function SLAProvider(SD, RESTEntity) {
         /**
          * Срок действия от
          * @property
-         * @name SD.SLA#validFrom
+         * @name SD.ServiceLevelAgreement#validFrom
          * @type {Date}
          */
         @Serialize(Number) @Parse( Nullable(Date,"new") ) validFrom;
@@ -64,10 +56,39 @@ function SLAProvider(SD, RESTEntity) {
         /**
          * Срок действия до
          * @property
-         * @name SD.SLA#validTo
+         * @name SD.ServiceLevelAgreement#validTo
          * @type {Date}
          */
         @Serialize(Number) @Parse( Nullable(Date,"new") ) validTo;
+
+        /**
+         * Исполнитель по умолчанию
+         * @property
+         * @name SD.ServiceLevelAgreement#person
+         * @type {object}
+         */
+        @Serialize(serializeId) @Parse(data => SD.Person.parse(data))
+        person;
+
+        /**
+         * Группа исполнителей по умолчанию
+         * @property
+         * @name SD.ServiceLevelAgreement#workgroup
+         * @type {SD.Workgroup}
+         */
+        @Serialize(Nullable(serializeId))
+        @Parse(data => SD.Workgroup.parse(data) )
+        workgroup;
+
+        /**
+         * Условия предоставления
+         * @property
+         * @name SD.ServiceLevelAgreement#serviceLevel
+         * @type {SD.Workgroup}
+         */
+        @Serialize(Nullable(serializeId))
+        @Parse(data => SD.ServiceLevel.parse(data) )
+        serviceLevel;
 
         toString(){
             return String(this.name);

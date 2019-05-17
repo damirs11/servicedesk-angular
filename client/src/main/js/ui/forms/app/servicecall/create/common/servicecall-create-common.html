@@ -73,15 +73,25 @@
                 ></sd-dropdown>
             </div>
 
-            <!--<div class="form-group e-prop">
-                <label>SLA:</label>
-                <div class="entity-text__inline-field">
-                    <sd-text target="ctrl.serviceCall.slaName"
-                             editing="true"
-                             disabled="ctrl.isParentBusy"
-                    </sd-text>
-                </div>
-            </div>-->
+            <div class="form-group e-prop">
+                <label>Соглашение (SLA):</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.service.sla"
+                             display-value="$value.name"
+                             allow-empty="true"
+                             disabled="true"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Условие предоставления:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.service.sla.serviceLevel"
+                             display-value="$value.name"
+                             allow-empty="true"
+                             disabled="true"
+                ></sd-dropdown>
+            </div>
         </form>
     </div>
     
@@ -134,32 +144,6 @@
     <div class="entity-container__content">
         <form class="form-inline entity-properties">
 
-
-            <div class="form-group e-prop">
-                <label>Папка:</label>
-                <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.folder"
-                             fetch-data="ctrl.loadFolders($text)"
-                             display-value="$value.name"
-                             placeholder="Выберите папку"
-                             editing="true"
-                             allow-empty="true"
-                             disabled="ctrl.isParentBusy"
-                ></sd-dropdown>
-            </div>
-
-            <!--<div class="form-group e-prop">
-                <label>Крайний срок:</label>
-                <sd-datetime
-                        class="input-group e-prop__value"
-                        target="ctrl.serviceCall.deadline"
-                        min-date="ctrl.minDeadlineDate"
-                        allow-empty="false"
-                        editing="true"
-                        disabled="ctrl.isParentBusy"
-                ></sd-datetime>
-            </div>-->
-
             <div class="form-group e-prop e-prop-required">
                 <label>Приоритет:</label>
                 <sd-dropdown class="input-group e-prop__value"
@@ -170,6 +154,44 @@
                              cache="true"
                              editing="true"
                              icon-class="$value | sdIcon"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Условия приоритета:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.serviceLevelPriority"
+                             display-value="$value.name"
+                             allow-empty="true"
+                             disabled="true"
+                ></sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Крайний срок:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.serviceCall.deadline"
+                        allow-empty="true"
+                        editing="false"
+                        disabled="true"
+                ></sd-datetime>
+            </div>
+        </form>
+    </div>
+
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+            <div class="form-group e-prop">
+                <label>Папка:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.serviceCall.folder"
+                             fetch-data="ctrl.loadFolders($text)"
+                             display-value="$value.name"
+                             placeholder="Выберите папку"
+                             editing="true"
                              allow-empty="true"
                              disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
