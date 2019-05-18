@@ -36,6 +36,14 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible, Attach
         @Serialize(String) @Parse(Nullable(String)) subject;
 
         /**
+         * Ext ID
+         * @property
+         * @name SD.Change#extId
+         * @type {string}
+         */
+        @Serialize(String) @Parse(Nullable(String)) extId;
+
+        /**
          * Описание
          * @property
          * @name SD.Change#description

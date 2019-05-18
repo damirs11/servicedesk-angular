@@ -60,21 +60,7 @@ class ServiceCallCreateCommonController {
         this.$scope.$watch("ctrl.serviceCall.source", async () => {
             if (this.enableWatch.source) {
                 console.debug('source was changed');
-                if (this.serviceCall.source.id === SOURCES.EMAIL) {
-                    //Если source === email делаем поле emailDate обязательным
-                    this.serviceCall.emailDate = new Date(new Date().getTime());
-                    this.required_fields.push("emailDate")
-                } else {
-                    //Иначе удаляем из массива обязательных полей
-                    this.serviceCall.emailDate = undefined;
-                    var fieldIndex;
-                    this.required_fields.filter(function (value, index) {
-                        if (value === "emailDate") {
-                            fieldIndex = index;
-                        }
-                    });
-                    if (fieldIndex) delete this.required_fields[fieldIndex];
-                }
+                this.changedSource();
             }
             this.enableWatch.source = true;
         });
@@ -99,7 +85,24 @@ class ServiceCallCreateCommonController {
         };
         return this.SD.Organization.list(filter);
     }
-
+    async changedSource() {
+        if (this.serviceCall.source.id === SOURCES.EMAIL) {
+            //Если source === email делаем поле emailDate обязательным
+            this.serviceCall.emailDate = new Date(new Date().getTime());
+            this.required_fields.push("emailDate")
+        } if (this.serviceCall.source.id === SOURCES.EXTERNAL_SYSTEM) {
+            this.required_fields.push("extId");
+        } else {
+            //Иначе удаляем из массива обязательных полей
+            this.serviceCall.emailDate = undefined;
+            var that = this;
+            this.required_fields.filter(function (value, index) {
+                if (value === "emailDate" || value === "extId") {
+                    delete that.required_fields[index];
+                }
+            });
+        }
+    }
     async loadCallers(text) {
         const filter = {
             paging: "1;20",
