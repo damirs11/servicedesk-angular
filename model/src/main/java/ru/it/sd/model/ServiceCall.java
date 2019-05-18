@@ -40,18 +40,18 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     /**
      * Статус
      */
-    @FieldMeta(columnName = "ser_sta_oid", attribute = 662896684L)//281483984437250 status(ServiceCall today)
+    @FieldMeta(columnName = "ser_sta_oid", attribute = 662896684L)
     private EntityStatus status;
 
     /**
      * Источник
      */
-    @FieldMeta(columnName = "ser_med_oid")
+    @FieldMeta(columnName = "ser_med_oid", attribute = 563019804L)
     private Source source;
     /**
      * Время e-mail
      */
-    @FieldMeta(columnName = "scf_scdate5", tableAlias = "scf")
+    @FieldMeta(columnName = "scf_scdate5", tableAlias = "scf", attribute = 1082392581L)
     private Date emailDate;
 
     /**
@@ -107,7 +107,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     /**
      * Ext ID
      */
-    @FieldMeta(columnName = "scf_sershorttext10", tableAlias = "scf", attribute = 281481727837054L)//todo check
+    @FieldMeta(columnName = "scf_sershorttext10", tableAlias = "scf", attribute = 281481727837054L)
     private String extId;
     /**
      * Объект обслуживания
@@ -132,7 +132,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     /**
      * Условия приоритета
      */
-    @FieldMeta(columnName = "ser_pri_oid", attribute = 281478616973395L)//todo check
+    @FieldMeta(columnName = "ser_pri_oid", attribute = 281478616973395L)
     private ServiceLevelPriority serviceLevelPriority;
     /**
      * Крайний срок
@@ -162,7 +162,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     /**
      * Новый крайний срок
      */
-    @FieldMeta(columnName = "scf_scdate1", tableAlias = "scf")//todo
+    @FieldMeta(columnName = "scf_scdate1", tableAlias = "scf", attribute = 1082392577L)
     private Date newDeadline;
     /**
      * Причина переноса крайнего срока
@@ -177,7 +177,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     /**
      * Ошибка при обработке заявки
      */
-    @FieldMeta(columnName = "scf_boolean10", tableAlias = "scf", attribute = 281478373900379L)//todo check
+    @FieldMeta(columnName = "scf_boolean10", tableAlias = "scf", attribute = 281478373900379L)
     private Boolean errorHandling;
     /**
      * Функциональная эскалация
@@ -187,7 +187,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     /**
      * Нарушение регистрации
      */
-    @FieldMeta(columnName = "scf_boolean15", tableAlias = "scf")
+    @FieldMeta(columnName = "scf_boolean15", tableAlias = "scf", attribute = 281478373900399L)
     private Boolean registrationError;
     /**
      * Оценка
@@ -209,22 +209,22 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
      * Продолжительность обрабатывается отдельно в маппере
      * столбец scf_duration1
      */
-    @FieldMeta(columnName = "")
+    @FieldMeta(columnName = "", attribute = 281478431572058L)
     private Long laborCosts;
     /**
      * Функционал
      */
-    @FieldMeta(columnName = "scf_cod2_oid", tableAlias = "scf")
+    @FieldMeta(columnName = "scf_cod2_oid", tableAlias = "scf", attribute = 1080164460L)
     private Functional functional;
     /**
      * Дата возобновления
      */
-    @FieldMeta(columnName = "scf_scdate8", tableAlias = "scf")
+    @FieldMeta(columnName = "scf_scdate8", tableAlias = "scf", attribute = 281481730785818L)
     private Date renewalDate;
     /**
      * Комментарий по приостановке
      */
-    @FieldMeta(columnName = "scf_sctext5", tableAlias = "scf")
+    @FieldMeta(columnName = "scf_sctext5", tableAlias = "scf", attribute = 1082392591L)
     private String renewalComment;
     /**
      * Причина приостановки
@@ -234,25 +234,25 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     /**
      * Часто задаваемые вопросы
      */
-    @FieldMeta(columnName = "ser_frequentlyaskedquestion")
+    @FieldMeta(columnName = "ser_frequentlyaskedquestion", attribute = 3073114126L)
     private Boolean frequentlyAskedQuestion;
 
-    @FieldMeta(columnName = "ser_faq_oid")
+    @FieldMeta(columnName = "ser_faq_oid", attribute = 3073114132L)
     private FAQ faq;
     /**
      * Меры по предотвращению
      */
-    @FieldMeta(columnName = "se2_4k2", tableAlias = "se2")
+    @FieldMeta(columnName = "se2_4k2", tableAlias = "se2", attribute = 281479977894244L)
     private String preventionMeasures;
     /**
      * Уведомление
      */
-    @FieldMeta(columnName = "scf_cod4_oid", tableAlias = "scf")
+    @FieldMeta(columnName = "scf_cod4_oid", tableAlias = "scf", attribute = 281479977042607L)
     private Notification notification;
     /**
      * Зона ответственности
      */
-    @FieldMeta(columnName = "scf_cod5_oid", tableAlias = "scf")
+    @FieldMeta(columnName = "scf_cod5_oid", tableAlias = "scf", attribute = 1080164466L)
     private ResponsibilityArea responsibilityArea;
     /**
      * Поля для получения доступа к вкладкам
