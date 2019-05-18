@@ -5,7 +5,7 @@ function Source(RESTEntity) {
     /**
      * Источник
      * @class
-     * @name SD.EntityCode1
+     * @name SD.Source
      * @extends SD.RESTEntity
      */
     return class Source extends RESTEntity {
