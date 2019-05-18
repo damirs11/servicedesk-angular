@@ -59,7 +59,21 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible, Attach
          */
         @Serialize(serializeId)
         @Parse(data => SD.EntityStatus.parse(data)) status;
-
+        /**
+         * Источник
+         * @property
+         * @name SD.ServiceCall#source
+         * @type {SD.Source}
+         */
+        @Serialize(serializeId)
+        @Parse(data => SD.Source.parse(data)) source;
+        /**
+         * Время e-mail
+         * @property
+         * @name SD.ServiceCall#emailDate
+         * @type {Date}
+         */
+        @Serialize(Number) @Parse( Nullable(Date,"new") ) emailDate;
         /**
          * Приоритет
          * @property

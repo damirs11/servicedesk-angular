@@ -1,14 +1,17 @@
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
 import {SERVICECALL_STATUSES} from "../../../../../../api/entity/util/status-list";
 import {EntityTypes} from "../../../../../../api/entity/util/entity-types";
+import {SOURCES} from "../../../../../../api/entity/util/source-list";
 
 @NGInjectClass()
-class ServiceCallCreateCommonController{
+class ServiceCallCreateCommonController {
     // NG зависимости
     @NGInject() serviceCall;
     @NGInject() SD;
     @NGInject() $scope;
     @NGInject() Session;
+
+    required_fields = [];
 
     $onInit() {
         this.serviceCall.initiator = this.Session.user.person; // todo проверить категорию и только тогда выставить
@@ -54,6 +57,27 @@ class ServiceCallCreateCommonController{
             }
             this.enableWatch.service = true;
         });
+        this.$scope.$watch("ctrl.serviceCall.source", async () => {
+            if (this.enableWatch.source) {
+                console.debug('source was changed');
+                if (this.serviceCall.source.id === SOURCES.EMAIL) {
+                    //Если source === email делаем поле emailDate обязательным
+                    this.serviceCall.emailDate = new Date(new Date().getTime());
+                    this.required_fields.push("emailDate")
+                } else {
+                    //Иначе удаляем из массива обязательных полей
+                    this.serviceCall.emailDate = undefined;
+                    var fieldIndex;
+                    this.required_fields.filter(function (value, index) {
+                        if (value === "emailDate") {
+                            fieldIndex = index;
+                        }
+                    });
+                    if (fieldIndex) delete this.required_fields[fieldIndex];
+                }
+            }
+            this.enableWatch.source = true;
+        });
 
         this.$scope.$watch("ctrl.serviceCall.priority", async () => {
             if (this.enableWatch.priority) {
@@ -64,7 +88,7 @@ class ServiceCallCreateCommonController{
         });
     }
 
-    get isParentBusy(){
+    get isParentBusy() {
         return this.$scope.$parent.ctrl.busy;
     }
 
@@ -87,7 +111,7 @@ class ServiceCallCreateCommonController{
         }
         const callers = await this.SD.Person.list(filter);
         callers.sort((a, b) => {
-            return(a && b && a.fullName && a.fullName.localeCompare(b.fullName));
+            return (a && b && a.fullName && a.fullName.localeCompare(b.fullName));
         });
         return callers;
     }
@@ -104,9 +128,13 @@ class ServiceCallCreateCommonController{
             }).filter((service, index, services) => {
                 return services.indexOf(service) === index; // фильтруем уникальные
             }).sort((a, b) => {
-                return(a && b && a.name && a.name.localeCompare(b.name));
+                return (a && b && a.name && a.name.localeCompare(b.name));
             });
         }
+    }
+
+    async setEmailDate() {
+
     }
 
     async loadSLA() {
@@ -175,21 +203,21 @@ class ServiceCallCreateCommonController{
 
 
     async loadInititators(text) {
-        const filter = {paging:"1;20"};
+        const filter = {paging: "1;20"};
         if (text) filter.fullname_like = text;
         return this.SD.Person.list(filter);
     }
 
-    async loadExecutors(text){
-        const filter = {selectable:"1",hasAccount: ""};
+    async loadExecutors(text) {
+        const filter = {selectable: "1", hasAccount: ""};
         if (text) filter.fullname_like = text;
         const workgroup = this.serviceCall.assignment.workgroup;
         if (workgroup) filter.workgroupId = workgroup.id;
         return this.SD.Person.list(filter);
     }
 
-    async loadWorkgroups(text){
-        const filter = {selectable:"1"};
+    async loadWorkgroups(text) {
+        const filter = {selectable: "1"};
         if (text) filter.name_like = text;
         const executor = this.serviceCall.assignment.executor;
         if (executor) filter.personId = executor.id;
@@ -200,6 +228,17 @@ class ServiceCallCreateCommonController{
         const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
         if (text) filter.fulltext = text;
         return this.SD.EntityStatus.list(filter);
+    }
+
+    /**
+     * Загрузка списка значений поля "Источник"
+     * @param text
+     * @returns {Promise<*>}
+     */
+    async loadSources(text) {
+        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
+        if (text) filter.fulltext = text;
+        return this.SD.Source.list(filter);
     }
 
     async loadPriorities(text) {

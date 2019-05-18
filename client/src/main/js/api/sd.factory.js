@@ -38,6 +38,7 @@ import {FolderProvider} from "./entity/folder.provider";
 import {ProblemProvider} from "./entity/problem.provider";
 import {TemplateProvider} from "./entity/template.provider";
 import {ImpactSettingsProvider} from "./entity/impact-settings.provider.js";
+import {Source} from "./entity/source.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -109,6 +110,7 @@ const SDConstructor = function SD($injector,cache) {
     this.EntityCode7 = $injector.instantiate(EntityCode7Provider, locals);
     this.Folder = $injector.instantiate(FolderProvider, locals);
     this.Template = $injector.instantiate(TemplateProvider, locals);
+    this.Source = $injector.instantiate(Source, locals);
 
     // this.withCache = (newCache = Object.create(cache)) => {
     //     return $injector.instantiate(SD,{cache:newCache});
