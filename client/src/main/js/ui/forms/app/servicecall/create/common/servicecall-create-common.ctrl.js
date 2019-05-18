@@ -2,6 +2,9 @@ import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inj
 import {SERVICECALL_STATUSES} from "../../../../../../api/entity/util/status-list";
 import {EntityTypes} from "../../../../../../api/entity/util/entity-types";
 import {SOURCES} from "../../../../../../api/entity/util/source-list";
+import {FOLDERS} from "../../../../../../api/entity/util/folder-list";
+import {PERSONS} from "../../../../../../api/entity/util/person-list";
+import {SLA} from "../../../../../../api/entity/util/sla-list";
 
 @NGInjectClass()
 class ServiceCallCreateCommonController {
@@ -54,6 +57,7 @@ class ServiceCallCreateCommonController {
                 console.debug('service was changed');
                 // todo определить приоритет по умолчанию
                 this.refreshDeadline();
+                this.changedSLA();
             }
             this.enableWatch.service = true;
         });
@@ -72,6 +76,13 @@ class ServiceCallCreateCommonController {
             }
             this.enableWatch.priority = true;
         });
+        this.$scope.$watch("ctrl.serviceCall.folder", async () => {
+            if (this.enableWatch.folder) {
+                console.debug('folder was changed');
+                this.changedFolder();
+            }
+            this.enableWatch.folder = true;
+        });
     }
 
     get isParentBusy() {
@@ -85,6 +96,19 @@ class ServiceCallCreateCommonController {
         };
         return this.SD.Organization.list(filter);
     }
+    async changedFolder() {
+        var folder = this.serviceCall.folder;
+        if (folder && folder.id === FOLDERS.ALCOA) {
+            this.serviceCall.initiator = await new this.SD.Person(PERSONS.ALCOA_HELPDESK).load();
+        }
+    }
+    async changedSLA() {
+        var sla = this.serviceCall.service.sla;
+        if (sla && sla.id === SLA.SIBUR && this.serviceCall.status.id !== SERVICECALL_STATUSES.CLOSED) {
+            this.serviceCall.initiator = await new this.SD.Person(PERSONS.BYKOV_A_A).load();
+        }
+    }
+
     async changedSource() {
         if (this.serviceCall.source.id === SOURCES.EMAIL) {
             //Если source === email делаем поле emailDate обязательным
