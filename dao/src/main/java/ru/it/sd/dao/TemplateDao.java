@@ -59,5 +59,8 @@ public class TemplateDao extends AbstractEntityDao<Template> {
             params.addValue("accountId", filter.get("accountId"));
             sql.append("	AND tac.tac_rol_oid in (SELECT DISTINCT t.id FROM rep_roles_per_account ra CROSS APPLY SdGetRoles(ra.rpa_rol_oid, 0) t WHERE ra.rpa_acc_oid = :accountId)\n");
         }
+        if (filter.containsKey("roles")) {
+            sql.append(" AND tac.tac_rol_oid in (" + filter.get("roles") + ") ");
+        }
     }
 }

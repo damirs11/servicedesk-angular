@@ -9,14 +9,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import ru.it.sd.dao.RoleDao;
 import ru.it.sd.dao.UserDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.DynamicAuthentication;
+import ru.it.sd.model.Role;
 import ru.it.sd.model.User;
 import ru.it.sd.util.ResourceMessages;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static ru.it.sd.util.ResourceMessages.getMessage;
 
@@ -34,11 +40,13 @@ public class SecurityService {
 	private final SDConfig config;
 	private Environment env;
 	private UserDao userDao;
+	private final RoleDao roleDao;
 
-	public SecurityService(Environment env, UserDao userDao, SDConfig config) {
+	public SecurityService(Environment env, UserDao userDao, SDConfig config, RoleDao roleDao) {
 		this.env = env;
 		this.userDao = userDao;
 		this.config = config;
+		this.roleDao = roleDao;
 	}
 
 	/**
@@ -131,7 +139,16 @@ public class SecurityService {
 			// Подключение через API к серверу SD под указанной учетной записью - проверка пароля
 			SdClientBean sdClient = new SdClientBean(config.getSdApplicationServer(), login, password);
 			User user = findUserByLogin(login);
-			LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
+			if (user != null) {
+				user.setRoles(new ArrayList<>());
+				Map<String, String> filter = new HashMap<>();
+				filter.put("accountId", String.valueOf(user.getId()));
+				List<Role> listRole = roleDao.list(filter).stream().distinct().collect(Collectors.toList());
+				if (!listRole.isEmpty()) {
+					user.getRoles().addAll(listRole);
+				}
+				LOG.info(getMessage("authentication.success", user.getName(), user.getLogin())); // сообщаем об успешном входе в систему
+			}
 			return new DynamicAuthentication(user, true, sdClient, getWebAccount());
 		} catch (Exception e) {
 			// сообщаем об ошибке входа в систему

@@ -1,3 +1,5 @@
+-- Установка уровня совместимости, необходимый для работы функций(default 90)
+ALTER DATABASE SDDB SET COMPATIBILITY_LEVEL = 100
 -- SdGetRepCodes(id, direction) -> id, parent_id
 -- SdGetWorkGroups(id, direction) -> id, parent_id
 -- SdGetRoles(id, direction) -> id
@@ -78,7 +80,7 @@ END;
 -- Returns:
 --            Таблица (id DECIMAL(18))
 -- =============================================
-CREATE FUNCTION dbo.SdGetWorkGroups (@NodeId DECIMAL(18), @Direction DECIMAL(1))
+CREATE FUNCTION dbo.SdGetRoles (@NodeId DECIMAL(18), @Direction DECIMAL(1))
 RETURNS @Hierarchy TABLE (id DECIMAL(18))
 AS
 BEGIN

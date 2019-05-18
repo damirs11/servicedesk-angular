@@ -1,10 +1,9 @@
 package ru.it.sd.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.TemplateDao;
-import ru.it.sd.model.Change;
+import ru.it.sd.model.Role;
 import ru.it.sd.model.Template;
 import ru.it.sd.model.User;
 
@@ -14,14 +13,15 @@ import java.util.Set;
 
 /**
  * Сервис для работы с шаблонами
+ *
  * @author nsychev
  * @since 09.02.2018
  */
 @Service
 public class TemplateService extends CrudService<Template> {
 
-	private final TemplateDao templateDao;
-	private final SecurityService securityService;
+    private final TemplateDao templateDao;
+    private final SecurityService securityService;
 
 
     @Autowired
@@ -38,8 +38,17 @@ public class TemplateService extends CrudService<Template> {
     @Override
     public List<Template> list(Map<String, String> filter) {
         User user = securityService.getCurrentUser();
-        Long accountId = user.getId();
-        filter.put("accountId", accountId.toString());
+        List<Role> roles = user.getRoles();
+        boolean first = true;
+        StringBuilder rolesString = new StringBuilder();
+        for (Role role : roles) {
+            if (!first) {
+                rolesString.append(",");
+            }
+            rolesString.append(role.getId());
+            first = false;
+        }
+        filter.put("roles", rolesString.toString());
         return templateDao.list(filter);
     }
 
