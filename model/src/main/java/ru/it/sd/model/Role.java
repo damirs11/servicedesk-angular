@@ -13,6 +13,13 @@ import java.util.Objects;
 @ClassMeta(tableName = "rep_roles")
 public class Role implements Code, GrantedAuthority {
 
+	public Role(Long id) {
+		this.id = id;
+	}
+
+	public Role() {
+	}
+
 	private static final long serialVersionUID = 3230787447825628308L;
 	/** Идентификатор роли */
 	@FieldMeta(columnName = "rol_oid")

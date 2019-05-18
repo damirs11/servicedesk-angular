@@ -4,7 +4,6 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import ru.it.sd.dao.AbstractEntityDao;
@@ -32,6 +31,7 @@ import ru.it.sd.model.Person;
 import ru.it.sd.model.Role;
 import ru.it.sd.model.User;
 import ru.it.sd.model.Workgroup;
+import ru.it.sd.service.utils.Hierarchy;
 import ru.it.sd.util.EntityUtils;
 
 import java.util.ArrayList;
@@ -53,17 +53,17 @@ public class AccessService {
     private SecurityService securityService;
     private CodeDao codeDao;
     private WorkgroupDao workgroupDao;
+    private final FolderService folderService;
 
     private final RoleDao roleDao;
-    private final CacheManager cacheManager;
 
-    public AccessService(GrantDao grantDao, SecurityService securityService, WorkgroupDao workgroupDao, CodeDao codeDao, RoleDao roleDao, CacheManager cacheManager) {
+    public AccessService(GrantDao grantDao, SecurityService securityService, WorkgroupDao workgroupDao, CodeDao codeDao, RoleDao roleDao, FolderService folderService) {
         this.grantDao = grantDao;
         this.securityService = securityService;
         this.workgroupDao = workgroupDao;
         this.codeDao = codeDao;
         this.roleDao = roleDao;
-        this.cacheManager = cacheManager;
+        this.folderService = folderService;
     }
 
     /**
@@ -72,9 +72,140 @@ public class AccessService {
      *
      * @return список всех грантов
      */
+    //@Cacheable(cacheNames = "access")
+    public List<Grant> getList2() {
+        List<Grant> list = grantDao.list(new HashMap<>());
+        return list;
+    }
+
     @Cacheable(cacheNames = "access", sync = true)
-    public synchronized List<Grant> getList() {
-        return grantDao.list(new HashMap<>());
+    public Map<EntityType, Map<Role, Hierarchy>> getAccess() {
+        List<Grant> list = grantDao.list(new HashMap<>());
+        List<Role> roles = roleDao.list(new HashMap<>());
+        Map<String, String> filter = new HashMap<>();
+        filter.put("simplest", "");
+        List<Folder> folders = folderService.list(filter);
+        Map<EntityType, Map<Role, Hierarchy>> hierarchies = new HashMap<>();
+        for (EntityType entityType : EntityType.values()) {
+            List<Grant> grants = list.stream().filter(grant -> grant.getEntityType() == entityType).collect(Collectors.toList());
+            Map<Role, Hierarchy> hierarchies1 = new HashMap<>();
+            for (Role role : roles) {
+                List<Grant> grantList = grants.stream().filter(grant -> role.getId().equals(grant.getRole().getId())).collect(Collectors.toList());
+                hierarchies1.put(role, buildFolderHierarchy(folders, grantList, entityType, role));
+            }
+            hierarchies.put(entityType, hierarchies1);
+        }
+        return hierarchies;
+    }
+
+    /**
+     * Получение мапы иерархий прав доступа по сущности
+     *
+     * @param entityType тип сущности
+     * @return мапа иерархий прав доступа по ролям
+     */
+    private Map<Role, Hierarchy> getAccessByEntityType(EntityType entityType) {
+        return getAccess().get(entityType);
+    }
+
+    /**
+     * Поиск иерархий прав доступа по ролям
+     *
+     * @param roles      роли
+     * @param entityType тип сущности
+     * @return список иерархий прав доступа
+     */
+    private List<Hierarchy> getAccessList(List<Role> roles, EntityType entityType) {
+        return getAccessByEntityType(entityType).values().stream().filter(hierarchy -> roles.contains(hierarchy.getRole())).collect(Collectors.toList());
+    }
+
+    /**
+     * Построение иерархии прав доступа для конкретной роли
+     *
+     * @param folders    все папки
+     * @param grants     список прав доступа отфильтрованный по роли и типу сущности
+     * @param entityType тип сущности
+     * @param role       роль
+     * @return иерархию прав доступа
+     */
+    private Hierarchy buildFolderHierarchy(List<Folder> folders, List<Grant> grants, EntityType entityType, Role role) {
+        Hierarchy hierarchy = new Hierarchy();
+        hierarchy.setFolder(null);
+        hierarchy.setRole(role);
+        hierarchy.setGrant(grants.stream().filter(grant -> grant.getFolder() == null).findFirst().orElse(null));
+        hierarchy.setEntityType(entityType);
+        for (Folder folder : folders) {
+            if (folder.getParent() == null) {
+                hierarchy.setChilds(buildFolderHierarchy(hierarchy, folders, grants));
+            }
+        }
+        return hierarchy;
+    }
+
+    private List<Hierarchy> buildFolderHierarchy(Hierarchy hierarchy, List<Folder> folders, List<Grant> grants) {
+        List<Hierarchy> hierarchies = new ArrayList<>();
+        Folder parentFolder = hierarchy.getFolder();
+
+        for (Folder folder : folders) {
+            if (folder != parentFolder && ((parentFolder == null && folder.getParent() == null) || (folder.getParent() != null && folder.getParent().equals(parentFolder)))) {
+                Hierarchy childHierarchy = new Hierarchy();
+                Grant grant = grants.stream().filter(g -> folder.equals(g.getFolder())).findFirst().orElse(hierarchy.getGrant() != null ? hierarchy.getGrant().clone() : null);
+                if (grant != null) {
+                    grant = grant.clone();
+                }
+                mergeGrant(grant, hierarchy.getGrant());
+                childHierarchy.setGrant(grant);
+                childHierarchy.setFolder(folder);
+                childHierarchy.setEntityType(hierarchy.getEntityType());
+                childHierarchy.setParent(hierarchy);
+                childHierarchy.setChilds(buildFolderHierarchy(childHierarchy, folders, grants));
+                hierarchies.add(childHierarchy);
+            }
+        }
+        return hierarchies;
+    }
+
+    /**
+     * Мерджит найденный грант в результрующий
+     *
+     * @param foundGrant родительский грант
+     * @param parentGrant  найденный
+     */
+    private void mergeGrant(Grant foundGrant, Grant parentGrant) {
+        if (foundGrant == null || parentGrant == null) return;
+        if (foundGrant.getRead() == GrantRule.NONE) {
+            foundGrant.setRead(parentGrant.getRead());
+        }
+        if (foundGrant.getUpdate() == GrantRule.NONE) {
+            foundGrant.setUpdate(parentGrant.getUpdate());
+        }
+        if (foundGrant.getStatusFrom() != null && parentGrant.getUpdate() != GrantRule.NONE) {
+            foundGrant.setStatusFrom(parentGrant.getStatusFrom());
+        }
+        if (foundGrant.getStatusTo() != null && parentGrant.getUpdate() != GrantRule.NONE) {
+            foundGrant.setStatusTo(parentGrant.getStatusTo());
+        }
+        if (foundGrant.getCreate() == GrantRule.NONE) {
+            foundGrant.setCreate(parentGrant.getCreate());
+        }
+        if (foundGrant.getDelete() == GrantRule.NONE) {
+            foundGrant.setDelete(parentGrant.getDelete());
+        }
+        if (foundGrant.getHistoryCreate() == GrantRule.NONE) {
+            foundGrant.setHistoryCreate(parentGrant.getHistoryCreate());
+        }
+        if (foundGrant.getHistoryRead() == GrantRule.NONE) {
+            foundGrant.setHistoryRead(parentGrant.getHistoryRead());
+        }
+        if (foundGrant.getHistoryUpdate() == GrantRule.NONE) {
+            foundGrant.setHistoryUpdate(parentGrant.getHistoryUpdate());
+        }
+        if (foundGrant.getHistoryDelete() == GrantRule.NONE) {
+            foundGrant.setHistoryDelete(parentGrant.getHistoryDelete());
+        }
+        if (foundGrant.getAttributeAccessList() == null || foundGrant.getAttributeAccessList().isEmpty()) {
+            foundGrant.setAttributeAccessList(parentGrant.getAttributeAccessList());
+        }
     }
 
     /**
@@ -84,11 +215,9 @@ public class AccessService {
      * @param entityType тип сущности
      * @return список грантов для сущности
      */
-    private List<Grant> getList(User user, EntityType entityType) {
-        Map<String, String> userFilter = new HashMap<>();
-        userFilter.put("accountId", String.valueOf(user.getId()));
-        List<Long> roles = roleDao.list(userFilter, AbstractEntityDao.MapperMode.SIMPLEST).stream().map(Role::getId).collect(Collectors.toList());
-        return getList().stream()
+    private List<Grant> getList2(User user, EntityType entityType) {
+        List<Long> roles = user.getRoles().stream().map(Role::getId).collect(Collectors.toList());
+        return getList2().stream()
                 .filter(grant -> grant.getEntityType() == entityType && roles.contains(grant.getRole().getId()))
                 .collect(Collectors.toList());
     }
@@ -105,7 +234,6 @@ public class AccessService {
         Class clazz = EntityUtils.getEntityClass(grant.getEntityType().getAlias());
         Map<String, FieldMetaData> fieldMetaDataMap = MetaUtils.getFieldsMetaData(clazz);
         List<AttributeAccess> attributeAccessList = grant.getAttributeAccessList();
-
         for (FieldMetaData fmd : fieldMetaDataMap.values()) {
             //Если записан id атрибута в моделе
             if (!Objects.equals(fmd.getAttribute(), Long.MIN_VALUE)) {
@@ -156,87 +284,6 @@ public class AccessService {
     }
 
     /**
-     * Находит результирующий грант по роли и иерархии папок
-     *
-     * @param role   роль
-     * @param folder папка сущности
-     * @param grants найденный набор прав
-     * @return результирующий грант для роли
-     */
-    private Grant getCommonGrantByRole(Role role, Folder folder, List<Grant> grants) {
-
-        //Список грантов для одной роли и текущей папки
-        List<Grant> grantsByRole = grants.stream()
-                .filter(grant -> grant.getRole().equals(role))
-                .collect(Collectors.toList());
-        Grant resultGrant = new Grant();
-        resultGrant.setRole(role);
-        BaseCode folder1 = folder;
-        //Поднимаемся вверх по иерархи от папки сущности
-        while (true) {
-            BaseCode finalFolder = folder1;
-            Grant foundGrant = grantsByRole.stream()
-                    .filter(grant -> grant.getFolder() == finalFolder || (grant.getFolder() != null && grant.getFolder().equals(finalFolder)))
-                    .findFirst()
-                    .orElse(null);
-            //Если грант не найден для текущей папки поднимаемся выше
-            if (foundGrant == null) {
-                folder1 = folder1.getParent();
-                continue;
-            }
-            //Мержим права доступа в результирующий грант
-            mergeGrant(resultGrant, foundGrant);
-            if (foundGrant.getAttributeAccessList() != null && !foundGrant.getAttributeAccessList().isEmpty()) {
-                resultGrant.getAttributeAccessList().addAll(foundGrant.getAttributeAccessList());
-            }
-            //Если дошли до вверха иерархии то выходим из цикла
-            if (folder1 == null) break;
-            //Поднимаемся вверх по иерархии
-            folder1 = folder1.getParent();
-        }
-        return resultGrant;
-    }
-
-    /**
-     * Мерджит найденный грант в результрующий
-     *
-     * @param resultGrant результирующй грант
-     * @param foundGrant  найденный
-     */
-    private void mergeGrant(Grant resultGrant, Grant foundGrant) {
-        if (resultGrant.getRead() == GrantRule.NONE) {
-            resultGrant.setRead(foundGrant.getRead());
-        }
-        if (resultGrant.getUpdate() == GrantRule.NONE) {
-            resultGrant.setUpdate(foundGrant.getUpdate());
-        }
-        if (resultGrant.getStatusFrom() == null && foundGrant.getUpdate() != GrantRule.NONE) {
-            resultGrant.setStatusFrom(foundGrant.getStatusFrom());
-        }
-        if (resultGrant.getStatusTo() == null && foundGrant.getUpdate() != GrantRule.NONE) {
-            resultGrant.setStatusTo(foundGrant.getStatusTo());
-        }
-        if (resultGrant.getCreate() == GrantRule.NONE) {
-            resultGrant.setCreate(foundGrant.getCreate());
-        }
-        if (resultGrant.getDelete() == GrantRule.NONE) {
-            resultGrant.setDelete(foundGrant.getDelete());
-        }
-        if (resultGrant.getHistoryCreate() == GrantRule.NONE) {
-            resultGrant.setHistoryCreate(foundGrant.getHistoryCreate());
-        }
-        if (resultGrant.getHistoryRead() == GrantRule.NONE) {
-            resultGrant.setHistoryRead(foundGrant.getHistoryRead());
-        }
-        if (resultGrant.getHistoryUpdate() == GrantRule.NONE) {
-            resultGrant.setHistoryUpdate(foundGrant.getHistoryUpdate());
-        }
-        if (resultGrant.getHistoryDelete() == GrantRule.NONE) {
-            resultGrant.setHistoryDelete(foundGrant.getHistoryDelete());
-        }
-    }
-
-    /**
      * Проверка гранта по списку предикатов
      *
      * @param grant      грант
@@ -283,13 +330,10 @@ public class AccessService {
     public Pair<Grant, Map<String, AttributeGrantRule>> getEntityAccess(HasFolder entity) {
         User user = securityService.getCurrentUser();
         EntityType entityType = EntityType.getByClass(entity.getClass());
-        List<Grant> grantList = getList(user, entityType);
-        List<Grant> grantsByRole = new ArrayList<>();
-        for (Role role : user.getRoles()) {
-            Grant commonGrantForRole = getCommonGrantByRole(role, entity.getFolder(), grantList);
-            commonGrantForRole.setEntityType(entityType);
-            grantsByRole.add(commonGrantForRole);
-        }
+        Folder folder = entity.getFolder();
+        long startTime = System.currentTimeMillis();
+        List<Hierarchy> accessList = getAccessList(user.getRoles(), entityType);
+        LOG.info("Built hierarchy {}", System.currentTimeMillis() - startTime);
         //является исполнителем
         boolean isExecutor = false;
         //является членом рабочей группы
@@ -307,9 +351,18 @@ public class AccessService {
                 }
             }
         }
-        Grant resultGrant = new Grant();
+        List<Grant> grants = new ArrayList<>();
+        for (Hierarchy hierarchy : accessList) {
+            Hierarchy byFolder = hierarchy.findByFolder(folder);
+            if (byFolder != null) {
+                grants.add(byFolder.getGrant());
+            } else if (hierarchy.getGrant() != null) {
+                grants.add(hierarchy.getGrant());
+            }
+        }
         MutablePair<Grant, Map<String, AttributeGrantRule>> result = new MutablePair<>();
         Map<String, AttributeGrantRule> attributeAccessMap = new HashMap<>();
+        Grant resultGrant = new Grant();
         //todo подумать как сделать работу с предикатоми посимпотичнее
         //Набор предикатов для фильтрации прав чтения
         List<Predicate<Grant>> readPredicates = new ArrayList<>();
@@ -344,22 +397,22 @@ public class AccessService {
             modifyHistoryPredicates.add(grant -> grant.getHistoryUpdate() != GrantRule.EXECUTOR);
         }
         //Находим результирующее чтение
-        resultGrant.setRead(findResultGrant(filterGrants(grantsByRole, readPredicates), Grant::getRead));
+        resultGrant.setRead(findResultGrant(filterGrants(grants, readPredicates), Grant::getRead));
         //Находим результирующее грант для редактирования
-        resultGrant.setUpdate(findResultGrant(filterGrants(grantsByRole, updatePredicates), Grant::getUpdate));
+        resultGrant.setUpdate(findResultGrant(filterGrants(grants, updatePredicates), Grant::getUpdate));
         //Находим результирующее грант для создания
-        resultGrant.setCreate(findResultGrant(filterGrants(grantsByRole, null), Grant::getCreate));
+        resultGrant.setCreate(findResultGrant(filterGrants(grants, null), Grant::getCreate));
         //Находим результирующее грант для удаления
-        resultGrant.setDelete(findResultGrant(filterGrants(grantsByRole, null), Grant::getDelete));
+        resultGrant.setDelete(findResultGrant(filterGrants(grants, null), Grant::getDelete));
         //Находим результирующее грант для создания истории
-        resultGrant.setHistoryCreate(findResultGrant(filterGrants(grantsByRole, null), Grant::getHistoryCreate));
+        resultGrant.setHistoryCreate(findResultGrant(filterGrants(grants, null), Grant::getHistoryCreate));
         //Находим результирующее грант для чтения истории
-        resultGrant.setHistoryRead(findResultGrant(filterGrants(grantsByRole, null), Grant::getHistoryRead));
+        resultGrant.setHistoryRead(findResultGrant(filterGrants(grants, null), Grant::getHistoryRead));
         //Находим результирующее грант для редактирования истории
-        resultGrant.setHistoryUpdate(findResultGrant(filterGrants(grantsByRole, modifyHistoryPredicates), Grant::getHistoryUpdate));
+        resultGrant.setHistoryUpdate(findResultGrant(filterGrants(grants, modifyHistoryPredicates), Grant::getHistoryUpdate));
         //Находим результирующее грант для удаления истории
-        resultGrant.setHistoryDelete(findResultGrant(filterGrants(grantsByRole, deleteHistoryPredicates), Grant::getHistoryDelete));
-        for (Grant grant : grantsByRole) {
+        resultGrant.setHistoryDelete(findResultGrant(filterGrants(grants, deleteHistoryPredicates), Grant::getHistoryDelete));
+        for (Grant grant : grants) {
             Grant clone = grant.clone();
             //Если грант не удовлетворяет условиям, то проставляем NONE
             if (!checkGrant(clone, readPredicates)) {
@@ -385,64 +438,66 @@ public class AccessService {
 
 
     public void applyReadFilter(FilterMap filter, Class<? extends HasFolder> clazz) {
-        List<Workgroup> workgroups = new ArrayList<>();
+        long start = System.currentTimeMillis();
         final User user = securityService.getCurrentUser();
         final Person person = user.getPerson();
         EntityType entityType = EntityType.getByClass(clazz);
-        List<Grant> grantList = getList(user, entityType);
-        grantList = grantList.parallelStream().filter(grant -> grant.getRead() != GrantRule.NONE).collect(Collectors.toList());
-        //Если нет прав доступа, то проставляем флаг
-        if (grantList.isEmpty()) {
-            AccessFilterEntity filterEntity = new AccessFilterEntity();
-            filterEntity.setNoAccess(true);
-            filter.getAccessFilter().add(filterEntity);
+        List<Hierarchy> accessList = getAccessList(user.getRoles(), entityType);
+        for (Hierarchy hierarchy : accessList) {
+            getFoldersForRead(hierarchy, filter, person);
         }
-        List<Grant> grantsWithoutFolder = grantList.stream().filter(grant -> grant.getFolder() == null).collect(Collectors.toList());
-        for (Grant grant : grantsWithoutFolder) {
-            AccessFilterEntity filterEntity = new AccessFilterEntity();
-            switch (grant.getRead()) {
-                case ALWAYS:
-                    return;
+        //Делаем дистинкт
+        List<AccessFilterEntity> distinctList = filter.getAccessFilter().stream().distinct().collect(Collectors.toList());
+        //Очищаем список
+        filter.getAccessFilter().clear();
+        //Добавляем обновленый
+        filter.getAccessFilter().addAll(distinctList);
+
+        filter.getAccessFilter().removeIf(AccessFilterEntity::getNoAccess);
+        if (filter.getAccessFilter().isEmpty()) {
+            AccessFilterEntity accessFilterEntity = new AccessFilterEntity();
+            accessFilterEntity.setNoAccess(true);
+            filter.getAccessFilter().add(accessFilterEntity);
+        }
+        if (filter.getAccessFilter().removeIf(filterEntity -> filterEntity.getFolders().isEmpty() && !filterEntity.getNoAccess())) {
+            AccessFilterEntity accessFilterEntity = new AccessFilterEntity();
+            filter.getAccessFilter().add(accessFilterEntity);
+        }
+        LOG.info("Get access for list for {}ms", System.currentTimeMillis() - start);
+    }
+
+    private void getFoldersForRead(Hierarchy hierarchy, FilterMap filterMap, Person person) {
+        AccessFilterEntity filterEntity = new AccessFilterEntity();
+        AccessFilterEntity alwaysAccess = filterMap.getAccessFilter().stream().filter(filterEntity1 -> filterEntity1.getFolders().isEmpty() && !filterEntity1.getNoAccess()).findFirst().orElse(null);
+        if ((hierarchy.getGrant().getFolder() == null && hierarchy.getGrant().getRead() == GrantRule.ALWAYS) || alwaysAccess != null) {
+            filterMap.getAccessFilter().add(filterEntity);
+            return;
+        }
+        if (hierarchy.getGrant() != null) {
+            switch (hierarchy.getGrant().getRead()) {
+                case NONE:
+                    filterEntity.setNoAccess(true);
+                    break;
                 case EXECUTOR:
                     filterEntity.setExecutor(person.getId());
-                    filter.getAccessFilter().add(filterEntity);
-                    return;
+                    break;
                 case WORKGROUP:
-                    addWorkgroups(workgroups, filterEntity, person);
-                    filter.getAccessFilter().add(filterEntity);
-                    return;
+                    filterEntity.getWorkgroups().addAll(getWorkgroup(person).stream().map(Workgroup::getId).collect(Collectors.toList()));
             }
+            if (!filterEntity.getNoAccess() && hierarchy.getGrant().getFolder() != null) {
+                filterEntity.getFolders().add(hierarchy.getGrant().getFolder().getId());
+            }
+            filterMap.getAccessFilter().add(filterEntity);
         }
-
-        List<Grant> grantsWithFolder = grantList.stream().filter(grant -> grant.getFolder() != null).collect(Collectors.toList());
-        for (Grant grant : grantsWithFolder) {
-            AccessFilterEntity filterEntity = new AccessFilterEntity();
-            addFolders(grant.getFolder().getId(), filterEntity);
-            if (grant.getRead() == GrantRule.EXECUTOR) {
-                filterEntity.setExecutor(person.getId());
-            } else if (grant.getRead() == GrantRule.WORKGROUP) {
-                addWorkgroups(workgroups, filterEntity, person);
-            }
-            filter.getAccessFilter().add(filterEntity);
+        for (Hierarchy child : hierarchy.getChilds()) {
+            getFoldersForRead(child, filterMap, person);
         }
     }
 
-    private void addWorkgroups(List<Workgroup> workgroups, AccessFilterEntity filterEntity, Person person) {
-        if (workgroups.isEmpty()) {
-            Map<String, String> wgFilter = new HashMap<>();
-            wgFilter.put("personId", person.getId().toString());
-            workgroups.addAll(workgroupDao.list(wgFilter, AbstractEntityDao.MapperMode.SIMPLEST));
-        }
-        //todo оптимизировать
-        for (Workgroup workgroup : workgroups) {
-            Map<String, String> wgFilter = new HashMap<>();
-            wgFilter.put("workgroupId", workgroup.getId().toString());
-            List<Long> ids = workgroupDao.list(wgFilter, AbstractEntityDao.MapperMode.SIMPLEST)
-                    .stream()
-                    .map(Workgroup::getId)
-                    .collect(Collectors.toList());
-            filterEntity.getWorkgroups().addAll(ids);
-        }
+    private List<Workgroup> getWorkgroup(Person person) {
+        Map<String, String> wgFilter = new HashMap<>();
+        wgFilter.put("personId", person.getId().toString());
+        return workgroupDao.list(wgFilter, AbstractEntityDao.MapperMode.SIMPLEST);
     }
 
     private void addFolders(Long folder, AccessFilterEntity filterEntity) {

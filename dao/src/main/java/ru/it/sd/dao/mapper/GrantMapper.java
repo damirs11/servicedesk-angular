@@ -2,9 +2,9 @@ package ru.it.sd.dao.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.it.sd.dao.AbstractEntityDao;
 import ru.it.sd.dao.AttributeAccessDao;
 import ru.it.sd.dao.CodeDao;
-import ru.it.sd.dao.RoleDao;
 import ru.it.sd.dao.utils.DBUtils;
 import ru.it.sd.model.BaseCode;
 import ru.it.sd.model.EntityStatus;
@@ -12,6 +12,7 @@ import ru.it.sd.model.EntityType;
 import ru.it.sd.model.Folder;
 import ru.it.sd.model.Grant;
 import ru.it.sd.model.GrantRule;
+import ru.it.sd.model.Role;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,13 +23,11 @@ import java.util.Objects;
 @Component
 public class GrantMapper extends EntityRowMapper<Grant> {
 
-	private RoleDao roleDao;
 	private final CodeDao codeDao;
 	private final AttributeAccessDao attributeAccessDao;
 
 	@Autowired
-	public GrantMapper(RoleDao roleDao, CodeDao codeDao, AttributeAccessDao attributeAccessDao) {
-		this.roleDao = roleDao;
+	public GrantMapper(CodeDao codeDao, AttributeAccessDao attributeAccessDao) {
 		this.codeDao = codeDao;
 		this.attributeAccessDao = attributeAccessDao;
 	}
@@ -38,7 +37,7 @@ public class GrantMapper extends EntityRowMapper<Grant> {
 		Grant grant = super.mapRow(rs, rowNum);
 		Long id;
 		if (Objects.nonNull(id = DBUtils.getLong(rs, "ena_rol_oid"))) {
-			grant.setRole(roleDao.read(id));
+			grant.setRole(new Role(id));
 		}
 		if (Objects.nonNull(id = DBUtils.getLong(rs, "ena_ent_oid"))) {
 			try {
@@ -64,19 +63,19 @@ public class GrantMapper extends EntityRowMapper<Grant> {
 
 		Long statusFromId = DBUtils.getLong(rs, "ena_status_from_oid");
 		if(statusFromId != null) {
-			BaseCode code = codeDao.read(statusFromId);
+			BaseCode code = codeDao.read(statusFromId, AbstractEntityDao.MapperMode.SIMPLEST);
 			grant.setStatusFrom(code.convertTo(EntityStatus.class));
 		}
 
 		Long statusToId = DBUtils.getLong(rs, "ena_status_to_oid");
 		if(statusToId != null) {
-			BaseCode code = codeDao.read(statusToId);
+			BaseCode code = codeDao.read(statusToId, AbstractEntityDao.MapperMode.SIMPLEST);
 			grant.setStatusTo(code.convertTo(EntityStatus.class));
 		}
 
         Long folderId = DBUtils.getLong(rs, "ena_cod_oid");
         if(folderId != null) {
-            BaseCode code = codeDao.read(folderId);
+            BaseCode code = codeDao.read(folderId, AbstractEntityDao.MapperMode.SIMPLEST);
             grant.setFolder(code.convertTo(Folder.class));
         }
 

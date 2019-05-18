@@ -41,7 +41,12 @@ public class FolderService extends ReadService<Folder> {
     public List<Folder> list(Map<String, String> filter) {
         Long subType = Folder.getTypeId();
         filter.put("subtype", subType.toString());
-        List<BaseCode> codes = codeDao.list(filter);
+        List<BaseCode> codes ;
+        if (filter.containsKey("simplest")) {
+            codes = codeDao.list(filter, AbstractEntityDao.MapperMode.SIMPLEST);
+        } else {
+            codes = codeDao.list(filter, AbstractEntityDao.MapperMode.LIST);
+        }
         List<Folder> result = new ArrayList<>();
         codes.forEach((code) ->
                 result.add(code.convertTo(Folder.class))

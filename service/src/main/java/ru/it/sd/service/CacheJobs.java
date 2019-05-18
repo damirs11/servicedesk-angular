@@ -19,7 +19,7 @@ public class CacheJobs {
     @CacheEvict(cacheNames = "access", beforeInvocation = true)
     public void accessUpdating() {
         LOGGER.info("Updating access cache");
-        accessService.getList();
+        accessService.getAccess();
         LOGGER.info("Access cache was updated");
     }
 }

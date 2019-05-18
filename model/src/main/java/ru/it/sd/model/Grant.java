@@ -79,7 +79,11 @@ public class Grant implements HasId, Serializable, Cloneable {
 	@Override
 	public Grant clone() {
 		try {
-			return (Grant) super.clone();
+			Grant clone = (Grant) super.clone();
+			if (this.getAttributeAccessList() != null && !this.getAttributeAccessList().isEmpty()) {
+				clone.setAttributeAccessList(this.getAttributeAccessList());
+			}
+			return clone;
 		} catch (CloneNotSupportedException e) {
 			throw new UnsupportedOperationException();
 		}

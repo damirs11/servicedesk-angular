@@ -105,6 +105,7 @@ public class BaseCode implements Code, Serializable {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
+		if (o == null) return  false;
 		if (!(o instanceof BaseCode)) return false;
 		BaseCode baseCode = (BaseCode) o;
 		return Objects.equals(id, baseCode.id);
@@ -112,6 +113,6 @@ public class BaseCode implements Code, Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, order, parent);
+		return Objects.hash(id);
 	}
 }

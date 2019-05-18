@@ -2,6 +2,7 @@ package ru.it.sd.dao.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AccessFilterEntity {
 
@@ -53,5 +54,21 @@ public class AccessFilterEntity {
 
     public void setNoAccess(Boolean noAccess) {
         this.noAccess = noAccess;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AccessFilterEntity)) return false;
+        AccessFilterEntity that = (AccessFilterEntity) o;
+        return Objects.equals(folders, that.folders) &&
+                Objects.equals(executor, that.executor) &&
+                Objects.equals(workgroups, that.workgroups) &&
+                Objects.equals(noAccess, that.noAccess);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(folders, executor, workgroups, noAccess);
     }
 }
