@@ -1,8 +1,6 @@
 import template from "./workorder-create.html"
 import {controller} from "./workorder-create.ctrl"
 import {SDResolver} from "../../sd.resolver";
-import {NewWorkorderResolver} from "./new-workorder-resolver";
-import {PassedParamsResolver} from "./passed-arguments-resolver";
 
 const WorkorderCreateState = {
     name: "app.workorder.create",
@@ -21,5 +19,22 @@ const WorkorderCreateState = {
         passedParams: PassedParamsResolver
     }
 };
+
+NewWorkorderResolver.$inject = ["SD"];
+function NewWorkorderResolver(SD) {
+    const workorder = new SD.Workorder();
+    workorder.$updateRaw({assignment: new SD.EntityAssignment()});
+    return workorder;
+}
+
+PassedParamsResolver.$inject = ["$stateParams"];
+function PassedParamsResolver($stateParams){
+    const passedParams = {
+        changeId: $stateParams.changeId || undefined,
+        problemId: $stateParams.problemId || undefined,
+        templateId: $stateParams.templateId || undefined,
+    };
+    return passedParams
+}
 
 export {WorkorderCreateState}

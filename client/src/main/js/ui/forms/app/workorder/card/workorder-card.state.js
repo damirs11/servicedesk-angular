@@ -4,19 +4,29 @@
 import {SDResolver} from "../../sd.resolver";
 import {controller} from "./workorder-card.ctrl"
 import template from "./workorder-card.html"
-import {WorkorderIdResolver} from "./workorder.resolver";
 
 let WorkorderCardState = {
     name: "app.workorder.card",
-    url: "/{workorderId:int}",
+    url: "/{entityId:int}",
     controller: controller,
     template: template,
     controllerAs: "ctrl",
     abstract: true,
     resolve: {
         SD: SDResolver,
-        workorderId: WorkorderIdResolver
+        entity: EntityResolver
     }
 };
+
+/**
+ * Загружает полностью заполненную сущность с сервера, включая информацию о правах доступа
+ * @type {string[]}
+ */
+EntityResolver.$inject = ["SD", "$stateParams"];
+async function EntityResolver(SD, $stateParams) {
+    const entity = await new SD.Workorder($stateParams.entityId).load();
+    await entity.updateAccessRules();
+    return entity;
+}
 
 export {WorkorderCardState};

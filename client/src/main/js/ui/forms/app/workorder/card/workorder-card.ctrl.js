@@ -38,7 +38,7 @@ class WorkorderViewController {
     ];
 
     @NGInject() SD;
-    @NGInject() workorderId;
+    @NGInject() entity;
     @NGInject() Session;
 
     async $onInit() {
@@ -48,8 +48,7 @@ class WorkorderViewController {
     }
 
     async loadData(){
-        await this.$loadWorkorder();
-        await this.$loadAccess();
+        this.workorder = this.entity;
         await this.$loadStatuses();
     }
 
@@ -78,20 +77,6 @@ class WorkorderViewController {
 
     async $loadStatuses() {
         this.statusList = await this.SD.EntityStatus.list({entityTypeId:TYPEID_WORKORDER});
-    }
-
-    async $loadAccess() {
-        await this.workorder.updateAccessRules();
-    }
-
-    async $loadWorkorder(){
-        try {
-            this.busy = "loading";
-            this.workorder = await new this.SD.Workorder(this.workorderId).load();
-        } catch (error) {
-            this.loadingError = error || true;
-            throw error;
-        }
     }
 }
 

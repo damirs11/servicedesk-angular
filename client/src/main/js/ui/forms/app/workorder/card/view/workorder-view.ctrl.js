@@ -7,7 +7,7 @@ import {TYPEID_WORKORDER} from "../../../../../../api/entity/util/entity-types";
 class WorkorderCardViewController{
     @NGInject() $scope;
     @NGInject() SD;
-    @NGInject() workorderId;
+    @NGInject() entity;
     @NGInject() ModalAction;
     @NGInject() $state;
     @NGInject() $transitions;
@@ -31,7 +31,7 @@ class WorkorderCardViewController{
 
     $onInit() {
         this.msgTypes = WORKORDER_MESSAGE_TYPES;
-        this.workorder = new this.SD.Workorder(this.workorderId);
+        this.workorder = this.entity;
         this.accessRules = this.workorder.accessRules;
         this.registerLeaveEditListener();
     }
