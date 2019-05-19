@@ -130,7 +130,7 @@ class ServiceCallCreateCommonController {
     async loadCallers(text) {
         const filter = {
             paging: "1;20",
-            name_like: text
+            fullname_like: text
         };
         const organization = this.serviceCall.organization;
         if (organization) {
