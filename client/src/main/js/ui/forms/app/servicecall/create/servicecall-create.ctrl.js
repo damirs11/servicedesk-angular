@@ -9,7 +9,7 @@ class ServiceCallCreateController{
     @NGInject() $pageLock;
     @NGInject() ModalAction;
     @NGInject() passedParams;
-    @NGInject() serviceCall; // Новая заявка - внедряется зависимостью.
+    @NGInject() entity; // Новая заявка - внедряется зависимостью.
     // Контроллер занят асинхронными задачами
     busy = false;
     // Произошла ошибка при создании
@@ -34,13 +34,13 @@ class ServiceCallCreateController{
 
     async $onInit(){
         const templateId = this.passedParams.templateId;
-        if (templateId) await this.serviceCall.fillWithTemplate(templateId);
+        if (templateId) await this.entity.fillWithTemplate(templateId);
     }
 
     get isRequiredFieldsFilled() {
         for(const fieldName of this.requiredFields) {
             const subnames = fieldName.split("."); // Сложное имя поля (пр. assignment.executor)
-            let obj = this.serviceCall;
+            let obj = this.entity;
             for (let i = 0; i < subnames.length; i++) {
                 const subname = subnames[i];
                 const value = obj[subname];
@@ -56,9 +56,12 @@ class ServiceCallCreateController{
         this.busy = true;
         this.errorCreating = false;
         try {
-            const createdServiceCall = await this.serviceCall.create();
-            await this.ModalAction.serviceCallCreated(this.$scope, {serviceCall:createdServiceCall});
-            this.$state.go("app.serviceсall.card.view",{serviceCallId: createdServiceCall.id});
+            //todo временно удаляем "крайний срок" из заявки, так как поле readonly при создании
+            delete this.entity.deadline;
+
+            const createdEntity = await this.entity.create();
+            await this.ModalAction.serviceCallCreated(this.$scope, {entity:createdEntity});
+            this.$state.go("app.serviceсall.card.view",{entityId: createdEntity.id});
         } catch (e) {
             this.errorCreating = true;
             this.busy = false;

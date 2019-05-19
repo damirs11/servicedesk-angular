@@ -79,6 +79,7 @@ class SDAccess {
             entityType = entityOrType.constructor.$entityType;
             entityId = entityOrType.id;
         }
+        //todo добавить вариант запроса прав доступа для новой сущности (без id)
         const serverAccessData = await this.$connector.get(
             `rest/service/security/access/${entityType}/${entityId}`
         );

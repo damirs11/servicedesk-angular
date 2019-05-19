@@ -1,4 +1,5 @@
-EditableEntityProvider.$inject = ["RESTEntity","$connector"];
+EditableEntityProvider.$inject = ["RESTEntity", "$connector"];
+
 function EditableEntityProvider(RESTEntity, $connector) {
     /**
      * редактируемая сущность.
@@ -17,9 +18,9 @@ function EditableEntityProvider(RESTEntity, $connector) {
          * @link $modifiedData
          * @return {SD.EditableEntity}
          */
-        async save(data){
+        async save(data) {
             const jsonData = data || this.$modifiedData;
-            const respData = await $connector.patch(`rest/entity/${this.constructor.$entityType}/${this.id}`,null,jsonData);
+            const respData = await $connector.patch(`rest/entity/${this.constructor.$entityType}/${this.id}`, null, jsonData);
             this.reset();
             this.$update(respData);
             return this;
@@ -31,9 +32,9 @@ function EditableEntityProvider(RESTEntity, $connector) {
          * пришедшим с сервера. Текущий объект не обновляется
          * @return {SD.EditableEntity}
          */
-        async create(){
+        async create() {
             const jsonData = this.$serialize();
-            const data = await $connector.post(`rest/entity/${this.constructor.$entityType}`,null,jsonData);
+            const data = await $connector.post(`rest/entity/${this.constructor.$entityType}`, null, jsonData);
             return this.constructor.parse(data);
         }
 
@@ -41,10 +42,11 @@ function EditableEntityProvider(RESTEntity, $connector) {
          * Удаляет сущность
          * @return {void}
          */
-        async delete(){
+        async delete() {
             await $connector.delete(`rest/entity/${this.constructor.$entityType}/${this.id}`);
         }
     }
+
     return EditableEntity;
 }
 

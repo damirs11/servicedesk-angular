@@ -4,7 +4,7 @@ import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject
 class ServiceСallCreatedModalController {
 
     @NGInject() $modalState;
-    @NGInject() serviceСall;
+    @NGInject() entity;
 
     $onInit(){
         this.$modalState.onCancel = this::close

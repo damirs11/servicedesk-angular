@@ -29,7 +29,7 @@
                  style="width: 100%; height: 42px" ng-if="ctrl.accessRules.canSee('subject')">
                 <label>Тема:</label>
                 <div class="entity-text__inline-field">
-                    <sd-text target="ctrl.serviceCall.subject"
+                    <sd-text target="ctrl.entity.subject"
                              editing="ctrl.editing"
                              disabled="!ctrl.accessRules.canUpdate('subject')"
                     >
@@ -41,7 +41,7 @@
                  style="width: 100%;" ng-if="ctrl.accessRules.canSee('description')">
                 <label>Подробная информация:</label>
                 <div class="entity-text__multiline-field">
-                    <sd-textarea target="ctrl.serviceCall.description"
+                    <sd-textarea target="ctrl.entity.description"
                                  editing="ctrl.editing"
                                  disabled="!ctrl.accessRules.canUpdate('description')"
                     >
@@ -52,7 +52,7 @@
             <div class="form-group entity-text" style="width: 100%;" ng-if="ctrl.accessRules.canSee('solution')">
                 <label>Решение:</label>
                 <div class="entity-text__multiline-field">
-                    <sd-textarea target="ctrl.serviceCall.solution"
+                    <sd-textarea target="ctrl.entity.solution"
                                  editing="ctrl.editing"
                                  disabled="!ctrl.accessRules.canUpdate('solution')"
                     >
@@ -70,12 +70,12 @@
                  ng-if="ctrl.accessRules.canSee('organization')">
                 <label>Организация:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.organization"
+                             target="ctrl.entity.organization"
                              fetch-data="ctrl.loadOrganizations($text)"
                              placeholder="Введите название организации"
                              display-value="$value.name"
                              editing="ctrl.editing"
-                             fetch-on-change="ctrl.serviceCall.caller"
+                             fetch-on-change="ctrl.entity.caller"
                              disabled="!ctrl.accessRules.canUpdate('organization')"
                 ></sd-dropdown>
             </div>
@@ -84,13 +84,13 @@
                  ng-if="ctrl.accessRules.canSee('caller')">
                 <label>Заявитель:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.caller"
+                             target="ctrl.entity.caller"
                              fetch-data="ctrl.loadCallers($text)"
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
                              editing="ctrl.editing"
                              allow-empty="true"
-                             fetch-on-change="ctrl.serviceCall.organization"
+                             fetch-on-change="ctrl.entity.organization"
                              disabled="!ctrl.accessRules.canUpdate('caller')"
                 ></sd-dropdown>
             </div>
@@ -99,13 +99,13 @@
                  ng-if="ctrl.accessRules.canSee('service')">
                 <label>Услуга:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.service"
+                             target="ctrl.entity.service"
                              fetch-data="ctrl.loadServices($text)"
                              placeholder="Введите название услуги"
                              display-value="$value.name"
                              editing="ctrl.editing"
                              allow-empty="true"
-                             fetch-on-change="ctrl.serviceCall.organization"
+                             fetch-on-change="ctrl.entity.organization"
                              disabled="!ctrl.accessRules.canUpdate('assignment')"
                 ></sd-dropdown>
             </div>
@@ -119,7 +119,7 @@
                  ng-if="ctrl.accessRules.canSee('initiator')">
                 <label>Инициатор:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.initiator"
+                             target="ctrl.entity.initiator"
                              fetch-data="ctrl.loadInititators($text)"
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
@@ -132,13 +132,13 @@
                  ng-if="ctrl.accessRules.canSee('assignment')">
                 <label>Исполнитель:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.assignment.executor"
+                             target="ctrl.entity.assignment.executor"
                              fetch-data="ctrl.loadExecutors($text)"
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
                              editing="ctrl.editing"
                              allow-empty="true"
-                             fetch-on-change="ctrl.serviceCall.assignment.workgroup"
+                             fetch-on-change="ctrl.entity.assignment.workgroup"
                              disabled="!ctrl.accessRules.canUpdate('assignment')"
                 ></sd-dropdown>
             </div>
@@ -147,13 +147,13 @@
                  ng-if="ctrl.accessRules.canSee('assignment')">
                 <label>Рабочая группа:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.assignment.workgroup"
+                             target="ctrl.entity.assignment.workgroup"
                              fetch-data="ctrl.loadWorkgroups($text)"
                              placeholder="Введите название группы"
                              display-value="$value.name"
                              editing="ctrl.editing"
                              allow-empty="true"
-                             fetch-on-change="ctrl.serviceCall.assignment.executor"
+                             fetch-on-change="ctrl.entity.assignment.executor"
                              disabled="!ctrl.accessRules.canUpdate('assignment')"
                 ></sd-dropdown>
             </div>
@@ -166,7 +166,7 @@
             <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('folder')">
                 <label>Папка:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.folder"
+                             target="ctrl.entity.folder"
                              fetch-data="ctrl.loadFolders($text)"
                              display-value="$value.name"
                              editing="ctrl.editing"
@@ -179,13 +179,13 @@
             <div class="form-group e-prop" ng-class="{'e-prop-required':ctrl.editing}" ng-if="ctrl.accessRules.canSee('status')">
                 <label>Статус:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.status"
+                             target="ctrl.entity.status"
                              fetch-data="ctrl.loadStatuses($text)"
                              display-value="$value.fullName"
                              editing="ctrl.editing"
                              cache="true"
                              disabled="!ctrl.accessRules.canUpdate('status')"
-                             fetch-on-change="ctrl.serviceCall.status"
+                             fetch-on-change="ctrl.entity.status"
                 ></sd-dropdown>
             </div>
 
@@ -193,7 +193,7 @@
                 <label>Крайний срок:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
-                        target="ctrl.serviceCall.deadline"
+                        target="ctrl.entity.deadline"
                         allow-empty="false"
                         editing="ctrl.editing"
                         disabled="!ctrl.accessRules.canUpdate('deadline')"
@@ -203,7 +203,7 @@
             <div class="form-group e-prop" ng-class="{'e-prop-required':ctrl.editing}" ng-if="ctrl.accessRules.canSee('priority')">
                 <label>Приоритет:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.priority"
+                             target="ctrl.entity.priority"
                              fetch-data="ctrl.loadPriorities($text)"
                              display-value="$value.fullName"
                              cache="true"
@@ -217,7 +217,7 @@
                 <label>Фактически выполнено:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
-                        target="ctrl.serviceCall.resolvedDate"
+                        target="ctrl.entity.resolvedDate"
                         allow-empty="false"
                         editing="ctrl.editing"
                         disabled="!ctrl.accessRules.canUpdate('resolvedDate')"
@@ -228,7 +228,7 @@
                  ng-if="ctrl.accessRules.canSee('category')">
                 <label>Категория:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.category"
+                             target="ctrl.entity.category"
                              fetch-data="ctrl.loadCategories($text)"
                              display-value="$value.name"
                              cache="true"
@@ -241,7 +241,7 @@
                  ng-if="ctrl.accessRules.canSee('classification')">
                 <label>Классификация:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.classification"
+                             target="ctrl.entity.classification"
                              fetch-data="ctrl.loadClassifications($text)"
                              display-value="$value.name"
                              cache="true"
@@ -253,7 +253,7 @@
             <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('configurationItem')">
                 <label>Объект обслуживания:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.configurationItem"
+                             target="ctrl.entity.configurationItem"
                              fetch-data="ctrl.loadConfigurationItems($text)"
                              display-value="$value.searchCode"
                              editing="ctrl.editing"
@@ -265,7 +265,7 @@
             <div class="form-group e-prop" ng-if="ctrl.accessRules.canSee('closureCode')">
                 <label>Код завершения:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.closureCode"
+                             target="ctrl.entity.closureCode"
                              fetch-data="ctrl.loadClosureCode($text)"
                              display-value="$value.name"
                              editing="ctrl.editing"
@@ -284,7 +284,7 @@
                 <label>Дата закрытия:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
-                        target="ctrl.serviceCall.closureDate"
+                        target="ctrl.entity.closureDate"
                         allow-empty="false"
                         editing="ctrl.editing"
                         disabled="!ctrl.accessRules.canUpdate('closureDate')"
@@ -294,7 +294,7 @@
     </div>
 </div>
 
-<sd-entity-chat entity="ctrl.serviceCall" type-map="ctrl.msgTypes">
+<sd-entity-chat entity="ctrl.entity" type-map="ctrl.msgTypes">
 
 </sd-entity-chat>
 

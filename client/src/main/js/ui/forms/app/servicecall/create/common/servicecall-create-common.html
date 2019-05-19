@@ -4,7 +4,7 @@
             <div class="form-group e-prop">
                 <label>Источник:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.source"
+                             target="ctrl.entity.source"
                              fetch-data="ctrl.loadSources($text)"
                              display-value="$value.fullName"
                              placeholder="Выберите источник"
@@ -19,7 +19,7 @@
                 <label>Время e-mail:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
-                        target="ctrl.serviceCall.emailDate"
+                        target="ctrl.entity.emailDate"
                         allow-empty="true"
                         editing="true"
                         disabled="false"
@@ -28,7 +28,7 @@
             <div class="form-group entity-text" style="width: 100%; height: 42px">
                 <label>Ext ID:</label>
                 <div class="entity-text__inline-field">
-                    <sd-text target="ctrl.serviceCall.extId"
+                    <sd-text target="ctrl.entity.extId"
                              editing="true"
                              placeholder="Укажите тему"
                              disabled="ctrl.isParentBusy"
@@ -39,7 +39,7 @@
             <div class="form-group entity-text entity-text-required" style="width: 100%; height: 42px">
                 <label>Тема:</label>
                 <div class="entity-text__inline-field">
-                    <sd-text target="ctrl.serviceCall.subject"
+                    <sd-text target="ctrl.entity.subject"
                              editing="true"
                              placeholder="Укажите тему"
                              disabled="ctrl.isParentBusy"
@@ -51,7 +51,7 @@
             <div class="form-group entity-text entity-text-required" style="width: 100%;">
                 <label>Подробная информация:</label>
                 <div class="entity-text__multiline-field">
-                    <sd-textarea target="ctrl.serviceCall.description"
+                    <sd-textarea target="ctrl.entity.description"
                                  editing="true"
                                  placeholder="Укажите подробную информацию"
                                  disabled="ctrl.isParentBusy"
@@ -68,7 +68,7 @@
             <div class="form-group e-prop e-prop-required">
                 <label>Организация:</label>
                 <sd-dropdown class="input-group e-prop__value e-prop-required"
-                             target="ctrl.serviceCall.organization"
+                             target="ctrl.entity.organization"
                              fetch-data="ctrl.loadOrganizations($text)"
                              placeholder="Введите название организации"
                              display-value="$value.name"
@@ -82,14 +82,14 @@
             <div class="form-group e-prop">
                 <label>Заявитель:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.caller"
+                             target="ctrl.entity.caller"
                              fetch-data="ctrl.loadCallers($text)"
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
                              editing="true"
                              allow-empty="true"
                              ignore-same-text="false"
-                             fetch-on-change="ctrl.serviceCall.organization"
+                             fetch-on-change="ctrl.entity.organization"
                              disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
@@ -97,13 +97,13 @@
             <div class="form-group e-prop e-prop-required">
                 <label>Услуга:</label>
                 <sd-dropdown class="input-group e-prop__value e-prop-required"
-                             target="ctrl.serviceCall.service"
+                             target="ctrl.entity.service"
                              fetch-data="ctrl.loadServices($text)"
                              placeholder="Введите название услуги"
                              display-value="$value.name"
                              editing="true"
                              allow-empty="true"
-                             fetch-on-change="ctrl.serviceCall.organization"
+                             fetch-on-change="ctrl.entity.organization"
                              disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
@@ -111,7 +111,7 @@
             <div class="form-group e-prop">
                 <label>Соглашение (SLA):</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.service.sla"
+                             target="ctrl.entity.service.sla"
                              display-value="$value.name"
                              allow-empty="true"
                              disabled="true"
@@ -121,7 +121,7 @@
             <div class="form-group e-prop">
                 <label>Условие предоставления:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.service.sla.serviceLevel"
+                             target="ctrl.entity.service.sla.serviceLevel"
                              display-value="$value.name"
                              allow-empty="true"
                              disabled="true"
@@ -136,7 +136,7 @@
             <div class="form-group e-prop e-prop-required">
                 <label>Инициатор:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.initiator"
+                             target="ctrl.entity.initiator"
                              fetch-data="ctrl.loadInititators($text)"
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
@@ -149,13 +149,13 @@
             <div class="form-group e-prop e-prop-required">
                 <label>Исполнитель:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.assignment.executor"
+                             target="ctrl.entity.assignment.executor"
                              fetch-data="ctrl.loadExecutors($text)"
                              placeholder="Введите имя персоны"
                              display-value="$value.fullName"
                              editing="true"
                              allow-empty="true"
-                             fetch-on-change="ctrl.serviceCall.assignment.workgroup"
+                             fetch-on-change="ctrl.entity.assignment.workgroup"
                              disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
@@ -163,12 +163,12 @@
             <div class="form-group e-prop e-prop-required">
                 <label>Рабочая группа:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.assignment.workgroup"
+                             target="ctrl.entity.assignment.workgroup"
                              fetch-data="ctrl.loadWorkgroups($text)"
                              placeholder="Введите название группы"
                              display-value="$value.name"
                              editing="true"
-                             fetch-on-change="ctrl.serviceCall.assignment.executor"
+                             fetch-on-change="ctrl.entity.assignment.executor"
                              allow-empty="true"
                              disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
@@ -182,7 +182,7 @@
             <div class="form-group e-prop e-prop-required">
                 <label>Приоритет:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.priority"
+                             target="ctrl.entity.priority"
                              fetch-data="ctrl.loadPriorities($text)"
                              display-value="$value.fullName"
                              placeholder="Выберите приоритет"
@@ -197,7 +197,7 @@
             <div class="form-group e-prop">
                 <label>Условия приоритета:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.serviceLevelPriority"
+                             target="ctrl.entity.serviceLevelPriority"
                              display-value="$value.name"
                              allow-empty="true"
                              disabled="true"
@@ -208,7 +208,7 @@
                 <label>Крайний срок:</label>
                 <sd-datetime
                         class="input-group e-prop__value"
-                        target="ctrl.serviceCall.deadline"
+                        target="ctrl.entity.deadline"
                         allow-empty="true"
                         editing="false"
                         disabled="true"
@@ -222,7 +222,7 @@
             <div class="form-group e-prop">
                 <label>Папка:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.folder"
+                             target="ctrl.entity.folder"
                              fetch-data="ctrl.loadFolders($text)"
                              display-value="$value.name"
                              placeholder="Выберите папку"
@@ -235,7 +235,7 @@
             <div class="form-group e-prop e-prop-required">
                 <label>Категория:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.category"
+                             target="ctrl.entity.category"
                              fetch-data="ctrl.loadCategories($text)"
                              display-value="$value.name"
                              placeholder="Выберите категорию"
@@ -249,7 +249,7 @@
             <div class="form-group e-prop e-prop-required">
                 <label>Классификация:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.classification"
+                             target="ctrl.entity.classification"
                              fetch-data="ctrl.loadClassifications($text)"
                              display-value="$value.name"
                              placeholder="Выберите классификацию"
@@ -263,7 +263,7 @@
             <div class="form-group e-prop">
                 <label>Объект обслуживания:</label>
                 <sd-dropdown class="input-group e-prop__value"
-                             target="ctrl.serviceCall.configurationItem"
+                             target="ctrl.entity.configurationItem"
                              fetch-data="ctrl.loadConfigurationItems($text)"
                              display-value="$value.searchCode"
                              placeholder="Введите код объекта"

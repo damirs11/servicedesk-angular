@@ -1,8 +1,6 @@
 import template from "./servicecall-create.html";
 import {controller} from "./servicecall-create.ctrl";
 import {SDResolver} from "../../sd.resolver";
-import {NewServiceCallResolver} from "./new-servicecall-resolver";
-import {PassedParamsResolver} from "./passed-arguments-resolver";
 
 const ServiceCallCreateState = {
     name: "app.servicecall.create",
@@ -16,9 +14,23 @@ const ServiceCallCreateState = {
     },
     resolve: {
         SD: SDResolver,
-        serviceCall: NewServiceCallResolver,
+        entity: NewEntityResolver,
         passedParams: PassedParamsResolver
     }
 };
+
+NewEntityResolver.$inject = ["SD"];
+function NewEntityResolver(SD) {
+    return new SD.ServiceCall().$update({
+        assignment: new SD.EntityAssignment(),
+    });
+}
+
+PassedParamsResolver.$inject = ["$stateParams"];
+function PassedParamsResolver($stateParams){
+    return {
+        templateId: $stateParams.templateId || undefined,
+    };
+}
 
 export {ServiceCallCreateState};

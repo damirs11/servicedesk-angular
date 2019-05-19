@@ -79,7 +79,7 @@ class ServiceCallListController {
     }
 
     _gridDoubleClick(event,data){
-        this.$state.go("app.servicecall.card.view",{serviceCallId: data.row.entity.id});
+        this.$state.go("app.servicecall.card.view",{entityId: data.row.entity.id});
     }
 
     async configFilter() {
@@ -141,7 +141,7 @@ class ServiceCallListController {
         const rows = this.grid.getSelectedRows();
         if (rows.length !== 1) return;
         const row = rows[0];
-        this.$state.go("app.servicecall.card.view", {serviceCallId: row.id});
+        this.$state.go("app.servicecall.card.view", {entityId: row.id});
     }
 }
 

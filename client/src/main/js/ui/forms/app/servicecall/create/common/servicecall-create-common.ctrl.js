@@ -9,7 +9,7 @@ import {SLA} from "../../../../../../api/entity/util/sla-list";
 @NGInjectClass()
 class ServiceCallCreateCommonController {
     // NG зависимости
-    @NGInject() serviceCall;
+    @NGInject() entity;
     @NGInject() SD;
     @NGInject() $scope;
     @NGInject() Session;
@@ -17,10 +17,10 @@ class ServiceCallCreateCommonController {
     required_fields = [];
 
     $onInit() {
-        this.serviceCall.initiator = this.Session.user.person; // todo проверить категорию и только тогда выставить
-        this.serviceCall.status = {id: SERVICECALL_STATUSES.REGISTERED};
-        this.serviceCall.serviceLevel = {};
-        this.serviceCall.deadline = new Date();
+        this.entity.initiator = this.Session.user.person; // todo проверить категорию и только тогда выставить
+        this.entity.status = {id: SERVICECALL_STATUSES.REGISTERED};
+        this.entity.serviceLevel = {};
+        this.entity.deadline = new Date();
         this.initOnChangeHandlers();
     }
 
@@ -29,30 +29,30 @@ class ServiceCallCreateCommonController {
      */
     initOnChangeHandlers() {
         this.enableWatch = {}; // объект для хранения флагов игнорирования наблюдения за значениями
-        this.$scope.$watch("ctrl.serviceCall.organization", () => {
+        this.$scope.$watch("ctrl.entity.organization", () => {
             if (this.enableWatch.organization) {
                 console.debug('organization was changed');
                 this.enableWatch.caller = this.enableWatch.service = false;
-                this.serviceCall.caller = null; // удаляем заявителя
+                this.entity.caller = null; // удаляем заявителя
                 this.checkOrgPersonService(); // проверяем значение в поле Сервис
             }
             this.enableWatch.organization = true;
         });
 
-        this.$scope.$watch("ctrl.serviceCall.caller", () => {
+        this.$scope.$watch("ctrl.entity.caller", () => {
             if (this.enableWatch.caller) {
                 console.debug('caller was changed');
-                const caller = this.serviceCall.caller;
+                const caller = this.entity.caller;
                 if (caller && caller.organization) { // если задан заявитель, то должна отображаться его организация
                     this.enableWatch.organization = false;
-                    this.serviceCall.organization = caller.organization;
+                    this.entity.organization = caller.organization;
                 }
                 this.checkOrgPersonService(); // проверяем значение в поле Сервис
             }
             this.enableWatch.caller = true;
         });
 
-        this.$scope.$watch("ctrl.serviceCall.service", async () => {
+        this.$scope.$watch("ctrl.entity.service", async () => {
             if (this.enableWatch.service) {
                 console.debug('service was changed');
                 // todo определить приоритет по умолчанию
@@ -61,7 +61,7 @@ class ServiceCallCreateCommonController {
             }
             this.enableWatch.service = true;
         });
-        this.$scope.$watch("ctrl.serviceCall.source", async () => {
+        this.$scope.$watch("ctrl.entity.source", async () => {
             if (this.enableWatch.source) {
                 console.debug('source was changed');
                 this.changedSource();
@@ -69,14 +69,14 @@ class ServiceCallCreateCommonController {
             this.enableWatch.source = true;
         });
 
-        this.$scope.$watch("ctrl.serviceCall.priority", async () => {
+        this.$scope.$watch("ctrl.entity.priority", async () => {
             if (this.enableWatch.priority) {
                 console.debug('priority was changed');
                 this.refreshDeadline();
             }
             this.enableWatch.priority = true;
         });
-        this.$scope.$watch("ctrl.serviceCall.folder", async () => {
+        this.$scope.$watch("ctrl.entity.folder", async () => {
             if (this.enableWatch.folder) {
                 console.debug('folder was changed');
                 this.changedFolder();
@@ -97,28 +97,28 @@ class ServiceCallCreateCommonController {
         return this.SD.Organization.list(filter);
     }
     async changedFolder() {
-        var folder = this.serviceCall.folder;
+        var folder = this.entity.folder;
         if (folder && folder.id === FOLDERS.ALCOA) {
-            this.serviceCall.initiator = await new this.SD.Person(PERSONS.ALCOA_HELPDESK).load();
+            this.entity.initiator = await new this.SD.Person(PERSONS.ALCOA_HELPDESK).load();
         }
     }
     async changedSLA() {
-        var sla = this.serviceCall.service.sla;
-        if (sla && sla.id === SLA.SIBUR && this.serviceCall.status.id !== SERVICECALL_STATUSES.CLOSED) {
-            this.serviceCall.initiator = await new this.SD.Person(PERSONS.BYKOV_A_A).load();
+        var sla = this.entity.service.sla;
+        if (sla && sla.id === SLA.SIBUR && this.entity.status.id !== SERVICECALL_STATUSES.CLOSED) {
+            this.entity.initiator = await new this.SD.Person(PERSONS.BYKOV_A_A).load();
         }
     }
 
     async changedSource() {
-        if (this.serviceCall.source.id === SOURCES.EMAIL) {
+        if (this.entity.source.id === SOURCES.EMAIL) {
             //Если source === email делаем поле emailDate обязательным
-            this.serviceCall.emailDate = new Date(new Date().getTime());
+            this.entity.emailDate = new Date(new Date().getTime());
             this.required_fields.push("emailDate")
-        } if (this.serviceCall.source.id === SOURCES.EXTERNAL_SYSTEM) {
+        } if (this.entity.source.id === SOURCES.EXTERNAL_SYSTEM) {
             this.required_fields.push("extId");
         } else {
             //Иначе удаляем из массива обязательных полей
-            this.serviceCall.emailDate = undefined;
+            this.entity.emailDate = undefined;
             var that = this;
             this.required_fields.filter(function (value, index) {
                 if (value === "emailDate" || value === "extId") {
@@ -132,7 +132,7 @@ class ServiceCallCreateCommonController {
             paging: "1;20",
             fullname_like: text
         };
-        const organization = this.serviceCall.organization;
+        const organization = this.entity.organization;
         if (organization) {
             filter.organization = organization.id;
         }
@@ -165,7 +165,7 @@ class ServiceCallCreateCommonController {
     }
 
     async loadSLA() {
-        const organization = this.serviceCall.organization;
+        const organization = this.entity.organization;
         if (organization) {
             const now = new Date();
             const filter = {
@@ -174,7 +174,7 @@ class ServiceCallCreateCommonController {
                 status: 281478725107716 // статус "В работе"
             };
             filter.organizationId = organization.id;
-            const caller = this.serviceCall.caller;
+            const caller = this.entity.caller;
             if (caller) {
                 filter.personId = caller.id;
             }
@@ -186,12 +186,12 @@ class ServiceCallCreateCommonController {
      * Удаляем сервис, если он не соответствует новому значению организации. Иначе выбранный сервис остается.
      */
     async checkOrgPersonService() {
-        if (!this.serviceCall.organization || !this.serviceCall.service) {
-            this.serviceCall.service = null;
+        if (!this.entity.organization || !this.entity.service) {
+            this.entity.service = null;
         } else {
             const services = await this.loadServices();
-            if (services.indexOf(this.serviceCall.service) === -1) {
-                this.serviceCall.service = null;
+            if (services.indexOf(this.entity.service) === -1) {
+                this.entity.service = null;
             }
         }
     }
@@ -200,16 +200,16 @@ class ServiceCallCreateCommonController {
      * Обновляет крайний срок в зависимости от приоритета и SLA
      */
     async refreshDeadline() {
-        const service = this.serviceCall.service;
-        const priority = this.serviceCall.priority;
+        const service = this.entity.service;
+        const priority = this.entity.priority;
         if (service && priority && service.sla && service.sla.serviceLevel) {
-            this.serviceCall.serviceLevel = await new this.SD.ServiceLevel(service.sla.serviceLevel.id).load(); // todo нужно ли еще фильтровать по blocked = false?
-            const impactSetting = this.serviceCall.serviceLevel.impactSettingList.find((element, index, array) => {
+            this.entity.serviceLevel = await new this.SD.ServiceLevel(service.sla.serviceLevel.id).load(); // todo нужно ли еще фильтровать по blocked = false?
+            const impactSetting = this.entity.serviceLevel.impactSettingList.find((element, index, array) => {
                 return element.priority.id === priority.id;
             });
             if (impactSetting) {
-                const entityId = EntityTypes.ServiceCall;
-                this.serviceCall.serviceLevelPriority = impactSetting.serviceLevelPriority;
+                const entityId = EntityTypes.entity;
+                this.entity.serviceLevelPriority = impactSetting.serviceLevelPriority;
                 const durations = await this.SD.ServiceLevelPriorityDuration.list({
                     entityId,
                     serviceLevelPriority: impactSetting.serviceLevelPriority.id
@@ -218,14 +218,14 @@ class ServiceCallCreateCommonController {
                     const serviceLevelPriorityDuration = durations[0];
                     const deadline = new Date(new Date().getTime() + serviceLevelPriorityDuration.maximumDuration);
                     console.log("new deadline is " + deadline);
-                    this.serviceCall.deadline = deadline;
+                    this.entity.deadline = deadline;
                     return;
                 }
             }
         }
-        this.serviceCall.serviceLevel = null;
-        this.serviceCall.serviceLevelPriority = null;
-        this.serviceCall.deadline = null;
+        this.entity.serviceLevel = null;
+        this.entity.serviceLevelPriority = null;
+        this.entity.deadline = null;
     }
 
 
@@ -238,7 +238,7 @@ class ServiceCallCreateCommonController {
     async loadExecutors(text) {
         const filter = {selectable: "1", hasAccount: ""};
         if (text) filter.fullname_like = text;
-        const workgroup = this.serviceCall.assignment.workgroup;
+        const workgroup = this.entity.assignment.workgroup;
         if (workgroup) filter.workgroupId = workgroup.id;
         return this.SD.Person.list(filter);
     }
@@ -246,7 +246,7 @@ class ServiceCallCreateCommonController {
     async loadWorkgroups(text) {
         const filter = {selectable: "1"};
         if (text) filter.name_like = text;
-        const executor = this.serviceCall.assignment.executor;
+        const executor = this.entity.assignment.executor;
         if (executor) filter.personId = executor.id;
         return this.SD.Workgroup.list(filter);
     }

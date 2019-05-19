@@ -11,12 +11,8 @@ class ServiceCallCardViewController{
     @NGInject() $state;
     @NGInject() $transitions;
     @NGInject() $pageLock;
-    @NGInject() entity;
+    @NGInject() entity; // заявка
 
-    /**
-     * Заявка
-     */
-    serviceCall;
     /**
      * Режим редактирования/просмотр
      */
@@ -31,8 +27,7 @@ class ServiceCallCardViewController{
         console.debug('servicecall view init');
 
         this.msgTypes = SERVICECALL_MESSAGE_TYPES;
-        this.serviceCall = this.entity;
-        this.accessRules = this.serviceCall.accessRules;
+        this.accessRules = this.entity.accessRules;
         this.registerLeaveEditListener();
     }
 
@@ -40,18 +35,18 @@ class ServiceCallCardViewController{
         this.editing = true;
     }
     async saveEditing(){
-        await this.serviceCall.save();
+        await this.entity.save();
         this.editing = false;
     }
     cancelEditing(){
-        this.serviceCall.reset();
+        this.entity.reset();
         this.editing = false;
     }
 
     get isRequiredFieldsFilled() {
         for(const fieldName of this.requiredFields) {
             const subnames = fieldName.split("."); // Сложное имя поля (пр. assignment.executor)
-            let obj = this.serviceCall;
+            let obj = this.entity;
             for (let i = 0; i < subnames.length; i++) {
                 const subname = subnames[i];
                 const value = obj[subname];
@@ -71,13 +66,13 @@ class ServiceCallCardViewController{
         this.$pageLock(this.$scope)
             .setTitle("Несохраненные изменения")
             .setText("Внимание! В сущность были внесены изменения, сохранить их перед уходом?")
-            .setCondition(() => this.editing && this.serviceCall.checkModified())
+            .setCondition(() => this.editing && this.entity.checkModified())
             .addAction("Да", async () => {
                 await this.saveEditing();
                 return true;
             })
             .addAction("Нет", () => {
-                this.serviceCall.reset();
+                this.entity.reset();
                 return true;
             })
             .addAction("Отмена", () => false)
@@ -88,7 +83,7 @@ class ServiceCallCardViewController{
 
     // Проверка, есть ли несохраненные изменения. Влияет на кнопку "Сохранить"
     checkUnsavedModifies(){
-        return this.serviceCall.checkModified() || this.serviceCall.assignment.checkModified();
+        return this.entity.checkModified() || this.entity.assignment.checkModified();
     }
 
     async loadOrganizations(text) {
@@ -97,9 +92,9 @@ class ServiceCallCardViewController{
             filter.name_like = text;
             return this.SD.Organization.list(filter);
         }
-        const caller = this.serviceCall.caller;
+        const caller = this.entity.caller;
         if (!text && caller && caller.organization) { // если задан заявитель, то должна отображаться его организация
-            this.serviceCall.organization = caller.organization;
+            this.entity.organization = caller.organization;
             return [caller.organization];
         }
     }
@@ -109,10 +104,10 @@ class ServiceCallCardViewController{
         if (text) {
             filter.name_like = text;
         }
-        const organization = this.serviceCall.organization;
+        const organization = this.entity.organization;
         if (organization) {
             if (!text) {
-                this.serviceCall.caller = null;
+                this.entity.caller = null;
             }
             filter.organization = organization.id; // ищем только среди сотрудников организации
         }
@@ -120,7 +115,7 @@ class ServiceCallCardViewController{
     }
 
     async loadServices(text) {
-        const organization = this.serviceCall.organization;
+        const organization = this.entity.organization;
         if (organization) {
             const filter = {selectable:"1"};
             if (text) {
@@ -141,7 +136,7 @@ class ServiceCallCardViewController{
     async loadExecutors(text){
         const filter = {selectable:"1", hasAccount: ""};
         if (text) filter.fullname_like = text;
-        const workgroup = this.serviceCall.assignment.workgroup;
+        const workgroup = this.entity.assignment.workgroup;
         if (workgroup) filter.workgroupId = workgroup.id;
         return this.SD.Person.list(filter);
     }
@@ -149,7 +144,7 @@ class ServiceCallCardViewController{
     async loadWorkgroups(text){
         const filter = {selectable:"1"};
         if (text) filter.name_like = text;
-        const executor = this.serviceCall.assignment.executor;
+        const executor = this.entity.assignment.executor;
         if (executor) filter.personId = executor.id;
         return this.SD.Workgroup.list(filter);
     }
@@ -158,7 +153,7 @@ class ServiceCallCardViewController{
         const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
         if (text) filter.fulltext = text;
         //Выборка статусов
-        const status = this.serviceCall.status;
+        const status = this.entity.status;
         switch (status.id) {
             case SERVICECALL_STATUSES.REGISTERED:
                 filter.id =

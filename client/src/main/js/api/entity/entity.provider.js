@@ -64,8 +64,7 @@ function EntityProvider(cache) {
 
         /**
          * Создает сущность. Если не передать tracker - считается, что создается новая сущность (которой нет в БД)
-         * Она не попадет в кэш.
-         * Если же tracker передан - вернет новый объект, который наследуется от кэшированного.
+         * Если же tracker передан - вернет новый объект.
          * Переданный tracker попадет в поле, указанное в $tracker["ownField"].
          * @link Entity.constructor#$tracker
          * @param {number} [tracker] - трекер сущности
@@ -81,6 +80,15 @@ function EntityProvider(cache) {
             return Object.create(data);
         }
 
+        /**
+         * Создает сущность. Если не передать tracker - считается, что создается новая сущность (которой нет в БД)
+         * Она не попадет в кэш.
+         * Если же tracker передан - вернет новый объект, который наследуется от кэшированного.
+         * Переданный tracker попадет в поле, указанное в $tracker["ownField"].
+         * @link Entity.constructor#$tracker
+         * @param {number} [tracker] - трекер сущности
+         * @returns {Entity|*}
+         */
         // старая версия с кэшем
         /*constructor2(tracker) {
             const trackerField = this.constructor.$tracker.ownField;

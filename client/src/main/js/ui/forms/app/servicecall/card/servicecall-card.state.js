@@ -7,14 +7,14 @@ import template from "./servicecall-card.html";
 
 const ServiceCallCardState = {
     name: "app.servicecall.card",
-    url: "/{serviceCallId:int}",
+    url: "/{entityId:int}",
     controller: controller,
     template: template,
     controllerAs: "ctrl",
     abstract: true,
     resolve: {
         SD: SDResolver,
-        entity: entityResolver
+        entity: EntityResolver
     }
 };
 
@@ -22,9 +22,9 @@ const ServiceCallCardState = {
  * Загружает полностью заполненную сущность с сервера, включая информацию о правах доступа
  * @type {string[]}
  */
-entityResolver.$inject = ["SD", "$stateParams"];
-async function entityResolver(SD, $stateParams) {
-    const entity = await new SD.ServiceCall($stateParams.serviceCallId).load();
+EntityResolver.$inject = ["SD", "$stateParams"];
+async function EntityResolver(SD, $stateParams) {
+    const entity = await new SD.ServiceCall($stateParams.entityId).load();
     await entity.updateAccessRules();
     return entity;
 }
