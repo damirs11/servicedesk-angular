@@ -43,7 +43,7 @@ class ChangeCardController {
     ];
 
     @NGInject() SD;
-    @NGInject() changeId;
+    @NGInject() entity;
     @NGInject() Session;
 
     async $onInit(){
@@ -53,8 +53,7 @@ class ChangeCardController {
     }
 
     async loadData(){
-        await this.$loadChange();
-        await this.$loadAccess();
+        this.change = this.entity;
         await this.$loadStatuses();
         await this.$loadApproval();
     }
@@ -89,20 +88,6 @@ class ChangeCardController {
         return this.loadingError.toString();
     }
 
-    async $loadAccess() {
-        await this.change.updateAccessRules();
-    }
-
-    async $loadChange(){
-        try {
-            this.busy = "loading";
-            this.change = await new this.SD.Change(this.changeId).load();
-        } catch (error) {
-            this.loadingError = error || true;
-            throw error;
-        }
-    }
-
     get canSeeApprovalPage() {
         return this.accessRules.isReadApprovalAllowed
             && this.approval
@@ -110,7 +95,7 @@ class ChangeCardController {
 
     get $isManager(){
         return this.change.manager
-            && (this.change.manager.id == this.Session.user.person.id)
+            && (this.change.manager.id === this.Session.user.person.id)
     }
 }
 

@@ -4,19 +4,29 @@
 import {SDResolver} from "../../sd.resolver";
 import {controller} from "./change-card.ctrl"
 import template from "./change-card.html"
-import {ChangeIdResolver} from "./change.resolver";
 
 let ChangeCardState = {
     name: "app.change.card",
-    url: "/{changeId:int}",
+    url: "/{entityId:int}",
     controller: controller,
     template: template,
     controllerAs: "ctrl",
     abstract: true,
     resolve: {
         SD: SDResolver,
-        changeId: ChangeIdResolver
+        entity: EntityResolver
     }
 };
+
+/**
+ * Загружает полностью заполненную сущность с сервера, включая информацию о правах доступа
+ * @type {string[]}
+ */
+EntityResolver.$inject = ["SD", "$stateParams"];
+async function EntityResolver(SD, $stateParams) {
+    const entity = await new SD.Change($stateParams.entityId).load();
+    await entity.updateAccessRules();
+    return entity;
+}
 
 export {ChangeCardState};

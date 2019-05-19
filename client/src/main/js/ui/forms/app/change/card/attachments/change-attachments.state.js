@@ -1,7 +1,6 @@
 import template from "../../../entity-pages/card/attachments/entity-attachments.html"
 import {controller} from "../../../entity-pages/card/attachments/entity-attachments.ctrl"
 import {SDResolver} from "../../../sd.resolver";
-import {ChangeGetterResolver} from "../change.resolver";
 
 const ChangeCardAttachmentsState = {
     name: "app.change.card.attachments",
@@ -14,7 +13,7 @@ const ChangeCardAttachmentsState = {
     },
     resolve: {
         SD: SDResolver,
-        getEntity: ChangeGetterResolver
+        getEntity: ['entity', (entity) => () => entity]
     }
 };
 

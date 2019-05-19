@@ -9,7 +9,7 @@ class ChangeCardViewController{
     // NG зависимости
     @NGInject() $scope;
     @NGInject() SD;
-    @NGInject() changeId;
+    @NGInject() entity;
     @NGInject() ModalAction;
     @NGInject() $state;
     @NGInject() $transitions;
@@ -35,7 +35,7 @@ class ChangeCardViewController{
 
     async $onInit() {
         this.msgTypes = CHANGE_MESSAGE_TYPES;
-        this.change = new this.SD.Change(this.changeId);
+        this.change = this.entity;
         this.accessRules = this.change.accessRules;
         this.registerLeaveEditListener();
 

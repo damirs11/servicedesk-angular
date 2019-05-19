@@ -1,7 +1,6 @@
 import template from "../../../entity-pages/card/history/entity-history.html"
 import {controller} from "../../../entity-pages/card/history/entity-history.ctrl"
 import {SDResolver} from "../../../sd.resolver";
-import {ChangeGetterResolver} from "../change.resolver";
 
 const ChangeCardHistoryState = {
     name: "app.change.card.history",
@@ -14,7 +13,7 @@ const ChangeCardHistoryState = {
     },
     resolve: {
         SD: SDResolver,
-        getEntity: ChangeGetterResolver
+        getEntity: ['entity', (entity) => () => entity]
     }
 };
 

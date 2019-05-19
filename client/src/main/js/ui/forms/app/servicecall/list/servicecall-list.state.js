@@ -1,6 +1,5 @@
 import {controller} from "./servicecall-list.ctrl.js";
 import template from "./servicecall-list.html";
-import {SearchParamsResolver} from "./search-params.resolver";
 
 /**
  * Журнал заявок
@@ -19,5 +18,18 @@ let ServiceCallListState = {
         searchParams: SearchParamsResolver
     }
 };
+
+/**
+ * Считывает значения параметров из адресной строки
+ */
+SearchParamsResolver.$inject = ["$stateParams"];
+function SearchParamsResolver($stateParams){
+    const params = {};
+    const searchParams = ["sort", "fulltext", "no", "filter"];
+    searchParams.forEach(name => {
+        if($stateParams[name] !== undefined) params[name] = $stateParams[name];
+    });
+    return params;
+}
 
 export {ServiceCallListState};

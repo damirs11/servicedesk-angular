@@ -12,7 +12,7 @@ const ERROR_APPROVAL_READ_DISALLOWED = Symbol("ERROR_APPROVAL_READ_DISALLOWED");
 class ChangeCardApprovalController{
     @NGInject() $scope;
     @NGInject() SD;
-    @NGInject() changeId;
+    @NGInject() entity;
     @NGInject() $grid;
     @NGInject() $pageLock;
     @NGInject() Session;
@@ -68,7 +68,7 @@ class ChangeCardApprovalController{
     async addApprover(){
         const approverVote = new this.SD.ApproverVote();
         approverVote.approver = this.selectedApprover;
-        approverVote.entityId = this.changeId;
+        approverVote.entityId = this.entity.id;
         approverVote.entityType = {id:this.approval.ownerEntityType};
         await approverVote.create();
         this.selectedApprover = null; // Очищаем поле
@@ -97,7 +97,7 @@ class ChangeCardApprovalController{
     }
 
     async $onInit() {
-        const change = this.change = new this.SD.Change(this.changeId);
+        const change = this.change = this.entity;
         if (!this.change.accessRules.isReadApprovalAllowed) return;
         const grid = this.grid = new this.$grid.ApproverVoteGrid(this.$scope,this.SD,change);
         this.loadingPromise = this.change.getApproval();
