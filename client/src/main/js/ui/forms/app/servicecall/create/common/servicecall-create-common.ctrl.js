@@ -83,6 +83,20 @@ class ServiceCallCreateCommonController {
             }
             this.enableWatch.folder = true;
         });
+        this.$scope.$watch("ctrl.entity.newDeadline", async () => {
+            if (this.enableWatch.newDeadline) {
+                console.debug('newDeadline changed');
+                this.newDeadlineChanged();
+            }
+            this.enableWatch.newDeadline = true;
+        });
+        this.$scope.$watch("ctrl.entity.newDeadlineReason", async () => {
+            if (this.enableWatch.newDeadlineReason) {
+                console.debug('newDeadlineReason changed');
+                this.newDeadlineChanged();
+            }
+            this.enableWatch.newDeadlineReason = true;
+        });
     }
 
     get isParentBusy() {
@@ -96,12 +110,38 @@ class ServiceCallCreateCommonController {
         };
         return this.SD.Organization.list(filter);
     }
+
+    /**
+     * Изменение "newDeadlineReason" или "newDeadline",
+     * если одно из полей задано, то оба становятся обязательными.
+     * @returns {Promise<void>}
+     */
+    async newDeadlineChanged() {
+        let newDeadlineField = "newDeadline";
+        let newDeadlineReasonField = "newDeadlineReason";
+        let fieldsAlreadyRequired = this.required_fields.includes(newDeadlineField) && this.required_fields.includes(newDeadlineReasonField);
+        if ((this.entity.newDeadline || this.entity.newDeadlineReason) && !fieldsAlreadyRequired) {
+            //Если заполнено поле newDeadline или newDeadlineReason и поля небыли добавлены в обязательные, то добавить
+            this.required_fields.push(newDeadlineField);
+            this.required_fields.push(newDeadlineReasonField);
+        } else if (!this.entity.newDeadline && !this.entity.newDeadlineReason && fieldsAlreadyRequired) {
+            //Если ни одно, ни другое поле не задано, то удалить из обязательных
+            let that = this;
+            this.required_fields.filter(function (value, index) {
+                if (value === newDeadlineField || value === newDeadlineReasonField) {
+                    delete that.required_fields[index];
+                }
+            });
+        }
+    }
+
     async changedFolder() {
         var folder = this.entity.folder;
         if (folder && folder.id === FOLDERS.ALCOA) {
             this.entity.initiator = await new this.SD.Person(PERSONS.ALCOA_HELPDESK).load();
         }
     }
+
     async changedSLA() {
         var sla = this.entity.service.sla;
         if (sla && sla.id === SLA.SIBUR && this.entity.status.id !== SERVICECALL_STATUSES.CLOSED) {
@@ -114,7 +154,8 @@ class ServiceCallCreateCommonController {
             //Если source === email делаем поле emailDate обязательным
             this.entity.emailDate = new Date(new Date().getTime());
             this.required_fields.push("emailDate")
-        } if (this.entity.source.id === SOURCES.EXTERNAL_SYSTEM) {
+        }
+        if (this.entity.source.id === SOURCES.EXTERNAL_SYSTEM) {
             this.required_fields.push("extId");
         } else {
             //Иначе удаляем из массива обязательных полей
@@ -127,6 +168,7 @@ class ServiceCallCreateCommonController {
             });
         }
     }
+
     async loadCallers(text) {
         const filter = {
             paging: "1;20",

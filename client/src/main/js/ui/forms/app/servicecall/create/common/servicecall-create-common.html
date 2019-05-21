@@ -130,7 +130,7 @@
             </div>
         </form>
     </div>
-    
+
     <div class="entity-container__content">
         <form class="form-inline entity-properties">
 
@@ -268,10 +268,34 @@
                              fetch-data="ctrl.loadConfigurationItems($text)"
                              display-value="$value.searchCode"
                              placeholder="Введите код объекта"
-                             editing="true"
+                             editing="false"
                              allow-empty="true"
                              disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
+            </div>
+        </form>
+    </div>
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+            <div class="form-group e-prop">
+                <label>Новый крайний срок:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.entity.newDeadline"
+                        allow-empty="true"
+                        editing="true"
+                ></sd-datetime>
+            </div>
+            <div class="form-group entity-text e-prop" style="width: 100%; height: 42px">
+                <label>Причина переноса к/c:</label>
+                <div class="entity-text__inline-field e-prop__value">
+                    <sd-text target="ctrl.entity.newDeadlineReason"
+                             editing="true"
+                             placeholder="Укажите причину переноса крайнего срока"
+                             disabled="ctrl.isParentBusy"
+                    >
+                    </sd-text>
+                </div>
             </div>
         </form>
     </div>

@@ -22,6 +22,18 @@ class SDDateTimeComponent {
         if (this.allowEmpty === undefined) return true;
         return this.allowEmpty;
     }
+    get isEditing() {
+        if (this.editing === undefined) return true;
+        return this.editing;
+    }
+
+    isAllowClear() {
+        return this.editing && this.allowEmpty;
+    }
+    clear(event) {
+        event.stopPropagation();
+        this.selectedDate = this.target = undefined;
+    }
 
     $onInit(){
         this.selectedDate = this.target;

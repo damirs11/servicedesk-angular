@@ -228,6 +228,22 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible, Attach
          */
         @Serialize(Nullable(serializeId)) @Parse(data => SD.EntityCode7.parse(data)) renewalReason;
 
+        /**
+         * Новый крайний срок
+         * @property
+         * @name SD.ServiceCall#newDeadline
+         * @type {Date}
+         */
+        @Serialize(Number) @Parse( Nullable(Date) ) newDeadline;
+
+        /**
+         * Причина переноса крайнего срока
+         * @property
+         * @name SD.ServiceCall#newDeadlineReason
+         * @type {string}
+         */
+        @Parse(String) newDeadlineReason;
+
         toString(){
             return String(this.no);
         }

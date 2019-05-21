@@ -13,7 +13,9 @@
             <span class="input-group-addon">
                 <i class="glyphicon glyphicon-calendar"></i>
             </span>
-            <!--ToDo добавить кнопку "очистки"-->
+            <span class="input-group-addon" ng-if="ctrl.isAllowClear()" ng-click="ctrl.clear($event)">
+                <i class="glyphicon glyphicon-trash"></i>
+            </span>
         </div>
     </a>
     <ul class="dropdown-menu" role="menu" data-ng-if="ctrl.isEnabled">
