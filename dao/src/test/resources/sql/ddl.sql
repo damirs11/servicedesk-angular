@@ -202,7 +202,8 @@ CREATE TABLE itsm_workgroups (
   wog_searchcode VARCHAR (128),
   wog_sta_oid DECIMAL (18),
   wog_parent DECIMAL (18),
-  wog_poo_oid DECIMAL(18)
+  wog_poo_oid DECIMAL(18),
+  wog_notselectable DECIMAL(1, 0)
 );
 
 CREATE TABLE itsm_wog_custom_fields (

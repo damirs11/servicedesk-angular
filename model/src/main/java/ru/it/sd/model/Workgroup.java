@@ -39,6 +39,8 @@ public class Workgroup implements HasId, HasStatus, HasFolder, Serializable {
 
     @FieldMeta(columnName = "wog_poo_oid")
     private Folder folder;
+    @FieldMeta(columnName = "wog_notselectable")
+    private Boolean blocked;
 
     /**
      * Ответственный по группе
@@ -111,5 +113,13 @@ public class Workgroup implements HasId, HasStatus, HasFolder, Serializable {
 
     public void setGroupManager(Person groupManager) {
         this.groupManager = groupManager;
+    }
+
+    public Boolean getBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        this.blocked = blocked;
     }
 }

@@ -35,6 +35,7 @@ public class WorkgroupDao extends AbstractEntityDao<Workgroup> {
 			"wg.wog_sta_oid, " +
 			"wg.wog_parent, " +
 			"wg.wog_poo_oid, " +
+			"wg.wog_notselectable, " +
 			"wgc.wgc_per1_oid " +
 		"FROM " +
 			"itsm_workgroups AS wg " +
