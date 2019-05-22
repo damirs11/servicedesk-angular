@@ -10,6 +10,7 @@ CREATE TABLE itsm_persons (
   per_org_oid DECIMAL(18),
   per_acc_oid DECIMAL(18),
   per_poo_oid DECIMAL(18),
+  per_notselectable DECIMAL(1, 0),
   per_cat_oid DECIMAL(18)
 );
 

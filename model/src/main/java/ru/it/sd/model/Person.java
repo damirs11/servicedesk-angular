@@ -58,6 +58,9 @@ public class Person implements HasId, HasFolder, Serializable {
 
 	@FieldMeta(columnName = "per_poo_oid")
 	private Folder folder;
+
+	@FieldMeta(columnName = "per_notselectable")
+	private Boolean blocked;
 	/**
 	 * Категория
 	 */
@@ -148,6 +151,14 @@ public class Person implements HasId, HasFolder, Serializable {
 
 	public void setCategory(EntityCategory category) {
 		this.category = category;
+	}
+
+	public Boolean getBlocked() {
+		return blocked;
+	}
+
+	public void setBlocked(Boolean blocked) {
+		this.blocked = blocked;
 	}
 
 	public String getShortName() {

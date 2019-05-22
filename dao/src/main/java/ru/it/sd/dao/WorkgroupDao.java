@@ -8,6 +8,8 @@ import ru.it.sd.dao.mapper.EntityRowMapper;
 import ru.it.sd.dao.mapper.workgroup.WorkgroupListMapper;
 import ru.it.sd.dao.mapper.workgroup.WorkgroupMapper;
 import ru.it.sd.dao.mapper.workgroup.WorkgroupSimpleMapper;
+import ru.it.sd.dao.utils.AccessFilterEntity;
+import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.model.Workgroup;
 
 import java.util.List;
@@ -105,5 +107,25 @@ public class WorkgroupDao extends AbstractEntityDao<Workgroup> {
 			}
 			sql.append(" AND wg.wog_oid in (SELECT id FROM SdGetWorkGroups(:workgroupId, :forward))");
 		}
+        if (filter instanceof FilterMap) {
+            List<AccessFilterEntity> accessFilter = ((FilterMap) filter).getAccessFilter();
+            if (!accessFilter.isEmpty()) {
+                sql.append(" AND ( ");
+                if (accessFilter.size() == 1 && accessFilter.get(0).getNoAccess()) {
+                    sql.append("1=0");
+                } else {
+                    boolean isFirst = true;
+                    for (AccessFilterEntity filterEntity : accessFilter) {
+                        sql.append(isFirst ? " ( 1=1 " : " OR ( 1=1");
+                        if (!filterEntity.getFolders().isEmpty()) {
+                            sql.append(" AND wg.wog_poo_oid in (").append(filterEntity.getFoldersString()).append(")");
+                        }
+                        sql.append(" ) ");
+                        isFirst = false;
+                    }
+                }
+                sql.append(" ) ");
+            }
+        }
 	}
 }

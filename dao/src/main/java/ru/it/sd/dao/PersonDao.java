@@ -7,6 +7,8 @@ import ru.it.sd.dao.mapper.EntityRowMapper;
 import ru.it.sd.dao.mapper.person.PersonListMapper;
 import ru.it.sd.dao.mapper.person.PersonMapper;
 import ru.it.sd.dao.mapper.person.PersonSimpleMapper;
+import ru.it.sd.dao.utils.AccessFilterEntity;
+import ru.it.sd.dao.utils.FilterMap;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.Person;
 import ru.it.sd.util.ResourceMessages;
@@ -51,6 +53,7 @@ public class PersonDao extends AbstractEntityDao<Person> {
             "	o.org_poo_oid, " +
 			"	p.per_org_oid, " +
 			"	p.per_cat_oid, " +
+			"	p.per_notselectable, " +
 			"	p.per_poo_oid\n " +
 			"FROM\n" +
 			"itsm_persons p\n" +
@@ -109,6 +112,26 @@ public class PersonDao extends AbstractEntityDao<Person> {
 			sql.append(" AND p.per_oid IN (" +
 					"SELECT mem_per_oid FROM itsm_members " +
 					"WHERE mem_wog_oid = :workgroupId)");
+		}
+		if (filter instanceof FilterMap) {
+			List<AccessFilterEntity> accessFilter = ((FilterMap) filter).getAccessFilter();
+			if (!accessFilter.isEmpty()) {
+				sql.append(" AND ( ");
+				if (accessFilter.size() == 1 && accessFilter.get(0).getNoAccess()) {
+					sql.append("1=0");
+				} else {
+					boolean isFirst = true;
+					for (AccessFilterEntity filterEntity : accessFilter) {
+						sql.append(isFirst ? " ( 1=1 " : " OR ( 1=1");
+						if (!filterEntity.getFolders().isEmpty()) {
+							sql.append(" AND p.per_poo_oid in (").append(filterEntity.getFoldersString()).append(")");
+						}
+						sql.append(" ) ");
+						isFirst = false;
+					}
+				}
+				sql.append(" ) ");
+			}
 		}
 	}
 
