@@ -470,6 +470,7 @@ CREATE TABLE itsm_ser_custom_fields (
   scf_cod3_oid DECIMAL(18),
   scf_cod4_oid DECIMAL(18),
   scf_cod5_oid DECIMAL(18),
+  scf_cod6_oid DECIMAL(18),
   scf_duration1 FLOAT
 );
 

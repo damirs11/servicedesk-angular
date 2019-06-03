@@ -65,6 +65,7 @@ public class ServiceCallDao extends AbstractEntityDao<ServiceCall> {
             "    scf.scf_cod3_oid, " +
             "    scf.scf_cod4_oid, " +
             "    scf.scf_cod5_oid, " +
+            "    scf.scf_cod6_oid, " +
             "    scf.scf_duration1, " +
             "    scw.scw_workaround, " +
             "    se1.se1_4k1, " +
