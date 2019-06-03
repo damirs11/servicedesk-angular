@@ -67,9 +67,6 @@ class ServiceCallCreateCommonController {
             console.debug('service was changed');
             let service = this.entity.service;
             let slaId = service && service.sla ? service.sla.id : null;
-            if (slaId && (slaId === SLA.IVI || slaId === SLA.TRANS_AIS_EAD || slaId === SLA.TRANS_KIS_EATD || slaId === SLA.TRANS_KIS_EHD || slaId === SLA.TRANS_MUZ_EDO)) {
-                if (this.entity.expired)
-            }
             this.refreshDeadline();
             this.changedSLA();
             this.refreshPriority();
