@@ -5,6 +5,7 @@ import ru.it.sd.dao.CodeDao;
 import ru.it.sd.exception.ServiceException;
 import ru.it.sd.model.BaseCode;
 import ru.it.sd.model.EntityType;
+import ru.it.sd.model.Folder;
 import ru.it.sd.util.ResourceMessages;
 
 import java.lang.reflect.ParameterizedType;
@@ -27,7 +28,12 @@ public abstract class AbstractCodeService<T extends BaseCode> extends ReadServic
     public List<T> list(Map<String, String> filter) {
         String entityTypeId = filter.get("entityTypeId");
         if (entityTypeId == null) {
-            throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
+            //fixme костыль
+            if (!getGenericClass().equals(Folder.class)) {
+                throw new ServiceException(ResourceMessages.getMessage("error.entity.type"));
+            } else {
+                entityTypeId = EntityType.SERVICECALL.getId().toString();
+            }
         }
         Long subType = getTypeId(EntityType.get(Long.parseLong(entityTypeId)));
         Map<String, String> subFilter = new HashMap<>();
