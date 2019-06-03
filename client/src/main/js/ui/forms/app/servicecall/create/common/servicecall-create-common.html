@@ -174,6 +174,19 @@
                              disabled="ctrl.isParentBusy"
                 ></sd-dropdown>
             </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Руководитель исполнителя:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.executorHead"
+                             placeholder="Введите имя персоны"
+                             fetch-data="ctrl.loadExecutorHead($text)"
+                             display-value="$value.fullName"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
         </form>
     </div>
 
@@ -296,6 +309,46 @@
                     >
                     </sd-text>
                 </div>
+            </div>
+        </form>
+    </div>
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+            <div class="form-group entity-text e-prop" style="width: 100%; height: 42px;">
+                <label>Нарушение регистрации:</label>
+                <div class="entity-text__inline-field e-prop__value" style="margin-left: 10px;">
+                    <input type="checkbox" ng-model="ctrl.entity.registrationError" ng-disabled="ctrl.isDisabled('registrationError')"/>
+                </div>
+            </div>
+            <div class="form-group entity-text e-prop" style="width: 100%; height: 42px;">
+                <label>Часто задаваемые вопросы:</label>
+                <div class="entity-text__inline-field e-prop__value" style="margin-left: 10px;">
+                    <input type="checkbox" ng-model="ctrl.entity.frequentlyAskedQuestion"/>
+                </div>
+            </div>
+            <div class="form-group e-prop">
+                <label>База известных ошибок:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.faq"
+                             fetch-data="ctrl.loadFaq($text)"
+                             display-value="$value.name"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
+            </div>
+            <div class="form-group e-prop">
+                <label>Подсистема АИС ЭАД:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.entityCode6"
+                             fetch-data="ctrl.loadEntityCode6($text)"
+                             display-value="$value.fullName"
+                             placeholder="Выберите подсистему"
+                             editing="true"
+                             cache="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy"
+                ></sd-dropdown>
             </div>
         </form>
     </div>

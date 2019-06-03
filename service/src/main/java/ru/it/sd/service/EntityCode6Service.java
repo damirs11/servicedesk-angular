@@ -1,19 +1,19 @@
 package ru.it.sd.service;
 
 import org.springframework.stereotype.Service;
+import ru.it.sd.model.EntityCode6;
 import ru.it.sd.model.EntityType;
-import ru.it.sd.model.Source;
 
 /**
- * Сервис "источник"
+ * Сервис Систем
  *
  * @author NSychev
  * @since 22.12.2017
  */
 @Service
-public class SourceService extends AbstractCodeService<Source> {
+public class EntityCode6Service extends AbstractCodeService<EntityCode6> {
     @Override
     protected Long getTypeId(EntityType entityType) {
-        return Source.getTypeId(entityType);
+        return EntityCode6.getTypeId(entityType);
     }
 }

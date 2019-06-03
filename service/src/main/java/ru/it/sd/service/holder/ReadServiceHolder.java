@@ -4,6 +4,7 @@ import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import ru.it.sd.service.AbstractCodeService;
 import ru.it.sd.service.CrudService;
 import ru.it.sd.service.ReadService;
 
@@ -28,6 +29,7 @@ public class ReadServiceHolder extends AbstractHolder<ReadService> {
 	@Override
 	public void initRepository() {
 		Map<String, ReadService> beans = BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, ReadService.class);
+		beans.putAll(BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, AbstractCodeService.class));
 		for (ReadService service : beans.values()) {
 			Class entityClass = getEntityClass(service);
 			if (entityClass != null) {
@@ -47,6 +49,7 @@ public class ReadServiceHolder extends AbstractHolder<ReadService> {
 		if (type instanceof ParameterizedType) {
 			ParameterizedType t = (ParameterizedType) type;
 			if (t.getRawType() == ReadService.class ||
+                    t.getRawType() == AbstractCodeService.class ||
 					t.getRawType() == CrudService.class) {
 				return (Class) t.getActualTypeArguments()[0];
 			}

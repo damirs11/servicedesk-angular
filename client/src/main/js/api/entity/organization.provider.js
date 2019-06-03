@@ -1,8 +1,10 @@
 import {Parse} from "./decorator/parse.decorator";
 import {Nullable} from "./decorator/parse-utils";
+import {Serialize} from "./decorator/serialize.decorator";
+import {serializeId} from "./decorator/serialize-utils";
 
-OrganizationProvider.$inject = ["RESTEntity"];
-function OrganizationProvider(RESTEntity) {
+OrganizationProvider.$inject = ["RESTEntity", "SD"];
+function OrganizationProvider(RESTEntity, SD) {
     /**
      * Организация
      * @class
@@ -24,6 +26,14 @@ function OrganizationProvider(RESTEntity) {
          * @type {string|null}
          */
         @Parse( Nullable(String) ) email;
+
+        /**
+         * Папка
+         * @property
+         * @name SD.Organization#folder
+         * @type {SD.Person}
+         */
+        @Serialize(Nullable(serializeId)) @Parse(data => SD.Folder.parse(data)) folder;
 
         toString(){
             return this.name;

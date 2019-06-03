@@ -89,7 +89,14 @@ function SLAProvider(SD, RESTEntity) {
         @Serialize(Nullable(serializeId))
         @Parse(data => SD.ServiceLevel.parse(data) )
         serviceLevel;
-
+        /**
+         * Приоритет по умолчанию
+         * @property
+         * @name SD.ServiceLevelAgreement#defaultPriority
+         * @type {SD.EntityPriority}
+         */
+        @Serialize(serializeId)
+        @Parse(data => SD.EntityPriority.parse(data)) defaultPriority;
         toString(){
             return String(this.name);
         }

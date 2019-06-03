@@ -169,6 +169,16 @@ public class ServiceCallMapper extends EntityRowMapper<ServiceCall> {
             //Переводим продолжительность из double в миллисекунды
             serviceCall.setLaborCosts(Math.round(duration * 24 * 60 * 60 * 1000));
         }
+        Long entityCode3Id = DBUtils.getLong(rs, "scf_cod3_oid");
+        if (entityCode3Id != null) {
+            BaseCode code = codeDao.read(entityCode3Id);
+            serviceCall.setEntityCode3(code.convertTo(EntityCode3.class));
+        }
+        Long entityCode6Id = DBUtils.getLong(rs, "scf_cod6_oid");
+        if (entityCode6Id != null) {
+            BaseCode code = codeDao.read(entityCode6Id);
+            serviceCall.setEntityCode6(code.convertTo(EntityCode6.class));
+        }
         return serviceCall;
     }
 }

@@ -192,7 +192,7 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     /**
      * Оценка
      */
-    @FieldMeta(columnName = "scf_cod1_oid", tableAlias = "scf", attribute = 281481727837053L)
+    @FieldMeta(columnName = "scf_cod1_oid", tableAlias = "scf", attribute = 1080164458L)
     private EntityCode1 mark;
     /**
      * Комментарий инициатору
@@ -236,7 +236,9 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
      */
     @FieldMeta(columnName = "ser_frequentlyaskedquestion", attribute = 3073114126L)
     private Boolean frequentlyAskedQuestion;
-
+    /**
+     * База известных ошибок
+     */
     @FieldMeta(columnName = "ser_faq_oid", attribute = 3073114132L)
     private FAQ faq;
     /**
@@ -247,13 +249,23 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
     /**
      * Уведомление
      */
-    @FieldMeta(columnName = "scf_cod4_oid", tableAlias = "scf", attribute = 281479977042607L)
+    @FieldMeta(columnName = "scf_cod4_oid", tableAlias = "scf", attribute = 281478431572058L)
     private Notification notification;
     /**
      * Зона ответственности
      */
     @FieldMeta(columnName = "scf_cod5_oid", tableAlias = "scf", attribute = 1080164466L)
     private ResponsibilityArea responsibilityArea;
+    /**
+     * Подсистема АИС ЭАД
+     */
+    @FieldMeta(columnName = "scf_cod6_oid", tableAlias = "scf")
+    private EntityCode6 entityCode6;
+    /**
+     * Причина просрочки
+     */
+    @FieldMeta(columnName = "scf_cod3_oid", tableAlias = "scf", attribute = 1080164462L)
+    private EntityCode3 entityCode3;
     /**
      * Поля для получения доступа к вкладкам
      */
@@ -688,5 +700,21 @@ public class ServiceCall implements HasId, HasStatus, HasFolder, HasAssignment, 
 
     public void setResponsibilityArea(ResponsibilityArea responsibilityArea) {
         this.responsibilityArea = responsibilityArea;
+    }
+
+    public EntityCode6 getEntityCode6() {
+        return entityCode6;
+    }
+
+    public void setEntityCode6(EntityCode6 entityCode6) {
+        this.entityCode6 = entityCode6;
+    }
+
+    public EntityCode3 getEntityCode3() {
+        return entityCode3;
+    }
+
+    public void setEntityCode3(EntityCode3 entityCode3) {
+        this.entityCode3 = entityCode3;
     }
 }

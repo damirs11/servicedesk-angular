@@ -1,19 +1,19 @@
 import {Parse} from "./decorator/parse.decorator";
 
-SourceProvider.$inject = ["RESTEntity"];
-function SourceProvider(RESTEntity) {
+FAQProvider.$inject = ["RESTEntity"];
+function FAQProvider(RESTEntity) {
     /**
-     * Источник
+     * База известных ошибок
      * @class
-     * @name SD.Source
+     * @name SD.FAQ
      * @extends SD.RESTEntity
      */
-    return class Source extends RESTEntity {
+    return class FAQ extends RESTEntity {
 
         /**
          * Название
          * @property
-         * @name SD.Source#name
+         * @name SD.FAQ#name
          * @type {string}
          */
         @Parse( String ) name;
@@ -26,4 +26,4 @@ function SourceProvider(RESTEntity) {
     };
 }
 
-export {SourceProvider};
+export {FAQProvider};

@@ -1,5 +1,6 @@
 import {Parse} from "./decorator/parse.decorator";
-
+import {Serialize} from "./decorator/serialize.decorator";
+import {serializeId} from "./decorator/serialize-utils";
 WorkgroupProvider.$inject = ["RESTEntity","SD"];
 function WorkgroupProvider(RESTEntity,SD) {
     /**
@@ -33,6 +34,14 @@ function WorkgroupProvider(RESTEntity,SD) {
          * @type {string}
          */
         @Parse( (data) => SD.EntityStatus.parse(data) ) status;
+
+        /**
+         * Отвественный группы
+         * @property
+         * @name SD.ServiceCall#person
+         * @type {SD.Person}
+         */
+        @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) groupManager;
 
         toString(){
             return this.name

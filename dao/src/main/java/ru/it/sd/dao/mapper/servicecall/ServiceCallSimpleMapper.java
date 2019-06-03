@@ -136,6 +136,16 @@ public class ServiceCallSimpleMapper extends EntityRowMapper<ServiceCall> {
             BaseCode code = new BaseCode(responsibilityAreaId);
             serviceCall.setResponsibilityArea(code.convertTo(ResponsibilityArea.class));
         }
+        Long entityCode3Id = DBUtils.getLong(rs, "scf_cod3_oid");
+        if (entityCode3Id != null) {
+            BaseCode code = new BaseCode(entityCode3Id);
+            serviceCall.setEntityCode3(code.convertTo(EntityCode3.class));
+        }
+        Long entityCode6Id = DBUtils.getLong(rs, "scf_cod6_oid");
+        if (entityCode6Id != null) {
+            BaseCode code = new BaseCode(entityCode6Id);
+            serviceCall.setEntityCode6(code.convertTo(EntityCode6.class));
+        }
         return serviceCall;
     }
 }

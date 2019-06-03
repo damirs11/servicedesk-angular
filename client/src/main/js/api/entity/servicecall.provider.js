@@ -243,6 +243,44 @@ function ServiceCallProvider(EditableEntity, SD, Historyable, Accessible, Attach
          * @type {string}
          */
         @Parse(String) newDeadlineReason;
+        /**
+         * Нарушение регистрации
+         * @property
+         * @name SD.ServiceCall#registrationError
+         * @type {string}
+         */
+        @Parse(Boolean) registrationError;
+        /**
+         * Часто задаваемые вопросы
+         * @property
+         * @name SD.ServiceCall#frequentlyAskedQuestion
+         * @type {string}
+         */
+        @Parse(Boolean) frequentlyAskedQuestion;
+        /**
+         * База известных ошибок
+         * @property
+         * @name SD.ServiceCall#faq
+         * @type {SD.FAQ}
+         */
+        @Serialize(serializeId)
+        @Parse(data => SD.FAQ.parse(data)) faq;
+        /**
+         * Руководитель исполнителя
+         * @property
+         * @name SD.ServiceCall#executorHead
+         * @type {SD.Person}
+         */
+        @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) executorHead;
+
+        /**
+         * Подсистема АИС ЭАД
+         * @property
+         * @name SD.ServiceCall#entityCode6
+         * @type {SD.EntityCode6}
+         */
+        @Serialize(serializeId)
+        @Parse(data => SD.EntityCode6.parse(data)) entityCode6;
 
         toString(){
             return String(this.no);

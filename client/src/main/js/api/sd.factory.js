@@ -33,12 +33,14 @@ import {AccessibleProvider} from "./entity/mixin/accessible";
 import {EntityAssignmentProvider} from "./entity/entity-assignment.provider";
 import {ConfigurationItemProvider} from "./entity/configuration-item.provider";
 import {EntityCode1Provider} from "./entity/entity-code1.provider";
+import {EntityCode6Provider} from "./entity/entity-code6.provider";
 import {EntityCode7Provider} from "./entity/entity-code7.provider";
 import {FolderProvider} from "./entity/folder.provider";
 import {ProblemProvider} from "./entity/problem.provider";
 import {TemplateProvider} from "./entity/template.provider";
 import {ImpactSettingsProvider} from "./entity/impact-settings.provider.js";
-import {Source} from "./entity/source.provider";
+import {SourceProvider} from "./entity/source.provider";
+import {FAQProvider} from "./entity/FAQ.provider";
 
 SDFactory.$inject = ["$injector"];
 function SDFactory($injector) {
@@ -107,10 +109,12 @@ const SDConstructor = function SD($injector,cache) {
     this.EntityClassification = $injector.instantiate(EntityClassificationProvider,locals);
     this.EntityClosureCode = $injector.instantiate(EntityClosureCodeProvider,locals);
     this.EntityCode1 = $injector.instantiate(EntityCode1Provider, locals);
+    this.EntityCode6 = $injector.instantiate(EntityCode6Provider, locals);
     this.EntityCode7 = $injector.instantiate(EntityCode7Provider, locals);
     this.Folder = $injector.instantiate(FolderProvider, locals);
     this.Template = $injector.instantiate(TemplateProvider, locals);
-    this.Source = $injector.instantiate(Source, locals);
+    this.Source = $injector.instantiate(SourceProvider, locals);
+    this.FAQ = $injector.instantiate(FAQProvider, locals);
 
     // this.withCache = (newCache = Object.create(cache)) => {
     //     return $injector.instantiate(SD,{cache:newCache});

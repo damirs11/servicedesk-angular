@@ -15,9 +15,10 @@ class ServiceCallCreateCommonController {
     @NGInject() Session;
 
     required_fields = [];
+    disabled_fields = [];
 
     $onInit() {
-        this.entity.initiator = this.Session.user.person; // todo проверить категорию и только тогда выставить
+        this.entity.caller = this.Session.user.person; // todo проверить категорию и только тогда выставить
         this.entity.status = {id: SERVICECALL_STATUSES.REGISTERED};
         this.entity.serviceLevel = {};
         this.entity.deadline = new Date();
@@ -28,12 +29,22 @@ class ServiceCallCreateCommonController {
      * Устанавливает обработики на изменение значений в полях
      */
     initOnChangeHandlers() {
-        this.enableWatch = {}; // объект для хранения флагов игнорирования наблюдения за значениями
+        this.enableWatch = {caller: true}; // объект для хранения флагов игнорирования наблюдения за значениями
         this.$scope.$watch("ctrl.entity.organization", () => {
             if (this.enableWatch.organization) {
                 console.debug('organization was changed');
-                this.enableWatch.caller = this.enableWatch.service = false;
-                this.entity.caller = null; // удаляем заявителя
+                //Если неопределена организация или заявитель или организация заявителя != выбранной организации
+                if (this.entity.organization && this.entity.caller && this.entity.organization.id !== this.entity.caller.organization.id) {
+                    this.entity.caller = null; // удаляем заявителя
+                }
+                if (this.entity.organization) {
+                    //Если выбрана организация, то проставляем папку этой организации в поле папка
+                    this.entity.folder = this.entity.organization.folder;
+                } else {
+                    //Если очистили организацию обнуляем папку и заявителя
+                    this.entity.folder = null;
+                    this.entity.caller = null;
+                }
                 this.checkOrgPersonService(); // проверяем значение в поле Сервис
             }
             this.enableWatch.organization = true;
@@ -43,8 +54,8 @@ class ServiceCallCreateCommonController {
             if (this.enableWatch.caller) {
                 console.debug('caller was changed');
                 const caller = this.entity.caller;
-                if (caller && caller.organization) { // если задан заявитель, то должна отображаться его организация
-                    this.enableWatch.organization = false;
+                if (caller && caller.organization && (!this.entity.organization || this.entity.organization.id === caller.organization.id)) {//todo нужно ли второе условие ?
+                    // Если задан заявитель и у него есть организация и выбранная организация = null или совпадает с организацией заявителя
                     this.entity.organization = caller.organization;
                 }
                 this.checkOrgPersonService(); // проверяем значение в поле Сервис
@@ -53,13 +64,16 @@ class ServiceCallCreateCommonController {
         });
 
         this.$scope.$watch("ctrl.entity.service", async () => {
-            if (this.enableWatch.service) {
-                console.debug('service was changed');
-                // todo определить приоритет по умолчанию
-                this.refreshDeadline();
-                this.changedSLA();
+            console.debug('service was changed');
+            let service = this.entity.service;
+            let slaId = service && service.sla ? service.sla.id : null;
+            if (slaId && (slaId === SLA.IVI || slaId === SLA.TRANS_AIS_EAD || slaId === SLA.TRANS_KIS_EATD || slaId === SLA.TRANS_KIS_EHD || slaId === SLA.TRANS_MUZ_EDO)) {
+                if (this.entity.expired)
             }
-            this.enableWatch.service = true;
+            this.refreshDeadline();
+            this.changedSLA();
+            this.refreshPriority();
+
         });
         this.$scope.$watch("ctrl.entity.source", async () => {
             if (this.enableWatch.source) {
@@ -97,10 +111,53 @@ class ServiceCallCreateCommonController {
             }
             this.enableWatch.newDeadlineReason = true;
         });
+        this.$scope.$watch("ctrl.entity.registrationError", async () => {
+            //Отработать только при инициализации
+            if (!this.enableWatch.registrationError) {
+                console.debug('registrationError changed');
+                //Если registrationError == true, то заблокировать редактирование
+                if (this.entity.registrationError) {
+                    this.disabled_fields.push("registrationError");
+                }
+                this.enableWatch.registrationError = true;
+            }
+        });
+        this.$scope.$watch("ctrl.entity.frequentlyAskedQuestion", async () => {
+            console.debug('frequentlyAskedQuestion changed');
+            this.frequentlyAskedQuestionChanged();
+        });
+        this.$scope.$watch("ctrl.entity.assignment.workgroup", async () => {
+            if (this.enableWatch.assignmentWorkgroup) {
+                console.debug('assignment.workgroup changed');
+                if (this.entity.assignment.workgroup && this.entity.assignment.workgroup.groupManager) {
+                    this.entity.assignment.executor = await new this.SD.Person(this.entity.assignment.workgroup.groupManager.id).load();
+                } else if (!this.entity.assignment.workgroup) {
+                    this.entity.assignment.executor = null;
+                }
+            }
+            this.enableWatch.assignmentWorkgroup = true;
+        });
+        this.$scope.$watch("ctrl.entity.assignment.executor", async () => {
+            if (this.enableWatch.assignmentExecutor) {
+                console.debug('assignment.executor changed');
+                this.entity.executorHead = null;
+                if (this.entity.assignment.executor) {
+                    let groups = await this.loadWorkgroups();
+                    if (groups && groups.length === 1) {
+                        this.entity.assignment.workgroup = groups[0];
+                    }
+                }
+            }
+            this.enableWatch.assignmentExecutor = true;
+        });
     }
 
     get isParentBusy() {
         return this.$scope.$parent.ctrl.busy;
+    }
+
+    isDisabled(fieldName) {
+        return this.disabled_fields.includes(fieldName);
     }
 
     async loadOrganizations(text, fromUI) {
@@ -135,6 +192,20 @@ class ServiceCallCreateCommonController {
         }
     }
 
+    async frequentlyAskedQuestionChanged() {
+        let faqEnabled = this.entity.frequentlyAskedQuestion;
+        if (faqEnabled) {
+            this.required_fields.push("faq");
+        } else {
+            let that = this;
+            this.required_fields.filter(function (value, index) {
+                if (value === "faq") {
+                    delete that.required_fields[index];
+                }
+            });
+        }
+    }
+
     async changedFolder() {
         var folder = this.entity.folder;
         if (folder && folder.id === FOLDERS.ALCOA) {
@@ -143,10 +214,22 @@ class ServiceCallCreateCommonController {
     }
 
     async changedSLA() {
+        if (!this.entity.service) return;
         var sla = this.entity.service.sla;
         if (sla && sla.id === SLA.SIBUR && this.entity.status.id !== SERVICECALL_STATUSES.CLOSED) {
             this.entity.initiator = await new this.SD.Person(PERSONS.BYKOV_A_A).load();
         }
+    }
+
+    async refreshPriority() {
+        if (!this.entity.service || !this.entity.service.sla.defaultPriority) return;
+        let priority = await this.loadPriorities();
+        let that = this;
+        priority.filter(function (val) {
+            if (val.order === that.entity.service.sla.defaultPriority.order) {
+                that.entity.priority = val;
+            }
+        });
     }
 
     async changedSource() {
@@ -177,6 +260,7 @@ class ServiceCallCreateCommonController {
         const organization = this.entity.organization;
         if (organization) {
             filter.organization = organization.id;
+            filter.paging = undefined;
         }
         const callers = await this.SD.Person.list(filter);
         callers.sort((a, b) => {
@@ -278,15 +362,21 @@ class ServiceCallCreateCommonController {
     }
 
     async loadExecutors(text) {
-        const filter = {selectable: "1", hasAccount: ""};
+        const filter = {blocked: false, hasAccount: ""};
         if (text) filter.fullname_like = text;
         const workgroup = this.entity.assignment.workgroup;
         if (workgroup) filter.workgroupId = workgroup.id;
         return this.SD.Person.list(filter);
     }
 
+    async loadExecutorHead(text) {
+        const filter = {blocked: false, hasAccount: ""};
+        if (text) filter.fullname_like = text;
+        return this.SD.Person.list(filter);
+    }
+
     async loadWorkgroups(text) {
-        const filter = {selectable: "1"};
+        const filter = {blocked: false};
         if (text) filter.name_like = text;
         const executor = this.entity.assignment.executor;
         if (executor) filter.personId = executor.id;
@@ -314,6 +404,23 @@ class ServiceCallCreateCommonController {
         const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
         if (text) filter.fulltext = text;
         return this.SD.EntityPriority.list(filter);
+    }
+
+    /**
+     * Загрузка значений поля entityCode6
+     * @param text
+     * @returns {Promise<*>}
+     */
+    async loadEntityCode6(text) {
+        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
+        if (text) filter.fulltext = text;
+        return this.SD.EntityCode6.list(filter);
+    }
+
+    async loadFaq(text) {
+        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
+        if (text) filter.fulltext = text;
+        return this.SD.FAQ.list(filter);
     }
 
     async loadCategories(text) {
