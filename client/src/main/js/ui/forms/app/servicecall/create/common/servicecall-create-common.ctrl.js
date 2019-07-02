@@ -5,6 +5,8 @@ import {SOURCES} from "../../../../../../api/entity/util/source-list";
 import {FOLDERS} from "../../../../../../api/entity/util/folder-list";
 import {PERSONS} from "../../../../../../api/entity/util/person-list";
 import {SLA} from "../../../../../../api/entity/util/sla-list";
+import {CLASSIFICATIONS} from "../../../../../../api/entity/util/classification-list";
+import {PERSON_CATEGORIES} from "../../../../../../api/entity/util/category-list";
 
 @NGInjectClass()
 class ServiceCallCreateCommonController {
@@ -17,8 +19,12 @@ class ServiceCallCreateCommonController {
     required_fields = [];
     disabled_fields = [];
 
-    $onInit() {
-        this.entity.caller = this.Session.user.person; // todo проверить категорию и только тогда выставить
+    async $onInit() {
+        let current_person = this.Session.user.person;
+        if (current_person.category.id === PERSON_CATEGORIES.CALLER) {
+            this.entity.caller = this.Session.user.person;
+            this.entity.source = await new this.SD.Source(SOURCES.WEB).load();
+        }
         this.entity.status = {id: SERVICECALL_STATUSES.REGISTERED};
         this.entity.serviceLevel = {};
         this.entity.deadline = new Date();
@@ -213,7 +219,8 @@ class ServiceCallCreateCommonController {
     async changedSLA() {
         if (!this.entity.service) return;
         var sla = this.entity.service.sla;
-        if (sla && sla.id === SLA.SIBUR && this.entity.status.id !== SERVICECALL_STATUSES.CLOSED) {
+        if (!sla || !sla.id) return;
+        if (sla.id === SLA.SIBUR && this.entity.status.id !== SERVICECALL_STATUSES.CLOSED) {
             this.entity.initiator = await new this.SD.Person(PERSONS.BYKOV_A_A).load();
         }
     }
@@ -429,6 +436,16 @@ class ServiceCallCreateCommonController {
     async loadClassifications(text) {
         const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
         if (text) filter.fulltext = text;
+        if (this.entity && this.entity.service && this.entity.service.sla && this.entity.service.sla.id) {
+            let sla = this.entity.service.sla;
+            if ([SLA.TRANS_KIS_EHD, SLA.IVI, SLA.TRANS_KIS_EATD, SLA.TRANS_AIS_EAD, SLA.TRANS_MUZ_EDO].includes(sla.id)) {
+                filter.parent = CLASSIFICATIONS.PARENT_CLASSIFICATION_1384_1385_1387_1388;
+            } else if ([SLA.SLA_167, SLA.SLA_1088].includes(sla.id)) {
+                filter.parent = CLASSIFICATIONS.PARENT_CLASSIFICATION_167_1088;
+            } else if ([SLA.SLA_1090].includes(sla.id)) {
+                filter.parent = CLASSIFICATIONS.PARENT_CLASSIFICATION_1066_1090_1394;
+            }
+        }
         return this.SD.EntityClassification.list(filter);
     }
 

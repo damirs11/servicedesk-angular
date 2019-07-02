@@ -36,7 +36,7 @@ public abstract class AbstractCodeService<T extends BaseCode> extends ReadServic
             }
         }
         Long subType = getTypeId(EntityType.get(Long.parseLong(entityTypeId)));
-        Map<String, String> subFilter = new HashMap<>();
+        Map<String, String> subFilter = new HashMap<>(filter);
         subFilter.put("subtype", subType.toString());
         if (filter.get("disabled") == null) {
             subFilter.put("disabled", "0");

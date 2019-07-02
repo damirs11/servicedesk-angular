@@ -2,6 +2,7 @@ import {Parse} from "./decorator/parse.decorator";
 import {Serialize} from "./decorator/serialize.decorator";
 import {Nullable} from "./decorator/parse-utils";
 import {Mixin} from "./mixin/mixin.decorator";
+import {serializeId} from "./decorator/serialize-utils";
 
 PersonProvider.$inject = ["EditableEntity", "SD", "AttachmentsHolder"];
 function PersonProvider(EditableEntity, SD, AttachmentsHolder) {
@@ -70,6 +71,14 @@ function PersonProvider(EditableEntity, SD, AttachmentsHolder) {
          * @type {SD.Organization}
          */
         @Serialize(org => org.id) @Parse(data => SD.Organization.parse(data)) organization;
+
+        /**
+         * Категория
+         * @property
+         * @name SD.Person#category
+         * @type {SD.EntityCategory}
+         */
+        @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
 
         /**
          * Полное имя персоны
