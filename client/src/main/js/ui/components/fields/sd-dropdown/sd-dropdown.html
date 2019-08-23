@@ -1,6 +1,7 @@
 <!--Режим редактирования активный-->
 <div data-ng-if="ctrl.editing && !ctrl.disabled" class="sd-dropdown">
     <ui-select
+               class = "{{ ctrl.isAllowClear ? 'ui-dropdown-allow-clear' : 'ui-dropdown-no-allow-clear' }}"
                ng-model="ctrl.selectedValue"
                on-select="ctrl.onSelect($item,$model)"
                search-enabled="ctrl.searchEnabled"
