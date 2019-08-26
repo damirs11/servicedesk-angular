@@ -151,7 +151,12 @@ html,body  {
   overflow: hidden;
 }
 
-/* Если текст выходит за края виджета ui-select, то прячем его */
-.ui-select-match {
+/* Чтобы текст не попадал на крестик и стрелку вниз */
+.ui-dropdown-allow-clear span {
   overflow: hidden;
+  width: ~"calc(100% - 30px)!important";
+}
+.ui-dropdown-no-allow-clear span {
+  overflow: hidden;
+  width: ~"calc(100% - 10px)!important";
 }
