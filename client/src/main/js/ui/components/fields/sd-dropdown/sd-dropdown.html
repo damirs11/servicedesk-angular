@@ -10,6 +10,7 @@
             {{ctrl.display($select.selected)}}
         </ui-select-match>
         <ui-select-choices repeat="$value in ctrl.getFilteredValues($select.search) track by $index"
+                           minimum-input-length="{{ctrl.getMinSymbolsToFetch()}}"
                            refresh="ctrl.fetchFromUI($select.search)"
                            refresh-delay="ctrl.debounceTime"
         >
