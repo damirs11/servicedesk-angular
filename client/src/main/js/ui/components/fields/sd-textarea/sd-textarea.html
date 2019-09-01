@@ -1,16 +1,17 @@
 <div data-ng-show="ctrl.editing" class="sd-textarea">
     <div class="input-group sd-textarea__input-container" style="width: 100%">
         <textarea type="text"
-               style="resize: none;"
-               class="form-control"
-               ng-model="ctrl.value"
-               placeholder="{{ctrl.placeholder || '- нет -'}}"
-               data-ng-maxlength="ctrl.maxlength"
-               data-ng-minlength="ctrl.minlength"
-               ng-required="ctrl.required"
-               auto-height="ctrl.editing"
-               data-ng-disabled="ctrl.disabled"
-        ></textarea>
+                  style="resize: none;"
+                  class="form-control"
+                  ng-model="ctrl.value"
+                  ng-change="ctrl.onChange({$value: ctrl.value})"
+                  placeholder="{{ctrl.placeholder || '- нет -'}}"
+                  data-ng-maxlength="ctrl.maxlength"
+                  data-ng-minlength="ctrl.minlength"
+                  ng-required="ctrl.required"
+                  auto-height="ctrl.editing"
+                  data-ng-disabled="ctrl.disabled">
+        </textarea>
     </div>
 </div>
 

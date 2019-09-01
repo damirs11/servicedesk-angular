@@ -26,3 +26,9 @@ export const SERVICECALL_STATUSES = {
     RESOLVED: 3094610094, // Решено
     CLOSED: 3094610096 // Закрыто
 };
+
+export const WORKORDER_STATUSES = {
+    OPEN: 281478237061820, // Открыт
+    COMPLETE: 3095134439, // Выполнен
+    CLOSED: 281478237061818 // Закрыт
+};

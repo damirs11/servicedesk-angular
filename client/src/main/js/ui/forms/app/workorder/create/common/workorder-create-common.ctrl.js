@@ -1,10 +1,12 @@
 import {NGInject, NGInjectClass} from "../../../../../../common/decorator/ng-inject.decorator";
 import {TYPEID_WORKORDER} from "../../../../../../api/entity/util/entity-types";
+import {WORKORDER_STATUSES} from "../../../../../../api/entity/util/status-list";
+import {BaseEntityCommonCreated} from "../../../entity-created/base-create.common";
 
 const DEADLINE_OFFSET_MS = 1000*60*60; // 1 Hour
 
 @NGInjectClass()
-class WorkorderCreateCommonController{
+class WorkorderCreateCommonController extends BaseEntityCommonCreated {
     // NG зависимости
     @NGInject() workorder;
     @NGInject() SD;
@@ -13,62 +15,25 @@ class WorkorderCreateCommonController{
 
     minDeadlineDate = new Date(Date.now() + DEADLINE_OFFSET_MS);
 
+    async $onInit() {
+        this.typeId = TYPEID_WORKORDER;
+    }
+
+    changedStatus(value) {
+        console.debug("status was changed: " + value);
+        this.workorder.status = value;
+        // Поле 'Решение' активно при статусе COMPLETE
+        this.solutionEnable = this.workorder.status && this.workorder.status.id === WORKORDER_STATUSES.COMPLETE;
+        if (!this.solutionEnable && this.workorder.solution) {
+            this.workorder.solution = null;
+        }
+    }
+
     get isChangePassed() {
         return Boolean(this.passedParams.changeId)
     }
     get isProblemPassed() {
         return Boolean(this.passedParams.problemId)
-    }
-    // Методы подгрузки данных
-
-    get isParentBusy(){
-        return this.$scope.$parent.ctrl.busy
-    }
-
-    async loadInititators(text) {
-        const filter = {selectable:"1"};
-        if (text) filter.fullname_like = text;
-        return this.SD.Person.list(filter);
-    }
-
-    async loadExecutors(text){
-        const filter = {selectable: "1", hasAccount: ""};
-        if (text) filter.fullname_like = text;
-        const workgroup = this.workorder.assignment.workgroup;
-        if (workgroup) filter.workgroupId = workgroup.id;
-        return this.SD.Person.list(filter);
-    }
-
-    async loadWorkgroups(text){
-        const filter = {selectable: "1"};
-        if (text) filter.name_like = text;
-        const executor = this.workorder.assignment.executor;
-        if (executor) filter.personId = executor.id;
-        return this.SD.Workgroup.list(filter);
-    }
-
-    async loadPriorities(text) {
-        const filter = {entityTypeId: TYPEID_WORKORDER};
-        if (text) filter.fulltext = text;
-        return this.SD.EntityPriority.list(filter);
-    }
-
-    async loadCategories(text) {
-        const filter = {entityTypeId: TYPEID_WORKORDER};
-        if (text) filter.fulltext = text;
-        return this.SD.EntityCategory.list(filter);
-    }
-
-    async loadFolders(text) {
-        const filter = {entityTypeId: TYPEID_WORKORDER};
-        if (text) filter.fulltext = text;
-        return this.SD.Folder.list(filter);
-    }
-
-    async loadStatuses(text) {
-        const filter = {entityTypeId: TYPEID_WORKORDER};
-        if (text) filter.fulltext = text;
-        return this.SD.EntityStatus.list(filter);
     }
 
     async loadChanges(text) {
@@ -82,7 +47,6 @@ class WorkorderCreateCommonController{
         if (text) filter.no = text;
         return this.SD.Problem.list(filter);
     }
-
 }
 
 export {WorkorderCreateCommonController as controller}

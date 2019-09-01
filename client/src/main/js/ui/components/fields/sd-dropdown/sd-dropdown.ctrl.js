@@ -10,16 +10,17 @@ class SDDropdownComponentController{
     iconClassFuncPassed = false;
     filterFuncPassed = false;
     linkFuncPassed = false;
+    values = null;
+    /**
+     * Последний текстовый фильтр
+     */
+    lastFetchRequest = null;
 
     $onInit(){
         this.selectedValue = this.target;
         // ToDo оптимизировать эти 2 watch
-        this.$scope.$watch(() => this.editing, () => {
-            this.selectedValue = this.target;
-        });
-        this.$scope.$watch(() => this.target, () => {
-            this.selectedValue = this.target;
-        });
+        this.$scope.$watch(() => this.editing, () => this.selectedValue = this.target);
+        this.$scope.$watch(() => this.target, () => this.selectedValue = this.target);
         // Игнорируем первый watch, т.к. он срабатывает при инициализации
         let firstFetchOnChange = true;
         this.$scope.$watch(() => this.fetchOnChange, (val) => {
@@ -31,68 +32,6 @@ class SDDropdownComponentController{
         });
         if (this.cache) this.fetch();
         this.checkPassedFunctions();
-    }
-
-    checkPassedFunctions() {
-        this.iconClassFuncPassed = Boolean(this.$attrs["iconClass"]);
-        this.filterFuncPassed = Boolean(this.$attrs["filter"]);
-        this.linkFuncPassed = Boolean(this.$attrs["link"]);
-    }
-
-    get isIgnoringSameText() {
-        if (this.ignoreSameText === undefined) return true;
-        return this.ignoreSameText;
-    }
-
-    getMinSymbolsToFetch(){
-        return this.minSymbolsFetch === undefined ? 3 : this.minSymbolsFetch;
-    }
-
-    get isEnabled() {
-        if (this.enabled === undefined) return true;
-        return this.enabled;
-    }
-
-    get debounceTime() {
-        return this.debounce || 500;
-    }
-
-    get hasIcons(){
-        return this.iconClassFuncPassed;
-    }
-
-    getIconFor(value) {
-        return this.iconClass({$value:value});
-    }
-
-    get hasLinks() {
-        return this.linkFuncPassed;
-    }
-
-    getLinkFor(value) {
-        return this.link({$value: value});
-    }
-
-    display(value){
-        if (value == null) return this.emptyValue || "- нет -";
-        return this.displayValue({$value:value}) || value.toString();
-    }
-
-    values = null;
-    /**
-     * Последний текстовый фильтр
-     */
-    lastFetchRequest = null;
-    /**
-     * Вызывается из UI. Отделена от обычной функции fetch,
-     * т.к. есть некоторые условия, при которых fetch не вызывается
-     * @param text - текстовый фильтр поиска
-     */
-    async fetchFromUI(text){
-        if (this.cache && this.values) return;
-        if (this.isIgnoringSameText && this.lastFetchRequest === text) return;
-        this.fetch(text, true);
-        this.lastFetchRequest = text;
     }
 
     /**
@@ -110,6 +49,29 @@ class SDDropdownComponentController{
         } catch (e) {
             throw e;
         }
+    }
+
+    /**
+     * Вызывается из UI. Отделена от обычной функции fetch,
+     * т.к. есть некоторые условия, при которых fetch не вызывается
+     * @param text - текстовый фильтр поиска
+     */
+    async fetchFromUI(text){
+        if (this.cache && this.values) return;
+        if (this.isIgnoringSameText && this.lastFetchRequest === text) return;
+        this.fetch(text, true);
+        this.lastFetchRequest = text;
+    }
+
+    checkPassedFunctions() {
+        this.iconClassFuncPassed = Boolean(this.$attrs["iconClass"]);
+        this.filterFuncPassed = Boolean(this.$attrs["filter"]);
+        this.linkFuncPassed = Boolean(this.$attrs["link"]);
+    }
+
+    display(value){
+        if (value == null) return this.emptyValue || "- нет -";
+        return this.displayValue({$value:value}) || value.toString();
     }
 
     /**
@@ -133,6 +95,18 @@ class SDDropdownComponentController{
         });
     }
 
+    getIconFor(value) {
+        return this.iconClass({$value:value});
+    }
+
+    getLinkFor(value) {
+        return this.link({$value: value});
+    }
+
+    getMinSymbolsToFetch(){
+        return this.minSymbolsFetch === undefined ? 3 : this.minSymbolsFetch;
+    }
+
     /**
      * Выполняется при выборе элемента из списка
      */
@@ -150,6 +124,10 @@ class SDDropdownComponentController{
         this.target = $item;
     }
 
+    get debounceTime() {
+        return this.debounce || 500;
+    }
+
     /**
      * Разрешено ли пустое значение
      */
@@ -157,6 +135,25 @@ class SDDropdownComponentController{
         if (this.allowEmpty === undefined) return false;
         return this.allowEmpty;
     }
+
+    get isEnabled() {
+        if (this.enabled === undefined) return true;
+        return this.enabled;
+    }
+
+    get isIgnoringSameText() {
+        if (this.ignoreSameText === undefined) return true;
+        return this.ignoreSameText;
+    }
+
+    get hasIcons(){
+        return this.iconClassFuncPassed;
+    }
+
+    get hasLinks() {
+        return this.linkFuncPassed;
+    }
+
 }
 
 export {SDDropdownComponentController as controller};

@@ -1,7 +1,8 @@
 import {NGInject, NGInjectClass} from "../../../../../common/decorator/ng-inject.decorator";
+import {BaseEntityCreate} from "../../entity-created/base-create";
 
 @NGInjectClass()
-class WorkorderCreateController{
+class WorkorderCreateController extends BaseEntityCreate {
     // NG зависимости
     @NGInject() $scope;
     @NGInject() $location;
@@ -12,26 +13,16 @@ class WorkorderCreateController{
     @NGInject() workorder; // Новый наряд
     @NGInject() passedParams; // Переданные параметры
 
-    busy = false;
-    // Произошла ошибка при создании
-    errorCreating = false;
-
-    headerTabs = [
-        {name:'Общее',sref:'app.workorder.create.common'}
-    ];
-
-    requiredFields = [
-        "status","subject","description","category","initiator",
-        "assignment.workgroup","assignment.executor", "deadline",
-        "priority",
-    ];
-
-
     async $onInit() {
         this.busy = "Initializing";
         this.loadingPromise = this.$initializeData();
         await this.loadingPromise;
         this.busy = false;
+
+        this.stateCreated = "app.workorder.create.common";
+        this.stateView = "app.workorder.card.view";
+        this.stateList = "app.workorder.list";
+        this.entity = this.workorder;
     }
 
     /**
@@ -77,44 +68,11 @@ class WorkorderCreateController{
             .lock();
     }
 
-    get isRequiredFieldsFilled() {
-        for(const fieldName of this.requiredFields) {
-            const subnames = fieldName.split("."); // Сложное имя поля (пр. assignment.executor)
-            let obj = this.workorder;
-            for (let i = 0; i < subnames.length; i++) {
-                const subname = subnames[i];
-                const value = obj[subname];
-                if (value == null) return false;
-                obj = obj[subname]
-            }
-        }
-        return true;
+    async _callCreatedFunc() {
+        const createdWor = await this.workorder.create();
+        await this.ModalAction.workorderCreated(this.$scope,{workorder:createdWor});
+        this.$state.go(this.stateView, {workorderId: createdWor.id});
     }
-
-    async create(){
-        if (this.busy) return;
-        this.busy = "Saving";
-        this.errorCreating = false;
-        try {
-            const createdWor = await this.workorder.create();
-            await this.ModalAction.workorderCreated(this.$scope,{workorder:createdWor});
-            this.$state.go("app.workorder.card.view",{workorderId: createdWor.id})
-        } catch (e) {
-            this.errorCreating = true;
-            this.busy = false;
-            throw e;
-        }
-        this.busy = false;
-    }
-
-    get createButtonDisabled(){
-        return this.busy || !this.isRequiredFieldsFilled
-    }
-
-    cancel(){
-        this.$state.go("app.workorder.list");
-    }
-
 
 }
 

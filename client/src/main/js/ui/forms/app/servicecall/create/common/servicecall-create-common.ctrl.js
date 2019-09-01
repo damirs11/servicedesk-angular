@@ -7,14 +7,15 @@ import {PERSONS} from "../../../../../../api/entity/util/person-list";
 import {SLA} from "../../../../../../api/entity/util/sla-list";
 import {CLASSIFICATIONS} from "../../../../../../api/entity/util/classification-list";
 import {PERSON_CATEGORIES} from "../../../../../../api/entity/util/category-list";
+import {BaseEntityCommonCreated} from "../../../entity-created/base-create.common";
 
 @NGInjectClass()
-class ServiceCallCreateCommonController {
-    // NG зависимости
+class ServiceCallCreateCommonController extends BaseEntityCommonCreated {
+
     @NGInject() entity;
-    @NGInject() SD;
-    @NGInject() $scope;
     @NGInject() Session;
+    @NGInject() $scope;
+    @NGInject() SD;
 
     required_fields = [];
     disabled_fields = [];
@@ -28,135 +29,133 @@ class ServiceCallCreateCommonController {
         this.entity.status = {id: SERVICECALL_STATUSES.REGISTERED};
         this.entity.serviceLevel = {};
         this.entity.deadline = new Date();
-        this.initOnChangeHandlers();
+        this.typeId = this.SD.ServiceCall.$entityTypeId;
     }
 
-    /**
-     * Устанавливает обработики на изменение значений в полях
-     */
-    initOnChangeHandlers() {
-        this.enableWatch = {caller: true}; // объект для хранения флагов игнорирования наблюдения за значениями
-        this.$scope.$watch("ctrl.entity.organization", () => {
-            if (this.enableWatch.organization) {
-                console.debug('organization was changed');
-                //Если неопределена организация или заявитель или организация заявителя != выбранной организации
-                if (this.entity.organization && this.entity.caller && this.entity.organization.id !== this.entity.caller.organization.id) {
-                    this.entity.caller = null; // удаляем заявителя
-                }
-                if (this.entity.organization) {
-                    //Если выбрана организация, то проставляем папку этой организации в поле папка
-                    this.entity.folder = this.entity.organization.folder;
-                } else {
-                    //Если очистили организацию обнуляем папку и заявителя
-                    this.entity.folder = null;
-                    this.entity.caller = null;
-                }
-                this.checkOrgPersonService(); // проверяем значение в поле Сервис
-            }
-            this.enableWatch.organization = true;
-        });
-
-        this.$scope.$watch("ctrl.entity.caller", () => {
-            if (this.enableWatch.caller) {
-                console.debug('caller was changed');
-                const caller = this.entity.caller;
-                if (caller && caller.organization && (!this.entity.organization || this.entity.organization.id === caller.organization.id)) {//todo нужно ли второе условие ?
-                    // Если задан заявитель и у него есть организация и выбранная организация = null или совпадает с организацией заявителя
-                    this.entity.organization = caller.organization;
-                }
-                this.checkOrgPersonService(); // проверяем значение в поле Сервис
-            }
-            this.enableWatch.caller = true;
-        });
-
-        this.$scope.$watch("ctrl.entity.service", async () => {
-            console.debug('service was changed');
-            let service = this.entity.service;
-            let slaId = service && service.sla ? service.sla.id : null;
-            this.refreshDeadline();
-            this.changedSLA();
-            this.refreshPriority();
-
-        });
-        this.$scope.$watch("ctrl.entity.source", async () => {
-            if (this.enableWatch.source) {
-                console.debug('source was changed');
-                this.changedSource();
-            }
-            this.enableWatch.source = true;
-        });
-
-        this.$scope.$watch("ctrl.entity.priority", async () => {
-            if (this.enableWatch.priority) {
-                console.debug('priority was changed');
-                this.refreshDeadline();
-            }
-            this.enableWatch.priority = true;
-        });
-        this.$scope.$watch("ctrl.entity.folder", async () => {
-            if (this.enableWatch.folder) {
-                console.debug('folder was changed');
-                this.changedFolder();
-            }
-            this.enableWatch.folder = true;
-        });
-        this.$scope.$watch("ctrl.entity.newDeadline", async () => {
-            if (this.enableWatch.newDeadline) {
-                console.debug('newDeadline changed');
-                this.newDeadlineChanged();
-            }
-            this.enableWatch.newDeadline = true;
-        });
-        this.$scope.$watch("ctrl.entity.newDeadlineReason", async () => {
-            if (this.enableWatch.newDeadlineReason) {
-                console.debug('newDeadlineReason changed');
-                this.newDeadlineChanged();
-            }
-            this.enableWatch.newDeadlineReason = true;
-        });
-        this.$scope.$watch("ctrl.entity.registrationError", async () => {
-            //Отработать только при инициализации
-            if (!this.enableWatch.registrationError) {
-                console.debug('registrationError changed');
-                //Если registrationError == true, то заблокировать редактирование
-                if (this.entity.registrationError) {
-                    this.disabled_fields.push("registrationError");
-                }
-                this.enableWatch.registrationError = true;
-            }
-        });
-        this.$scope.$watch("ctrl.entity.frequentlyAskedQuestion", async () => {
-            console.debug('frequentlyAskedQuestion changed');
-            this.frequentlyAskedQuestionChanged();
-        });
-        this.$scope.$watch("ctrl.entity.assignment.workgroup", async () => {
-            if (this.enableWatch.assignmentWorkgroup) {
-                console.debug('assignment.workgroup changed');
-                if (this.entity.assignment.workgroup && this.entity.assignment.workgroup.groupManager) {
-                    this.entity.assignment.executor = await new this.SD.Person(this.entity.assignment.workgroup.groupManager.id).load();
-                } else if (!this.entity.assignment.workgroup) {
-                    this.entity.assignment.executor = null;
-                }
-            }
-            this.enableWatch.assignmentWorkgroup = true;
-        });
-        this.$scope.$watch("ctrl.entity.assignment.executor", async () => {
-            if (this.enableWatch.assignmentExecutor) {
-                console.debug('assignment.executor changed');
-                this.entity.executorHead = null;
-                if (this.entity.assignment.executor) {
-                    let groups = await this.loadWorkgroups();
-                    if (groups && groups.length === 1) {
-                        this.entity.assignment.workgroup = groups[0];
-                    }
-                }
-            }
-            this.enableWatch.assignmentExecutor = true;
-        });
+    async changedOrganization(value) {
+        console.debug('organization was changed: ' + value);
+        this.entity.organization = value;
+        //Если неопределена организация или заявитель или организация заявителя != выбранной организации
+        if (this.entity.organization && this.entity.caller && this.entity.organization.id !== this.entity.caller.organization.id) {
+            this.entity.caller = null; // удаляем заявителя
+        }
+        if (this.entity.organization) {
+            //Если выбрана организация, то проставляем папку этой организации в поле папка
+            this.entity.folder = this.entity.organization.folder;
+        } else {
+            //Если очистили организацию обнуляем папку и заявителя
+            this.entity.folder = null;
+            this.entity.caller = null;
+        }
+        await this.checkOrgPersonService(); // проверяем значение в поле Сервис
     }
 
-    get isParentBusy() {
-        return this.$scope.$parent.ctrl.busy;
+    async changedCaller(value) {
+        console.debug('caller was changed: ' + value);
+        const caller = this.entity.caller = value;
+        if (caller && caller.organization && (!this.entity.organization || this.entity.organization.id === caller.organization.id)) {//todo нужно ли второе условие ?
+            // Если задан заявитель и у него есть организация и выбранная организация = null или совпадает с организацией заявителя
+            this.entity.organization = caller.organization;
+        }
+        await this.checkOrgPersonService(); // проверяем значение в поле Сервис
+    }
+
+    async changedService(value) {
+        console.debug('service was changed: ' + value);
+        this.entity.service = value;
+        if (!this.entity.service) return;
+        var sla = this.entity.service.sla;
+        if (!sla || !sla.id) return;
+        if (sla.id === SLA.SIBUR && this.entity.status.id !== SERVICECALL_STATUSES.CLOSED) {
+            this.entity.initiator = await new this.SD.Person(PERSONS.BYKOV_A_A).load();
+        }
+        await this.refreshDeadline();
+        await this.refreshPriority();
+    }
+
+    async changedSource(value) {
+        console.debug('source was changed: ' + value);
+        this.entity.source = value;
+        if (this.entity.source.id === SOURCES.EMAIL) {
+            //Если source === email делаем поле emailDate обязательным
+            this.entity.emailDate = new Date(new Date().getTime());
+            this.required_fields.push("emailDate")
+        }
+        if (this.entity.source.id === SOURCES.EXTERNAL_SYSTEM) {
+            this.required_fields.push("extId");
+        } else {
+            //Иначе удаляем из массива обязательных полей
+            this.entity.emailDate = undefined;
+            var that = this;
+            this.required_fields.filter(function (value, index) {
+                if (value === "emailDate" || value === "extId") {
+                    delete that.required_fields[index];
+                }
+            });
+        }
+    }
+
+    async changedPriority(value) {
+        console.debug('priority was changed: ' + value);
+        this.entity.priority = value;
+        await this.refreshDeadline();
+    }
+
+    async changedFolder(value) {
+        console.debug('folder was changed: ' + value);
+        const folder = this.entity.folder = value;
+        if (folder && folder.id === FOLDERS.ALCOA) {
+            this.entity.initiator = await new this.SD.Person(PERSONS.ALCOA_HELPDESK).load();
+        }
+    }
+
+    async changedNewDeadline(value) {
+        console.debug('newDeadline changed: ' + value);
+        this.entity.newDeadline = value;
+        await this.newDeadlineChanged();
+    }
+
+    async changedNewDeadlineReason(value) {
+        console.debug('newDeadlineReason changed: ' + value);
+        this.entity.newDeadlineReason = value;
+        await this.newDeadlineChanged();
+    }
+
+    changedRegistrationError(value) {
+        console.debug('registrationError changed: ' + value);
+        this.entity.registrationError = value;
+        //Если registrationError == true, то заблокировать редактирование
+        if (this.entity.registrationError) {
+            this.disabled_fields.push("registrationError");
+        }
+    }
+
+    async changedFrequentlyAskedQuestion(value) {
+        console.debug('frequentlyAskedQuestion changed: ' + value);
+        this.entity.frequentlyAskedQuestion = value;
+        await this.frequentlyAskedQuestionChanged();
+    }
+
+    async changedWorkgroup(value) {
+        console.debug('assignment.workgroup changed: ' + value);
+        this.entity.assignment.workgroup = value;
+        if (this.entity.assignment.workgroup && this.entity.assignment.workgroup.groupManager) {
+            this.entity.assignment.executor = await new this.SD.Person(this.entity.assignment.workgroup.groupManager.id).load();
+        } else if (!this.entity.assignment.workgroup) {
+            this.entity.assignment.executor = null;
+        }
+    }
+
+    async changedExecutor(value) {
+        console.debug('assignment.executor changed: ' + value);
+        this.entity.assignment.executor = value;
+        this.entity.executorHead = null;
+        if (this.entity.assignment.executor) {
+            let groups = await this.loadWorkgroups();
+            if (groups && groups.length === 1) {
+                this.entity.assignment.workgroup = groups[0];
+            }
+        }
     }
 
     isDisabled(fieldName) {
@@ -209,22 +208,6 @@ class ServiceCallCreateCommonController {
         }
     }
 
-    async changedFolder() {
-        var folder = this.entity.folder;
-        if (folder && folder.id === FOLDERS.ALCOA) {
-            this.entity.initiator = await new this.SD.Person(PERSONS.ALCOA_HELPDESK).load();
-        }
-    }
-
-    async changedSLA() {
-        if (!this.entity.service) return;
-        var sla = this.entity.service.sla;
-        if (!sla || !sla.id) return;
-        if (sla.id === SLA.SIBUR && this.entity.status.id !== SERVICECALL_STATUSES.CLOSED) {
-            this.entity.initiator = await new this.SD.Person(PERSONS.BYKOV_A_A).load();
-        }
-    }
-
     async refreshPriority() {
         if (!this.entity.service || !this.entity.service.sla.defaultPriority) return;
         let priority = await this.loadPriorities();
@@ -236,26 +219,6 @@ class ServiceCallCreateCommonController {
         });
     }
 
-    async changedSource() {
-        if (this.entity.source.id === SOURCES.EMAIL) {
-            //Если source === email делаем поле emailDate обязательным
-            this.entity.emailDate = new Date(new Date().getTime());
-            this.required_fields.push("emailDate")
-        }
-        if (this.entity.source.id === SOURCES.EXTERNAL_SYSTEM) {
-            this.required_fields.push("extId");
-        } else {
-            //Иначе удаляем из массива обязательных полей
-            this.entity.emailDate = undefined;
-            var that = this;
-            this.required_fields.filter(function (value, index) {
-                if (value === "emailDate" || value === "extId") {
-                    delete that.required_fields[index];
-                }
-            });
-        }
-    }
-
     async loadCallers(text) {
         const filter = {
             paging: "1;20",
@@ -265,12 +228,13 @@ class ServiceCallCreateCommonController {
         if (organization) {
             filter.organization = organization.id;
             filter.paging = undefined;
+            const callers = await this.SD.Person.list(filter);
+            callers.sort((a, b) => {
+                return (a && b && a.fullName && a.fullName.localeCompare(b.fullName));
+            });
+            return callers;
         }
-        const callers = await this.SD.Person.list(filter);
-        callers.sort((a, b) => {
-            return (a && b && a.fullName && a.fullName.localeCompare(b.fullName));
-        });
-        return callers;
+        return null;
     }
 
     async loadServices(text) {
@@ -288,10 +252,6 @@ class ServiceCallCreateCommonController {
                 return (a && b && a.name && a.name.localeCompare(b.name));
             });
         }
-    }
-
-    async setEmailDate() {
-
     }
 
     async loadSLA() {
@@ -358,56 +318,15 @@ class ServiceCallCreateCommonController {
         this.entity.deadline = null;
     }
 
-
-    async loadInititators(text) {
-        const filter = {paging: "1;20"};
-        if (text) filter.fullname_like = text;
-        return this.SD.Person.list(filter);
-    }
-
-    async loadExecutors(text) {
-        const filter = {blocked: false, hasAccount: ""};
-        if (text) filter.fullname_like = text;
-        const workgroup = this.entity.assignment.workgroup;
-        if (workgroup) filter.workgroupId = workgroup.id;
-        return this.SD.Person.list(filter);
-    }
-
-    async loadExecutorHead(text) {
-        const filter = {blocked: false, hasAccount: ""};
-        if (text) filter.fullname_like = text;
-        return this.SD.Person.list(filter);
-    }
-
-    async loadWorkgroups(text) {
-        const filter = {blocked: false};
-        if (text) filter.name_like = text;
-        const executor = this.entity.assignment.executor;
-        if (executor) filter.personId = executor.id;
-        return this.SD.Workgroup.list(filter);
-    }
-
-    async loadStatuses(text) {
-        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
-        if (text) filter.fulltext = text;
-        return this.SD.EntityStatus.list(filter);
-    }
-
     /**
      * Загрузка списка значений поля "Источник"
      * @param text
      * @returns {Promise<*>}
      */
     async loadSources(text) {
-        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
+        const filter = {entityTypeId: this.typeId};
         if (text) filter.fulltext = text;
         return this.SD.Source.list(filter);
-    }
-
-    async loadPriorities(text) {
-        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
-        if (text) filter.fulltext = text;
-        return this.SD.EntityPriority.list(filter);
     }
 
     /**
@@ -416,25 +335,19 @@ class ServiceCallCreateCommonController {
      * @returns {Promise<*>}
      */
     async loadEntityCode6(text) {
-        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
+        const filter = {entityTypeId: this.typeId};
         if (text) filter.fulltext = text;
         return this.SD.EntityCode6.list(filter);
     }
 
     async loadFaq(text) {
-        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
+        const filter = {entityTypeId: this.typeId};
         if (text) filter.fulltext = text;
         return this.SD.FAQ.list(filter);
     }
 
-    async loadCategories(text) {
-        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
-        if (text) filter.fulltext = text;
-        return this.SD.EntityCategory.list(filter);
-    }
-
     async loadClassifications(text) {
-        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
+        const filter = {entityTypeId: this.typeId};
         if (text) filter.fulltext = text;
         if (this.entity && this.entity.service && this.entity.service.sla && this.entity.service.sla.id) {
             let sla = this.entity.service.sla;
@@ -447,18 +360,6 @@ class ServiceCallCreateCommonController {
             }
         }
         return this.SD.EntityClassification.list(filter);
-    }
-
-    async loadFolders(text) {
-        const filter = {entityTypeId: this.SD.ServiceCall.$entityTypeId};
-        if (text) filter.fulltext = text;
-        return this.SD.Folder.list(filter);
-    }
-
-    async loadConfigurationItems(text) {
-        const filter = {};
-        if (text) filter.searchCode_like = text;
-        return this.SD.ConfigurationItem.list(filter);
     }
 
 }

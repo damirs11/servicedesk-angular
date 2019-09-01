@@ -6,6 +6,7 @@ import {controller} from "./sd-dropdown.ctrl"
  * Компонент для выбора из списка
  * название {тип_данных} [стандартное значение]
  * target {*} - редактируемое поле объекта / переменная.
+ * on-change (expr) - callback-функция, вызываемая при изменении значения объекта. Переменные: $value
  * fetch-data {expr} - функция поиска данных. Переменные: $text
  * display-value {expr} функция преобразования значения в строку. Переменные: $value
  * editing {Boolean} - состояние компонента. Режим редактирования (true) или режим просмотра (false).
@@ -28,7 +29,8 @@ const SDDropdownComponent = {
     controller: controller,
     controllerAs: "ctrl",
     bindings: {
-        target: "=",
+        target: "<",
+        onChange: "&",
         fetchData: "&",
         debounce: "<",
         disabled: "<",
