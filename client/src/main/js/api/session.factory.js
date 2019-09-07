@@ -56,12 +56,15 @@ class Session {
      * Авторизоваться, получить текущего user'а
      */
     async authorize() {
-        const data = await this.$connector.get('rest/service/config/getInfo');
-        if (data.user) { // Успешная авторизация по кукисам
-            user = this.SD.User.parse(data.user);
-            await this._loadAccessData();
-        }
-        return user;
+        // const data = await this.$connector.get('rest/service/config/getInfo');
+        // if (data.user) { // Успешная авторизация по кукисам
+        //     user = this.SD.User.parse(data.user);
+        //     await this._loadAccessData();
+        // }
+        // return user;
+
+        //TODO
+        return Object();
     }
 
     /**
@@ -95,7 +98,10 @@ class Session {
     }
 
     get authorized() {
-        return Boolean(user);
+        //return Boolean(user);
+
+        //TODO
+        return Boolean(true);
     }
 }
 
