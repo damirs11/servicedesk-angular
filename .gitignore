@@ -9,3 +9,6 @@ build
 /out
 /classes
 gradle
+.project
+.settings
+.classpath
