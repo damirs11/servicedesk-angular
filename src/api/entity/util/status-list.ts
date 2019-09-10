@@ -1,0 +1,34 @@
+export enum APPROVAL_STATUSES {
+    PREPARING = 281478256721931,
+    BEGIN = 281478256721929,
+    COMPLETE = 281478256721933
+};
+
+export enum CHANGE_STATUSES {
+    REGISTERED = 3095134325,
+    PREPARING = 3095134326,
+    ON_APPROVE = 3095134327,
+    APPROVAL_COMPLETE = 3095134328,
+    EXECUTING = 3095134329,
+    RESOLVED = 3095134330,
+    CLOSED = 3095134331
+};
+
+export enum PROBLEM_STATUSES {
+    // ToDo записать список статусов
+};
+
+export enum SERVICECALL_STATUSES {
+    REGISTERED = 3094610092, // Зарегистрировано
+    TO_ENGINEER = 281478327763609, // Направлено инженеру
+    EXECUTING = 281478336938148, // В работе инженер
+    PAUSED = 281478298075272, //  Приостановлено
+    RESOLVED = 3094610094, // Решено
+    CLOSED = 3094610096 // Закрыто
+};
+
+export enum WORKORDER_STATUSES {
+    OPEN = 281478237061820, // Открыт
+    COMPLETE = 3095134439, // Выполнен
+    CLOSED = 281478237061818 // Закрыт
+};

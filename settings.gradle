@@ -1,2 +1,0 @@
-rootProject.name = 'servicedesk'
-include 'server', 'client', 'common', 'model', 'dao', 'service', 'hp-api'
