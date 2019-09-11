@@ -1,9 +1,6 @@
-import {Parse} from './decorator/parse.decorator';
-import {Instantiate, Nullable} from './decorator/parse-utils';
 import {Serialize} from './decorator/serialize.decorator';
 import {serializeId} from './decorator/serialize-utils';
 import {EntityTypes} from './util/entity-types';
-import {Mixin} from './mixin/mixin.decorator';
 
 /**
  * Голосование
@@ -13,9 +10,8 @@ import {Mixin} from './mixin/mixin.decorator';
  * Имеет миксин, который внедряет в сущности методы для согласований
  * @see ENTITY_MIXIN.Approvable
  */
-@Mixin(Accessible)
 export class Approval {
-    static $entityTypeId = EntityTypes.Approval;
+    readonly entityTypeId: EntityTypes = EntityTypes.Approval;
     /**
      * ID сущности
      * @property

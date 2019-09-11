@@ -5,17 +5,16 @@ import {serializeId} from './decorator/serialize-utils';
 import {Mixin} from './mixin/mixin.decorator';
 import {EntityTypes} from './util/entity-types';
 
-    /**
-     * Изменение
-     * @class
-     * @name SD.Change
-     * @mixes ENTITY_MIXIN.Historyable
-     * @mixes ENTITY_MIXIN.Approvable
-     * @mixes ENTITY_MIXIN.AttachmentsHolder
-     * @mixes ENTITY_MIXIN.Accessible
-     * @extends SD.EditableEntity
-     */
-@Mixin(Historyable, Approvable, AttachmentsHolder, Accessible)
+/**
+ * Изменение
+ * @class
+ * @name SD.Change
+ * @mixes ENTITY_MIXIN.Historyable
+ * @mixes ENTITY_MIXIN.Approvable
+ * @mixes ENTITY_MIXIN.AttachmentsHolder
+ * @mixes ENTITY_MIXIN.Accessible
+ * @extends SD.EditableEntity
+*/
 export class Change {
     static $entityTypeId = EntityTypes.Change;
     /**

@@ -15,7 +15,6 @@ import {EntityTypes} from './util/entity-types';
  * @mixes ENTITY_MIXIN.Accessible
  * @extends SD.EditableEntity
  */
-@Mixin(Historyable, Approvable, AttachmentsHolder, Accessible)
 class Problem {
     static $entityTypeId = EntityTypes.Problem;
     /**

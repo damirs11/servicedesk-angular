@@ -9,7 +9,6 @@ import {serializeId} from "./decorator/serialize-utils";
  * @name SD.Person
  * @mixes ENTITY_MIXIN.AttachmentsHolder
  */
-@Mixin(AttachmentsHolder)
 class Person {
     /**
      * Пол персоны: true(1) - женский, false(0) - мужской

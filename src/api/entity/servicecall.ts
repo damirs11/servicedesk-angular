@@ -13,7 +13,6 @@ import {EntityTypes} from './util/entity-types';
  * @mixes ENTITY_MIXIN.AttachmentsHolder
  * @extends SD.EditableEntity
  */
-@Mixin(Historyable, Accessible, AttachmentsHolder)
 export class ServiceCall {
     static $entityTypeId = EntityTypes.ServiceCall;
     /**

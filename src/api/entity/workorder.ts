@@ -13,9 +13,8 @@ import {EntityTypes} from './util/entity-types';
  * @mixes ENTITY_MIXIN.AttachmentsHolder
  * @extends SD.EditableEntity
  */
-@Mixin(Historyable, Accessible, AttachmentsHolder)
 export class Workorder {
-    static $entityTypeId = EntityTypes.Workorder;
+    readonly entityTypeId: EntityTypes = EntityTypes.Workorder;
     /**
      * Номер
      * @property

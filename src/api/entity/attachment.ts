@@ -1,42 +1,4 @@
-import {Parse} from './decorator/parse.decorator';
-import {Instantiate} from './decorator/parse-utils';
-
-const FILETYPE_MAP = {
-    zip: 'archive', rar: 'archive', '7z': 'archive',
-    gz: 'archive', jar: 'archive', gzip: 'archive',
-    tar: 'archive', tgz: 'archive', 'tar-gz': 'archive',
-
-    doc: 'word', dot: 'word', wbk: 'word',
-    docx: 'word', docm: 'word', dotm: 'word',
-    docb: 'word',
-
-    xls: 'excel', xlt: 'excel', xlm: 'excel',
-    xlsx: 'excel', xlsm: 'excel', xltx: 'excel',
-    xltm: 'excel', xlsb: 'excel', xla: 'excel',
-    xlam: 'excel', xll: 'excel', xlw: 'excel',
-
-    pdf: 'pdf',
-
-    pptx: 'powerpoint', pptm: 'powerpoint', ppt: 'powerpoint',
-    xps: 'powerpoint', potx: 'powerpoint', potm: 'powerpoint',
-    pps: 'powerpoint', ppa: 'powerpoint', ppsx: 'powerpoint',
-
-    png: 'image', jpg: 'image', jpeg: 'image',
-    exif: 'image', gif: 'image', bmp: 'image',
-    ppm: 'image', pgm: 'image', pbm: 'image',
-    pnm: 'image', heif: 'image', bpg: 'image',
-    tif: 'image',
-
-    txt: 'text', md: 'text', '1st': 'text',
-    me: 'text',
-
-    '3gp': 'audio', '.aa': 'audio', '.aac': 'audio',
-    '.aax': 'audio', '.act': 'audio', au: 'audio',
-    mp3: 'audio', mpc: 'audio', m4a: 'audio',
-    ogg: 'audio', oga: 'audio', vox: 'audio',
-    wav: 'audio', webm: 'audio', midi: 'audio',
-
-};
+import { FILETYPE_MAP } from './util/filetype-list';
 
 /**
  * Вложение. Используется для вложений / аватарок и т.п.
