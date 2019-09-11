@@ -1,20 +1,20 @@
 /**
- * Статус
+ * Классификация
  * @class
- * @name SD.EntityStatus
+ * @name SD.EntityClassification
  * @extends SD.RESTEntity
  */
-export class EntityStatus {
+export class EntityClassification {
 
     /**
      * Название
      * @property
-     * @name SD.EntityStatus#name
+     * @name SD.EntityClassification#name
      * @type {string}
      */
     name: string;
 
-    order: string;
+    entityType: any;
 
     toString() {
         return this.name;

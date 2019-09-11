@@ -1,9 +1,8 @@
-import {Parse} from "./decorator/parse.decorator";
-import {Serialize} from "./decorator/serialize.decorator";
-import {Instantiate, Nullable} from "./decorator/parse-utils";
-import {serializeId} from "./decorator/serialize-utils";
-import {Mixin} from "./mixin/mixin.decorator";
-import {EntityTypes} from "./util/entity-types";
+import {Serialize} from './decorator/serialize.decorator';
+import {Instantiate, Nullable} from './decorator/parse-utils';
+import {serializeId} from './decorator/serialize-utils';
+import {Mixin} from './mixin/mixin.decorator';
+import {EntityTypes} from './util/entity-types';
 
 /**
  * Персона
@@ -23,7 +22,7 @@ export class Workorder {
      * @name SD.Workorder#no
      * @type {number}
      */
-    @Serialize(Number) @Parse(Number) no: number;
+    @Serialize(Number) no: number;
 
     /**
      * Тема
@@ -31,7 +30,7 @@ export class Workorder {
      * @name SD.Workorder#subject
      * @type {String}
      */
-    @Serialize(String) @Parse(String) subject: string;
+    @Serialize(String)  subject: string;
 
     /**
      * Подробная информация
@@ -39,7 +38,7 @@ export class Workorder {
      * @name SD.Workorder#description
      * @type {String}
      */
-    @Serialize(String) @Parse(String) description: string;
+    @Serialize(String) description: string;
 
     /**
      * Трудозатраты
@@ -47,7 +46,7 @@ export class Workorder {
      * @name SD.Workorder#labor
      * @type {Number}
      */
-    @Serialize(Nullable(Number)) @Parse(Nullable(Number)) labor: number;
+    @Serialize(Nullable(Number)) labor: number;
 
     /**
      * Решение
@@ -55,7 +54,7 @@ export class Workorder {
      * @name SD.Workorder#solution
      * @type {String}
      */
-    @Serialize(Nullable(String)) @Parse(Nullable(String)) solution: string;
+    @Serialize(Nullable(String)) solution: string;
 
     /**
      * Статус
@@ -63,7 +62,7 @@ export class Workorder {
      * @name SD.Workorder#status
      * @type {SD.EntityStatus}
      */
-    @Serialize(serializeId) @Parse(data => SD.EntityStatus.parse(data)) status;
+    @Serialize(serializeId) status;
 
     /**
      * Категория
@@ -71,7 +70,7 @@ export class Workorder {
      * @name SD.Workorder#category
      * @type {SD.EntityCategory}
      */
-    @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
+    @Serialize(serializeId)  category;
 
     /**
      * Код завершения
@@ -79,7 +78,7 @@ export class Workorder {
      * @name SD.Workorder#closureCode
      * @type {SD.EntityClosureCode}
      */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.EntityClosureCode.parse(data)) closureCode;
+    @Serialize(Nullable(serializeId))  closureCode;
 
     /**
      * Дата создания
@@ -87,7 +86,7 @@ export class Workorder {
      * @name SD.Workorder#createdDate
      * @type {Date}
      */
-    @Serialize(Number) @Parse(Instantiate(Date)) createdDate: Date;
+    @Serialize(Number)  createdDate: Date;
 
     /**
      * Крайний срок
@@ -95,7 +94,7 @@ export class Workorder {
      * @name SD.Workorder#deadline
      * @type {Date}
      */
-    @Serialize(Number) @Parse(Nullable(Date,"new")) deadline: Date;
+    @Serialize(Number)  deadline: Date;
 
     /**
      * Фактически выполнено
@@ -103,7 +102,7 @@ export class Workorder {
      * @name SD.Workorder#resolvedDate
      * @type {Date}
      */
-    @Serialize(Number) @Parse(Nullable(Date,"new")) resolvedDate: Date;
+    @Serialize(Number)  resolvedDate: Date;
 
     /**
      * Дата изменения
@@ -111,7 +110,7 @@ export class Workorder {
      * @name SD.Workorder#modifyDate
      * @type {Date}
      */
-    @Serialize(Number) @Parse(Nullable(Date,"new")) modifyDate: Date;
+    @Serialize(Number)  modifyDate: Date;
 
     /**
      * Наряд просрочен
@@ -119,7 +118,7 @@ export class Workorder {
      * @name SD.Workorder#expired
      * @type {Boolean}
      */
-    @Serialize(Boolean) @Parse(Nullable(Boolean)) expired: boolean;
+    @Serialize(Boolean)  expired: boolean;
 
     /**
      * Папка
@@ -127,7 +126,7 @@ export class Workorder {
      * @name SD.Workorder#folder
      * @type {SD.Folder}
      */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.Folder.parse(data)) folder;
+    @Serialize(Nullable(serializeId))  folder;
 
     /**
      * Инициатор
@@ -135,7 +134,7 @@ export class Workorder {
      * @name SD.Workorder#initiator
      * @type {SD.Person}
      */
-    @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) initiator;
+    @Serialize(serializeId)  initiator;
 
     /**
      * Объект "Назначено"
@@ -143,8 +142,8 @@ export class Workorder {
      * @name SD.Workorder#assignment
      * @type {SD.EntityAssignment}
      */
-    @Serialize((ag,name,mode) => mode == "FULL" ? ag.$serialize() : ag.$modifiedData)
-    @Parse(data => SD.EntityAssignment.parse(data)) assignment;
+    @Serialize((ag, name, mode) => mode === 'FULL' ? ag.$serialize() : ag.$modifiedData)
+     assignment;
 
     /**
      * Изменение
@@ -152,7 +151,7 @@ export class Workorder {
      * @name SD.Workorder#change
      * @type {SD.Change}
      */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.Change.parse(data)) change;
+    @Serialize(Nullable(serializeId))  change;
 
     /**
      * Проблема
@@ -160,9 +159,9 @@ export class Workorder {
      * @name SD.Workorder#problem
      * @type {SD.Problem}
      */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.Problem.parse(data)) problem;
+    @Serialize(Nullable(serializeId))  problem;
 
-    toString(){
+    toString() {
         return String(this.no);
     }
 }

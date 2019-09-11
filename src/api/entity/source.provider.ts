@@ -1,4 +1,3 @@
-import {Parse} from "./decorator/parse.decorator";
 
 /**
  * Источник
@@ -14,11 +13,11 @@ export class Source {
      * @name SD.Source#name
      * @type {string}
      */
-    @Parse( String ) name: string;
+    name: string;
 
-    @Parse( String ) entityType: string;
+    entityType: string;
 
-    toString(){
+    toString() {
         return this.name;
     }
-};
+}

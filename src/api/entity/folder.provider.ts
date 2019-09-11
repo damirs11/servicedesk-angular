@@ -1,20 +1,20 @@
 /**
- * Статус
+ * Папка
  * @class
- * @name SD.EntityStatus
+ * @name SD.Folder
  * @extends SD.RESTEntity
  */
-export class EntityStatus {
+export class Folder {
 
     /**
      * Название
      * @property
-     * @name SD.EntityStatus#name
+     * @name SD.Folder#name
      * @type {string}
      */
     name: string;
 
-    order: string;
+    entityType: any;
 
     toString() {
         return this.name;

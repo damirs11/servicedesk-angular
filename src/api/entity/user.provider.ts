@@ -1,8 +1,3 @@
-import {Parse} from "./decorator/parse.decorator";
-import {Nullable} from "./decorator/parse-utils";
-import {Person} from './person.provider';
-
-
 /**
  * Пользователь
  * @class
@@ -16,7 +11,7 @@ export class User {
      * @name SD.User#name
      * @type {string}
      */
-    @Parse( Nullable(String) ) name: string;
+    name: string;
 
     /**
      * Логин
@@ -24,7 +19,7 @@ export class User {
      * @name SD.User#login
      * @type {string}
      */
-    @Parse( String ) login: string;
+    login: string;
 
     /**
      * Роли
@@ -32,7 +27,7 @@ export class User {
      * @name SD.User#roles
      * @type {[Object]}
      */
-    @Parse( Object ) roles: [Object];
+    roles: [Object];
 
     /**
      * Персона
@@ -40,10 +35,9 @@ export class User {
      * @name person
      * @type {object}
      */
-    @Parse(data => SD.Person.parse(data)) person: Person;
+    person;
 
-    toString(){
-        return this.name
+    toString() {
+        return this.name;
     }
-
-};
+}

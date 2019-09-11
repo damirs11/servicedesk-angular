@@ -1,6 +1,3 @@
-import {Parse} from "./decorator/parse.decorator";
-import {Nullable} from "./decorator/parse-utils";
-
 /**
  * Условия предоставления
  * @class
@@ -14,7 +11,7 @@ export class ServiceLevel {
      * @name SD.ServiceLevel#name
      * @type {string}
      */
-    @Parse(String) name: string;
+    name: string;
 
     /**
      * Название
@@ -22,7 +19,7 @@ export class ServiceLevel {
      * @name SD.ServiceLevel#description
      * @type {string}
      */
-    @Parse(String) description: string;
+    description: string;
 
     /**
      * Значение по умолчанию (может быть только один среди всех условий)
@@ -30,7 +27,7 @@ export class ServiceLevel {
      * @name SD.ServiceLevel#defaultValue
      * @type {boolean}
      */
-    @Parse( Nullable(Boolean) ) defaultValue: boolean;
+    defaultValue: boolean;
 
     /**
      * Признак заблокированной записи
@@ -38,7 +35,7 @@ export class ServiceLevel {
      * @name SD.ServiceLevel#blocked
      * @type {boolean}
      */
-    @Parse( Nullable(Boolean) ) blocked: boolean;
+    blocked: boolean;
 
     /**
      * Условия предоставления
@@ -46,9 +43,9 @@ export class ServiceLevel {
      * @name SD.ServiceLevel#impactSettingList
      * @type {ImpactSettings}
      */
-    @Parse((data) => !data ? null : data.map(setting => SD.ImpactSettings.parse(setting))) impactSettingList;
+    impactSettingList;
 
-    toString(){
+    toString() {
         return String(this.name);
     }
 }

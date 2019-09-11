@@ -1,4 +1,3 @@
-import {Parse} from "./decorator/parse.decorator";
 
 /**
  * Условия предоставления. Определяет крайние сроки в заявках в зависимости от приоритета
@@ -13,7 +12,7 @@ export class ImpactSettings {
      * @name SD.ImpactSettings#priority
      * @type {SD.EntityPriority}
      */
-    @Parse(data => SD.EntityPriority.parse(data)) priority;
+    priority;
 
     /**
      * Условия приоритета
@@ -21,6 +20,6 @@ export class ImpactSettings {
      * @name SD.ImpactSettings#serviceLevelPriority
      * @type {SD.ServiceLevelPriority}
      */
-    @Parse(data => SD.ServiceLevelPriority.parse(data)) serviceLevelPriority;
+    serviceLevelPriority;
 
 }

@@ -1,20 +1,20 @@
 /**
- * Статус
+ * Код завершения
  * @class
- * @name SD.EntityStatus
+ * @name SD.EntityClosureCode
  * @extends SD.RESTEntity
  */
-export class EntityStatus {
+export class EntityClosureCode {
 
     /**
      * Название
      * @property
-     * @name SD.EntityStatus#name
+     * @name SD.EntityClosureCode#name
      * @type {string}
      */
     name: string;
 
-    order: string;
+    entityType;
 
     toString() {
         return this.name;

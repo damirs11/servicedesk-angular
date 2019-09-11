@@ -1,22 +1,22 @@
 /**
- * Статус
+ * Приоритет
  * @class
- * @name SD.EntityStatus
+ * @name SD.EntityPriority
  * @extends SD.RESTEntity
  */
-export class EntityStatus {
+export class EntityPriority {
 
     /**
      * Название
      * @property
-     * @name SD.EntityStatus#name
+     * @name SD.EntityPriority#name
      * @type {string}
      */
     name: string;
 
-    order: string;
+    order: any;
 
     toString() {
-        return this.name;
+        return this.name
     }
 }

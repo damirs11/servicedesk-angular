@@ -1,20 +1,20 @@
 /**
- * Статус
+ * Кастомный код 7
  * @class
- * @name SD.EntityStatus
+ * @name SD.EntityCode1
  * @extends SD.RESTEntity
  */
-export class EntityStatus {
+export class EntityCode7 {
 
     /**
      * Название
      * @property
-     * @name SD.EntityStatus#name
+     * @name SD.EntityCode1#name
      * @type {string}
      */
     name: string;
 
-    order: string;
+    entityType: any;
 
     toString() {
         return this.name;

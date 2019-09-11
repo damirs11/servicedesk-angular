@@ -1,5 +1,3 @@
-import {Parse} from "./decorator/parse.decorator";
-
 /**
  * Условие приоритета
  * @class
@@ -12,7 +10,7 @@ export class ServiceLevelPriority {
      * @name SD.ServiceLevelPriority#name
      * @type {string}
      */
-    @Parse(String) name: string;
+    name: string;
 
     /**
      * Порядок следования приоритета
@@ -20,9 +18,9 @@ export class ServiceLevelPriority {
      * @name SD.ServiceLevelPriority#order
      * @type {number}
      */
-    @Parse(Number) order: number;
+    order: number;
 
-    toString(){
+    toString() {
         return String(this.name);
     }
 }

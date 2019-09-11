@@ -1,14 +1,13 @@
-import {Parse} from "./decorator/parse.decorator";
-import {Serialize} from "./decorator/serialize.decorator";
-import {Nullable} from "./decorator/parse-utils";
-import {serializeId} from "./decorator/serialize-utils";
+import {Serialize} from './decorator/serialize.decorator';
+import {Nullable} from './decorator/parse-utils';
+import {serializeId} from './decorator/serialize-utils';
 
 /**
  * Сервис/услуга
  * @class
  * @name SD.Service
  */
-class Service {
+export class Service {
 
     /**
      * Название
@@ -16,7 +15,7 @@ class Service {
      * @name SD.Service#name
      * @type {string}
      */
-    @Parse(String) name: string;
+    name: string;
 
     /**
      * Статус
@@ -25,7 +24,7 @@ class Service {
      * @type {SD.EntityStatus}
      */
     @Serialize(serializeId)
-    @Parse(data => SD.EntityStatus.parse(data)) status;
+    status;
 
     /**
      * Папка
@@ -33,9 +32,9 @@ class Service {
      * @name SD.Service#folder
      * @type {SD.Folder}
      */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.Folder.parse(data)) folder;
-    
-    toString(){
+    @Serialize(Nullable(serializeId)) folder;
+
+    toString() {
         return String(this.name);
     }
 }

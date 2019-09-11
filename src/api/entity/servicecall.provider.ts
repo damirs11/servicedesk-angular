@@ -1,9 +1,8 @@
-import {Parse} from "./decorator/parse.decorator";
-import {Serialize} from "./decorator/serialize.decorator";
-import {Nullable} from "./decorator/parse-utils";
-import {serializeId} from "./decorator/serialize-utils";
-import {Mixin} from "./mixin/mixin.decorator";
-import {EntityTypes} from "./util/entity-types";
+import {Serialize} from './decorator/serialize.decorator';
+import {Nullable} from './decorator/parse-utils';
+import {serializeId} from './decorator/serialize-utils';
+import {Mixin} from './mixin/mixin.decorator';
+import {EntityTypes} from './util/entity-types';
 
 /**
  * Заявка
@@ -18,269 +17,271 @@ import {EntityTypes} from "./util/entity-types";
 export class ServiceCall {
     static $entityTypeId = EntityTypes.ServiceCall;
     /**
-     * Номер
-     * @property
-     * @name SD.ServiceCall#no
-     * @type {number}
-     */
-    @Serialize(Number) @Parse(Number) no: number;
+         * Номер
+         * @property
+         * @name SD.ServiceCall#no
+         * @type {number}
+         */
+        @Serialize(Number) no: number;
 
-    /**
-     * Тема
-     * @property
-     * @name SD.ServiceCall#subject
-     * @type {string}
-     */
-    @Serialize(String) @Parse(Nullable(String)) subject: string;
+        /**
+         * Тема
+         * @property
+         * @name SD.ServiceCall#subject
+         * @type {string}
+         */
+        @Serialize(String) subject: string;
 
-    /**
-     * Ext ID
-     * @property
-     * @name SD.Change#extId
-     * @type {string}
-     */
-    @Serialize(String) @Parse(Nullable(String)) extId: string;
+        /**
+         * Ext ID
+         * @property
+         * @name SD.Change#extId
+         * @type {string}
+         */
+        @Serialize(String) extId: string;
 
-    /**
-     * Описание
-     * @property
-     * @name SD.Change#description
-     * @type {string}
-     */
-    @Serialize(String) @Parse(Nullable(String)) description: string;
+        /**
+         * Описание
+         * @property
+         * @name SD.Change#description
+         * @type {string}
+         */
+        @Serialize(String) description: string;
 
-    /**
-     * Решение
-     * @property
-     * @name SD.ServiceCall#solution
-     * @type {string}
-     */
-    @Serialize(String) @Parse(Nullable(String)) solution: string;
+        /**
+         * Решение
+         * @property
+         * @name SD.ServiceCall#solution
+         * @type {string}
+         */
+        @Serialize(String) solution: string;
 
-    /**
-     * Статус
-     * @property
-     * @name SD.ServiceCall#status
-     * @type {SD.EntityStatus}
-     */
-    @Serialize(serializeId)
-    @Parse(data => SD.EntityStatus.parse(data)) status;
-    /**
-     * Источник
-     * @property
-     * @name SD.ServiceCall#source
-     * @type {SD.Source}
-     */
-    @Serialize(serializeId)
-    @Parse(data => SD.Source.parse(data)) source;
-    /**
-     * Время e-mail
-     * @property
-     * @name SD.ServiceCall#emailDate
-     * @type {Date}
-     */
-    @Serialize(Number) @Parse( Nullable(Date,"new") ) emailDate: Date;
-    /**
-     * Приоритет
-     * @property
-     * @name SD.ServiceCall#priority
-     * @type {SD.EntityPriority}
-     */
-    @Serialize(serializeId)
-    @Parse(data => SD.EntityPriority.parse(data)) priority;
+        /**
+         * Статус
+         * @property
+         * @name SD.ServiceCall#status
+         * @type {SD.EntityStatus}
+         */
+        @Serialize(serializeId)
+        status;
+        /**
+         * Источник
+         * @property
+         * @name SD.ServiceCall#source
+         * @type {SD.Source}
+         */
+        @Serialize(serializeId)
+        source;
+        /**
+         * Время e-mail
+         * @property
+         * @name SD.ServiceCall#emailDate
+         * @type {Date}
+         */
+        @Serialize(Number) emailDate: Date;
+        /**
+         * Приоритет
+         * @property
+         * @name SD.ServiceCall#priority
+         * @type {SD.EntityPriority}
+         */
+        @Serialize(serializeId)
+        priority;
 
-    /**
-     * Категория
-     * @property
-     * @name SD.ServiceCall#category
-     * @type {SD.EntityCategory}
-     */
-    @Serialize(serializeId) @Parse(data => SD.EntityCategory.parse(data)) category;
+        /**
+         * Категория
+         * @property
+         * @name SD.ServiceCall#category
+         * @type {SD.EntityCategory}
+         */
+        @Serialize(serializeId) category;
 
-    /**
-     * Классификация
-     * @property
-     * @name SD.ServiceCall#classification
-     * @type {SD.EntityClassification}
-     */
-    @Serialize(serializeId) @Parse(data => SD.EntityClassification.parse(data)) classification;
+        /**
+         * Классификация
+         * @property
+         * @name SD.ServiceCall#classification
+         * @type {SD.EntityClassification}
+         */
+        @Serialize(serializeId) classification;
 
-    /**
-     * Крайний срок
-     * @property
-     * @name SD.ServiceCall#deadline
-     * @type {Date}
-     */
-    @Serialize(Number) @Parse( Nullable(Date,"new") ) deadline: Date;
+        /**
+         * Крайний срок
+         * @property
+         * @name SD.ServiceCall#deadline
+         * @type {Date}
+         */
+        @Serialize(Number) deadline: Date;
 
-    /**
-     * Дата фактического выполнения
-     * @property
-     * @name SD.ServiceCall#resolvedDate
-     * @type {Date}
-     */
-    @Serialize(Number) @Parse( Nullable(Date,"new") ) resolvedDate: Date;
+        /**
+         * Дата фактического выполнения
+         * @property
+         * @name SD.ServiceCall#resolvedDate
+         * @type {Date}
+         */
+        @Serialize(Number) resolvedDate: Date;
 
-    /**
-     * Дата закрытия
-     * @property
-     * @name SD.ServiceCall#closureDate
-     * @type {Date}
-     */
-    @Serialize(Number) @Parse( Nullable(Date,"new") ) closureDate: Date;
+        /**
+         * Дата закрытия
+         * @property
+         * @name SD.ServiceCall#closureDate
+         * @type {Date}
+         */
+        @Serialize(Number) closureDate: Date;
 
-    /**
-     * Инициатор
-     * @property
-     * @name SD.ServiceCall#person
-     * @type {SD.Person}
-     */
-    @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) initiator;
+        /**
+         * Инициатор
+         * @property
+         * @name SD.ServiceCall#person
+         * @type {SD.Person}
+         */
+        @Serialize(serializeId) initiator;
 
-    /**
-     * Заявитель
-     * @property
-     * @name SD.ServiceCall#caller
-     * @type {SD.Person}
-     */
-    @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) caller;
+        /**
+         * Заявитель
+         * @property
+         * @name SD.ServiceCall#caller
+         * @type {SD.Person}
+         */
+        @Serialize(serializeId) caller;
 
-    /**
-     * Организация
-     * @property
-     * @name SD.ServiceCall#organization
-     * @type {SD.Organization}
-     */
-    @Serialize(serializeId) @Parse(data => SD.Organization.parse(data)) organization;
+        /**
+         * Организация
+         * @property
+         * @name SD.ServiceCall#organization
+         * @type {SD.Organization}
+         */
+        @Serialize(serializeId) organization;
 
-    /**
-     * SLA
-     * @property
-     * @name SD.ServiceCall#serviceLevelAgreement
-     * @type {SD.ServiceLevelAgreement}
-     */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.ServiceLevelAgreement.parse(data)) serviceLevelAgreement;
+        /**
+         * SLA
+         * @property
+         * @name SD.ServiceCall#serviceLevelAgreement
+         * @type {SD.ServiceLevelAgreement}
+         */
+        @Serialize(Nullable(serializeId)) serviceLevelAgreement;
 
-    /**
-     * Сервис/услуга
-     * @property
-     * @name SD.ServiceCall#service
-     * @type {SD.Service}
-     */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.Service.parse(data)) service;
+        /**
+         * Сервис/услуга
+         * @property
+         * @name SD.ServiceCall#service
+         * @type {SD.Service}
+         */
+        @Serialize(Nullable(serializeId)) service;
 
-    /**
-     * Объект обслуживания
-     * @property
-     * @name SD.ServiceCall#configurationItem
-     * @type {SD.ConfigurationItem}
-     */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.ConfigurationItem.parse(data)) configurationItem;
+        /**
+         * Объект обслуживания
+         * @property
+         * @name SD.ServiceCall#configurationItem
+         * @type {SD.ConfigurationItem}
+         */
+        @Serialize(Nullable(serializeId)) configurationItem;
 
-    /**
-     * Код завершения
-     * @property
-     * @name SD.ServiceCall#closureCode
-     * @type {SD.EntityClosureCode}
-     */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.EntityClosureCode.parse(data)) closureCode;
+        /**
+         * Код завершения
+         * @property
+         * @name SD.ServiceCall#closureCode
+         * @type {SD.EntityClosureCode}
+         */
+        @Serialize(Nullable(serializeId)) closureCode;
 
-    /**
-     * Папка
-     * @property
-     * @name SD.ServiceCall#folder
-     * @type {SD.Folder}
-     */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.Folder.parse(data)) folder;
-    
-    /**
-     * Сущность "назначено"
-     * @property
-     * @name SD.ServiceCall#assignment
-     * @type {SD.EntityAssignment}
-     */
-    @Serialize((ag,name,mode) => mode === "FULL" ? ag.$serialize() : ag.$modifiedData)
-    @Parse(data => SD.EntityAssignment.parse(data)) assignment;
+        /**
+         * Папка
+         * @property
+         * @name SD.ServiceCall#folder
+         * @type {SD.Folder}
+         */
+        @Serialize(Nullable(serializeId)) folder;
 
-    /**
-     * Дата возобновления
-     * @property
-     * @name SD.ServiceCall#renewalDate
-     * @type {Date}
-     */
-    @Serialize(Number) @Parse( Nullable(Date,"new") ) renewalDate: Date;
+        /**
+         * Сущность "назначено"
+         * @property
+         * @name SD.ServiceCall#assignment
+         * @type {SD.EntityAssignment}
+         */
+        @Serialize((ag, name, mode) => mode === 'FULL' ? ag.$serialize() : ag.$modifiedData)
+        assignment;
 
-    /**
-     * Комментарий по приостановке
-     * @property
-     * @name SD.ServiceCall#renewalReason
-     * @type {string}
-     */
-    @Parse(String) renewalComment: string;
+        /**
+         * Дата возобновления
+         * @property
+         * @name SD.ServiceCall#renewalDate
+         * @type {Date}
+         */
+        @Serialize(Number) renewalDate: Date;
 
-    /**
-     * Причина приостановки
-     * @property
-     * @name SD.ServiceCall#renewalReason
-     * @type {SD.EntityCode7}
-     */
-    @Serialize(Nullable(serializeId)) @Parse(data => SD.EntityCode7.parse(data)) renewalReason;
+        /**
+         * Комментарий по приостановке
+         * @property
+         * @name SD.ServiceCall#renewalReason
+         * @type {string}
+         */
+        renewalComment: string;
 
-    /**
-     * Новый крайний срок
-     * @property
-     * @name SD.ServiceCall#newDeadline
-     * @type {Date}
-     */
-    @Serialize(Number) @Parse( Nullable(Date) ) newDeadline: Date;
+        /**
+         * Причина приостановки
+         * @property
+         * @name SD.ServiceCall#renewalReason
+         * @type {SD.EntityCode7}
+         */
+        @Serialize(Nullable(serializeId)) renewalReason;
 
-    /**
-     * Причина переноса крайнего срока
-     * @property
-     * @name SD.ServiceCall#newDeadlineReason
-     * @type {string}
-     */
-    @Parse(String) newDeadlineReason: string;
-    /**
-     * Нарушение регистрации
-     * @property
-     * @name SD.ServiceCall#registrationError
-     * @type {string}
-     */
-    @Parse(Boolean) registrationError: string;
-    /**
-     * Часто задаваемые вопросы
-     * @property
-     * @name SD.ServiceCall#frequentlyAskedQuestion
-     * @type {string}
-     */
-    @Parse(Boolean) frequentlyAskedQuestion: string;
-    /**
-     * База известных ошибок
-     * @property
-     * @name SD.ServiceCall#faq
-     * @type {SD.FAQ}
-     */
-    @Serialize(serializeId)
-    @Parse(data => SD.FAQ.parse(data)) faq;
-    /**
-     * Руководитель исполнителя
-     * @property
-     * @name SD.ServiceCall#executorHead
-     * @type {SD.Person}
-     */
-    @Serialize(serializeId) @Parse(data => SD.Person.parse(data)) executorHead;
+        /**
+         * Новый крайний срок
+         * @property
+         * @name SD.ServiceCall#newDeadline
+         * @type {Date}
+         */
+        @Serialize(Number) newDeadline: Date;
 
-    /**
-     * Подсистема АИС ЭАД
-     * @property
-     * @name SD.ServiceCall#entityCode6
-     * @type {SD.EntityCode6}
-     */
-    @Serialize(serializeId)
-    @Parse(data => SD.EntityCode6.parse(data)) entityCode6;
+        /**
+         * Причина переноса крайнего срока
+         * @property
+         * @name SD.ServiceCall#newDeadlineReason
+         * @type {string}
+         */
+        newDeadlineReason: string;
+        /**
+         * Нарушение регистрации
+         * @property
+         * @name SD.ServiceCall#registrationError
+         * @type {string}
+         */
+        registrationError: string;
+        /**
+         * Часто задаваемые вопросы
+         * @property
+         * @name SD.ServiceCall#frequentlyAskedQuestion
+         * @type {string}
+         */
+        frequentlyAskedQuestion: string;
+        /**
+         * База известных ошибок
+         * @property
+         * @name SD.ServiceCall#faq
+         * @type {SD.FAQ}
+         */
+        @Serialize(serializeId)
+        faq;
+        /**
+         * Руководитель исполнителя
+         * @property
+         * @name SD.ServiceCall#executorHead
+         * @type {SD.Person}
+         */
+        @Serialize(serializeId) executorHead;
 
-    toString(){
+        /**
+         * Подсистема АИС ЭАД
+         * @property
+         * @name SD.ServiceCall#entityCode6
+         * @type {SD.EntityCode6}
+         */
+        @Serialize(serializeId)
+        entityCode6;
+
+
+
+    toString() {
         return String(this.no);
     }
 }

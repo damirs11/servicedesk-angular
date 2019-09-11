@@ -10,7 +10,7 @@ export class EntityAssignment {
      * @type {SD.Person}
      */
     @Serialize(serializeId)
-    @Parse(data => SD.Person.parse(data)) executor;
+    executor;
 
     /**
      * Приоритет
@@ -19,7 +19,7 @@ export class EntityAssignment {
      * @type {SD.EntityPriority}
      */
     @Serialize(serializeId)
-    @Parse(data => SD.EntityPriority.parse(data)) priority;
+    priority;
 
     /**
      * Статус
@@ -28,7 +28,7 @@ export class EntityAssignment {
      * @type {SD.EntityStatus}
      */
     @Serialize(serializeId)
-    @Parse(data => SD.EntityStatus.parse(data)) status;
+    status;
 
     /**
      * Рабочая группа
@@ -37,5 +37,5 @@ export class EntityAssignment {
      * @type {SD.Workgroup}
      */
     @Serialize(serializeId)
-    @Parse(data => SD.Workgroup.parse(data)) workgroup;
+    workgroup;
 }

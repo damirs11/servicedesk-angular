@@ -1,5 +1,3 @@
-import {Parse} from "./decorator/parse.decorator";
-
 /**
  * Условие приоритета
  * @class
@@ -12,7 +10,7 @@ export class ServiceLevelPriorityDuration {
      * @name SD.ServiceLevelPriorityDuration#serviceLevelPriority
      * @type {SD.ServiceLevelPriority}
      */
-    @Parse(data => SD.ServiceLevelPriority.parse(data)) serviceLevelPriority;
+    serviceLevelPriority;
 
     /**
      * Максимальный срок исполнения заявки
@@ -20,5 +18,5 @@ export class ServiceLevelPriorityDuration {
      * @name SD.ServiceLevelPriorityDuration#maximumDuration
      * @type {number}
      */
-    @Parse(Number) maximumDuration: number;
+    maximumDuration: number;
 }

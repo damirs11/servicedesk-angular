@@ -1,4 +1,3 @@
-import {Parse} from "./decorator/parse.decorator";
 
 /**
  * Приоритет
@@ -8,13 +7,13 @@ import {Parse} from "./decorator/parse.decorator";
  */
 export class Template {
 
-    /**
+     /**
      * Название
      * @property
      * @name SD.Template#name
      * @type {string}
      */
-    @Parse( String ) name: string;
+    name: string;
 
     /**
      * Папка
@@ -22,9 +21,9 @@ export class Template {
      * @name SD.Template#folder
      * @type {Folder}
      */
-    @Parse( (data) => SD.Folder.parse(data) ) folder;
+    folder;
 
-    toString(){
-        return this.name
+    toString() {
+        return this.name;
     }
-};
+}

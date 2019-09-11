@@ -1,6 +1,5 @@
-import {Parse} from "./decorator/parse.decorator";
-import {Serialize} from "./decorator/serialize.decorator";
-import {serializeId} from "./decorator/serialize-utils";
+import {Serialize} from './decorator/serialize.decorator';
+import {serializeId} from './decorator/serialize-utils';
 
 /**
  * Приоритет
@@ -16,7 +15,7 @@ export class Workgroup {
      * @name SD.Workgroup#name
      * @type {string}
      */
-    @Parse( String ) name: string;
+    name: string;
 
     /**
      *
@@ -24,7 +23,7 @@ export class Workgroup {
      * @name SD.Workgroup#searchcode
      * @type {string}
      */
-    @Parse( String ) searchcode: string;
+    searchcode: string;
 
     /**
      * Статус
@@ -32,7 +31,7 @@ export class Workgroup {
      * @name SD.Workgroup#status
      * @type {string}
      */
-    @Parse( data => SD.EntityStatus.parse(data) ) status;
+    status: string;
 
     /**
      * Отвественный группы
@@ -40,9 +39,9 @@ export class Workgroup {
      * @name SD.ServiceCall#person
      * @type {SD.Person}
      */
-    @Serialize(serializeId) @Parse( data => SD.Person.parse(data) ) groupManager;
+    @Serialize(serializeId) groupManager;
 
-    toString(){
-        return this.name
+    toString() {
+        return this.name;
     }
-};
+}
