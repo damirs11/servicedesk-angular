@@ -1,14 +1,14 @@
 /**
  * Условия предоставления
  * @class
- * @name SD.ServiceLevel
+ * @name ServiceLevel
  */
 export class ServiceLevel {
 
     /**
      * Название
      * @property
-     * @name SD.ServiceLevel#name
+     * @name ServiceLevel#name
      * @type {string}
      */
     name: string;
@@ -16,7 +16,7 @@ export class ServiceLevel {
     /**
      * Название
      * @property
-     * @name SD.ServiceLevel#description
+     * @name ServiceLevel#description
      * @type {string}
      */
     description: string;
@@ -24,7 +24,7 @@ export class ServiceLevel {
     /**
      * Значение по умолчанию (может быть только один среди всех условий)
      * @property
-     * @name SD.ServiceLevel#defaultValue
+     * @name ServiceLevel#defaultValue
      * @type {boolean}
      */
     defaultValue: boolean;
@@ -32,7 +32,7 @@ export class ServiceLevel {
     /**
      * Признак заблокированной записи
      * @property
-     * @name SD.ServiceLevel#blocked
+     * @name ServiceLevel#blocked
      * @type {boolean}
      */
     blocked: boolean;
@@ -40,7 +40,7 @@ export class ServiceLevel {
     /**
      * Условия предоставления
      * @property
-     * @name SD.ServiceLevel#impactSettingList
+     * @name ServiceLevel#impactSettingList
      * @type {ImpactSettings}
      */
     impactSettingList;

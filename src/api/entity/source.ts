@@ -1,16 +1,15 @@
-
 /**
  * Источник
  * @class
- * @name SD.Source
- * @extends SD.RESTEntity
+ * @name Source
+ * @extends RESTEntity
  */
 export class Source {
 
     /**
      * Название
      * @property
-     * @name SD.Source#name
+     * @name Source#name
      * @type {string}
      */
     name: string;

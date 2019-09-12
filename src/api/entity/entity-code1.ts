@@ -1,15 +1,15 @@
 /**
  * Кастомный код 1
  * @class
- * @name SD.EntityCode1
- * @extends SD.RESTEntity
+ * @name EntityCode1
+ * @extends RESTEntity
  */
 export class EntityCode1 {
 
     /**
      * Название
      * @property
-     * @name SD.EntityCode1#name
+     * @name EntityCode1#name
      * @type {string}
      */
     name: string;

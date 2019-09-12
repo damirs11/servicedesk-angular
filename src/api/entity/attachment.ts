@@ -5,10 +5,10 @@ import { FILETYPE_MAP } from './util/filetype-list';
  * Класс не имеет своих методов работы с REST, они внедряются в другие сущности
  * @see ENTITY_MIXIN.AttachmentsHolder
  * Для загрузки файлов на сервер используется FileInfo
- * @see SD.FileInfo
+ * @see FileInfo
  * @class
- * @extends SD.RESTEntity
- * @name SD.Attachment
+ * @extends RESTEntity
+ * @name Attachment
  */
 export class Attachment {
     static get $entityType() { // Название на сервере.
@@ -17,29 +17,29 @@ export class Attachment {
     /**
      * Название вложения
      * @property
-     * @name SD.Attachment#name
+     * @name Attachment#name
      * @type {String}
      */
     name: string;
     /**
      * Размер вложения в байтах
      * @property
-     * @name SD.Attachment#size
+     * @name Attachment#size
      * @type {Number}
      */
     size: number;
     /**
      * Персона, создавшая вложение
      * @property
-     * @name SD.Attachment#author
-     * @type {SD.Person}
+     * @name Attachment#author
+     * @type {Person}
      */
     author;
     /**
      * Дата прикрепления
      * @property
-     * @name SD.Attachment#creationDate
-     * @type {SD.Person}
+     * @name Attachment#creationDate
+     * @type {Person}
      */
     creationDate;
 

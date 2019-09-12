@@ -1,282 +1,272 @@
-import {Serialize} from './decorator/serialize.decorator';
-import {Nullable} from './decorator/parse-utils';
-import {serializeId} from './decorator/serialize-utils';
-import {Mixin} from './mixin/mixin.decorator';
 import {EntityTypes} from './util/entity-types';
 
 /**
  * Заявка
  * @class
- * @name SD.ServiceCall
+ * @name ServiceCall
  * @mixes ENTITY_MIXIN.Historyable
  * @mixes ENTITY_MIXIN.Accessible
  * @mixes ENTITY_MIXIN.AttachmentsHolder
- * @extends SD.EditableEntity
+ * @extends EditableEntity
  */
 export class ServiceCall {
-    static $entityTypeId = EntityTypes.ServiceCall;
+    static readonly entityTypeId = EntityTypes.ServiceCall;
     /**
-         * Номер
-         * @property
-         * @name SD.ServiceCall#no
-         * @type {number}
-         */
-        @Serialize(Number) no: number;
+     * Номер
+     * @property
+     * @name ServiceCall#no
+     * @type {number}
+     */
+        no: number;
 
-        /**
-         * Тема
-         * @property
-         * @name SD.ServiceCall#subject
-         * @type {string}
-         */
-        @Serialize(String) subject: string;
+    /**
+     * Тема
+     * @property
+     * @name ServiceCall#subject
+     * @type {string}
+     */
+        subject: string;
 
-        /**
-         * Ext ID
-         * @property
-         * @name SD.Change#extId
-         * @type {string}
-         */
-        @Serialize(String) extId: string;
+    /**
+     * Ext ID
+     * @property
+     * @name Change#extId
+     * @type {string}
+     */
+        extId: string;
 
-        /**
-         * Описание
-         * @property
-         * @name SD.Change#description
-         * @type {string}
-         */
-        @Serialize(String) description: string;
+    /**
+     * Описание
+     * @property
+     * @name Change#description
+     * @type {string}
+     */
+        description: string;
 
-        /**
-         * Решение
-         * @property
-         * @name SD.ServiceCall#solution
-         * @type {string}
-         */
-        @Serialize(String) solution: string;
+    /**
+     * Решение
+     * @property
+     * @name ServiceCall#solution
+     * @type {string}
+     */
+        solution: string;
 
-        /**
-         * Статус
-         * @property
-         * @name SD.ServiceCall#status
-         * @type {SD.EntityStatus}
-         */
-        @Serialize(serializeId)
-        status;
-        /**
-         * Источник
-         * @property
-         * @name SD.ServiceCall#source
-         * @type {SD.Source}
-         */
-        @Serialize(serializeId)
-        source;
-        /**
-         * Время e-mail
-         * @property
-         * @name SD.ServiceCall#emailDate
-         * @type {Date}
-         */
-        @Serialize(Number) emailDate: Date;
-        /**
-         * Приоритет
-         * @property
-         * @name SD.ServiceCall#priority
-         * @type {SD.EntityPriority}
-         */
-        @Serialize(serializeId)
-        priority;
+    /**
+     * Статус
+     * @property
+     * @name ServiceCall#status
+     * @type {EntityStatus}
+     */
+            status;
+    /**
+     * Источник
+     * @property
+     * @name ServiceCall#source
+     * @type {Source}
+     */
+            source;
+    /**
+     * Время e-mail
+     * @property
+     * @name ServiceCall#emailDate
+     * @type {Date}
+     */
+        emailDate: Date;
+    /**
+     * Приоритет
+     * @property
+     * @name ServiceCall#priority
+     * @type {EntityPriority}
+     */
+            priority;
 
-        /**
-         * Категория
-         * @property
-         * @name SD.ServiceCall#category
-         * @type {SD.EntityCategory}
-         */
-        @Serialize(serializeId) category;
+    /**
+     * Категория
+     * @property
+     * @name ServiceCall#category
+     * @type {EntityCategory}
+     */
+        category;
 
-        /**
-         * Классификация
-         * @property
-         * @name SD.ServiceCall#classification
-         * @type {SD.EntityClassification}
-         */
-        @Serialize(serializeId) classification;
+    /**
+     * Классификация
+     * @property
+     * @name ServiceCall#classification
+     * @type {EntityClassification}
+     */
+        classification;
 
-        /**
-         * Крайний срок
-         * @property
-         * @name SD.ServiceCall#deadline
-         * @type {Date}
-         */
-        @Serialize(Number) deadline: Date;
+    /**
+     * Крайний срок
+     * @property
+     * @name ServiceCall#deadline
+     * @type {Date}
+     */
+        deadline: Date;
 
-        /**
-         * Дата фактического выполнения
-         * @property
-         * @name SD.ServiceCall#resolvedDate
-         * @type {Date}
-         */
-        @Serialize(Number) resolvedDate: Date;
+    /**
+     * Дата фактического выполнения
+     * @property
+     * @name ServiceCall#resolvedDate
+     * @type {Date}
+     */
+        resolvedDate: Date;
 
-        /**
-         * Дата закрытия
-         * @property
-         * @name SD.ServiceCall#closureDate
-         * @type {Date}
-         */
-        @Serialize(Number) closureDate: Date;
+    /**
+     * Дата закрытия
+     * @property
+     * @name ServiceCall#closureDate
+     * @type {Date}
+     */
+        closureDate: Date;
 
-        /**
-         * Инициатор
-         * @property
-         * @name SD.ServiceCall#person
-         * @type {SD.Person}
-         */
-        @Serialize(serializeId) initiator;
+    /**
+     * Инициатор
+     * @property
+     * @name ServiceCall#person
+     * @type {Person}
+     */
+        initiator;
 
-        /**
-         * Заявитель
-         * @property
-         * @name SD.ServiceCall#caller
-         * @type {SD.Person}
-         */
-        @Serialize(serializeId) caller;
+    /**
+     * Заявитель
+     * @property
+     * @name ServiceCall#caller
+     * @type {Person}
+     */
+    caller;
 
-        /**
-         * Организация
-         * @property
-         * @name SD.ServiceCall#organization
-         * @type {SD.Organization}
-         */
-        @Serialize(serializeId) organization;
+    /**
+     * Организация
+     * @property
+     * @name ServiceCall#organization
+     * @type {Organization}
+     */
+    organization;
 
-        /**
-         * SLA
-         * @property
-         * @name SD.ServiceCall#serviceLevelAgreement
-         * @type {SD.ServiceLevelAgreement}
-         */
-        @Serialize(Nullable(serializeId)) serviceLevelAgreement;
+    /**
+     * SLA
+     * @property
+     * @name ServiceCall#serviceLevelAgreement
+     * @type {ServiceLevelAgreement}
+     */
+    serviceLevelAgreement;
 
-        /**
-         * Сервис/услуга
-         * @property
-         * @name SD.ServiceCall#service
-         * @type {SD.Service}
-         */
-        @Serialize(Nullable(serializeId)) service;
+    /**
+     * Сервис/услуга
+     * @property
+     * @name ServiceCall#service
+     * @type {Service}
+     */
+    service;
 
-        /**
-         * Объект обслуживания
-         * @property
-         * @name SD.ServiceCall#configurationItem
-         * @type {SD.ConfigurationItem}
-         */
-        @Serialize(Nullable(serializeId)) configurationItem;
+    /**
+     * Объект обслуживания
+     * @property
+     * @name ServiceCall#configurationItem
+     * @type {ConfigurationItem}
+     */
+    configurationItem;
 
-        /**
-         * Код завершения
-         * @property
-         * @name SD.ServiceCall#closureCode
-         * @type {SD.EntityClosureCode}
-         */
-        @Serialize(Nullable(serializeId)) closureCode;
+    /**
+     * Код завершения
+     * @property
+     * @name ServiceCall#closureCode
+     * @type {EntityClosureCode}
+     */
+    closureCode;
 
-        /**
-         * Папка
-         * @property
-         * @name SD.ServiceCall#folder
-         * @type {SD.Folder}
-         */
-        @Serialize(Nullable(serializeId)) folder;
+    /**
+     * Папка
+     * @property
+     * @name ServiceCall#folder
+     * @type {Folder}
+     */
+    folder;
 
-        /**
-         * Сущность "назначено"
-         * @property
-         * @name SD.ServiceCall#assignment
-         * @type {SD.EntityAssignment}
-         */
-        @Serialize((ag, name, mode) => mode === 'FULL' ? ag.$serialize() : ag.$modifiedData)
-        assignment;
+    /**
+     * Сущность "назначено"
+     * @property
+     * @name ServiceCall#assignment
+     * @type {EntityAssignment}
+     */
+    assignment;
 
-        /**
-         * Дата возобновления
-         * @property
-         * @name SD.ServiceCall#renewalDate
-         * @type {Date}
-         */
-        @Serialize(Number) renewalDate: Date;
+    /**
+     * Дата возобновления
+     * @property
+     * @name ServiceCall#renewalDate
+     * @type {Date}
+     */
+        renewalDate: Date;
 
-        /**
-         * Комментарий по приостановке
-         * @property
-         * @name SD.ServiceCall#renewalReason
-         * @type {string}
-         */
-        renewalComment: string;
+    /**
+     * Комментарий по приостановке
+     * @property
+     * @name ServiceCall#renewalReason
+     * @type {string}
+     */
+    renewalComment: string;
 
-        /**
-         * Причина приостановки
-         * @property
-         * @name SD.ServiceCall#renewalReason
-         * @type {SD.EntityCode7}
-         */
-        @Serialize(Nullable(serializeId)) renewalReason;
+    /**
+     * Причина приостановки
+     * @property
+     * @name ServiceCall#renewalReason
+     * @type {EntityCode7}
+     */
+    renewalReason;
 
-        /**
-         * Новый крайний срок
-         * @property
-         * @name SD.ServiceCall#newDeadline
-         * @type {Date}
-         */
-        @Serialize(Number) newDeadline: Date;
+    /**
+     * Новый крайний срок
+     * @property
+     * @name ServiceCall#newDeadline
+     * @type {Date}
+     */
+    newDeadline: Date;
 
-        /**
-         * Причина переноса крайнего срока
-         * @property
-         * @name SD.ServiceCall#newDeadlineReason
-         * @type {string}
-         */
-        newDeadlineReason: string;
-        /**
-         * Нарушение регистрации
-         * @property
-         * @name SD.ServiceCall#registrationError
-         * @type {string}
-         */
-        registrationError: string;
-        /**
-         * Часто задаваемые вопросы
-         * @property
-         * @name SD.ServiceCall#frequentlyAskedQuestion
-         * @type {string}
-         */
-        frequentlyAskedQuestion: string;
-        /**
-         * База известных ошибок
-         * @property
-         * @name SD.ServiceCall#faq
-         * @type {SD.FAQ}
-         */
-        @Serialize(serializeId)
-        faq;
-        /**
-         * Руководитель исполнителя
-         * @property
-         * @name SD.ServiceCall#executorHead
-         * @type {SD.Person}
-         */
-        @Serialize(serializeId) executorHead;
+    /**
+     * Причина переноса крайнего срока
+     * @property
+     * @name ServiceCall#newDeadlineReason
+     * @type {string}
+     */
+    newDeadlineReason: string;
+    /**
+     * Нарушение регистрации
+     * @property
+     * @name ServiceCall#registrationError
+     * @type {string}
+     */
+    registrationError: string;
+    /**
+     * Часто задаваемые вопросы
+     * @property
+     * @name ServiceCall#frequentlyAskedQuestion
+     * @type {string}
+     */
+    frequentlyAskedQuestion: string;
+    /**
+     * База известных ошибок
+     * @property
+     * @name ServiceCall#faq
+     * @type {FAQ}
+     */
+    faq;
+    /**
+     * Руководитель исполнителя
+     * @property
+     * @name ServiceCall#executorHead
+     * @type {Person}
+     */
+    executorHead;
 
-        /**
-         * Подсистема АИС ЭАД
-         * @property
-         * @name SD.ServiceCall#entityCode6
-         * @type {SD.EntityCode6}
-         */
-        @Serialize(serializeId)
-        entityCode6;
+    /**
+     * Подсистема АИС ЭАД
+     * @property
+     * @name ServiceCall#entityCode6
+     * @type {EntityCode6}
+     */
+    entityCode6;
 
 
 

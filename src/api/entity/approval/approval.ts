@@ -1,106 +1,102 @@
-import {Serialize} from './decorator/serialize.decorator';
-import {serializeId} from './decorator/serialize-utils';
-import {EntityTypes} from './util/entity-types';
+import { EntityTypes } from '../util/entity-types';
+import { Workgroup } from '../workgroup';
+import { EntityStatus } from '../entity-status';
 
 /**
  * Голосование
  * @class
- * @extends SD.EditableEntity
- * @name SD.Approval
+ * @extends EditableEntity
+ * @name Approval
  * Имеет миксин, который внедряет в сущности методы для согласований
  * @see ENTITY_MIXIN.Approvable
  */
 export class Approval {
-    readonly entityTypeId: EntityTypes = EntityTypes.Approval;
+    static readonly entityTypeId: EntityTypes = EntityTypes.Approval;
     /**
      * ID сущности
      * @property
-     * @name SD.Approval#approvalDescription
+     * @name Approval#approvalDescription
      * @type {String}
-     */
-    @Serialize('description')
+    */
     subject: string;
 
     /**
      * Необходимое количество поддержавших
      * @property
-     * @name SD.Approval#numberOfApproversRequired
+     * @name Approval#numberOfApproversRequired
      * @type {Number}
-     */
-    @Serialize() numberOfApproversRequired: number;
+    */
+    numberOfApproversRequired: number;
 
     /**
      * Количество согласующих
      * @property
-     * @name SD.Approval#numberOfApprovers
+     * @name Approval#numberOfApprovers
      * @type {Number}
-     */
-    @Serialize() numberOfApprovers: number;
+    */
+    numberOfApprovers: number;
 
     /**
      * Количество одобривших
      * @property
-     * @name SD.Approval#numberOfApproversApproved
+     * @name Approval#numberOfApproversApproved
      * @type {Number}
-     */
-    @Serialize() numberOfApproversApproved: number;
+    */
+    numberOfApproversApproved: number;
 
     /**
      * Группа согласования
      * @property
-     * @name SD.Approval#workgroup
-     * @type {SD.Workgroup}
-     */
-    @Serialize('approvalWorkgroup', serializeId)
-    workgroup;
+     * @name Approval#workgroup
+     * @type {Workgroup}
+    */
+    workgroup: Workgroup;
 
     /**
      * Статус
      * @property
-     * @name SD.Approval#status
-     * @type {SD.EntityStatus}
-     */
-    @Serialize(serializeId)
-    status;
+     * @name Approval#status
+     * @type {EntityStatus}
+    */
+    status: EntityStatus;
 
     /**
      * Крайний срок
      * @property
-     * @name SD.Approval#deadline
+     * @name Approval#deadline
      * @type {Date}
-     */
-    @Serialize() deadline: Date;
+    */
+    deadline: Date;
 
     /**
      * Идентификатор сущности,
      * которой принадлежит согласование
      * @property
-     * @name SD.Approval#ownerEntityType
+     * @name Approval#ownerEntityType
      * @type {Number}
      * @ATTENTION
      * Т.к. это поле должно отправляться при сохранении всегда,
      * метод сериализации не используются. Оно добавляется
      * в переопределенном методе save
      * @link save
-     * @link SD.Approval#save
-     */
+     * @link Approval#save
+    */
     ownerEntityType: number;
 
 
     /**
      * Инициатор согласования
      * @property
-     * @name SD.Approval#initiator
-     * @type {SD.Person}
-     */
-    @Serialize(serializeId)
-    initiator;
+     * @name Approval#initiator
+     * @type {Person}
+    */
+    initiator: Person;
 
     /**
      * @override
      * Переопределение, чтобы добавлять всегда поле entityType
      */
-    // Метод из SD.EditableEntity
+    // Метод из EditableEntity
     // async save(data) {
     //     const saveData = data || this.$modifiedData;
     //     saveData['entityType'] = {id: this.ownerEntityType};

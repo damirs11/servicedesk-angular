@@ -3,10 +3,10 @@ const SERIALIZE_MAP = Symbol("Serialize:SERIALIZE_MAP");
 
 /**
  * Аннотация. Используется у SD.Entity для внесения данных из json внутрь объекта
- * ` @Serialize() field = defaultValue
- * ` @Serialize(serializeFunction) field
- * ` @Serialize("jsonFieldName") field
- * ` @Serialize("jsonFieldName",serializeFunction) field
+ * `  field = defaultValue
+ * `  field
+ * `  field
+ * `  field
  * jsonFieldName - название, под которым будет лежать значение этого поля в json
  * serializeFunction - функция сериализации
  * Если serializeFunction вернет undefined в json ничего не занесется.

@@ -1,24 +1,23 @@
-
 /**
  * Условия предоставления. Определяет крайние сроки в заявках в зависимости от приоритета
  * @class
- * @name SD.ImpactSettings
+ * @name ImpactSettings
  */
 export class ImpactSettings {
 
     /**
      * Приоритет
      * @property
-     * @name SD.ImpactSettings#priority
-     * @type {SD.EntityPriority}
+     * @name ImpactSettings#priority
+     * @type {EntityPriority}
      */
     priority;
 
     /**
      * Условия приоритета
      * @property
-     * @name SD.ImpactSettings#serviceLevelPriority
-     * @type {SD.ServiceLevelPriority}
+     * @name ImpactSettings#serviceLevelPriority
+     * @type {ServiceLevelPriority}
      */
     serviceLevelPriority;
 

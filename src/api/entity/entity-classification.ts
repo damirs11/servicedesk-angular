@@ -1,15 +1,15 @@
 /**
  * Классификация
  * @class
- * @name SD.EntityClassification
- * @extends SD.RESTEntity
+ * @name EntityClassification
+ * @extends RESTEntity
  */
 export class EntityClassification {
 
     /**
      * Название
      * @property
-     * @name SD.EntityClassification#name
+     * @name EntityClassification#name
      * @type {string}
      */
     name: string;

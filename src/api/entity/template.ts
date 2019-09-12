@@ -1,16 +1,15 @@
-
 /**
  * Приоритет
  * @class
- * @name SD.EntityPriority
- * @extends SD.RESTEntity
+ * @name EntityPriority
+ * @extends RESTEntity
  */
 export class Template {
 
      /**
      * Название
      * @property
-     * @name SD.Template#name
+     * @name Template#name
      * @type {string}
      */
     name: string;
@@ -18,7 +17,7 @@ export class Template {
     /**
      * Папка
      * @property
-     * @name SD.Template#folder
+     * @name Template#folder
      * @type {Folder}
      */
     folder;

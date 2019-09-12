@@ -1,5 +1,5 @@
 /**
- * Список констант {SD.ServiceLevelAgreement}
+ * Список констант {ServiceLevelAgreement}
  * @author nsychev
  */
 export enum SLA {

@@ -1,13 +1,13 @@
 /**
  * Условие приоритета
  * @class
- * @name SD.ServiceLevelPriority
+ * @name ServiceLevelPriority
  */
 export class ServiceLevelPriority {
     /**
      * Название
      * @property
-     * @name SD.ServiceLevelPriority#name
+     * @name ServiceLevelPriority#name
      * @type {string}
      */
     name: string;
@@ -15,7 +15,7 @@ export class ServiceLevelPriority {
     /**
      * Порядок следования приоритета
      * @property
-     * @name SD.ServiceLevelPriority#order
+     * @name ServiceLevelPriority#order
      * @type {number}
      */
     order: number;

@@ -1,17 +1,15 @@
-import {Parse} from './decorator/parse.decorator';
-
-    /**
-     * Классификация
-     * @class
-     * @name SD.EntityCategory
-     * @extends SD.RESTEntity
-     */
+/**
+ * Классификация
+ * @class
+ * @name EntityCategory
+ * @extends RESTEntity
+ */
 export class EntityCategory {
 
     /**
      * Название
      * @property
-     * @name SD.EntityCategory#name
+     * @name EntityCategory#name
      * @type {string}
      */
     name: string;

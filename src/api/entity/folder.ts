@@ -1,15 +1,15 @@
 /**
  * Папка
  * @class
- * @name SD.Folder
- * @extends SD.RESTEntity
+ * @name Folder
+ * @extends RESTEntity
  */
 export class Folder {
 
     /**
      * Название
      * @property
-     * @name SD.Folder#name
+     * @name Folder#name
      * @type {string}
      */
     name: string;

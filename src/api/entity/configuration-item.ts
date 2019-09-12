@@ -1,116 +1,110 @@
-import {Parse} from './decorator/parse.decorator';
-import {Serialize} from './decorator/serialize.decorator';
-import {Nullable} from './decorator/parse-utils';
-import {serializeId} from './decorator/serialize-utils';
-import {Mixin} from './mixin/mixin.decorator';
-
 /**
  * Объект обслуживания
  * @class
- * @name SD.ConfigurationItem
- * @extends SD.EditableEntity
+ * @name ConfigurationItem
+ * @extends EditableEntity
  */
 export class ConfigurationItem {
     static $entityTypeId = 796000260;
     /**
      * Номер
      * @property
-     * @name SD.ConfigurationItem#no
+     * @name ConfigurationItem#no
      * @type {number}
      */
-    @Serialize(Number) no: number;
+     no: number;
 
     /**
      * Код поиска
      * @property
-     * @name SD.ConfigurationItem#searchCode
+     * @name ConfigurationItem#searchCode
      * @type {string}
      */
-    @Serialize(String) searchCode: string;
+     searchCode: string;
 
     /**
      * Название
      * @property
-     * @name SD.ConfigurationItem#name
+     * @name ConfigurationItem#name
      * @type {string}
      */
-    @Serialize(String) name: string;
+     name: string;
 
     /**
      * Дополнительные сведения
      * @property
-     * @name SD.ConfigurationItem#description
+     * @name ConfigurationItem#description
      * @type {string}
      */
-    @Serialize(String) description: string;
+     description: string;
 
     /**
      * Счет-фактура
      * @property
-     * @name SD.ConfigurationItem#orderNr
+     * @name ConfigurationItem#orderNr
      * @type {string}
      */
-    @Serialize(String) orderNr: string;
+     orderNr: string;
 
     /**
      * серийный номер
      * @property
-     * @name SD.ConfigurationItem#serial
+     * @name ConfigurationItem#serial
      * @type {string}
      */
-    @Serialize(String) serial: string;
+     serial: string;
 
     /**
      * Адрес
      * @property
-     * @name SD.ConfigurationItem#address
+     * @name ConfigurationItem#address
      * @type {string}
      */
-    @Serialize(String) address: string;
+     address: string;
 
     /**
      * Замечания
      * @property
-     * @name SD.ConfigurationItem#remark
+     * @name ConfigurationItem#remark
      * @type {string}
      */
-    @Serialize(String) remark: string;
+     remark: string;
 
     /**
      * ip
      * @property
-     * @name SD.ConfigurationItem#ip
+     * @name ConfigurationItem#ip
      * @type {string}
      */
-    @Serialize(String) ip: string;
+     ip: string;
 
     /**
      * Цена
      * @property
-     * @name SD.ConfigurationItem#price
+     * @name ConfigurationItem#price
      * @type {number}
      */
-    @Serialize(Number) price: number;
+     price: number;
 
     /**
      * Наличие вложения
      * @property
-     * @name SD.ConfigurationItem#attachmentExists
+     * @name ConfigurationItem#attachmentExists
      * @type {boolean}
      */
-    @Serialize(Boolean) attachmentExists: boolean;
+     attachmentExists: boolean;
 
     /**
      * Идентификатор аватарки
      * @property
-     * @name SD.ConfigurationItem#avatarId
+     * @name ConfigurationItem#avatarId
      * @type {string}
      */
-    @Serialize(String) avatarId: string;
+     avatarId: string;
 
-    @Serialize(serializeId) status: any;
+     status: any;
 
-    @Serialize(serializeId) category: any;
+     category: any;
 
     toString() {
         return this.searchCode;

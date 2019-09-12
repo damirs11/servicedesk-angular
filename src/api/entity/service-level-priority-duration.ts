@@ -1,21 +1,21 @@
 /**
  * Условие приоритета
  * @class
- * @name SD.ServiceLevelPriority
+ * @name ServiceLevelPriority
  */
 export class ServiceLevelPriorityDuration {
     /**
      * Условия приоритета
      * @property
-     * @name SD.ServiceLevelPriorityDuration#serviceLevelPriority
-     * @type {SD.ServiceLevelPriority}
+     * @name ServiceLevelPriorityDuration#serviceLevelPriority
+     * @type {ServiceLevelPriority}
      */
     serviceLevelPriority;
 
     /**
      * Максимальный срок исполнения заявки
      * @property
-     * @name SD.ServiceLevelPriorityDuration#maximumDuration
+     * @name ServiceLevelPriorityDuration#maximumDuration
      * @type {number}
      */
     maximumDuration: number;

@@ -1,86 +1,81 @@
-import {Serialize} from "./decorator/serialize.decorator";
-import {Nullable} from "./decorator/parse-utils";
-import {Mixin} from "./mixin/mixin.decorator";
-import {serializeId} from "./decorator/serialize-utils";
-
 /**
  * Персона
  * @class
- * @name SD.Person
+ * @name Person
  * @mixes ENTITY_MIXIN.AttachmentsHolder
  */
 class Person {
     /**
      * Пол персоны: true(1) - женский, false(0) - мужской
      * @property
-     * @name SD.Person#sex
+     * @name Person#sex
      * @type {boolean}
      */
-    @Serialize(Boolean) sex: boolean;
+     sex: boolean;
     /**
      * Почта
      * @property
-     * @name SD.Person#email
+     * @name Person#email
      * @type {string}
      */
-    @Serialize(String) email: string;
+     email: string;
     /**
      * Должность
      * @property
-     * @name SD.Person#job
+     * @name Person#job
      * @type {string}
      */
-    @Serialize(String) job: string;
+     job: string;
     /**
      * Имя
      * @property
-     * @name SD.Person#firstName
+     * @name Person#firstName
      * @type {string}
      */
-    @Serialize(String) firstName: string;
+     firstName: string;
     /**
      * Фамилия
      * @property
-     * @name SD.Person#lastName
+     * @name Person#lastName
      * @type {string}
      */
-    @Serialize(String) lastName: string;
+     lastName: string;
     /**
      * Отчество
      * @property
-     * @name SD.Person#middleName
+     * @name Person#middleName
      * @type {string}
      */
-    @Serialize(String) middleName: string;
+     middleName: string;
     /**
      * Сокращенное имя персоны
      * Фамилия + инициалы
      * @property
-     * @name SD.Person#shortName
+     * @name Person#shortName
      * @type {String}
      */
     shortName: string;
     /**
      * Организация персоны
      * @property
-     * @name SD.Person#organization
-     * @type {SD.Organization}
+     * @name Person#organization
+     * @type {Organization}
      */
-    @Serialize(org => org.id) organization;
+     organization;
 
     /**
      * Категория
      * @property
-     * @name SD.Person#category
-     * @type {SD.EntityCategory}
+     * @name Person#category
+     * @type {EntityCategory}
      */
-    @Serialize(serializeId) category;
+     category;
 
     /**
      * Полное имя персоны
      * Фамилия + имя + отчество
      * @property
-     * @name SD.Person#shortName
+     * @name Person#shortName
      * @type {String}
      */
     get fullName(){

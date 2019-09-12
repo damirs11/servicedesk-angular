@@ -1,35 +1,30 @@
-import {Serialize} from './decorator/serialize.decorator';
-import {Nullable} from './decorator/parse-utils';
-import {serializeId} from './decorator/serialize-utils';
-
 /**
  * SLA (условие предоставления услуги)
  * @class
- * @name SD.ServiceLevelAgreement
+ * @name ServiceLevelAgreement
  */
 export class ServiceLevelAgreement {
 
     /**
          * Сервис/услуга
          * @property
-         * @name SD.ServiceLevelAgreement#service
-         * @type {SD.Service}
+         * @name ServiceLevelAgreement#service
+         * @type {Service}
          */
-        @Serialize(Nullable(serializeId)) service;
+         service;
 
         /**
          * Статус
          * @property
-         * @name SD.ServiceLevelAgreement#status
-         * @type {SD.EntityStatus}
+         * @name ServiceLevelAgreement#status
+         * @type {EntityStatus}
          */
-        @Serialize(serializeId)
-        status;
+                status;
 
         /**
          * Название
          * @property
-         * @name SD.ServiceLevelAgreement#name
+         * @name ServiceLevelAgreement#name
          * @type {string}
          */
         name: string;
@@ -37,31 +32,31 @@ export class ServiceLevelAgreement {
         /**
          * Папка
          * @property
-         * @name SD.ServiceLevelAgreement#folder
-         * @type {SD.Folder}
+         * @name ServiceLevelAgreement#folder
+         * @type {Folder}
          */
-        @Serialize(Nullable(serializeId)) folder;
+         folder;
 
         /**
          * Срок действия от
          * @property
-         * @name SD.ServiceLevelAgreement#validFrom
+         * @name ServiceLevelAgreement#validFrom
          * @type {Date}
          */
-        @Serialize(Number) validFrom: Date;
+         validFrom: Date;
 
         /**
          * Срок действия до
          * @property
-         * @name SD.ServiceLevelAgreement#validTo
+         * @name ServiceLevelAgreement#validTo
          * @type {Date}
          */
-        @Serialize(Number) validTo: Date;
+         validTo: Date;
 
         /**
          * Исполнитель по умолчанию
          * @property
-         * @name SD.ServiceLevelAgreement#person
+         * @name ServiceLevelAgreement#person
          * @type {object}
          */
         person: object;
@@ -69,28 +64,25 @@ export class ServiceLevelAgreement {
         /**
          * Группа исполнителей по умолчанию
          * @property
-         * @name SD.ServiceLevelAgreement#workgroup
-         * @type {SD.Workgroup}
+         * @name ServiceLevelAgreement#workgroup
+         * @type {Workgroup}
          */
-        @Serialize(Nullable(serializeId))
-        workgroup;
+                workgroup;
 
         /**
          * Условия предоставления
          * @property
-         * @name SD.ServiceLevelAgreement#serviceLevel
-         * @type {SD.Workgroup}
+         * @name ServiceLevelAgreement#serviceLevel
+         * @type {Workgroup}
          */
-        @Serialize(Nullable(serializeId))
-        serviceLevel;
+                serviceLevel;
         /**
          * Приоритет по умолчанию
          * @property
-         * @name SD.ServiceLevelAgreement#defaultPriority
-         * @type {SD.EntityPriority}
+         * @name ServiceLevelAgreement#defaultPriority
+         * @type {EntityPriority}
          */
-        @Serialize(serializeId)
-        defaultPriority;
+                defaultPriority;
         toString() {
             return String(this.name);
         }

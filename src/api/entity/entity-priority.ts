@@ -1,15 +1,15 @@
 /**
  * Приоритет
  * @class
- * @name SD.EntityPriority
- * @extends SD.RESTEntity
+ * @name EntityPriority
+ * @extends RESTEntity
  */
 export class EntityPriority {
 
     /**
      * Название
      * @property
-     * @name SD.EntityPriority#name
+     * @name EntityPriority#name
      * @type {string}
      */
     name: string;

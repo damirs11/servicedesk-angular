@@ -1,15 +1,23 @@
-class Connector {
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { timeout, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+
+export class Connector {
     // ToDo переделать @NGInjectClass
-    static $inject = ["$http", "$state", "$injector", "errorHandler"];
-    constructor($http, $state, $injector, errorHandler) {
-        this.errorHandler = errorHandler;
-        this.$http = $http;
-        this.$state = $state;
-        this.$injector = $injector;
+    // static $inject = ["$http", "$state", "$injector", "errorHandler"];
+    // constructor($http, $state, $injector, errorHandler) {
+    //     this.errorHandler = errorHandler;
+    //     this.$http = $http;
+    //     this.$state = $state;
+    //     this.$injector = $injector;
+    // }
+
+    constructor(private $http: HttpClient) {
     }
 
     _getDestination(path) {
-        return path
+        return path;
     }
 
     /**
@@ -19,17 +27,12 @@ class Connector {
      * @param params - параметры для get запроса
      * @param timeout - время ожидания ответа
      */
-    async get(path, params, timeout) {
-        try {
-            const response = await this.$http.get(path, {params, timeout});
-            return response.data;
-        } catch (error) {
-            if (this.errorHandler) {
-                this.$injector.invoke(this.errorHandler,this,{error});
-            } else {
-                throw error
-            }
-        }
+    public get(path, params, _timeout) {
+        return this.$http.get(path, params)
+            .pipe(
+                timeout(_timeout),
+                catchError(this.handleError)
+            );
     }
 
     /**
@@ -46,9 +49,9 @@ class Connector {
             return response.data;
         } catch (error) {
             if (this.errorHandler) {
-                this.$injector.invoke(this.errorHandler,this,{error});
+                this.$injector.invoke(this.errorHandler, this, {error});
             } else {
-                throw error
+                throw error;
             }
         }
     }
@@ -67,9 +70,9 @@ class Connector {
             return response.data;
         } catch (error) {
             if (this.errorHandler) {
-                this.$injector.invoke(this.errorHandler,this,{error});
+                this.$injector.invoke(this.errorHandler, this, {error});
             } else {
-                throw error
+                throw error;
             }
         }
     }
@@ -89,9 +92,9 @@ class Connector {
             return response.data;
         } catch (error) {
             if (this.errorHandler) {
-                this.$injector.invoke(this.errorHandler,this,{error});
+                this.$injector.invoke(this.errorHandler, this, {error});
             } else {
-                throw error
+                throw error;
             }
         }
     }
@@ -108,12 +111,24 @@ class Connector {
             return response.data;
         } catch (error) {
             if (this.errorHandler) {
-                this.$injector.invoke(this.errorHandler,this,{error});
+                this.$injector.invoke(this.errorHandler, this, {error});
             } else {
-                throw error
+                throw error;
             }
         }
     }
-}
 
-export {Connector};
+    // Error handling
+    handleError(error) {
+        let errorMessage = '';
+        if (error.error instanceof ErrorEvent) {
+        // Get client-side error
+        errorMessage = error.error.message;
+        } else {
+        // Get server-side error
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+        }
+        window.alert(errorMessage);
+        return throwError(errorMessage);
+    }
+}

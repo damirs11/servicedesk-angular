@@ -1,17 +1,13 @@
-import {Nullable} from "./decorator/parse-utils";
-import {Serialize} from "./decorator/serialize.decorator";
-import {serializeId} from "./decorator/serialize-utils";
-
 /**
  * Организация
  * @class
- * @name SD.Organization
+ * @name Organization
  */
 export class Organization {
     /**
      * Название
      * @property
-     * @name SD.Organization#name
+     * @name Organization#name
      * @type {string}
      */
     name: string;
@@ -19,7 +15,7 @@ export class Organization {
     /**
      * Почта
      * @property
-     * @name SD.Organization#email
+     * @name Organization#email
      * @type {string|null}
      */
     email: string | null;
@@ -27,10 +23,10 @@ export class Organization {
     /**
      * Папка
      * @property
-     * @name SD.Organization#folder
-     * @type {SD.Person}
+     * @name Organization#folder
+     * @type {Person}
      */
-    @Serialize(Nullable(serializeId)) folder;
+     folder;
 
     toString() {
         return this.name;

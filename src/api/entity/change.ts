@@ -1,208 +1,200 @@
-import {Parse} from './decorator/parse.decorator';
-import {Serialize} from './decorator/serialize.decorator';
-import {Nullable} from './decorator/parse-utils';
-import {serializeId} from './decorator/serialize-utils';
-import {Mixin} from './mixin/mixin.decorator';
 import {EntityTypes} from './util/entity-types';
 
 /**
  * Изменение
  * @class
- * @name SD.Change
+ * @name Change
  * @mixes ENTITY_MIXIN.Historyable
  * @mixes ENTITY_MIXIN.Approvable
  * @mixes ENTITY_MIXIN.AttachmentsHolder
  * @mixes ENTITY_MIXIN.Accessible
- * @extends SD.EditableEntity
+ * @extends EditableEntity
 */
 export class Change {
-    static $entityTypeId = EntityTypes.Change;
+    static readonly entityTypeId: EntityTypes = EntityTypes.Change;
     /**
      * Номер
      * @property
-     * @name SD.Change#no
+     * @name Change#no
      * @type {number}
      */
-    @Serialize(Number) no: number;
+     no: number;
 
     /**
      * Тема
      * @property
-     * @name SD.Change#subject
+     * @name Change#subject
      * @type {string}
      */
-    @Serialize(String) subject: string;
+     subject: string;
 
     /**
      * Описание
      * @property
-     * @name SD.Change#description
+     * @name Change#description
      * @type {string}
      */
-    @Serialize(String) description: string;
+     description: string;
 
     /**
      * Решение
      * @property
-     * @name SD.Change#solution
+     * @name Change#solution
      * @type {string}
      */
-    @Serialize(String) solution: string;
+     solution: string;
 
     /**
      * Статус
      * @property
-     * @name SD.Change#status
-     * @type {SD.EntityStatus}
+     * @name Change#status
+     * @type {EntityStatus}
      */
-    @Serialize(serializeId)
-    status;
+        status;
 
     /**
      * Приоритет
      * @property
-     * @name SD.Change#priority
-     * @type {SD.EntityPriority}
+     * @name Change#priority
+     * @type {EntityPriority}
      */
-    @Serialize(serializeId)
-    priority;
+        priority;
 
     /**
      * Категория
      * @property
-     * @name SD.Change#category
-     * @type {SD.EntityCategory}
+     * @name Change#category
+     * @type {EntityCategory}
      */
-    @Serialize(serializeId) category;
+     category;
 
     /**
      * Классификация
      * @property
-     * @name SD.Change#classification
-     * @type {SD.EntityClassification}
+     * @name Change#classification
+     * @type {EntityClassification}
      */
-    @Serialize(serializeId) classification;
+     classification;
 
     /**
      * Дата создания
      * @property
-     * @name SD.Change#createdDate
+     * @name Change#createdDate
      * @type {Date}
      */
-    @Serialize(Number) createdDate: Date;
+     createdDate: Date;
 
     /**
      * Крайний срок
      * @property
-     * @name SD.Change#deadline
+     * @name Change#deadline
      * @type {Date}
      */
-    @Serialize(Number) deadline: Date;
+     deadline: Date;
 
     /**
      * Реально начато
      * @property
-     * @name SD.Change#actualStart
+     * @name Change#actualStart
      * @type {Date}
      */
-    @Serialize(Number) actualStart: Date;
+     actualStart: Date;
 
     /**
      * Дата фактического выполнения
      * @property
-     * @name SD.Change#resolvedDate
+     * @name Change#resolvedDate
      * @type {Date}
      */
-    @Serialize(Number) resolvedDate: Date;
+     resolvedDate: Date;
 
     /**
      * Дата закрытия
      * @property
-     * @name SD.Change#closureDate
+     * @name Change#closureDate
      * @type {Date}
      */
-    @Serialize(Number) closureDate: Date;
+     closureDate: Date;
 
     /**
      * План начала
      * @property
-     * @name SD.Change#planStart
+     * @name Change#planStart
      * @type {Date}
      */
-    @Serialize(Nullable(Number)) planStart: Date;
+     planStart: Date;
 
     /**
      * План окночания
      * @property
-     * @name SD.Change#planFinish
+     * @name Change#planFinish
      * @type {Date}
      */
-    @Serialize(Nullable(Number)) planFinish: Date;
+     planFinish: Date;
 
     /**
      * План продолжительно
      * @property
-     * @name SD.Change#planDuration
+     * @name Change#planDuration
      * @type {Date}
      */
-    @Serialize(Nullable(Number)) planDuration: Date;
+     planDuration: Date;
 
     /**
      * Инициатор
      * @property
-     * @name SD.Change#person
-     * @type {SD.Person}
+     * @name Change#person
+     * @type {Person}
      */
-    @Serialize(serializeId) initiator;
+     initiator;
 
     /**
      * Менеджер
      * @property
-     * @name SD.Change#manager
-     * @type {SD.Person}
+     * @name Change#manager
+     * @type {Person}
      */
-    @Serialize(serializeId) manager;
+     manager;
 
     /**
      * Объект обслуживания
      * @property
-     * @name SD.Change#configurationItem
-     * @type {SD.ConfigurationItem}
+     * @name Change#configurationItem
+     * @type {ConfigurationItem}
      */
-    @Serialize(Nullable(serializeId)) configurationItem;
+     configurationItem;
 
     /**
      * Код завершения
      * @property
-     * @name SD.Change#closureCode
-     * @type {SD.EntityClosureCode}
+     * @name Change#closureCode
+     * @type {EntityClosureCode}
      */
-    @Serialize(Nullable(serializeId)) closureCode;
+     closureCode;
 
     /**
      * Сущность "назначено"
      * @property
-     * @name SD.Change#assignment
-     * @type {SD.EntityAssignment}
+     * @name Change#assignment
+     * @type {EntityAssignment}
      */
-    @Serialize((ag, name, mode) => mode === 'FULL' ? ag.$serialize() : ag.$modifiedData)
-    assignment;
+        assignment;
 
     /**
      * Кастомный код 1(Система)
      * @property
-     * @name SD.Change#entityCode1
-     * @type {SD.EntityCode1}
+     * @name Change#entityCode1
+     * @type {EntityCode1}
      */
-    @Serialize(Nullable(serializeId)) system;
+     system;
 
     /**
      * Папка
      * @property
-     * @name SD.Change#folder
-     * @type {SD.Folder}
+     * @name Change#folder
+     * @type {Folder}
      */
-    @Serialize(Nullable(serializeId)) folder;
+     folder;
 
     toString() {
         return String(this.no);

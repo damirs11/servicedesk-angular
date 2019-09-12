@@ -1,41 +1,33 @@
-import { Serialize } from './decorator/serialize.decorator';
-import { serializeId } from './decorator/serialize-utils';
-import { Parse } from './decorator/parse.decorator';
-
 export class EntityAssignment {
     /**
      * Исполнитель
      * @property
-     * @name SD.EntityAssignment#executor
-     * @type {SD.Person}
+     * @name EntityAssignment#executor
+     * @type {Person}
      */
-    @Serialize(serializeId)
-    executor;
+        executor;
 
     /**
      * Приоритет
      * @property
-     * @name SD.EntityAssignment#priority
-     * @type {SD.EntityPriority}
+     * @name EntityAssignment#priority
+     * @type {EntityPriority}
      */
-    @Serialize(serializeId)
-    priority;
+        priority;
 
     /**
      * Статус
      * @property
-     * @name SD.EntityAssignment#status
-     * @type {SD.EntityStatus}
+     * @name EntityAssignment#status
+     * @type {EntityStatus}
      */
-    @Serialize(serializeId)
-    status;
+        status;
 
     /**
      * Рабочая группа
      * @property
-     * @name SD.EntityAssignment#workgroup
-     * @type {SD.Workgroup}
+     * @name EntityAssignment#workgroup
+     * @type {Workgroup}
      */
-    @Serialize(serializeId)
-    workgroup;
+        workgroup;
 }

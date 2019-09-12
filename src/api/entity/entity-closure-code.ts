@@ -1,15 +1,15 @@
 /**
  * Код завершения
  * @class
- * @name SD.EntityClosureCode
- * @extends SD.RESTEntity
+ * @name EntityClosureCode
+ * @extends RESTEntity
  */
 export class EntityClosureCode {
 
     /**
      * Название
      * @property
-     * @name SD.EntityClosureCode#name
+     * @name EntityClosureCode#name
      * @type {string}
      */
     name: string;

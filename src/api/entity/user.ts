@@ -1,14 +1,14 @@
 /**
  * Пользователь
  * @class
- * @extends SD.RESTEntity
- * @name SD.User
+ * @extends RESTEntity
+ * @name User
  */
 export class User {
     /**
      * Имя пользователя
      * @property
-     * @name SD.User#name
+     * @name User#name
      * @type {string}
      */
     name: string;
@@ -16,7 +16,7 @@ export class User {
     /**
      * Логин
      * @property
-     * @name SD.User#login
+     * @name User#login
      * @type {string}
      */
     login: string;
@@ -24,7 +24,7 @@ export class User {
     /**
      * Роли
      * @property
-     * @name SD.User#roles
+     * @name User#roles
      * @type {[Object]}
      */
     roles: [Object];

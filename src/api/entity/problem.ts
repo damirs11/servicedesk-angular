@@ -1,229 +1,221 @@
-import {Parse} from './decorator/parse.decorator';
-import {Serialize} from './decorator/serialize.decorator';
-import {Nullable} from './decorator/parse-utils';
-import {serializeId} from './decorator/serialize-utils';
-import {Mixin} from './mixin/mixin.decorator';
 import {EntityTypes} from './util/entity-types';
 
 /**
  * Сущность - "Проблема"
  * @class
- * @name SD.Problem
+ * @name Problem
  * @mixes ENTITY_MIXIN.Historyable
  * @mixes ENTITY_MIXIN.Approvable
  * @mixes ENTITY_MIXIN.AttachmentsHolder
  * @mixes ENTITY_MIXIN.Accessible
- * @extends SD.EditableEntity
+ * @extends EditableEntity
  */
 class Problem {
-    static $entityTypeId = EntityTypes.Problem;
+    static readonly entityTypeId:EntityTypes = EntityTypes.Problem;
     /**
      * Номер
      * @property
-     * @name SD.Problem#no
+     * @name Problem#no
      * @type {number}
      */
-    @Serialize(Number) no: number;
+     no: number;
 
     /**
      * Статус
      * @property
-     * @name SD.Problem#status
-     * @type {SD.EntityStatus}
+     * @name Problem#status
+     * @type {EntityStatus}
      */
-    @Serialize(serializeId)
-    status;
+        status;
 
     /**
      * Инициатор
      * @property
-     * @name SD.Problem#initiator
-     * @type {SD.Person}
+     * @name Problem#initiator
+     * @type {Person}
      */
-    @Serialize(serializeId) initiator;
+     initiator;
 
     /**
      * Объект обслуживания
      * @property
-     * @name SD.Problem#configurationItem
-     * @type {SD.ConfigurationItem}
+     * @name Problem#configurationItem
+     * @type {ConfigurationItem}
      */
-    @Serialize(Nullable(serializeId)) configurationItem;
+     configurationItem;
 
     /**
      * Тема
      * @property
-     * @name SD.Problem#subject
+     * @name Problem#subject
      * @type {string}
      */
-    @Serialize(String) subject: string;
+     subject: string;
 
     /**
      * Описание
      * @property
-     * @name SD.Problem#description
+     * @name Problem#description
      * @type {string}
      */
-    @Serialize(String) description: string;
+     description: string;
 
     /**
      * Ссылки на логи
      * @property
-     * @name SD.Problem#logLinks
+     * @name Problem#logLinks
      * @type {string}
      */
-    @Serialize(String) logLinks: string;
+     logLinks: string;
 
     /**
      * Ссылка на пробелму в jira
      * @property
-     * @name SD.Problem#jiraLink
+     * @name Problem#jiraLink
      * @type {string}
      */
-    @Serialize(String) jiraLink: string;
+     jiraLink: string;
     /**
      * @property
-     * @name SD.Problem#toVendor
+     * @name Problem#toVendor
      * @type {string}
      */
-    @Serialize(String) toVendor: string;
+     toVendor: string;
     /**
      * Обходное решение
      * @property
-     * @name SD.Problem#workaround
+     * @name Problem#workaround
      * @type {string}
      */
-    @Serialize(String) workaround: string;
+     workaround: string;
 
     /**
      * Решение
      * @property
-     * @name SD.Problem#solution
+     * @name Problem#solution
      * @type {string}
      */
-    @Serialize(String) solution: string;
+     solution: string;
 
     /**
      * Приоритет
      * @property
-     * @name SD.Problem#priority
-     * @type {SD.EntityPriority}
+     * @name Problem#priority
+     * @type {EntityPriority}
      */
-    @Serialize(serializeId)
-    priority;
+        priority;
 
     /**
      * Крайний срок
      * @property
-     * @name SD.Problem#deadline
+     * @name Problem#deadline
      * @type {Date}
      */
-    @Serialize(Number) deadline: Date;
+     deadline: Date;
 
     /**
      * Дата фактического выполнения
      * @property
-     * @name SD.Problem#resolvedDate
+     * @name Problem#resolvedDate
      * @type {Date}
      */
-    @Serialize(Number) resolvedDate: Date;
+     resolvedDate: Date;
 
     /**
      * Дата закрытия
      * @property
-     * @name SD.Problem#closureDate
+     * @name Problem#closureDate
      * @type {Date}
      */
-    @Serialize(Number) closureDate: Date;
+     closureDate: Date;
 
     /**
      * Проблема просрочена
      * @property
-     * @name SD.Problem#isOverdue
+     * @name Problem#isOverdue
      * @type {Date}
      */
-    @Serialize(Boolean) isOverdue: Date;
+     isOverdue: Date;
 
     /**
      * Персона, что просрочила проблему
      * @property
-     * @name SD.Problem#whoOverdue
-     * @type {SD.Person}
+     * @name Problem#whoOverdue
+     * @type {Person}
      */
-    @Serialize(serializeId) whoOverdue;
+     whoOverdue;
 
     /**
      * План окночания
      * @property
-     * @name SD.Problem#planFinish
+     * @name Problem#planFinish
      * @type {Date}
      */
-    @Serialize(Nullable(Number)) planFinish: Date;
+     planFinish: Date;
 
     /**
      * Причина отсрочки
      * @property
-     * @name SD.Problem#deferralReason
+     * @name Problem#deferralReason
      * @type {string}
      */
-    @Serialize(String) deferralReason: string;
+     deferralReason: string;
 
     /**
      * Сущность "назначено"
      * @property
-     * @name SD.Problem#assignment
-     * @type {SD.EntityAssignment}
+     * @name Problem#assignment
+     * @type {EntityAssignment}
      */
-    @Serialize((ag, name, mode) => mode === 'FULL' ? ag.$serialize() : ag.$modifiedData)
-    assignment;
+        assignment;
 
     /**
      * Категория
      * @property
-     * @name SD.Problem#category
-     * @type {SD.EntityCategory}
+     * @name Problem#category
+     * @type {EntityCategory}
      */
-    @Serialize(serializeId) category;
+     category;
 
     /**
      * Классификация
      * @property
-     * @name SD.Problem#classification
-     * @type {SD.EntityClassification}
+     * @name Problem#classification
+     * @type {EntityClassification}
      */
-    @Serialize(serializeId) classification;
+     classification;
 
     /**
      * Код завершения
      * @property
-     * @name SD.Problem#closureCode
-     * @type {SD.EntityClosureCode}
+     * @name Problem#closureCode
+     * @type {EntityClosureCode}
      */
-    @Serialize(Nullable(serializeId)) closureCode;
+     closureCode;
 
     /**
      * Папка
      * @property
-     * @name SD.Problem#folder
-     * @type {SD.Folder}
+     * @name Problem#folder
+     * @type {Folder}
      */
-    @Serialize(Nullable(serializeId)) folder;
+     folder;
 
     /**
      * Не включать в отчет заказчику
      * @property
-     * @name SD.Problem#isOverdue
+     * @name Problem#isOverdue
      * @type {Date}
      */
-    @Serialize(Boolean) notAttachInReport: Date;
+     notAttachInReport: Date;
 
     /**
      *
      * @property
-     * @name SD.Problem#versionDate
+     * @name Problem#versionDate
      * @type {Date}
      */
-    @Serialize(Number) versionDate: Date;
+     versionDate: Date;
 
     toString() {
         return String(this.no);

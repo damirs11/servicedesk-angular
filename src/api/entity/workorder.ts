@@ -1,164 +1,159 @@
-import {Serialize} from './decorator/serialize.decorator';
-import {Instantiate, Nullable} from './decorator/parse-utils';
-import {serializeId} from './decorator/serialize-utils';
-import {Mixin} from './mixin/mixin.decorator';
 import {EntityTypes} from './util/entity-types';
 
 /**
  * Персона
  * @class
- * @name SD.Workorder
+ * @name Workorder
  * @mixes ENTITY_MIXIN.Historyable
  * @mixes ENTITY_MIXIN.Accessible
  * @mixes ENTITY_MIXIN.AttachmentsHolder
- * @extends SD.EditableEntity
+ * @extends EditableEntity
  */
 export class Workorder {
-    readonly entityTypeId: EntityTypes = EntityTypes.Workorder;
+    static readonly entityTypeId: EntityTypes = EntityTypes.Workorder;
     /**
      * Номер
      * @property
-     * @name SD.Workorder#no
+     * @name Workorder#no
      * @type {number}
      */
-    @Serialize(Number) no: number;
+     no: number;
 
     /**
      * Тема
      * @property
-     * @name SD.Workorder#subject
+     * @name Workorder#subject
      * @type {String}
      */
-    @Serialize(String)  subject: string;
+      subject: string;
 
     /**
      * Подробная информация
      * @property
-     * @name SD.Workorder#description
+     * @name Workorder#description
      * @type {String}
      */
-    @Serialize(String) description: string;
+     description: string;
 
     /**
      * Трудозатраты
      * @property
-     * @name SD.Workorder#labor
+     * @name Workorder#labor
      * @type {Number}
      */
-    @Serialize(Nullable(Number)) labor: number;
+     labor: number;
 
     /**
      * Решение
      * @property
-     * @name SD.Workorder#solution
+     * @name Workorder#solution
      * @type {String}
      */
-    @Serialize(Nullable(String)) solution: string;
+     solution: string;
 
     /**
      * Статус
      * @property
-     * @name SD.Workorder#status
-     * @type {SD.EntityStatus}
+     * @name Workorder#status
+     * @type {EntityStatus}
      */
-    @Serialize(serializeId) status;
+     status;
 
     /**
      * Категория
      * @property
-     * @name SD.Workorder#category
-     * @type {SD.EntityCategory}
+     * @name Workorder#category
+     * @type {EntityCategory}
      */
-    @Serialize(serializeId)  category;
+      category;
 
     /**
      * Код завершения
      * @property
-     * @name SD.Workorder#closureCode
-     * @type {SD.EntityClosureCode}
+     * @name Workorder#closureCode
+     * @type {EntityClosureCode}
      */
-    @Serialize(Nullable(serializeId))  closureCode;
+      closureCode;
 
     /**
      * Дата создания
      * @property
-     * @name SD.Workorder#createdDate
+     * @name Workorder#createdDate
      * @type {Date}
      */
-    @Serialize(Number)  createdDate: Date;
+      createdDate: Date;
 
     /**
      * Крайний срок
      * @property
-     * @name SD.Workorder#deadline
+     * @name Workorder#deadline
      * @type {Date}
      */
-    @Serialize(Number)  deadline: Date;
+      deadline: Date;
 
     /**
      * Фактически выполнено
      * @property
-     * @name SD.Workorder#resolvedDate
+     * @name Workorder#resolvedDate
      * @type {Date}
      */
-    @Serialize(Number)  resolvedDate: Date;
+      resolvedDate: Date;
 
     /**
      * Дата изменения
      * @property
-     * @name SD.Workorder#modifyDate
+     * @name Workorder#modifyDate
      * @type {Date}
      */
-    @Serialize(Number)  modifyDate: Date;
+      modifyDate: Date;
 
     /**
      * Наряд просрочен
      * @property
-     * @name SD.Workorder#expired
+     * @name Workorder#expired
      * @type {Boolean}
      */
-    @Serialize(Boolean)  expired: boolean;
+      expired: boolean;
 
     /**
      * Папка
      * @property
-     * @name SD.Workorder#folder
-     * @type {SD.Folder}
+     * @name Workorder#folder
+     * @type {Folder}
      */
-    @Serialize(Nullable(serializeId))  folder;
+      folder;
 
     /**
      * Инициатор
      * @property
-     * @name SD.Workorder#initiator
-     * @type {SD.Person}
+     * @name Workorder#initiator
+     * @type {Person}
      */
-    @Serialize(serializeId)  initiator;
+      initiator;
 
     /**
      * Объект "Назначено"
      * @property
-     * @name SD.Workorder#assignment
-     * @type {SD.EntityAssignment}
+     * @name Workorder#assignment
+     * @type {EntityAssignment}
      */
-    @Serialize((ag, name, mode) => mode === 'FULL' ? ag.$serialize() : ag.$modifiedData)
-     assignment;
+         assignment;
 
     /**
      * Изменение
      * @property
-     * @name SD.Workorder#change
-     * @type {SD.Change}
+     * @name Workorder#change
+     * @type {Change}
      */
-    @Serialize(Nullable(serializeId))  change;
+      change;
 
     /**
      * Проблема
      * @property
-     * @name SD.Workorder#problem
-     * @type {SD.Problem}
+     * @name Workorder#problem
+     * @type {Problem}
      */
-    @Serialize(Nullable(serializeId))  problem;
+      problem;
 
     toString() {
         return String(this.no);

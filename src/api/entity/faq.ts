@@ -1,15 +1,15 @@
 /**
  * База известных ошибок
  * @class
- * @name SD.FAQ
- * @extends SD.RESTEntity
+ * @name FAQ
+ * @extends RESTEntity
  */
 export class FAQ {
 
     /**
      * Название
      * @property
-     * @name SD.FAQ#name
+     * @name FAQ#name
      * @type {string}
      */
     name: string;

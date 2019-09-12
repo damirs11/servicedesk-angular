@@ -1,15 +1,15 @@
 /**
  * Статус
  * @class
- * @name SD.EntityStatus
- * @extends SD.RESTEntity
+ * @name EntityStatus
+ * @extends RESTEntity
  */
 export class EntityStatus {
 
     /**
      * Название
      * @property
-     * @name SD.EntityStatus#name
+     * @name EntityStatus#name
      * @type {string}
      */
     name: string;

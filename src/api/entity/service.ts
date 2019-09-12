@@ -1,18 +1,14 @@
-import {Serialize} from './decorator/serialize.decorator';
-import {Nullable} from './decorator/parse-utils';
-import {serializeId} from './decorator/serialize-utils';
-
 /**
  * Сервис/услуга
  * @class
- * @name SD.Service
+ * @name Service
  */
 export class Service {
 
     /**
      * Название
      * @property
-     * @name SD.Service#name
+     * @name Service#name
      * @type {string}
      */
     name: string;
@@ -20,19 +16,18 @@ export class Service {
     /**
      * Статус
      * @property
-     * @name SD.Service#status
-     * @type {SD.EntityStatus}
+     * @name Service#status
+     * @type {EntityStatus}
      */
-    @Serialize(serializeId)
-    status;
+        status;
 
     /**
      * Папка
      * @property
-     * @name SD.Service#folder
-     * @type {SD.Folder}
+     * @name Service#folder
+     * @type {Folder}
      */
-    @Serialize(Nullable(serializeId)) folder;
+     folder;
 
     toString() {
         return String(this.name);
