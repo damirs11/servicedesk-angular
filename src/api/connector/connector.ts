@@ -1,23 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { IConnector } from './IConnector';
 import { timeout, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { throwError} from 'rxjs';
 
-export class Connector {
-    // ToDo переделать @NGInjectClass
-    // static $inject = ["$http", "$state", "$injector", "errorHandler"];
-    // constructor($http, $state, $injector, errorHandler) {
-    //     this.errorHandler = errorHandler;
-    //     this.$http = $http;
-    //     this.$state = $state;
-    //     this.$injector = $injector;
-    // }
 
-    constructor(private $http: HttpClient) {
-    }
+export abstract class Connector<T> implements IConnector<T> {
 
-    _getDestination(path) {
-        return path;
+    constructor(private $http?: HttpClient) {
     }
 
     /**
@@ -27,7 +16,7 @@ export class Connector {
      * @param params - параметры для get запроса
      * @param timeout - время ожидания ответа
      */
-    public get(path, params, _timeout) {
+    public get<T>(path: any, params?: any, _timeout?: any) {
         return this.$http.get(path, params)
             .pipe(
                 timeout(_timeout),
@@ -43,17 +32,12 @@ export class Connector {
      * @param data - json данные, для отправки
      * @param timeout - время ожидания ответа
      */
-    async post(path, params, data, timeout) {
-        try {
-            const response = await this.$http.post(path, data, {params, timeout});
-            return response.data;
-        } catch (error) {
-            if (this.errorHandler) {
-                this.$injector.invoke(this.errorHandler, this, {error});
-            } else {
-                throw error;
-            }
-        }
+    public post<T>(path: any, data: any, params?: any, _timeout?: any) {
+        return this.$http.post(path, data, params)
+            .pipe(
+                timeout(_timeout),
+                catchError(this.handleError)
+            );
     }
 
     /**
@@ -64,17 +48,12 @@ export class Connector {
      * @param data - json данные, для отправки
      * @param timeout - время ожидания ответа
      */
-    async put(path, params, data, timeout) {
-        try {
-            const response = await this.$http.put(path, data, {params, timeout});
-            return response.data;
-        } catch (error) {
-            if (this.errorHandler) {
-                this.$injector.invoke(this.errorHandler, this, {error});
-            } else {
-                throw error;
-            }
-        }
+    public put<T>(path: any, data: any, params?: any, _timeout?: any) {
+        return this.$http.put(path, data, params)
+            .pipe(
+                timeout(_timeout),
+                catchError(this.handleError)
+            );
     }
 
 
@@ -86,17 +65,12 @@ export class Connector {
      * @param data - json данные, для отправки
      * @param timeout - время ожидания ответа
      */
-    async patch(path, params, data, timeout) {
-        try {
-            const response = await this.$http.patch(path, data, {params, timeout});
-            return response.data;
-        } catch (error) {
-            if (this.errorHandler) {
-                this.$injector.invoke(this.errorHandler, this, {error});
-            } else {
-                throw error;
-            }
-        }
+    public patch<T>(path: any, data: any, params?: any, _timeout?: any) {
+        return this.$http.patch(path, data, params)
+            .pipe(
+                timeout(_timeout),
+                catchError(this.handleError)
+            );
     }
 
     /**
@@ -105,17 +79,44 @@ export class Connector {
      * @param params - параметры для get запроса
      * @param timeout - время ожидания ответа
      */
-    async delete(path, params, timeout) {
-        try {
-            const response = await this.$http.delete(path, {params, timeout});
-            return response.data;
-        } catch (error) {
-            if (this.errorHandler) {
-                this.$injector.invoke(this.errorHandler, this, {error});
-            } else {
-                throw error;
-            }
-        }
+    public delete<T>(path: any, params?: any, _timeout?: any) {
+        return this.$http.delete(path, params)
+            .pipe(
+                timeout(_timeout),
+                catchError(this.handleError)
+            );
+    }
+
+    /**
+     * Подгружает изменения в текущую сущность
+     */
+    public load($entityType, id){
+        return this.get<T>(`rest/entity/${$entityType}/${id}`);
+    }
+
+    /**
+     * Осуществляет поиск сущностей по фильтру
+     */
+    public list($entityType, params){
+        return this.get<T>(`rest/entity/${$entityType}`, params);
+    }
+
+    /**
+     * Получает общее количество записей по указанному фильтру
+     */
+    public count($entityType, params){
+        return this.get<T>(`rest/entity/${$entityType}/count`, params);
+    }
+
+
+    /**
+     * Заполняет сущность по шаблону
+     * @param template {SD.Template|number} - шаблон или id шаблона
+     * @return {Promise.<Entity>}
+     */
+    public fillWithTemplate($entityType, template){
+        const templateId = typeof template === "object" ? template.id : template;
+        return this.get(`rest/entity/${$entityType}/template/${templateId}`);
     }
 
     // Error handling
