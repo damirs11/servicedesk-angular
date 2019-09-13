@@ -1,6 +1,7 @@
 import { EntityTypes } from '../util/entity-types';
 import { Workgroup } from '../workgroup';
 import { EntityStatus } from '../entity-status';
+import { Entity } from '../entity';
 
 /**
  * Голосование
@@ -10,7 +11,7 @@ import { EntityStatus } from '../entity-status';
  * Имеет миксин, который внедряет в сущности методы для согласований
  * @see ENTITY_MIXIN.Approvable
  */
-export class Approval {
+export class Approval extends Entity {
     static readonly entityTypeId: EntityTypes = EntityTypes.Approval;
     /**
      * ID сущности

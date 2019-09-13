@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { IConnector } from './IConnector';
 import { timeout, catchError } from 'rxjs/operators';
-import { throwError} from 'rxjs';
+import { throwError, Observable} from 'rxjs';
+import { EntityTypes } from '../entity/util/entity-types';
 
 
 export abstract class Connector<T> implements IConnector<T> {
 
-    constructor(private $http?: HttpClient) {
+    constructor(private $http: HttpClient) {
     }
 
     /**
@@ -16,8 +17,8 @@ export abstract class Connector<T> implements IConnector<T> {
      * @param params - параметры для get запроса
      * @param timeout - время ожидания ответа
      */
-    public get<T>(path: any, params?: any, _timeout?: any) {
-        return this.$http.get(path, params)
+    public get(path: string, params: object = [], _timeout: number = 2000): Observable<T> {
+        return this.$http.get<T>(path, params)
             .pipe(
                 timeout(_timeout),
                 catchError(this.handleError)
@@ -32,8 +33,8 @@ export abstract class Connector<T> implements IConnector<T> {
      * @param data - json данные, для отправки
      * @param timeout - время ожидания ответа
      */
-    public post<T>(path: any, data: any, params?: any, _timeout?: any) {
-        return this.$http.post(path, data, params)
+    public post<T>(path: string, data: string, params: object = [], _timeout: number = 2000): Observable<T> {
+        return this.$http.post<T>(path, data, params)
             .pipe(
                 timeout(_timeout),
                 catchError(this.handleError)
@@ -48,8 +49,8 @@ export abstract class Connector<T> implements IConnector<T> {
      * @param data - json данные, для отправки
      * @param timeout - время ожидания ответа
      */
-    public put<T>(path: any, data: any, params?: any, _timeout?: any) {
-        return this.$http.put(path, data, params)
+    public put(path: string, data: string, params: object = [], _timeout: number = 2000): Observable<T> {
+        return this.$http.put<T>(path, data, params)
             .pipe(
                 timeout(_timeout),
                 catchError(this.handleError)
@@ -65,8 +66,8 @@ export abstract class Connector<T> implements IConnector<T> {
      * @param data - json данные, для отправки
      * @param timeout - время ожидания ответа
      */
-    public patch<T>(path: any, data: any, params?: any, _timeout?: any) {
-        return this.$http.patch(path, data, params)
+    public patch(path: string, data: string, params: object = [], _timeout: number = 2000): Observable<T> {
+        return this.$http.patch<T>(path, data, params)
             .pipe(
                 timeout(_timeout),
                 catchError(this.handleError)
@@ -79,8 +80,8 @@ export abstract class Connector<T> implements IConnector<T> {
      * @param params - параметры для get запроса
      * @param timeout - время ожидания ответа
      */
-    public delete<T>(path: any, params?: any, _timeout?: any) {
-        return this.$http.delete(path, params)
+    public delete(path: string, params: object = [], _timeout: number = 2000): Observable<T> {
+        return this.$http.delete<T>(path, params)
             .pipe(
                 timeout(_timeout),
                 catchError(this.handleError)
@@ -90,22 +91,22 @@ export abstract class Connector<T> implements IConnector<T> {
     /**
      * Подгружает изменения в текущую сущность
      */
-    public load($entityType, id){
-        return this.get<T>(`rest/entity/${$entityType}/${id}`);
+    public load($entityType: EntityTypes, id: number) {
+        return this.get(`rest/entity/${$entityType}/${id}`);
     }
 
     /**
      * Осуществляет поиск сущностей по фильтру
      */
-    public list($entityType, params){
-        return this.get<T>(`rest/entity/${$entityType}`, params);
+    public list($entityType: EntityTypes, params: object) {
+        return this.get(`rest/entity/${$entityType}`, params);
     }
 
     /**
      * Получает общее количество записей по указанному фильтру
      */
-    public count($entityType, params){
-        return this.get<T>(`rest/entity/${$entityType}/count`, params);
+    public count($entityType: EntityTypes, params: object) {
+        return this.get(`rest/entity/${$entityType}/count`, params);
     }
 
 
@@ -113,21 +114,23 @@ export abstract class Connector<T> implements IConnector<T> {
      * Заполняет сущность по шаблону
      * @param template {SD.Template|number} - шаблон или id шаблона
      * @return {Promise.<Entity>}
+     *
+     * TODO поменять тип у template
      */
-    public fillWithTemplate($entityType, template){
-        const templateId = typeof template === "object" ? template.id : template;
+    public fillWithTemplate($entityType: EntityTypes, template: any) {
+        const templateId = typeof template === 'object' ? template.id : template;
         return this.get(`rest/entity/${$entityType}/template/${templateId}`);
     }
 
     // Error handling
-    handleError(error) {
+    handleError(error: ErrorEvent) {
         let errorMessage = '';
         if (error.error instanceof ErrorEvent) {
-        // Get client-side error
-        errorMessage = error.error.message;
+            // Get client-side error
+            errorMessage = error.error.message;
         } else {
-        // Get server-side error
-        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            // Get server-side error
+            errorMessage = `Error Code: ${error.error}\nMessage: ${error.message}`;
         }
         window.alert(errorMessage);
         return throwError(errorMessage);
