@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { IConnector } from './IConnector';
+import { IConnector } from '../interfaces/IConnector';
 import { timeout, catchError } from 'rxjs/operators';
 import { throwError, Observable} from 'rxjs';
-import { EntityTypes } from '../entity/util/entity-types';
+import { EntityTypes } from '../util/entity-types';
 
 
-export abstract class Connector<T> implements IConnector<T> {
+export abstract class EntityService<T> implements IConnector<T> {
 
     constructor(private $http: HttpClient) {
     }

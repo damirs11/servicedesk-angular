@@ -1,7 +1,7 @@
 import { EntityTypes } from '../util/entity-types';
 import { Workgroup } from '../workgroup';
 import { EntityStatus } from '../entity-status';
-import { Entity } from '../entity';
+import { Entity } from '../entity/entity';
 
 /**
  * Голосование

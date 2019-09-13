@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Connector } from '../../connector/connector';
+import { EntityService } from '../entity/entity.service';
 import { Approval } from './approval';
 import { HttpClient } from '@angular/common/http';
+import { EntityModule } from 'src/api/entity.module';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: EntityModule
 })
-export class ApprovalService extends Connector<Approval> {
+export class ApprovalService extends EntityService<Approval> {
     constructor($http: HttpClient) {
         super($http);
     }
