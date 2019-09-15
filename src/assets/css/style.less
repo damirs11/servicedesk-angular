@@ -10,7 +10,8 @@
 @import "person";
 @import "icons";
 
-html,body  {
+html,
+body {
   height: 100%;
   min-height: 100%;
 }
@@ -25,13 +26,13 @@ html,body  {
 }
 // > main
 /* Оформление главной страницы. Текст по центру */
-#main-page{
+#main-page {
   position: relative;
-  transform: translate(0,-50%);
+  transform: translate(0, -50%);
   top: 50%;
   width: 100%;
 }
-#main-page>div{
+#main-page > div {
   color: #cccccc;
   text-align: center;
   font-size: 30px;
@@ -77,12 +78,11 @@ html,body  {
   padding-top: 6px;
   margin-right: 10px;
 }
-.messages{
+.messages {
   font-size: 90%;
 }
 
-
-.input-group-btn.input-group-btn-each-border button.btn{
+.input-group-btn.input-group-btn-each-border button.btn {
   z-index: auto;
   &:focus {
     z-index: 2;
@@ -95,11 +95,13 @@ html,body  {
   border-top: none;
 }
 //.ui-grid-cell-contents
-.ui-grid-row:hover span, .ui-grid-row:hover div, .ui-grid-cell:hover{
-  background-color: #FDEAC5;
+.ui-grid-row:hover span,
+.ui-grid-row:hover div,
+.ui-grid-cell:hover {
+  background-color: #fdeac5;
 }
-.ui-grid-row.ui-grid-row-selected>[ui-grid-row]>.ui-grid-cell {
-  background-color: #FDEAC5;
+.ui-grid-row.ui-grid-row-selected > [ui-grid-row] > .ui-grid-cell {
+  background-color: #fdeac5;
 }
 .ui-grid-menu-button {
   border: none;
@@ -118,7 +120,7 @@ html,body  {
   float: left;
   display: block;
 }
-.clear{
+.clear {
   clear: both;
 }
 

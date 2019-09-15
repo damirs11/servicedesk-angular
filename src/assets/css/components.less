@@ -16,31 +16,31 @@
   border-radius: 15px;
   margin-bottom: 0;
 
-  &__part{
+  &__part {
     .progress-bar();
     transition: none;
     white-space: nowrap;
     display: inline-block;
     position: relative;
-    &>.status-bar__part__name{
+    & > .status-bar__part__name {
       margin-left: @statusBar-text-padding;
-      overflow:hidden;
-      text-overflow:clip;
+      overflow: hidden;
+      text-overflow: clip;
       @media (max-width: @smallest-screen) {
         margin-left: 0;
       }
     }
 
     // Префаб для стрелочек
-    &:after{
-      content:"";
-      position:absolute;
+    &:after {
+      content: "";
+      position: absolute;
       display: block;
       z-index: 2;
       width: @statusBar-arrow-size;
       height: @statusBar-arrow-size;
-      left:100%;
-      transform: rotate(135deg) translate(8px,11px);
+      left: 100%;
+      transform: rotate(135deg) translate(8px, 11px);
       bottom: 0;
 
       border: 3px solid #f8f8f8;
@@ -51,10 +51,11 @@
     // Классы, отвечающие за цвет части статусбара. :after и :before формируют стрелочки
     &.past {
       background-color: #444444;
-      &:after{
+      &:after {
         background: linear-gradient(135deg, #444444 50%, transparent 50%);
       }
-      &:last-child:before, &:last-child:after {
+      &:last-child:before,
+      &:last-child:after {
         content: normal;
       }
       @media (max-width: @smallest-screen) {
@@ -63,23 +64,27 @@
     }
     &.current {
       background-color: #2a6496;
-      &:after{
+      &:after {
         background: linear-gradient(135deg, #2a6496 50%, transparent 50%);
       }
-      &:last-child:before, &:last-child:after {
+      &:last-child:before,
+      &:last-child:after {
         content: normal;
       }
       @media (max-width: @smallest-screen) {
         min-width: 100%;
-        &:after{ content: ""}
+        &:after {
+          content: "";
+        }
       }
     }
     &.future {
       background-color: #c8c8c8;
-      &:after{
+      &:after {
         background: linear-gradient(135deg, #c8c8c8 50%, transparent 50%);
       }
-      &:last-child:before, &:last-child:after {
+      &:last-child:before,
+      &:last-child:after {
         content: normal;
       }
       @media (max-width: @smallest-screen) {
@@ -91,7 +96,6 @@
       line-height: 30px;
     }
   }
-
 }
 
 /** Аватарка */
@@ -101,13 +105,13 @@
 .avatar {
   display: inline-block;
   width: 100%;
-  &.center{
+  &.center {
     text-align: center;
   }
-  &>.avatar-box{
+  & > .avatar-box {
     display: inline-block;
 
-    &.circle{
+    &.circle {
       position: relative;
       border: @avatar-border;
       border-radius: 50%;
@@ -124,7 +128,7 @@
       }
     }
 
-    &.square{
+    &.square {
       position: relative;
       border: @avatar-border;
       overflow: hidden;
@@ -140,7 +144,7 @@
       }
     }
 
-    &.default{
+    &.default {
       border: @avatar-border;
       & img {
         width: 100%;
@@ -189,7 +193,7 @@
     text-align: center;
     width: @chat-info-width;
     @media (max-width: @small-screen) {
-      width: @chat-info-small-width
+      width: @chat-info-small-width;
     }
   }
 
@@ -207,7 +211,7 @@
 .entity-chat-message {
   vertical-align: top;
   // Сообщение слева
-  &.left-message{
+  &.left-message {
     & .entity-chat-info-left {
       background: @chat-background;
       border: @chat-border;
@@ -222,14 +226,13 @@
     }
 
     @media (max-width: @small-screen) {
-      & .entity-chat-info-right{
+      & .entity-chat-info-right {
         width: 0;
       }
     }
-
   }
   // Сообщение справа
-  &.right-message{
+  &.right-message {
     & .entity-chat-info-right {
       background: @chat-background;
       border: @chat-border;
@@ -244,41 +247,43 @@
     }
 
     @media (max-width: @small-screen) {
-      & .entity-chat-info-left{
+      & .entity-chat-info-left {
         width: 0;
       }
     }
   }
   // Служебное сообщение
-  &.middle-message{
+  &.middle-message {
     & .entity-chat-body {
       border: none;
       background: @chat-background-service;
-      &__title{
+      &__title {
         border-bottom: @chat-border-service;
       }
     }
     @media (max-width: @small-screen) {
-      & .entity-chat-info-left, & .entity-chat-info-right{
+      & .entity-chat-info-left,
+      & .entity-chat-info-right {
         width: 0;
       }
     }
   }
-
 }
 
 // Строка таблицы для ввода текста
 .entity-chat-input {
   vertical-align: top;
   @media (max-width: @small-screen) {
-    &>.entity-chat-info-left, &>.entity-chat-info-right {
+    & > .entity-chat-info-left,
+    & > .entity-chat-info-right {
       display: none;
     }
   }
 }
 
 // Универсальный стиль для блоков информации
-.entity-chat-info-left, .entity-chat-info-right{
+.entity-chat-info-left,
+.entity-chat-info-right {
   width: @chat-info-width;
   @media (max-width: @small-screen) {
     width: @chat-info-small-width - 1;
@@ -318,17 +323,17 @@
   padding: 0 7px 3px 7px;
   max-width: 800px;
 
-  &__title{
+  &__title {
     display: block;
   }
 
-  &__input{
+  &__input {
     display: block;
     width: 100%;
     resize: none;
   }
 
-  &__send{
+  &__send {
     display: block;
     float: right;
     margin-top: 5px;
@@ -350,7 +355,7 @@
   &__subject {
     border-bottom: @sd-approval-border;
     padding-bottom: 10px;
-    &__title{
+    &__title {
       font-weight: bold;
       display: block;
     }
@@ -372,7 +377,7 @@
     .entity-inline-property();
   }
 
-  &__prop{
+  &__prop {
     .entity-inline-property();
 
     &__name {
@@ -391,7 +396,6 @@
   max-height: 630px;
 }
 
-
 /** Вложения */
 @attachment-item-width: 178px;
 @attachment-item-height: @attachment-item-width*1.3;
@@ -405,14 +409,14 @@
   border: rgb(189, 189, 189) solid 2px;
   border-radius: 10px;
 
-  &__box{
+  &__box {
     position: relative;
     width: @attachment-item-width - 20px;
     height: @attachment-item-width - 20px;
     border: rgb(189, 189, 189) dotted 1px;
     margin-bottom: 5px;
     text-align: center;
-    &>img{
+    & > img {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -425,7 +429,7 @@
       height: 150px;
       line-height: 150px;
       font-size: 120px;
-      color: #636363
+      color: #636363;
     }
   }
 
@@ -464,26 +468,27 @@
 @attachBox-border-dragReject: rgba(255, 0, 0, 0.33) dashed 2px;
 @attachBox-iconColor-dragReject: rgba(212, 91, 91, 0.64);
 
-
 .attachment-item.attach-box {
   border: @attachBox-border;
-  &.drag-accept { border: @attachBox-border-dragAccept; }
-  &.drag-reject { border: @attachBox-border-dragReject; }
+  &.drag-accept {
+    border: @attachBox-border-dragAccept;
+  }
+  &.drag-reject {
+    border: @attachBox-border-dragReject;
+  }
 
-
-  &>.attachment-item__upload-icon{
+  & > .attachment-item__upload-icon {
     font-size: 135px;
     color: @attachBox-iconColor;
     text-align: center;
     width: 100%;
   }
-  &.drag-accept>.attachment-item__upload-icon {
+  &.drag-accept > .attachment-item__upload-icon {
     color: @attachBox-iconColor-dragAccept;
   }
   &.drag-reject .attachment-item__upload-icon {
     color: @attachBox-textColor-dragReject;
   }
-
 
   & .attachment-item__upload-text {
     font-size: 22px;
@@ -500,7 +505,6 @@
   &.drag-reject .attachment-item__upload-text {
     color: @attachBox-textColor-dragReject;
   }
-
 }
 
 .uploading-file {
@@ -537,7 +541,7 @@
 
 .sd-attachments-list {
   margin: 0 auto;
-  &>*{
+  & > * {
     vertical-align: top;
     display: inline-block;
   }
@@ -552,15 +556,16 @@
 
 // sd-dropdown
 // ToDo адаптировать под мобильные
-.sd-dropdown input.ui-select-search,.sd-dropdown span.ui-select-toggle {
+.sd-dropdown input.ui-select-search,
+.sd-dropdown span.ui-select-toggle {
   width: 100% !important;
 }
 
-.e-prop__value .sd-dropdown{
+.e-prop__value .sd-dropdown {
   height: 42px;
-  padding-top: 5px
+  padding-top: 5px;
 }
-.e-prop__value .sd-dropdown-view{
+.e-prop__value .sd-dropdown-view {
   height: 42px;
   padding-top: 12px;
   padding-left: 13px;
@@ -573,7 +578,7 @@
 .e-prop__value .sd-datetime {
   height: 42px;
   padding-top: 4px;
-  &__input-container{
+  &__input-container {
     width: 100%;
   }
 }
@@ -590,7 +595,7 @@
 .e-prop__value .sd-number {
   height: 42px;
   padding-top: 4px;
-  &__input-container{
+  &__input-container {
     width: 100%;
   }
 }
@@ -605,7 +610,7 @@
 // sd-entity-card-tabs
 
 .sd-entity-card-tabs {
-  &>li[disabled="disabled"]>a {
+  & > li[disabled="disabled"] > a {
     background-color: inherit;
     color: @disabled-text-color;
     cursor: not-allowed;
@@ -617,13 +622,13 @@
 .sd-vote {
   width: 450px;
   display: inline-block;
-  &__label-container{
+  &__label-container {
     vertical-align: top;
     display: inline-block;
-    line-height: 31px
+    line-height: 31px;
   }
-  &__textarea{
+  &__textarea {
     display: inline-block;
-    width: 350px
-   }
+    width: 350px;
+  }
 }

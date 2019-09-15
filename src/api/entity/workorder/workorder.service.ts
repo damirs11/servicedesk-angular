@@ -1,0 +1,14 @@
+import { Injectable } from "@angular/core";
+import { EntityModule } from "src/api/entity.module";
+import { Workorder } from './workorder';
+import { EntityService } from '../entity/entity.service';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable({
+  providedIn: EntityModule
+})
+export class WorkorderService extends EntityService<Workorder> {
+  constructor($http: HttpClient) {
+    super($http);
+  }
+}

@@ -5,10 +5,10 @@
  * @constructor
  */
 function Enumerable(value) {
-    return function(target, key, descriptor) {
-        descriptor.enumerable = value;
-        return descriptor;
-    };
+  return function(target, key, descriptor) {
+    descriptor.enumerable = value;
+    return descriptor;
+  };
 }
 
-export {Enumerable};
+export { Enumerable };

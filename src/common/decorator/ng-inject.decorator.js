@@ -17,16 +17,19 @@ const NGInjectSymbol = Symbol("NGInject");
  * }
  */
 function NGInject(dependencyName) {
-        return function decorateNGInject(prototype, propertyName, descriptor) {
-            if (!dependencyName) dependencyName = propertyName;
-            const map = prototype[NGInjectSymbol] = prototype[NGInjectSymbol] || Object.create(null);
-            map[dependencyName] = undefined;
-            return {
-                enumerable: false, // Ангуляровские зависимости не будут видны в перечислении полей
-                get: () => map[dependencyName], // Геттер из скрытой мапы прямо внутри объекта
-                set: () => {throw `cannot rewrite NGInject-property ${propertyName} of ${prototype.constructor}`}
-            }
-        }
+  return function decorateNGInject(prototype, propertyName, descriptor) {
+    if (!dependencyName) dependencyName = propertyName;
+    const map = (prototype[NGInjectSymbol] =
+      prototype[NGInjectSymbol] || Object.create(null));
+    map[dependencyName] = undefined;
+    return {
+      enumerable: false, // Ангуляровские зависимости не будут видны в перечислении полей
+      get: () => map[dependencyName], // Геттер из скрытой мапы прямо внутри объекта
+      set: () => {
+        throw `cannot rewrite NGInject-property ${propertyName} of ${prototype.constructor}`;
+      }
+    };
+  };
 }
 
 /**
@@ -34,22 +37,22 @@ function NGInject(dependencyName) {
  * Подменяет класс на функцию-конструктор, которая прокинет себе ng-заивисмости и вернет класс-исходник
  */
 function NGInjectClass() {
-    return function (clazz) {
-        const prototype = clazz.prototype;
-        const map = prototype[NGInjectSymbol];
-        if (!map) return;
-        const dependencies = Object.keys(map);
+  return function(clazz) {
+    const prototype = clazz.prototype;
+    const map = prototype[NGInjectSymbol];
+    if (!map) return;
+    const dependencies = Object.keys(map);
 
-        function NGDecoratedClass() {
-            for (let i = 0; i < dependencies.length; i++) {
-                map[dependencies[i]] = arguments[i];
-            }
-            return new clazz();
-        }
-        NGDecoratedClass.$inject = dependencies;
-
-        return NGDecoratedClass
+    function NGDecoratedClass() {
+      for (let i = 0; i < dependencies.length; i++) {
+        map[dependencies[i]] = arguments[i];
+      }
+      return new clazz();
     }
+    NGDecoratedClass.$inject = dependencies;
+
+    return NGDecoratedClass;
+  };
 }
 
-export {NGInject, NGInjectClass}
+export { NGInject, NGInjectClass };

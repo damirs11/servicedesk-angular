@@ -1,4 +1,3 @@
 export abstract class Entity {
-    constructor() {
-    }
+  constructor() {}
 }
