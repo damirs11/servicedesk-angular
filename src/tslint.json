@@ -6,6 +6,7 @@
     "no-redundant-jsdoc": false,
     "forin": false,
     "prefer-for-of": false,
-    "jsdoc-format": false
+    "jsdoc-format": false,
+    "quotemark": false
   }
 }
