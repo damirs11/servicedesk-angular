@@ -9,6 +9,7 @@ import { EntityClosureCode } from "../entity-closure-code/entity-closure-code";
 import { EntityAssignment } from "../entity-assignment/entity-assignment";
 import { EntityCode1 } from "../entity-code1/entity-code1";
 import { Folder } from "../folder/folder";
+import { Person } from '../person/person';
 
 /**
  * Изменение
@@ -206,7 +207,10 @@ export class Change extends Entity {
    */
   folder: Folder;
 
-  toString() {
+  /**
+   * Override
+   */
+  toString(): string {
     return String(this.no);
   }
 }

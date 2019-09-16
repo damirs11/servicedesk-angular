@@ -1,0 +1,36 @@
+<table class="entity-chat-table">
+    <tr class="entity-chat-message"
+        data-ng-class="ctrl.getSideClasses()">
+
+        <td class="entity-chat-info-left" data-ng-if="!ctrl.isLeft()">
+        </td>
+        <td class="entity-chat-info-left" data-ng-if="ctrl.isLeft()">
+            <chat-info-block
+                    person="ctrl.line.account.person"
+            ></chat-info-block>
+        </td>
+
+        <td class="entity-chat-body">
+            <div class="entity-chat-body__title">
+                    <span class="entity-chat-body__title__name" ng-bind-html="ctrl.getTitle()">
+                    </span>
+                <span class="entity-chat-body__title__date">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        <span>{{ctrl.line.date | amDateFormat:ctrl.DATE_FORMAT}}</span>
+                    </span>
+            </div>
+            <div class="entity-chat-body__message">
+                <span>{{ctrl.line.value}}</span>
+            </div>
+        </td>
+
+        <td class="entity-chat-info-right" data-ng-if="!ctrl.isRight()">
+        </td>
+        <td class="entity-chat-info-right" data-ng-if="ctrl.isRight()">
+            <chat-info-block
+                    person="ctrl.line.account.person"
+            ></chat-info-block>
+        </td>
+
+    </tr>
+</table>

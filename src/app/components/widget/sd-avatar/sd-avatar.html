@@ -1,0 +1,13 @@
+<div class="avatar" data-ng-class="{center: ctrl.center}">
+
+    <div class="avatar-box"
+         data-ng-class="ctrl.typeClass"
+         data-ng-style="ctrl.typeStyle"
+    >
+        <a data-ng-if="ctrl.link" data-ng-href="{{ctrl.link}}">
+            <img data-ng-src="./{{ctrl.url}}" data-ng-style="{maxWidth: ctrl.size+'px'}">
+        </a>
+        <img data-ng-src="./{{ctrl.url}}" data-ng-style="{maxWidth: ctrl.size+'px'}" data-ng-if="!ctrl.link">
+    </div>
+
+</div>

@@ -1,4 +1,5 @@
 import { Entity } from "../entity/entity";
+import { EntityTypes } from 'src/api/util/entity-types';
 
 /**
  * Классификация
@@ -7,17 +8,5 @@ import { Entity } from "../entity/entity";
  * @extends RESTEntity
  */
 export class EntityClassification extends Entity {
-  /**
-   * Название
-   * @property
-   * @name EntityClassification#name
-   * @type {string}
-   */
-  name: string;
-
-  entityType: any;
-
-  toString() {
-    return this.name;
-  }
+  entityType: EntityTypes;
 }

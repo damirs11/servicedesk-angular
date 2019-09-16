@@ -1,4 +1,9 @@
 import { Entity } from '../entity/entity';
+import { Service } from '../service/service';
+import { EntityStatus } from '../entity-status/entity-status';
+import { Folder } from '../folder/folder';
+import { Workgroup } from '../workgroup/workgroup';
+import { EntityPriority } from '../entity-priority/entity-priority';
 
 /**
  * SLA (условие предоставления услуги)
@@ -12,7 +17,7 @@ export class ServiceLevelAgreement extends Entity {
    * @name ServiceLevelAgreement#service
    * @type {Service}
    */
-  service;
+  service: Service;
 
   /**
    * Статус
@@ -20,15 +25,7 @@ export class ServiceLevelAgreement extends Entity {
    * @name ServiceLevelAgreement#status
    * @type {EntityStatus}
    */
-  status;
-
-  /**
-   * Название
-   * @property
-   * @name ServiceLevelAgreement#name
-   * @type {string}
-   */
-  name: string;
+  status: EntityStatus;
 
   /**
    * Папка
@@ -36,7 +33,7 @@ export class ServiceLevelAgreement extends Entity {
    * @name ServiceLevelAgreement#folder
    * @type {Folder}
    */
-  folder;
+  folder: Folder;
 
   /**
    * Срок действия от
@@ -68,7 +65,7 @@ export class ServiceLevelAgreement extends Entity {
    * @name ServiceLevelAgreement#workgroup
    * @type {Workgroup}
    */
-  workgroup;
+  workgroup: Workgroup;
 
   /**
    * Условия предоставления
@@ -76,15 +73,12 @@ export class ServiceLevelAgreement extends Entity {
    * @name ServiceLevelAgreement#serviceLevel
    * @type {Workgroup}
    */
-  serviceLevel;
+  serviceLevel: Workgroup;
   /**
    * Приоритет по умолчанию
    * @property
    * @name ServiceLevelAgreement#defaultPriority
    * @type {EntityPriority}
    */
-  defaultPriority;
-  toString() {
-    return String(this.name);
-  }
+  defaultPriority: EntityPriority;
 }

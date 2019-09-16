@@ -8,14 +8,6 @@ import { Entity } from '../entity/entity';
  */
 export class Workgroup extends Entity {
   /**
-   * Название
-   * @property
-   * @name Workgroup#name
-   * @type {string}
-   */
-  name: string;
-
-  /**
    *
    * @property
    * @name Workgroup#searchcode
@@ -39,7 +31,4 @@ export class Workgroup extends Entity {
    */
   groupManager;
 
-  toString() {
-    return this.name;
-  }
 }

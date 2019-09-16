@@ -1,4 +1,5 @@
 import { Entity } from '../entity/entity';
+import { Folder } from '../folder/folder';
 
 /**
  * Приоритет
@@ -8,22 +9,10 @@ import { Entity } from '../entity/entity';
  */
 export class Template extends Entity {
   /**
-   * Название
-   * @property
-   * @name Template#name
-   * @type {string}
-   */
-  name: string;
-
-  /**
    * Папка
    * @property
    * @name Template#folder
    * @type {Folder}
    */
-  folder;
-
-  toString() {
-    return this.name;
-  }
+  folder: Folder;
 }

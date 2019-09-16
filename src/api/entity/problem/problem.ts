@@ -1,5 +1,14 @@
 import { Entity } from "../entity/entity";
 import { EntityTypes } from "src/api/util/entity-types";
+import { EntityStatus } from '../entity-status/entity-status';
+import { Person } from '../person/person';
+import { ConfigurationItem } from '../configuration-item/configuration-item';
+import { EntityPriority } from '../entity-priority/entity-priority';
+import { EntityAssignment } from '../entity-assignment/entity-assignment';
+import { EntityCategory } from '../entity-category/entity-category';
+import { EntityClassification } from '../entity-classification/entity-classification';
+import { EntityClosureCode } from '../entity-closure-code/entity-closure-code';
+import { Folder } from '../folder/folder';
 
 /**
  * Сущность - "Проблема"
@@ -27,7 +36,7 @@ export class Problem extends Entity {
    * @name Problem#status
    * @type {EntityStatus}
    */
-  status;
+  status: EntityStatus;
 
   /**
    * Инициатор
@@ -35,7 +44,7 @@ export class Problem extends Entity {
    * @name Problem#initiator
    * @type {Person}
    */
-  initiator;
+  initiator: Person;
 
   /**
    * Объект обслуживания
@@ -43,7 +52,7 @@ export class Problem extends Entity {
    * @name Problem#configurationItem
    * @type {ConfigurationItem}
    */
-  configurationItem;
+  configurationItem: ConfigurationItem;
 
   /**
    * Тема
@@ -104,7 +113,7 @@ export class Problem extends Entity {
    * @name Problem#priority
    * @type {EntityPriority}
    */
-  priority;
+  priority: EntityPriority;
 
   /**
    * Крайний срок
@@ -144,7 +153,7 @@ export class Problem extends Entity {
    * @name Problem#whoOverdue
    * @type {Person}
    */
-  whoOverdue;
+  whoOverdue: Person;
 
   /**
    * План окночания
@@ -168,7 +177,7 @@ export class Problem extends Entity {
    * @name Problem#assignment
    * @type {EntityAssignment}
    */
-  assignment;
+  assignment: EntityAssignment;
 
   /**
    * Категория
@@ -176,7 +185,7 @@ export class Problem extends Entity {
    * @name Problem#category
    * @type {EntityCategory}
    */
-  category;
+  category: EntityCategory;
 
   /**
    * Классификация
@@ -184,7 +193,7 @@ export class Problem extends Entity {
    * @name Problem#classification
    * @type {EntityClassification}
    */
-  classification;
+  classification: EntityClassification;
 
   /**
    * Код завершения
@@ -192,7 +201,7 @@ export class Problem extends Entity {
    * @name Problem#closureCode
    * @type {EntityClosureCode}
    */
-  closureCode;
+  closureCode: EntityClosureCode;
 
   /**
    * Папка
@@ -200,7 +209,7 @@ export class Problem extends Entity {
    * @name Problem#folder
    * @type {Folder}
    */
-  folder;
+  folder: Folder;
 
   /**
    * Не включать в отчет заказчику
@@ -218,7 +227,10 @@ export class Problem extends Entity {
    */
   versionDate: Date;
 
-  toString() {
+  /**
+   * Override
+   */
+  toString(): string {
     return String(this.no);
   }
 }

@@ -1,5 +1,13 @@
 import { EntityTypes } from 'src/api/util/entity-types';
 import { Entity } from '../entity/entity';
+import { Problem } from '../problem/problem';
+import { EntityStatus } from '../entity-status/entity-status';
+import { EntityCategory } from '../entity-category/entity-category';
+import { EntityClosureCode } from '../entity-closure-code/entity-closure-code';
+import { Folder } from '../folder/folder';
+import { Person } from '../person/person';
+import { EntityAssignment } from '../entity-assignment/entity-assignment';
+import { Change } from '../change/change';
 
 /**
  * Персона
@@ -58,7 +66,7 @@ export class Workorder extends Entity {
    * @name Workorder#status
    * @type {EntityStatus}
    */
-  status;
+  status: EntityStatus;
 
   /**
    * Категория
@@ -66,7 +74,7 @@ export class Workorder extends Entity {
    * @name Workorder#category
    * @type {EntityCategory}
    */
-  category;
+  category: EntityCategory;
 
   /**
    * Код завершения
@@ -74,7 +82,7 @@ export class Workorder extends Entity {
    * @name Workorder#closureCode
    * @type {EntityClosureCode}
    */
-  closureCode;
+  closureCode: EntityClosureCode;
 
   /**
    * Дата создания
@@ -122,7 +130,7 @@ export class Workorder extends Entity {
    * @name Workorder#folder
    * @type {Folder}
    */
-  folder;
+  folder: Folder;
 
   /**
    * Инициатор
@@ -130,7 +138,7 @@ export class Workorder extends Entity {
    * @name Workorder#initiator
    * @type {Person}
    */
-  initiator;
+  initiator: Person;
 
   /**
    * Объект "Назначено"
@@ -138,7 +146,7 @@ export class Workorder extends Entity {
    * @name Workorder#assignment
    * @type {EntityAssignment}
    */
-  assignment;
+  assignment: EntityAssignment;
 
   /**
    * Изменение
@@ -146,7 +154,7 @@ export class Workorder extends Entity {
    * @name Workorder#change
    * @type {Change}
    */
-  change;
+  change: Change;
 
   /**
    * Проблема
@@ -154,9 +162,12 @@ export class Workorder extends Entity {
    * @name Workorder#problem
    * @type {Problem}
    */
-  problem;
+  problem: Problem;
 
-  toString() {
+  /**
+   * Override
+   */
+  toString(): string {
     return String(this.no);
   }
 }

@@ -1,4 +1,5 @@
 import { Entity } from '../entity/entity';
+import { User } from '../user/user';
 
 /**
  * Запись в истории
@@ -29,7 +30,7 @@ export class HistoryLine extends Entity {
    * @name HistoryLine#account
    * @type {User}
    */
-  account;
+  account: User;
   /**
    * Значение записи. Если это запись чата, value - само сообщение.
    * Если запись в истории, value - новое значение поля сущности

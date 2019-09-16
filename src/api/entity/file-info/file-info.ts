@@ -17,14 +17,6 @@ export class FileInfo extends Entity {
     ownField: "fileId",
     dataField: "fileId"
   };
-
-  /**
-   * Название файла
-   * @property
-   * @name FileInfo#name
-   * @type {String}
-   */
-  name: string;
   /**
    * Путь на сервере
    * @property
@@ -32,22 +24,4 @@ export class FileInfo extends Entity {
    * @type {String}
    */
   path: string;
-
-  /**
-   * Загружает файл на сервер.
-   * @static
-   * @method
-   * @name FileInfo#upload
-   * @param file {File} - HTML File объект
-   * @returns {Promise.<FileInfo>}
-   */
-  // static async upload(file) {
-  //     const uploading = Upload.upload({
-  //         method: "POST",
-  //         url: "rest/service/file/upload",
-  //         data: {"uploaded-file": file}
-  //     });
-
-  //     return uploading.then(resp => this.parse(resp.data));
-  // }
 }

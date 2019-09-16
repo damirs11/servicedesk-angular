@@ -1,0 +1,15 @@
+<div class="status-bar" data-ng-if="ctrl.statusList.length > 0">
+    <span class="status-bar__part" data-ng-repeat="$item in ctrl.statusList track by $item.id"
+         data-ng-class="{
+             past:ctrl.isPastPart($index),
+             current:ctrl.isCurrentPart($index),
+             future:ctrl.isFuturePart($index),
+         }"
+         data-ng-style="{width: ctrl.getPartWidth($index)}"
+         title="{{$item.name}}"
+    >
+        <div class="status-bar__part__name">
+            <span ng-bind="$item.name"></span>
+        </div>
+    </span>
+</div>

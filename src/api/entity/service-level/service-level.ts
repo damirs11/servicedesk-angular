@@ -1,4 +1,5 @@
 import { Entity } from '../entity/entity';
+import { ImpactSettings } from '../impact-settings/impact-settings';
 
 /**
  * Условия предоставления
@@ -6,14 +7,6 @@ import { Entity } from '../entity/entity';
  * @name ServiceLevel
  */
 export class ServiceLevel extends Entity {
-  /**
-   * Название
-   * @property
-   * @name ServiceLevel#name
-   * @type {string}
-   */
-  name: string;
-
   /**
    * Название
    * @property
@@ -44,9 +37,5 @@ export class ServiceLevel extends Entity {
    * @name ServiceLevel#impactSettingList
    * @type {ImpactSettings}
    */
-  impactSettingList;
-
-  toString() {
-    return String(this.name);
-  }
+  impactSettingList: ImpactSettings;
 }

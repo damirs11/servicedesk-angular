@@ -1,4 +1,5 @@
 import { Entity } from "../entity/entity";
+import { Person } from '../person/person';
 
 /**
  * Голосование

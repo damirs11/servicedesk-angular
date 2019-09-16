@@ -1,4 +1,5 @@
 import { Entity } from "../entity/entity";
+import { EntityTypes } from 'src/api/util/entity-types';
 
 /**
  * Кастомный код 1
@@ -7,17 +8,5 @@ import { Entity } from "../entity/entity";
  * @extends RESTEntity
  */
 export class EntityCode1 extends Entity {
-  /**
-   * Название
-   * @property
-   * @name EntityCode1#name
-   * @type {string}
-   */
-  name: string;
-
-  entityType: any;
-
-  toString() {
-    return this.name;
-  }
+  entityType: EntityTypes;
 }

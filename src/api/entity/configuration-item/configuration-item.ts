@@ -25,14 +25,6 @@ export class ConfigurationItem extends Entity {
   searchCode: string;
 
   /**
-   * Название
-   * @property
-   * @name ConfigurationItem#name
-   * @type {string}
-   */
-  name: string;
-
-  /**
    * Дополнительные сведения
    * @property
    * @name ConfigurationItem#description
@@ -107,8 +99,10 @@ export class ConfigurationItem extends Entity {
   status: any;
 
   category: any;
-
-  toString() {
+  /**
+   * Override
+   */
+  toString(): string {
     return this.searchCode;
   }
 }

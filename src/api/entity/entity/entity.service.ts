@@ -7,6 +7,9 @@ import { EntityTypes } from "src/api/util/entity-types";
 export abstract class EntityService<T> implements IConnector<T> {
   constructor(private $http: HttpClient) {}
 
+  readonly emptyParams = [];
+  readonly defaultTimeout = 2000;
+
   /**
    * Отправляет GET запрос к серверу. Вернет промис,
    * в котором можно работать сразу с json данными
@@ -14,12 +17,12 @@ export abstract class EntityService<T> implements IConnector<T> {
    * @param params - параметры для get запроса
    * @param timeout - время ожидания ответа
    */
-  public get(
+  public get<C>(
     path: string,
-    params: object = [],
-    _timeout: number = 2000
-  ): Observable<T> {
-    return this.$http.get<T>(path, params).pipe(
+    params: object = this.emptyParams,
+    _timeout: number = this.defaultTimeout
+  ): Observable<C> {
+    return this.$http.get<C>(path, params).pipe(
       timeout(_timeout),
       catchError(this.handleError)
     );
@@ -33,13 +36,13 @@ export abstract class EntityService<T> implements IConnector<T> {
    * @param data - json данные, для отправки
    * @param timeout - время ожидания ответа
    */
-  public post<T>(
+  public post<C>(
     path: string,
     data: string,
-    params: object = [],
-    _timeout: number = 2000
-  ): Observable<T> {
-    return this.$http.post<T>(path, data, params).pipe(
+    params: object = this.emptyParams,
+    _timeout: number = this.defaultTimeout
+  ): Observable<C> {
+    return this.$http.post<C>(path, data, params).pipe(
       timeout(_timeout),
       catchError(this.handleError)
     );
@@ -53,13 +56,13 @@ export abstract class EntityService<T> implements IConnector<T> {
    * @param data - json данные, для отправки
    * @param timeout - время ожидания ответа
    */
-  public put(
+  public put<C>(
     path: string,
     data: string,
-    params: object = [],
-    _timeout: number = 2000
-  ): Observable<T> {
-    return this.$http.put<T>(path, data, params).pipe(
+    params: object = this.emptyParams,
+    _timeout: number = this.defaultTimeout
+  ): Observable<C> {
+    return this.$http.put<C>(path, data, params).pipe(
       timeout(_timeout),
       catchError(this.handleError)
     );
@@ -73,13 +76,13 @@ export abstract class EntityService<T> implements IConnector<T> {
    * @param data - json данные, для отправки
    * @param timeout - время ожидания ответа
    */
-  public patch(
+  public patch<C>(
     path: string,
     data: string,
-    params: object = [],
-    _timeout: number = 2000
-  ): Observable<T> {
-    return this.$http.patch<T>(path, data, params).pipe(
+    params: object = this.emptyParams,
+    _timeout: number = this.defaultTimeout
+  ): Observable<C> {
+    return this.$http.patch<C>(path, data, params).pipe(
       timeout(_timeout),
       catchError(this.handleError)
     );
@@ -91,12 +94,12 @@ export abstract class EntityService<T> implements IConnector<T> {
    * @param params - параметры для get запроса
    * @param timeout - время ожидания ответа
    */
-  public delete(
+  public delete<C>(
     path: string,
-    params: object = [],
-    _timeout: number = 2000
-  ): Observable<T> {
-    return this.$http.delete<T>(path, params).pipe(
+    params: object = this.emptyParams,
+    _timeout: number = this.defaultTimeout
+  ): Observable<C> {
+    return this.$http.delete<C>(path, params).pipe(
       timeout(_timeout),
       catchError(this.handleError)
     );
@@ -106,21 +109,21 @@ export abstract class EntityService<T> implements IConnector<T> {
    * Подгружает изменения в текущую сущность
    */
   public load($entityType: EntityTypes, id: number) {
-    return this.get(`rest/entity/${$entityType}/${id}`);
+    return this.get<T>(`rest/entity/${$entityType}/${id}`);
   }
 
   /**
    * Осуществляет поиск сущностей по фильтру
    */
   public list($entityType: EntityTypes, params: object) {
-    return this.get(`rest/entity/${$entityType}`, params);
+    return this.get<T[]>(`rest/entity/${$entityType}`, params);
   }
 
   /**
    * Получает общее количество записей по указанному фильтру
    */
   public count($entityType: EntityTypes, params: object) {
-    return this.get(`rest/entity/${$entityType}/count`, params);
+    return this.get<number>(`rest/entity/${$entityType}/count`, params);
   }
 
   /**
@@ -132,7 +135,7 @@ export abstract class EntityService<T> implements IConnector<T> {
    */
   public fillWithTemplate($entityType: EntityTypes, template: any) {
     const templateId = typeof template === "object" ? template.id : template;
-    return this.get(`rest/entity/${$entityType}/template/${templateId}`);
+    return this.get<T>(`rest/entity/${$entityType}/template/${templateId}`);
   }
 
   // Error handling

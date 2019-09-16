@@ -8,14 +8,6 @@ import { Entity } from '../entity/entity';
  */
 export class User extends Entity {
   /**
-   * Имя пользователя
-   * @property
-   * @name User#name
-   * @type {string}
-   */
-  name: string;
-
-  /**
    * Логин
    * @property
    * @name User#login
@@ -39,7 +31,4 @@ export class User extends Entity {
    */
   person;
 
-  toString() {
-    return this.name;
-  }
 }

@@ -1,4 +1,5 @@
 import { Entity } from '../entity/entity';
+import { EntityTypes } from 'src/api/util/entity-types';
 
 /**
  * Папка
@@ -7,17 +8,5 @@ import { Entity } from '../entity/entity';
  * @extends RESTEntity
  */
 export class Folder extends Entity {
-  /**
-   * Название
-   * @property
-   * @name Folder#name
-   * @type {string}
-   */
-  name: string;
-
-  entityType: any;
-
-  toString() {
-    return this.name;
-  }
+  entityType: EntityTypes;
 }

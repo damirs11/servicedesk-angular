@@ -1,4 +1,6 @@
 import { Entity } from '../entity/entity';
+import { EntityStatus } from '../entity-status/entity-status';
+import { Folder } from '../folder/folder';
 
 /**
  * Сервис/услуга
@@ -6,21 +8,13 @@ import { Entity } from '../entity/entity';
  * @name Service
  */
 export class Service extends Entity {
-  /**
-   * Название
-   * @property
-   * @name Service#name
-   * @type {string}
-   */
-  name: string;
-
-  /**
+/**
    * Статус
    * @property
    * @name Service#status
    * @type {EntityStatus}
    */
-  status;
+  status: EntityStatus;
 
   /**
    * Папка
@@ -28,9 +22,5 @@ export class Service extends Entity {
    * @name Service#folder
    * @type {Folder}
    */
-  folder;
-
-  toString() {
-    return String(this.name);
-  }
+  folder: Folder;
 }

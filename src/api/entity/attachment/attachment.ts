@@ -1,5 +1,6 @@
 import { Entity } from "../entity/entity";
 import { FILETYPE_MAP } from "src/api/util/filetype-list";
+import { Person } from '../person/person';
 
 /**
  * Вложение. Используется для вложений / аватарок и т.п.
@@ -16,13 +17,6 @@ export class Attachment extends Entity {
     // Название на сервере.
     return "FileInfo";
   }
-  /**
-   * Название вложения
-   * @property
-   * @name Attachment#name
-   * @type {String}
-   */
-  name: string;
   /**
    * Размер вложения в байтах
    * @property

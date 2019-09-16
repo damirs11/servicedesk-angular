@@ -1,0 +1,50 @@
+<!--Режим редактирования активный-->
+<div data-ng-if="ctrl.editing && !ctrl.disabled" class="sd-dropdown">
+    <ui-select
+               class = "{{ ctrl.isAllowClear ? 'ui-dropdown-allow-clear' : 'ui-dropdown-no-allow-clear' }}"
+               ng-model="ctrl.selectedValue"
+               ng-change="ctrl.onChange({$value: ctrl.selectedValue})"
+               on-select="ctrl.onSelect($item,$model)"
+               search-enabled="ctrl.searchEnabled">
+        <ui-select-match allow-clear="{{ctrl.isAllowClear}}" placeholder="{{ctrl.placeholder}}">
+            <i ng-if="ctrl.hasIcons" ng-class="ctrl.getIconFor($select.selected)" />
+            {{ctrl.display($select.selected)}}
+        </ui-select-match>
+        <ui-select-choices repeat="$value in ctrl.getFilteredValues($select.search) track by $index"
+                           minimum-input-length="{{ctrl.getMinSymbolsToFetch()}}"
+                           refresh="ctrl.fetchFromUI($select.search)"
+                           refresh-delay="ctrl.debounceTime">
+            <div style="display: inline-block; width: 10px; text-align: center" ng-if="ctrl.hasIcons">
+                <i ng-if="ctrl.hasIcons" ng-class="ctrl.getIconFor($value)" />
+            </div>
+            <span ng-bind-html="ctrl.display($value) | highlight: $select.search" />
+        </ui-select-choices>
+    </ui-select>
+</div>
+
+<!--Режим редактирования заблокированный-->
+<div data-ng-if="ctrl.editing && ctrl.disabled" class="sd-dropdown">
+
+    <div class="ui-select-container ui-select-bootstrap" disabled="disabled">
+        <div class="ui-select-match ng-scope" disabled="disabled">
+            <span tabindex="-1" class="form-control ui-select-toggle" style="outline: 0;" disabled="true">
+                <i ng-if="ctrl.hasIcons" ng-class="ctrl.getIconFor(ctrl.selectedValue)" />
+                <span class="ui-select-placeholder text-muted" ng-bind="ctrl.display(ctrl.selectedValue)" />
+                <i class="caret pull-right" />
+            </span>
+        </div>
+    </div>
+
+</div>
+
+<!--Режим просмотра-->
+<div data-ng-if="!ctrl.editing" class="sd-dropdown-view">
+    <a ng-show="ctrl.hasLinks && ctrl.selectedValue" ng-href="{{ctrl.getLinkFor(ctrl.selectedValue)}}">
+        <i ng-if="ctrl.hasIcons && ctrl.selectedValue" ng-class="ctrl.getIconFor(ctrl.selectedValue)" />
+        <span ng-bind="ctrl.display(ctrl.selectedValue)" />
+    </a>
+    <span ng-hide="ctrl.hasLinks && ctrl.selectedValue">
+        <i ng-if="ctrl.hasIcons && ctrl.selectedValue" ng-class="ctrl.getIconFor(ctrl.selectedValue)" />
+        <span ng-bind="ctrl.display(ctrl.selectedValue)" />
+    </span>
+</div>

@@ -1,4 +1,5 @@
 import { Entity } from '../entity/entity';
+import { Person } from '../person/person';
 
 /**
  * Организация
@@ -6,14 +7,6 @@ import { Entity } from '../entity/entity';
  * @name Organization
  */
 export class Organization extends Entity {
-  /**
-   * Название
-   * @property
-   * @name Organization#name
-   * @type {string}
-   */
-  name: string;
-
   /**
    * Почта
    * @property
@@ -28,9 +21,6 @@ export class Organization extends Entity {
    * @name Organization#folder
    * @type {Person}
    */
-  folder;
+  folder: Person;
 
-  toString() {
-    return this.name;
-  }
 }

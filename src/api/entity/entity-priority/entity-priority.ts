@@ -7,17 +7,5 @@ import { Entity } from "../entity/entity";
  * @extends RESTEntity
  */
 export class EntityPriority extends Entity {
-  /**
-   * Название
-   * @property
-   * @name EntityPriority#name
-   * @type {string}
-   */
-  name: string;
-
-  order: any;
-
-  toString() {
-    return this.name;
-  }
+  order: string;
 }

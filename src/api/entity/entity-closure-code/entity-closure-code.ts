@@ -1,4 +1,5 @@
 import { Entity } from "../entity/entity";
+import { EntityTypes } from 'src/api/util/entity-types';
 
 /**
  * Код завершения
@@ -7,17 +8,5 @@ import { Entity } from "../entity/entity";
  * @extends RESTEntity
  */
 export class EntityClosureCode extends Entity {
-  /**
-   * Название
-   * @property
-   * @name EntityClosureCode#name
-   * @type {string}
-   */
-  name: string;
-
-  entityType;
-
-  toString() {
-    return this.name;
-  }
+  entityType: EntityTypes;
 }

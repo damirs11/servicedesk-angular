@@ -1,4 +1,5 @@
 import { Entity } from "../entity/entity";
+import { EntityTypes } from 'src/api/util/entity-types';
 
 /**
  * База известных ошибок
@@ -7,17 +8,5 @@ import { Entity } from "../entity/entity";
  * @extends RESTEntity
  */
 export class FAQ extends Entity {
-  /**
-   * Название
-   * @property
-   * @name FAQ#name
-   * @type {string}
-   */
-  name: string;
-
-  entityType: any;
-
-  toString() {
-    return this.name;
-  }
+  entityType: EntityTypes;
 }

@@ -1,5 +1,21 @@
 import { Entity } from '../entity/entity';
 import { EntityTypes } from 'src/api/util/entity-types';
+import { EntityStatus } from '../entity-status/entity-status';
+import { Source } from '../source/source';
+import { EntityPriority } from '../entity-priority/entity-priority';
+import { EntityCategory } from '../entity-category/entity-category';
+import { EntityClassification } from '../entity-classification/entity-classification';
+import { Person } from '../person/person';
+import { Organization } from '../organization/organization';
+import { ServiceLevelAgreement } from '../sla/sla';
+import { Service } from '../service/service';
+import { ConfigurationItem } from '../configuration-item/configuration-item';
+import { EntityClosureCode } from '../entity-closure-code/entity-closure-code';
+import { Folder } from '../folder/folder';
+import { EntityAssignment } from '../entity-assignment/entity-assignment';
+import { EntityCode7 } from '../entity-code7/entity-code7';
+import { FAQ } from '../faq/faq';
+import { EntityCode6 } from '../entity-code6/entity-code6';
 
 
 /**
@@ -59,14 +75,14 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#status
    * @type {EntityStatus}
    */
-  status;
+  status: EntityStatus;
   /**
    * Источник
    * @property
    * @name ServiceCall#source
    * @type {Source}
    */
-  source;
+  source: Source;
   /**
    * Время e-mail
    * @property
@@ -80,7 +96,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#priority
    * @type {EntityPriority}
    */
-  priority;
+  priority: EntityPriority;
 
   /**
    * Категория
@@ -88,7 +104,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#category
    * @type {EntityCategory}
    */
-  category;
+  category: EntityCategory;
 
   /**
    * Классификация
@@ -96,7 +112,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#classification
    * @type {EntityClassification}
    */
-  classification;
+  classification: EntityClassification;
 
   /**
    * Крайний срок
@@ -128,7 +144,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#person
    * @type {Person}
    */
-  initiator;
+  initiator: Person;
 
   /**
    * Заявитель
@@ -136,7 +152,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#caller
    * @type {Person}
    */
-  caller;
+  caller: Person;
 
   /**
    * Организация
@@ -144,7 +160,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#organization
    * @type {Organization}
    */
-  organization;
+  organization: Organization;
 
   /**
    * SLA
@@ -152,7 +168,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#serviceLevelAgreement
    * @type {ServiceLevelAgreement}
    */
-  serviceLevelAgreement;
+  serviceLevelAgreement: ServiceLevelAgreement;
 
   /**
    * Сервис/услуга
@@ -160,7 +176,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#service
    * @type {Service}
    */
-  service;
+  service: Service;
 
   /**
    * Объект обслуживания
@@ -168,7 +184,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#configurationItem
    * @type {ConfigurationItem}
    */
-  configurationItem;
+  configurationItem: ConfigurationItem;
 
   /**
    * Код завершения
@@ -176,7 +192,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#closureCode
    * @type {EntityClosureCode}
    */
-  closureCode;
+  closureCode: EntityClosureCode;
 
   /**
    * Папка
@@ -184,7 +200,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#folder
    * @type {Folder}
    */
-  folder;
+  folder: Folder;
 
   /**
    * Сущность "назначено"
@@ -192,7 +208,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#assignment
    * @type {EntityAssignment}
    */
-  assignment;
+  assignment: EntityAssignment;
 
   /**
    * Дата возобновления
@@ -216,7 +232,7 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#renewalReason
    * @type {EntityCode7}
    */
-  renewalReason;
+  renewalReason: EntityCode7;
 
   /**
    * Новый крайний срок
@@ -253,14 +269,14 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#faq
    * @type {FAQ}
    */
-  faq;
+  faq: FAQ;
   /**
    * Руководитель исполнителя
    * @property
    * @name ServiceCall#executorHead
    * @type {Person}
    */
-  executorHead;
+  executorHead: Person;
 
   /**
    * Подсистема АИС ЭАД
@@ -268,9 +284,12 @@ export class ServiceCall extends Entity {
    * @name ServiceCall#entityCode6
    * @type {EntityCode6}
    */
-  entityCode6;
+  entityCode6: EntityCode6;
 
-  toString() {
+  /**
+   * Override
+   */
+  toString(): string {
     return String(this.no);
   }
 }
