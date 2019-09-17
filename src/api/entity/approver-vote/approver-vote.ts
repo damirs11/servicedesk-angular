@@ -4,7 +4,7 @@ import { Person } from '../person/person';
 /**
  * Голосование
  * @class
- * @extends RESTEntity
+ * @extends Entity
  * @name ApproverVote
  */
 export class ApproverVote extends Entity {

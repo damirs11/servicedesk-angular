@@ -19,7 +19,7 @@ import { Person } from '../person/person';
  * @mixes ENTITY_MIXIN.Approvable
  * @mixes ENTITY_MIXIN.AttachmentsHolder
  * @mixes ENTITY_MIXIN.Accessible
- * @extends EditableEntity
+ * @extends Entity
  */
 export class Change extends Entity {
   static readonly entityTypeId: EntityTypes = EntityTypes.Change;

@@ -25,7 +25,7 @@ import { EntityCode6 } from '../entity-code6/entity-code6';
  * @mixes ENTITY_MIXIN.Historyable
  * @mixes ENTITY_MIXIN.Accessible
  * @mixes ENTITY_MIXIN.AttachmentsHolder
- * @extends EditableEntity
+ * @extends Entity
  */
 export class ServiceCall extends Entity {
   static readonly entityTypeId = EntityTypes.ServiceCall;

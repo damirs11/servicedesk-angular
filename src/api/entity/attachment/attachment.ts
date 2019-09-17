@@ -3,17 +3,14 @@ import { FILETYPE_MAP } from "src/api/util/filetype-list";
 import { Person } from '../person/person';
 
 /**
- * Вложение. Используется для вложений / аватарок и т.п.
- * Класс не имеет своих методов работы с REST, они внедряются в другие сущности
- * @see ENTITY_MIXIN.AttachmentsHolder
  * Для загрузки файлов на сервер используется FileInfo
  * @see FileInfo
  * @class
- * @extends RESTEntity
+ * @extends Entity
  * @name Attachment
  */
 export class Attachment extends Entity {
-  static get $entityType() {
+  static get entityType() {
     // Название на сервере.
     return "FileInfo";
   }

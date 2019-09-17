@@ -29,8 +29,8 @@ export class HistoryLineService extends EntityService<HistoryLine> {
   // todo удалить метод, вместо этого в методе getHistory извлекать данное значение
   // из Header-параметра "Content-Range". Формат "from-to/amount". Например: "26-50/456"
   // означает, чтобы были возвращены данные с 26 по 50 запись включительно, всего записей 456
-  getHistoryCount(id: number, $entityType: EntityTypes, params: any = {}) {
-    return this.get(`rest/entity/${$entityType}/${id}/history/count`, params);
+  getHistoryCount(id: number, entityType: EntityTypes, params: any = {}) {
+    return this.get(`rest/entity/${entityType}/${id}/history/count`, params);
   }
 
   /**
@@ -46,9 +46,9 @@ export class HistoryLineService extends EntityService<HistoryLine> {
   /**
    * Возвращает количество сообщений в чате
    */
-  getChatCount(id: number, $entityType: EntityTypes, params: any = {}) {
+  getChatCount(id: number, entityType: EntityTypes, params: any = {}) {
     params.chat = true;
-    return this.getHistoryCount(id, $entityType, params);
+    return this.getHistoryCount(id, entityType, params);
   }
 
   /**
@@ -57,7 +57,7 @@ export class HistoryLineService extends EntityService<HistoryLine> {
    * @param type {String} - тип сообщения (инициатору, исполнителю и т.п.)
    * @return {Promise.<void>}
    */
-  sendChatMessage(id: number, $entityType: EntityTypes, text: any, type: any) {
-    this.post(`rest/service/history`, JSON.stringify({entityType: $entityType, entityId: id, historyType: type.name}), text);
+  sendChatMessage(id: number, entityType: EntityTypes, text: any, type: any) {
+    this.post(`rest/service/history`, JSON.stringify({entityType: entityType, entityId: id, historyType: type.name}), text);
   }
 }

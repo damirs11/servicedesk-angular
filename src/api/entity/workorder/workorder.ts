@@ -16,7 +16,7 @@ import { Change } from '../change/change';
  * @mixes ENTITY_MIXIN.Historyable
  * @mixes ENTITY_MIXIN.Accessible
  * @mixes ENTITY_MIXIN.AttachmentsHolder
- * @extends EditableEntity
+ * @extends Entity
  */
 export class Workorder extends Entity {
   static readonly entityTypeId: EntityTypes = EntityTypes.Workorder;

@@ -7,10 +7,8 @@ import { Person } from '../person/person';
 /**
  * Голосование
  * @class
- * @extends EditableEntity
+ * @extends Entity
  * @name Approval
- * Имеет миксин, который внедряет в сущности методы для согласований
- * @see ENTITY_MIXIN.Approvable
  */
 export class Approval extends Entity {
   static readonly entityTypeId: EntityTypes = EntityTypes.Approval;

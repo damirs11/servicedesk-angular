@@ -4,7 +4,7 @@ import { Entity } from "../entity/entity";
  * Статус
  * @class
  * @name EntityStatus
- * @extends RESTEntity
+ * @extends Entity
  */
 export class EntityStatus extends Entity {
   order: string;

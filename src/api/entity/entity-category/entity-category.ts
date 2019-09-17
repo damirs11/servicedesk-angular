@@ -5,7 +5,7 @@ import { EntityTypes } from 'src/api/util/entity-types';
  * Классификация
  * @class
  * @name EntityCategory
- * @extends RESTEntity
+ * @extends Entity
  */
 export class EntityCategory extends Entity {
   entityType: EntityTypes;

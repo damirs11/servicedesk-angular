@@ -2,9 +2,6 @@ import { Entity } from '../entity/entity';
 import { User } from '../user/user';
 
 /**
- * Запись в истории
- * Не имеет своих методов работы с REST они внедряются в сущности с помощью миксина
- * @see ENTITY_MIXIN.Historyable
  * @class
  * @name HistoryLine
  * @extends Entity

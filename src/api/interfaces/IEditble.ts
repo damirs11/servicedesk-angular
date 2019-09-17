@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 export interface IEditble {
-    save<C>(data: string): Observable<C>;
-    create<C>(): Observable<C>;
+    save<ENTITY>(data: string): Observable<ENTITY>;
+    create<ENTITY>(): Observable<ENTITY>;
     delete(): void;
 }

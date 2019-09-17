@@ -5,7 +5,7 @@ import { Folder } from '../folder/folder';
  * Приоритет
  * @class
  * @name EntityPriority
- * @extends RESTEntity
+ * @extends Entity
  */
 export class Template extends Entity {
   /**

@@ -19,7 +19,7 @@ export class AttachmentService extends EntityService<Attachment> {
    * @return {SD.Attachment[]}
    */
   getAttachments(id: number, params: object = {}): Observable<Attachment[]> {
-    return this.get(`rest/entity/${Attachment.$entityType}?entityId=${id}`, params);
+    return this.get(`rest/entity/${Attachment.entityType}?entityId=${id}`, params);
   }
 
   /**
@@ -27,7 +27,7 @@ export class AttachmentService extends EntityService<Attachment> {
    * @return {Number}
    */
   getAttachmentsCount(id: number, params: object = {}): Observable<number> {
-    return this.get(`rest/entity/${Attachment.$entityType}/count?entityId=${id}`, params);
+    return this.get(`rest/entity/${Attachment.entityType}/count?entityId=${id}`, params);
   }
 
   /**
@@ -36,10 +36,7 @@ export class AttachmentService extends EntityService<Attachment> {
    * @return {Promise.<SD.Attachment>}
    */
   attachFile(id: number, fileInfo: FileInfo): Observable<Attachment> {
-    return this.post(
-      `rest/entity/${Attachment.$entityType}`,
-      null,
-      { entityId: id, entityType: Attachment.$entityType, path: fileInfo.path }
-    );
+    var params: object = { entityId: id, entityType: Attachment.entityType, path: fileInfo.path };
+    return this.post(`rest/entity/${Attachment.entityType}`, null, params);
   }
 }

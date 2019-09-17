@@ -4,7 +4,7 @@ import { Entity } from "../entity/entity";
  * Приоритет
  * @class
  * @name EntityPriority
- * @extends RESTEntity
+ * @extends Entity
  */
 export class EntityPriority extends Entity {
   order: string;

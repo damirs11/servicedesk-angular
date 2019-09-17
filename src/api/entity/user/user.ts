@@ -3,7 +3,7 @@ import { Entity } from '../entity/entity';
 /**
  * Пользователь
  * @class
- * @extends RESTEntity
+ * @extends Entity
  * @name User
  */
 export class User extends Entity {
@@ -29,6 +29,6 @@ export class User extends Entity {
    * @name person
    * @type {object}
    */
-  person;
+  person: object;
 
 }

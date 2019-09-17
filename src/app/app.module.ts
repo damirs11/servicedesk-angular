@@ -8,7 +8,7 @@ import { EntityModule } from "src/api/entity.module";
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, EntityModule],
+  imports: [BrowserModule, AppRoutingModule, EntityModule],
   providers: [],
   bootstrap: [AppComponent]
 })

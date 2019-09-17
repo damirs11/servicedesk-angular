@@ -4,10 +4,10 @@ import { Entity } from "../entity/entity";
  * Объект обслуживания
  * @class
  * @name ConfigurationItem
- * @extends EditableEntity
+ * @extends Entity
  */
 export class ConfigurationItem extends Entity {
-  static $entityTypeId = 796000260;
+  static entityTypeId = 796000260;
   /**
    * Номер
    * @property

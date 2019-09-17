@@ -2,11 +2,8 @@ import { Entity } from '../entity/entity';
 
 /**
  * @class
- * @extends RESTEntity
+ * @extends Entity
  * @name FileInfo
- * Информация о файле. Не имеет своего ID, поэтому кэшируется по fileId
- * Используется в основном для загрузки файла на сервер. В других случаях используется Attachment
- * @see Attachment
  */
 export class FileInfo extends Entity {
   /**

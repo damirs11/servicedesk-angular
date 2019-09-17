@@ -5,7 +5,7 @@ import { EntityTypes } from 'src/api/util/entity-types';
  * База известных ошибок
  * @class
  * @name FAQ
- * @extends RESTEntity
+ * @extends Entity
  */
 export class FAQ extends Entity {
   entityType: EntityTypes;

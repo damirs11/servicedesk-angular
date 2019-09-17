@@ -2,32 +2,32 @@ import { Observable } from "rxjs";
 
 // TODO В будущем поменять тип @params и @_timeout
 export interface IConnector<T> {
-  get<C>(
+  get<ENTITY>(
     path: string,
     params?: object,
     _timeout?: number
-  ): Observable<C>;
-  post<C>(
-    path: string,
-    data: string,
-    params?: object,
-    _timeout?: number
-  ): Observable<C>;
-  put<C>(
+  ): Observable<ENTITY>;
+  post<ENTITY>(
     path: string,
     data: string,
     params?: object,
     _timeout?: number
-  ): Observable<C>;
-  patch<C>(
+  ): Observable<ENTITY>;
+  put<ENTITY>(
     path: string,
     data: string,
     params?: object,
     _timeout?: number
-  ): Observable<C>;
-  delete<C>(
+  ): Observable<ENTITY>;
+  patch<ENTITY>(
+    path: string,
+    data: string,
+    params?: object,
+    _timeout?: number
+  ): Observable<ENTITY>;
+  delete<ENTITY>(
     path: string,
     params?: object,
     _timeout?: number
-  ): Observable<C>;
+  ): Observable<ENTITY>;
 }
