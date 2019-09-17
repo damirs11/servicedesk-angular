@@ -2,16 +2,12 @@ import { Entity } from "../entity/entity";
 
 /**
  * Объект обслуживания
- * @class
- * @name ConfigurationItem
- * @extends Entity
  */
 export class ConfigurationItem extends Entity {
   static entityTypeId = 796000260;
   /**
    * Номер
    * @property
-   * @name ConfigurationItem#no
    * @type {number}
    */
   no: number;
@@ -19,7 +15,6 @@ export class ConfigurationItem extends Entity {
   /**
    * Код поиска
    * @property
-   * @name ConfigurationItem#searchCode
    * @type {string}
    */
   searchCode: string;
@@ -27,7 +22,6 @@ export class ConfigurationItem extends Entity {
   /**
    * Дополнительные сведения
    * @property
-   * @name ConfigurationItem#description
    * @type {string}
    */
   description: string;
@@ -35,7 +29,6 @@ export class ConfigurationItem extends Entity {
   /**
    * Счет-фактура
    * @property
-   * @name ConfigurationItem#orderNr
    * @type {string}
    */
   orderNr: string;
@@ -43,7 +36,6 @@ export class ConfigurationItem extends Entity {
   /**
    * серийный номер
    * @property
-   * @name ConfigurationItem#serial
    * @type {string}
    */
   serial: string;
@@ -51,7 +43,6 @@ export class ConfigurationItem extends Entity {
   /**
    * Адрес
    * @property
-   * @name ConfigurationItem#address
    * @type {string}
    */
   address: string;
@@ -59,7 +50,6 @@ export class ConfigurationItem extends Entity {
   /**
    * Замечания
    * @property
-   * @name ConfigurationItem#remark
    * @type {string}
    */
   remark: string;
@@ -67,7 +57,6 @@ export class ConfigurationItem extends Entity {
   /**
    * ip
    * @property
-   * @name ConfigurationItem#ip
    * @type {string}
    */
   ip: string;
@@ -75,7 +64,6 @@ export class ConfigurationItem extends Entity {
   /**
    * Цена
    * @property
-   * @name ConfigurationItem#price
    * @type {number}
    */
   price: number;
@@ -83,7 +71,6 @@ export class ConfigurationItem extends Entity {
   /**
    * Наличие вложения
    * @property
-   * @name ConfigurationItem#attachmentExists
    * @type {boolean}
    */
   attachmentExists: boolean;
@@ -91,7 +78,6 @@ export class ConfigurationItem extends Entity {
   /**
    * Идентификатор аватарки
    * @property
-   * @name ConfigurationItem#avatarId
    * @type {string}
    */
   avatarId: string;

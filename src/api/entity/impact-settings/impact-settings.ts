@@ -4,14 +4,11 @@ import { ServiceLevelPriority } from '../service-level-priority/service-level-pr
 
 /**
  * Условия предоставления. Определяет крайние сроки в заявках в зависимости от приоритета
- * @class
- * @name ImpactSettings
  */
 export class ImpactSettings extends Entity {
   /**
    * Приоритет
    * @property
-   * @name ImpactSettings#priority
    * @type {EntityPriority}
    */
   priority: EntityPriority;
@@ -19,7 +16,6 @@ export class ImpactSettings extends Entity {
   /**
    * Условия приоритета
    * @property
-   * @name ImpactSettings#serviceLevelPriority
    * @type {ServiceLevelPriority}
    */
   serviceLevelPriority: ServiceLevelPriority;

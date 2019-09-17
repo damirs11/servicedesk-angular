@@ -7,15 +7,12 @@ import { Person } from '../person/person';
 /**
  * Голосование
  * @class
- * @extends Entity
- * @name Approval
  */
 export class Approval extends Entity {
   static readonly entityTypeId: EntityTypes = EntityTypes.Approval;
   /**
    * ID сущности
    * @property
-   * @name Approval#approvalDescription
    * @type {String}
    */
   subject: string;
@@ -23,7 +20,6 @@ export class Approval extends Entity {
   /**
    * Необходимое количество поддержавших
    * @property
-   * @name Approval#numberOfApproversRequired
    * @type {Number}
    */
   numberOfApproversRequired: number;
@@ -31,7 +27,6 @@ export class Approval extends Entity {
   /**
    * Количество согласующих
    * @property
-   * @name Approval#numberOfApprovers
    * @type {Number}
    */
   numberOfApprovers: number;
@@ -39,7 +34,6 @@ export class Approval extends Entity {
   /**
    * Количество одобривших
    * @property
-   * @name Approval#numberOfApproversApproved
    * @type {Number}
    */
   numberOfApproversApproved: number;
@@ -47,7 +41,6 @@ export class Approval extends Entity {
   /**
    * Группа согласования
    * @property
-   * @name Approval#workgroup
    * @type {Workgroup}
    */
   workgroup: Workgroup;
@@ -55,7 +48,6 @@ export class Approval extends Entity {
   /**
    * Статус
    * @property
-   * @name Approval#status
    * @type {EntityStatus}
    */
   status: EntityStatus;
@@ -63,7 +55,6 @@ export class Approval extends Entity {
   /**
    * Крайний срок
    * @property
-   * @name Approval#deadline
    * @type {Date}
    */
   deadline: Date;
@@ -72,7 +63,6 @@ export class Approval extends Entity {
    * Идентификатор сущности,
    * которой принадлежит согласование
    * @property
-   * @name Approval#ownerEntityType
    * @type {Number}
    * @ATTENTION
    * Т.к. это поле должно отправляться при сохранении всегда,
@@ -86,7 +76,6 @@ export class Approval extends Entity {
   /**
    * Инициатор согласования
    * @property
-   * @name Approval#initiator
    * @type {Person}
    */
   initiator: Person;

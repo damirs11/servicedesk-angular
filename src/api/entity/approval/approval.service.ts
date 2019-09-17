@@ -7,7 +7,7 @@ import { EntityModule } from "src/api/entity.module";
 @Injectable({
   providedIn: EntityModule
 })
-export class ApprovalService extends EntityService<Approval> {
+export class ApprovalService extends EntityService {
   constructor($http: HttpClient) {
     super($http);
   }

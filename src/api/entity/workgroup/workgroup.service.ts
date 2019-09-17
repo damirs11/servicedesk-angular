@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: EntityModule
 })
-export class WorkgroupService extends EntityService<Workgroup> {
+export class WorkgroupService extends EntityService {
   constructor($http: HttpClient) {
     super($http);
   }

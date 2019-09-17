@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
-import { timeout, catchError } from "rxjs/operators";
+import { timeout, catchError, first } from "rxjs/operators";
 import { throwError, Observable } from "rxjs";
 import { IConnector } from "src/api/interfaces/IConnector";
 import { EntityTypes } from "src/api/util/entity-types";
 
-export abstract class EntityService<T> implements IConnector<T> {
+export abstract class EntityService implements IConnector {
   constructor(private $http: HttpClient) {}
 
   readonly DEFAULT_TIMEOUT = 2000;
@@ -84,38 +84,61 @@ export abstract class EntityService<T> implements IConnector<T> {
   /**
    * Подгружает изменения в текущую сущность
    */
-  public load(entityType: EntityTypes, id: number) {
-    return this.get<T>(`rest/entity/${entityType}/${id}`);
+  public load<ENTITY>(entityType: EntityTypes, id: number): ENTITY {
+    var entity: ENTITY;
+    this.get<ENTITY>(`rest/entity/${entityType}/${id}`)
+      .pipe(first())
+      .subscribe((rENTITY: ENTITY) => {
+        entity = rENTITY;
+      });
+    return entity;
   }
 
   /**
    * Осуществляет поиск сущностей по фильтру
    */
-  public list(entityType: EntityTypes, params: object) {
-    return this.get<T[]>(`rest/entity/${entityType}`, params);
+  public list<ENTITY>(entityType: EntityTypes, params: object): ENTITY[] {
+    var entitys: ENTITY[];
+    this.get<ENTITY[]>(`rest/entity/${entityType}`, params)
+      .pipe(first())
+      .subscribe((rENTITY: ENTITY[]) => {
+        entitys = rENTITY;
+      });
+    return entitys;
   }
 
   /**
    * Получает общее количество записей по указанному фильтру
    */
-  public count(entityType: EntityTypes, params: object) {
-    return this.get<number>(`rest/entity/${entityType}/count`, params);
+  public count(entityType: EntityTypes, params: object): number {
+    var count: number;
+    this.get<number>(`rest/entity/${entityType}`, params)
+      .pipe(first())
+      .subscribe((rCount: number) => {
+        count = rCount;
+      });
+    return count;
   }
 
   /**
    * Заполняет сущность по шаблону
    * @param template {SD.Template|number} - шаблон или id шаблона
-   * @return {Promise.<Entity>}
    *
    * TODO поменять тип у template
    */
-  public fillWithTemplate(entityType: EntityTypes, template: any) {
+  public fillWithTemplate<ENTITY>(entityType: EntityTypes, template: string | { id: string }): ENTITY {
     const templateId = typeof template === "object" ? template.id : template;
-    return this.get<T>(`rest/entity/${entityType}/template/${templateId}`);
+    var entity: ENTITY;
+    this.get<ENTITY>(`rest/entity/${entityType}/template/${templateId}`)
+      .pipe(first())
+      .subscribe((rENTITY: ENTITY) => {
+        entity = rENTITY;
+      });
+    return entity;
   }
 
   // Error handling
-  handleError(error: ErrorEvent) {
+  handleError(error: ErrorEvent): Observable<never> {
     let errorMessage = "";
     if (error.error instanceof ErrorEvent) {
       // Get client-side error

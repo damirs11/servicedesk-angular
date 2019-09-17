@@ -7,14 +7,11 @@ import { EntityPriority } from '../entity-priority/entity-priority';
 
 /**
  * SLA (условие предоставления услуги)
- * @class
- * @name ServiceLevelAgreement
  */
 export class ServiceLevelAgreement extends Entity {
   /**
    * Сервис/услуга
    * @property
-   * @name ServiceLevelAgreement#service
    * @type {Service}
    */
   service: Service;
@@ -22,7 +19,6 @@ export class ServiceLevelAgreement extends Entity {
   /**
    * Статус
    * @property
-   * @name ServiceLevelAgreement#status
    * @type {EntityStatus}
    */
   status: EntityStatus;
@@ -30,7 +26,6 @@ export class ServiceLevelAgreement extends Entity {
   /**
    * Папка
    * @property
-   * @name ServiceLevelAgreement#folder
    * @type {Folder}
    */
   folder: Folder;
@@ -38,7 +33,6 @@ export class ServiceLevelAgreement extends Entity {
   /**
    * Срок действия от
    * @property
-   * @name ServiceLevelAgreement#validFrom
    * @type {Date}
    */
   validFrom: Date;
@@ -46,7 +40,6 @@ export class ServiceLevelAgreement extends Entity {
   /**
    * Срок действия до
    * @property
-   * @name ServiceLevelAgreement#validTo
    * @type {Date}
    */
   validTo: Date;
@@ -54,7 +47,6 @@ export class ServiceLevelAgreement extends Entity {
   /**
    * Исполнитель по умолчанию
    * @property
-   * @name ServiceLevelAgreement#person
    * @type {object}
    */
   person: object;
@@ -62,7 +54,6 @@ export class ServiceLevelAgreement extends Entity {
   /**
    * Группа исполнителей по умолчанию
    * @property
-   * @name ServiceLevelAgreement#workgroup
    * @type {Workgroup}
    */
   workgroup: Workgroup;
@@ -70,14 +61,12 @@ export class ServiceLevelAgreement extends Entity {
   /**
    * Условия предоставления
    * @property
-   * @name ServiceLevelAgreement#serviceLevel
    * @type {Workgroup}
    */
   serviceLevel: Workgroup;
   /**
    * Приоритет по умолчанию
    * @property
-   * @name ServiceLevelAgreement#defaultPriority
    * @type {EntityPriority}
    */
   defaultPriority: EntityPriority;

@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: EntityModule
 })
-export class ApproverVoteService extends EntityService<ApproverVote> {
+export class ApproverVoteService extends EntityService {
   constructor($http: HttpClient) {
     super($http);
   }

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: EntityModule
 })
-export class HistoryLineService extends EntityService<HistoryLine> {
+export class HistoryLineService extends EntityService {
   constructor($http: HttpClient) {
     super($http);
   }
@@ -17,9 +17,8 @@ export class HistoryLineService extends EntityService<HistoryLine> {
 
   /**
    * Возвращает коллекцию записей в истории
-   * @return {SD.HistoryLine[]}
    */
-  getHistory(params): Observable<HistoryLine[]> {
+  getHistory(params: object): Observable<HistoryLine[]> {
     return this.get(`rest/service/history`, params);
   }
 
@@ -29,15 +28,14 @@ export class HistoryLineService extends EntityService<HistoryLine> {
   // todo удалить метод, вместо этого в методе getHistory извлекать данное значение
   // из Header-параметра "Content-Range". Формат "from-to/amount". Например: "26-50/456"
   // означает, чтобы были возвращены данные с 26 по 50 запись включительно, всего записей 456
-  getHistoryCount(id: number, entityType: EntityTypes, params: any = {}) {
+  getHistoryCount(id: number, entityType: EntityTypes, params: object): Observable<number> {
     return this.get(`rest/entity/${entityType}/${id}/history/count`, params);
   }
 
   /**
    * Возвращает записи чата
-   * @return {SD.HistoryLine[]}
    */
-  getChat(params: any = {}) {
+  getChat(params: {chat ?: boolean, sort ?: string}): Observable<HistoryLine[]> {
     params.chat = true;
     params.sort = "date-asc";
     return this.getHistory(params);
@@ -46,7 +44,7 @@ export class HistoryLineService extends EntityService<HistoryLine> {
   /**
    * Возвращает количество сообщений в чате
    */
-  getChatCount(id: number, entityType: EntityTypes, params: any = {}) {
+  getChatCount(id: number, entityType: EntityTypes, params: {chat ?: boolean}): Observable<number> {
     params.chat = true;
     return this.getHistoryCount(id, entityType, params);
   }
@@ -55,9 +53,8 @@ export class HistoryLineService extends EntityService<HistoryLine> {
    * Отправляет сообщение в чат сущности.
    * @param text {String} - текст сообщения
    * @param type {String} - тип сообщения (инициатору, исполнителю и т.п.)
-   * @return {Promise.<void>}
    */
-  sendChatMessage(id: number, entityType: EntityTypes, text: any, type: any) {
+  sendChatMessage(id: number, entityType: EntityTypes, text: any, type: {name ?: string}): void {
     this.post(`rest/service/history`, JSON.stringify({entityType: entityType, entityId: id, historyType: type.name}), text);
   }
 }

@@ -13,20 +13,13 @@ import { Person } from '../person/person';
 
 /**
  * Изменение
- * @class
- * @name Change
- * @mixes ENTITY_MIXIN.Historyable
- * @mixes ENTITY_MIXIN.Approvable
- * @mixes ENTITY_MIXIN.AttachmentsHolder
  * @mixes ENTITY_MIXIN.Accessible
- * @extends Entity
  */
 export class Change extends Entity {
   static readonly entityTypeId: EntityTypes = EntityTypes.Change;
   /**
    * Номер
    * @property
-   * @name Change#no
    * @type {number}
    */
   no: number;
@@ -34,7 +27,6 @@ export class Change extends Entity {
   /**
    * Тема
    * @property
-   * @name Change#subject
    * @type {string}
    */
   subject: string;
@@ -42,7 +34,6 @@ export class Change extends Entity {
   /**
    * Описание
    * @property
-   * @name Change#description
    * @type {string}
    */
   description: string;
@@ -50,7 +41,6 @@ export class Change extends Entity {
   /**
    * Решение
    * @property
-   * @name Change#solution
    * @type {string}
    */
   solution: string;
@@ -58,7 +48,6 @@ export class Change extends Entity {
   /**
    * Статус
    * @property
-   * @name Change#status
    * @type {EntityStatus}
    */
   status: EntityStatus;
@@ -66,7 +55,6 @@ export class Change extends Entity {
   /**
    * Приоритет
    * @property
-   * @name Change#priority
    * @type {EntityPriority}
    */
   priority: EntityPriority;
@@ -74,7 +62,6 @@ export class Change extends Entity {
   /**
    * Категория
    * @property
-   * @name Change#category
    * @type {EntityCategory}
    */
   category: EntityCategory;
@@ -82,7 +69,6 @@ export class Change extends Entity {
   /**
    * Классификация
    * @property
-   * @name Change#classification
    * @type {EntityClassification}
    */
   classification: EntityClassification;
@@ -90,7 +76,6 @@ export class Change extends Entity {
   /**
    * Дата создания
    * @property
-   * @name Change#createdDate
    * @type {Date}
    */
   createdDate: Date;
@@ -98,7 +83,6 @@ export class Change extends Entity {
   /**
    * Крайний срок
    * @property
-   * @name Change#deadline
    * @type {Date}
    */
   deadline: Date;
@@ -106,7 +90,6 @@ export class Change extends Entity {
   /**
    * Реально начато
    * @property
-   * @name Change#actualStart
    * @type {Date}
    */
   actualStart: Date;
@@ -114,7 +97,6 @@ export class Change extends Entity {
   /**
    * Дата фактического выполнения
    * @property
-   * @name Change#resolvedDate
    * @type {Date}
    */
   resolvedDate: Date;
@@ -122,7 +104,6 @@ export class Change extends Entity {
   /**
    * Дата закрытия
    * @property
-   * @name Change#closureDate
    * @type {Date}
    */
   closureDate: Date;
@@ -130,7 +111,6 @@ export class Change extends Entity {
   /**
    * План начала
    * @property
-   * @name Change#planStart
    * @type {Date}
    */
   planStart: Date;
@@ -138,7 +118,6 @@ export class Change extends Entity {
   /**
    * План окночания
    * @property
-   * @name Change#planFinish
    * @type {Date}
    */
   planFinish: Date;
@@ -146,7 +125,6 @@ export class Change extends Entity {
   /**
    * План продолжительно
    * @property
-   * @name Change#planDuration
    * @type {Date}
    */
   planDuration: Date;
@@ -154,7 +132,6 @@ export class Change extends Entity {
   /**
    * Инициатор
    * @property
-   * @name Change#person
    * @type {Person}
    */
   initiator: Person;
@@ -162,7 +139,6 @@ export class Change extends Entity {
   /**
    * Менеджер
    * @property
-   * @name Change#manager
    * @type {Person}
    */
   manager: Person;
@@ -170,7 +146,6 @@ export class Change extends Entity {
   /**
    * Объект обслуживания
    * @property
-   * @name Change#configurationItem
    * @type {ConfigurationItem}
    */
   configurationItem: ConfigurationItem;
@@ -178,7 +153,6 @@ export class Change extends Entity {
   /**
    * Код завершения
    * @property
-   * @name Change#closureCode
    * @type {EntityClosureCode}
    */
   closureCode: EntityClosureCode;
@@ -186,7 +160,6 @@ export class Change extends Entity {
   /**
    * Сущность "назначено"
    * @property
-   * @name Change#assignment
    * @type {EntityAssignment}
    */
   assignment: EntityAssignment;
@@ -194,7 +167,6 @@ export class Change extends Entity {
   /**
    * Кастомный код 1(Система)
    * @property
-   * @name Change#entityCode1
    * @type {EntityCode1}
    */
   system: EntityCode1;
@@ -202,7 +174,6 @@ export class Change extends Entity {
   /**
    * Папка
    * @property
-   * @name Change#folder
    * @type {Folder}
    */
   folder: Folder;

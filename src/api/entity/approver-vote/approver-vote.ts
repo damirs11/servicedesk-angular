@@ -1,17 +1,13 @@
 import { Entity } from "../entity/entity";
-import { Person } from '../person/person';
+import { Person } from "../person/person";
 
 /**
  * Голосование
- * @class
- * @extends Entity
- * @name ApproverVote
  */
 export class ApproverVote extends Entity {
   /**
    * ID сущности, к которой привязаны голосо
    * @property
-   * @name ApproverVote#entityId
    * @type {Number}
    */
 
@@ -20,7 +16,6 @@ export class ApproverVote extends Entity {
   /**
    * Согласовано
    * @property
-   * @name ApproverVote#approved
    * @type {Number}
    */
 
@@ -29,7 +24,6 @@ export class ApproverVote extends Entity {
   /**
    * Согласующий
    * @property
-   * @name ApproverVote#approver
    * @type {Person}
    */
   approver: Person;
@@ -37,7 +31,6 @@ export class ApproverVote extends Entity {
   /**
    * Причина
    * @property
-   * @name ApproverVote#reason
    * @type {String}
    */
   reason: string;
@@ -45,7 +38,6 @@ export class ApproverVote extends Entity {
   /**
    * Тип сущности
    * @property
-   * @name ApproverVote#reason
    * @type {String}
    */
 

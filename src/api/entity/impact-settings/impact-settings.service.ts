@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: EntityModule
 })
-export class ImpactSettingsService extends EntityService<ImpactSettings> {
+export class ImpactSettingsService extends EntityService {
   constructor($http: HttpClient) {
     super($http);
   }

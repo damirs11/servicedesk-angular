@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: EntityModule
 })
-export class FolderService extends EntityService<Folder> {
+export class FolderService extends EntityService {
   constructor($http: HttpClient) {
     super($http);
   }

@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: EntityModule
 })
-export class OrganizationService extends EntityService<Organization> {
+export class OrganizationService extends EntityService {
   constructor($http: HttpClient) {
     super($http);
   }

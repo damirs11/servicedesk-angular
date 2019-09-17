@@ -1,9 +1,6 @@
 import { Entity } from '../entity/entity';
 
 /**
- * @class
- * @extends Entity
- * @name FileInfo
  */
 export class FileInfo extends Entity {
   /**
@@ -17,7 +14,6 @@ export class FileInfo extends Entity {
   /**
    * Путь на сервере
    * @property
-   * @name FileInfo#path
    * @type {String}
    */
   path: string;

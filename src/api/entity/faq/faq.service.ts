@@ -7,7 +7,7 @@ import { FAQ } from './faq';
 @Injectable({
   providedIn: EntityModule
 })
-export class FaqService extends EntityService<FAQ> {
+export class FaqService extends EntityService {
   constructor($http: HttpClient) {
     super($http);
   }

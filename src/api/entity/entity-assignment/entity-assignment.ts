@@ -8,7 +8,6 @@ export class EntityAssignment extends Entity {
   /**
    * Исполнитель
    * @property
-   * @name EntityAssignment#executor
    * @type {Person}
    */
   executor: Person;
@@ -16,7 +15,6 @@ export class EntityAssignment extends Entity {
   /**
    * Приоритет
    * @property
-   * @name EntityAssignment#priority
    * @type {EntityPriority}
    */
   priority: EntityPriority;
@@ -24,7 +22,6 @@ export class EntityAssignment extends Entity {
   /**
    * Статус
    * @property
-   * @name EntityAssignment#status
    * @type {EntityStatus}
    */
   status: EntityStatus;
@@ -32,7 +29,6 @@ export class EntityAssignment extends Entity {
   /**
    * Рабочая группа
    * @property
-   * @name EntityAssignment#workgroup
    * @type {Workgroup}
    */
   workgroup: Workgroup;
