@@ -3,6 +3,7 @@ import { timeout, catchError, first } from "rxjs/operators";
 import { throwError, Observable } from "rxjs";
 import { IConnector } from "src/api/interfaces/IConnector";
 import { EntityTypes } from "src/api/util/entity-types";
+import { Injectable } from '@angular/core';
 
 export abstract class EntityService implements IConnector {
   constructor(private $http: HttpClient) {}
@@ -16,7 +17,7 @@ export abstract class EntityService implements IConnector {
    * @param params - параметры для get запроса
    * @param timeout - время ожидания ответа
    */
-  public get<ENTITY>(path: string, params: object = [], _timeout: number = this.DEFAULT_TIMEOUT): Observable<ENTITY> {
+  public get<ENTITY>(path: string, params: object = {}, _timeout: number = this.DEFAULT_TIMEOUT): Observable<ENTITY> {
     return this.$http.get<ENTITY>(path, params).pipe(
       timeout(_timeout),
       catchError(this.handleError)
@@ -31,7 +32,7 @@ export abstract class EntityService implements IConnector {
    * @param data - json данные, для отправки
    * @param timeout - время ожидания ответа
    */
-  public post<ENTITY>(path: string, data: string, params: object = [], _timeout: number = this.DEFAULT_TIMEOUT): Observable<ENTITY> {
+  public post<ENTITY>(path: string, data: string, params: object = {}, _timeout: number = this.DEFAULT_TIMEOUT): Observable<ENTITY> {
     return this.$http.post<ENTITY>(path, data, params).pipe(
       timeout(_timeout),
       catchError(this.handleError)
@@ -46,7 +47,7 @@ export abstract class EntityService implements IConnector {
    * @param data - json данные, для отправки
    * @param timeout - время ожидания ответа
    */
-  public put<ENTITY>(path: string, data: string, params: object = [], _timeout: number = this.DEFAULT_TIMEOUT): Observable<ENTITY> {
+  public put<ENTITY>(path: string, data: string, params: object = {}, _timeout: number = this.DEFAULT_TIMEOUT): Observable<ENTITY> {
     return this.$http.put<ENTITY>(path, data, params).pipe(
       timeout(_timeout),
       catchError(this.handleError)
@@ -61,7 +62,7 @@ export abstract class EntityService implements IConnector {
    * @param data - json данные, для отправки
    * @param timeout - время ожидания ответа
    */
-  public patch<ENTITY>(path: string, data: string, params: object = [], _timeout: number = this.DEFAULT_TIMEOUT): Observable<ENTITY> {
+  public patch<ENTITY>(path: string, data: string, params: object = {}, _timeout: number = this.DEFAULT_TIMEOUT): Observable<ENTITY> {
     return this.$http.patch<ENTITY>(path, data, params).pipe(
       timeout(_timeout),
       catchError(this.handleError)
@@ -74,7 +75,7 @@ export abstract class EntityService implements IConnector {
    * @param params - параметры для get запроса
    * @param timeout - время ожидания ответа
    */
-  public delete<ENTITY>(path: string, params: object = [], _timeout: number = this.DEFAULT_TIMEOUT): Observable<ENTITY> {
+  public delete<ENTITY>(path: string, params: object = {}, _timeout: number = this.DEFAULT_TIMEOUT): Observable<ENTITY> {
     return this.$http.delete<ENTITY>(path, params).pipe(
       timeout(_timeout),
       catchError(this.handleError)
