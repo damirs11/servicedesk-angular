@@ -11,55 +11,45 @@ import { EntityPriority } from '../entity-priority/entity-priority';
 export class ServiceLevelAgreement extends Entity {
   /**
    * Сервис/услуга
-   * @property
-   * @type {Service}
    */
   service: Service;
 
   /**
    * Статус
-   * @type {EntityStatus}
    */
   status: EntityStatus;
 
   /**
    * Папка
-   * @type {Folder}
    */
   folder: Folder;
 
   /**
    * Срок действия от
-   * @type {Date}
    */
   validFrom: Date;
 
   /**
    * Срок действия до
-   * @type {Date}
    */
   validTo: Date;
 
   /**
    * Исполнитель по умолчанию
-   * @type {object}
    */
   person: object;
 
   /**
    * Группа исполнителей по умолчанию
-   * @type {Workgroup}
    */
   workgroup: Workgroup;
 
   /**
    * Условия предоставления
-   * @type {Workgroup}
    */
   serviceLevel: Workgroup;
   /**
    * Приоритет по умолчанию
-   * @type {EntityPriority}
    */
   defaultPriority: EntityPriority;
 }

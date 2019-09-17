@@ -4,7 +4,6 @@ import { Person } from "../person/person";
 
 /**
  * Для загрузки файлов на сервер используется FileInfo
- * @see FileInfo
  */
 export class Attachment extends Entity {
   static get entityType() {
@@ -13,18 +12,14 @@ export class Attachment extends Entity {
   }
   /**
    * Размер вложения в байтах
-   * @property
-   * @type {Number}
    */
   size: number;
   /**
    * Персона, создавшая вложение
-   * @type {Person}
    */
   author: Person;
   /**
    * Дата прикрепления
-   * @type {Person}
    */
   creationDate: Person;
 

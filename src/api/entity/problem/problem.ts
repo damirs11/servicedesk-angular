@@ -12,128 +12,140 @@ import { Folder } from '../folder/folder';
 
 /**
  * Сущность - "Проблема"
+ */
+export class Problem extends Entity {
   static readonly entityTypeId: EntityTypes = EntityTypes.Problem;
   /**
    * Номер
-   * @property
-   * @type {number}
    */
   no: number;
 
   /**
    * Статус
-   * @type {EntityStatus}
    */
   status: EntityStatus;
 
   /**
    * Инициатор
-   * @type {Person}
-  initiator: Person;
-  /**
-   * Объект обслуживания
-   * @type {ConfigurationItem}
    */
+  initiator: Person;
 
   /**
-   * @type {string}
+   * Объект обслуживания
+   */
+  configurationItem: ConfigurationItem;
+
+  /**
+   * Тема
    */
   subject: string;
+
   /**
    * Описание
    */
   description: string;
 
+  /**
    * Ссылки на логи
-   * @type {string}
    */
+  logLinks: string;
 
   /**
-   * @type {string}
+   * Ссылка на пробелму в jira
    */
   jiraLink: string;
   /**
-   * @type {string}
+   */
   toVendor: string;
   /**
    * Обходное решение
-   * @type {string}
+   */
   workaround: string;
+
   /**
    * Решение
-   * @type {string}
+   */
   solution: string;
+
   /**
    * Приоритет
-   * @type {EntityPriority}
    */
+  priority: EntityPriority;
 
+  /**
    * Крайний срок
-   * @type {Date}
    */
   deadline: Date;
+
   /**
    * Дата фактического выполнения
-   * @type {Date}
    */
   resolvedDate: Date;
 
+  /**
    * Дата закрытия
-   * @type {Date}
+   */
   closureDate: Date;
 
   /**
-   * @type {Date}
+   * Проблема просрочена
    */
   isOverdue: Date;
+
   /**
    * Персона, что просрочила проблему
-   * @type {Person}
    */
   whoOverdue: Person;
 
   /**
+   * План окночания
    */
   planFinish: Date;
 
   /**
    * Причина отсрочки
+   */
   deferralReason: string;
 
   /**
    * Сущность "назначено"
-   * @type {EntityAssignment}
    */
+  assignment: EntityAssignment;
+
   /**
    * Категория
-   * @type {EntityCategory}
    */
   category: EntityCategory;
+
   /**
-   * @type {EntityClassification}
+   * Классификация
    */
   classification: EntityClassification;
 
+  /**
    * Код завершения
    */
   closureCode: EntityClosureCode;
 
   /**
-   * @type {Folder}
+   * Папка
    */
+  folder: Folder;
 
   /**
    * Не включать в отчет заказчику
-   * @type {Date}
    */
   notAttachInReport: Date;
 
+  /**
    *
    */
   versionDate: Date;
 
   /**
    * Override
+   */
   toString(): string {
+    return String(this.no);
   }
 }

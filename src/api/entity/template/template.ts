@@ -7,8 +7,6 @@ import { Folder } from '../folder/folder';
 export class Template extends Entity {
   /**
    * Папка
-   * @property
-   * @type {Folder}
    */
   folder: Folder;
 }

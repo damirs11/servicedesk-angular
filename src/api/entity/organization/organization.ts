@@ -7,14 +7,11 @@ import { Person } from '../person/person';
 export class Organization extends Entity {
   /**
    * Почта
-   * @property
-   * @type {string|null}
    */
   email: string | null;
 
   /**
    * Папка
-   * @type {Person}
    */
   folder: Person;
 

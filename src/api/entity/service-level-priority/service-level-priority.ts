@@ -6,8 +6,6 @@ import { Entity } from '../entity/entity';
 export class ServiceLevelPriority extends Entity {
   /**
    * Порядок следования приоритета
-   * @property
-   * @type {number}
    */
   order: number;
 }

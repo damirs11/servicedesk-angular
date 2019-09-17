@@ -7,14 +7,11 @@ import { ServiceLevelPriority } from '../service-level-priority/service-level-pr
 export class ServiceLevelPriorityDuration extends Entity {
   /**
    * Условия приоритета
-   * @property
-   * @type {ServiceLevelPriority}
    */
   serviceLevelPriority: ServiceLevelPriority;
 
   /**
    * Максимальный срок исполнения заявки
-   * @type {number}
    */
   maximumDuration: number;
 }

@@ -13,8 +13,6 @@ export class FileInfo extends Entity {
   };
   /**
    * Путь на сервере
-   * @property
-   * @type {String}
    */
   path: string;
 }

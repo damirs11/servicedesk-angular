@@ -8,14 +8,11 @@ import { ServiceLevelPriority } from '../service-level-priority/service-level-pr
 export class ImpactSettings extends Entity {
   /**
    * Приоритет
-   * @property
-   * @type {EntityPriority}
    */
   priority: EntityPriority;
 
   /**
    * Условия приоритета
-   * @type {ServiceLevelPriority}
    */
   serviceLevelPriority: ServiceLevelPriority;
 }
