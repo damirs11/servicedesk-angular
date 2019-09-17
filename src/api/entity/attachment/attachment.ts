@@ -19,13 +19,11 @@ export class Attachment extends Entity {
   size: number;
   /**
    * Персона, создавшая вложение
-   * @property
    * @type {Person}
    */
   author: Person;
   /**
    * Дата прикрепления
-   * @property
    * @type {Person}
    */
   creationDate: Person;

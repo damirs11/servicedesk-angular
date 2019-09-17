@@ -15,7 +15,6 @@ export class ApproverVote extends Entity {
 
   /**
    * Согласовано
-   * @property
    * @type {Number}
    */
 
@@ -23,21 +22,18 @@ export class ApproverVote extends Entity {
 
   /**
    * Согласующий
-   * @property
    * @type {Person}
    */
   approver: Person;
 
   /**
    * Причина
-   * @property
    * @type {String}
    */
   reason: string;
 
   /**
    * Тип сущности
-   * @property
    * @type {String}
    */
 

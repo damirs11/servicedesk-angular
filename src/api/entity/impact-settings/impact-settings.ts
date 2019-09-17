@@ -15,7 +15,6 @@ export class ImpactSettings extends Entity {
 
   /**
    * Условия приоритета
-   * @property
    * @type {ServiceLevelPriority}
    */
   serviceLevelPriority: ServiceLevelPriority;

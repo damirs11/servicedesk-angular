@@ -15,7 +15,6 @@ export class Service extends Entity {
 
   /**
    * Папка
-   * @property
    * @type {Folder}
    */
   folder: Folder;

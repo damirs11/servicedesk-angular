@@ -12,26 +12,22 @@ export class HistoryLine extends Entity {
   subject: string;
   /**
    * Дата
-   * @property
    * @type {Date}
    */
   date: Date;
   /**
    * Пользователь, создавший запись
-   * @property
    * @type {User}
    */
   account: User;
   /**
    * Значение записи. Если это запись чата, value - само сообщение.
    * Если запись в истории, value - новое значение поля сущности
-   * @property
    * @type {String}
    */
   value: string;
   /**
    * Тип записи
-   * @property
    * @type {Number}
    */
   type: number;

@@ -19,42 +19,36 @@ export class Approval extends Entity {
 
   /**
    * Необходимое количество поддержавших
-   * @property
    * @type {Number}
    */
   numberOfApproversRequired: number;
 
   /**
    * Количество согласующих
-   * @property
    * @type {Number}
    */
   numberOfApprovers: number;
 
   /**
    * Количество одобривших
-   * @property
    * @type {Number}
    */
   numberOfApproversApproved: number;
 
   /**
    * Группа согласования
-   * @property
    * @type {Workgroup}
    */
   workgroup: Workgroup;
 
   /**
    * Статус
-   * @property
    * @type {EntityStatus}
    */
   status: EntityStatus;
 
   /**
    * Крайний срок
-   * @property
    * @type {Date}
    */
   deadline: Date;
@@ -62,7 +56,6 @@ export class Approval extends Entity {
   /**
    * Идентификатор сущности,
    * которой принадлежит согласование
-   * @property
    * @type {Number}
    * @ATTENTION
    * Т.к. это поле должно отправляться при сохранении всегда,
@@ -75,7 +68,6 @@ export class Approval extends Entity {
 
   /**
    * Инициатор согласования
-   * @property
    * @type {Person}
    */
   initiator: Person;

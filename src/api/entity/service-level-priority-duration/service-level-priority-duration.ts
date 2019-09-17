@@ -14,7 +14,6 @@ export class ServiceLevelPriorityDuration extends Entity {
 
   /**
    * Максимальный срок исполнения заявки
-   * @property
    * @type {number}
    */
   maximumDuration: number;

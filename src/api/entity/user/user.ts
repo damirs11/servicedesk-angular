@@ -13,14 +13,12 @@ export class User extends Entity {
 
   /**
    * Роли
-   * @property
    * @type {[Object]}
    */
   roles: [Object];
 
   /**
    * Персона
-   * @property
    * @type {object}
    */
   person: object;

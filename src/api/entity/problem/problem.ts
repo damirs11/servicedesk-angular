@@ -22,40 +22,33 @@ import { Folder } from '../folder/folder';
 
   /**
    * Статус
-   * @property
    * @type {EntityStatus}
    */
   status: EntityStatus;
 
   /**
    * Инициатор
-   * @property
    * @type {Person}
   initiator: Person;
   /**
    * Объект обслуживания
-   * @property
    * @type {ConfigurationItem}
    */
 
   /**
-   * @property
    * @type {string}
    */
   subject: string;
   /**
    * Описание
-   * @property
    */
   description: string;
 
    * Ссылки на логи
-   * @property
    * @type {string}
    */
 
   /**
-   * @property
    * @type {string}
    */
   jiraLink: string;
@@ -64,22 +57,18 @@ import { Folder } from '../folder/folder';
   toVendor: string;
   /**
    * Обходное решение
-   * @property
    * @type {string}
   workaround: string;
   /**
    * Решение
-   * @property
    * @type {string}
   solution: string;
   /**
    * Приоритет
-   * @property
    * @type {EntityPriority}
    */
 
    * Крайний срок
-   * @property
    * @type {Date}
    */
   deadline: Date;
@@ -90,12 +79,10 @@ import { Folder } from '../folder/folder';
   resolvedDate: Date;
 
    * Дата закрытия
-   * @property
    * @type {Date}
   closureDate: Date;
 
   /**
-   * @property
    * @type {Date}
    */
   isOverdue: Date;
@@ -106,39 +93,32 @@ import { Folder } from '../folder/folder';
   whoOverdue: Person;
 
   /**
-   * @property
    */
   planFinish: Date;
 
   /**
    * Причина отсрочки
-   * @property
   deferralReason: string;
 
   /**
    * Сущность "назначено"
-   * @property
    * @type {EntityAssignment}
    */
   /**
    * Категория
-   * @property
    * @type {EntityCategory}
    */
   category: EntityCategory;
   /**
-   * @property
    * @type {EntityClassification}
    */
   classification: EntityClassification;
 
    * Код завершения
-   * @property
    */
   closureCode: EntityClosureCode;
 
   /**
-   * @property
    * @type {Folder}
    */
 
@@ -149,7 +129,6 @@ import { Folder } from '../folder/folder';
   notAttachInReport: Date;
 
    *
-   * @property
    */
   versionDate: Date;
 

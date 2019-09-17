@@ -18,55 +18,47 @@ export class ServiceLevelAgreement extends Entity {
 
   /**
    * Статус
-   * @property
    * @type {EntityStatus}
    */
   status: EntityStatus;
 
   /**
    * Папка
-   * @property
    * @type {Folder}
    */
   folder: Folder;
 
   /**
    * Срок действия от
-   * @property
    * @type {Date}
    */
   validFrom: Date;
 
   /**
    * Срок действия до
-   * @property
    * @type {Date}
    */
   validTo: Date;
 
   /**
    * Исполнитель по умолчанию
-   * @property
    * @type {object}
    */
   person: object;
 
   /**
    * Группа исполнителей по умолчанию
-   * @property
    * @type {Workgroup}
    */
   workgroup: Workgroup;
 
   /**
    * Условия предоставления
-   * @property
    * @type {Workgroup}
    */
   serviceLevel: Workgroup;
   /**
    * Приоритет по умолчанию
-   * @property
    * @type {EntityPriority}
    */
   defaultPriority: EntityPriority;

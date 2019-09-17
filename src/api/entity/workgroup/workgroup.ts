@@ -13,14 +13,12 @@ export class Workgroup extends Entity {
 
   /**
    * Статус
-   * @property
    * @type {string}
    */
   status: string;
 
   /**
    * Отвественный группы
-   * @property
    * @type {Person}
    */
   groupManager;

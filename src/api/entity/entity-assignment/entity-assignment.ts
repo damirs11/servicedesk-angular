@@ -14,21 +14,18 @@ export class EntityAssignment extends Entity {
 
   /**
    * Приоритет
-   * @property
    * @type {EntityPriority}
    */
   priority: EntityPriority;
 
   /**
    * Статус
-   * @property
    * @type {EntityStatus}
    */
   status: EntityStatus;
 
   /**
    * Рабочая группа
-   * @property
    * @type {Workgroup}
    */
   workgroup: Workgroup;

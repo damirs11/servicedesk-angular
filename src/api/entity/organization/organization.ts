@@ -14,7 +14,6 @@ export class Organization extends Entity {
 
   /**
    * Папка
-   * @property
    * @type {Person}
    */
   folder: Person;

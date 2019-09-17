@@ -23,119 +23,102 @@ export class Workorder extends Entity {
 
   /**
    * Тема
-   * @property
    * @type {String}
    */
   subject: string;
 
   /**
    * Подробная информация
-   * @property
    * @type {String}
    */
   description: string;
 
   /**
    * Трудозатраты
-   * @property
    * @type {Number}
    */
   labor: number;
 
   /**
    * Решение
-   * @property
    * @type {String}
    */
   solution: string;
 
   /**
    * Статус
-   * @property
    * @type {EntityStatus}
    */
   status: EntityStatus;
 
   /**
    * Категория
-   * @property
    * @type {EntityCategory}
    */
   category: EntityCategory;
 
   /**
    * Код завершения
-   * @property
    * @type {EntityClosureCode}
    */
   closureCode: EntityClosureCode;
 
   /**
    * Дата создания
-   * @property
    * @type {Date}
    */
   createdDate: Date;
 
   /**
    * Крайний срок
-   * @property
    * @type {Date}
    */
   deadline: Date;
 
   /**
    * Фактически выполнено
-   * @property
    * @type {Date}
    */
   resolvedDate: Date;
 
   /**
    * Дата изменения
-   * @property
    * @type {Date}
    */
   modifyDate: Date;
 
   /**
    * Наряд просрочен
-   * @property
    * @type {Boolean}
    */
   expired: boolean;
 
   /**
    * Папка
-   * @property
    * @type {Folder}
    */
   folder: Folder;
 
   /**
    * Инициатор
-   * @property
    * @type {Person}
    */
   initiator: Person;
 
   /**
    * Объект "Назначено"
-   * @property
    * @type {EntityAssignment}
    */
   assignment: EntityAssignment;
 
   /**
    * Изменение
-   * @property
    * @type {Change}
    */
   change: Change;
 
   /**
    * Проблема
-   * @property
    * @type {Problem}
    */
   problem: Problem;
