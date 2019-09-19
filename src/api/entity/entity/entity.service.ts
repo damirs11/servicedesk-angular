@@ -5,6 +5,7 @@ import { IConnector } from "src/api/interfaces/IConnector";
 import { EntityTypes } from "src/api/util/entity-types";
 import { Injectable } from '@angular/core';
 
+@Injectable()
 export abstract class EntityService implements IConnector {
   constructor(private $http: HttpClient) {}
 
@@ -85,57 +86,31 @@ export abstract class EntityService implements IConnector {
   /**
    * Подгружает изменения в текущую сущность
    */
-  public load<ENTITY>(entityType: EntityTypes, id: number): ENTITY {
-    var entity: ENTITY;
-    this.get<ENTITY>(`rest/entity/${entityType}/${id}`)
-      .pipe(first())
-      .subscribe((rENTITY: ENTITY) => {
-        entity = rENTITY;
-      });
-    return entity;
+  public load<ENTITY>(entityType: EntityTypes, id: number) {
+    return this.get<ENTITY>(`rest/entity/${entityType}/${id}`);
   }
 
   /**
    * Осуществляет поиск сущностей по фильтру
    */
-  public list<ENTITY>(entityType: EntityTypes, params: object): ENTITY[] {
-    var entitys: ENTITY[];
-    this.get<ENTITY[]>(`rest/entity/${entityType}`, params)
-      .pipe(first())
-      .subscribe((rENTITY: ENTITY[]) => {
-        entitys = rENTITY;
-      });
-    return entitys;
+  public list<ENTITY>(entityType: EntityTypes, params: object) {
+    return this.get<ENTITY[]>(`rest/entity/${entityType}`, params);
   }
 
   /**
    * Получает общее количество записей по указанному фильтру
    */
-  public count(entityType: EntityTypes, params: object): number {
-    var count: number;
-    this.get<number>(`rest/entity/${entityType}`, params)
-      .pipe(first())
-      .subscribe((rCount: number) => {
-        count = rCount;
-      });
-    return count;
+  public count(entityType: EntityTypes, params: object) {
+    return this.get<number>(`rest/entity/${entityType}/count`, params);
   }
 
   /**
    * Заполняет сущность по шаблону
    * @param template {SD.Template|number} - шаблон или id шаблона
-   *
-   * TODO поменять тип у template
    */
-  public fillWithTemplate<ENTITY>(entityType: EntityTypes, template: string | { id: string }): ENTITY {
+  public fillWithTemplate<ENTITY>(entityType: EntityTypes, template: string | { id: string }) {
     const templateId = typeof template === "object" ? template.id : template;
-    var entity: ENTITY;
-    this.get<ENTITY>(`rest/entity/${entityType}/template/${templateId}`)
-      .pipe(first())
-      .subscribe((rENTITY: ENTITY) => {
-        entity = rENTITY;
-      });
-    return entity;
+    return this.get<ENTITY>(`rest/entity/${entityType}/template/${templateId}`);
   }
 
   // Error handling
