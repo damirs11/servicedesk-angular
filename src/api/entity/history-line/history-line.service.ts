@@ -44,7 +44,7 @@ export class HistoryLineService extends EntityService {
   /**
    * Возвращает количество сообщений в чате
    */
-  getChatCount(id: number, entityType: EntityTypes, params: {chat ?: boolean}): Observable<number> {
+  getChatCount(id: number, entityType: EntityTypes, params: {chat? : boolean}): Observable<number> {
     params.chat = true;
     return this.getHistoryCount(id, entityType, params);
   }
