@@ -10,7 +10,7 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "less"
+          "style": "scss"
         }
       },
       "architect": {
@@ -25,6 +25,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.less",
+              "src/styles.scss",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [

@@ -1,0 +1,24 @@
+<ngx-smart-modal #test identifier="test">
+  <h1>Title</h1>
+  <p>Some stuff...</p>
+
+  <button (click)="test.close()">Close</button>
+</ngx-smart-modal>
+
+<ngx-smart-modal #alert identifier="alert" [closable]=false>
+  <div class="modal-header">
+      <button type="button" class="close" (click)="alert.close()" title="{{ alert.getData() }}">&times;</button>
+      <span class="modal-title" data-ng-bind-html="ctrl.header"></span>
+  </div>
+  <div class="modal-body" data-ng-bind-html="ctrl.msg"></div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="alert.close()">111111111111</button>
+  </div>
+</ngx-smart-modal>
+
+<ngx-smart-modal #myModal identifier="myModal">
+  <div>
+    {{ myModal.getData().prop1 }}
+  </div>
+  <button (click)="myModal.close()">Close</button>
+</ngx-smart-modal>
