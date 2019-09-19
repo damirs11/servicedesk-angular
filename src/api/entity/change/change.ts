@@ -131,9 +131,7 @@ export class Change extends Entity {
    */
   folder: Folder;
 
-  /**
-   * Override
-   */
+  /** @Override */
   toString(): string {
     return String(this.no);
   }

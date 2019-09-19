@@ -62,9 +62,8 @@ export class ConfigurationItem extends Entity {
   status: any;
 
   category: any;
-  /**
-   * Override
-   */
+  
+  /** @Override */
   toString(): string {
     return this.searchCode;
   }

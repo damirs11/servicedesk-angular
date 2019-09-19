@@ -6,15 +6,13 @@ import { Person } from "../person/person";
  */
 export class ApproverVote extends Entity {
   /**
-   * ID сущности, к которой привязаны голосо
+   * ID сущности, к которой привязаны голосования
    */
-
   entityId: number;
 
   /**
    * Согласовано
    */
-
   approved: number;
 
   /**
@@ -30,6 +28,5 @@ export class ApproverVote extends Entity {
   /**
    * Тип сущности
    */
-
   entityType: string;
 }

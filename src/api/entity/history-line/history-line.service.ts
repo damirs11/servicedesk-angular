@@ -35,7 +35,7 @@ export class HistoryLineService extends EntityService {
   /**
    * Возвращает записи чата
    */
-  getChat(params: {chat ?: boolean, sort ?: string}): Observable<HistoryLine[]> {
+  getChat(params: {chat? : boolean, sort? : string}): Observable<HistoryLine[]> {
     params.chat = true;
     params.sort = "date-asc";
     return this.getHistory(params);
@@ -54,7 +54,7 @@ export class HistoryLineService extends EntityService {
    * @param text {String} - текст сообщения
    * @param type {String} - тип сообщения (инициатору, исполнителю и т.п.)
    */
-  sendChatMessage(id: number, entityType: EntityTypes, text: any, type: {name ?: string}): void {
+  sendChatMessage(id: number, entityType: EntityTypes, text: any, type: {name? : string}): void {
     this.post(`rest/service/history`, JSON.stringify({entityType: entityType, entityId: id, historyType: type.name}), text);
   }
 }

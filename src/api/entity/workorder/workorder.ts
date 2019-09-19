@@ -104,9 +104,7 @@ export class Workorder extends Entity {
    */
   problem: Problem;
 
-  /**
-   * Override
-   */
+  /** @Override */
   toString(): string {
     return String(this.no);
   }

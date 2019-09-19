@@ -33,7 +33,11 @@ export class AttachmentService extends EntityService {
    * @param fileInfo {SD.FileInfo} - прикрепляемый файл
    */
   attachFile(id: number, fileInfo: FileInfo): Observable<Attachment> {
-    const params = { entityId: id, entityType: Attachment.entityType, path: fileInfo.path };
+    const params = { 
+      entityId: id, 
+      entityType: Attachment.entityType,
+      path: fileInfo.path 
+    };
     return this.post(`rest/entity/${Attachment.entityType}`, null, params);
   }
 }

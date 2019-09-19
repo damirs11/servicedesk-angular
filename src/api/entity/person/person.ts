@@ -55,9 +55,7 @@ export class Person extends Entity {
       .join(" ");
   }
 
-  /**
-   * Override
-   */
+  /** @Override */
   toString(): string {
     return this.fullName;
   }

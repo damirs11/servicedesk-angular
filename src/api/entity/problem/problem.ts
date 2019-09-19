@@ -142,9 +142,7 @@ export class Problem extends Entity {
    */
   versionDate: Date;
 
-  /**
-   * Override
-   */
+  /** @Override */
   toString(): string {
     return String(this.no);
   }

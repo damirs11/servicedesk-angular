@@ -181,9 +181,7 @@ export class ServiceCall extends Entity {
    */
   entityCode6: EntityCode6;
 
-  /**
-   * Override
-   */
+  /** @Override */
   toString(): string {
     return String(this.no);
   }
