@@ -1,6 +1,6 @@
 export abstract class Entity {
 
-  name: string;
+  public name: string;
 
   constructor() {}
 

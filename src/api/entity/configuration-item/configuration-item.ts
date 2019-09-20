@@ -1,67 +1,44 @@
 import { Entity } from "../entity/entity";
 
-/**
- * Объект обслуживания
- */
+/** Объект обслуживания */
 export class ConfigurationItem extends Entity {
-  static entityTypeId = 796000260;
-  /**
-   * Номер
-   */
-  no: number;
+  static readonly entityTypeId = 796000260;
+  /** Номер */
+  public no: number;
 
-  /**
-   * Код поиска
-   */
-  searchCode: string;
+  /** Код поиска */
+  public searchCode: string;
 
-  /**
-   * Дополнительные сведения
-   */
-  description: string;
+  /** Дополнительные сведения */
+  public description: string;
 
-  /**
-   * Счет-фактура
-   */
-  orderNr: string;
+  /** Счет-фактура */
+  public orderNr: string;
 
-  /**
-   * серийный номер
-   */
-  serial: string;
+  /** серийный номер */
+  public serial: string;
 
-  /**
-   * Адрес
-   */
-  address: string;
+  /** Адрес */
+  public address: string;
 
-  /**
-   * Замечания
-   */
-  remark: string;
+  /** Замечания */
+  public remark: string;
 
-  /**
-   * ip
-  ip: string;
+  /** ip */
+  public ip: string;
 
-  /**
-   * Цена
-   */
-  price: number;
+  /** Цена */
+  public price: number;
 
-  /**
-   * Наличие вложения
-   */
-  attachmentExists: boolean;
+  /** Наличие вложения */
+  public attachmentExists: boolean;
 
-  /**
-   * Идентификатор аватарки
-   */
-  avatarId: string;
+  /** Идентификатор аватарки */
+  public avatarId: string;
 
-  status: any;
+  public status: any;
 
-  category: any;
+  public category: any;
   
   /** @Override */
   toString(): string {

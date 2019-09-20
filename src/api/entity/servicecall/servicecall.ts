@@ -18,167 +18,103 @@ import { FAQ } from '../faq/faq';
 import { EntityCode6 } from '../entity-code6/entity-code6';
 
 
-/**
- * Заявка
- */
+/** Заявка */
 export class ServiceCall extends Entity {
   static readonly entityTypeId = EntityTypes.ServiceCall;
-  /**
-   * Номер
-   */
-  no: number;
+  /** Номер */
+  public no: number;
 
-  /**
-   * Тема
-   */
-  subject: string;
+  /** Тема */
+  public subject: string;
 
-  /**
-   * Ext ID
-   */
-  extId: string;
+  /** Ext ID */
+  public extId: string;
 
-  /**
-   * Описание
-   */
-  description: string;
+  /** Описание */
+  public description: string;
 
-  /**
-   * Решение
-   */
-  solution: string;
+  /** Решение */
+  public solution: string;
 
-  /**
-   * Статус
-   */
-  status: EntityStatus;
-  /**
-   * Источник
-   */
-  source: Source;
-  /**
-   * Время e-mail
-   */
-  emailDate: Date;
-  /**
-   * Приоритет
-   */
-  priority: EntityPriority;
+  /** Статус */
+  public status: EntityStatus;
+  /** Источник */
+  public source: Source;
+  /** Время e-mail */
+  public emailDate: Date;
+  /** Приоритет */
+  public priority: EntityPriority;
 
-  /**
-   * Категория
-   */
-  category: EntityCategory;
+  /** Категория */
+  public category: EntityCategory;
 
-  /**
-   * Классификация
-   */
-  classification: EntityClassification;
+  /** Классификация */
+  public classification: EntityClassification;
 
-  /**
-   * Крайний срок
-   */
-  deadline: Date;
+  /** Крайний срок */
+  public deadline: Date;
 
-  /**
-   * Дата фактического выполнения
-   */
-  resolvedDate: Date;
+  /** Дата фактического выполнения */
+  public resolvedDate: Date;
 
-  /**
-   * Дата закрытия
-   */
-  closureDate: Date;
+  /** Дата закрытия */
+  public closureDate: Date;
 
-  /**
-   * Инициатор
-   */
-  initiator: Person;
+  /** Инициатор */
+  public initiator: Person;
 
-  /**
-   * Заявитель
-   */
-  caller: Person;
+  /** Заявитель */
+  public caller: Person;
 
-  /**
-   * Организация
-   */
-  organization: Organization;
+  /** Организация */
+  public organization: Organization;
 
-  /**
-   * SLA
-   */
-  serviceLevelAgreement: ServiceLevelAgreement;
+  /** SLA */
+  public serviceLevelAgreement: ServiceLevelAgreement;
 
-  /**
-   * Сервис/услуга
-   */
-  service: Service;
+  /** Сервис/услуга */
+  public service: Service;
 
-  /**
-   * Объект обслуживания
-   */
-  configurationItem: ConfigurationItem;
+  /** Объект обслуживания */
+  public configurationItem: ConfigurationItem;
 
-  /**
-   * Код завершения
-   */
-  closureCode: EntityClosureCode;
+  /** Код завершения */
+  public closureCode: EntityClosureCode;
 
-  /**
-   * Папка
-   */
-  folder: Folder;
+  /** Папка */
+  public folder: Folder;
 
-  /**
-   * Сущность "назначено"
-   */
-  assignment: EntityAssignment;
+  /** Сущность "назначено" */
+  public assignment: EntityAssignment;
 
-  /**
-   * Дата возобновления
-   */
-  renewalDate: Date;
+  /** Дата возобновления */
+  public renewalDate: Date;
 
-  /**
-   * Комментарий по приостановке
-   */
-  renewalComment: string;
+  /** Комментарий по приостановке */
+  public renewalComment: string;
 
-  /**
-   * Причина приостановки
-   */
+  /** Причина приостановки */
   renewalReason: EntityCode7;
 
-  /**
-   * Новый крайний срок
-   */
-  newDeadline: Date;
+  /** Новый крайний срок */
+  public newDeadline: Date;
 
-  /**
-   * Причина переноса крайнего срока
-   */
-  newDeadlineReason: string;
-  /**
-   * Нарушение регистрации
-   */
-  registrationError: string;
-  /**
-   * Часто задаваемые вопросы
-   */
-  frequentlyAskedQuestion: string;
-  /**
-   * База известных ошибок
-   */
-  faq: FAQ;
-  /**
-   * Руководитель исполнителя
-   */
-  executorHead: Person;
+  /** Причина переноса крайнего срока */
+  public newDeadlineReason: string;
+  
+  /** Нарушение регистрации */
+  public registrationError: string;
 
-  /**
-   * Подсистема АИС ЭАД
-   */
+  /** Часто задаваемые вопросы */
+  public frequentlyAskedQuestion: string;
+
+  /** База известных ошибок */
+  public faq: FAQ;
+
+  /** Руководитель исполнителя */
+  public executorHead: Person;
+
+  /** Подсистема АИС ЭАД */
   entityCode6: EntityCode6;
 
   /** @Override */

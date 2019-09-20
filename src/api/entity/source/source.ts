@@ -1,8 +1,6 @@
 import { Entity } from '../entity/entity';
 
-/**
- * Источник
- */
+/** Источник */
 export class Source extends Entity {
-  entityType: string;
+  public entityType: string;
 }

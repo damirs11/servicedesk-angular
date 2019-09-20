@@ -1,18 +1,12 @@
 import { Entity } from '../entity/entity';
 import { Person } from '../person/person';
 
-/**
- * Организация
- */
+/** Организация */
 export class Organization extends Entity {
-  /**
-   * Почта
-   */
+  /** Почта */
   email: string | null;
 
-  /**
-   * Папка
-   */
-  folder: Person;
+  /** Папка */
+  public folder: Person;
 
 }

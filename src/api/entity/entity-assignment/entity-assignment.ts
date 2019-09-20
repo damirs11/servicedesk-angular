@@ -5,23 +5,15 @@ import { Workgroup } from "../workgroup/workgroup";
 import { Person } from '../person/person';
 
 export class EntityAssignment extends Entity {
-  /**
-   * Исполнитель
-   */
-  executor: Person;
+  /** Исполнитель */
+  public executor: Person;
 
-  /**
-   * Приоритет
-   */
-  priority: EntityPriority;
+  /** Приоритет */
+  public priority: EntityPriority;
 
-  /**
-   * Статус
-   */
-  status: EntityStatus;
+  /** Статус */
+  public status: EntityStatus;
 
-  /**
-   * Рабочая группа
-   */
-  workgroup: Workgroup;
+  /** Рабочая группа */
+  public workgroup: Workgroup;
 }

@@ -9,100 +9,62 @@ import { Person } from '../person/person';
 import { EntityAssignment } from '../entity-assignment/entity-assignment';
 import { Change } from '../change/change';
 
-/**
- * Персона
- */
+/** Персона */
 export class Workorder extends Entity {
   static readonly entityTypeId: EntityTypes = EntityTypes.Workorder;
-  /**
-   * Номер
-   */
-  no: number;
+  /** Номер */
+  public no: number;
 
-  /**
-   * Тема
-   */
-  subject: string;
+  /** Тема */
+  public subject: string;
 
-  /**
-   * Подробная информация
-   */
-  description: string;
+  /** Подробная информация */
+  public description: string;
 
-  /**
-   * Трудозатраты
-   */
-  labor: number;
+  /** Трудозатраты */
+  public labor: number;
 
-  /**
-   * Решение
-   */
-  solution: string;
+  /** Решение */
+  public solution: string;
 
-  /**
-   * Статус
-   */
-  status: EntityStatus;
+  /** Статус */
+  public status: EntityStatus;
 
-  /**
-   * Категория
-   */
-  category: EntityCategory;
+  /** Категория */
+  public category: EntityCategory;
 
-  /**
-   * Код завершения
-   */
-  closureCode: EntityClosureCode;
+  /** Код завершения */
+  public closureCode: EntityClosureCode;
 
-  /**
-   * Дата создания
-   */
-  createdDate: Date;
+  /** Дата создания */
+  public createdDate: Date;
 
-  /**
-   * Крайний срок
-   */
-  deadline: Date;
+  /** Крайний срок */
+  public deadline: Date;
 
-  /**
-   * Фактически выполнено
-   */
-  resolvedDate: Date;
+  /** Фактически выполнено */
+  public resolvedDate: Date;
 
-  /**
-   * Дата изменения
-   */
-  modifyDate: Date;
+  /** Дата изменения */
+  public modifyDate: Date;
 
-  /**
-   * Наряд просрочен
-   */
-  expired: boolean;
+  /** Наряд просрочен */
+  public expired: boolean;
 
-  /**
-   * Папка
-   */
-  folder: Folder;
+  /** Папка */
+  public folder: Folder;
 
-  /**
-   * Инициатор
-   */
-  initiator: Person;
+  /** Инициатор */
+  public initiator: Person;
 
-  /**
-   * Объект "Назначено"
-   */
-  assignment: EntityAssignment;
+  /** Объект "Назначено" */
+  public assignment: EntityAssignment;
 
-  /**
-   * Изменение
-   */
-  change: Change;
+  /** Изменение */
+  public change: Change;
 
-  /**
-   * Проблема
-   */
-  problem: Problem;
+  /** Проблема */
+  public problem: Problem;
 
   /** @Override */
   toString(): string {

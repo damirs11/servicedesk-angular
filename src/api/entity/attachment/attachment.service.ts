@@ -14,16 +14,12 @@ export class AttachmentService extends EntityService {
     super($http);
   }
 
-  /**
-   * Возвращает список вложений
-   */
+  /** Возвращает список вложений */
   getAttachments(id: number, params: object = {}): Observable<Attachment[]> {
     return this.get(`rest/entity/${Attachment.entityType}?entityId=${id}`, params);
   }
 
-  /**
-   * Получает количество вложений по переданному запросу
-   */
+  /** Получает количество вложений по переданному запросу */
   getAttachmentsCount(id: number, params: object = {}): Observable<number> {
     return this.get(`rest/entity/${Attachment.entityType}/count?entityId=${id}`, params);
   }

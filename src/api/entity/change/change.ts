@@ -11,125 +11,77 @@ import { EntityCode1 } from "../entity-code1/entity-code1";
 import { Folder } from "../folder/folder";
 import { Person } from '../person/person';
 
-/**
- * Изменение
- */
+/** Изменение */
 export class Change extends Entity {
   static readonly entityTypeId: EntityTypes = EntityTypes.Change;
-  /**
-   * Номер
-   */
-  no: number;
+  /** Номер */
+  public no: number;
 
-  /**
-   * Тема
-   */
-  subject: string;
+  /** Тема */
+  public subject: string;
 
-  /**
-   * Описание
-   */
-  description: string;
+  /** Описание */
+  public description: string;
 
-  /**
-   * Решение
-   */
-  solution: string;
+  /** Решение */
+  public solution: string;
 
-  /**
-   * Статус
-   */
-  status: EntityStatus;
+  /** Статус */
+  public status: EntityStatus;
 
-  /**
-   * Приоритет
-   */
-  priority: EntityPriority;
+  /** Приоритет */
+  public priority: EntityPriority;
 
-  /**
-   * Категория
-   */
-  category: EntityCategory;
+  /** Категория */
+  public category: EntityCategory;
 
-  /**
-   * Классификация
-   */
-  classification: EntityClassification;
+  /** Классификация */
+  public classification: EntityClassification;
 
-  /**
-   * Дата создания
-   */
-  createdDate: Date;
+  /** Дата создания */
+  public createdDate: Date;
 
-  /**
-   * Крайний срок
-   */
-  deadline: Date;
+  /** Крайний срок */
+  public deadline: Date;
 
-  /**
-   * Реально начато
-   */
-  actualStart: Date;
+  /** Реально начато */
+  public actualStart: Date;
 
-  /**
-   * Дата фактического выполнения
-   */
-  resolvedDate: Date;
+  /** Дата фактического выполнения */
+  public resolvedDate: Date;
 
-  /**
-   * Дата закрытия
-   */
-  closureDate: Date;
+  /** Дата закрытия */
+  public closureDate: Date;
 
-  /**
-   * План начала
-   */
-  planStart: Date;
+  /** План начала */
+  public planStart: Date;
 
-  /**
-   * План окночания
-   */
-  planFinish: Date;
+  /** План окночания */
+  public planFinish: Date;
 
-  /**
-   * План продолжительно
-   */
-  planDuration: Date;
+  /** План продолжительно */
+  public planDuration: Date;
 
-  /**
-   * Инициатор
-   */
-  initiator: Person;
+  /** Инициатор */
+  public initiator: Person;
 
-  /**
-   * Менеджер
-   */
-  manager: Person;
+  /** Менеджер */
+  public manager: Person;
 
-  /**
-   * Объект обслуживания
-   */
-  configurationItem: ConfigurationItem;
+  /** Объект обслуживания */
+  public configurationItem: ConfigurationItem;
 
-  /**
-   * Код завершения
-   */
-  closureCode: EntityClosureCode;
+  /** Код завершения */
+  public closureCode: EntityClosureCode;
 
-  /**
-   * Сущность "назначено"
-   */
-  assignment: EntityAssignment;
+  /** Сущность "назначено" */
+  public assignment: EntityAssignment;
 
-  /**
-   * Кастомный код 1(Система)
-   */
+  /** Кастомный код 1(Система) */
   system: EntityCode1;
 
-  /**
-   * Папка
-   */
-  folder: Folder;
+  /** Папка */
+  public folder: Folder;
 
   /** @Override */
   toString(): string {

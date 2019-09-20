@@ -1,9 +1,7 @@
 import { Entity } from "../entity/entity";
 import { EntityTypes } from 'src/api/util/entity-types';
 
-/**
- * Код завершения
- */
+/** Код завершения */
 export class EntityClosureCode extends Entity {
-  entityType: EntityTypes;
+  public entityType: EntityTypes;
 }

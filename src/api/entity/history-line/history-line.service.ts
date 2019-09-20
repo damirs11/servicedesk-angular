@@ -15,16 +15,12 @@ export class HistoryLineService extends EntityService {
   }
 
 
-  /**
-   * Возвращает коллекцию записей в истории
-   */
+  /** Возвращает коллекцию записей в истории */
   getHistory(params: object): Observable<HistoryLine[]> {
     return this.get(`rest/service/history`, params);
   }
 
-  /**
-   * Получает общее количество записей по указанному фильтру
-   */
+  /** Получает общее количество записей по указанному фильтру */
   // todo удалить метод, вместо этого в методе getHistory извлекать данное значение
   // из Header-параметра "Content-Range". Формат "from-to/amount". Например: "26-50/456"
   // означает, чтобы были возвращены данные с 26 по 50 запись включительно, всего записей 456
@@ -32,18 +28,14 @@ export class HistoryLineService extends EntityService {
     return this.get(`rest/entity/${entityType}/${id}/history/count`, params);
   }
 
-  /**
-   * Возвращает записи чата
-   */
+  /** Возвращает записи чата */
   getChat(params: {chat? : boolean, sort? : string}): Observable<HistoryLine[]> {
     params.chat = true;
     params.sort = "date-asc";
     return this.getHistory(params);
   }
 
-  /**
-   * Возвращает количество сообщений в чате
-   */
+  /** Возвращает количество сообщений в чате */
   getChatCount(id: number, entityType: EntityTypes, params: {chat? : boolean}): Observable<number> {
     params.chat = true;
     return this.getHistoryCount(id, entityType, params);

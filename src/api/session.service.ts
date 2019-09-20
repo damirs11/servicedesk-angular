@@ -67,7 +67,10 @@ export class Session {
    */
   public changePassword(oldPassword: string, newPassword: string) {
     if (!this.authorized) return;
-    const params = { oldPassword, newPassword };
+    const params = { 
+      oldPassword, 
+      newPassword 
+    };
     return this.UserService.post("rest/service/security/passwordChange", null, params);
   }
 

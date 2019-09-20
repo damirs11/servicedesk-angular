@@ -2,31 +2,24 @@ import { Entity } from "../entity/entity";
 import { User } from "../user/user";
 
 /**
+ * Запись в истории
  */
 export class HistoryLine extends Entity {
-  /**
-   * Описание записи
-   */
-  subject: string;
-  /**
-   * Дата
-   */
-  date: Date;
-  /**
-   * Пользователь, создавший запись
-   */
-  account: User;
+  /** Описание записи */
+  public subject: string;
+  /** Дата */
+  public date: Date;
+  /** Пользователь, создавший запись */
+  public account: User;
   /**
    * Значение записи. Если это запись чата, value - само сообщение.
    * Если запись в истории, value - новое значение поля сущности
    */
-  value: string;
-  /**
-   * Тип записи
-   */
-  type: number;
+  public value: string;
+  /** Тип записи */
+  public type: number;
 
-  isOwner: any;
+  public isOwner: any;
 
   get isChat() {
     return this.type != null;

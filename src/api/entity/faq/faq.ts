@@ -1,9 +1,7 @@
 import { Entity } from "../entity/entity";
 import { EntityTypes } from 'src/api/util/entity-types';
 
-/**
- * База известных ошибок
- */
+/** База известных ошибок */
 export class FAQ extends Entity {
-  entityType: EntityTypes;
+  public entityType: EntityTypes;
 }

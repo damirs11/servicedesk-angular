@@ -1,12 +1,8 @@
 import { Entity } from '../entity/entity';
 import { Folder } from '../folder/folder';
 
-/**
- * Приоритет
- */
+/** Приоритет */
 export class Template extends Entity {
-  /**
-   * Папка
-   */
-  folder: Folder;
+  /** Папка */
+  public folder: Folder;
 }

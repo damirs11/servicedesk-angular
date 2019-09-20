@@ -1,32 +1,20 @@
 import { Entity } from "../entity/entity";
 import { Person } from "../person/person";
 
-/**
- * Голосование
- */
+/** Голосование */
 export class ApproverVote extends Entity {
-  /**
-   * ID сущности, к которой привязаны голосования
-   */
-  entityId: number;
+  /** ID сущности, к которой привязаны голосования */
+  public entityId: number;
 
-  /**
-   * Согласовано
-   */
-  approved: number;
+  /** Согласовано */
+  public approved: number;
 
-  /**
-   * Согласующий
-   */
-  approver: Person;
+  /** Согласующий */
+  public approver: Person;
 
-  /**
-   * Причина
-   */
-  reason: string;
+  /** Причина */
+  public reason: string;
 
-  /**
-   * Тип сущности
-   */
-  entityType: string;
+  /** Тип сущности */
+  public entityType: string;
 }

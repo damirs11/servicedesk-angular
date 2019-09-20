@@ -5,51 +5,31 @@ import { Folder } from '../folder/folder';
 import { Workgroup } from '../workgroup/workgroup';
 import { EntityPriority } from '../entity-priority/entity-priority';
 
-/**
- * SLA (условие предоставления услуги)
- */
+/** SLA (условие предоставления услуги) */
 export class ServiceLevelAgreement extends Entity {
-  /**
-   * Сервис/услуга
-   */
-  service: Service;
+  /** Сервис/услуга */
+  public service: Service;
 
-  /**
-   * Статус
-   */
-  status: EntityStatus;
+  /** Статус */
+  public status: EntityStatus;
 
-  /**
-   * Папка
-   */
-  folder: Folder;
+  /** Папка */
+  public folder: Folder;
 
-  /**
-   * Срок действия от
-   */
-  validFrom: Date;
+  /** Срок действия от */
+  public validFrom: Date;
 
-  /**
-   * Срок действия до
-   */
-  validTo: Date;
+  /** Срок действия до */
+  public validTo: Date;
 
-  /**
-   * Исполнитель по умолчанию
-   */
-  person: object;
+  /** Исполнитель по умолчанию */
+  public person: object;
 
-  /**
-   * Группа исполнителей по умолчанию
-   */
-  workgroup: Workgroup;
+  /** Группа исполнителей по умолчанию */
+  public workgroup: Workgroup;
 
-  /**
-   * Условия предоставления
-   */
-  serviceLevel: Workgroup;
-  /**
-   * Приоритет по умолчанию
-   */
-  defaultPriority: EntityPriority;
+  /** Условия предоставления */
+  public serviceLevel: Workgroup;
+  /** Приоритет по умолчанию */
+  public defaultPriority: EntityPriority;
 }

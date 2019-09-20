@@ -1,9 +1,7 @@
 import { Entity } from "../entity/entity";
 import { EntityTypes } from 'src/api/util/entity-types';
 
-/**
- * Классификация
- */
+/** Классификация */
 export class EntityCategory extends Entity {
-  entityType: EntityTypes;
+  public entityType: EntityTypes;
 }

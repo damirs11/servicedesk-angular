@@ -5,10 +5,12 @@ import { IConnector } from "src/api/interfaces/IConnector";
 import { EntityTypes } from "src/api/util/entity-types";
 import { Injectable } from '@angular/core';
 
+type Template = string | {id: string}
+
 @Injectable()
 export abstract class EntityService implements IConnector {
   constructor(private $http: HttpClient) {}
-
+  
   readonly DEFAULT_TIMEOUT = 2000;
 
   /**
@@ -83,23 +85,17 @@ export abstract class EntityService implements IConnector {
     );
   }
 
-  /**
-   * Подгружает изменения в текущую сущность
-   */
+  /** Подгружает изменения в текущую сущность */
   public load<ENTITY>(entityType: EntityTypes, id: number) {
     return this.get<ENTITY>(`rest/entity/${entityType}/${id}`);
   }
 
-  /**
-   * Осуществляет поиск сущностей по фильтру
-   */
+  /** Осуществляет поиск сущностей по фильтру */
   public list<ENTITY>(entityType: EntityTypes, params: object) {
     return this.get<ENTITY[]>(`rest/entity/${entityType}`, params);
   }
 
-  /**
-   * Получает общее количество записей по указанному фильтру
-   */
+  /** Получает общее количество записей по указанному фильтру */
   public count(entityType: EntityTypes, params: object) {
     return this.get<number>(`rest/entity/${entityType}/count`, params);
   }
@@ -108,7 +104,7 @@ export abstract class EntityService implements IConnector {
    * Заполняет сущность по шаблону
    * @param template {SD.Template|number} - шаблон или id шаблона
    */
-  public fillWithTemplate<ENTITY>(entityType: EntityTypes, template: string | { id: string }) {
+  public fillWithTemplate<ENTITY>(entityType: EntityTypes, template: Template) {
     const templateId = typeof template === "object" ? template.id : template;
     return this.get<ENTITY>(`rest/entity/${entityType}/template/${templateId}`);
   }

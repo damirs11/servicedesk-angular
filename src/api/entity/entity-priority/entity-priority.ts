@@ -1,8 +1,6 @@
 import { Entity } from "../entity/entity";
 
-/**
- * Приоритет
- */
+/** Приоритет */
 export class EntityPriority extends Entity {
-  order: string;
+  public order: string;
 }

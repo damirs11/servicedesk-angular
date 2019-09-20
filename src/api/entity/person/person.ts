@@ -2,48 +2,30 @@ import { Entity } from "../entity/entity";
 import { Organization } from '../organization/organization';
 import { EntityCategory } from '../entity-category/entity-category';
 
-/**
- * Персона
- */
+/** Персона */
 export class Person extends Entity {
-  /**
-   * Пол персоны: true(1) - женский, false(0) - мужской
-   */
-  sex: boolean;
-  /**
-   * Почта
-   */
-  email: string;
-  /**
-   * Должность
-   */
-  job: string;
-  /**
-   * Имя
-   */
-  firstName: string;
-  /**
-   * Фамилия
-   */
-  lastName: string;
-  /**
-   * Отчество
-   */
-  middleName: string;
+  /** Пол персоны: true(1) - женский, false(0) - мужской */
+  public sex: boolean;
+  /** Почта */
+  public email: string;
+  /** Должность */
+  public job: string;
+  /** Имя */
+  public firstName: string;
+  /** Фамилия */
+  public lastName: string;
+  /** Отчество */
+  public middleName: string;
   /**
    * Сокращенное имя персоны
    * Фамилия + инициалы
    */
-  shortName: string;
-  /**
-   * Организация персоны
-   */
-  organization: Organization;
+  public shortName: string;
+  /** Организация персоны */
+  public organization: Organization;
 
-  /**
-   * Категория
-   */
-  category: EntityCategory;
+  /** Категория */
+  public category: EntityCategory;
 
   /**
    * Полное имя персоны

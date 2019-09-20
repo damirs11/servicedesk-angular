@@ -1,22 +1,14 @@
 import { Entity } from '../entity/entity';
 
-/**
- * Приоритет
- */
+/** Приоритет */
 export class Workgroup extends Entity {
-  /**
-   *
-   */
-  searchcode: string;
+  /**  */
+  public searchcode: string;
 
-  /**
-   * Статус
-   */
-  status: string;
+  /** Статус */
+  public status: string;
 
-  /**
-   * Отвественный группы
-   */
+  /** Отвественный группы */
   groupManager;
 
 }

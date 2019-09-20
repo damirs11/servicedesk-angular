@@ -2,17 +2,11 @@ import { Entity } from "../entity/entity";
 import { EntityStatus } from "../entity-status/entity-status";
 import { Folder } from "../folder/folder";
 
-/**
- * Сервис/услуга
- */
+/** Сервис/услуга */
 export class Service extends Entity {
-  /**
-   * Статус
-   */
-  status: EntityStatus;
+  /** Статус */
+  public status: EntityStatus;
 
-  /**
-   * Папка
-   */
-  folder: Folder;
+  /** Папка */
+  public folder: Folder;
 }

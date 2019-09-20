@@ -1,22 +1,14 @@
 import { Entity } from '../entity/entity';
 
-/**
- * Пользователь
- */
+/** Пользователь */
 export class User extends Entity {
-  /**
-   * Логин
-   */
-  login: string;
+  /** Логин */
+  public login: string;
 
-  /**
-   * Роли
-   */
-  roles: [Object];
+  /** Роли */
+  public roles: object[];
 
-  /**
-   * Персона
-   */
-  person: object;
+  /** Персона */
+  public person: object;
 
 }

@@ -1,9 +1,7 @@
 import { Entity } from '../entity/entity';
 import { EntityTypes } from 'src/api/util/entity-types';
 
-/**
- * Папка
- */
+/** Папка */
 export class Folder extends Entity {
-  entityType: EntityTypes;
+  public entityType: EntityTypes;
 }

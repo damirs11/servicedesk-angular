@@ -10,137 +10,85 @@ import { EntityClassification } from '../entity-classification/entity-classifica
 import { EntityClosureCode } from '../entity-closure-code/entity-closure-code';
 import { Folder } from '../folder/folder';
 
-/**
- * Сущность - "Проблема"
- */
+/** Сущность - "Проблема" */
 export class Problem extends Entity {
   static readonly entityTypeId: EntityTypes = EntityTypes.Problem;
-  /**
-   * Номер
-   */
-  no: number;
+  /** Номер */
+  public no: number;
 
-  /**
-   * Статус
-   */
-  status: EntityStatus;
+  /** Статус */
+  public status: EntityStatus;
 
-  /**
-   * Инициатор
-   */
-  initiator: Person;
+  /** Инициатор */
+  public initiator: Person;
 
-  /**
-   * Объект обслуживания
-   */
-  configurationItem: ConfigurationItem;
+  /** Объект обслуживания */
+  public configurationItem: ConfigurationItem;
 
-  /**
-   * Тема
-   */
-  subject: string;
+  /** Тема */
+  public subject: string;
 
-  /**
-   * Описание
-   */
-  description: string;
+  /** Описание */
+  public description: string;
 
-  /**
-   * Ссылки на логи
-   */
-  logLinks: string;
+  /** Ссылки на логи */
+  public logLinks: string;
 
-  /**
-   * Ссылка на пробелму в jira
-   */
-  jiraLink: string;
+  /** Ссылка на пробелму в jira */
+  public jiraLink: string;
   /**
    */
-  toVendor: string;
-  /**
-   * Обходное решение
-   */
-  workaround: string;
+  public toVendor: string;
+  /** Обходное решение */
+  public workaround: string;
 
-  /**
-   * Решение
-   */
-  solution: string;
+  /** Решение */
+  public solution: string;
 
-  /**
-   * Приоритет
-   */
-  priority: EntityPriority;
+  /** Приоритет */
+  public priority: EntityPriority;
 
-  /**
-   * Крайний срок
-   */
-  deadline: Date;
+  /** Крайний срок */
+  public deadline: Date;
 
-  /**
-   * Дата фактического выполнения
-   */
-  resolvedDate: Date;
+  /** Дата фактического выполнения */
+  public resolvedDate: Date;
 
-  /**
-   * Дата закрытия
-   */
-  closureDate: Date;
+  /** Дата закрытия */
+  public closureDate: Date;
 
-  /**
-   * Проблема просрочена
-   */
-  isOverdue: Date;
+  /** Проблема просрочена */
+  public isOverdue: Date;
 
-  /**
-   * Персона, что просрочила проблему
-   */
-  whoOverdue: Person;
+  /** Персона, что просрочила проблему */
+  public whoOverdue: Person;
 
-  /**
-   * План окночания
-   */
-  planFinish: Date;
+  /** План окночания */
+  public planFinish: Date;
 
-  /**
-   * Причина отсрочки
-   */
-  deferralReason: string;
+  /** Причина отсрочки */
+  public deferralReason: string;
 
-  /**
-   * Сущность "назначено"
-   */
-  assignment: EntityAssignment;
+  /** Сущность "назначено" */
+  public assignment: EntityAssignment;
 
-  /**
-   * Категория
-   */
-  category: EntityCategory;
+  /** Категория */
+  public category: EntityCategory;
 
-  /**
-   * Классификация
-   */
-  classification: EntityClassification;
+  /** Классификация */
+  public classification: EntityClassification;
 
-  /**
-   * Код завершения
-   */
-  closureCode: EntityClosureCode;
+  /** Код завершения */
+  public closureCode: EntityClosureCode;
 
-  /**
-   * Папка
-   */
-  folder: Folder;
+  /** Папка */
+  public folder: Folder;
 
-  /**
-   * Не включать в отчет заказчику
-   */
-  notAttachInReport: Date;
+  /** Не включать в отчет заказчику */
+  public notAttachInReport: Date;
 
-  /**
-   *
-   */
-  versionDate: Date;
+  /**  */
+  public versionDate: Date;
 
   /** @Override */
   toString(): string {
