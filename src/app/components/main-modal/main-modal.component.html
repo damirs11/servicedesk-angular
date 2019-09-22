@@ -1,24 +1,43 @@
-<ngx-smart-modal #test identifier="test">
-  <h1>Title</h1>
-  <p>Some stuff...</p>
+<!-- <button (click)="openAlert()">Alert</button>
+<br><br>
+<button (click)="openConfirm()">Confirm</button> -->
+<!-- <br><br>
+<button (click)="">Alert</button>
+<br><br>
+<button (click)="">Alert</button> -->
 
-  <button (click)="test.close()">Close</button>
-</ngx-smart-modal>
-
-<ngx-smart-modal #alert identifier="alert" [closable]=false>
+<ng-template #content let-modal>
   <div class="modal-header">
-      <button type="button" class="close" (click)="alert.close()" title="{{ alert.getData() }}">&times;</button>
-      <span class="modal-title" data-ng-bind-html="ctrl.header"></span>
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <div class="modal-body" data-ng-bind-html="ctrl.msg"></div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        </div>
+    </form>
+  </div>
   <div class="modal-footer">
-      <button type="button" class="btn btn-default" (click)="alert.close()">111111111111</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
   </div>
-</ngx-smart-modal>
+</ng-template>
 
-<ngx-smart-modal #myModal identifier="myModal">
-  <div>
-    {{ myModal.getData().prop1 }}
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+
+<hr>
+
+<pre>{{closeResult}}</pre>
+
+<!-- <ngx-smart-modal #alert identifier="alert" [closable]=false>
+  <div class="modal-header">
+      <button type="button" class="close" (click)="alert.close()" title="DIALOGS_CLOSE">&times;</button>
+      <span class="modal-title">{{ alert.getData()?.header }}</span>
   </div>
-  <button (click)="myModal.close()">Close</button>
-</ngx-smart-modal>
+  <div class="modal-body">{{ alert.getData()?.msg }}</div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-default" (click)="alert.close()">DIALOGS_CLOSE</button>
+  </div>
+</ngx-smart-modal> -->

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxSmartModalService } from 'ngx-smart-modal';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-main-modal',
@@ -8,9 +9,28 @@ import { NgxSmartModalService } from 'ngx-smart-modal';
 })
 export class MainModalComponent implements OnInit {
 
-  constructor(public ngxSmartModalService:NgxSmartModalService) { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
   }
 
+  closeResult: string;
+
+  open(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
 }
