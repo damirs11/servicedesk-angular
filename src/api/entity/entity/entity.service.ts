@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { timeout, catchError, first } from "rxjs/operators";
 import { throwError, Observable } from "rxjs";
 import { IConnector } from "src/api/interfaces/IConnector";
@@ -10,7 +10,7 @@ type Template = string | {id: string}
 @Injectable()
 export abstract class EntityService implements IConnector {
   constructor(private $http: HttpClient) {}
-  
+
   readonly DEFAULT_TIMEOUT = 2000;
 
   /**
