@@ -1,0 +1,8 @@
+<nav class="nav nav-pills nav-justified sd-entity-card-tabs">
+    <li ui-sref-active="active"
+        ng-repeat="$tab in ctrl.tabs"
+        ng-disabled="ctrl.tabDisabled($tab)">
+        <a ng-if="ctrl.tabEnabled($tab)" ui-sref="{{$tab.sref}}" ng-bind="$tab.name"></a>
+        <a ng-if="ctrl.tabDisabled($tab)" href="javascript:void(0)" ng-bind="$tab.name"></a>
+    </li>
+</nav>

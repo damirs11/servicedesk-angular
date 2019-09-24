@@ -1,0 +1,34 @@
+<div class="attachment-item">
+    <div class="attachment-item__box">
+        <img data-ng-src="{{ctrl.attachment.url}}"
+             data-ng-if="ctrl.attachment.fileType == 'image'"
+             ng-click="ctrl.onClick()"
+        >
+        <span class="attachment-item__box__icon"
+              data-ng-if="ctrl.attachment.fileType != 'image'"
+              data-ng-class="ctrl.iconClass"
+              ng-click="ctrl.onClick()"
+        ></span>
+    </div>
+    <div class="attachment-item__name">
+        <a data-ng-href="{{ctrl.attachment.url}}" title="Сохранить">
+            <span class="fa fa-download" aria-hidden="true"></span>
+            <span ng-bind="ctrl.attachment.name"></span>
+        </a>
+    </div>
+    <!--div class="attachment-item__info">
+        <div class="attachment-item__info__size">
+            <span>{{ctrl.fileSize}}</span>
+        </div>
+        <div class="attachment-item__info__date">
+            <span>{{ (ctrl.attachment.creationDate | amDateFormat:'DD.MM.YYYY (HH:mm)') }}</span>
+        </div>
+    </div-->
+    <div class="attachment-item__author" title="Автор вложения">
+        <a>
+            <span class="fa fa-user" aria-hidden="true"></span>
+            <span class="attachment-item__author__text" ng-bind="ctrl.attachment.author.shortName"></span>
+        </a>
+    </div>
+
+</div>

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "логотип.png",
+    "author": {
+        "shortName": "Шарафутдинов Р. В."
+    },
+    "creationDate": 1508508537500,
+    "size": 108913
+  },
+  {
+    "name": "Отчет.pdf",
+    "author": {
+      "shortName": "Кисанов Т. Т."
+    },
+    "creationDate": 1508508537500,
+    "size": 78913
+  },
+  {
+    "name": "Отчет-2015.pdf",
+    "author": {
+      "shortName": "Кисанов Т. Т."
+    },
+    "creationDate": 1508508537500,
+    "size": 58913
+  },
+  {
+    "name": "Инвентаризация.xls",
+    "author": {
+      "shortName": "Кисанов Т. Т."
+    },
+    "creationDate": 1508508537500,
+    "size": 10893
+  },
+  {
+    "name": "secret.zip",
+    "author": {
+      "shortName": "Кисанов Т. Т."
+    },
+    "creationDate": 1508508537500,
+    "size": 1913
+  }
+//  ,{
+//    "name": "settings.dat",
+//    "author": {
+//      "shortName": "Кисанов Т. Т."
+//    },
+//    "creationDate": 1508508537500,
+//    "size": 512
+//  }
+]

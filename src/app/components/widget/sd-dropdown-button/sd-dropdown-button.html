@@ -1,0 +1,33 @@
+<div class="btn-group" ng-if="!ctrl.disabled">
+    <button ng-class="ctrl.buttonClasses" ng-click="ctrl.onClickPrimaryButton()">
+        <ng-transclude></ng-transclude>
+    </button>
+    <button class="dropdown-toggle" ng-class="ctrl.buttonClasses" data-toggle="dropdown">
+        <span class="caret"></span>
+    </button>
+    <div class="dropdown-menu" role="menu" style="width: 270px" aria-labelledby="dropdownMenu">
+        <ui-select ng-model="ctrl.selectedValue"
+                on-select="ctrl.onSelect($item,$model)"
+                search-enabled="true"
+        >
+            <ui-select-match placeholder="{{ctrl.placeholder}}">
+                {{ctrl.display($select.selected)}}
+            </ui-select-match>
+            <ui-select-choices repeat="$value in ctrl.getFilteredValues($select.search) track by $index"
+                               refresh="ctrl.fetchFromUI($select.search)"
+                               refresh-delay="ctrl.debounceTime"
+            >
+                <span ng-bind-html="ctrl.display($value) | highlight: $select.search"></span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+</div>
+
+<div class="btn-group" ng-if="ctrl.disabled">
+    <button disabled ng-class="ctrl.buttonClasses">
+        <ng-transclude></ng-transclude>
+    </button>
+    <button class="dropdown-toggle" disabled ng-class="ctrl.buttonClasses">
+        <span class="caret"></span>
+    </button>
+</div>

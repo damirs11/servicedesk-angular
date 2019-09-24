@@ -1,0 +1,12 @@
+<div class="entity-chat-container" data-ng-disabled="ctrl.busy">
+
+    <chat-line line="$line"
+               type="ctrl.getType($line)"
+               data-ng-repeat="$line in ctrl.chatLines track by $line.id">
+    </chat-line>
+
+    <chat-input send="ctrl.send($text, $type)" types="ctrl.typeMap" access-rules="ctrl.entity.accessRules">
+
+    </chat-input>
+
+</div>

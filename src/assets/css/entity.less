@@ -14,7 +14,7 @@
   background-color: #f8f8f8;
   border: 1px solid #e3e3e3;
   border-radius: 3px;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 
   &__header {
     background-color: #f1f1f1;
@@ -31,16 +31,16 @@
   }
 
   // Границы для контентов
-  &>&__content {
+  & > &__content {
     border-bottom: 1px solid #e3e3e3;
   }
-  &>&__content:last-child {
+  & > &__content:last-child {
     border-bottom: none;
   }
 
   &.creation-view {
     width: 100%;
-    
+
     & .entity-container__header {
       &.title-bar {
         margin-right: 10px;
@@ -62,13 +62,13 @@
   width: 435px;
   margin: 10px 0;
   position: relative;
-  @media (max-width: @small-screen){
+  @media (max-width: @small-screen) {
     width: 100%;
     margin-right: 0;
   }
   &:nth-of-type(2n-1) {
     margin-right: 20px;
-    @media (max-width: @small-screen){
+    @media (max-width: @small-screen) {
       margin-right: 0;
     }
   }
@@ -79,16 +79,15 @@
  */
 .entity-property-col {
   .entity-property();
-  vertical-align:top;
+  vertical-align: top;
 
-  &>.entity-property-name {
-    vertical-align:top
+  & > .entity-property-name {
+    vertical-align: top;
   }
 
-  &.editing>.entity-property-name {
-    vertical-align:50%;
+  &.editing > .entity-property-name {
+    vertical-align: 50%;
   }
-
 }
 
 /**
@@ -101,9 +100,9 @@
     height: 30px;
   }
 
-  &.editing>.entity-property-name{
+  &.editing > .entity-property-name {
     vertical-align: 50%;
-    @media (max-width: @small-screen){
+    @media (max-width: @small-screen) {
       vertical-align: baseline;
     }
   }
@@ -118,7 +117,7 @@
   width: 185px;
   text-align: right;
   white-space: nowrap;
-  @media (max-width: @small-screen){
+  @media (max-width: @small-screen) {
     width: 100%;
     text-align: left;
   }
@@ -130,16 +129,15 @@
   margin: 0;
   display: inline-block;
   width: 250px;
-  @media (max-width: @small-screen){
+  @media (max-width: @small-screen) {
     width: 100%;
   }
 }
 
-.entity-navbar>li>a {
+.entity-navbar > li > a {
   padding-top: 3px;
   padding-bottom: 3px;
 }
-
 
 // Текущие стили, использующиеся в сущностях
 // ToDo провести рефакторинг, переименовать стили, стереть старые
@@ -155,13 +153,13 @@
   white-space: nowrap;
   height: 42px;
   margin-left: 20px;
-  @media (max-width: @small-screen){
+  @media (max-width: @small-screen) {
     width: 100%;
     margin-right: 0;
     height: auto;
   }
 
-  &>label {
+  & > label {
     font-size: @font-size;
     width: @e-prop__label-width;
     display: inline-block;
@@ -171,14 +169,14 @@
     height: 42px;
     vertical-align: middle;
     padding-top: 12px;
-    @media (max-width: @small-screen){
+    @media (max-width: @small-screen) {
       width: 100%;
       display: block;
       height: auto;
       text-align: left;
     }
   }
-  &-required>label:after{
+  &-required > label:after {
     content: " *";
     color: red;
     font-weight: bold;
@@ -192,7 +190,7 @@
     //overflow: hidden;
     text-overflow: ellipsis;
     width: @e-prop__value-width;
-    @media (max-width: @small-screen){
+    @media (max-width: @small-screen) {
       width: 100%;
       height: auto;
     }
@@ -200,14 +198,14 @@
   }
 }
 
-
 //sd-text
 
-.e-prop__value { // Изменяем sd-text под e-prop
+.e-prop__value {
+  // Изменяем sd-text под e-prop
   & .sd-text {
     height: 42px;
     padding-top: 4px;
-    &__input-container{
+    &__input-container {
       width: 100%;
     }
   }
@@ -222,8 +220,8 @@
   }
 }
 
-
-.entity-text { // Изменяем sd-text под subject/тему
+.entity-text {
+  // Изменяем sd-text под subject/тему
   margin-left: 10px;
   & label {
     margin-right: 10px;
@@ -235,7 +233,7 @@
     text-align: left;
     vertical-align: top;
   }
-  &-required label:after{
+  &-required label:after {
     position: absolute;
     content: " *";
     color: red;
@@ -258,7 +256,7 @@
 
   & .sd-text {
     height: 42px;
-    &__input-container{
+    &__input-container {
       width: 100%;
     }
   }
@@ -284,6 +282,4 @@
     word-break: break-word;
     padding-right: 13px;
   }
-
 }
-

@@ -1,8 +1,7 @@
-@modalAnimate: .15s ease-in-out all;
+@modalAnimate: 0.15s ease-in-out all;
 @zindex-modal: 2000;
 
 #ModalActionProviderArea {
-
   .modalActionProviderMask {
     background-color: rgba(0, 0, 0, 0.4);
     display: block;
@@ -41,9 +40,9 @@
     perspective: 100vh;
   }
 
-  .modal-content(@width){
+  .modal-content(@width) {
     background-color: white;
-    border: 1px solid rgba(0,0,0,.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 6px;
     background-clip: padding-box;
     width: @width;
@@ -51,7 +50,7 @@
     margin-right: auto;
     margin-top: 50px;
     max-width: 100%;
-    @media (max-width: @width)  {
+    @media (max-width: @width) {
       margin-top: 0;
       min-height: 100%;
     }
@@ -77,5 +76,4 @@
   .modal-600 {
     .modal-content(600px);
   }
-
 }
