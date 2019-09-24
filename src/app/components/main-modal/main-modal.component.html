@@ -1,43 +1,6 @@
-<!-- <button (click)="openAlert()">Alert</button>
-<br><br>
-<button (click)="openConfirm()">Confirm</button> -->
-<!-- <br><br>
-<button (click)="">Alert</button>
-<br><br>
-<button (click)="">Alert</button> -->
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="form-group">
-        <label for="dateOfBirth">Date of birth</label>
-        </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-  </div>
-</ng-template>
-
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
-
-<hr>
-
-<pre>{{closeResult}}</pre>
-
-<!-- <ngx-smart-modal #alert identifier="alert" [closable]=false>
-  <div class="modal-header">
-      <button type="button" class="close" (click)="alert.close()" title="DIALOGS_CLOSE">&times;</button>
-      <span class="modal-title">{{ alert.getData()?.header }}</span>
-  </div>
-  <div class="modal-body">{{ alert.getData()?.msg }}</div>
-  <div class="modal-footer">
-      <button type="button" class="btn btn-default" (click)="alert.close()">DIALOGS_CLOSE</button>
-  </div>
-</ngx-smart-modal> -->
+<div class="btn-group" role="group" aria-label="Button group">
+    <button class="btn btn-outline-primary" (click)="openAlert()">Alert Modal</button>
+    <button class="btn btn-outline-primary" (click)="openAlert()">Launch demo modal</button>
+    <button class="btn btn-outline-primary" (click)="openAlert()">Launch demo modal</button>
+    <button class="btn btn-outline-primary" (click)="openAlert()">Launch demo modal</button>
+</div>

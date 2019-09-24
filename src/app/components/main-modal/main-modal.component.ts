@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { AlertModalComponent } from '../dialogs/alert-modal/alert-modal.component';
+import { Ialert } from '../dialog-interfaces/Ialert';
 
 
 @Component({
@@ -14,23 +16,12 @@ export class MainModalComponent implements OnInit {
   ngOnInit() {
   }
 
-  closeResult: string;
-
-  open(content: any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
+  openAlert() {
+    const data: Ialert = {
+      header: 'HEADER',
+      msg: 'MSG_MSG_MSG_MSG_MSG_MSG_MSG_MSG'
     }
+    const modalRef = this.modalService.open(AlertModalComponent);
+    modalRef.componentInstance.data = data;
   }
 }
