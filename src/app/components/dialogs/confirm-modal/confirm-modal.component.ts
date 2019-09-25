@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Iconfirm } from '../../dialog-interfaces/Iconfirm';
 
 @Component({
   selector: 'app-confirm-modal',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmModalComponent implements OnInit {
 
-  constructor() { }
+  @Input() data: Iconfirm;
+
+  constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit() {
   }

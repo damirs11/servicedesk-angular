@@ -6,12 +6,11 @@ import { AppComponent } from "./app.component";
 import { EntityModule } from "src/api/entity.module";
 import { ModalActionModule } from './components/modal-action/modal-action.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { AlertModalComponent } from './components/dialogs/alert-modal/alert-modal.component';
-import { ConfirmModalComponent } from './components/dialogs/confirm-modal/confirm-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, ConfirmModalComponent],
-  imports: [BrowserModule, AppRoutingModule, EntityModule, ModalActionModule, NgbModule],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, EntityModule, ModalActionModule, NgbModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
 })
