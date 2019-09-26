@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlertModalComponent } from '../dialogs/alert-modal/alert-modal.component';
-import { Ialert } from '../dialog-interfaces/Ialert';
-import { Iconfirm } from '../dialog-interfaces/Iconfirm';
-import { IimagePopup } from '../dialog-interfaces/Iimage-popup';
-import { ConfirmModalComponent } from '../dialogs/confirm-modal/confirm-modal.component';
-import { ImagePopupModalComponent } from '../dialogs/image-popup-modal/image-popup-modal.component';
-import { TextModalComponent } from '../dialogs/text-modal/text-modal.component';
-import { Itext } from '../dialog-interfaces/Itext';
+import { AlertModalComponent } from 'src/app/components/dialogs/alert-modal/alert-modal.component';
+import { Ialert } from 'src/app/components/dialog-interfaces/Ialert';
+import { Iconfirm } from 'src/app/components/dialog-interfaces/Iconfirm';
+import { ConfirmModalComponent } from 'src/app/components/dialogs/confirm-modal/confirm-modal.component';
+import { IimagePopup } from 'src/app/components/dialog-interfaces/Iimage-popup';
+import { ImagePopupModalComponent } from 'src/app/components/dialogs/image-popup-modal/image-popup-modal.component';
+import { Itext } from 'src/app/components/dialog-interfaces/Itext';
+import { TextModalComponent } from 'src/app/components/dialogs/text-modal/text-modal.component';
 
 
 @Component({

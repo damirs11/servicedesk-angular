@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { AppComponent } from "./app.component";
-import { MainModalComponent } from './components/main-modal/main-modal.component';
+import { MainModalComponent } from './test-components/main-modal/main-modal.component';
 
 const routes: Routes = [
   { path: "", component: AppComponent },
