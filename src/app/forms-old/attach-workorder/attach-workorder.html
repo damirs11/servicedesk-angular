@@ -1,0 +1,37 @@
+<div class="modal-content modal-600">
+    <div class="modal-header dialog-header-input-message">
+        <button type="button" class="close" data-ng-click="ctrl.cancel()" title="{{'DIALOGS_CLOSE' | translate}}">&times;</button>
+        <i class="fa fa-pencil-square-o"></i>
+        <span class="modal-title">
+            Прикрепить наряд
+        </span>
+    </div>
+    <div class="modal-body">
+        <div class="form-inline e-prop" ng-if="true">
+            <label>Наряд:</label>
+            <sd-dropdown class="input-group e-prop__value" style="margin-left: 0px;"
+                         target="ctrl.workorder"
+                         fetch-data="ctrl.loadWorkorders($text)"
+                         display-value="'№'+$value.no+' '+$value.subject"
+                         placeholder="Введите номер наряда"
+                         allow-empty="true"
+                         editing="1"
+                         disabled="false"
+                         min-symbols-fetch="1"
+            ></sd-dropdown>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button"
+                class="btn btn-success"
+                ng-disabled="ctrl.isAttachButtonDisabled"
+                data-ng-click="ctrl.attachWorkorder()"
+                title="{{ctrl.attachButtonTitle}}"
+        >Прикрепить</button>
+        <button type="button"
+                class="btn btn-danger"
+                data-ng-click="ctrl.cancel()"
+                ng-disabled="!ctrl.canCloseDialog"
+        >Отмена</button>
+    </div>
+</div>

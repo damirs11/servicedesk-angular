@@ -1,0 +1,35 @@
+<div sd-loading="ctrl.loadingPromise" style="height: 100%">
+
+    <content style="display: block; height: 100%">
+
+        <div class="entity-container creation-view">
+            <div class="entity-container__header title-bar">
+                <a data-ui-sref="app.workorder.list">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                </a>
+                <span>Создание наряда</span>
+            </div>
+            <div class="entity-container__header button-bar">
+                <button class="btn btn-success"
+                        ng-click="ctrl.create()"
+                        ng-disabled="ctrl.createButtonDisabled"
+                >
+                    Создать
+                </button>
+                <button class="btn btn-default"
+                        ng-click="ctrl.cancel()">
+                    Отмена
+                </button>
+                <span ng-show="ctrl.errorCreating">Произошла ошибка при создании наряда. Попробуй позже.</span>
+            </div>
+            <div class="entity-container__header tab-bar">
+                <sd-entity-card-tabs tabs="ctrl.headerTabs">
+
+                </sd-entity-card-tabs>
+            </div>
+        </div>
+        <ui-view></ui-view>
+    </content>
+
+</div>
+<!-- Body of view / history / approval / etc.-->

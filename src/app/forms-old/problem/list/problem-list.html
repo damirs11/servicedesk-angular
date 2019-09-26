@@ -1,0 +1,110 @@
+<!-- todo почистить css-стили -->
+<div id="changes" class="grid-page">
+    <!-- Основная панель-->
+    <div class="grid-page__content" style="width: 100%; height: 50px;">
+        <div class="col-md-12">
+            <h1>Проблемы</h1>
+        </div>
+    </div>
+    <!-- Панель фильтрации -->
+    <nav class="grid-page__content narrow-panel navbar navbar-absolute navbar-default">
+        <div class="container-fluid">
+            <!-- Название страницы и кнопка для адаптации под мобильные экраны -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle overlay-collapse collapsed" data-toggle="collapse"
+                        data-target="#problems-filter-nav" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" data-ui-sref="app.problem">Фильтр</a>
+            </div>
+            <!-- Список действий, которые будут скрываться в кнопке -->
+            <div class="collapse overlay-collapse navbar-collapse" id="problems-filter-nav">
+                <form name="search" class="navbar-form" role="search"
+                      ng-submit="ctrl.searchSubmit(search.text, search.no)" style="margin-bottom: 0">
+                    <div class="form-group btn-group">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle"
+                               data-toggle="dropdown" type="button" aria-haspopup="true" aria-expanded="false" id="filterMenuButton">
+                                {{ctrl.currentFilter.name}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="filterMenuButton">
+                                <li data-ng-repeat="$filter in ctrl.filters track by $index"
+                                    data-ng-class="{'dropdown-submenu':$filter.hasChilds, 'divider':$filter.divider, 'dropdown-header':$filter.header}">
+                                    <a data-ng-if="$filter.name && $filter.clickable" href="javascript:void(0)" data-ng-click="ctrl.applyFilter($filter)">
+                                        {{$filter.name}}
+                                    </a>
+
+                                    <a data-ng-if="$filter.name && !$filter.clickable" data-ng-click="$event.stopPropagation()">
+                                        {{$filter.name}}
+                                    </a>
+                                    <ul data-ng-if="!$filter.divider && $filter.hasChilds" class="dropdown-menu">
+                                        <li data-ng-repeat="$subFilter in $filter.childs track by $index" class="{'divider':$subFilter.divider, 'dropdown-header':$subFilter.header}">
+                                            <a data-ng-if="$subFilter.name" href="javascript:void(0)" data-ng-click="ctrl.applyFilter($subFilter)">
+                                                {{$subFilter.name}}
+                                            </a>
+                                            <span data-ng-if="$subFilter.header">{{$subFilter.header}}</span>
+                                        </li>
+                                    </ul>
+
+                                    <span data-ng-if="$filter.header">{{$filter.header}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group input-group" style="margin-left: 10px">
+                        <input ng-model="search.no" type="text" class="form-control"
+                               placeholder="Введите номер">
+                    </div>
+                    <div class="form-group input-group" style="margin-left: 10px">
+                        <input ng-model="search.text" type="text" class="form-control"
+                               placeholder="Введите строку поиска">
+                        <div class="input-group-btn input-group-btn-each-border">
+                            <button type="submit" class="btn btn-default">Найти</button>
+                            <button class="btn btn-default" data-ng-click="ctrl.clearFulltextSearch()">Сбросить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div> <!-- /.container-fluid -->
+    </nav>
+    <!-- Панель кнопок -->
+
+    <nav class="grid-page__content narrow-panel navbar navbar-absolute navbar-default">
+        <div style="padding-left: 15px">
+            <a class="btn btn-default navbar-btn"
+               data-ng-disabled="ctrl.grid.getSelectedRows().length != 1"
+               data-ng-click="ctrl.clickOpen()">
+                <span class="fa fa-external-link"></span>
+                Открыть
+            </a>
+
+            <sd-dropdown-button
+                    fetch-data="ctrl.loadTemplates($text)"
+                    display-value="$value.name"
+                    button-class="btn btn-default"
+                    disabled="!ctrl.isCreateAllowed"
+                    on-click="ctrl.clickCreateNew(null)"
+                    on-click-item="ctrl.clickCreateNew($item)"
+            >
+                <span class="fa fa-plus"></span>
+                Новая
+            </sd-dropdown-button>
+        </div>
+    </nav>
+
+    <!-- Таблица -->
+    <div id="changes-grid" class="grid-page__content grid-page__grid-container">
+        <div data-ui-grid="ctrl.grid" style="height: 100%"
+             data-ui-grid-selection
+             data-ui-grid-resize-columns
+             data-ui-grid-pagination
+             data-ui-grid-exporter
+             data-ui-grid-autoResize
+             data-ui-grid-save-state>
+        </div>
+    </div>
+</div>
