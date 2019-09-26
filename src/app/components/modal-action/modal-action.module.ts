@@ -6,11 +6,11 @@ import { AlertModalComponent } from '../dialogs/alert-modal/alert-modal.componen
 import { ConfirmModalComponent } from '../dialogs/confirm-modal/confirm-modal.component';
 import { ImagePopupModalComponent } from '../dialogs/image-popup-modal/image-popup-modal.component';
 import { TextModalComponent } from '../dialogs/text-modal/text-modal.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [MainModalComponent, AlertModalComponent, ConfirmModalComponent, ImagePopupModalComponent, TextModalComponent],
   entryComponents: [AlertModalComponent, ConfirmModalComponent, ImagePopupModalComponent, TextModalComponent],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, FormsModule, ReactiveFormsModule]
 })
 export class ModalActionModule {}

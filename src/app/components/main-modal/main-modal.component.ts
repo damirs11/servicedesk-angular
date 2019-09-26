@@ -26,7 +26,7 @@ export class MainModalComponent implements OnInit {
     const data: Ialert = {
       header: 'HEADER',
       msg: 'MSG_MSG_MSG_MSG_MSG_MSG_MSG_MSG'
-    }
+    };
     const modalRef = this.modalService.open(AlertModalComponent);
     modalRef.componentInstance.data = data;
   }
@@ -36,7 +36,7 @@ export class MainModalComponent implements OnInit {
       header: 'HEADER',
       msg: 'MSG_MSG_MSG_MSG_MSG_MSG_MSG_MSG',
       required: req
-    }
+    };
     const modalRef = this.modalService.open(ConfirmModalComponent);
     modalRef.componentInstance.data = data;
 
@@ -48,20 +48,19 @@ export class MainModalComponent implements OnInit {
   }
 
   openImagePopup(singleImg?: boolean) {
-    
-    if(!singleImg) { 
+    if (!singleImg) {
       var data: IimagePopup = {
         urls: ["http://i0.kym-cdn.com/photos/images/newsfeed/001/295/524/cda.jpg",
-                "https://static.pexels.com/photos/349758/hummingbird-bird-birds-349758.jpeg",
-                "http://www.theuiaa.org/wp-content/uploads/2016/08/uiaa-sustainability-intro-1300x600.jpg"],
+          "https://static.pexels.com/photos/349758/hummingbird-bird-birds-349758.jpeg",
+          "http://www.theuiaa.org/wp-content/uploads/2016/08/uiaa-sustainability-intro-1300x600.jpg"],
         startFrom: 1
-      }
+      };
     } else {
       var data: IimagePopup = {
         urls: ["http://i0.kym-cdn.com/photos/images/newsfeed/001/295/524/cda.jpg"]
-      }
+      };
     }
-  
+
     const modalRef = this.modalService.open(ImagePopupModalComponent);
     modalRef.componentInstance.data = data;
   }
@@ -70,15 +69,21 @@ export class MainModalComponent implements OnInit {
     const modalRef = this.modalService.open(ImagePopupModalComponent);
   }
 
-  openText() {
+  openText(req?: boolean) {
     const data: Itext = {
       header: "HEADER",
       placeholder: "PLACEHOLDER",
       maxLength: 20,
-      required: true,
+      required: req,
       value: "VALUE"
-    }
+    };
     const modalRef = this.modalService.open(TextModalComponent);
     modalRef.componentInstance.data = data;
+
+    modalRef.result.then((result) => {
+      console.log(result);
+    }, (reason) => {
+      console.log(reason);
+    });
   }
 }

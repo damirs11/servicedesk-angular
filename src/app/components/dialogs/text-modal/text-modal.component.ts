@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Itext } from '../../dialog-interfaces/Itext';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-text-modal',
@@ -17,7 +18,7 @@ export class TextModalComponent implements OnInit {
   }
 
   submit() {
-    if (!this.canSubmit) return;
+    if (!this.canSubmit) { return; }
     this.activeModal.close(this.data.value);
   }
 
@@ -26,8 +27,8 @@ export class TextModalComponent implements OnInit {
   }
 
   get canSubmit() {
-    if (this.data.value) return true;
-    if (!this.data.required) return true;
+    if (this.data.value) { return true; }
+    if (!this.data.required) { return true; }
     return false;
   }
 }
