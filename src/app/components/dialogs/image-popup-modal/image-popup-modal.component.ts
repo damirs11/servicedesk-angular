@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { IimagePopup } from '../../dialog-interfaces/Iimage-popup';
+import { IImagePopup } from '../../dialog-interfaces/IImage-popup';
 
 @Component({
   selector: 'app-image-popup-modal',
@@ -9,7 +9,7 @@ import { IimagePopup } from '../../dialog-interfaces/Iimage-popup';
 })
 export class ImagePopupModalComponent implements OnInit {
 
-  @Input() data: IimagePopup;
+  @Input() data: IImagePopup;
   isSingleImage: boolean = true;
   currentImageIndex: number;
 
@@ -22,7 +22,9 @@ export class ImagePopupModalComponent implements OnInit {
     }
     this.isSingleImage = this.data.urls.length == 1;
     this.currentImageIndex = this.data.startFrom || 0;
-    if (this.currentImageIndex >= this.data.urls.length) this.currentImageIndex = 0;
+    if (this.currentImageIndex >= this.data.urls.length) {
+      this.currentImageIndex = 0;
+    }
   }
 
   nextImage(){

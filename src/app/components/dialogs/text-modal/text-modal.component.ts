@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Itext } from '../../dialog-interfaces/Itext';
+import { IText } from '../../dialog-interfaces/IText';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -10,7 +10,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class TextModalComponent implements OnInit {
 
-  @Input() data: Itext;
+  @Input() data: IText;
 
   constructor(public activeModal: NgbActiveModal) { }
 

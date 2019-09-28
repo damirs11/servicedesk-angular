@@ -1,4 +1,4 @@
-export interface IimagePopup {
+export interface IImagePopup {
     urls: string[];
     startFrom?: number;
 }

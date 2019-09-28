@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Ialert } from '../../dialog-interfaces/Ialert';
+import { IAlert } from "../../dialog-interfaces/IAlert";
 
 @Component({
   selector: 'app-alert-modal',
@@ -8,7 +8,7 @@ import { Ialert } from '../../dialog-interfaces/Ialert';
   styleUrls: ['./alert-modal.component.less']
 })
 export class AlertModalComponent implements OnInit {
-  @Input() data: Ialert;
+  @Input() data: IAlert;
   
   constructor(public activeModal: NgbActiveModal) { }
 

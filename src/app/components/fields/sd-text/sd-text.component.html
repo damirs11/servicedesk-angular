@@ -1,3 +1,16 @@
-<p>
-  sd-text works!
-</p>
+<div *ngIf="editing" class="sd-text">
+  <div class="input-group sd-text__input-container" style="width: 100%">
+      <input type="text"
+             class="form-control"
+             [(ngModel)]="value"
+             placeholder="{{placeholder || '- нет -'}}"
+             maxlength="maxlength"
+             minlength="minlength"
+             required="required"
+             disabled="disabled"
+      >
+  </div>
+</div>
+
+<!--Режим просмотра-->
+<div *ngIf="!editing" class="sd-text-view"><span>{{displayValue}}</span></div>

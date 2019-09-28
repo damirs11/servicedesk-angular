@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertModalComponent } from 'src/app/components/dialogs/alert-modal/alert-modal.component';
-import { Ialert } from 'src/app/components/dialog-interfaces/Ialert';
-import { Iconfirm } from 'src/app/components/dialog-interfaces/Iconfirm';
+import { IAlert } from 'src/app/components/dialog-interfaces/IAlert';
+import { IConfirm } from 'src/app/components/dialog-interfaces/IConfirm';
 import { ConfirmModalComponent } from 'src/app/components/dialogs/confirm-modal/confirm-modal.component';
-import { IimagePopup } from 'src/app/components/dialog-interfaces/Iimage-popup';
+import { IImagePopup } from 'src/app/components/dialog-interfaces/IImage-popup';
 import { ImagePopupModalComponent } from 'src/app/components/dialogs/image-popup-modal/image-popup-modal.component';
-import { Itext } from 'src/app/components/dialog-interfaces/Itext';
+import { IText } from 'src/app/components/dialog-interfaces/IText';
 import { TextModalComponent } from 'src/app/components/dialogs/text-modal/text-modal.component';
 
 
@@ -23,7 +23,7 @@ export class MainModalComponent implements OnInit {
   }
 
   openAlert() {
-    const data: Ialert = {
+    const data: IAlert = {
       header: 'HEADER',
       msg: 'MSG_MSG_MSG_MSG_MSG_MSG_MSG_MSG'
     };
@@ -32,7 +32,7 @@ export class MainModalComponent implements OnInit {
   }
 
   openConfirm(req?: boolean) {
-    const data: Iconfirm = {
+    const data: IConfirm = {
       header: 'HEADER',
       msg: 'MSG_MSG_MSG_MSG_MSG_MSG_MSG_MSG',
       required: req
@@ -49,14 +49,14 @@ export class MainModalComponent implements OnInit {
 
   openImagePopup(singleImg?: boolean) {
     if (!singleImg) {
-      var data: IimagePopup = {
+      var data: IImagePopup = {
         urls: ["http://i0.kym-cdn.com/photos/images/newsfeed/001/295/524/cda.jpg",
           "https://static.pexels.com/photos/349758/hummingbird-bird-birds-349758.jpeg",
           "http://www.theuiaa.org/wp-content/uploads/2016/08/uiaa-sustainability-intro-1300x600.jpg"],
         startFrom: 1
       };
     } else {
-      var data: IimagePopup = {
+      var data: IImagePopup = {
         urls: ["http://i0.kym-cdn.com/photos/images/newsfeed/001/295/524/cda.jpg"]
       };
     }
@@ -70,7 +70,7 @@ export class MainModalComponent implements OnInit {
   }
 
   openText(req?: boolean) {
-    const data: Itext = {
+    const data: IText = {
       header: "HEADER",
       placeholder: "PLACEHOLDER",
       maxLength: 20,

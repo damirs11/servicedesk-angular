@@ -1,4 +1,4 @@
-export interface Ialert {
+export interface IAlert {
     header: string;
     msg: string;
 }

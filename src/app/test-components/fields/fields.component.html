@@ -1,0 +1,17 @@
+<div class="entity-container__content">
+    <form class="form-inline">
+        <div class="form-group entity-text" style="width: 100%; height: 42px">
+            <label>Editable:</label>
+            <div class="entity-text__inline-field">
+                <app-sd-text [target]="editable" [editing]="true"></app-sd-text>
+            </div>
+        </div>
+
+        <div class="form-group entity-text" style="width: 100%; height: 42px" >
+            <label>Not Editable:</label>
+            <div class="entity-text__inline-field">
+                <app-sd-text [target]="notEditable" [editing]="false"></app-sd-text>
+            </div>
+        </div>
+    </form>
+</div>

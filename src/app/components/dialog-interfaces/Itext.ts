@@ -1,4 +1,4 @@
-export interface Itext {
+export interface IText {
   header: string;
   placeholder: string;
   value?: string;
