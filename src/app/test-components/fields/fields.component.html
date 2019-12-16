@@ -3,7 +3,7 @@
         <div class="form-group entity-text" style="width: 100%; height: 42px">
             <label>Editable:</label>
             <div class="entity-text__inline-field">
-                <app-sd-text [target]="editable" [editing]="true"></app-sd-text>
+                <app-sd-text [target]="editable" [editing]="true" [disabled]="false"></app-sd-text>
             </div>
         </div>
 
@@ -14,4 +14,24 @@
             </div>
         </div>
     </form>
+</div>
+
+<hr>
+
+<div class="entity-container__content">
+  <form class="form-inline">
+      <div class="form-group entity-text">
+          <label>Editable:</label>
+          <div class="entity-text__inline-field">
+              <app-sd-textarea [target]="editable" [editing]="true"></app-sd-textarea>
+          </div>
+      </div>
+
+      <div class="form-group entity-text" >
+          <label>Not Editable:</label>
+          <div class="entity-text__inline-field">
+              <app-sd-textarea [target]="notEditable" [editing]="false"></app-sd-textarea>
+          </div>
+      </div>
+  </form>
 </div>

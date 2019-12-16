@@ -7,8 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FieldsComponent implements OnInit {
 
-  editable: string = "some value";
-  notEditable: string = "not editable value";
+  editable = "some value";
+  notEditable = "not editable value";
 
   constructor() { }
 

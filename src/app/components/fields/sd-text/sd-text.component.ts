@@ -28,7 +28,7 @@ export class SdTextComponent implements OnInit {
 
   ngOnInit() {
     // TODO: Разобраться зачем ниже описанный код
-    // this.value = this.target;
+    this.value = this.target;
     // this.$scope.$watch("ctrl.editing", () => {
     // if (this.commitTask) {
     //     this.$timeout.cancel(this.commitTask);
@@ -49,7 +49,7 @@ export class SdTextComponent implements OnInit {
   }
 
   get isEnabled() {
-    if (this.enabled === undefined) return true;
+    if (this.enabled === undefined) { return true; }
     return this.enabled;
   }
 

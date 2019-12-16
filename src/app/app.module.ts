@@ -10,16 +10,19 @@ import { FormsModule } from "@angular/forms";
 import { ModalComponent } from './test-components/modal/modal.component';
 import { FieldsComponent } from './test-components/fields/fields.component';
 import { SdTextComponent } from './components/fields/sd-text/sd-text.component';
+import { SdTextareaComponent } from './components/fields/sd-textarea/sd-textarea.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SdTextComponent,
+    SdTextareaComponent,
     FieldsComponent,
-    ModalComponent
+    ModalComponent,
+    SdTextareaComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, FormsModule, NgbModule, 
+    BrowserModule, AppRoutingModule, FormsModule, NgbModule,
     EntityModule, ModalActionModule
   ],
   providers: [],
