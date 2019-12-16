@@ -1,0 +1,153 @@
+<div sd-loading="ctrl.loadingPromise" ng-if="ctrl.change.accessRules.isReadApprovalAllowed">
+    <content>
+        <div class="entity-container" style="height: 100%; font-size: 12px">
+
+            <div class="entity-container__content">
+                <div style="display: inline-block">
+                    <button class="btn btn-default"
+                            data-ng-if="!ctrl.editing&&ctrl.isEditAllow()"
+                            data-ng-click="ctrl.startEditing()"
+                            style="vertical-align: top">
+                        Редактировать
+                    </button>
+                    <button class="btn btn-success"
+                            data-ng-if="ctrl.editing"
+                            data-ng-disabled="!ctrl.approval.checkModified()"
+                            data-ng-click="ctrl.saveEditing()">
+                        Сохранить
+                    </button>
+                    <button class="btn btn-default"
+                            data-ng-if="ctrl.editing"
+                            data-ng-click="ctrl.cancelEditing()">
+                        Отмена
+                    </button>
+                    <sd-vote style="display: inline-block; margin-left: 20px"
+                             ng-if="!ctrl.editing && ctrl.isMakeVoteButtonVisible"
+                             vote="ctrl.ownVote"
+                             on-vote="ctrl.grid.fetchData()">
+                    </sd-vote>
+                    <!--<button class="btn btn-default"-->
+                            <!--data-ng-if="!ctrl.editing"-->
+                            <!--data-ng-click="ctrl.makeVote()"-->
+                            <!--ng-show="ctrl.isMakeVoteButtonVisible">-->
+                        <!--Согласовать-->
+                    <!--</button>-->
+                </div>
+            </div>
+
+            <div class="entity-container__content">
+                <form class="form-inline">
+                    <div class="form-group entity-text" style="width: 100%; height: 42px">
+                        <label>Тема:</label>
+                        <div class="entity-text__inline-field">
+                            <sd-text target="ctrl.approval.subject" editing="ctrl.isEditableField()"></sd-text>
+                        </div>
+                    </div>
+
+                    <div class="form-group entity-text" style="width: 100%; height: 42px" >
+                        <label>Результат:</label>
+                        <div class="entity-text__inline-field">
+                            <sd-text target="ctrl.$approvalResult" editing="0"></sd-text>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="entity-container__content">
+                <form class="form-inline entity-properties">
+
+                    <div class="form-group e-prop">
+                        <label>Статус:</label>
+                        <sd-dropdown class="input-group e-prop__value"
+                                     target="ctrl.approval.status"
+                                     fetch-data="ctrl.getAllowedStatuses()"
+                                     display-value="$value.fullName"
+                                     allow-empty="false"
+                                     editing="ctrl.editing"
+                                     fetch-on-change="ctrl.availableStatusesCode"
+                                     min-symbols-fetch="0"
+                        ></sd-dropdown>
+                    </div>
+
+                    <div class="form-group e-prop">
+                        <label>Крайний срок:</label>
+                        <sd-datetime
+                                class="input-group e-prop__value"
+                                target="ctrl.approval.deadline"
+                                allow-empty="false"
+                                editing="ctrl.isEditableField()"
+                        ></sd-datetime>
+                    </div>
+
+                    <div class="form-group e-prop">
+                        <label>Необходимо согласующих:</label>
+                        <sd-number
+                                class="input-group e-prop__value"
+                                target="ctrl.approval.numberOfApproversRequired"
+                                editing="ctrl.isEditableField()"
+                                min="0"
+                                max="ctrl.maxApproversRequired"
+                        ></sd-number>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="entity-container__content">
+
+                <form class="form-inline entity-properties" data-ng-if="ctrl.isApproversEditable() && ctrl.editing">
+                    <div class="form-group e-prop">
+                        <label>Рабочая группа:</label>
+                        <sd-dropdown class="input-group e-prop__value"
+                                     target="ctrl.approval.workgroup"
+                                     fetch-data="ctrl.loadWorkgroups($text)"
+                                     placeholder="Введите название группы"
+                                     display-value="$value.name"
+                                     allow-empty="true"
+                                     editing="ctrl.isEditableField()"
+                        ></sd-dropdown>
+                    </div>
+                    <div class="form-group e-prop">
+                        <label>Согласующий:</label>
+                        <sd-dropdown class="input-group e-prop__value"
+                                     target="ctrl.selectedApprover"
+                                     fetch-data="ctrl.loadApprovers($text)"
+                                     placeholder="Введите имя персоны"
+                                     display-value="$value.name"
+                                     editing="ctrl.editing"
+                        ></sd-dropdown>
+                        <button class="btn btn-default"
+                                data-ng-click="ctrl.addApprover()"
+                                ng-disabled="!ctrl.editing">
+                            Добавить
+                        </button>
+                        <button class="btn btn-default"
+                                data-ng-click="ctrl.removeApprover()"
+                                ng-disabled="ctrl.isRemoveApproverButtonDisabled&&!ctrl.editing">
+                            Удалить
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="entity-container__content sd-approval-grid">
+                <div data-ui-grid="ctrl.grid" class="grid"
+                     data-ui-grid-resize-columns
+                     data-ui-grid-autoResize
+                     data-ui-grid-selection>
+                </div>
+            </div>
+
+        </div>
+    </content>
+</div>
+
+<sd-entity-error ng-hide="ctrl.change.accessRules.isReadApprovalAllowed">
+    <header class="head entity-error__header__text">
+        <span class="glyphicon glyphicon-ban-circle"></span>
+        Ошибка доступа
+    </header>
+    <message class="body entity-error__body__text">
+        У вас нет прав на просмотр согласования.
+    </message>
+</sd-entity-error>

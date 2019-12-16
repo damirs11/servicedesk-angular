@@ -3,12 +3,25 @@ import { NgModule } from "@angular/core";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { HttpClientModule } from "@angular/common/http";
 import { EntityModule } from "src/api/entity.module";
+import { ModalActionModule } from "./components/modal-action/modal-action.module";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { FormsModule } from "@angular/forms";
+import { ModalComponent } from './test-components/modal/modal.component';
+import { FieldsComponent } from './test-components/fields/fields.component';
+import { SdTextComponent } from './components/fields/sd-text/sd-text.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, EntityModule],
+  declarations: [
+    AppComponent,
+    SdTextComponent,
+    FieldsComponent,
+    ModalComponent
+  ],
+  imports: [
+    BrowserModule, AppRoutingModule, FormsModule, NgbModule, 
+    EntityModule, ModalActionModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

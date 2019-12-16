@@ -1,0 +1,37 @@
+<div sd-loading="ctrl.fetchPromise" style="height: 99%">
+
+    <content class="grid-page" >
+        <nav class="grid-page__content  narrow-panel navbar navbar-absolute navbar-default">
+            <div style="padding-left: 15px">
+                <a class="btn btn-default navbar-btn"
+                   data-ng-disabled="ctrl.isButtonOpenDisabled"
+                   data-ng-click="ctrl.clickOpen()">
+                    <span class="fa fa-external-link"></span>
+                    Открыть
+                </a>
+                <a class="btn btn-default navbar-btn"
+                   data-ng-click="ctrl.clickAttach()">
+                    <span class="fa fa-paperclip"></span>
+                    Прикрепить наряд
+                </a>
+                <a class="btn btn-default navbar-btn" ng-click="ctrl.clickCreateWorkorder()">
+                    <span class="fa fa-plus"></span>
+                    Создать наряд
+                </a>
+            </div>
+        </nav>
+        <div class="entity-container grid-page__grid-container" style="font-size: 12px" >
+            <div class="entity-container__content" style="padding: 0; min-width: 100%; height: 100%">
+                <div data-ui-grid="ctrl.grid" style="height: 100%"
+                     data-ui-grid-selection
+                     data-ui-grid-resize-columns
+                     data-ui-grid-pagination
+                     data-ui-grid-exporter
+                     data-ui-grid-autoResize
+                     data-ui-grid-save-state
+                ></div>
+            </div>
+        </div>
+    </content>
+
+</div>

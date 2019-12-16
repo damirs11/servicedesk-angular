@@ -1,0 +1,20 @@
+<div class="modal-content modal-600">
+  <form name="inputMessageForm" novalidate role="form" (submit)="submit()">
+    <div class="modal-header dialog-header-input-message ">
+      <span class="modal-title">{{ data.header }}</span>
+      <button type="button" class="close" *ngIf="!data.required" (click)="close()" title="DIALOGS_CLOSE">
+        &times;
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <input type="text" class="form-control" [placeholder]="data.placeholder" [maxLength]="data.maxLength" 
+        [(ngModel)]="data.value" value="data.value" name="inputMessage" [required]="!data.required" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-success" [disabled]="!canSubmit">DIALOGS_OK</button>
+      <button type="button" class="btn btn-default" (click)="close()" *ngIf="!required">DIALOGS_CLOSE</button>
+    </div>
+  </form>
+</div>

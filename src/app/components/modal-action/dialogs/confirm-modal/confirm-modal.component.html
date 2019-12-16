@@ -1,0 +1,12 @@
+<div class="modal-content modal-400">
+  <div class="modal-header dialog-header-confirm">
+    <span class="modal-title">{{ data?.header }}</span>
+    <button type="button" class="close" *ngIf="!data?.required" (click)="activeModal.dismiss()" title="DIALOGS_CLOSE">&times;</button>
+  </div>
+  <div class="modal-body">{{ data?.msg }}</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="activeModal.close(true)">DIALOGS_YES</button>
+    <button type="button" class="btn btn-danger" (click)="activeModal.close(false)">DIALOGS_NO</button>
+    <button type="button" class="btn btn-default" *ngIf="!data?.required" (click)="activeModal.dismiss()">DIALOGS_CLOSE</button>
+  </div>
+</div>

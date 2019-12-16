@@ -1,0 +1,369 @@
+<div class="entity-container">
+    <div class="entity-container__content">
+        <form class="form-inline">
+            <div class="form-group entity-text entity-text-required" style="width: 100%; height: 42px">
+                <label>Тема:</label>
+                <div class="entity-text__inline-field">
+                    <sd-text target="ctrl.entity.subject"
+                             editing="true"
+                             placeholder="Укажите тему"
+                             disabled="ctrl.isParentBusy">
+                    </sd-text>
+                </div>
+            </div>
+
+            <div class="form-group entity-text entity-text-required" style="width: 100%;">
+                <label>Подробная информация:</label>
+                <div class="entity-text__multiline-field">
+                    <sd-textarea target="ctrl.entity.description"
+                                 editing="true"
+                                 placeholder="Укажите подробную информацию"
+                                 disabled="ctrl.isParentBusy">
+                    </sd-textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Организация:</label>
+                <sd-dropdown class="input-group e-prop__value e-prop-required"
+                             target="ctrl.entity.organization"
+                             on-change="ctrl.changedOrganization($value)"
+                             fetch-data="ctrl.loadOrganizations($text)"
+                             placeholder="Введите название организации"
+                             display-value="value.name"
+                             editing="true"
+                             allow-empty="true"
+                             ignore-same-text="false"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Заявитель:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.caller"
+                             on-change="changedCaller($value)"
+                             fetch-data="ctrl.loadCallers($text)"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="true"
+                             allow-empty="true"
+                             ignore-same-text="false"
+                             fetch-on-change="ctrl.entity.organization"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Услуга:</label>
+                <sd-dropdown class="input-group e-prop__value e-prop-required"
+                             target="ctrl.entity.service"
+                             on-change="ctrl.changedService($value)"
+                             fetch-data="ctrl.loadServices($text)"
+                             placeholder="Введите название услуги"
+                             display-value="$value.name"
+                             editing="true"
+                             allow-empty="true"
+                             fetch-on-change="ctrl.entity.organization"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Соглашение (SLA):</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.service.sla"
+                             display-value="$value.name"
+                             allow-empty="true"
+                             disabled="true">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Условие предоставления:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.service.sla.serviceLevel"
+                             display-value="$value.name"
+                             allow-empty="true"
+                             disabled="true">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Источник:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.source"
+                             on-change="ctrl.changedSource($value)"
+                             fetch-data="ctrl.loadSources($text)"
+                             display-value="$value.fullName"
+                             placeholder="Выберите источник"
+                             cache="true"
+                             editing="true"
+                             icon-class="$value | sdIcon"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+            <div class="form-group e-prop">
+                <label>Время e-mail:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.entity.emailDate"
+                        allow-empty="true"
+                        editing="true"
+                        disabled="false">
+                </sd-datetime>
+            </div>
+            <div class="form-group entity-text e-prop" style="width: 100%; height: 42px">
+                <label>Ext ID:</label>
+                <div class="entity-text__inline-field e-prop__value">
+                    <sd-text target="ctrl.entity.extId"
+                             editing="true"
+                             placeholder="Укажите Ext ID"
+                             disabled="ctrl.isParentBusy">
+                    </sd-text>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Инициатор:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.initiator"
+                             fetch-data="ctrl.loadInititators($text)"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Исполнитель:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.assignment.executor"
+                             on-change="ctrl.changedExecutor($value)"
+                             fetch-data="ctrl.loadExecutors($text)"
+                             placeholder="Введите имя персоны"
+                             display-value="$value.fullName"
+                             editing="true"
+                             allow-empty="true"
+                             fetch-on-change="ctrl.entity.assignment.workgroup"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Рабочая группа:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.assignment.workgroup"
+                             on-change="ctrl.changedWorkgroup($value)"
+                             fetch-data="ctrl.loadWorkgroups($text)"
+                             placeholder="Введите название группы"
+                             display-value="$value.name"
+                             editing="true"
+                             fetch-on-change="ctrl.entity.assignment.executor"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Руководитель исполнителя:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.executorHead"
+                             placeholder="Введите имя персоны"
+                             fetch-data="ctrl.loadExecutorHead($text)"
+                             display-value="$value.fullName"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+        </form>
+    </div>
+
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Приоритет:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.priority"
+                             on-change="ctrl.changedPriority($value)"
+                             fetch-data="ctrl.loadPriorities($text)"
+                             display-value="$value.fullName"
+                             placeholder="Выберите приоритет"
+                             cache="true"
+                             editing="true"
+                             icon-class="$value | sdIcon"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Условия приоритета:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.serviceLevelPriority"
+                             display-value="$value.name"
+                             allow-empty="true"
+                             disabled="true">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Крайний срок:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.entity.deadline"
+                        allow-empty="true"
+                        editing="false"
+                        disabled="true">
+                </sd-datetime>
+            </div>
+        </form>
+    </div>
+
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+            <div class="form-group e-prop">
+                <label>Папка:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.folder"
+                             on-change="ctrl.changedFolder($value)"
+                             fetch-data="ctrl.loadFolders($text)"
+                             display-value="$value.name"
+                             placeholder="Выберите папку"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Категория:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.category"
+                             fetch-data="ctrl.loadCategories($text)"
+                             display-value="$value.name"
+                             placeholder="Выберите категорию"
+                             cache="true"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop e-prop-required">
+                <label>Классификация:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.classification"
+                             fetch-data="ctrl.loadClassifications($text)"
+                             display-value="$value.name"
+                             placeholder="Выберите классификацию"
+                             cache="true"
+                             fetch-on-change="ctrl.entity.service.sla"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+
+            <div class="form-group e-prop">
+                <label>Объект обслуживания:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.configurationItem"
+                             fetch-data="ctrl.loadConfigurationItems($text)"
+                             display-value="$value.searchCode"
+                             placeholder="Введите код объекта"
+                             editing="false"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+        </form>
+    </div>
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+            <div class="form-group e-prop">
+                <label>Новый крайний срок:</label>
+                <sd-datetime
+                        class="input-group e-prop__value"
+                        target="ctrl.entity.newDeadline"
+                        change="ctrl.changedNewDeadline()"
+                        allow-empty="true"
+                        editing="true">
+                </sd-datetime>
+            </div>
+            <div class="form-group entity-text e-prop" style="width: 100%; height: 42px">
+                <label>Причина переноса к/c:</label>
+                <div class="entity-text__inline-field e-prop__value">
+                    <sd-text target="ctrl.entity.newDeadlineReason"
+                             on-change="ctrl.changedNewDeadlineReason($value)"
+                             editing="true"
+                             placeholder="Укажите причину переноса крайнего срока"
+                             disabled="ctrl.isParentBusy">
+                    </sd-text>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="entity-container__content">
+        <form class="form-inline entity-properties">
+            <div class="form-group entity-text e-prop" style="width: 100%; height: 42px;">
+                <label for="registrationError">Нарушение регистрации:</label>
+                <div class="entity-text__inline-field e-prop__value" style="margin-left: 10px;">
+                    <input id="registrationError"
+                           type="checkbox"
+                           ng-model="ctrl.entity.registrationError"
+                           ng-change="ctrl.changedRegistrationError()"
+                           ng-disabled="ctrl.isDisabled('registrationError')"/>
+                </div>
+            </div>
+            <div class="form-group entity-text e-prop" style="width: 100%; height: 42px;">
+                <label for="frequentlyAskedQuestion">Часто задаваемые вопросы:</label>
+                <div class="entity-text__inline-field e-prop__value" style="margin-left: 10px;">
+                    <input id="frequentlyAskedQuestion"
+                           type="checkbox"
+                           ng-model="ctrl.entity.frequentlyAskedQuestion"
+                           ng-change="ctrl.changedFrequentlyAskedQuestion" />
+                </div>
+            </div>
+            <div class="form-group e-prop">
+                <label>База известных ошибок:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.faq"
+                             fetch-data="ctrl.loadFaq($text)"
+                             display-value="$value.name"
+                             editing="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+            <div class="form-group e-prop">
+                <label>Подсистема АИС ЭАД:</label>
+                <sd-dropdown class="input-group e-prop__value"
+                             target="ctrl.entity.entityCode6"
+                             fetch-data="ctrl.loadEntityCode6($text)"
+                             display-value="$value.fullName"
+                             placeholder="Выберите подсистему"
+                             editing="true"
+                             cache="true"
+                             allow-empty="true"
+                             disabled="ctrl.isParentBusy">
+                </sd-dropdown>
+            </div>
+        </form>
+    </div>
+</div>
