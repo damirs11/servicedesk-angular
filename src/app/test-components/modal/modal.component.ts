@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlertModalComponent } from 'src/app/components/dialogs/alert-modal/alert-modal.component';
-import { IAlert } from 'src/app/components/dialog-interfaces/IAlert';
-import { IConfirm } from 'src/app/components/dialog-interfaces/IConfirm';
-import { ConfirmModalComponent } from 'src/app/components/dialogs/confirm-modal/confirm-modal.component';
-import { IImagePopup } from 'src/app/components/dialog-interfaces/IImage-popup';
-import { ImagePopupModalComponent } from 'src/app/components/dialogs/image-popup-modal/image-popup-modal.component';
-import { IText } from 'src/app/components/dialog-interfaces/IText';
-import { TextModalComponent } from 'src/app/components/dialogs/text-modal/text-modal.component';
+import { AlertModalComponent } from 'src/app/components/modal-action/dialogs/alert-modal/alert-modal.component';
+import { IAlert } from "src/app/components/modal-action/dialog-interfaces/IAlert";
+import { IConfirm } from 'src/app/components/modal-action/dialog-interfaces/IConfirm';
+import { ConfirmModalComponent } from 'src/app/components/modal-action/dialogs/confirm-modal/confirm-modal.component';
+import { IImagePopup } from 'src/app/components/modal-action/dialog-interfaces/IImage-popup';
+import { ImagePopupModalComponent } from 'src/app/components/modal-action/dialogs/image-popup-modal/image-popup-modal.component';
+import { IText } from 'src/app/components/modal-action/dialog-interfaces/IText';
+import { TextModalComponent } from 'src/app/components/modal-action/dialogs/text-modal/text-modal.component';
 
 
 @Component({
-  selector: 'app-main-modal',
-  templateUrl: './main-modal.component.html',
-  styleUrls: ['./main-modal.component.less']
+  selector: 'app-modal',
+  templateUrl: './modal.component.html',
+  styleUrls: ['./modal.component.less']
 })
-export class MainModalComponent implements OnInit {
+export class ModalComponent implements OnInit {
 
   constructor(private modalService: NgbModal) { }
 
