@@ -21,12 +21,13 @@
     "@angular/router": "~8.2.8",
     "@angular/upgrade": "^8.2.8",
     "@ng-bootstrap/ng-bootstrap": "^5.1.1",
-    "@uirouter/angularjs": "^1.0.22",
     "bootstrap": "^4.3.1",
     "core-js": "^3.2.1",
     "rxjs": "~6.5.3",
     "tslib": "^1.10.0",
-    "zone.js": "~0.10.2"
+    "typescript": "^3.5.3",
+    "typescript-tslint-plugin": "^0.5.4",
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^8.2.0",
@@ -54,7 +55,6 @@
     "ts-loader": "^6.1.2",
     "ts-node": "~8.4.1",
     "tslint": "~5.20.0",
-    "typescript": "^3.5.3",
     "uglifyify": "^5.0.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
