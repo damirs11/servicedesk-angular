@@ -1,7 +1,5 @@
-import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges, DoCheck } from "@angular/core";
-import { Observable } from "rxjs";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 
-const COMMIT_DEBOUNCE: number = 250;
 
 @Component({
   selector: "app-sd-text",
@@ -9,7 +7,9 @@ const COMMIT_DEBOUNCE: number = 250;
   styleUrls: ["./sd-text.component.less"]
 })
 export class SdTextComponent implements OnInit {
-  @Input() target: any;
+  // @Input() target: any;
+  // @Input() onChange: expr;
+  @Input() required: boolean; // TODO: Есть в HTML, но почему-то нет в ctrl
   @Input() minlength: number;
   @Input() maxlength: number;
   @Input() allowEmpty: boolean;
@@ -19,37 +19,80 @@ export class SdTextComponent implements OnInit {
   @Input() validate: any;
   @Input() disabled: boolean;
 
-  value: any;
-  commitTask: any;
-  enabled: boolean;
-  validationError: any;
+  private _value: string;
 
-  constructor() {}
+  // Обычный геттер
+  get value() {
+    return this._value;
+  }
+
+  // Кастомный сеттер в котором прописан callback о смени значения
+  @Input()
+  set value(value: string) {
+    this._value = value;
+    this.valueChange.emit(this.value);
+  }
+  // сам callback
+  @Output() valueChange = new EventEmitter<string>();
+
+  $previousEditing: boolean;
+  $previousValue: any;
+  $previousTarget: any;
+  commitTask: any;
+  enabled: any;
+  errorMessage: any;
+
+  constructor() { }
 
   ngOnInit() {
-    // TODO: Разобраться зачем ниже описанный код
-    this.value = this.target;
-    // this.$scope.$watch("ctrl.editing", () => {
-    // if (this.commitTask) {
-    //     this.$timeout.cancel(this.commitTask);
-    //     this.commitTask = null;
-    // }
-    // this.value = this.target;
-    // });
+    this.initCheck();
+  }
 
-    // // Коммитим значение по дебаунсу.
-    // this.$scope.$watch(() => this.value, (newVal,oldVal) => {
-    //   if (newVal == oldVal) return;
-    //   if (this.commitTask) this.$timeout.cancel(this.commitTask);
-    //   this.commitTask = this.$timeout(() => {
-    //       this.commit(newVal);
-    //       this.commitTask = null;
-    //   },COMMIT_DEBOUNCE)
-    // });
+  initCheck() {
+    this.$previousEditing = this.editing;
+    this.$previousValue = this.value;
+    // this.$previousTarget = this.target;
+  }
+
+  $doCheck() {
+    // if (!this.$previousEditing === this.editing ) {
+    //   this.commit();
+    //   this.$previousEditing = this.editing;
+    // }
+    // if (!this.$previousValue === this.value) {
+    //   this.commit();
+    //   this.$previousValue = this.value;
+    // }
+    // if (!this.$previousTarget === this.target) {
+    //   this.commit();
+    //   this.onChange();
+    //   this.$previousTarget = this.target;
+    // }
+  }
+
+  onChange() {
+    throw new Error("Method not implemented.");
+  }
+
+  commit() {
+    // if (this.commitTask) {
+    //   this.$timeout.cancel(this.commitTask);
+    // }
+
+    // this.commitTask = this.$timeout(() => {
+    //   if (this.value === "") {
+    //     this.value = null;
+    //   }
+
+    //   this.target = this.value;
+    //   this.commitTask = null;
+    // }, COMMIT_DEBOUNCE);
   }
 
   get isEnabled() {
-    if (this.enabled === undefined) { return true; }
+    if (this.enabled === undefined) {
+      return true;
+    }
     return this.enabled;
   }
 
@@ -57,26 +100,16 @@ export class SdTextComponent implements OnInit {
     if (this.value == null) {
       return this.emptyValue || "- нет -";
     }
-    if (!this.editing) {
-      return this.target;
-    } // Во view-mode возвращаем значение из target
+    // if (!this.editing) {
+    //   return this.target;
+    // } // Во view-mode возвращаем значение из target
     return this.value;
   }
 
-  commit(val: any) {
-    if(val == "") {
-      val = null;
+  get hasError() {
+    if (this.validate) {
+      return this.errorMessage = this.validate({ $value: this.value });
     }
-    if(this.validate) {
-      const validationError = this.validate({
-        $newValue: val,
-        $oldValue: this.target
-      });
-      if(validationError) {
-        this.validationError = validationError;
-        return;
-      }
-      this.target = val;
-    }
+    return false;
   }
 }

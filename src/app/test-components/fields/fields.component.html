@@ -3,7 +3,15 @@
         <div class="form-group entity-text" style="width: 100%; height: 42px">
             <label>Editable:</label>
             <div class="entity-text__inline-field">
-                <app-sd-text [target]="editable" [editing]="true" [disabled]="false"></app-sd-text>
+                <app-sd-text [value]="editable" (valueChange)="editable=$event" [editing]="true"></app-sd-text>
+            </div>
+        </div>
+        <span>{{editable}}</span>
+
+        <!-- <div class="form-group entity-text" style="width: 100%; height: 42px">
+            <label>Disabled:</label>
+            <div class="entity-text__inline-field">
+                <app-sd-text [target]="notEditable" [editing]="true" [disabled]="true"></app-sd-text>
             </div>
         </div>
 
@@ -12,7 +20,7 @@
             <div class="entity-text__inline-field">
                 <app-sd-text [target]="notEditable" [editing]="false"></app-sd-text>
             </div>
-        </div>
+        </div> -->
     </form>
 </div>
 
