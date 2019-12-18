@@ -15,4 +15,14 @@ export class FieldsComponent implements OnInit {
   ngOnInit() {
   }
 
+  test(event: string): void {
+    this.editable = event;
+    console.log(event);
+  }
+
+  validation($value: string): string {
+    if ($value === "") {
+      return "Ошибка";
+    }
+  }
 }

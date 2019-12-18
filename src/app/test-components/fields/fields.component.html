@@ -3,43 +3,39 @@
         <div class="form-group entity-text" style="width: 100%; height: 42px">
             <label>Editable:</label>
             <div class="entity-text__inline-field">
-                <app-sd-text [value]="editable" (valueChange)="editable=$event" [editing]="true"></app-sd-text>
+                <app-sd-text
+                    [value]="editable"
+                    (valueChange)="test($event)"
+                    [editing]="true"
+                    (validation)="validation($event)">
+                </app-sd-text>
             </div>
         </div>
         <span>{{editable}}</span>
 
-        <!-- <div class="form-group entity-text" style="width: 100%; height: 42px">
+        <div class="form-group entity-text" style="width: 100%; height: 42px">
             <label>Disabled:</label>
             <div class="entity-text__inline-field">
-                <app-sd-text [target]="notEditable" [editing]="true" [disabled]="true"></app-sd-text>
+                <app-sd-text
+                    [value]="notEditable"
+                    (valueChange)="notEditable=$event"
+                    [editing]="true"
+                    [disabled]="true">
+                </app-sd-text>
             </div>
         </div>
 
         <div class="form-group entity-text" style="width: 100%; height: 42px" >
             <label>Not Editable:</label>
             <div class="entity-text__inline-field">
-                <app-sd-text [target]="notEditable" [editing]="false"></app-sd-text>
+                <app-sd-text
+                    [value]="notEditable"
+                    (valueChange)="notEditable=$event"
+                    [editing]="false">
+                </app-sd-text>
             </div>
-        </div> -->
+        </div>
     </form>
 </div>
 
 <hr>
-
-<div class="entity-container__content">
-  <form class="form-inline">
-      <div class="form-group entity-text">
-          <label>Editable:</label>
-          <div class="entity-text__inline-field">
-              <app-sd-textarea [target]="editable" [editing]="true"></app-sd-textarea>
-          </div>
-      </div>
-
-      <div class="form-group entity-text" >
-          <label>Not Editable:</label>
-          <div class="entity-text__inline-field">
-              <app-sd-textarea [target]="notEditable" [editing]="false"></app-sd-textarea>
-          </div>
-      </div>
-  </form>
-</div>
