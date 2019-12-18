@@ -15,8 +15,7 @@ export class SdTextComponent implements OnInit {
   @Input() placeholder: string;
   @Input() emptyValue: string;
   @Input() disabled: boolean;
-
-  @Input() validate: any;
+  @Input() validate: (value: string) => string;
 
   enabled: boolean;
   errorMessage: any;
@@ -55,7 +54,7 @@ export class SdTextComponent implements OnInit {
 
   get hasError() {
     if (this.validate) {
-      return this.errorMessage = this.validate({ $value: this.value }); // TODO: Валидация не сделана
+      return this.errorMessage = this.validate(this.value); // TODO: Валидация не сделана
     }
     return false;
   }

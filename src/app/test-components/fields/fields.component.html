@@ -7,7 +7,7 @@
                     [value]="editable"
                     (valueChange)="test($event)"
                     [editing]="true"
-                    (validation)="validation($event)">
+                    [validate]="validate">
                 </app-sd-text>
             </div>
         </div>
@@ -39,3 +39,19 @@
 </div>
 
 <hr>
+
+<div class="entity-container__content">
+  <form class="form-inline">
+      <div class="form-group entity-text" style="width: 100%; height: 42px">
+          <label>Editable:</label>
+          <div class="entity-text__inline-field">
+              <app-sd-text
+                  [value]="editable"
+                  (valueChange)="test($event)"
+                  [editing]="true">
+              </app-sd-text>
+          </div>
+      </div>
+      <span>{{editable}}</span>
+  </form>
+</div>

@@ -20,9 +20,10 @@ export class FieldsComponent implements OnInit {
     console.log(event);
   }
 
-  validation($value: string): string {
-    if ($value === "") {
+  validate(value: string): string {
+    if (value === "") {
       return "Ошибка";
     }
+    return null;
   }
 }
