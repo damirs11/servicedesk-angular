@@ -10,6 +10,8 @@ export class FieldsComponent implements OnInit {
   editable = "some value";
   notEditable = "not editable value";
 
+  firstToggler = true;
+
   constructor() { }
 
   ngOnInit() {
@@ -25,5 +27,9 @@ export class FieldsComponent implements OnInit {
       return "Ошибка";
     }
     return null;
+  }
+
+  firstChange(): void {
+    this.firstToggler = !this.firstToggler;
   }
 }

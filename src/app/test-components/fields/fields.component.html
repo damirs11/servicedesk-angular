@@ -6,11 +6,12 @@
                 <app-sd-text
                     [value]="editable"
                     (valueChange)="test($event)"
-                    [editing]="true"
+                    [editing]="firstToggler"
                     [validate]="validate">
                 </app-sd-text>
             </div>
         </div>
+        <button (click)="firstChange()">X</button>
         <span>{{editable}}</span>
 
         <div class="form-group entity-text" style="width: 100%; height: 42px">

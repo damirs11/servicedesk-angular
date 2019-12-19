@@ -1,5 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Subject } from 'rxjs';
+import { debounce, debounceTime } from 'rxjs/operators';
 
+const DEBOUNCE = 250;
 
 @Component({
   selector: "app-sd-text",
@@ -15,15 +18,23 @@ export class SdTextComponent implements OnInit {
   @Input() placeholder: string;
   @Input() emptyValue: string;
   @Input() disabled: boolean;
+
   @Input() validate: (value: string) => string;
 
+
+
   enabled: boolean;
-  errorMessage: any;
+  errorMessage: string;
 
   private _value: string;
   @Output() valueChange = new EventEmitter<string>();
+  valueChangeDebouncer: Subject<string> = new Subject<string>();
 
-  constructor() { }
+  constructor() {
+    this.valueChangeDebouncer
+        .pipe(debounceTime(DEBOUNCE))
+        .subscribe((value) => this.valueChange.emit(value));
+  }
 
   ngOnInit() {
   }
@@ -35,7 +46,7 @@ export class SdTextComponent implements OnInit {
   @Input()
   set value(value: string) {
     this._value = value;
-    this.valueChange.emit(this.value);
+    this.valueChangeDebouncer.next(value);
   }
 
   get isEnabled() {
@@ -54,7 +65,7 @@ export class SdTextComponent implements OnInit {
 
   get hasError() {
     if (this.validate) {
-      return this.errorMessage = this.validate(this.value); // TODO: Валидация не сделана
+      return this.errorMessage = this.validate(this.value);
     }
     return false;
   }
