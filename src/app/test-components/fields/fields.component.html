@@ -36,3 +36,42 @@
       <span>{{editable}}</span>
   </form>
 </div>
+
+<hr>
+
+<div class="entity-container__content">
+  <form class="form-inline">
+      <div class="form-group entity-text" style="width: 100%; height: 42px">
+          <label>Editable:</label>
+          <div class="entity-text__inline-field">
+              <app-sd-number
+                  [value]="editableNum"
+                  (valueChange)="testNum($event)"
+                  [min]=0
+                  [max]=11
+                  [step]=2
+                  [editing]="thirdToggler">
+              </app-sd-number>
+          </div>
+      </div>
+      <button (click)="thirdChange()">X</button>
+      <span>{{editableNum}}</span>
+
+      <div class="form-group entity-text" style="width: 100%; height: 42px">
+        <label>Editable:</label>
+        <div class="entity-text__inline-field">
+            <app-sd-number
+                [value]="editableNum"
+                (valueChange)="testNum($event)"
+                [min]=0
+                [max]=11
+                [step]=2
+                [disabled]=true
+                [editing]="thirdToggler">
+            </app-sd-number>
+        </div>
+    </div>
+    <button (click)="thirdChange()">X</button>
+    <span>{{editableNum}}</span>
+  </form>
+</div>

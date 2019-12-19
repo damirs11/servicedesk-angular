@@ -11,7 +11,7 @@ import { ModalComponent } from './test-components/modal/modal.component';
 import { FieldsComponent } from './test-components/fields/fields.component';
 import { SdTextComponent } from './components/fields/sd-text/sd-text.component';
 import { SdTextareaComponent } from './components/fields/sd-textarea/sd-textarea.component';
-import { AutoHeightDirective } from './components/directives/auto-height.directive';
+import { SdNumberComponent } from './components/fields/sd-number/sd-number.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { AutoHeightDirective } from './components/directives/auto-height.directi
     FieldsComponent,
     ModalComponent,
     SdTextareaComponent,
-    AutoHeightDirective
+    SdNumberComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, FormsModule, NgbModule,
