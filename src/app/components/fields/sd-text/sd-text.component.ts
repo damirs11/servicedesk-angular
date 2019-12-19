@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Subject } from 'rxjs';
-import { debounce, debounceTime } from 'rxjs/operators';
+import { debounce, debounceTime, filter } from 'rxjs/operators';
 
 const DEBOUNCE = 250;
 
@@ -18,17 +18,14 @@ export class SdTextComponent implements OnInit {
   @Input() placeholder: string;
   @Input() emptyValue: string;
   @Input() disabled: boolean;
-
   @Input() validate: (value: string) => string;
-
-
-
-  enabled: boolean;
-  errorMessage: string;
 
   private _value: string;
   @Output() valueChange = new EventEmitter<string>();
   valueChangeDebouncer: Subject<string> = new Subject<string>();
+
+  enabled: boolean;
+  errorMessage: string;
 
   constructor() {
     this.valueChangeDebouncer
@@ -45,8 +42,10 @@ export class SdTextComponent implements OnInit {
 
   @Input()
   set value(value: string) {
+    if (value !== this._value) {
+      this.valueChangeDebouncer.next(value);
+    }
     this._value = value;
-    this.valueChangeDebouncer.next(value);
   }
 
   get isEnabled() {

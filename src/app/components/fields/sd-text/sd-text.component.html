@@ -9,11 +9,7 @@
              [required]="required"
              [disabled]="disabled"
       >
-<!-- TODO:Убрать после тестов -->
-      <span>value = {{value}}</span>
-
-      <!-- ng-change="onChange({$value: value})" //TODO-->
-      <span *ngIf="hasError" class="validation-error"> error = {{errorMessage}}</span>
+      <span *ngIf="hasError" class="validation-error">{{errorMessage}}</span>
     </div>
 </div>
 
