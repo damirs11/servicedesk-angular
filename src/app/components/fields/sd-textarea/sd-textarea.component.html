@@ -1,21 +1,21 @@
-<div data-ng-show="editing" class="sd-textarea">
-    <div class="input-group sd-textarea__input-container" style="width: 100%">
-        <textarea type="text"
-                  style="resize: none;"
-                  class="form-control"
-                  [(ngModel)]="value"
-                  placeholder="{{placeholder || '- нет -'}}"
-                  maxlength="maxlength"
-                  minlength="minlength"
-                  required="required"
-                  auto-height="editing"
-                  [disabled]="disabled">
-                  <!-- ng-change="onChange({$value: value})" //TODO-->
-        </textarea>
-    </div>
+<div *ngIf="editing" class="sd-textarea">
+  <div class="input-group sd-textarea__input-container" style="width: 100%">
+      <textarea type="text"
+                style="resize: none;"
+                class="form-control"
+                [(ngModel)]="value"
+                placeholder="{{placeholder || '- нет -'}}"
+                [maxlength]="maxlength"
+                [minlength]="minlength"
+                [required]="required"
+                appAutoHeight="editing"
+                [disabled]="disabled">
+      </textarea>
+      <span class="validation-error" *ngIf="hasError">{{errorMessage}}</span>
+  </div>
 </div>
 
 <!--Режим просмотра-->
-<div data-ng-hide="editing" class="sd-textarea-view"><span>{{displayValue}}</span></div>
-
-
+<div *ngIf="!editing" class="sd-textarea-view">
+  <span>{{displayValue}}</span>
+</div>

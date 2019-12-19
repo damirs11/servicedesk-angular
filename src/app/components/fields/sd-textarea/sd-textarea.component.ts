@@ -1,6 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
-const COMMIT_DEBOUNCE = 200;
+const DEBOUNCE = 250;
 
 @Component({
     selector: 'app-sd-textarea',
@@ -8,7 +10,7 @@ const COMMIT_DEBOUNCE = 200;
     styleUrls: ['./sd-textarea.component.less']
 })
 export class SdTextareaComponent implements OnInit {
-    @Input() target: any;
+    @Input() required: boolean; // TODO: Есть в HTML, но почему-то нет в ctrl
     @Input() minlength: number;
     @Input() maxlength: number;
     @Input() allowEmpty: boolean;
@@ -16,64 +18,55 @@ export class SdTextareaComponent implements OnInit {
     @Input() placeholder: string;
     @Input() emptyValue: string;
     @Input() rows: string;
-    @Input() validate: any;
     @Input() disabled: boolean;
+    @Input() validate: (value: string) => string;
 
-    value: any;
-    commitTask = null;
+    private _value: string;
+    @Output() valueChange = new EventEmitter<string>();
+    valueChangeDebouncer: Subject<string> = new Subject<string>();
+
     enabled: boolean;
-    validationError: any;
+    errorMessage: string;
 
     constructor() {
+        this.valueChangeDebouncer
+            .pipe(debounceTime(DEBOUNCE))
+            .subscribe((value) => this.valueChange.emit(value));
     }
 
     ngOnInit() {
-        this.value = this.target;
-        // this.$scope.$watch(() => this.target, () => this.commitValueByTarget()); //TODO
-        // this.$scope.$watch("ctrl.editing", () => this.commitValueByTarget());
     }
 
-    commitValueByTarget() {
-        if (this.commitTask) {
-            //this.$timeout.cancel(this.commitTask); //TODO
-            this.commitTask = null;
-        }
-        this.value = this.target;
+    get value() {
+      return this._value;
     }
 
-    commitTarget(value) {
-        if (value === "") value = null;
-        if (this.validate) {
-            const validationError = this.validate({
-                $newValue: value,
-                $oldValue: this.target
-            });
-            if (validationError) {
-                this.validationError = validationError;
-                return
-            }
-        }
-        this.target = value;
+    @Input()
+    set value(value: string) {
+      if (value !== this._value) {
+        this.valueChangeDebouncer.next(value);
+      }
+      this._value = value;
     }
-
-    // // Коммитим значение по дебаунсу.
-    // onChange({ $value }) {
-    //     //if (this.commitTask) this.$timeout.cancel(this.commitTask); //TODO
-    //     this.commitTask = this.$timeout(() => {
-    //         this.commitTarget($value);
-    //         this.commitTask = null;
-    //     }, COMMIT_DEBOUNCE)
-    // }
 
     get isEnabled() {
-        if (this.enabled === undefined) return true;
+        if (this.enabled === undefined) {
+          return true;
+        }
         return this.enabled;
     }
 
     get displayValue() {
-        if (this.value == null) return this.emptyValue || "- нет -";
-        if (!this.editing) return this.target; // Во view-mode возвращаем значение из target
-        return this.value
+        if (this.value == null) {
+          return this.emptyValue || "- нет -";
+        }
+        return this.value;
     }
 
+    get hasError() {
+        if (this.validate) {
+            return this.errorMessage = this.validate(this.value);
+        }
+        return false;
+    }
 }
