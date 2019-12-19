@@ -29,8 +29,8 @@ export class SdTextComponent implements OnInit {
 
   constructor() {
     this.valueChangeDebouncer
-        .pipe(debounceTime(DEBOUNCE))
-        .subscribe((value) => this.valueChange.emit(value));
+      .pipe(debounceTime(DEBOUNCE))
+      .subscribe((value) => this.valueChange.emit(value));
   }
 
   ngOnInit() {

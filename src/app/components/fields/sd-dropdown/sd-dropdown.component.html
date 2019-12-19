@@ -1,0 +1,48 @@
+<!--Режим редактирования активный-->
+<div *ngIf="editing && !disabled" class="sd-dropdown">
+  <!-- <ui-select ng-init="$select = $select"
+             class = "{{ isAllowClear ? 'ui-dropdown-allow-clear' : 'ui-dropdown-no-allow-clear' }}"
+             ng-model="selectedValue"
+             search-enabled="searchEnabled"> -->
+      <!-- <ui-select-match allow-clear="{{isAllowClear}}" placeholder="{{placeholder}}">
+          <i *ngIf="hasIcons" ngClass="getIconFor($select.selected)"></i>
+          {{display($select.selected)}}
+      </ui-select-match>
+      <ui-select-choices repeat="$value in getFilteredValues($select.search) track by $index"
+                         minimum-input-length="{{minSymbolsFetch}}"
+                         refresh="fetchFromUI($select.search)"
+                         refresh-delay="debounceTime"> -->
+          <div style="display: inline-block; width: 10px; text-align: center" *ngIf="hasIcons">
+              <i *ngIf="hasIcons" ngClass="getIconFor($value)"></i>
+          </div>
+          <span ng-bind-html="display($value) | highlight: $select.search"></span>
+      <!-- </ui-select-choices>
+  </ui-select> -->
+  <span class="validation-error" *ngIf="hasError">{{errorMessage}}</span>
+</div>
+
+<!--Режим редактирования заблокированный-->
+<div *ngIf="editing && disabled" class="sd-dropdown">
+  <div class="ui-select-container ui-select-bootstrap" disabled="disabled">
+      <div class="ui-select-match ng-scope" disabled="disabled">
+          <i tabindex="-1" class="form-control ui-select-toggle" style="outline: 0;" disabled="true">
+              <i *ngIf="hasIcons" ngClass="getIconFor(selectedValue)"></i>
+              <span class="ui-select-placeholder text-muted">{{display(selectedValue)}}</span>
+              <i class="caret pull-right"></i>
+          </i>
+      </div>
+  </div>
+
+</div>
+
+<!--Режим просмотра-->
+<div *ngIf="!editing" class="sd-dropdown-view">
+  <a ng-show="hasLinks && selectedValue" [href]="getLinkFor(selectedValue)">
+      <i *ngIf="hasIcons && selectedValue" ngClass="getIconFor(selectedValue)"></i>
+      <span>{{display(selectedValue)}}</span>
+  </a>
+  <i ng-hide="hasLinks && selectedValue">
+      <i *ngIf="hasIcons && selectedValue" ngClass="getIconFor(selectedValue)"></i>
+      <span>{{display(selectedValue)}}</span>
+  </i>
+</div>

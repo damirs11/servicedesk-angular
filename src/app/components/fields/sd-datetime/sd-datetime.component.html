@@ -1,0 +1,46 @@
+<!--Режим редактирования-->
+<div *ngIf="editing && !disabled" class="sd-datetime dropdown datetimepicker-{{dropdownId}}">
+  <a class="dropdown-toggle" id="datetimepicker-dropdown-{{dropdownId}}" role="button" data-toggle="dropdown" data-target=".datetimepicker-{{dropdownId}}" href="javascript:void(0)">
+      <div class="input-group sd-datetime__input-container">
+          <input type="text"
+                 name="input"
+                 class="form-control"
+                 [(ngModel)]="formattedDate"
+                 (keydown)="onKeydown($event)"
+                 [required]="!isAllowEmpty"
+                 placeholder="{{getPlaceholder()}}" />
+          <span class="input-group-addon">
+              <i class="glyphicon glyphicon-calendar"></i>
+          </span>
+          <span class="input-group-addon" *ngIf="isAllowClear()" (click)="clear($event)">
+              <i class="glyphicon glyphicon-trash"></i>
+          </span>
+      </div>
+  </a>
+  <ul class="dropdown-menu" role="menu" data-ng-if="isEnabled">
+      <!-- <datetimepicker ng-model="selectedDate"
+                      on-set-time="onTimeSet(newDate,oldDate)"
+                      datetimepicker-config="dateTimePickerConfig"
+                      before-render="beforeCalendarRender($view, $dates, $leftDate, $upDate, $rightDate)">
+      </datetimepicker> -->
+  </ul>
+  <span class="validation-error" *ngIf="hasError">{{errorMessage}}</span>
+</div>
+
+<div *ngIf="editing && disabled" class="sd-datetime dropdown">
+  <div class="input-group sd-datetime__input-container">
+      <input type="text"
+             name="input"
+             class="form-control"
+             [(ngModel)]="formattedDate"
+             [disabled]="disabled" />
+      <span class="input-group-addon disabled">
+          <i class="glyphicon glyphicon-calendar disabled"></i>
+      </span>
+  </div>
+</div>
+
+<!--Режим просмотра-->
+<div *ngIf="!editing" class="sd-datetime-view">
+  <span>{{formattedDate}}</span>
+</div>

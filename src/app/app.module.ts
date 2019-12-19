@@ -12,6 +12,8 @@ import { FieldsComponent } from './test-components/fields/fields.component';
 import { SdTextComponent } from './components/fields/sd-text/sd-text.component';
 import { SdTextareaComponent } from './components/fields/sd-textarea/sd-textarea.component';
 import { SdNumberComponent } from './components/fields/sd-number/sd-number.component';
+import { SdDropdownComponent } from './components/fields/sd-dropdown/sd-dropdown.component';
+import { SdDatetimeComponent } from './components/fields/sd-datetime/sd-datetime.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { SdNumberComponent } from './components/fields/sd-number/sd-number.compo
     FieldsComponent,
     ModalComponent,
     SdTextareaComponent,
-    SdNumberComponent
+    SdNumberComponent,
+    SdDropdownComponent,
+    SdDatetimeComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, FormsModule, NgbModule,
