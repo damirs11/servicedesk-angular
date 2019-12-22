@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
@@ -14,24 +15,27 @@ import { SdTextareaComponent } from './components/fields/sd-textarea/sd-textarea
 import { SdNumberComponent } from './components/fields/sd-number/sd-number.component';
 import { SdDropdownComponent } from './components/fields/sd-dropdown/sd-dropdown.component';
 import { SdDatetimeComponent } from './components/fields/sd-datetime/sd-datetime.component';
+import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
 
 @NgModule({
   declarations: [
     AppComponent,
+
     SdTextComponent,
-    SdTextareaComponent,
-    FieldsComponent,
-    ModalComponent,
     SdTextareaComponent,
     SdNumberComponent,
     SdDropdownComponent,
-    SdDatetimeComponent
+    SdDatetimeComponent,
+
+    ModalComponent,
+    FieldsComponent,
   ],
   imports: [
     BrowserModule, AppRoutingModule, FormsModule, NgbModule,
-    EntityModule, ModalActionModule
+    EntityModule, ModalActionModule,
+    DlDateTimeDateModule, DlDateTimePickerModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

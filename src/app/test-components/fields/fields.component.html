@@ -1,39 +1,14 @@
 <div class="entity-container__content">
-    <form class="form-inline">
-        <div class="form-group entity-text" style="width: 100%; height: 42px">
-            <label>Editable:</label>
-            <div class="entity-text__inline-field">
-                <app-sd-text
-                    [value]="editable"
-                    (valueChange)="test($event)"
-                    [editing]="firstToggler"
-                    [validate]="validate">
-                </app-sd-text>
-            </div>
-        </div>
-        <button (click)="firstChange()">X</button>
-        <span>{{editable}}</span>
-    </form>
-</div>
-
-<hr>
-
-<div class="entity-container__content">
   <form class="form-inline">
-      <div class="form-group entity-text" style="width: 100%; height: 42px">
-          <label>Editable:</label>
-          <div class="entity-text__inline-field">
-              <app-sd-textarea
-                  [value]="editable"
-                  (valueChange)="test($event)"
-                  [placeholder]="'новый плесхолдер'"
-                  [editing]="secondToggler"
-                  [validate]="validate">
-              </app-sd-textarea>
-          </div>
+    <div class="form-group entity-text" style="width: 100%; height: 42px">
+      <label>Editable:</label>
+      <div class="entity-text__inline-field">
+        <app-sd-text [value]="editable" (valueChange)="test($event)" [editing]="firstToggler" [validate]="validate">
+        </app-sd-text>
       </div>
-      <button (click)="secondChange()">X</button>
-      <span>{{editable}}</span>
+    </div>
+    <button (click)="firstChange()">X</button>
+    <span>{{editable}}</span>
   </form>
 </div>
 
@@ -41,37 +16,80 @@
 
 <div class="entity-container__content">
   <form class="form-inline">
-      <div class="form-group entity-text" style="width: 100%; height: 42px">
-          <label>Editable:</label>
-          <div class="entity-text__inline-field">
-              <app-sd-number
-                  [value]="editableNum"
-                  (valueChange)="testNum($event)"
-                  [min]=0
-                  [max]=11
-                  [step]=2
-                  [editing]="thirdToggler">
-              </app-sd-number>
-          </div>
+    <div class="form-group entity-text" style="width: 100%; height: 42px">
+      <label>Editable:</label>
+      <div class="entity-text__inline-field">
+        <app-sd-textarea [value]="editable" (valueChange)="test($event)" [placeholder]="'новый плесхолдер'"
+          [editing]="secondToggler" [validate]="validate">
+        </app-sd-textarea>
       </div>
-      <button (click)="thirdChange()">X</button>
-      <span>{{editableNum}}</span>
+    </div>
+    <button (click)="secondChange()">X</button>
+    <span>{{editable}}</span>
+  </form>
+</div>
 
-      <div class="form-group entity-text" style="width: 100%; height: 42px">
-        <label>Editable:</label>
-        <div class="entity-text__inline-field">
-            <app-sd-number
-                [value]="editableNum"
-                (valueChange)="testNum($event)"
-                [min]=0
-                [max]=11
-                [step]=2
-                [disabled]=true
-                [editing]="thirdToggler">
-            </app-sd-number>
-        </div>
+<hr>
+
+<div class="entity-container__content">
+  <form class="form-inline">
+    <div class="form-group entity-text" style="width: 100%; height: 42px">
+      <label>Editable:</label>
+      <div class="entity-text__inline-field">
+        <app-sd-number [value]="editableNum" (valueChange)="testNum($event)" [min]=0 [max]=11 [step]=2
+          [editing]="thirdToggler">
+        </app-sd-number>
+      </div>
     </div>
     <button (click)="thirdChange()">X</button>
     <span>{{editableNum}}</span>
+
+    <div class="form-group entity-text" style="width: 100%; height: 42px">
+      <label>Editable:</label>
+      <div class="entity-text__inline-field">
+        <app-sd-number [value]="editableNum" (valueChange)="testNum($event)" [min]=0 [max]=11 [step]=2 [disabled]=true
+          [editing]="thirdToggler">
+        </app-sd-number>
+      </div>
+    </div>
+    <button (click)="thirdChange()">X</button>
+    <span>{{editableNum}}</span>
+  </form>
+</div>
+
+<hr>
+
+<div class="entity-container__content">
+  <form class="form-inline">
+    <div class="form-group entity-text" style="width: 100%; height: 42px">
+      <div class="entity-text__inline-field">
+        <app-sd-datetime [formattedDate]="editableDate" (dateChange)="editableDate=$event" [editing]="true"
+          [disabled]="false">
+        </app-sd-datetime>
+      </div>
+      <span>{{editableDate}}</span>
+    </div>
+  </form>
+
+  <form class="form-inline">
+    <div class="form-group entity-text" style="width: 100%; height: 42px">
+      <div class="entity-text__inline-field">
+        <app-sd-datetime [formattedDate]="editableDate" (dateChange)="editableDate=$event" [editing]="true"
+          [disabled]="true">
+        </app-sd-datetime>
+      </div>
+      <span>{{editableDate}}</span>
+    </div>
+  </form>
+
+  <form class="form-inline">
+    <div class="form-group entity-text" style="width: 100%; height: 42px">
+      <div class="entity-text__inline-field">
+        Date:
+        <app-sd-datetime [formattedDate]="editableDate" (dateChange)="editableDate=$event" [editing]="false"
+          [disabled]="false">
+        </app-sd-datetime>
+      </div>
+    </div>
   </form>
 </div>

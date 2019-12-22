@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 const DATE_FORMAT = "dd MMMM yyyy, HH:mm";
 const DEFAULT_PLACEHOLDER = "- нет -";
-// Временная мера. Необходимо для того, чтобы на 1 странице работало несколько <sd-datetime/>
-let freeDropdownId = 0;
+const DEBOUNCE = 250;
 
 @Component({
   selector: 'app-sd-datetime',
@@ -13,9 +14,7 @@ let freeDropdownId = 0;
 })
 export class SdDatetimeComponent implements OnInit {
 
-  // @Input() target;
-  // @Input() onChange;
-
+  @Input() formattedDate: string;
   @Input() disabled: boolean;
   @Input() emptyValue: string;
   @Input() allowEmpty: boolean;
@@ -26,90 +25,78 @@ export class SdDatetimeComponent implements OnInit {
   @Input() placeholder: string;
 
   errorMessage: string;
-  selectedDate: Date;
   validationError: any;
-  enabled: any;
+  enabled: boolean;
 
-  formattedDate = null;
-  dropdownId: number;
-  dateTimePickerConfig: any;
+  _selectedDate: Date;
 
-  $previousEditing: boolean;
-  $previousTarget: any;
-  $previousSelectedDate: Date;
+  @Output() dateChange = new EventEmitter<string>();
+  dateChangeDebouncer: Subject<string> = new Subject<string>();
 
-
-  constructor(public datePipe: DatePipe) { }
-
-  ngOnInit() {
-    this.selectedDate = this.target;
-    this.dropdownId = freeDropdownId++;
-    this.dateTimePickerConfig = {
-      startView: "day",
-      minView: "minute",
-      dropdownSelector: "#datetimepicker-dropdown-" + this.dropdownId
-    };
-    this.formattedDate = this.$formatDate(this.target);
+  constructor(public datePipe: DatePipe) {
+    this.dateChangeDebouncer
+      .pipe(debounceTime(DEBOUNCE))
+      .subscribe((date) => this.dateChange.emit(date));
   }
 
-  initChecking() {
-    this.$previousEditing = this.editing;
-    this.$previousTarget = this.target;
-    this.$previousSelectedDate = this.selectedDate;
+  ngOnInit() {
+  }
+
+  get selectedDate() {
+    return this._selectedDate;
+  }
+
+  set selectedDate(tempDate: Date) {
+    this._selectedDate = tempDate;
+    this.formattedDate = this.datePipe.transform(tempDate, DATE_FORMAT);
+    this.dateChangeDebouncer.next(this.formattedDate);
   }
 
   onKeydown($event) {
     if ($event.keyCode === 13) { // onEnter
-      const parsedDate = moment(this.formattedDate, DATE_FORMAT);
-
-      if (!parsedDate.isValid()) {
+      const parsedDate = new Date(this.formattedDate);
+      if (parsedDate.toString() === "Invalid Date") {
         return;
       }
-      const oldDate = this.selectedDate;
 
-      this.selectedDate = parsedDate.toDate();
-      this.onTimeSet(this.selectedDate, oldDate);
+      this.selectedDate = parsedDate;
     }
   }
 
-  beforeCalendarRender($view, $dates) {
-    const minDate = this.minDate;
-    const maxDate = this.maxDate;
+  // // TODO: If the value of the before-render attribute is a function,
+  // //       the date time picker will call this function before rendering a new view, passing in data about the view.
+  // beforeCalendarRender($view, $dates) {
+  //   const minDate = this.minDate;
+  //   const maxDate = this.maxDate;
 
-    if (this.minDate !== undefined && this.minDate !== null) {
-      $dates
-        .filter(date => date.localDateValue() <= minDate.getTime())
-        .forEach(date => date.selectable = false);
-    }
+  //   if (this.minDate !== undefined && this.minDate !== null) {
+  //     $dates
+  //       .filter(date => date.localDateValue() <= minDate.getTime())
+  //       .forEach(date => date.selectable = false);
+  //   }
 
-    if (this.maxDate !== undefined && this.maxDate !== null) {
-      $dates
-        .filter(date => date.localDateValue() >= maxDate.getTime())
-        .forEach(date => date.selectable = false);
-    }
-  }
+  //   if (this.maxDate !== undefined && this.maxDate !== null) {
+  //     $dates
+  //       .filter(date => date.localDateValue() >= maxDate.getTime())
+  //       .forEach(date => date.selectable = false);
+  //   }
+  // }
 
-  onTimeSet(newDate, oldDate) {
-    if (this.validate) {
-      const validationError = this.validate({
-        $newValue: newDate,
-        $oldValue: oldDate
-      });
-      if (validationError) {
-        this.validationError = validationError;
-        return;
-      }
-    }
-    this.target = newDate;
-  }
-
-
-  $formatDate($date: Date) {
-    if ($date == null) {
-      return "";
-    }
-    return this.datePipe.transform(new Date(), DATE_FORMAT);
-  }
+  // // TODO: If the value of the on-set-time attribute is a function,
+  // //       the date time picker will call this function passing in the selected value and previous value.
+  // onTimeSet(newDate, oldDate) {
+  //   if (this.validate) {
+  //     const validationError = this.validate({
+  //       $newValue: newDate,
+  //       $oldValue: oldDate
+  //     });
+  //     if (validationError) {
+  //       this.validationError = validationError;
+  //       return;
+  //     }
+  //   }
+  //   //this.target = newDate;
+  // }
 
   getPlaceholder() {
     return this.placeholder || DEFAULT_PLACEHOLDER;
@@ -119,9 +106,9 @@ export class SdDatetimeComponent implements OnInit {
     return this.editing && this.allowEmpty;
   }
 
-  clear(event) {
-    event.stopPropagation();
-    this.selectedDate = this.target = undefined;
+  clear() {
+    this.selectedDate = undefined;
+    this.formattedDate = undefined;
   }
 
   get isEnabled() {
@@ -137,6 +124,7 @@ export class SdDatetimeComponent implements OnInit {
     }
     return this.allowEmpty;
   }
+
   get isEditing() {
     if (this.editing === undefined) {
       return true;

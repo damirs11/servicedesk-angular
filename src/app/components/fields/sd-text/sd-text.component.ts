@@ -44,8 +44,8 @@ export class SdTextComponent implements OnInit {
   set value(value: string) {
     if (value !== this._value) {
       this.valueChangeDebouncer.next(value);
+      this._value = value;
     }
-    this._value = value;
   }
 
   get isEnabled() {

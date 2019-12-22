@@ -14,6 +14,7 @@ export class FieldsComponent implements OnInit {
   secondToggler = true;
   thirdToggler = true;
   editableNum: number = null;
+  editableDate: string = null;
 
   constructor() { }
 
@@ -27,6 +28,11 @@ export class FieldsComponent implements OnInit {
 
   testNum(event: number): void {
     this.editableNum = event;
+    console.log(event);
+  }
+
+  testDate(event: string): void {
+    this.editableDate = event;
     console.log(event);
   }
 
