@@ -67,27 +67,6 @@ export class SdDatetimeComponent implements OnInit {
     }
   }
 
-  // // TODO: If the value of the before-render attribute is a function,
-  // //       the date time picker will call this function before rendering a new view, passing in data about the view.
-  // beforeCalendarRender($dates) {
-  //   const minDate = this.minDate;
-  //   const maxDate = this.maxDate;
-
-  //   if (this.minDate !== undefined && this.minDate !== null) {
-  //     $dates
-  //       .filter(date => date.localDateValue() <= minDate.getTime())
-  //       .forEach(date => date.selectable = false);
-  //   }
-
-  //   if (this.maxDate !== undefined && this.maxDate !== null) {
-  //     $dates
-  //       .filter(date => date.localDateValue() >= maxDate.getTime())
-  //       .forEach(date => date.selectable = false);
-  //   }
-  // }
-
-  // TODO: If the value of the on-set-time attribute is a function,
-  //       the date time picker will call this function passing in the selected value and previous value.
   onTimeSet(newDate: Date): boolean {
     if (this.validate) {
       const validationError = this.validate(newDate);
