@@ -64,7 +64,7 @@
     <div class="form-group entity-text" style="width: 100%; height: 42px">
       <div class="entity-text__inline-field">
         <app-sd-datetime [formattedDate]="editableDate" (dateChange)="editableDate=$event" [editing]="true"
-          [disabled]="false" [allowEmpty]=true [minDate]="testMinDate" [maxDate]="testMaxDate">
+          [disabled]="false" [allowEmpty]="true" [minDate]="testMinDate" [maxDate]="testMaxDate">
         </app-sd-datetime>
       </div>
       <span>{{editableDate}}</span>

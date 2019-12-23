@@ -58,7 +58,10 @@ export class SdDatetimeComponent implements OnInit {
   onKeydown($event: { keyCode: number; }) {
     if ($event.keyCode === 13) { // onEnter
       const parsedDate = new Date(this.formattedDate);
-      console.log(parsedDate);
+
+      if (parsedDate < this.minDate || parsedDate >= this.maxDate) {
+        return;
+      }
       if (parsedDate.toString() === "Invalid Date") {
         return;
       }
@@ -92,7 +95,16 @@ export class SdDatetimeComponent implements OnInit {
   }
 
   DatePickerFilter = (dateButton: DateButton, viewName: string) => {
-    return dateButton.value >= this.minDate.getTime() && dateButton.value <= this.maxDate.getTime();
+    if (this.minDate && this.maxDate) {
+      return dateButton.value >= this.minDate.getTime() && dateButton.value <= this.maxDate.getTime();
+    }
+    if (this.maxDate) {
+      return dateButton.value <= this.maxDate.getTime();
+    }
+    if (this.minDate) {
+      return dateButton.value >= this.minDate.getTime();
+    }
+    return true;
   }
 
   get isEnabled() {
