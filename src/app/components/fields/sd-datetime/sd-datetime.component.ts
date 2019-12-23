@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { DateButton } from 'angular-bootstrap-datetimepicker';
 
 const DATE_FORMAT = "dd MMMM yyyy, HH:mm";
 const DEFAULT_PLACEHOLDER = "- нет -";
@@ -20,7 +21,7 @@ export class SdDatetimeComponent implements OnInit {
   @Input() allowEmpty: boolean;
   @Input() minDate: Date;
   @Input() maxDate: Date;
-  @Input() validate: any;
+  @Input() validate: (newValue: Date) => string;
   @Input() editing: boolean;
   @Input() placeholder: string;
 
@@ -47,14 +48,17 @@ export class SdDatetimeComponent implements OnInit {
   }
 
   set selectedDate(tempDate: Date) {
-    this._selectedDate = tempDate;
-    this.formattedDate = this.datePipe.transform(tempDate, DATE_FORMAT);
-    this.dateChangeDebouncer.next(this.formattedDate);
+    if (this.onTimeSet(tempDate)) {
+      this._selectedDate = tempDate;
+      this.formattedDate = this.datePipe.transform(tempDate, DATE_FORMAT);
+      this.dateChangeDebouncer.next(this.formattedDate);
+    }
   }
 
-  onKeydown($event) {
+  onKeydown($event: { keyCode: number; }) {
     if ($event.keyCode === 13) { // onEnter
       const parsedDate = new Date(this.formattedDate);
+      console.log(parsedDate);
       if (parsedDate.toString() === "Invalid Date") {
         return;
       }
@@ -65,7 +69,7 @@ export class SdDatetimeComponent implements OnInit {
 
   // // TODO: If the value of the before-render attribute is a function,
   // //       the date time picker will call this function before rendering a new view, passing in data about the view.
-  // beforeCalendarRender($view, $dates) {
+  // beforeCalendarRender($dates) {
   //   const minDate = this.minDate;
   //   const maxDate = this.maxDate;
 
@@ -82,21 +86,18 @@ export class SdDatetimeComponent implements OnInit {
   //   }
   // }
 
-  // // TODO: If the value of the on-set-time attribute is a function,
-  // //       the date time picker will call this function passing in the selected value and previous value.
-  // onTimeSet(newDate, oldDate) {
-  //   if (this.validate) {
-  //     const validationError = this.validate({
-  //       $newValue: newDate,
-  //       $oldValue: oldDate
-  //     });
-  //     if (validationError) {
-  //       this.validationError = validationError;
-  //       return;
-  //     }
-  //   }
-  //   //this.target = newDate;
-  // }
+  // TODO: If the value of the on-set-time attribute is a function,
+  //       the date time picker will call this function passing in the selected value and previous value.
+  onTimeSet(newDate: Date): boolean {
+    if (this.validate) {
+      const validationError = this.validate(newDate);
+      if (validationError) {
+        this.validationError = validationError;
+        return false;
+      }
+    }
+    return true;
+  }
 
   getPlaceholder() {
     return this.placeholder || DEFAULT_PLACEHOLDER;
@@ -109,6 +110,10 @@ export class SdDatetimeComponent implements OnInit {
   clear() {
     this.selectedDate = undefined;
     this.formattedDate = undefined;
+  }
+
+  DatePickerFilter = (dateButton: DateButton, viewName: string) => {
+    return dateButton.value >= this.minDate.getTime() && dateButton.value <= this.maxDate.getTime();
   }
 
   get isEnabled() {

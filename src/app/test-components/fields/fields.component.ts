@@ -16,6 +16,9 @@ export class FieldsComponent implements OnInit {
   editableNum: number = null;
   editableDate: string = null;
 
+  testMinDate: Date = new Date("21 December 2019");
+  testMaxDate: Date = new Date("30 December 2019");
+
   constructor() { }
 
   ngOnInit() {

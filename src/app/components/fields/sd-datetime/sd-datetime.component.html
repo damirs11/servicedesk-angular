@@ -2,24 +2,25 @@
 <div *ngIf="editing && !disabled">
 
   <div class="d-inline-block" ngbDropdown #s="ngbDropdown">
-    <input type="text" ngbDropdownAnchor (focus)="s.open()"
+    <input type="text" ngbDropdownAnchor
             name="input"
             class="form-control"
             [(ngModel)]="formattedDate"
             (keydown)="onKeydown($event)"
             [required]="!isAllowEmpty"
             placeholder="{{getPlaceholder()}}" />
-    <!-- <span class="input-group-addon">
+    <span class="input-group-addon" (click)="s.open()">
         <i class="glyphicon glyphicon-calendar"></i>
     </span>
     <span class="input-group-addon" *ngIf="isAllowClear()" (click)="clear($event)">
         <i class="glyphicon glyphicon-trash"></i>
-    </span> -->
+    </span>
 
     <div ngbDropdownMenu aria-labelledby="dropdownManual" *ngIf="isEnabled">
       <dl-date-time-picker
           startView="day"
           minView="minute"
+          [selectFilter]="DatePickerFilter"
           [(ngModel)]="selectedDate">
       </dl-date-time-picker>
     </div>
