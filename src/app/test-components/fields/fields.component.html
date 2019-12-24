@@ -93,3 +93,21 @@
     </div>
   </form>
 </div>
+
+<hr>
+
+<div class="entity-container__content">
+  <form class="form-inline">
+    <div class="form-group entity-text" style="width: 100%; height: 42px">
+      <div class="entity-text__inline-field">
+        <app-sd-dropdown
+          [editing]="true"
+          [disabled]="false"
+          [searchEnabled]="false"
+          (valueChange)="anyValue=$event">
+        </app-sd-dropdown>
+      </div>
+      <span>{{anyValue}}</span>
+    </div>
+  </form>
+</div>

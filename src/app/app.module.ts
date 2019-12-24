@@ -16,6 +16,7 @@ import { SdNumberComponent } from './components/fields/sd-number/sd-number.compo
 import { SdDropdownComponent } from './components/fields/sd-dropdown/sd-dropdown.component';
 import { SdDatetimeComponent } from './components/fields/sd-datetime/sd-datetime.component';
 import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-datetimepicker';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { DlDateTimeDateModule, DlDateTimePickerModule } from 'angular-bootstrap-
   imports: [
     BrowserModule, AppRoutingModule, FormsModule, NgbModule,
     EntityModule, ModalActionModule,
-    DlDateTimeDateModule, DlDateTimePickerModule
+    DlDateTimeDateModule, DlDateTimePickerModule,
+    NgSelectModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

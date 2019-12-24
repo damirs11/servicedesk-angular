@@ -13,8 +13,10 @@ export class FieldsComponent implements OnInit {
   firstToggler = true;
   secondToggler = true;
   thirdToggler = true;
+
   editableNum: number = null;
   editableDate: string = null;
+  anyValue: any = null;
 
   testMinDate: Date = new Date("21 December 2019, 00:00");
   testMaxDate: Date = new Date("30 December 2019, 23:59");
