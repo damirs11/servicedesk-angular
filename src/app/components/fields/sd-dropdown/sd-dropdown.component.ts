@@ -1,7 +1,7 @@
 import { Input, Output, EventEmitter } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
+import { debounceTime, take } from 'rxjs/operators';
 
 const DEBOUNCE = 250;
 const MAX_DISPLAY_VALUES = 20;
@@ -12,17 +12,6 @@ const MAX_DISPLAY_VALUES = 20;
   styleUrls: ['./sd-dropdown.component.less']
 })
 export class SdDropdownComponent implements OnInit {
-
-  tempExternalResource: Array<string> = [
-    "1asd",
-    "12asd",
-    "13asd",
-    "4asd",
-    "5asd",
-    "6asd",
-    "7asd",
-    "8asd",
-  ];
 
   @Input() editing: boolean;
   @Input() disabled: boolean;
@@ -38,22 +27,24 @@ export class SdDropdownComponent implements OnInit {
   @Input() link: any;
   @Input() filter: any;
   @Input() iconClass: any;
-  @Input() fetchData: any;
+  @Input() fetchData: Observable<any>;
   @Input() displayValue: any;
   @Input() fetchOnChange: any;
   @Input() validate: (value: string) => string;
+
+  @Input() bindValue: string;
 
   enabled: boolean;
   errorMessage: string;
   iconClassFuncPassed: any;
   linkFuncPassed: any;
-  values: Array<any>;
+  values: Observable<any>;
   filterFuncPassed: any;
 
   _selectedValue: any;
 
-  @Output() valueChange = new EventEmitter<string>();
-  valueChangeDebouncer: Subject<string> = new Subject<string>();
+  @Output() valueChange = new EventEmitter<any>();
+  valueChangeDebouncer: Subject<any> = new Subject<any>();
 
   constructor() {
     this.valueChangeDebouncer
@@ -61,7 +52,7 @@ export class SdDropdownComponent implements OnInit {
       .subscribe((value) => this.valueChange.emit(value));
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
   get selectedValue() {
@@ -78,27 +69,27 @@ export class SdDropdownComponent implements OnInit {
    * Если есть <sd-dropdown filter=...>, выполняется функция filter
    * Иначе text ищется в toString() без учета регистра
    */
-  getFilteredValues(text) {
-    if (!this.cache) {
-      return this.values;
-    }
-    if (!this.values) {
-      return;
-    }
-    if (!text) {
-      return this.values;
-    }
+  // getFilteredValues(text) {
+  //   if (!this.cache) {
+  //     return this.values;
+  //   }
+  //   if (!this.values) {
+  //     return;
+  //   }
+  //   if (!text) {
+  //     return this.values;
+  //   }
 
-    if (this.filterFuncPassed) {
-      return this.values.filter(val => this.filter({ $value: val, $text: text }));
-    }
+  //   if (this.filterFuncPassed) {
+  //     return this.values.filter(val => this.filter({ $value: val, $text: text }));
+  //   }
 
-    return this.values.filter(val => {
-      return val.toString()
-        .toLowerCase()
-        .indexOf(text.toLowerCase()) >= 0;
-    });
-  }
+  //   return this.values.filter(val => {
+  //     return val.toString()
+  //       .toLowerCase()
+  //       .indexOf(text.toLowerCase()) >= 0;
+  //   });
+  // }
 
   get debounceTime() {
     return this.debounce || DEBOUNCE;

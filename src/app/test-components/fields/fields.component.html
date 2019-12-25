@@ -104,10 +104,14 @@
           [editing]="true"
           [disabled]="false"
           [searchEnabled]="false"
-          (valueChange)="anyValue=$event">
+          [displayValue]="'color'"
+          [bindValue]="'value'"
+          [fetchData]="fetchDate"
+          (valueChange)="dropdownEvent()">
         </app-sd-dropdown>
       </div>
       <span>{{anyValue}}</span>
+      <span>{{data | json}}</span>
     </div>
   </form>
 </div>

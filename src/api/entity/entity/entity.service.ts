@@ -4,12 +4,15 @@ import { throwError, Observable } from "rxjs";
 import { IConnector } from "src/api/interfaces/IConnector";
 import { EntityTypes } from "src/api/util/entity-types";
 import { Injectable } from '@angular/core';
+import { EntityModule } from 'src/api/entity.module';
 
-type Template = string | {id: string}
+type Template = string | { id: string };
 
-@Injectable()
+@Injectable({
+  providedIn: EntityModule
+})
 export abstract class EntityService implements IConnector {
-  constructor(private $http: HttpClient) {}
+  constructor(public $http: HttpClient) {}
 
   readonly DEFAULT_TIMEOUT = 2000;
 

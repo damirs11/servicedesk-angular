@@ -2,11 +2,12 @@
 <div *ngIf="editing && !disabled" class="sd-dropdown">
 
   <ng-select
-            [searchable] = "searchEnabled"
-            [items]="tempExternalResource"
+            [searchable] = "true"
+            [items]="values"
+            [bindLabel]="displayValue"
+            [bindValue]="bindValue"
             [(ngModel)]="selectedValue">
 
-    ng-
 
     <div style="display: inline-block; width: 10px; text-align: center;" *ngIf="hasIcons">
       <i *ngIf="hasIcons" ngClass="getIconFor($value)"></i>
