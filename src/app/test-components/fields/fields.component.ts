@@ -1,6 +1,7 @@
+import { debounce } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { WorkorderService } from 'src/api/entity/workorder/workorder.service';
-import { Observable } from 'rxjs';
+import { Observable, timer } from 'rxjs';
 import { Color } from 'src/api/entity/workorder/Color';
 import { EntityService } from 'src/api/entity/entity/entity.service';
 
@@ -23,13 +24,12 @@ export class FieldsComponent implements OnInit {
   editableDate: string = null;
   anyValue: any = null;
 
-  observable: Observable<Color[]>;
   data: Color[];
 
   testMinDate: Date = new Date("21 December 2019, 00:00");
   testMaxDate: Date = new Date("30 December 2019, 23:59");
 
-  constructor(private service: WorkorderService) {
+  constructor(public service: WorkorderService) {
   }
 
   ngOnInit() {
@@ -70,9 +70,7 @@ export class FieldsComponent implements OnInit {
     this.anyValue = $event;
   }
 
-  fetchDate(): Color[] {
-    this.service.getColors().subscribe(val => this.data = val);
-    console.log(this.data);
-    return this.data;
+  fetchDate = () => {
+    return this.service.getColors();
   }
 }

@@ -2,10 +2,13 @@
 <div *ngIf="editing && !disabled" class="sd-dropdown">
 
   <ng-select
-            [searchable] = "true"
+            [searchable] = "searchEnabled"
             [items]="values"
             [bindLabel]="displayValue"
             [bindValue]="bindValue"
+            (open)="fetchData()"
+            (search)="fetchData()"
+            [loading]="loading"
             [(ngModel)]="selectedValue">
 
 

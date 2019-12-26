@@ -8,9 +8,6 @@ import { EntityModule } from 'src/api/entity.module';
 
 type Template = string | { id: string };
 
-@Injectable({
-  providedIn: EntityModule
-})
 export abstract class EntityService implements IConnector {
   constructor(public $http: HttpClient) {}
 
