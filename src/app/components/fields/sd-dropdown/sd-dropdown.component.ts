@@ -1,7 +1,7 @@
 import { Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, tap, map } from 'rxjs/operators';
 
 const DEBOUNCE = 250;
 
@@ -23,24 +23,25 @@ export class SdDropdownComponent implements OnInit {
   @Input() debounce: number;
 
   @Input() cache: any; // TODO:
-  @Input() link: any; // TODO:
   @Input() filter: any; // TODO:
-  @Input() iconClass: any; // TODO:
+  @Input() validate: any; // TODO:
 
   @Input() fetchDataFn: () => Observable<any>;
-  @Input() validate: (value: string) => string;
+  @Input() iconClass: (value: any) => any;
+  @Input() link: (value: any) => any; // TODO:
 
   @Input() displayValue: any;
   @Input() bindValue: string;
 
+  firstFetch = true;
   loading = false;
   _selectedValue: any;
 
   enabled: boolean;
   errorMessage: string;
-  iconClassFuncPassed: any;
-  linkFuncPassed: any;
+
   values: any;
+
   filterFuncPassed: any;
 
 
@@ -49,29 +50,46 @@ export class SdDropdownComponent implements OnInit {
   fetchDebouncer: Subject<any> = new Subject<any>();
 
   constructor() {
+
     this.valueChangeDebouncer
-      .pipe(debounceTime(DEBOUNCE))
+      .pipe(
+        debounceTime(DEBOUNCE)
+      )
       .subscribe((value) => {
         this.valueChange.emit(value);
       });
 
     this.fetchDebouncer
-      .pipe(debounceTime(DEBOUNCE))
+      .pipe(
+        tap(() => this.loading = true),
+        debounceTime(DEBOUNCE)
+      )
       .subscribe(() => {
         this.fetchDataFn().subscribe((val) => {
           this.loading = false;
           this.values = val;
+          if (this.firstFetch) {
+            this.firstFetch = false;
+            this.selectedValue = val[0];
+          }
         });
       });
+
+    this.fetchData();
   }
 
   ngOnInit() {
   }
 
-  fetchData(event: any) {
-    console.log(event);
-    this.loading = true;
+  fetchData() {
     this.fetchDebouncer.next();
+  }
+
+  display() {
+    if (!this.selectedValue) {
+      return;
+    }
+    return this.selectedValue[this.displayValue];
   }
 
   get selectedValue() {
@@ -81,6 +99,14 @@ export class SdDropdownComponent implements OnInit {
   set selectedValue(value: any) {
     this._selectedValue = value;
     this.valueChangeDebouncer.next(this._selectedValue);
+  }
+
+  getIconFor(value: any) {
+    return this.iconClass(value);
+  }
+
+  getLinkFor(value) {
+    return this.link({ $value: value });
   }
 
   get debounceTime() {
@@ -112,11 +138,11 @@ export class SdDropdownComponent implements OnInit {
   }
 
   get hasIcons() {
-    return this.iconClassFuncPassed;
+    return this.iconClass || undefined;
   }
 
   get hasLinks() {
-    return this.linkFuncPassed;
+    return this.link || undefined;
   }
 
   get hasError() {

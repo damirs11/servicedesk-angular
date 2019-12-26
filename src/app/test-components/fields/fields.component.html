@@ -101,11 +101,12 @@
     <div class="form-group entity-text" style="width: 100%; height: 42px">
       <div class="entity-text__inline-field">
         <app-sd-dropdown
-          [editing]="true"
-          [disabled]="false"
+          [editing]="editableToggler"
+          [disabled]="fourthToggler"
           [searchEnabled]="false"
           [displayValue]="'color'"
           [fetchDataFn]="fetchDate"
+          [iconClass]="getIconClass"
           (valueChange)="dropdownEvent($event)">
         </app-sd-dropdown>
       </div>
@@ -113,5 +114,7 @@
     </div>
   </form>
 </div>
+<button (click)="fourthToggler=!fourthToggler">disabled: {{fourthToggler}}</button>
+<button (click)="editableToggler=!editableToggler">editable: {{editableToggler}}</button>
 
 

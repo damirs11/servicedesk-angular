@@ -1,5 +1,5 @@
 export class Color {
-  private id: number;
+  id: number;
   color: string;
   category: string;
   type: string;

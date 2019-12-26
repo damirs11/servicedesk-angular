@@ -1,50 +1,49 @@
 <!--Режим редактирования активный-->
-<div *ngIf="editing && !disabled" class="sd-dropdown">
+<div *ngIf="editing && disabled" class="sd-dropdown">
 
   <ng-select
-            [searchable] = "searchEnabled"
-            [items]="values"
-            [bindLabel]="displayValue"
-            [bindValue]="bindValue"
-            (open)="fetchData()"
-            (search)="fetchData()"
-            [loading]="loading"
-            [(ngModel)]="selectedValue">
+        [searchable] = "searchEnabled"
+        [items]="values"
+        (open)="fetchData()"
+        [bindLabel]="displayValue"
+        [bindValue]="bindValue"
+        [loading]="loading"
+        [(ngModel)]="selectedValue">
 
-
-    <div style="display: inline-block; width: 10px; text-align: center;" *ngIf="hasIcons">
-      <i *ngIf="hasIcons" ngClass="getIconFor($value)"></i>
-    </div>
+    <ng-template ng-label-tmp let-item="item">
+        <i *ngIf="hasIcons" [ngClass]="getIconFor(item)"></i>
+        {{item[displayValue]}}
+    </ng-template>
+    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+        <i *ngIf="hasIcons" [ngClass]="getIconFor(item)"></i>
+        <span>{{item[displayValue]}}</span>
+    </ng-template>
   </ng-select>
 
   <span class="validation-error" *ngIf="hasError">{{errorMessage}}</span>
 </div>
 
 <!--Режим редактирования заблокированный-->
-<!-- <div *ngIf="editing && disabled" class="sd-dropdown">
-
+<div *ngIf="editing && !disabled" class="sd-dropdown">
   <div class="ui-select-container ui-select-bootstrap" disabled="disabled">
-
       <div class="ui-select-match ng-scope" disabled="disabled">
           <i tabindex="-1" class="form-control ui-select-toggle" style="outline: 0;" disabled="true">
-              <i *ngIf="hasIcons" ngClass="getIconFor(selectedValue)"></i>
+              <i *ngIf="hasIcons" [ngClass]="getIconFor(selectedValue)"></i>
               <span class="ui-select-placeholder text-muted">{{display(selectedValue)}}</span>
               <i class="caret pull-right"></i>
           </i>
       </div>
-
   </div>
-
-</div> -->
+</div>
 
 <!--Режим просмотра-->
-<!-- <div *ngIf="!editing" class="sd-dropdown-view">
+<div *ngIf="!editing" class="sd-dropdown-view">
   <a *ngIf="hasLinks && selectedValue" [href]="getLinkFor(selectedValue)">
-      <i *ngIf="hasIcons && selectedValue" ngClass="getIconFor(selectedValue)"></i>
+      <i *ngIf="hasIcons && selectedValue" [ngClass]="getIconFor(selectedValue)"></i>
       <span>{{display(selectedValue)}}</span>
   </a>
   <i *ngIf="!(hasLinks && selectedValue)">
-      <i *ngIf="hasIcons && selectedValue" ngClass="getIconFor(selectedValue)"></i>
+      <i *ngIf="hasIcons && selectedValue" [ngClass]="getIconFor(selectedValue)"></i>
       <span>{{display(selectedValue)}}</span>
   </i>
-</div> -->
+</div>

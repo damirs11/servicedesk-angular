@@ -13,12 +13,24 @@ import { EntityService } from 'src/api/entity/entity/entity.service';
 })
 export class FieldsComponent implements OnInit {
 
+  icons: string[] = [
+    "fa fa-glass",
+    "fa fa-flag",
+    "fa fa-flash",
+    "fa fa-folder",
+    "fa fa-gamepad",
+    "fa fa-gavel",
+  ];
+
   editable = "some value";
   notEditable = "not editable value";
 
   firstToggler = true;
   secondToggler = true;
   thirdToggler = true;
+
+  fourthToggler = true;
+  editableToggler = true;
 
   editableNum: number = null;
   editableDate: string = null;
@@ -72,5 +84,12 @@ export class FieldsComponent implements OnInit {
 
   fetchDate = () => {
     return this.service.getColors();
+  }
+
+  getIconClass = (value: Color) => {
+    if (!value) {
+      return;
+    }
+    return this.icons[value.id];
   }
 }
