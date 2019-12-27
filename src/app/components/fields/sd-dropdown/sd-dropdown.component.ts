@@ -23,12 +23,12 @@ export class SdDropdownComponent implements OnInit {
   @Input() debounce: number;
 
   @Input() cache: any; // TODO:
-  @Input() filter: any; // TODO:
+  @Input() searchFn: (term: string, item: any) => boolean;
   @Input() validate: any; // TODO:
 
   @Input() fetchDataFn: () => Observable<any>;
   @Input() iconClass: (value: any) => any;
-  @Input() link: (value: any) => any; // TODO:
+  @Input() link: (value: any) => any;
 
   @Input() displayValue: any;
   @Input() bindValue: string;
@@ -62,7 +62,7 @@ export class SdDropdownComponent implements OnInit {
     this.fetchDebouncer
       .pipe(
         tap(() => this.loading = true),
-        debounceTime(DEBOUNCE)
+        debounceTime(this.debounceTime)
       )
       .subscribe(() => {
         this.fetchDataFn().subscribe((val) => {
@@ -98,6 +98,14 @@ export class SdDropdownComponent implements OnInit {
 
   set selectedValue(value: any) {
     this._selectedValue = value;
+
+    if (this.validate) {
+      const validationError = this.validate(value);
+      if (validationError) {
+        this.errorMessage = validationError;
+        return;
+      }
+    }
     this.valueChangeDebouncer.next(this._selectedValue);
   }
 
@@ -106,7 +114,7 @@ export class SdDropdownComponent implements OnInit {
   }
 
   getLinkFor(value) {
-    return this.link({ $value: value });
+    return this.link(value);
   }
 
   get debounceTime() {

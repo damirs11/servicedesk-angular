@@ -103,10 +103,12 @@
         <app-sd-dropdown
           [editing]="editableToggler"
           [disabled]="fourthToggler"
-          [searchEnabled]="false"
+          [searchEnabled]="true"
           [displayValue]="'color'"
           [fetchDataFn]="fetchDate"
           [iconClass]="getIconClass"
+          [link]="getLink"
+          [searchFn]="customSearchFn"
           (valueChange)="dropdownEvent($event)">
         </app-sd-dropdown>
       </div>

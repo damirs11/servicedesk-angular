@@ -92,4 +92,17 @@ export class FieldsComponent implements OnInit {
     }
     return this.icons[value.id];
   }
+
+  getLink = (value: Color) => {
+    if (!value) {
+      return;
+    }
+    return "./test/dialog";
+  }
+
+  customSearchFn = (term: string, item: Color) => {
+    term = term.toLowerCase();
+    console.log(term);
+    return item.color.toLowerCase().indexOf(term) > -1 || item.value.toLowerCase() === term;
+  }
 }
