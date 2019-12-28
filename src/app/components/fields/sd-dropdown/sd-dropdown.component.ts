@@ -22,7 +22,7 @@ export class SdDropdownComponent implements OnInit {
   @Input() minSymbolsFetch: number; // TODO:
   @Input() debounce: number;
 
-  @Input() cache: any; // TODO:
+  @Input() cache: boolean;
   @Input() searchFn: (term: string, item: any) => boolean;
   @Input() validate: any; // TODO:
 
@@ -82,6 +82,9 @@ export class SdDropdownComponent implements OnInit {
   }
 
   fetchData() {
+    if (this.cache) {
+      return;
+    }
     this.fetchDebouncer.next();
   }
 

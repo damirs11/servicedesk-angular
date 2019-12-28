@@ -17,9 +17,8 @@
     </ng-template>
     <ng-template ng-option-tmp let-item="item">
         <i *ngIf="hasIcons" [ngClass]="getIconFor(item)"></i>
-        <span>{{item[displayValue]}}</span> <br/>
-        <small>{{item['value']}}</small>
-      </ng-template>
+        <span>{{item[displayValue]}}</span>
+    </ng-template>
   </ng-select>
 
   <span class="validation-error" *ngIf="hasError">{{errorMessage}}</span>

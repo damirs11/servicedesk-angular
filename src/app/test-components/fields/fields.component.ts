@@ -1,9 +1,6 @@
-import { debounce } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { WorkorderService } from 'src/api/entity/workorder/workorder.service';
-import { Observable, timer } from 'rxjs';
-import { Color } from 'src/api/entity/workorder/Color';
-import { EntityService } from 'src/api/entity/entity/entity.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-fields',
@@ -36,12 +33,19 @@ export class FieldsComponent implements OnInit {
   editableDate: string = null;
   anyValue: any = null;
 
-  data: Color[];
-
   testMinDate: Date = new Date("21 December 2019, 00:00");
   testMaxDate: Date = new Date("30 December 2019, 23:59");
 
-  constructor(public service: WorkorderService) {
+  colors = [
+    { id: 0, color: "black", category: "hue", type: "primary", code: { rgba: [255, 255, 255, 1], hex: "#000" } },
+    { id: 1, color: "white", category: "value", type: "primary", code: { rgba: [0, 0, 0, 1], hex: "#FFF" } },
+    { id: 2, color: "red", category: "hue", type: "primary", code: { rgba: [255, 0, 0, 1], hex: "#FF0" } },
+    { id: 3, color: "blue", category: "hue", type: "primary", code: { rgba: [0, 0, 255, 1], hex: "#00F" } },
+    { id: 4, color: "yellow", category: "hue", type: "primary", code: { rgba: [255, 255, 0, 1], hex: "#FF0" } },
+    { id: 5, color: "green", category: "hue", type: "secondary", code: { rgba: [0, 255, 0, 1], hex: "#0F0" } }
+  ];
+
+  constructor() {
   }
 
   ngOnInit() {
@@ -83,24 +87,24 @@ export class FieldsComponent implements OnInit {
   }
 
   fetchDate = () => {
-    return this.service.getColors();
+    return of(this.colors);
   }
 
-  getIconClass = (value: Color) => {
+  getIconClass = (value) => {
     if (!value) {
       return;
     }
     return this.icons[value.id];
   }
 
-  getLink = (value: Color) => {
+  getLink = (value) => {
     if (!value) {
       return;
     }
     return "./test/dialog";
   }
 
-  customSearchFn = (term: string, item: Color) => {
+  customSearchFn = (term: string, item) => {
     term = term.toLowerCase();
     console.log(term);
     return item.color.toLowerCase().indexOf(term) > -1 || item.value.toLowerCase() === term;
