@@ -1,0 +1,50 @@
+<!--Режим редактирования-->
+<div *ngIf="editing && !disabled">
+
+  <div class="d-inline-block" ngbDropdown #s="ngbDropdown">
+    <input type="text" ngbDropdownAnchor
+            name="input"
+            class="form-control"
+            [(ngModel)]="formattedDate"
+            (keydown)="onKeydown($event)"
+            [required]="!isAllowEmpty"
+            placeholder="{{getPlaceholder()}}" />
+    <span class="input-group-addon" (click)="s.open()">
+        <i class="glyphicon glyphicon-calendar"></i>
+    </span>
+    <span class="input-group-addon" *ngIf="isAllowClear()" (click)="clear($event)">
+        <i class="glyphicon glyphicon-trash"></i>
+    </span>
+
+    <div ngbDropdownMenu aria-labelledby="dropdownManual" *ngIf="isEnabled">
+      <dl-date-time-picker
+          startView="day"
+          minView="minute"
+          [selectFilter]="DatePickerFilter"
+          [(ngModel)]="selectedDate">
+      </dl-date-time-picker>
+    </div>
+  </div>
+
+  <span class="validation-error" *ngIf="hasError">{{errorMessage}}</span>
+</div>
+
+
+
+<div *ngIf="editing && disabled" class="sd-datetime dropdown">
+  <div class="input-group sd-datetime__input-container">
+      <input type="text"
+             name="input"
+             class="form-control"
+             [(ngModel)]="formattedDate"
+             [disabled]="disabled" />
+      <span class="input-group-addon disabled">
+          <i class="glyphicon glyphicon-calendar disabled"></i>
+      </span>
+  </div>
+</div>
+
+<!--Режим просмотра-->
+<div *ngIf="!editing" class="sd-datetime-view">
+  <span>{{formattedDate}}</span>
+</div>

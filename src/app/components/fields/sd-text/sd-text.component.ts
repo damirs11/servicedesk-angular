@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, OnChanges, SimpleChange, SimpleChanges, DoCheck } from "@angular/core";
-import { Observable } from "rxjs";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Subject } from 'rxjs';
+import { debounce, debounceTime, filter } from 'rxjs/operators';
 
-const COMMIT_DEBOUNCE: number = 250;
+const DEBOUNCE = 250;
 
 @Component({
   selector: "app-sd-text",
@@ -9,47 +10,48 @@ const COMMIT_DEBOUNCE: number = 250;
   styleUrls: ["./sd-text.component.less"]
 })
 export class SdTextComponent implements OnInit {
-  @Input() target: any;
+  @Input() required: boolean; // TODO: Есть в HTML, но почему-то нет в ctrl
   @Input() minlength: number;
   @Input() maxlength: number;
   @Input() allowEmpty: boolean;
   @Input() editing: boolean;
   @Input() placeholder: string;
   @Input() emptyValue: string;
-  @Input() validate: any;
   @Input() disabled: boolean;
+  @Input() validate: (value: string) => string;
 
-  value: any;
-  commitTask: any;
+  private _value: string;
+  @Output() valueChange = new EventEmitter<string>();
+  valueChangeDebouncer: Subject<string> = new Subject<string>();
+
   enabled: boolean;
-  validationError: any;
+  errorMessage: string;
 
-  constructor() {}
+  constructor() {
+    this.valueChangeDebouncer
+      .pipe(debounceTime(DEBOUNCE))
+      .subscribe((value) => this.valueChange.emit(value));
+  }
 
   ngOnInit() {
-    // TODO: Разобраться зачем ниже описанный код
-    // this.value = this.target;
-    // this.$scope.$watch("ctrl.editing", () => {
-    // if (this.commitTask) {
-    //     this.$timeout.cancel(this.commitTask);
-    //     this.commitTask = null;
-    // }
-    // this.value = this.target;
-    // });
+  }
 
-    // // Коммитим значение по дебаунсу.
-    // this.$scope.$watch(() => this.value, (newVal,oldVal) => {
-    //   if (newVal == oldVal) return;
-    //   if (this.commitTask) this.$timeout.cancel(this.commitTask);
-    //   this.commitTask = this.$timeout(() => {
-    //       this.commit(newVal);
-    //       this.commitTask = null;
-    //   },COMMIT_DEBOUNCE)
-    // });
+  get value() {
+    return this._value;
+  }
+
+  @Input()
+  set value(value: string) {
+    if (value !== this._value) {
+      this.valueChangeDebouncer.next(value);
+      this._value = value;
+    }
   }
 
   get isEnabled() {
-    if (this.enabled === undefined) return true;
+    if (this.enabled === undefined) {
+      return true;
+    }
     return this.enabled;
   }
 
@@ -57,26 +59,13 @@ export class SdTextComponent implements OnInit {
     if (this.value == null) {
       return this.emptyValue || "- нет -";
     }
-    if (!this.editing) {
-      return this.target;
-    } // Во view-mode возвращаем значение из target
     return this.value;
   }
 
-  commit(val: any) {
-    if(val == "") {
-      val = null;
+  get hasError() {
+    if (this.validate) {
+      return this.errorMessage = this.validate(this.value);
     }
-    if(this.validate) {
-      const validationError = this.validate({
-        $newValue: val,
-        $oldValue: this.target
-      });
-      if(validationError) {
-        this.validationError = validationError;
-        return;
-      }
-      this.target = val;
-    }
+    return false;
   }
 }

@@ -1,24 +1,33 @@
 AutoHeightDirective.$inject = [];
-function AutoHeightDirective(){
+function AutoHeightDirective() {
 
-    return function(scope, element, {hMax,hMin,autoHeight}){
+    return function (scope, element, { hMax, hMin, autoHeight }) {
         var nElement = element[0];
+
         function recalculateHeight() {
-            element.css({'height':'0','overflow':'hidden'});
-            var height = nElement.scrollHeight+2;
+            element.css({ 'height': '0', 'overflow': 'hidden' });
+
+            var height = nElement.scrollHeight + 2;
             var overscroll = false;
+
             if (height > hMax) {
                 overscroll = true;
                 height = +hMax;
             }
-            if (height < hMin) height = +hMin;
-            element.css({'height':height});
-            if (overscroll) element.css({'overflow':''});
-            console.log("recalculated, ",height);
+
+            if (height < hMin)
+                height = +hMin;
+
+            element.css({ 'height': height });
+
+            if (overscroll)
+                element.css({ 'overflow': '' });
+
+            console.log("recalculated, ", height);
         }
 
         function delayedRecalculate(newValue) {
-            newValue && setTimeout(recalculateHeight,4);
+            newValue && setTimeout(recalculateHeight, 4);
         }
 
 
@@ -33,4 +42,4 @@ function AutoHeightDirective(){
 }
 
 
-export {AutoHeightDirective};
+export { AutoHeightDirective };

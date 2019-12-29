@@ -4,12 +4,13 @@
              class="form-control"
              [(ngModel)]="value"
              placeholder="{{placeholder || '- нет -'}}"
-             maxlength="maxlength"
-             minlength="minlength"
-             required="required"
-             disabled="disabled"
+             [maxlength]="maxlength"
+             [minlength]="minlength"
+             [required]="required"
+             [disabled]="disabled"
       >
-  </div>
+      <span *ngIf="hasError" class="validation-error">{{errorMessage}}</span>
+    </div>
 </div>
 
 <!--Режим просмотра-->
